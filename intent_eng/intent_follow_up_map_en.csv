@@ -1,0 +1,15 @@
+intent,follow_up
+balance_transfer,Do you want the transfer steps?
+check_data_usage,Do you want me to explain how to reach the usage details?
+goodbye,Is there anything else before you go?
+greeting,What would you like help with?
+network_complaint,Do you want to create a complaint ticket now?
+network_status,Do you want me to check your area or your line?
+no_signal,Do you want to try the troubleshooting steps first?
+offer_inquiry,"Do you want internet offers, call offers, or roaming offers?"
+other,Can you explain your request in more detail?
+payment_issue,Do you want me to help you verify the payment status?
+renew_package,Do you want to renew the current package or change to another one?
+slow_internet,Do you want me to run quick troubleshooting steps?
+technical_support,Can you describe the technical issue in one sentence?
+feedback,Would you like to share more details about your experience?
