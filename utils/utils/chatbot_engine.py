@@ -1,52 +1,16 @@
 from datetime import datetime
+import os
 import pandas as pd
 
+from utils.language_utils import detect_language
 from utils.intent_utils import predict_intent
 from utils.sentiment_utils import predict_sentiment
 from utils.prediction_utils import predict_network_issue
-from utils.response_logic import ArabicResponseManager
+from utils.response_utils import build_final_response
+from utils.notification_utils import send_notification
 
 
-# =========================
-# Paths
-# =========================
-
-RESPONSES_PATH = "data/responses_ar.csv"
-FOLLOW_UP_PATH = "data/follow_up_ar.csv"
 CHAT_LOG_PATH = "data/chat_logs.csv"
-
-
-# =========================
-# Response Manager
-# =========================
-
-response_manager = ArabicResponseManager(
-    responses_path=RESPONSES_PATH,
-    followup_path=FOLLOW_UP_PATH
-)
-
-
-# =========================
-# Helpers
-# =========================
-
-def normalize_sentiment(sentiment):
-    sentiment = str(sentiment).lower().strip()
-
-    if sentiment in ["positive", "pos", "label_2", "2"]:
-        return "positive"
-
-    if sentiment in ["negative", "neg", "label_0", "0"]:
-        return "negative"
-
-    return "neutral"
-
-
-def get_prediction_result(user_message=None):
-    try:
-        return int(predict_network_issue())
-    except Exception:
-        return 0
 
 
 def should_escalate(intent, sentiment, prediction, intent_confidence):
@@ -74,7 +38,7 @@ def should_escalate(intent, sentiment, prediction, intent_confidence):
     return False
 
 
-def get_notification_type(intent, sentiment, prediction, escalation):
+def get_notification_type(sentiment, prediction, escalation):
     if not escalation:
         return "none"
 
@@ -88,9 +52,12 @@ def get_notification_type(intent, sentiment, prediction, escalation):
 
 
 def log_chat(user_message, result):
+    os.makedirs("data", exist_ok=True)
+
     row = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "user_message": user_message,
+        "language": result.get("language"),
         "intent": result.get("intent"),
         "intent_confidence": result.get("intent_confidence"),
         "sentiment": result.get("sentiment"),
@@ -98,8 +65,7 @@ def log_chat(user_message, result):
         "prediction": result.get("prediction"),
         "escalation": result.get("escalation"),
         "notification_type": result.get("notification_type"),
-        "response": result.get("response"),
-        "follow_up": result.get("follow_up")
+        "response": result.get("response")
     }
 
     try:
@@ -111,34 +77,31 @@ def log_chat(user_message, result):
     new_logs.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
 
 
-# =========================
-# Main Chatbot Function
-# =========================
+def process_message(user_message, metrics=None):
+    lang = detect_language(user_message)
 
-def process_message(user_message):
-    # 1. Intent
-    intent, intent_confidence = predict_intent(user_message)
+    intent, intent_confidence = predict_intent(user_message, lang)
+    sentiment, sentiment_score = predict_sentiment(user_message, lang)
+    prediction = predict_network_issue(metrics)
 
-    # 2. Sentiment
-    sentiment, sentiment_score = predict_sentiment(user_message)
-    sentiment = normalize_sentiment(sentiment)
-
-    if sentiment_score < 0.60:
-        sentiment = "neutral"
-
-    # 3. Network Prediction
-    prediction = get_prediction_result(user_message)
-
-    # 4. Low confidence fallback
     if intent_confidence < 0.60:
+        decision = {"rule_used": "clarification", "prediction": prediction}
+
+        response = build_final_response(
+            intent="other",
+            sentiment=sentiment,
+            decision=decision,
+            lang=lang
+        )
+
         result = {
+            "language": lang,
             "intent": "unknown",
             "intent_confidence": intent_confidence,
             "sentiment": sentiment,
             "sentiment_score": sentiment_score,
             "prediction": prediction,
-            "response": "لست متأكدًا أنني فهمت طلبك بشكل صحيح. هل يمكنك التوضيح أكثر؟",
-            "follow_up": "هل تقصد مشكلة في الإنترنت أو الدفع أو الباقة؟",
+            "response": response,
             "escalation": False,
             "notification_type": "none"
         }
@@ -146,48 +109,43 @@ def process_message(user_message):
         log_chat(user_message, result)
         return result
 
-    # 5. Response
-    response = response_manager.get_response(
+    escalation = should_escalate(intent, sentiment, prediction, intent_confidence)
+    notification_type = get_notification_type(sentiment, prediction, escalation)
+
+    decision = {
+        "prediction": prediction,
+        "escalation": escalation
+    }
+
+    if escalation and prediction == 1:
+        decision["rule_used"] = "technical_high_risk"
+    elif escalation and sentiment == "negative":
+        decision["rule_used"] = "negative_escalation"
+    else:
+        decision["rule_used"] = "normal"
+
+    response = build_final_response(
         intent=intent,
         sentiment=sentiment,
-        prediction=prediction
+        decision=decision,
+        lang=lang
     )
 
-    follow_up = response_manager.get_follow_up(intent)
-
-    # 6. Escalation + Notification
-    escalation = should_escalate(
-        intent=intent,
-        sentiment=sentiment,
-        prediction=prediction,
-        intent_confidence=intent_confidence
-    )
-
-    notification_type = get_notification_type(
-        intent=intent,
-        sentiment=sentiment,
-        prediction=prediction,
-        escalation=escalation
-    )
-
-    # 7. Add escalation sentence if needed
-    if escalation:
-        response += " تم تحويل الحالة للفريق المختص لمتابعتها."
-
-    # 8. Final result
     result = {
+        "language": lang,
         "intent": intent,
         "intent_confidence": intent_confidence,
         "sentiment": sentiment,
         "sentiment_score": sentiment_score,
         "prediction": prediction,
         "response": response,
-        "follow_up": follow_up,
         "escalation": escalation,
         "notification_type": notification_type
     }
 
-    # 9. Save log for dashboard
+    if escalation:
+        send_notification(notification_type, result)
+
     log_chat(user_message, result)
 
     return result
