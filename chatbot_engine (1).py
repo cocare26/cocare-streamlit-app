@@ -10,11 +10,18 @@ from utils.response_utils import build_final_response
 from utils.notification_utils import send_notification
 
 
+# =========================
+# Paths
+# =========================
 CHAT_LOG_PATH = "data/chat_logs.csv"
 
-NOTIFICATIONS_PATH = "/drive/MyDrive/CoCare/notifications.csv"
-EXTERNAL_NOTIFICATIONS_PATH = "/drive/MyDrive/CoCare/external_notifications.csv"
-INTERNAL_NOTIFICATIONS_EN_PATH = "/drive/MyDrive/CoCare/internal_notifications.csv"
+NOTIFICATION_DIR = "/drive/MyDrive/CoCare/utils/Notifications"
+
+INTERNAL_NOTIFICATIONS_AR_PATH = f"{NOTIFICATION_DIR}/internal_notifications.csv"
+INTERNAL_NOTIFICATIONS_EN_PATH = f"{NOTIFICATION_DIR}/internal_notifications_en.csv"
+
+EXTERNAL_NOTIFICATIONS_AR_PATH = f"{NOTIFICATION_DIR}/external_notifications.csv"
+EXTERNAL_NOTIFICATIONS_EN_PATH = f"{NOTIFICATION_DIR}/external_notifications_en.csv"
 
 
 # =========================
@@ -46,9 +53,10 @@ def load_csv(path):
 
 def load_notification_tables():
     return {
-        "notifications": load_csv(NOTIFICATIONS_PATH),
-        "external": load_csv(EXTERNAL_NOTIFICATIONS_PATH),
+        "internal_ar": load_csv(INTERNAL_NOTIFICATIONS_AR_PATH),
         "internal_en": load_csv(INTERNAL_NOTIFICATIONS_EN_PATH),
+        "external_ar": load_csv(EXTERNAL_NOTIFICATIONS_AR_PATH),
+        "external_en": load_csv(EXTERNAL_NOTIFICATIONS_EN_PATH),
     }
 
 
@@ -110,7 +118,7 @@ def detect_issue_type(metrics=None, prediction=0):
 # =========================
 # Customer Notification Builder
 # =========================
-def build_customer_notification(issue_type, external_row, metrics=None):
+def build_customer_notification(issue_type, external_ar_row, external_en_row, metrics=None):
     metrics = metrics or {}
 
     start_time = metrics.get(
@@ -123,8 +131,8 @@ def build_customer_notification(issue_type, external_row, metrics=None):
         default=30
     )
 
-    base_ar = external_row.get("external_notification_ar", "")
-    base_en = external_row.get("external_notification_en", "")
+    base_ar = external_ar_row.get("external_notification_ar", "")
+    base_en = external_en_row.get("external_notification_en", "")
 
     message_ar = (
         f"نعتذر عن الإزعاج. {base_ar} "
@@ -154,32 +162,41 @@ def notification_engine(intent, sentiment, prediction, history_count, metrics=No
 
     issue_type = detect_issue_type(metrics, prediction)
 
-    main_row = get_row(tables["notifications"], issue_type)
-    external_row = get_row(tables["external"], issue_type)
-    internal_row = get_row(tables["internal_en"], issue_type)
+    internal_ar_row = get_row(tables["internal_ar"], issue_type)
+    internal_en_row = get_row(tables["internal_en"], issue_type)
+    external_ar_row = get_row(tables["external_ar"], issue_type)
+    external_en_row = get_row(tables["external_en"], issue_type)
 
     if intent in ["greeting", "thanks", "other"] or issue_type == "normal":
         return {
             "issue_type": "normal",
             "notification_type": "none",
             "escalation": False,
-            "severity": main_row.get("severity", "low"),
+            "severity": "low",
             "show_to_customer": 0,
-            "internal_message": None,
+            "internal_message_ar": None,
+            "internal_message_en": None,
             "external_message_ar": None,
             "external_message_en": None,
             "display_channel": "none",
-            "suggested_action": None,
+            "suggested_action_ar": None,
+            "suggested_action_en": None,
             "priority": 0,
             "escalate_after_attempts": 0,
             "outage_started_at": None,
             "estimated_resolution_minutes": 0,
         }
 
-    severity = str(main_row.get("severity", "low")).lower()
-    show_to_customer = safe_int(main_row.get("show_to_customer", 0))
-    escalate_after = safe_int(internal_row.get("escalate_after_attempts", 0))
-    priority = safe_int(internal_row.get("priority", 0))
+    severity = str(
+        internal_en_row.get(
+            "severity",
+            external_en_row.get("severity", "low")
+        )
+    ).lower()
+
+    show_to_customer = safe_int(external_en_row.get("show_to_customer", 0))
+    escalate_after = safe_int(internal_en_row.get("escalate_after_attempts", 0))
+    priority = safe_int(internal_en_row.get("priority", 0))
 
     employee_attempts = safe_int(metrics.get("employee_attempts", history_count))
     employee_resolved = metrics.get("employee_resolved", None)
@@ -198,24 +215,23 @@ def notification_engine(intent, sentiment, prediction, history_count, metrics=No
     if employee_resolved is False:
         escalation = True
 
-    external_ar, external_en = build_customer_notification(
+    customer_ar, customer_en = build_customer_notification(
         issue_type=issue_type,
-        external_row=external_row,
+        external_ar_row=external_ar_row,
+        external_en_row=external_en_row,
         metrics=metrics
     )
 
-    # Internal first:
     notification_type = "internal_noti"
     display_channel = "employee_dashboard"
     external_message_ar = None
     external_message_en = None
 
-    # External only after escalation or critical:
     if escalation and show_to_customer == 1:
         notification_type = "external_noti"
         display_channel = "customer_app"
-        external_message_ar = external_ar
-        external_message_en = external_en
+        external_message_ar = customer_ar
+        external_message_en = customer_en
 
     return {
         "issue_type": issue_type,
@@ -223,11 +239,13 @@ def notification_engine(intent, sentiment, prediction, history_count, metrics=No
         "escalation": escalation,
         "severity": severity,
         "show_to_customer": show_to_customer,
-        "internal_message": internal_row.get("internal_notification_en"),
+        "internal_message_ar": internal_ar_row.get("internal_notification_ar"),
+        "internal_message_en": internal_en_row.get("internal_notification_en"),
         "external_message_ar": external_message_ar,
         "external_message_en": external_message_en,
         "display_channel": display_channel,
-        "suggested_action": internal_row.get("suggested_action"),
+        "suggested_action_ar": internal_ar_row.get("suggested_action_ar"),
+        "suggested_action_en": internal_en_row.get("suggested_action"),
         "priority": priority,
         "escalate_after_attempts": escalate_after,
         "outage_started_at": metrics.get("outage_started_at"),
@@ -255,12 +273,14 @@ def log_chat(user_message, result):
         "escalation": result.get("escalation"),
         "notification_type": result.get("notification_type"),
         "display_channel": result.get("display_channel"),
-        "suggested_action": result.get("suggested_action"),
+        "suggested_action_ar": result.get("suggested_action_ar"),
+        "suggested_action_en": result.get("suggested_action_en"),
         "priority": result.get("priority"),
         "outage_started_at": result.get("outage_started_at"),
         "estimated_resolution_minutes": result.get("estimated_resolution_minutes"),
         "response": result.get("response"),
-        "internal_message": result.get("internal_message"),
+        "internal_message_ar": result.get("internal_message_ar"),
+        "internal_message_en": result.get("internal_message_en"),
         "external_message_ar": result.get("external_message_ar"),
         "external_message_en": result.get("external_message_en"),
     }
@@ -312,9 +332,11 @@ def process_message(user_message, metrics=None):
             "escalation": False,
             "notification_type": "none",
             "display_channel": "none",
-            "suggested_action": None,
+            "suggested_action_ar": None,
+            "suggested_action_en": None,
             "priority": 0,
-            "internal_message": None,
+            "internal_message_ar": None,
+            "internal_message_en": None,
             "external_message_ar": None,
             "external_message_en": None,
         }
@@ -338,7 +360,7 @@ def process_message(user_message, metrics=None):
         "severity": notification_decision["severity"],
         "escalation": notification_decision["escalation"],
         "notification": notification_decision["notification_type"],
-        "suggested_action": notification_decision["suggested_action"],
+        "suggested_action": notification_decision["suggested_action_en"],
         "priority": notification_decision["priority"],
     }
 
