@@ -9,12 +9,30 @@ from utils.prediction_utils import predict_network_issue
 from utils.response_utils import build_final_response
 from utils.notification_utils import send_notification
 
+
 CHAT_LOG_PATH = "data/chat_logs.csv"
 
-NOTIFICATIONS_PATH = "data/notifications.csv"
-EXTERNAL_NOTIFICATIONS_PATH = "data/external_notifications.csv"
-EXTERNAL_NOTIFICATIONS_EN_PATH = "data/external_notifications_en.csv"
-INTERNAL_NOTIFICATIONS_EN_PATH = "data/internal_notifications_en.csv"
+NOTIFICATIONS_PATH = "/drive/MyDrive/CoCare/notifications.csv"
+EXTERNAL_NOTIFICATIONS_PATH = "/drive/MyDrive/CoCare/external_notifications.csv"
+INTERNAL_NOTIFICATIONS_EN_PATH = "/drive/MyDrive/CoCare/internal_notifications.csv"
+
+
+# =========================
+# Helpers
+# =========================
+def safe_int(value, default=0):
+    try:
+        if value == "" or pd.isna(value):
+            return default
+        return int(float(value))
+    except Exception:
+        return default
+
+
+def safe_bool(value):
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() in ["true", "1", "yes", "y"]
 
 
 # =========================
@@ -23,22 +41,26 @@ INTERNAL_NOTIFICATIONS_EN_PATH = "data/internal_notifications_en.csv"
 def load_csv(path):
     if not os.path.exists(path):
         raise FileNotFoundError(f"Missing required file: {path}")
-    return pd.read_csv(path)
+    return pd.read_csv(path, encoding="utf-8-sig").fillna("")
 
 
 def load_notification_tables():
     return {
         "notifications": load_csv(NOTIFICATIONS_PATH),
         "external": load_csv(EXTERNAL_NOTIFICATIONS_PATH),
-        "external_en": load_csv(EXTERNAL_NOTIFICATIONS_EN_PATH),
         "internal_en": load_csv(INTERNAL_NOTIFICATIONS_EN_PATH),
     }
 
 
 def get_row(df, issue_type):
-    row = df[df["issue_type"] == issue_type]
+    row = df[df["issue_type"].astype(str) == str(issue_type)]
+
     if row.empty:
-        row = df[df["issue_type"] == "normal"]
+        row = df[df["issue_type"].astype(str) == "normal"]
+
+    if row.empty:
+        raise ValueError("CSV must contain issue_type='normal' row")
+
     return row.iloc[0].to_dict()
 
 
@@ -46,13 +68,12 @@ def get_row(df, issue_type):
 # Issue Type Detection
 # =========================
 def detect_issue_type(metrics=None, prediction=0):
-    if not metrics:
-        return "prediction_alert" if prediction == 1 else "normal"
+    metrics = metrics or {}
 
-    if metrics.get("maintenance") is True:
+    if safe_bool(metrics.get("maintenance")):
         return "maintenance"
 
-    if metrics.get("outage") is True:
+    if safe_bool(metrics.get("outage")):
         return "outage"
 
     latency = metrics.get("latency")
@@ -62,22 +83,22 @@ def detect_issue_type(metrics=None, prediction=0):
     jitter = metrics.get("jitter")
     qos_score = metrics.get("qos_score")
 
-    if latency is not None and latency >= 250:
+    if latency is not None and float(latency) >= 250:
         return "high_latency"
 
-    if packet_loss is not None and packet_loss >= 5:
+    if packet_loss is not None and float(packet_loss) >= 5:
         return "packet_loss"
 
-    if signal_strength is not None and signal_strength <= -100:
+    if signal_strength is not None and float(signal_strength) <= -100:
         return "weak_signal"
 
-    if congestion is not None and congestion >= 80:
+    if congestion is not None and float(congestion) >= 80:
         return "network_congestion"
 
-    if qos_score is not None and qos_score <= 60:
+    if qos_score is not None and float(qos_score) <= 60:
         return "service_degradation"
 
-    if jitter is not None and jitter >= 50:
+    if jitter is not None and float(jitter) >= 50:
         return "unstable_connection"
 
     if prediction == 1:
@@ -87,9 +108,48 @@ def detect_issue_type(metrics=None, prediction=0):
 
 
 # =========================
+# Customer Notification Builder
+# =========================
+def build_customer_notification(issue_type, external_row, metrics=None):
+    metrics = metrics or {}
+
+    start_time = metrics.get(
+        "outage_started_at",
+        datetime.now().strftime("%Y-%m-%d %H:%M")
+    )
+
+    duration = safe_int(
+        metrics.get("estimated_resolution_minutes"),
+        default=30
+    )
+
+    base_ar = external_row.get("external_notification_ar", "")
+    base_en = external_row.get("external_notification_en", "")
+
+    message_ar = (
+        f"نعتذر عن الإزعاج. {base_ar} "
+        f"نوع العطل: {issue_type}. "
+        f"وقت العطل: {start_time}. "
+        f"المدة المتوقعة للحل: حوالي {duration} دقيقة. "
+        f"نشكركم على تفهمكم."
+    )
+
+    message_en = (
+        f"We apologize for the inconvenience. {base_en} "
+        f"Issue type: {issue_type}. "
+        f"Issue time: {start_time}. "
+        f"Expected resolution time: about {duration} minutes. "
+        f"Thank you for your understanding."
+    )
+
+    return message_ar, message_en
+
+
+# =========================
 # Notification Engine
 # =========================
 def notification_engine(intent, sentiment, prediction, history_count, metrics=None):
+    metrics = metrics or {}
     tables = load_notification_tables()
 
     issue_type = detect_issue_type(metrics, prediction)
@@ -98,51 +158,64 @@ def notification_engine(intent, sentiment, prediction, history_count, metrics=No
     external_row = get_row(tables["external"], issue_type)
     internal_row = get_row(tables["internal_en"], issue_type)
 
-    notification_type = "none"
-    escalation = False
-
-    if intent in ["greeting", "thanks", "other"]:
-        issue_type = "normal"
-        main_row = get_row(tables["notifications"], issue_type)
-        external_row = get_row(tables["external"], issue_type)
-        internal_row = get_row(tables["internal_en"], issue_type)
-
+    if intent in ["greeting", "thanks", "other"] or issue_type == "normal":
         return {
-            "issue_type": issue_type,
+            "issue_type": "normal",
             "notification_type": "none",
             "escalation": False,
-            "severity": main_row.get("severity"),
-            "show_to_customer": int(main_row.get("show_to_customer", 0)),
-            "internal_message": internal_row.get("internal_notification_en"),
-            "external_message_ar": external_row.get("external_notification_ar"),
-            "external_message_en": external_row.get("external_notification_en"),
-            "display_channel": external_row.get("display_channel"),
-            "suggested_action": internal_row.get("suggested_action"),
-            "priority": internal_row.get("priority", 0),
-            "escalate_after_attempts": internal_row.get("escalate_after_attempts", 0),
+            "severity": main_row.get("severity", "low"),
+            "show_to_customer": 0,
+            "internal_message": None,
+            "external_message_ar": None,
+            "external_message_en": None,
+            "display_channel": "none",
+            "suggested_action": None,
+            "priority": 0,
+            "escalate_after_attempts": 0,
+            "outage_started_at": None,
+            "estimated_resolution_minutes": 0,
         }
 
-    escalate_after = int(internal_row.get("escalate_after_attempts", 0))
-    show_to_customer = int(main_row.get("show_to_customer", 0))
-    severity = main_row.get("severity")
+    severity = str(main_row.get("severity", "low")).lower()
+    show_to_customer = safe_int(main_row.get("show_to_customer", 0))
+    escalate_after = safe_int(internal_row.get("escalate_after_attempts", 0))
+    priority = safe_int(internal_row.get("priority", 0))
 
-    if issue_type != "normal":
-        notification_type = "internal_noti"
+    employee_attempts = safe_int(metrics.get("employee_attempts", history_count))
+    employee_resolved = metrics.get("employee_resolved", None)
 
-    if show_to_customer == 1 and sentiment == "negative":
-        notification_type = "external_noti"
+    escalation = False
 
-    if severity in ["high", "critical"]:
-        notification_type = "external_noti" if show_to_customer == 1 else "internal_noti"
-
-    if escalate_after > 0 and history_count >= escalate_after:
+    if severity == "critical":
         escalation = True
 
     if sentiment == "negative" and history_count >= 3:
         escalation = True
 
-    if severity == "critical":
+    if escalate_after > 0 and employee_attempts >= escalate_after:
         escalation = True
+
+    if employee_resolved is False:
+        escalation = True
+
+    external_ar, external_en = build_customer_notification(
+        issue_type=issue_type,
+        external_row=external_row,
+        metrics=metrics
+    )
+
+    # Internal first:
+    notification_type = "internal_noti"
+    display_channel = "employee_dashboard"
+    external_message_ar = None
+    external_message_en = None
+
+    # External only after escalation or critical:
+    if escalation and show_to_customer == 1:
+        notification_type = "external_noti"
+        display_channel = "customer_app"
+        external_message_ar = external_ar
+        external_message_en = external_en
 
     return {
         "issue_type": issue_type,
@@ -151,12 +224,14 @@ def notification_engine(intent, sentiment, prediction, history_count, metrics=No
         "severity": severity,
         "show_to_customer": show_to_customer,
         "internal_message": internal_row.get("internal_notification_en"),
-        "external_message_ar": external_row.get("external_notification_ar"),
-        "external_message_en": external_row.get("external_notification_en"),
-        "display_channel": external_row.get("display_channel"),
+        "external_message_ar": external_message_ar,
+        "external_message_en": external_message_en,
+        "display_channel": display_channel,
         "suggested_action": internal_row.get("suggested_action"),
-        "priority": internal_row.get("priority", 0),
+        "priority": priority,
         "escalate_after_attempts": escalate_after,
+        "outage_started_at": metrics.get("outage_started_at"),
+        "estimated_resolution_minutes": metrics.get("estimated_resolution_minutes"),
     }
 
 
@@ -182,11 +257,16 @@ def log_chat(user_message, result):
         "display_channel": result.get("display_channel"),
         "suggested_action": result.get("suggested_action"),
         "priority": result.get("priority"),
+        "outage_started_at": result.get("outage_started_at"),
+        "estimated_resolution_minutes": result.get("estimated_resolution_minutes"),
         "response": result.get("response"),
+        "internal_message": result.get("internal_message"),
+        "external_message_ar": result.get("external_message_ar"),
+        "external_message_en": result.get("external_message_en"),
     }
 
     try:
-        old_logs = pd.read_csv(CHAT_LOG_PATH)
+        old_logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
         new_logs = pd.concat([old_logs, pd.DataFrame([row])], ignore_index=True)
     except Exception:
         new_logs = pd.DataFrame([row])
@@ -195,11 +275,10 @@ def log_chat(user_message, result):
 
 
 # =========================
-# Main Engine
+# Main Chatbot Engine
 # =========================
 def process_message(user_message, metrics=None):
-    if metrics is None:
-        metrics = {}
+    metrics = metrics or {}
 
     lang = detect_language(user_message)
 
@@ -235,12 +314,15 @@ def process_message(user_message, metrics=None):
             "display_channel": "none",
             "suggested_action": None,
             "priority": 0,
+            "internal_message": None,
+            "external_message_ar": None,
+            "external_message_en": None,
         }
 
         log_chat(user_message, result)
         return result
 
-    history_count = metrics.get("history_count", 0)
+    history_count = safe_int(metrics.get("history_count", 0))
 
     notification_decision = notification_engine(
         intent=intent,
