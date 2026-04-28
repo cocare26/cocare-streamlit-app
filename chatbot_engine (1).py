@@ -9,48 +9,39 @@ from utils.prediction_utils import predict_network_issue
 from utils.response_utils import build_final_response
 from utils.notification_utils import send_notification
 
-
 CHAT_LOG_PATH = "data/chat_logs.csv"
 
 
-def should_escalate(intent, sentiment, prediction, intent_confidence):
-    if intent_confidence < 0.60:
-        return False
+# =========================
+# 🔔 Notification Engine
+# =========================
+def notification_engine(intent, sentiment, network_pred, history_count):
 
-    if prediction == 1 and intent in [
-        "slow_internet",
-        "no_signal",
-        "network_status",
-        "network_complaint",
-        "technical_support"
-    ]:
-        return True
+    notification = "none"
+    escalation = False
 
-    if sentiment == "negative" and intent in [
-        "network_complaint",
-        "payment_issue",
-        "technical_support",
-        "no_signal",
-        "slow_internet"
-    ]:
-        return True
+    # 🟢 مشكلة بسيطة
+    if intent in ["greeting", "thanks", "other"]:
+        return notification, escalation
 
-    return False
+    # 🔴 حالة خطيرة (أولوية أعلى)
+    if sentiment == "negative" and network_pred == 1:
+        notification = "external_noti"
 
+    # 🟡 مشكلة متكررة
+    elif history_count >= 2:
+        notification = "internal_noti"
 
-def get_notification_type(sentiment, prediction, escalation):
-    if not escalation:
-        return "none"
+    # 💣 escalation
+    if sentiment == "negative" and history_count >= 3:
+        escalation = True
 
-    if prediction == 1:
-        return "internal_technical_team"
-
-    if sentiment == "negative":
-        return "customer_support"
-
-    return "internal_review"
+    return notification, escalation
 
 
+# =========================
+# 📝 Logging
+# =========================
 def log_chat(user_message, result):
     os.makedirs("data", exist_ok=True)
 
@@ -77,15 +68,26 @@ def log_chat(user_message, result):
     new_logs.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
 
 
+# =========================
+# 🤖 Main Engine
+# =========================
 def process_message(user_message, metrics=None):
+
     lang = detect_language(user_message)
 
     intent, intent_confidence = predict_intent(user_message, lang)
     sentiment, sentiment_score = predict_sentiment(user_message, lang)
     prediction = predict_network_issue(metrics)
 
+    # =========================
+    # ❓ Low confidence
+    # =========================
     if intent_confidence < 0.60:
-        decision = {"rule_used": "clarification", "prediction": prediction}
+
+        decision = {
+            "rule_used": "clarification",
+            "prediction": prediction
+        }
 
         response = build_final_response(
             intent="other",
@@ -109,12 +111,25 @@ def process_message(user_message, metrics=None):
         log_chat(user_message, result)
         return result
 
-    escalation = should_escalate(intent, sentiment, prediction, intent_confidence)
-    notification_type = get_notification_type(sentiment, prediction, escalation)
+    # =========================
+    # 🔥 Notification + Escalation
+    # =========================
+    history_count = metrics.get("history_count", 0) if metrics else 0
 
+    notification_type, escalation = notification_engine(
+        intent,
+        sentiment,
+        prediction,
+        history_count
+    )
+
+    # =========================
+    # 🧠 Decision
+    # =========================
     decision = {
         "prediction": prediction,
-        "escalation": escalation
+        "escalation": escalation,
+        "notification": notification_type
     }
 
     if escalation and prediction == 1:
@@ -124,6 +139,9 @@ def process_message(user_message, metrics=None):
     else:
         decision["rule_used"] = "normal"
 
+    # =========================
+    # 💬 Response
+    # =========================
     response = build_final_response(
         intent=intent,
         sentiment=sentiment,
@@ -143,9 +161,15 @@ def process_message(user_message, metrics=None):
         "notification_type": notification_type
     }
 
+    # =========================
+    # 📡 إرسال تنبيه
+    # =========================
     if escalation:
         send_notification(notification_type, result)
 
+    # =========================
+    # 💾 Logging
+    # =========================
     log_chat(user_message, result)
 
     return result
