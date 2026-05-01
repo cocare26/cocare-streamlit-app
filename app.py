@@ -6,17 +6,14 @@ st.set_page_config(page_title="Telecom App", layout="centered")
 
 page = st.query_params.get("page", "")
 
-if page == "create":
+elif page == "create":
     st.switch_page("pages/1_Create_Account.py")
-
-elif page == "customer":
-    st.switch_page("pages/2_Customer.py")
 
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
 
-elif page == "forgot":
-    st.switch_page("pages/4_Forgot_Password.py")
+elif page == "todo":
+    st.switch_page("pages/4_To_Do.py")
 
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
