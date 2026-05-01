@@ -310,6 +310,31 @@ body{margin:0;background:transparent}
 .pending{background:#fee2e2}
 .progress{background:#e0e7ff}
 
+.task-actions{
+ display:flex;
+ gap:6px;
+ margin-top:8px;
+}
+
+.task-actions button{
+ border:none;
+ border-radius:7px;
+ padding:6px 8px;
+ font-size:11px;
+ font-weight:800;
+ cursor:pointer;
+}
+
+.hide-btn{
+ background:#e0e7ff;
+ color:#1d4ed8;
+}
+
+.delete-btn{
+ background:#fee2e2;
+ color:#b91c1c;
+}
+
 /* NAV */
 .nav{
  position:absolute;
@@ -541,15 +566,15 @@ function addTask(){
 
     const card = document.createElement("div");
     card.className = "task-card";
-    card.innerHTML = `
-        <div class="task-title">${task}</div>
-        <div class="badges">
-            <span class="badge">📅 ${date || "No date"}</span>
-            <span class="badge">⏰ ${time || "No time"}</span>
-            <span class="badge ${diffClass}">${difficulty}</span>
-            <span class="badge ${statusClass}">${status}</span>
-        </div>
-    `;
+  card.innerHTML = `
+    <div class="task-title">${task}</div>
+    <div class="badges">
+        <span class="badge">📅 ${date || "No date"}</span>
+        <span class="badge">⏰ ${time || "No time"}</span>
+        <span class="badge ${diffClass}">${difficulty}</span>
+        <span class="badge ${statusClass}">${status}</span>
+    </div>
+`;
 
     document.getElementById("taskList").prepend(card);
 
