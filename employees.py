@@ -3,198 +3,352 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="CoCare", layout="centered")
 
-# ================== CSS ==================
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] {
-    background: #F6F8FC;
+    background: #eef2f7;
 }
 
-.main-card {
+.block-container {
+    max-width: 520px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.phone {
+    background: #ffffff;
+    border-radius: 45px;
+    padding: 22px 18px 10px 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    border: 2px solid #d1d5db;
+    overflow: hidden;
+}
+
+.top-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 12px;
+    align-items: start;
+}
+
+.title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1f2937;
+}
+
+.location {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.card {
     background: white;
-    padding: 18px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 14px rgba(0,0,0,0.08);
-    margin-bottom: 15px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+    padding: 10px;
 }
 
 .circle {
-    width: 120px;
-    height: 120px;
+    width: 105px;
+    height: 105px;
     border-radius: 50%;
-    border: 10px solid #2F80ED;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-    font-weight:bold;
-    margin:auto;
+    border: 10px solid #2f80ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    font-size: 23px;
+    font-weight: 800;
+    color: #111827;
+    position: relative;
+}
+
+.circle-label {
+    position: absolute;
+    top: 26px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.circle-value {
+    margin-top: 28px;
+}
+
+.map {
+    height: 120px;
+    background: #e8edf5;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.road {
+    position: absolute;
+    height: 3px;
+    width: 220px;
+    background: white;
+    opacity: .9;
+    transform: rotate(-35deg);
+}
+
+.road2 {
+    position: absolute;
+    height: 3px;
+    width: 180px;
+    background: white;
+    opacity: .9;
+    transform: rotate(35deg);
+}
+
+.dot {
+    position: absolute;
+    color: #c93434;
+    font-size: 24px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 18px 0 10px 0;
+    color: #1f2937;
+}
+
+.alerts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
 
 .alert-card {
-    background:white;
-    border-radius:14px;
-    overflow:hidden;
-    box-shadow:0px 3px 10px rgba(0,0,0,0.08);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 9px rgba(0,0,0,0.12);
+    overflow: hidden;
+    min-height: 105px;
+    font-size: 10px;
 }
 
-.alert-header {
-    color:white;
-    padding:8px;
-    font-weight:bold;
+.alert-head {
+    color: white;
+    padding: 7px;
+    font-size: 13px;
+    font-weight: 800;
 }
 
-.red {background:#EB5757;}
-.yellow {background:#F2C94C;}
-.blue {background:#2F80ED;}
+.alert-body {
+    padding: 8px;
+    line-height: 1.25;
+}
+
+.red { background:#e74c3c; }
+.yellow { background:#f2b233; }
+.blue { background:#2f80ed; }
+
+.metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.stars {
+    text-align: center;
+    color: #2f80ed;
+    font-size: 20px;
+    margin-top: -8px;
+}
+
+.divider {
+    height: 1px;
+    background: #d7dde7;
+    margin: 12px 0;
+}
+
+.employee {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    background: white;
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+}
+
+.emp-img {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: #dbeafe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+}
+
+.emp-name {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.emp-text {
+    font-size: 11px;
+    line-height: 1.25;
+}
 
 .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
+    margin-top: 12px;
+    height: 72px;
     background: white;
-    border-top: 1px solid #ddd;
     display: flex;
-    justify-content: center;
-    gap: 90px;
+    justify-content: space-around;
     align-items: center;
-    box-shadow: 0 -3px 10px rgba(0,0,0,0.05);
+    border-top: 1px solid #e5e7eb;
+    font-size: 16px;
+    font-weight: 800;
+    color: #374151;
 }
 
 .nav-item {
-    font-size: 22px;
-    text-align:center;
+    text-align: center;
 }
-.nav-active {
-    color:#2F80ED;
-    font-weight:bold;
+
+.nav-icon {
+    font-size: 30px;
+    color: #3b6f8f;
+}
+
+button {
+    display: none !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ================== NAV ==================
-if "page" not in st.session_state:
-    st.session_state.page = "Home"
+st.markdown('<div class="phone">', unsafe_allow_html=True)
 
-cols = st.columns(3)
-
-if cols[0].button("🏠 Home", use_container_width=True):
-    st.session_state.page = "Home"
-
-if cols[1].button("🚪 Logout", use_container_width=True):
-    st.session_state.page = "Logout"
-
-if cols[2].button("✅ To Do", use_container_width=True):
-    st.session_state.page = "To Do"
-
-page = st.session_state.page
-
-# ================== HOME ==================
-if page == "Home":
-    st.title("CoCare Dashboard")
-
-    st.markdown("""
-    <div class="main-card">
-    Welcome to CoCare System 🚀
-    </div>
-    """, unsafe_allow_html=True)
-
-# ================== NETWORK ==================
-elif page == "To Do":
-
-    st.title("Network Issues")
-
-    col1, col2 = st.columns([1,2])
-
-    # circle
-    with col1:
-        st.markdown("""
-        <div class="main-card">
-            <div style="text-align:center;">
-            <p>Problem Rate</p>
-            <div class="circle">4.5%</div>
-            </div>
+st.markdown("""
+<div class="top-row">
+    <div class="card">
+        <div class="circle">
+            <div class="circle-label">Problem Rate:</div>
+            <div class="circle-value">4.5%</div>
         </div>
-        """, unsafe_allow_html=True)
+    </div>
 
-    # map
-    with col2:
-        st.markdown("""
-        <div class="main-card">
-            <div style="height:200px;position:relative;background:#E9EEF6;border-radius:15px;">
-
-            <svg viewBox="0 0 260 300" style="width:150px;height:180px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);">
-            <path d="M110 10 L160 25 L175 70 L150 95 L170 130 L150 170 L165 210 L135 285 L95 260 L85 210 L60 180 L75 140 L55 105 L78 70 L70 35 Z"
-            fill="#DDE6F2" stroke="#9AA9BD" stroke-width="4"/>
-            </svg>
-
-            <div style="position:absolute;top:60px;left:160px;color:red;">●</div>
-            <div style="position:absolute;top:100px;left:150px;color:red;">●</div>
-            <div style="position:absolute;top:140px;left:140px;color:red;">●</div>
-
-            </div>
+    <div>
+        <div class="title-row">
+            <div class="title">Network Issues</div>
+            <div class="location">📍 Select Location</div>
         </div>
-        """, unsafe_allow_html=True)
 
-    # alerts
-    st.subheader("Alerts")
+        <div class="map">
+            <div class="road" style="top:15px;left:-35px;"></div>
+            <div class="road" style="top:45px;left:-10px;"></div>
+            <div class="road" style="top:75px;left:-45px;"></div>
+            <div class="road" style="top:105px;left:-5px;"></div>
 
-    c1, c2, c3 = st.columns(3)
+            <div class="road2" style="top:25px;left:85px;"></div>
+            <div class="road2" style="top:65px;left:70px;"></div>
+            <div class="road2" style="top:100px;left:105px;"></div>
 
-    c1.markdown("""
-    <div class="alert-card">
-    <div class="alert-header red">Problem</div>
-    Region: Irbid
+            <div class="dot" style="top:28px;left:82px;">●</div>
+            <div class="dot" style="top:55px;left:160px;">●</div>
+            <div class="dot" style="top:83px;left:170px;">●</div>
+            <div class="dot" style="top:15px;left:205px;font-size:14px;">●</div>
+        </div>
     </div>
-    """, unsafe_allow_html=True)
-
-    c2.markdown("""
-    <div class="alert-card">
-    <div class="alert-header yellow">Internal</div>
-    Region: Irbid
-    </div>
-    """, unsafe_allow_html=True)
-
-    c3.markdown("""
-    <div class="alert-card">
-    <div class="alert-header blue">External</div>
-    Region: Irbid
-    </div>
-    """, unsafe_allow_html=True)
-
-    # charts
-    st.subheader("Metrics")
-
-    c1, c2 = st.columns(2)
-
-    with c1:
-        fig, ax = plt.subplots()
-        ax.plot([5,10,15,20])
-        st.pyplot(fig)
-
-    with c2:
-        fig, ax = plt.subplots()
-        ax.bar([1,2,3],[3,7,5])
-        st.pyplot(fig)
-
-# ================== LOGOUT ==================
-elif page == "Logout":
-    st.title("Logout")
-    st.success("تم تسجيل الخروج")
-
-# ================== BOTTOM NAV ==================
-st.markdown("<br><br><br>", unsafe_allow_html=True)
-
-active_home = "nav-active" if page=="Home" else ""
-active_logout = "nav-active" if page=="Logout" else ""
-active_todo = "nav-active" if page=="To Do" else ""
-
-st.markdown(f"""
-<div class="bottom-nav">
-    <div class="nav-item {active_home}">🏠<br>Home</div>
-    <div class="nav-item {active_logout}">🚪<br>Logout</div>
-    <div class="nav-item {active_todo}">✅<br>To Do</div>
 </div>
 """, unsafe_allow_html=True)
+
+st.markdown('<div class="section-title">Alert History & Problems</div>', unsafe_allow_html=True)
+
+st.markdown("""
+<div class="alerts">
+    <div class="alert-card">
+        <div class="alert-head red">❗ Problem</div>
+        <div class="alert-body">
+            <b>Region:</b> Irbid: Multiple User Reports 09:30 AM of Slow Internet.
+        </div>
+    </div>
+
+    <div class="alert-card">
+        <div class="alert-head yellow">⚠️ Internal</div>
+        <div class="alert-body">
+            <b>Region:</b> Irbid: Multiple User Reports 09:30 AM of Slow Internet.
+        </div>
+    </div>
+
+    <div class="alert-card">
+        <div class="alert-head blue">↗ External</div>
+        <div class="alert-body">
+            <b>Region:</b> Irbid This Internet issue is external. The problem is reported by the ISP.
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown('<div class="section-title">Network Performance Metrics</div>', unsafe_allow_html=True)
+
+m1, m2 = st.columns(2)
+
+with m1:
+    fig, ax = plt.subplots(figsize=(2.4, 1.6))
+    ax.plot([0, 1, 2, 3], [5, 10, 15, 20], linewidth=2)
+    ax.fill_between([0, 1, 2, 3], [5, 10, 15, 20], alpha=0.2)
+    ax.set_ylim(0, 25)
+    ax.set_xticks([])
+    ax.set_title("Avg Latency (ms)", fontsize=9)
+    ax.tick_params(labelsize=8)
+    st.pyplot(fig, use_container_width=True)
+
+with m2:
+    fig, ax = plt.subplots(figsize=(2.4, 1.6))
+    ax.bar(["", "", "", ""], [6, 3, 11, 10])
+    ax.set_ylim(0, 12)
+    ax.set_title("Packet Loss (%)", fontsize=9)
+    ax.tick_params(labelsize=8)
+    st.pyplot(fig, use_container_width=True)
+
+st.markdown('<div class="stars">★★★</div>', unsafe_allow_html=True)
+st.markdown('<div class="divider"></div>', unsafe_allow_html=True)
+
+st.markdown('<div class="section-title">Employee of the Month Announcement</div>', unsafe_allow_html=True)
+
+st.markdown("""
+<div class="employee">
+    <div class="emp-img">👨‍💼</div>
+    <div>
+        <div class="emp-name">Ahmed Ali</div>
+        <div class="emp-text">
+            For your exceptional dedication and outstanding performance in improving network stability and customer service this month.
+            Congratulations on this well-deserved recognition.
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="bottom-nav">
+    <div class="nav-item">
+        <div class="nav-icon">⌂</div>
+        Home
+    </div>
+    <div class="nav-item">
+        <div class="nav-icon">⇥</div>
+        Logout
+    </div>
+    <div class="nav-item">
+        <div class="nav-icon">☑</div>
+        To Do List
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
