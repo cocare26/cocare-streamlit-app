@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import base64
 import os
 
@@ -8,10 +9,13 @@ page = st.query_params.get("page", "")
 
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
+
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
+
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
+
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
 
@@ -21,89 +25,90 @@ robot_path = os.path.join(BASE_DIR, "robot.png")
 with open(robot_path, "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
-st.markdown("""
+html = """
+<html>
+<head>
 <style>
-[data-testid="stAppViewContainer"] {
-    background:#eef3f6;
-}
-.block-container {
-    max-width: 360px;
-    height: 660px;
-    margin: auto;
-    border-radius: 42px;
-    background: linear-gradient(180deg,#c9e7f7,#dff4ff);
-    padding: 80px 58px 30px 58px;
-}
-header, footer {visibility:hidden;}
+body{margin:0;background:#eef3f6;font-family:Arial}
 
-.robot {
-    width:145px;
-    display:block;
-    margin-left:auto;
-    margin-right:10px;
-    margin-bottom:-20px;
+.phone{
+width:360px;height:660px;margin:auto;border-radius:42px;overflow:hidden;
+position:relative;background:linear-gradient(180deg,#c9e7f7,#dff4ff)
 }
 
-.stTextInput input {
-    height:42px;
-    border-radius:25px;
-    border:none;
-    padding-left:18px;
+.robot{position:absolute;top:85px;left:168px;width:145px;z-index:3}
+
+.form{position:absolute;top:200px;left:58px;width:244px;z-index:2}
+
+.input{
+width:100%;height:40px;border-radius:25px;margin-bottom:13px;
+padding-left:18px;border:none;background:white;box-sizing:border-box
 }
 
-.stButton > button {
-    width:100%;
-    height:46px;
-    border-radius:25px;
-    border:none;
-    background:white;
-    color:#111;
-    font-weight:bold;
+.forgot{text-align:center;font-size:11px;color:#555;margin:8px 0 20px;cursor:pointer}
+
+.login{
+width:100%;height:46px;border-radius:25px;background:white;
+text-align:center;line-height:46px;font-weight:bold;border:none;cursor:pointer
 }
 
-.small button {
-    background:transparent !important;
-    height:25px !important;
-    color:#555 !important;
-    font-size:12px !important;
-    box-shadow:none !important;
+.signup{
+display:block;
+text-align:center;
+font-size:13px;
+margin-top:15px;
+cursor:pointer;
+color:#222;
+text-decoration:none;
 }
+
+.error{text-align:center;color:#c62828;font-size:11px;margin-top:8px}
 </style>
-""", unsafe_allow_html=True)
+</head>
 
-st.markdown(
-    f'<img class="robot" src="data:image/png;base64,{img}">',
-    unsafe_allow_html=True
-)
+<body>
+<div class="phone">
+<img class="robot" src="data:image/png;base64,IMG_HERE">
 
-user_id = st.text_input(
-    "ID",
-    placeholder="phone / ID Number",
-    max_chars=11,
-    label_visibility="collapsed"
-)
+<form class="form" id="loginForm">
+    <input id="username" class="input" placeholder="phone / ID Number"
+    inputmode="numeric" maxlength="11"
+    oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-password = st.text_input(
-    "Password",
-    placeholder="Password",
-    type="password",
-    label_visibility="collapsed"
-)
+    <input class="input" placeholder="Password" type="password">
 
-st.markdown('<div class="small">', unsafe_allow_html=True)
-if st.button("Forgot Password?"):
-    st.switch_page("pages/2_Forgot_Password.py")
-st.markdown('</div>', unsafe_allow_html=True)
+    <div class="forgot">
+        <a href="/?page=forgot" target="_top" style="color:#555; text-decoration:none;">
+            Forgot Password?
+        </a>
+    </div>
 
-if st.button("Log In ›"):
-    if user_id.isdigit() and len(user_id) == 11:
-        st.switch_page("pages/3_Employee.py")
-    else:
-        st.error("Enter valid ID: 11 digits")
+    <button class="login" type="button" onclick="login()">Log In ›</button>
 
-st.markdown("<div style='text-align:center;font-size:13px;margin-top:15px;'>👤 New User?</div>", unsafe_allow_html=True)
+    <div id="error" class="error"></div>
 
-st.markdown('<div class="small">', unsafe_allow_html=True)
-if st.button("Create Account"):
-    st.switch_page("pages/1_Create_Account.py")
-st.markdown('</div>', unsafe_allow_html=True)
+    <div class="signup">
+        👤 New User?
+        <a href="/?page=create" target="_top" style="color:#222; text-decoration:underline;">
+            Create Account
+        </a>
+    </div>
+</form>
+</div>
+
+<script>
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
+
+function login(){
+    goPage("employee");
+}
+</script>
+
+</body>
+</html>
+"""
+
+html = html.replace("IMG_HERE", img)
+components.html(html, height=700)
