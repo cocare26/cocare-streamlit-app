@@ -5,7 +5,7 @@ import os
 
 st.set_page_config(page_title="Telecom App", layout="centered")
 
-# 🔥 نظام التنقل
+# 🔥 التنقل
 page = st.query_params.get("page", "")
 
 if page == "create":
@@ -20,14 +20,14 @@ elif page == "employee":
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
 
-# 📸 تحميل الصورة
+# 📸 صورة
 BASE_DIR = os.path.dirname(__file__)
 robot_path = os.path.join(BASE_DIR, "robot.png")
 
 with open(robot_path, "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
-# 🎨 الواجهة
+# 🎨 HTML
 html = """
 <html>
 <head>
@@ -58,12 +58,18 @@ text-align:center;font-size:11px;margin:8px 0 20px;
 
 .login{
 width:100%;height:46px;border-radius:25px;background:white;
-text-align:center;line-height:46px;font-weight:bold;cursor:pointer;
-margin-top:10px;
+font-weight:bold;border:none;cursor:pointer;
 }
 
 .signup{
 text-align:center;font-size:13px;margin-top:15px;
+}
+
+button{
+width:100%;
+border:none;
+background:none;
+cursor:pointer;
 }
 </style>
 </head>
@@ -78,22 +84,28 @@ text-align:center;font-size:13px;margin-top:15px;
 <input class="input" placeholder="Phone Number or ID">
 <input class="input" placeholder="Password" type="password">
 
-<div class="forgot">
-<a href="?page=forgot" target="_top" style="color:#555;text-decoration:none;">
-Forgot Password?
-</a>
-</div>
+<!-- Forgot -->
+<form method="get" target="_top">
+    <input type="hidden" name="page" value="forgot">
+    <div class="forgot">
+        <button type="submit" style="color:#555;">Forgot Password?</button>
+    </div>
+</form>
 
-<a href="?page=employee" target="_top" style="text-decoration:none;">
-<div class="login">Log In ›</div>
-</a>
+<!-- Login -->
+<form method="get" target="_top">
+    <input type="hidden" name="page" value="employee">
+    <button type="submit" class="login">Log In ›</button>
+</form>
 
-<div class="signup">
-👤 New User?
-<a href="?page=create" target="_top" style="color:#222;text-decoration:underline;">
-Create Account
-</a>
-</div>
+<!-- Create -->
+<form method="get" target="_top">
+    <input type="hidden" name="page" value="create">
+    <div class="signup">
+        👤 New User?
+        <button type="submit" style="text-decoration:underline;">Create Account</button>
+    </div>
+</form>
 
 </div>
 </div>
