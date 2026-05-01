@@ -54,7 +54,7 @@ div[data-testid="stTextInput"] input {
 
 st.title("Forgot Password")
 
-phone = st.text_input("Phone Number", max_chars=10)
+phone = st.text_input("Phone Number or ID", max_chars=11)
 
 if st.button("Send Code"):
     if phone.isdigit() and len(phone) == 10 and phone.startswith("07"):
