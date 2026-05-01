@@ -99,13 +99,15 @@ text-decoration:none;
 </div>
 
 <script>
+<script>
 function goPage(p){
     window.top.location.href = "/?page=" + p;
 }
 
 function login(){
-    const v = document.getElementById("username").value;
-    const e = document.getElementById("error");
+    goPage("employee");
+}
+</script>
 
     if(/^07[0-9]{8}$/.test(v)){
         goPage("customer");
