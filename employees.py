@@ -25,12 +25,7 @@ body{margin:0;background:transparent}
  border:1px solid #d9dee8;position:relative;overflow:hidden;
 }
 
-.page{
- height:690px;
- overflow-y:auto;
- padding-bottom:20px;
-}
-
+.page{height:690px;overflow-y:auto;padding-bottom:20px}
 .top{display:grid;grid-template-columns:124px 1fr;gap:14px}
 
 .rate-card{
@@ -46,28 +41,15 @@ body{margin:0;background:transparent}
 .circle span{font-size:10px}
 .circle b{font-size:25px}
 
-.head{
- display:flex;
- justify-content:space-between;
- align-items:start;
- margin-bottom:10px
-}
+.head{display:flex;justify-content:space-between;align-items:start;margin-bottom:10px}
 
-.title{
- font-size:17px;
- font-weight:800;
- line-height:1.2
-}
+.title{font-size:17px;font-weight:800;line-height:1.2}
 
-.section{
- font-size:13px;
- font-weight:800;
- margin:14px 0 6px
-}
+.section{font-size:13px;font-weight:800;margin:14px 0 6px}
 
 .location{
  font-size:11px;border:none;background:white;border-radius:8px;padding:7px;
- box-shadow:0 2px 8px rgba(0,0,0,.10)
+ box-shadow:0 2px 8px rgba(0,0,0,.10);max-width:115px
 }
 
 .map{
@@ -75,47 +57,26 @@ body{margin:0;background:transparent}
  box-shadow:inset 0 0 0 1px #d7deea
 }
 
-.road{
- position:absolute;height:3px;width:240px;background:white;opacity:.9;transform:rotate(-35deg)
-}
+.road{position:absolute;height:3px;width:240px;background:white;opacity:.9;transform:rotate(-35deg)}
+.road2{position:absolute;height:3px;width:220px;background:white;opacity:.9;transform:rotate(35deg)}
+.dot{position:absolute;color:#e02020;font-size:21px}
 
-.road2{
- position:absolute;height:3px;width:220px;background:white;opacity:.9;transform:rotate(35deg)
-}
-
-.dot{
- position:absolute;color:#e02020;font-size:21px
-}
-
-.alerts{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:9px
-}
+.alerts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
 
 .alert{
  background:white;border-radius:10px;overflow:hidden;min-height:118px;
  box-shadow:0 4px 14px rgba(0,0,0,.12);font-size:9.5px
 }
 
-.alert-head{
- color:white;padding:8px;font-weight:900;font-size:13px
-}
+.alert-head{color:white;padding:8px;font-weight:900;font-size:13px}
 
 .red{background:#e94c4c}
 .yellow{background:#f2b72f}
 .blue{background:#2f80ed}
 
-.alert-body{
- padding:8px;
- line-height:1.35
-}
+.alert-body{padding:8px;line-height:1.35}
 
-.metrics{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:13px
-}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 
 .chart{
  height:145px;background:white;border-radius:14px;
@@ -123,38 +84,15 @@ body{margin:0;background:transparent}
 }
 
 .chart-title{
- position:absolute;
- bottom:29px;
- left:0;
- width:100%;
- text-align:center;
- font-size:12px
+ position:absolute;bottom:29px;left:0;width:100%;text-align:center;font-size:12px
 }
 
 .chart-stars{
- position:absolute;
- bottom:8px;
- left:0;
- width:100%;
- text-align:center;
- color:#1267c9;
- font-size:18px
+ position:absolute;bottom:8px;left:0;width:100%;text-align:center;color:#1267c9;font-size:18px
 }
 
-.line{
- position:absolute;
- left:35px;
- bottom:55px;
- width:130px;
- height:62px
-}
-
-.bar{
- position:absolute;
- bottom:55px;
- width:19px;
- background:#2f80ed
-}
+.line{position:absolute;left:35px;bottom:55px;width:130px;height:62px}
+.bar{position:absolute;bottom:55px;width:19px;background:#2f80ed}
 
 .employee{
  background:white;border-radius:14px;padding:11px;display:flex;gap:12px;align-items:center;
@@ -166,48 +104,21 @@ body{margin:0;background:transparent}
  display:flex;align-items:center;justify-content:center;font-size:30px
 }
 
-.emp-name{
- font-size:15px;
- font-weight:800
-}
+.emp-name{font-size:15px;font-weight:800}
+.emp-text{font-size:10px;line-height:1.25}
 
-.emp-text{
- font-size:10px;
- line-height:1.25
-}
-
-/* NAV */
 .nav{
- position:absolute;
- bottom:0;
- left:18px;
- right:18px;
- height:70px;
- border-top:1px solid #e5e7eb;
- background:#fbfdff;
- display:flex;
- justify-content:space-around;
- align-items:center
+ position:absolute;bottom:0;left:18px;right:18px;height:70px;
+ border-top:1px solid #e5e7eb;background:#fbfdff;
+ display:flex;justify-content:space-around;align-items:center
 }
 
 .nav button{
- background:none;
- border:none;
- font-weight:900;
- font-size:14px;
- cursor:pointer;
- color:#111827
+ background:none;border:none;font-weight:900;font-size:14px;cursor:pointer;color:#111827
 }
 
-.nav span{
- display:block;
- font-size:27px;
- color:#376f91
-}
-
-.nav .active-nav{
- color:#2f80ed
-}
+.nav span{display:block;font-size:27px;color:#376f91}
+.nav .active-nav{color:#2f80ed}
 </style>
 </head>
 
@@ -226,13 +137,20 @@ body{margin:0;background:transparent}
         <div>
             <div class="head">
                 <div class="title">Network<br>Issues</div>
+
                 <select class="location" id="region" onchange="updateRegion()">
-                    <option value="Irbid">📍 Irbid</option>
                     <option value="Amman">📍 Amman</option>
                     <option value="Zarqa">📍 Zarqa</option>
+                    <option value="Irbid">📍 Irbid</option>
                     <option value="Balqa">📍 Balqa</option>
-                    <option value="Aqaba">📍 Aqaba</option>
+                    <option value="Mafraq">📍 Mafraq</option>
+                    <option value="Jerash">📍 Jerash</option>
+                    <option value="Ajloun">📍 Ajloun</option>
+                    <option value="Madaba">📍 Madaba</option>
                     <option value="Karak">📍 Karak</option>
+                    <option value="Tafilah">📍 Tafilah</option>
+                    <option value="Ma'an">📍 Ma'an</option>
+                    <option value="Aqaba">📍 Aqaba</option>
                 </select>
             </div>
 
@@ -258,21 +176,21 @@ body{margin:0;background:transparent}
         <div class="alert">
             <div class="alert-head red">❗ Problem</div>
             <div class="alert-body">
-                <b>Region:</b> <span class="region-name">Irbid</span>: Multiple User Reports 09:30 AM of Slow Internet.
+                <b>Region:</b> <span class="region-name">Amman</span>: Multiple User Reports 09:30 AM of Slow Internet.
             </div>
         </div>
 
         <div class="alert">
             <div class="alert-head yellow">⚠️ Internal</div>
             <div class="alert-body">
-                <b>Region:</b> <span class="region-name">Irbid</span>: Multiple User Reports 09:30 AM of Slow Internet.
+                <b>Region:</b> <span class="region-name">Amman</span>: Multiple User Reports 09:30 AM of Slow Internet.
             </div>
         </div>
 
         <div class="alert">
             <div class="alert-head blue">↗ External</div>
             <div class="alert-body">
-                <b>Region:</b> <span class="region-name">Irbid</span> This Internet issue is external. The problem is reported by the ISP.
+                <b>Region:</b> <span class="region-name">Amman</span> This Internet issue is external. The problem is reported by the ISP.
             </div>
         </div>
     </div>
