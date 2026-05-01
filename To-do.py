@@ -272,7 +272,7 @@ body{margin:0;background:transparent}
 <div class="nav">
     <button onclick="goHome()"><span>⌂</span>Home</button>
     <button onclick="logoutToLogin()"><span>⇥</span>Logout</button>
-    <button><span>☑</span>To Do List</button>
+    <button class="active-nav"><span>☑</span>To Do</button>
 </div>
 
 </div>
