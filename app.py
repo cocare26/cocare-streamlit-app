@@ -101,7 +101,6 @@ text-decoration:none;
 </div>
 
 <script>
-<script>
 function goPage(p){
     window.top.location.href = "/?page=" + p;
 }
