@@ -107,19 +107,7 @@ function goPage(p){
 }
 
 function login(){
-    window.top.location.href = "/?page=employee";
-}
-</script>
-
-    if(/^07[0-9]{8}$/.test(v)){
-        goPage("customer");
-    }
-    else if(/^[0-9]{11}$/.test(v)){
-        goPage("employee");
-    }
-    else{
-        e.innerText = "Invalid phone or ID number";
-    }
+    goPage("employee");
 }
 </script>
 </body>
