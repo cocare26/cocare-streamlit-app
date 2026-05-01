@@ -1,7 +1,17 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
+import streamlit as st
+import streamlit.components.v1 as components
+
 st.set_page_config(page_title="CoCare", layout="centered")
+
+selected_region = st.selectbox(
+    "📍 Select Location",
+    ["Irbid", "Amman", "Zarqa", "Aqaba", "Karak","Ajloun","Madaba","Balqa","Ma'an","Tafilah","Jarash"
+    ,"Mafraq",],
+    index=0
+)
 
 st.markdown("""
 <style>
