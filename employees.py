@@ -1,17 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-import streamlit as st
-import streamlit.components.v1 as components
-
 st.set_page_config(page_title="CoCare", layout="centered")
-
-selected_region = st.selectbox(
-    "📍 Select Location",
-    ["Irbid", "Amman", "Zarqa", "Aqaba", "Karak","Ajloun","Madaba","Balqa","Ma'an","Tafilah","Jarash"
-    ,"Mafraq",],
-    index=0
-)
 
 st.markdown("""
 <style>
@@ -19,7 +9,7 @@ st.markdown("""
     background: #eef2f7;
 }
 .block-container {
-    padding-top: 10px;
+    padding-top: 15px;
     max-width: 560px;
 }
 header, footer {
@@ -55,14 +45,14 @@ body {
 
 .top {
     display: grid;
-    grid-template-columns: 135px 1fr;
+    grid-template-columns: 130px 1fr;
     gap: 16px;
 }
 
 .rate-card {
     background: white;
     border-radius: 18px;
-    height: 135px;
+    height: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,10 +60,10 @@ body {
 }
 
 .circle {
-    width: 112px;
-    height: 112px;
+    width: 105px;
+    height: 105px;
     border-radius: 50%;
-    border: 12px solid #2f80ed;
+    border: 11px solid #2f80ed;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,13 +86,19 @@ body {
 }
 
 .title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
 }
 
-.location {
+.location-select {
     font-size: 11px;
     color: #667085;
+    border: none;
+    background: white;
+    border-radius: 8px;
+    padding: 6px 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    cursor: pointer;
 }
 
 .map {
@@ -153,7 +149,7 @@ body {
 .alert {
     background: white;
     border-radius: 12px;
-    min-height: 112px;
+    min-height: 115px;
     overflow: hidden;
     box-shadow: 0 4px 14px rgba(0,0,0,0.12);
     font-size: 11px;
@@ -183,42 +179,46 @@ body {
 
 .chart {
     background: white;
-    height: 130px;
+    height: 155px;
     border-radius: 15px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.10);
     padding: 10px;
     position: relative;
-}
-
-.line {
-    position: absolute;
-    left: 35px;
-    bottom: 45px;
-    width: 135px;
-    height: 65px;
+    overflow: hidden;
 }
 
 .chart-title {
     position: absolute;
-    bottom: 10px;
+    bottom: 32px;
     width: 100%;
     left: 0;
     text-align: center;
     font-size: 13px;
 }
 
-.bar {
+.chart-stars {
     position: absolute;
-    bottom: 43px;
-    width: 20px;
-    background: #2f80ed;
-}
-
-.stars {
+    bottom: 6px;
+    width: 100%;
+    left: 0;
     text-align: center;
     color: #1267c9;
-    font-size: 20px;
-    margin-top: 4px;
+    font-size: 19px;
+}
+
+.line {
+    position: absolute;
+    left: 35px;
+    bottom: 58px;
+    width: 135px;
+    height: 65px;
+}
+
+.bar {
+    position: absolute;
+    bottom: 58px;
+    width: 20px;
+    background: #2f80ed;
 }
 
 .employee {
@@ -289,7 +289,15 @@ body {
         <div>
             <div class="head">
                 <div class="title">Network Issues</div>
-                <div class="location">📍 Select Location</div>
+
+                <select class="location-select" id="region" onchange="updateRegion()">
+                    <option value="Irbid">📍 Irbid</option>
+                    <option value="Amman">📍 Amman</option>
+                    <option value="Zarqa">📍 Zarqa</option>
+                    <option value="Balqa">📍 Balqa</option>
+                    <option value="Aqaba">📍 Aqaba</option>
+                    <option value="Karak">📍 Karak</option>
+                </select>
             </div>
 
             <div class="map">
@@ -297,6 +305,7 @@ body {
                 <div class="road" style="top:35px;left:-30px;"></div>
                 <div class="road" style="top:60px;left:-55px;"></div>
                 <div class="road" style="top:85px;left:-20px;"></div>
+
                 <div class="road2" style="top:20px;left:60px;"></div>
                 <div class="road2" style="top:55px;left:80px;"></div>
                 <div class="road2" style="top:90px;left:95px;"></div>
@@ -315,21 +324,21 @@ body {
         <div class="alert">
             <div class="alert-head red">❗ Problem</div>
             <div class="alert-body">
-                <b>Region:</b> Irbid: Multiple User Reports 09:30 AM of Slow Internet.
+                <b>Region:</b> <span class="region-name">Irbid</span>: Multiple User Reports 09:30 AM of Slow Internet.
             </div>
         </div>
 
         <div class="alert">
             <div class="alert-head yellow">⚠️ Internal</div>
             <div class="alert-body">
-                <b>Region:</b> Irbid: Multiple User Reports 09:30 AM of Slow Internet.
+                <b>Region:</b> <span class="region-name">Irbid</span>: Multiple User Reports 09:30 AM of Slow Internet.
             </div>
         </div>
 
         <div class="alert">
             <div class="alert-head blue">↗ External</div>
             <div class="alert-body">
-                <b>Region:</b> Irbid This Internet issue is external. The problem is reported by the ISP.
+                <b>Region:</b> <span class="region-name">Irbid</span> This Internet issue is external. The problem is reported by the ISP.
             </div>
         </div>
     </div>
@@ -342,26 +351,26 @@ body {
                 <polygon points="0,65 0,55 45,40 95,25 135,5 135,65" fill="#dbeafe"/>
                 <polyline points="0,55 45,40 95,25 135,5" fill="none" stroke="#2f80ed" stroke-width="4"/>
             </svg>
-            <div style="position:absolute;left:15px;top:20px;font-size:12px;">20</div>
-            <div style="position:absolute;left:15px;top:58px;font-size:12px;">10</div>
-            <div style="position:absolute;left:15px;top:96px;font-size:12px;">0</div>
+            <div style="position:absolute;left:15px;top:25px;font-size:12px;">20</div>
+            <div style="position:absolute;left:15px;top:63px;font-size:12px;">10</div>
+            <div style="position:absolute;left:15px;top:101px;font-size:12px;">0</div>
             <div class="chart-title">Avg Latency (ms)</div>
         </div>
 
         <div class="chart">
-            <div class="bar" style="left:50px;height:45px;"></div>
-            <div class="bar" style="left:85px;height:25px;"></div>
-            <div class="bar" style="left:120px;height:70px;"></div>
-            <div class="bar" style="left:155px;height:28px;"></div>
-            <div class="bar" style="left:190px;height:72px;"></div>
-            <div style="position:absolute;left:20px;top:20px;font-size:12px;">10</div>
-            <div style="position:absolute;left:20px;top:62px;font-size:12px;">5</div>
-            <div style="position:absolute;left:20px;top:96px;font-size:12px;">0</div>
+            <div class="bar" style="left:48px;height:45px;"></div>
+            <div class="bar" style="left:82px;height:30px;"></div>
+            <div class="bar" style="left:116px;height:72px;"></div>
+            <div class="bar" style="left:150px;height:32px;"></div>
+
+            <div style="position:absolute;left:18px;top:25px;font-size:12px;">10</div>
+            <div style="position:absolute;left:18px;top:66px;font-size:12px;">5</div>
+            <div style="position:absolute;left:18px;top:101px;font-size:12px;">0</div>
+
             <div class="chart-title">Packet Loss (%)</div>
+            <div class="chart-stars">★ ★ ★</div>
         </div>
     </div>
-
-    <div class="stars">★ ★ ★</div>
 
     <div class="section">Employee of the Month Announcement</div>
 
@@ -383,6 +392,18 @@ body {
     </div>
 
 </div>
+
+<script>
+function updateRegion() {
+    const selected = document.getElementById("region").value;
+    const regions = document.getElementsByClassName("region-name");
+
+    for (let i = 0; i < regions.length; i++) {
+        regions[i].innerText = selected;
+    }
+}
+</script>
+
 </body>
 </html>
-""", height=850)
+""", height=880)
