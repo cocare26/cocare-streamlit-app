@@ -86,7 +86,7 @@ st.title("Create Account")
 st.markdown("""
 <div style="text-align:center; font-size:14px;">
 Already have an account?
-<a href="/" target="_self" style="
+<a href="/" target="_top">Sign in</a>
 color:#1c6fa4;
 font-weight:bold;
 text-decoration:none;
