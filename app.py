@@ -5,7 +5,6 @@ import os
 
 st.set_page_config(page_title="Telecom App", layout="centered")
 
-
 page = st.query_params.get("page", "")
 
 if page == "create":
@@ -20,7 +19,10 @@ elif page == "employee":
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
 
-with open("robot.png", "rb") as f:
+BASE_DIR = os.path.dirname(__file__)
+robot_path = os.path.join(BASE_DIR, "robot.png")
+
+with open(robot_path, "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
 html = """
@@ -44,30 +46,10 @@ width:100%;height:46px;border-radius:25px;background:white;
 text-align:center;line-height:46px;font-weight:bold;border:none;cursor:pointer
 }
 .signup{
-display:block;
-text-align:center;
-font-size:13px;
-margin-top:15px;
-cursor:pointer;
-color:#222;
-text-decoration:none;
+display:block;text-align:center;font-size:13px;margin-top:15px;
+cursor:pointer;color:#222;text-decoration:none;
 }
 .error{text-align:center;color:#c62828;font-size:11px;margin-top:8px}
-
-.signup-line{
-    text-align:center;
-    font-size:13px;
-    margin-top:15px;
-    color:#222;
-}
-
-.signup-line span{
-    color:#1c6fa4;
-    font-weight:bold;
-    text-decoration:none;
-    margin-left:4px;
-    cursor:pointer;
-}
 </style>
 </head>
 
@@ -75,9 +57,7 @@ text-decoration:none;
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form" id="loginForm" method="get" target="_top">
-    <input type="hidden" name="page" id="pageValue">
-
+<form class="form" id="loginForm">
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
     oninput="this.value=this.value.replace(/[^0-9]/g,'')">
@@ -85,22 +65,24 @@ text-decoration:none;
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-    <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
-        Forgot Password?
-    </a>
-</div>
+        <a href="/?page=forgot" target="_top" style="color:#555; text-decoration:none;">
+            Forgot Password?
+        </a>
+    </div>
+
     <button class="login" type="button" onclick="login()">Log In ›</button>
+
     <div id="error" class="error"></div>
+
     <div class="signup">
-    👤 New User?
-    <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
-        Create Account
-    </a>
-</div>
+        👤 New User?
+        <a href="/?page=create" target="_top" style="color:#222; text-decoration:underline;">
+            Create Account
+        </a>
+    </div>
 </form>
 </div>
 
-<script>
 <script>
 function goPage(p){
     window.top.location.href = "/?page=" + p;
@@ -110,6 +92,7 @@ function login(){
     goPage("employee");
 }
 </script>
+
 </body>
 </html>
 """
