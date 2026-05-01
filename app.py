@@ -106,7 +106,15 @@ function goPage(p){
 }
 
 function login(){
-    goPage("employee");
+    const v = document.getElementById("username").value;
+    const e = document.getElementById("error");
+
+    // فقط ID (11 رقم)
+    if(/^[0-9]{11}$/.test(v)){
+        goPage("employee");
+    } else {
+        e.innerText = "Enter valid ID (11 digits)";
+    }
 }
 </script>
 </body>
