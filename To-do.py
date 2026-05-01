@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="CoCare", layout="centered")
+st.set_page_config(page_title="To-Do List", layout="centered")
 
 st.markdown("""
 <style>
@@ -33,12 +33,10 @@ body{margin:0;background:transparent}
 }
 
 .page{
- display:none;
  height:690px;
  overflow-y:auto;
  padding-bottom:20px;
 }
-.page.active{display:block}
 
 .todo-title{
  text-align:center;
@@ -74,16 +72,25 @@ body{margin:0;background:transparent}
  font-size:12px;
 }
 
-.add-btn{
+.add-btn,
+.hidden-toggle-btn{
  width:100%;
  height:40px;
- background:#2f80ed;
- color:white;
  border:none;
  border-radius:9px;
  font-weight:900;
  cursor:pointer;
- margin-bottom:16px;
+ margin-bottom:10px;
+}
+
+.add-btn{
+ background:#2f80ed;
+ color:white;
+}
+
+.hidden-toggle-btn{
+ background:#eef2ff;
+ color:#1d4ed8;
 }
 
 .empty{
@@ -106,6 +113,13 @@ body{margin:0;background:transparent}
  box-shadow:0 4px 12px rgba(0,0,0,.10);
 }
 
+.section-title{
+ font-size:14px;
+ font-weight:900;
+ margin:14px 0 8px;
+ color:#374151;
+}
+
 .task-card{
  background:white;
  border-radius:12px;
@@ -113,6 +127,11 @@ body{margin:0;background:transparent}
  margin-bottom:10px;
  box-shadow:0 3px 10px rgba(0,0,0,.10);
  font-size:12px;
+}
+
+.hidden-card{
+ opacity:.65;
+ background:#f8fafc;
 }
 
 .task-title{
@@ -125,6 +144,7 @@ body{margin:0;background:transparent}
  display:flex;
  flex-wrap:wrap;
  gap:5px;
+ margin-bottom:8px;
 }
 
 .badge{
@@ -161,9 +181,18 @@ body{margin:0;background:transparent}
  color:#1d4ed8;
 }
 
+.restore-btn{
+ background:#d1fae5;
+ color:#047857;
+}
+
 .delete-btn{
  background:#fee2e2;
  color:#b91c1c;
+}
+
+#hiddenSection{
+ display:none;
 }
 
 .nav{
@@ -199,7 +228,7 @@ body{margin:0;background:transparent}
 <body>
 <div class="phone">
 
-<div id="todoPage" class="page active">
+<div class="page">
     <div class="todo-title">To-Do List</div>
 
     <input class="task-input" id="taskInput" placeholder="Add a new task..." />
@@ -222,6 +251,7 @@ body{margin:0;background:transparent}
     </div>
 
     <button class="add-btn" onclick="addTask()">Add Task</button>
+    <button class="hidden-toggle-btn" onclick="toggleHiddenSection()">Show / Hide Hidden Tasks</button>
 
     <div id="emptyBox" class="empty">
         <div class="clipboard">✔</div>
@@ -229,6 +259,14 @@ body{margin:0;background:transparent}
     </div>
 
     <div id="taskList"></div>
+
+    <div id="hiddenSection">
+        <div class="section-title">Hidden Tasks</div>
+        <div id="hiddenEmpty" class="empty" style="margin-top:20px;">
+            <p>No hidden tasks</p>
+        </div>
+        <div id="hiddenList"></div>
+    </div>
 </div>
 
 <div class="nav">
@@ -294,6 +332,42 @@ function addTask(){
     document.getElementById("taskInput").value = "";
     document.getElementById("taskDate").value = "";
     document.getElementById("taskTime").value = "";
+
+    checkEmpty();
+}
+
+function hideTask(btn){
+    const card = btn.closest(".task-card");
+
+    card.classList.add("hidden-card");
+
+    const actions = card.querySelector(".task-actions");
+    actions.innerHTML = `
+        <button class="restore-btn" onclick="restoreTask(this)">Restore</button>
+        <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+    `;
+
+    document.getElementById("hiddenList").prepend(card);
+
+    document.getElementById("hiddenSection").style.display = "block";
+
+    checkEmpty();
+}
+
+function restoreTask(btn){
+    const card = btn.closest(".task-card");
+
+    card.classList.remove("hidden-card");
+
+    const actions = card.querySelector(".task-actions");
+    actions.innerHTML = `
+        <button class="hide-btn" onclick="hideTask(this)">Hide</button>
+        <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+    `;
+
+    document.getElementById("taskList").prepend(card);
+
+    checkEmpty();
 }
 
 function deleteTask(btn){
@@ -301,17 +375,22 @@ function deleteTask(btn){
     checkEmpty();
 }
 
-function hideTask(btn){
-    btn.closest(".task-card").style.display = "none";
-    checkEmpty();
+function toggleHiddenSection(){
+    const section = document.getElementById("hiddenSection");
+    section.style.display = section.style.display === "none" || section.style.display === ""
+        ? "block"
+        : "none";
 }
 
 function checkEmpty(){
-    const visibleTasks = Array.from(document.querySelectorAll(".task-card"))
-        .filter(card => card.style.display !== "none");
+    const activeTasks = document.querySelectorAll("#taskList .task-card");
+    const hiddenTasks = document.querySelectorAll("#hiddenList .task-card");
 
     document.getElementById("emptyBox").style.display =
-        visibleTasks.length === 0 ? "block" : "none";
+        activeTasks.length === 0 ? "block" : "none";
+
+    document.getElementById("hiddenEmpty").style.display =
+        hiddenTasks.length === 0 ? "block" : "none";
 }
 </script>
 
