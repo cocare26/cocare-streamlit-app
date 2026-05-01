@@ -11,6 +11,7 @@ elif page == "employee":
 
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
+    
 import streamlit as st
 import streamlit.components.v1 as components
 import base64
@@ -118,7 +119,7 @@ function goPage(p){
 }
 
 function login(){
-    goPage("employee");
+    window.top.location.href = "/?page=employee";
 }
 </script>
 
