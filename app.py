@@ -9,13 +9,10 @@ page = st.query_params.get("page", "")
 
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
-
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
-
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
-
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
 
@@ -57,17 +54,12 @@ cursor:pointer;color:#222;text-decoration:none;
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form" id="loginForm">
-    <input id="username" class="input" placeholder="phone / ID Number"
-    inputmode="numeric" maxlength="11"
-    oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-
+<form class="form">
+    <input id="username" class="input" placeholder="phone / ID Number">
     <input class="input" placeholder="Password" type="password">
 
-    <div class="forgot">
-        <a href="/?page=forgot" target="_top" style="color:#555; text-decoration:none;">
-            Forgot Password?
-        </a>
+    <div class="forgot" onclick="goPage('forgot')">
+        Forgot Password?
     </div>
 
     <button class="login" type="button" onclick="login()">Log In ›</button>
@@ -76,9 +68,9 @@ cursor:pointer;color:#222;text-decoration:none;
 
     <div class="signup">
         👤 New User?
-        <a href="/?page=create" target="_top" style="color:#222; text-decoration:underline;">
+        <span onclick="goPage('create')" style="text-decoration:underline; cursor:pointer;">
             Create Account
-        </a>
+        </span>
     </div>
 </form>
 </div>
