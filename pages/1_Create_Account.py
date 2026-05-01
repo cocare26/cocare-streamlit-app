@@ -85,7 +85,14 @@ st.title("Create Account")
 
 st.markdown("""
 <div style="text-align:center; font-size:14px;">
-Already have an account?
+st.markdown("""
+<div style="text-align:center; margin-bottom:10px;">
+    Already have an account?
+    <a href="/" target="_self" style="color:#1c6fa4; font-weight:bold; text-decoration:none; margin-left:4px;">
+        Sign in
+    </a>
+</div>
+""", unsafe_allow_html=True)
 <a href="/" target="_top">Sign in</a>
 color:#1c6fa4;
 font-weight:bold;
@@ -104,7 +111,7 @@ if username and not username.replace(" ", "").isalpha():
 col1, col2 = st.columns([4, 1])
 
 with col1:
-    phone = st.text_input("Phone Number", max_chars=10)
+    phone = st.text_input("Phone Number or ID", max_chars=11)
 
 with col2:
     st.markdown("<div style='margin-top:28px'></div>", unsafe_allow_html=True)
