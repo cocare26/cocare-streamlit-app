@@ -1,13 +1,18 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import base64
+import os
 
 st.set_page_config(page_title="Telecom App", layout="centered")
 
+
 page = st.query_params.get("page", "")
 
-elif page == "create":
+if page == "create":
     st.switch_page("pages/1_Create_Account.py")
+
+elif page == "forgot":
+    st.switch_page("pages/2_Forgot_Password.py")
 
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
