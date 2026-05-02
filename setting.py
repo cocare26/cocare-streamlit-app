@@ -3,59 +3,62 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="wide") 
 
-# 2. تنسيق الـ CSS المتقدم
+# 2. تنسيق الـ CSS لتحويل الأزرار إلى كبسولات (Capsules) كما في الصورة
 st.markdown("""
     <style>
     .stApp {
         background-color: #cbdbe5;
     }
 
-    /* إلغاء الهوامش الجانبية تماماً ليمتد البوكس للحواف */
+    /* إضافة هوامش جانبية لجعل القائمة في المنتصف مثل الصورة */
     .block-container {
-        max-width: 100% !important;
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-        margin: 0px !important;
+        max-width: 600px !important;
+        padding-top: 50px !important;
     }
 
-    /* تنسيق الزر ليكون صندوق مرن (Flexbox) */
+    /* تنسيق الأزرار لتصبح دائرية الحواف (Capsule shape) */
     .stButton > button {
-        background-color: white !important;
-        color: #000000 !important; 
-        border-radius: 0px !important; 
+        background-color: #f8f9fa !important;
+        color: #333333 !important; 
+        border-radius: 50px !important; /* حواف دائرية جداً */
         border: none !important;
         width: 100% !important;
-        height: 75px !important;
-        font-size: 20px !important;
+        height: 65px !important;
+        font-size: 18px !important;
         font-weight: bold !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
-        margin-bottom: 2px !important; 
-        
-        /* جعل المحتوى يتوزع بين الطرفين */
+        margin-bottom: 15px !important; /* مسافة بين كل زر وزر */
         display: flex !important;
-        flex-direction: row !important; /* ترتيب أفقي */
-        justify-content: space-between !important; /* دفع العناصر للأطراف */
         align-items: center !important;
-        padding: 0 30px !important;
+        justify-content: flex-start !important;
+        padding-left: 25px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
     }
 
-    /* التأكد من أن النص يذهب لليمين */
+    /* تنسيق النصوص داخل الأزرار */
     .stButton > button div p {
         width: 100%;
-        text-align: right !important;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row-reverse; /* عكس الترتيب ليكون الإيموجي يسار والنص يمين */
+        text-align: center !important; /* النص في المنتصف */
+        margin-right: 40px !important; /* توازن بسبب وجود الإيموجي يسار */
     }
 
-    /* تنسيق الأعمدة للسطر الأخير */
+    /* تنسيق خاص للأعمدة في السطر الأخير */
     [data-testid="column"] {
-        padding-left: 0px !important;
-        padding-right: 0px !important;
+        padding: 0 5px !important;
     }
+    
     [data-testid="stHorizontalBlock"] {
-        gap: 2px !important;
+        gap: 0px !important;
+    }
+
+    /* هيدر الإعدادات */
+    .settings-header {
+        text-align: center;
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -69,41 +72,36 @@ def nav(page_name):
 
 # 4. عرض الصفحات
 if st.session_state.page == 'main':
-    # هيدر الصفحة
+    # الهيدر مع سهم الرجوع
     st.markdown("""
-        <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 20px; direction: ltr; padding: 20px;">
-            <div style="padding-left: 10px;">
-                <span style="font-size: 30px; font-weight: bold; color: #000000;"><</span>
-            </div>
-            <div style="flex-grow: 1; text-align: center; margin-left: -40px;">
-                <h2 style="color: #000000; margin: 0; font-weight: bold;">Settings</h2>
-            </div>
+        <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 30px;">
+            <div style="position: absolute; left: 20px; font-size: 24px; font-weight: bold; cursor: pointer;"> < </div>
+            <h1 style="font-size: 32px; margin: 0;">Settings</h1>
         </div>
     """, unsafe_allow_html=True)
     
-    # القائمة الرئيسية (الإيموجي يسار - النص يمين - السهم يمين)
-    # ملاحظة: تم ترتيب النص داخل الزر بحيث يظهر الإيموجي أولاً (يسار) ثم النص (يمين)
-    if st.button("🔒                                                                                       Change Password >"): nav('password')
-    if st.button("🌐                                                                                       Change Language >"): nav('language')
-    if st.button("⭐                                                                                                     Rate App >"): nav('rate')
-    if st.button("🚪                                                                                                       Log Out >"): st.write("Logged Out!")
+    # الأزرار الرئيسية بتنسيق الصورة
+    if st.button("🔒                       Change Password"): nav('password')
+    if st.button("🌐                       Change Language"): nav('language')
+    if st.button("⭐                               Rate App"): nav('rate')
+    if st.button("🚪                               Log Out"): st.write("Logged Out!")
     
-    # السطر الأخير (قسمين متساويين)
+    # السطر الأخير المقسم لزرين دائريين
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("⚠️       Report a Problem >"): nav('report')
+        if st.button("⚠️   Report a Problem"): nav('report')
     with col2:
-        if st.button("✉️               Contact Us >"): nav('contact')
+        if st.button("✉️       Contact Us"): nav('contact')
 
 # --- الشاشات الفرعية ---
 elif st.session_state.page == 'password':
     if st.button("< Back"): nav('main')
-    st.markdown("<h3 style='padding:20px; color: black; text-align: right;'>Change Password</h3>", unsafe_allow_html=True)
+    st.header("Change Password")
 
 elif st.session_state.page == 'report':
     if st.button("< Back"): nav('main')
-    st.markdown("<h3 style='padding:20px; color: black; text-align: right;'>Report a Problem</h3>", unsafe_allow_html=True)
+    st.header("Report a Problem")
 
 elif st.session_state.page == 'contact':
     if st.button("< Back"): nav('main')
-    st.markdown("<h3 style='padding:20px; color: black; text-align: right;'>Contact Us</h3>", unsafe_allow_html=True)
+    st.header("Contact Us")
