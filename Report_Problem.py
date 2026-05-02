@@ -19,9 +19,9 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - تم تقليل العرض من 400px إلى 350px ليكون أنحف */
+/* 📦 الكارد الرئيسي - تم تقليل العرض من 450px إلى 400px */
 .block-container{
-    max-width:350px !important; 
+    max-width:400px !important; 
     margin:auto !important;
     padding:30px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
@@ -48,7 +48,7 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 290px; /* تقليل عرض المحتوى الداخلي ليتناسب مع البوكس الجديد */
+            max-width: 340px; /* تقليل عرض المحتوى الداخلي قليلاً */
             display: flex;
             flex-direction: column;
             height: 480px;
@@ -62,6 +62,7 @@ components.html("""
             position: relative;
         }
 
+        /* سهم الرجوع العلوي بالرمز < */
         .back-icon {
             position: absolute;
             left: 0;
@@ -76,10 +77,11 @@ components.html("""
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 20px; /* تقليل حجم الخط قليلاً ليناسب العرض الأقل */
+            font-size: 22px;
             color: #0f2446;
         }
 
+        /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
             height: 200px;
@@ -96,6 +98,7 @@ components.html("""
             font-family: inherit;
         }
 
+        /* 🎨 لون النص التوضيحي رمادي */
         .report-textarea::placeholder {
             color: #888888;
             opacity: 1;
@@ -121,6 +124,11 @@ components.html("""
             box-sizing: border-box;
         }
 
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        }
+
         .send-btn span {
             color: #0f2446;
             font-weight: bold;
@@ -138,10 +146,12 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
+            <!-- استبدال أيقونة السهم بالرمز < -->
             <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Report a Problem</h2>
         </div>
 
+        <!-- النص التوضيحي I need help باللون الرمادي (عبر CSS) -->
         <textarea class="report-textarea" placeholder="I need help"></textarea>
 
         <div class="btn-container">
