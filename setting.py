@@ -76,17 +76,19 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # دالة بناء الأزرار (المسافة موحدة للجميع 145)
-    def make_btn(emoji, label, page):
-        gap = "&nbsp;" * 145 
+    # دالة بناء الأزرار بمسافات مرنة
+    def make_btn(emoji, label, page, gap_size):
+        gap = "&nbsp;" * gap_size 
         if st.button(f"{emoji} {gap} {label} &nbsp;&nbsp; ›"):
             nav(page)
 
-    # عرض الأزرار الأربعة بنفس الطول
-    make_btn("🔒", "Change Password", "password")
-    make_btn("🌐", "Change Language", "language")
-    make_btn("⭐", "Rate App", "rate")
-    make_btn("🚪", "Log Out", "main")
+    # أول زرين: تم تقليل المسافة لـ 130
+    make_btn("🔒", "Change Password", "password", gap_size=130)
+    make_btn("🌐", "Change Language", "language", gap_size=130)
+    
+    # الزرين الأخيرين: بقيا على 145 كما هما
+    make_btn("⭐", "Rate App", "rate", gap_size=145)
+    make_btn("🚪", "Log Out", "main", gap_size=145)
     
     st.markdown("<br>", unsafe_allow_html=True)
 
