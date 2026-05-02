@@ -147,7 +147,7 @@ body{
     </div>
 </form>
 </div>
-<button class="login" type="button" onclick="login()">Log In ›</button>
+
 <script>
 function goPage(p){
     window.top.location.href = "/?page=" + p;
