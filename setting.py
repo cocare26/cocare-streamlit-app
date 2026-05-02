@@ -1,118 +1,165 @@
 import streamlit as st
 
-# إضافة CSS مخصص مع التعديلات الجديدة للألوان
-st.markdown("""
-    <style>
-    /* تغيير خلفية التطبيق لـ بيبي بلو */
-    .stApp {
-        background-color: #E0F7FA; /* بيبي بلو هادئ */
-    }
+# إعداد روابط الصفحات (استبدل الروابط بالصفحات الفعلية في تطبيقك)
+links = {
+    "change_password": "?page=password",
+    "change_language": "?page=language",
+    "rate_app": "?page=rate",
+    "logout": "?page=logout",
+    "report": "?page=report",
+    "contact": "?page=contact"
+}
 
-    /* تنسيق العنوان والسهم */
-    .header-container {
+st.markdown(f"""
+    <style>
+    /* 1. الخلفية بيبي بلو */
+    .stApp {{
+        background-color: #E0F7FA;
+    }}
+
+    .main-container {{
+        max-width: 400px;
+        margin: 0 auto;
+        padding-top: 30px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }}
+
+    /* 2. سهم السيتنج العلوي أسود */
+    .header {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }}
+    .back-arrow-top {{
+        color: black; 
+        font-size: 22px;
+        text-decoration: none;
+        font-weight: bold;
+    }}
+    .title {{
+        color: black;
+        font-size: 22px;
+        font-weight: bold;
+        margin-right: 10px;
+    }}
+
+    /* 3. تنسيق الأزرار كروابط */
+    .menu-item-link {{
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        margin-bottom: 12px;
+    }}
+
+    .menu-button {{
+        background-color: white;
+        border-radius: 50px;
+        padding: 12px 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 0;
-        margin-bottom: 20px;
-    }
-    .back-arrow {
-        font-size: 24px;
-        font-weight: bold;
-        cursor: pointer;
-        color: white; /* سهم أبيض */
-    }
-    .settings-title {
-        font-size: 28px;
-        font-weight: bold;
-        margin-right: 20px;
-        color: black; /* عنوان أسود */
-    }
-
-    /* تنسيق الأزرار والقوائم */
-    .menu-item {
-        background-color: white;
-        border-radius: 15px;
-        padding: 12px 20px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        box-shadow: 0px 2px 4px rgba(0,0,0,0.05);
-    }
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+        transition: 0.3s;
+    }}
     
-    /* تصغير الخط للنصوص الأساسية + لون أسود */
-    .menu-text {
-        font-size: 14px; 
-        font-weight: 600;
-        margin-left: 15px;
-        flex-grow: 1;
-        text-align: right;
-        color: black; /* نص أسود */
-    }
+    .menu-button:hover {{
+        transform: scale(1.02);
+        background-color: #f8f9fa;
+    }}
 
-    .emoji {
-        font-size: 20px;
-    }
-
-    /* تنسيق قسم التقرير والتواصل (جنب بعض) */
-    .bottom-row {
-        display: flex;
-        gap: 10px;
-    }
-    .small-button {
-        flex: 1;
-        background-color: white;
-        border-radius: 15px;
-        padding: 10px;
+    .left-section {{
         display: flex;
         align-items: center;
-    }
-    .small-text {
+        gap: 12px;
+    }}
+
+    .menu-text {{
+        color: black;
+        font-size: 15px;
+        font-weight: 500;
+    }}
+
+    /* 4. الأسهم الجانبية بيضاء وعلى اليمين */
+    .arrow-right {{
+        background-color: white; /* لجعل السهم يظهر إذا كانت الخلفية بيضاء، نضع له حاوية أو نغير لونه */
+        color: #FFFFFF; /* لون السهم أبيض */
+        background: #f0f0f0; /* خلفية دائرية خفيفة للسهم ليظهر الأبيض بوضوح */
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 12px;
         font-weight: bold;
-        margin-left: 5px;
-        color: black; /* نص أسود */
-    }
+        text-shadow: 0px 0px 2px rgba(0,0,0,0.2); /* ظل خفيف للسهم الأبيض */
+    }}
+
+    .bottom-row {{
+        display: flex;
+        gap: 10px;
+    }}
+    .small-btn {{
+        flex: 1;
+        background-color: white;
+        border-radius: 50px;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }}
     </style>
-    """, unsafe_allow_html=True)
 
-# --- بناء واجهة المستخدم ---
+    <div class="main-container">
+        <div class="header">
+            <a href="#" class="back-arrow-top"> &lt; </a>
+            <div class="title">Settings</div>
+            <div style="width:20px;"></div>
+        </div>
 
-# الهيدر: سهم على أقصى الشمال وكلمة Settings لليمين
-st.markdown("""
-    <div class="header-container">
-        <div class="back-arrow"> &lt; </div>
-        <div class="settings-title">Settings</div>
-        <div></div> <!-- موازن للمساحة -->
+        <a href="{links['change_password']}" class="menu-item-link">
+            <div class="menu-button">
+                <div class="left-section"><span>🔐</span> <span class="menu-text">Change Password</span></div>
+                <div class="arrow-right"> &gt; </div>
+            </div>
+        </a>
+
+        <a href="{links['change_language']}" class="menu-item-link">
+            <div class="menu-button">
+                <div class="left-section"><span>🌐</span> <span class="menu-text">Change Language</span></div>
+                <div class="arrow-right"> &gt; </div>
+            </div>
+        </a>
+
+        <a href="{links['rate_app']}" class="menu-item-link">
+            <div class="menu-button">
+                <div class="left-section"><span>⭐</span> <span class="menu-text">Rate App</span></div>
+                <div class="arrow-right"> &gt; </div>
+            </div>
+        </a>
+
+        <a href="{links['logout']}" class="menu-item-link">
+            <div class="menu-button">
+                <div class="left-section"><span>🚪</span> <span class="menu-text">Log Out</span></div>
+                <div class="arrow-right"> &gt; </div>
+            </div>
+        </a>
+
+        <div class="bottom-row">
+            <a href="{links['report']}" class="menu-item-link" style="flex:1;">
+                <div class="small-btn">
+                    <div class="left-section" style="gap:5px;"><span>⚠️</span><span class="menu-text" style="font-size:12px;">Report</span></div>
+                    <div class="arrow-right" style="width:18px; height:18px; font-size:10px;"> &gt; </div>
+                </div>
+            </a>
+            <a href="{links['contact']}" class="menu-item-link" style="flex:1;">
+                <div class="small-btn">
+                    <div class="left-section" style="gap:5px;"><span>✉️</span><span class="menu-text" style="font-size:12px;">Contact</span></div>
+                    <div class="arrow-right" style="width:18px; height:18px; font-size:10px;"> &gt; </div>
+                </div>
+            </a>
+        </div>
     </div>
     """, unsafe_allow_html=True)
-
-# الأزرار الرئيسية بخط أصغر ولون أسود
-menu_items = [
-    ("🔐", "Change Password"),
-    ("🌐", "Change Language"),
-    ("⭐", "Rate App"),
-    ("🚪", "Log Out")
-]
-
-for emoji, text in menu_items:
-    st.markdown(f"""
-        <div class="menu-item">
-            <span class="emoji">{emoji}</span>
-            <span class="menu-text">{text}</span>
-        </div>
-        """, unsafe_allow_html=True)
-
-# الصف الأخير: Report a Problem و Contact Us (لون أسود)
-st.markdown("""
-    <div class="bottom-row">
-        <div class="small-button">
-            <span class="emoji">⚠️</span>
-            <span class="small-text">Report a Problem</span>
-        </div>
-        <div class="small-button">
-            <span class="emoji">✉️</span>
-            <span class="small-text">Contact Us</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    
