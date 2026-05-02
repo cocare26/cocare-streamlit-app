@@ -261,9 +261,9 @@ function goToTodo(){
     window.top.location.href = "/?page=todo";
 }
 
-function logoutToLogin(){
-    window.top.location.href = "/";
-}
+<form action="/" method="get" target="_top">
+    <button type="submit"><span>⇥</span>Logout</button>
+</form>
 
 function updateRegion(){
     const selected = document.getElementById("region").value;
