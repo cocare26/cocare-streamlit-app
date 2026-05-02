@@ -8,43 +8,91 @@ if "generated_phone_code" not in st.session_state:
 
 st.markdown("""
 <style>
+
+/* 🎨 ألوان موحّدة */
+:root{
+    --navy:#0f2446;
+    --accent:#2f80ed;
+}
+
+/* 📱 الكارد (تدرج جديد احترافي) */
 .block-container {
     max-width: 480px;
     padding: 20px 30px;
-    background: linear-gradient(180deg,#c9e7f7,#dff4ff);
+    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 40%, #eaf6ff 100%);
     border-radius: 42px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
+
+/* 🧠 العنوان */
 h1 {
-    font-size: 26px;
+    font-size: 24px;
     text-align: center;
-    color: #0f2446;
+    color: var(--navy);
     margin-bottom: 5px;
+    font-weight: 900;
 }
+
+/* 🔗 Sign in */
 .signin-line {
     text-align: center;
     font-size: 14px;
     margin-top: -4px;
     margin-bottom: 8px;
+    color: #333;
 }
+
+/* ✨ Inputs بدون حواف */
 div[data-testid="stTextInput"] input {
     border-radius: 25px;
     height: 44px;
+    border: none !important;
+    outline: none !important;
+    padding-left: 16px;
+    background: rgba(255,255,255,0.95);
 }
+
+/* Selectbox */
 div[data-testid="stSelectbox"] div {
     border-radius: 25px;
 }
+
+/* زر Send */
 div[data-testid="stHorizontalBlock"] .stButton > button {
     width: 70px !important;
-    height: 32px !important;
+    height: 34px !important;
     font-size: 12px !important;
-    padding: 0 !important;
+    border-radius: 20px !important;
+    background: linear-gradient(90deg,#2f80ed,#1c6fa4);
+    color: white;
 }
+
+/* الأزرار الأساسية */
 div.stButton > button {
     width: 100% !important;
     height: 48px !important;
     font-size: 16px !important;
     border-radius: 25px !important;
+    border: none;
+    background: linear-gradient(90deg,#2f80ed,#1c6fa4);
+    color: white;
+    font-weight: bold;
+    transition: .2s;
 }
+
+/* hover */
+div.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,.2);
+}
+
+/* زر Sign in (خفيف) */
+div.stButton:nth-of-type(1) > button {
+    background: white;
+    color: var(--navy);
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -89,18 +137,9 @@ location = st.selectbox(
     "Location",
     [
         "",
-        "Amman",
-        "Irbid",
-        "Zarqa",
-        "Balqa",
-        "Mafraq",
-        "Jerash",
-        "Ajloun",
-        "Madaba",
-        "Karak",
-        "Tafilah",
-        "Ma'an",
-        "Aqaba",
+        "Amman","Irbid","Zarqa","Balqa","Mafraq",
+        "Jerash","Ajloun","Madaba","Karak",
+        "Tafilah","Ma'an","Aqaba",
     ],
 )
 
