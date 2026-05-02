@@ -3,63 +3,53 @@ import streamlit as st
 # إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="centered")
 
-# كود الـ CSS المخصص للتطابق مع الصورة
+# دمج كود الـ CSS داخل Streamlit بشكل صحيح لتجنب خطأ SyntaxError
 st.markdown("""
     <style>
-    /* 1. تغيير خلفية التطبيق كاملة للون بيبي بلو */
+    /* تغيير خلفية التطبيق كاملة */
     .stApp {
-        background-color: #d1e1e0;
+        background-color: #cbdbe5;
     }
 
-    /* 2. تنسيق الأزرار لتصبح دائرية جداً (Pill Shape) وبيضاء */
-    div.stButton > button {
-        background-color: #f8f4eb !important; /* لون أبيض مائل للكريمي قليلاً كما في الصورة */
+    /* تنسيق الحاوية الرئيسية لتشبه الحاويات في الصورة */
+    .main-container {
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 30px;
+        padding: 30px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+    }
+
+    /* تنسيق الأزرار البيضاء */
+    .stButton > button {
+        background-color: white !important;
         color: #4a4a4a !important;
-        border-radius: 50px !important; /* حواف دائرية بالكامل */
+        border-radius: 20px !important;
         border: none !important;
         width: 100% !important;
-        height: 60px !important;
-        font-size: 18px !important;
-        font-weight: 500 !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.02) !important;
-        margin-bottom: 15px !important;
-        display: flex;
-        justify-content: space-between;
-        padding: 0 25px !important;
+        height: 50px !important;
+        font-size: 16px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+        margin-bottom: 10px !important;
     }
 
-    /* 3. تنسيق النص داخل الأزرار ليكون عمودياً أو مائلاً كما في الصورة إذا لزم، 
-       لكن سنبقيه أفقياً لسهولة القراءة مع محاكاة التباعد */
-    .stButton button p {
-        margin: 0;
-        width: 100%;
-        text-align: left;
-    }
-
-    /* 4. إخفاء شريط التنقل العلوي لـ Streamlit لزيادة النقاء */
-    header {visibility: hidden;}
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-
-    /* 5. تنسيق العنوان */
-    .settings-title {
-        font-size: 32px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 30px;
-        text-align: left;
+    /* تنسيق خانات الإدخال */
+    .stTextInput > div > div > input {
+        border-radius: 15px !important;
+        border: none !important;
+        padding: 12px !important;
     }
     
-    /* 6. تنسيق السهم الأسود (محاكاة) */
-    .arrow {
-        float: right;
-        color: black;
-        font-weight: bold;
+    /* تنسيق مربع النص في البلاغات */
+    .stTextArea > div > div > textarea {
+        background-color: #fef8e8 !important;
+        border-radius: 20px !important;
+        border: none !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# إدارة التنقل
+# إدارة التنقل بين الشاشات باستخدام Session State
 if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
@@ -68,28 +58,47 @@ def nav(page_name):
 
 # --- الشاشة الرئيسية ---
 if st.session_state.page == 'main':
-    # أيقونة الرجوع والعنوان كما في الصورة
-    st.markdown("<div class='settings-title'><span style='font-size:20px;'> < </span> Settings</div>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #4a4a4a;'>Settings</h2>", unsafe_allow_html=True)
     
-    # الأزرار مع إضافة رمز السهم الأسود في نهاية كل نص
     if st.button("🔒 Change Password"): nav('password')
     if st.button("🌐 Change Language"): nav('language')
     if st.button("⭐ Rate App"): nav('rate')
-    if st.button("🚪 Log Out"): st.toast("Logged Out")
+    if st.button("🚪 Log Out"): st.write("Logged Out!")
     
-    # الأزرار السفلية (الأسهم التي تفتح صفحات)
-    col1, col2, col3 = st.columns([1,1,1])
-    with col3: # جهة اليمين كما طلبت
-        if st.button("➡️"): nav('report')
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("⚠️ Report"): nav('report')
+    with col2:
+        if st.button("✉️ Contact"): nav('contact')
 
-# --- صفحات فرعية (أمثلة) ---
+# --- شاشة تغيير كلمة المرور ---
 elif st.session_state.page == 'password':
-    if st.button("< Back"): nav('main')
-    st.markdown("### Change Password")
+    if st.button("← Back"): nav('main')
+    st.markdown("<h3>Change Password</h3>", unsafe_allow_html=True)
+    st.text_input("Current Password", type="password")
     st.text_input("New Password", type="password")
+    st.text_input("Re-write New Password", type="password")
     if st.button("Save"): nav('main')
 
+# --- شاشة اللغة ---
+elif st.session_state.page == 'language':
+    if st.button("← Back"): nav('main')
+    st.markdown("<h3>Change Language</h3>", unsafe_allow_html=True)
+    st.button("English (Active)")
+    st.button("العربية")
+
+# --- شاشة البلاغات ---
 elif st.session_state.page == 'report':
-    if st.button("< Back"): nav('main')
-    st.markdown("### Report Details")
-    st.write("This is a new page for reports.")
+    if st.button("← Back"): nav('main')
+    st.markdown("<h3>Report a Problem</h3>", unsafe_allow_html=True)
+    st.text_area("Message", value="I need help...")
+    if st.button("Send Report"):
+        st.success("Report Sent!")
+        nav('main')
+
+# --- شاشة التواصل ---
+elif st.session_state.page == 'contact':
+    if st.button("← Back"): nav('main')
+    st.markdown("<h3>Contact Us</h3>", unsafe_allow_html=True)
+    st.info("📧 Email: Co.Care26@gmail.com")
+    st.info("📞 Phone: +962 79 123 4657")
