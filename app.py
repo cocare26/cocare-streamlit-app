@@ -30,65 +30,77 @@ st.markdown("""
     background:#eef3f6;
 }
 
-.block-container {
+[data-testid="stAppViewContainer"]{
+    background:#e6eef5;
+}
+
+.block-container{
     max-width:360px;
-    min-height:660px;
+    height:660px;
     margin:auto;
-    border-radius:42px;
-    background:linear-gradient(180deg,#c9e7f7,#dff4ff);
-    padding:80px 50px 30px 50px;
+    border-radius:40px;
+
+    /* 🔥 الخلفية الزجاجية */
+    background: linear-gradient(145deg,#cfe6f5,#9fbcd1);
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+    
+    padding:90px 40px 40px 40px;
+    position:relative;
+    overflow:hidden;
 }
 
-header, footer {visibility:hidden;}
-
-.robot {
-    width: 145px;
-    position: relative;
-    top: 92px;
-    left: 160px;
-    z-index: 5;
-    margin-bottom: -45px;
+/* 🤖 البوت */
+.robot{
+    width:150px;
+    position:absolute;
+    top:70px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:5;
 }
 
-.stTextInput {
-    margin-bottom: 10px;
+/* 📦 البوكسات */
+.stTextInput{
+    margin-bottom:14px;
 }
 
-.stTextInput input {
-    width: 100%;
-    height: 44px;
-    border-radius: 25px;
-    border: none;
-    padding-left: 22px;
-    background: rgba(255,255,255,0.88);
-    color: #333;
-    font-size: 14px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.stButton > button {
+.stTextInput input{
     width:100%;
-    height:46px;
+    height:45px;
     border-radius:25px;
     border:none;
-    background:white;
-    color:#111;
-    font-weight:bold;
-}
-.block-container {
-    max-width:360px;
-    min-height:660px;
-    margin:auto;
-    border-radius:42px;
-    background:linear-gradient(180deg,#c9e7f7,#dff4ff);
-    padding:75px 58px 30px 58px;
+    padding-left:20px;
+
+    background:#ffffff;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+
+    font-size:14px;
 }
 
-.small button {
+/* 🔘 زر اللوق ان */
+.stButton > button{
+    width:100%;
+    height:48px;
+    border-radius:25px;
+    border:none;
+
+    background:#ffffff;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+/* 🔗 نص */
+.signup-text{
+    text-align:center;
+    font-size:13px;
+    margin-top:14px;
+}
+
+.small button{
     background:transparent !important;
-    height:25px !important;
-    color:#555 !important;
-    font-size:12px !important;
+    color:#333 !important;
     box-shadow:none !important;
+    font-size:12px !important;
 }
 
 .signup-text {
