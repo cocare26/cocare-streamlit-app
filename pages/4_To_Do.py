@@ -8,6 +8,16 @@ st.markdown("""
 [data-testid="stAppViewContainer"] { background:#eef2f7; }
 .block-container { padding-top:10px; max-width:520px; }
 header, footer { visibility:hidden; }
+
+div.stButton > button {
+    width: 100%;
+    height: 45px;
+    border-radius: 18px;
+    border: none;
+    background: white;
+    font-weight: 800;
+    box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -21,7 +31,7 @@ body{margin:0;background:transparent}
 
 .phone{
  width:400px;
- height:790px;
+ height:720px;
  margin:auto;
  background:#fbfdff;
  border-radius:42px;
@@ -33,7 +43,7 @@ body{margin:0;background:transparent}
 }
 
 .page{
- height:690px;
+ height:680px;
  overflow-y:auto;
  padding-bottom:20px;
 }
@@ -194,34 +204,6 @@ body{margin:0;background:transparent}
 #hiddenSection{
  display:none;
 }
-
-.nav{
- position:absolute;
- bottom:0;
- left:18px;
- right:18px;
- height:70px;
- border-top:1px solid #e5e7eb;
- background:#fbfdff;
- display:flex;
- justify-content:space-around;
- align-items:center;
-}
-
-.nav button{
- background:none;
- border:none;
- font-weight:900;
- font-size:14px;
- cursor:pointer;
- color:#111827;
-}
-
-.nav span{
- display:block;
- font-size:27px;
- color:#376f91;
-}
 </style>
 </head>
 
@@ -269,23 +251,9 @@ body{margin:0;background:transparent}
     </div>
 </div>
 
-<div class="nav">
-    <button onclick="goHome()"><span>⌂</span>Home</button>
-    <button onclick="logoutToLogin()"><span>⇥</span>Logout</button>
-    <button class="active-nav"><span>☑</span>To Do</button>
-</div>
-
 </div>
 
 <script>
-function goHome(){
-    window.top.location.href = "/?page=employee";
-}
-
-function logoutToLogin(){
-    window.top.location.href = "/";
-}
-
 function addTask(){
     const task = document.getElementById("taskInput").value.trim();
     const date = document.getElementById("taskDate").value;
@@ -348,7 +316,6 @@ function hideTask(btn){
     `;
 
     document.getElementById("hiddenList").prepend(card);
-
     document.getElementById("hiddenSection").style.display = "block";
 
     checkEmpty();
@@ -396,4 +363,18 @@ function checkEmpty(){
 
 </body>
 </html>
-""", height=820)
+""", height=750)
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    if st.button("⌂ Home"):
+        st.switch_page("pages/3_Employee.py")
+
+with col2:
+    if st.button("⇥ Logout"):
+        st.switch_page("app.py")
+
+with col3:
+    if st.button("☑ To Do List"):
+        st.switch_page("pages/4_To_Do.py")
