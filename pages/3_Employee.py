@@ -337,21 +337,34 @@ employee.addEventListener("click", () => {
 </div>
 
 <div class="nav">
+
+    <!-- Home -->
     <form action="/" method="get" target="_top">
         <input type="hidden" name="page" value="employee">
-        <button type="submit" class="active-nav"><span>⌂</span>Home</button>
+        <button class="active-nav">
+            <span>⌂</span>
+            Home
+        </button>
     </form>
 
+    <!-- Logout -->
     <form action="/" method="get" target="_top">
-        <button type="submit"><span>⇥</span>Logout</button>
+        <button>
+            <span>⇥</span>
+            Logout
+        </button>
     </form>
 
+    <!-- To Do -->
     <form action="/" method="get" target="_top">
         <input type="hidden" name="page" value="todo">
-        <button type="submit"><span>☑</span>To Do List</button>
+        <button>
+            <span>☑</span>
+            To Do List
+        </button>
     </form>
-</div>
 
+</div>
 </div>
 
 <script>
