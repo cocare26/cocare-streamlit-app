@@ -1,90 +1,115 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
+# 1. إعدادات الصفحة
 st.set_page_config(page_title="Contact Us", layout="centered")
 
+# 2. التنسيق العام (CSS)
 st.markdown("""
 <style>
 /* 🎯 ألوان أساسية */
-:root{
-    --navy:#0f2446;
-    --bg1:#d6ecff;
-    --bg2:#bfe3ff;
-    --bg3:#eaf6ff;
+:root {
+    --navy: #0f2446;
+    --bg1: #d6ecff;
+    --bg2: #bfe3ff;
+    --bg3: #eaf6ff;
 }
 
-/* 📱 خلفية الصفحة */
-[data-testid="stAppViewContainer"]{
-    background:#eef2f7;
+/* 📱 جعل الخلفية تمتد لتغطية الشاشة بالكامل وتوسيط المحتوى */
+[data-testid="stAppViewContainer"] {
+    background: #eef2f7;
 }
 
-/* 📦 الكارد الرئيسي */
-.block-container{
-    max-width:420px;
-    margin:auto;
-    padding:25px 30px;
-    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius:42px;
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
-}
-
-/* 💊 تصميم الكبسولة (المستطيل الأبيض الطويل) */
-.capsule-box {
-    background: white;
-    border-radius: 100px; /* تجعل الحواف دائرية تماماً كالكبسولة */
-    padding: 18px 25px;
-    margin-bottom: 15px;
+/* 📦 الكارد الرئيسي مع توسيطه في منتصف الشاشة */
+.block-container {
+    max-width: 450px !important;
+    margin: auto !important;
+    padding: 30px !important;
+    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+    border-radius: 42px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    
+    /* توسيط المحتوى داخلياً */
     display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    width: 100%;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.icon-style {
-    font-size: 20px;
+/* تحسين شكل النصوص داخل المكون */
+h2 {
     color: var(--navy);
-}
-
-.text-style {
-    font-weight: bold;
-    color: var(--navy);
-    font-size: 16px;
+    font-weight: 900;
+    text-align: center;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# دمج الـ HTML مع الـ CSS الجديد لضمان الشكل
+# 3. محتوى الصفحة (HTML/JS) داخل كبسولة متوسطة
 components.html("""
 <!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: transparent; }
-        .wrapper { max-width: 380px; margin: auto; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: transparent;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
         
-        .header {
+        .main-wrapper {
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+
+        .header-container {
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
+            justify-content: center; /* توسيط الهيدر */
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .back-icon {
+            position: absolute;
+            left: 0;
+            font-size: 24px;
+            color: #0f2446;
+            text-decoration: none;
+        }
+
+        .title {
+            margin: 0;
+            font-weight: 900;
+            font-size: 28px;
             color: #0f2446;
         }
 
+        /* 💊 تصميم الكبسولة البيضاء الطويلة */
         .capsule {
             background: white;
-            border-radius: 100px; /* سر شكل الكبسولة */
-            padding: 15px 25px;
-            margin-bottom: 15px;
+            border-radius: 100px;
+            padding: 18px 25px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .capsule:hover {
+            transform: translateY(-3px);
         }
 
         .icon {
             margin-right: 15px;
             color: #0f2446;
-            font-size: 18px;
+            font-size: 20px;
             display: flex;
             align-items: center;
         }
@@ -92,17 +117,16 @@ components.html("""
         .text {
             color: #0f2446;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 16px;
         }
-        
-        a { text-decoration: none; color: inherit; }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="header">
-            <a href="#" style="font-size: 24px; margin-right: 15px;"><i class="fas fa-arrow-left"></i></a>
-            <h2 style="margin: 0; font-weight: 900;">Contact Us</h2>
+    <div class="main-wrapper">
+        <!-- الهيدر مع السهم على اليسار والعنوان في المنتصف -->
+        <div class="header-container">
+            <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+            <h2 class="title">Contact Us</h2>
         </div>
 
         <!-- كبسولة الإيميل -->
@@ -119,4 +143,4 @@ components.html("""
     </div>
 </body>
 </html>
-""", height=400)
+""", height=500)
