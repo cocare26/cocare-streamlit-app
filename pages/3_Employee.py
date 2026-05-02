@@ -336,35 +336,7 @@ employee.addEventListener("click", () => {
     </div>
 </div>
 
-<div class="nav">
 
-    <!-- Home -->
-    <form action="/" method="get" target="_top">
-        <input type="hidden" name="page" value="employee">
-        <button class="active-nav">
-            <span>⌂</span>
-            Home
-        </button>
-    </form>
-
-    <!-- Logout -->
-    <form action="/" method="get" target="_top">
-        <button>
-            <span>⇥</span>
-            Logout
-        </button>
-    </form>
-
-    <!-- To Do -->
-    <form action="/" method="get" target="_top">
-        <input type="hidden" name="page" value="todo">
-        <button>
-            <span>☑</span>
-            To Do List
-        </button>
-    </form>
-
-</div>
 </div>
 
 <script>
@@ -381,3 +353,36 @@ function updateRegion(){
 </body>
 </html>
 """, height=820)
+st.markdown("""
+<style>
+div[data-testid="column"] .stButton > button {
+    width: 100%;
+    height: 62px;
+    border-radius: 18px;
+    border: none;
+    background: white;
+    color: #111827;
+    font-weight: 900;
+    box-shadow: 0 3px 10px rgba(0,0,0,.08);
+}
+
+div[data-testid="column"]:first-child .stButton > button {
+    background: #eef6ff;
+    color: #2f80ed;
+}
+</style>
+""", unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    if st.button("⌂\nHome"):
+        st.switch_page("pages/3_Employee.py")
+
+with col2:
+    if st.button("⇥\nLogout"):
+        st.switch_page("app.py")
+
+with col3:
+    if st.button("☑\nTo Do List"):
+        st.switch_page("pages/4_To_Do.py")
