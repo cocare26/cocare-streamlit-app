@@ -51,7 +51,7 @@ components.html("""
             max-width: 380px;
             display: flex;
             flex-direction: column;
-            height: 440px; /* تحديد ارتفاع مناسب للتحكم في مكان العناصر */
+            height: 480px;
         }
 
         .header-container {
@@ -109,9 +109,20 @@ components.html("""
             margin-left: 10px;
         }
 
-        /* 🔘 بوكس زر الحفظ الأبيض في الأسفل */
+        /* 📝 نص ريبورت باسورد */
+        .report-text {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* 🔘 بوكس زر الحفظ الأبيض */
         .save-btn-container {
-            margin-top: auto; /* يدفع الزر إلى أقصى الأسفل */
+            margin-top: auto;
             display: flex;
             justify-content: center;
             padding-bottom: 10px;
@@ -127,7 +138,6 @@ components.html("""
             cursor: pointer;
             transition: 0.3s;
             border: none;
-            display: block;
         }
 
         .save-box span {
@@ -144,13 +154,11 @@ components.html("""
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- الرأس -->
         <div class="header-container">
             <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
             <h2 class="title">Change Password</h2>
         </div>
 
-        <!-- الحقول -->
         <div class="input-capsule">
             <i class="fas fa-lock field-icon"></i>
             <input type="password" placeholder="Current Password">
@@ -169,7 +177,11 @@ components.html("""
             <i class="fas fa-eye-slash toggle-eye"></i>
         </div>
 
-        <!-- بوكس السيف الأبيض (تحت تحت) -->
+        <!-- نص ريبورت باسورد بدون بوكس وفي المنتصف -->
+        <div class="report-text">
+            Report Password
+        </div>
+
         <div class="save-btn-container">
             <button class="save-box" onclick="alert('Password Saved!')">
                 <span>Save</span>
@@ -178,4 +190,4 @@ components.html("""
     </div>
 </body>
 </html>
-""", height=500)
+""", height=520)
