@@ -35,15 +35,14 @@ header, footer {visibility:hidden;}
 .robot{
     position:absolute;
 
-    top:135px;     /* أهم سطر — هذا يخليه يقعد على أول بوكس */
-    right:25px;
+    top:140px;          /* مستوى بوكس الفون */
+    right:0;            /* أقصى اليمين */
 
     width:130px;
     z-index:5;
 
-    transform: translateY(-30%);
+    transform: translateY(-35%);
 }
-
 .spacer {
     height:150px;
 }
