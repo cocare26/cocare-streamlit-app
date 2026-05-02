@@ -104,7 +104,7 @@ st.markdown(
 )
 
 if st.button("Sign in"):
-    st.switch_page("app.py")
+    st.switch_page("app")
 
 username = st.text_input("Username")
 
