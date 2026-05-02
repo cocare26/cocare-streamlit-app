@@ -102,6 +102,7 @@ div.stButton:nth-of-type(1) > button{
     color: var(--navy);
     resize: none;
     margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 .send-report-button {
     width: 100%;
@@ -131,11 +132,12 @@ components.html("""
 <html>
 <head>
     <title>Report a Problem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="block-container">
         <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;">←</a>
+            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;"><i class="fas fa-arrow-left"></i></a>
             <h3 style="margin: 0;">Report a Problem</h3>
         </div>
 
@@ -143,7 +145,7 @@ components.html("""
 
         <button class="send-report-button" onclick="alert(\'Report Sent!\')">
             <span>Send Report</span>
-            <span>✉️</span>
+            <span style="font-size: 18px;"><i class="fas fa-paper-plane"></i></span>
         </button>
     </div>
 </body>
