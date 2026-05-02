@@ -1,94 +1,105 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-html = """
+st.markdown("""
 <style>
-body {
+.stApp {
     background: linear-gradient(135deg, #dceff7, #cce6ef, #e8f6fa);
-    font-family: Arial;
 }
 
 .settings-box {
     width: 400px;
     margin: 0 auto;
-    padding: 22px;
+    padding: 20px;
     background: rgba(160, 195, 195, 0.55);
+    border-radius: 6px;
 }
 
 .header {
     position: relative;
-    height: 48px;
-    margin-bottom: 18px;
+    height: 40px;
+    margin-bottom: 15px;
 }
 
 .back {
     position: absolute;
     left: 0;
-    font-size: 34px;
+    font-size: 30px;
     color: black;
 }
 
 .title {
     position: absolute;
-    left: 72px;
-    font-size: 30px;
+    left: 90px;
+    top: -5px;
+    font-size: 28px;
     font-weight: 800;
     color: black;
 }
 
 .item {
-    height: 58px;
+    height: 55px;
     background: #f7f3e8;
     border-radius: 35px;
-    margin: 13px 0;
+    margin: 12px 0;
     display: grid;
-    grid-template-columns: 58px 1fr 25px;
+    grid-template-columns: 55px 1fr 25px;
     align-items: center;
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.08),
+        0 8px 20px rgba(0,0,0,0.10);
 }
 
 .icon {
-    font-size: 27px;
+    font-size: 24px;
     text-align: center;
 }
 
 .label {
-    font-size: 21px;
+    font-size: 18px;
     font-weight: 800;
     color: black;
     text-align: right;
+    padding-right: 4px;
 }
 
 .arrow {
+    font-size: 22px;
     color: white;
     text-align: center;
-    font-size: 24px;
 }
 
 .bottom-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 5px;
+    gap: 6px;
+    margin-top: 6px;
 }
 
 .small-item {
-    height: 62px;
+    height: 60px;
     background: #f7f3e8;
     border-radius: 35px;
     display: grid;
-    grid-template-columns: 42px 1fr 18px;
+    grid-template-columns: 35px 1fr 20px;
     align-items: center;
+    box-shadow: 
+        0 4px 8px rgba(0,0,0,0.08),
+        0 8px 20px rgba(0,0,0,0.10);
 }
 
 .small-label {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 800;
     color: black;
-    text-align: right;
+    text-align: left;
+    line-height: 18px;
 }
 </style>
+""", unsafe_allow_html=True)
 
+st.markdown("""
 <div class="settings-box">
 
     <div class="header">
@@ -135,6 +146,4 @@ body {
     </div>
 
 </div>
-"""
-
-components.html(html, height=600)
+""", unsafe_allow_html=True)
