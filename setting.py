@@ -10,38 +10,38 @@ st.markdown("""
         background-color: #cbdbe5;
     }
 
-    /* تركيز المحتوى في المنتصف مثل واجهة الهاتف */
+    /* تركيز المحتوى في المنتصف */
     .block-container {
         max-width: 500px !important;
         padding-top: 40px !important;
     }
 
-    /* تصميم الأزرار (شكل الكبسولة) */
+    /* تصميم الأزرار - زيادة الارتفاع هنا */
     .stButton > button {
         background-color: #f8f9fa !important;
         color: #333333 !important; 
         border-radius: 50px !important; 
         border: none !important;
         width: 100% !important;
-        height: 60px !important;
-        font-size: 18px !important;
+        height: 85px !important; /* تم زيادة الطول من 60 إلى 85 */
+        font-size: 20px !important; /* تكبير الخط قليلاً ليتناسب مع الطول */
         font-weight: 700 !important;
-        margin-bottom: 12px !important;
+        margin-bottom: 15px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: flex-start !important;
-        padding-left: 20px !important;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+        padding-left: 25px !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.08) !important;
     }
 
-    /* موازنة النص في المنتصف مع وجود الإيموجي يساراً */
+    /* موازنة النص في المنتصف */
     .stButton > button div p {
         width: 100%;
         text-align: center !important;
-        margin-right: 30px !important; 
+        margin-right: 35px !important; 
     }
 
-    /* تنسيق السطر الأخير (الأعمدة) */
+    /* تنسيق السطر الأخير */
     [data-testid="column"] {
         padding: 0 5px !important;
     }
@@ -60,21 +60,21 @@ def nav(page_name):
 
 # 4. عرض الصفحات
 if st.session_state.page == 'main':
-    # الهيدر: السهم وكلمة Settings باللون الأسود الصريح
+    # الهيدر: السهم وكلمة Settings باللون الأسود
     st.markdown("""
-        <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 35px;">
-            <div style="position: absolute; left: 10px; font-size: 28px; font-weight: 900; color: #000000; cursor: pointer;"> < </div>
-            <h1 style="color: #000000; font-size: 32px; font-weight: bold; margin: 0; text-align: center;">Settings</h1>
+        <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 40px;">
+            <div style="position: absolute; left: 10px; font-size: 32px; font-weight: 900; color: #000000; cursor: pointer;"> < </div>
+            <h1 style="color: #000000; font-size: 35px; font-weight: bold; margin: 0; text-align: center;">Settings</h1>
         </div>
     """, unsafe_allow_html=True)
     
-    # قائمة الخيارات بتصميم الكبسولة
+    # قائمة الخيارات الطويلة
     if st.button("🔒               Change Password"): nav('password')
     if st.button("🌐               Change Language"): nav('language')
     if st.button("⭐                       Rate App"): nav('rate')
     if st.button("🚪                       Log Out"): st.write("Logged Out!")
     
-    # السطر الأخير
+    # السطر الأخير (Report و Contact)
     col1, col2 = st.columns(2)
     with col1:
         if st.button("⚠️   Report a Problem"): nav('report')
