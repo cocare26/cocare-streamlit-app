@@ -1,104 +1,135 @@
 import streamlit as st
 
-# إعدادات الصفحة
-st.set_page_config(page_title="Settings UI", layout="centered")
+st.set_page_config(page_title="Settings", layout="wide")
 
-# دمج كود الـ CSS داخل Streamlit بشكل صحيح لتجنب خطأ SyntaxError
+st.write("")
+
 st.markdown("""
-    <style>
-    /* تغيير خلفية التطبيق كاملة */
-    .stApp {
-        background-color: #cbdbe5;
-    }
+<style>
+.stApp {
+    background: linear-gradient(135deg, #dceff7, #cce6ef, #e8f6fa);
+}
 
-    /* تنسيق الحاوية الرئيسية لتشبه الحاويات في الصورة */
-    .main-container {
-        background-color: rgba(255, 255, 255, 0.3);
-        border-radius: 30px;
-        padding: 30px;
-        text-align: center;
-        backdrop-filter: blur(10px);
-    }
+.settings-box {
+    width: 400px;
+    margin: 0 auto;
+    padding: 22px;
+    background: rgba(160, 195, 195, 0.55);
+    border-radius: 6px;
+}
 
-    /* تنسيق الأزرار البيضاء */
-    .stButton > button {
-        background-color: white !important;
-        color: #4a4a4a !important;
-        border-radius: 20px !important;
-        border: none !important;
-        width: 100% !important;
-        height: 50px !important;
-        font-size: 16px !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
-        margin-bottom: 10px !important;
-    }
+.header {
+    position: relative;
+    height: 48px;
+    margin-bottom: 18px;
+}
 
-    /* تنسيق خانات الإدخال */
-    .stTextInput > div > div > input {
-        border-radius: 15px !important;
-        border: none !important;
-        padding: 12px !important;
-    }
-    
-    /* تنسيق مربع النص في البلاغات */
-    .stTextArea > div > div > textarea {
-        background-color: #fef8e8 !important;
-        border-radius: 20px !important;
-        border: none !important;
-    }
-    </style>
+.back {
+    position: absolute;
+    left: 0;
+    font-size: 34px;
+    color: #000;
+}
+
+.title {
+    position: absolute;
+    left: 70px;
+    font-size: 30px;
+    font-weight: 800;
+    color: #000;
+}
+
+.item {
+    height: 58px;
+    background: #f7f3e8;
+    border-radius: 35px;
+    margin: 13px 0;
+    display: grid;
+    grid-template-columns: 58px 1fr 25px;
+    align-items: center;
+}
+
+.icon {
+    font-size: 26px;
+    text-align: center;
+}
+
+.label {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: right;
+    color: #000;
+}
+
+.arrow {
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+}
+
+.bottom-row {
+    display: flex;
+    gap: 5px;
+}
+
+.small-item {
+    flex: 1;
+    background: #f7f3e8;
+    border-radius: 35px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 40px 1fr 20px;
+    align-items: center;
+}
+</style>
+""", unsafe_allow_html=True)
+
+with st.container():
+    st.markdown("""
+    <div class="settings-box">
+
+        <div class="header">
+            <div class="back">‹</div>
+            <div class="title">Settings</div>
+        </div>
+
+        <div class="item">
+            <div class="icon">🔒</div>
+            <div class="label">Change Password</div>
+            <div class="arrow">›</div>
+        </div>
+
+        <div class="item">
+            <div class="icon">🌐</div>
+            <div class="label">Change Language</div>
+            <div class="arrow">›</div>
+        </div>
+
+        <div class="item">
+            <div class="icon">⭐</div>
+            <div class="label">Rate App</div>
+            <div class="arrow">›</div>
+        </div>
+
+        <div class="item">
+            <div class="icon">🚪</div>
+            <div class="label">Log Out</div>
+            <div class="arrow">›</div>
+        </div>
+
+        <div class="bottom-row">
+            <div class="small-item">
+                <div class="icon">⚠️</div>
+                <div class="label">Report a<br>Problem</div>
+                <div class="arrow">›</div>
+            </div>
+
+            <div class="small-item">
+                <div class="icon">✉️</div>
+                <div class="label">Contact Us</div>
+                <div class="arrow">›</div>
+            </div>
+        </div>
+
+    </div>
     """, unsafe_allow_html=True)
-
-# إدارة التنقل بين الشاشات باستخدام Session State
-if 'page' not in st.session_state:
-    st.session_state.page = 'main'
-
-def nav(page_name):
-    st.session_state.page = page_name
-
-# --- الشاشة الرئيسية ---
-if st.session_state.page == 'main':
-    st.markdown("<h2 style='text-align: center; color: #4a4a4a;'>Settings</h2>", unsafe_allow_html=True)
-    
-    if st.button("🔒 Change Password"): nav('password')
-    if st.button("🌐 Change Language"): nav('language')
-    if st.button("⭐ Rate App"): nav('rate')
-    if st.button("🚪 Log Out"): st.write("Logged Out!")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("⚠️ Report"): nav('report')
-    with col2:
-        if st.button("✉️ Contact"): nav('contact')
-
-# --- شاشة تغيير كلمة المرور ---
-elif st.session_state.page == 'password':
-    if st.button("← Back"): nav('main')
-    st.markdown("<h3>Change Password</h3>", unsafe_allow_html=True)
-    st.text_input("Current Password", type="password")
-    st.text_input("New Password", type="password")
-    st.text_input("Re-write New Password", type="password")
-    if st.button("Save"): nav('main')
-
-# --- شاشة اللغة ---
-elif st.session_state.page == 'language':
-    if st.button("← Back"): nav('main')
-    st.markdown("<h3>Change Language</h3>", unsafe_allow_html=True)
-    st.button("English (Active)")
-    st.button("العربية")
-
-# --- شاشة البلاغات ---
-elif st.session_state.page == 'report':
-    if st.button("← Back"): nav('main')
-    st.markdown("<h3>Report a Problem</h3>", unsafe_allow_html=True)
-    st.text_area("Message", value="I need help...")
-    if st.button("Send Report"):
-        st.success("Report Sent!")
-        nav('main')
-
-# --- شاشة التواصل ---
-elif st.session_state.page == 'contact':
-    if st.button("← Back"): nav('main')
-    st.markdown("<h3>Contact Us</h3>", unsafe_allow_html=True)
-    st.info("📧 Email: Co.Care26@gmail.com")
-    st.info("📞 Phone: +962 79 123 4657")
