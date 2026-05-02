@@ -32,13 +32,15 @@ st.markdown("""
 
 header, footer {visibility:hidden;}
 
-.robot {
+.robot{
     position:absolute;
-    top:105px;
-    right:42px;
-    width:145px;
+    top:150px;      /* نزّلناه شوي */
+    right:30px;     /* قرّبناه من اليمين */
+    width:130px;    /* صغرناه شوي ليزبط */
     z-index:5;
-    filter:drop-shadow(0 8px 12px rgba(0,0,0,.18));
+
+    /* ✨ يخليه يقعد على البوكس */
+    transform: translateY(-20%);
 }
 
 .spacer {
