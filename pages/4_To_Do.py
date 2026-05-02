@@ -5,44 +5,9 @@ st.set_page_config(page_title="To-Do List", layout="centered")
 
 st.markdown("""
 <style>
-
-/* 🎨 ألوان */
-:root{
-    --navy:#0f2446;
-    --accent:#2f80ed;
-}
-
-/* الخلفية */
-[data-testid="stAppViewContainer"] {
-    background:#eef2f7;
-}
-
-/* الكارد */
-.block-container {
-    padding-top:10px;
-    max-width:520px;
-}
-
+[data-testid="stAppViewContainer"] { background:#eef2f7; }
+.block-container { padding-top:10px; max-width:520px; }
 header, footer { visibility:hidden; }
-
-/* أزرار تحت */
-div.stButton > button {
-    width: 100%;
-    height: 45px;
-    border-radius: 20px;
-    border: none;
-    background: linear-gradient(90deg,#2f80ed,#1c6fa4);
-    color: white;
-    font-weight: 900;
-    transition:.2s;
-}
-
-div.stButton > button:hover {
-    transform: translateY(-2px);
-}
-
-/* ===== HTML DESIGN ===== */
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -51,7 +16,6 @@ components.html("""
 <html>
 <head>
 <style>
-
 :root{
  --navy:#0f2446;
  --accent:#2f80ed;
@@ -62,7 +26,7 @@ body{margin:0;background:transparent}
 
 .phone{
  width:400px;
- height:720px;
+ height:790px;
  margin:auto;
  background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
  border-radius:42px;
@@ -73,12 +37,11 @@ body{margin:0;background:transparent}
 }
 
 .page{
- height:680px;
+ height:690px;
  overflow-y:auto;
- padding-bottom:20px;
+ padding-bottom:90px;
 }
 
-/* عنوان */
 .todo-title{
  text-align:center;
  font-size:20px;
@@ -87,7 +50,6 @@ body{margin:0;background:transparent}
  color:var(--navy);
 }
 
-/* input بدون حواف */
 .task-input{
  width:100%;
  padding:12px;
@@ -98,7 +60,6 @@ body{margin:0;background:transparent}
  background:white;
 }
 
-/* grid */
 .todo-grid{
  display:grid;
  grid-template-columns:1fr 1fr;
@@ -106,7 +67,6 @@ body{margin:0;background:transparent}
  margin-bottom:10px;
 }
 
-/* select + inputs */
 .todo-grid select,
 .todo-grid input{
  width:100%;
@@ -118,7 +78,6 @@ body{margin:0;background:transparent}
  font-size:12px;
 }
 
-/* buttons */
 .add-btn,
 .hidden-toggle-btn{
  width:100%;
@@ -146,7 +105,6 @@ body{margin:0;background:transparent}
  transform:translateY(-2px);
 }
 
-/* empty */
 .empty{
  text-align:center;
  margin-top:80px;
@@ -166,7 +124,13 @@ body{margin:0;background:transparent}
  font-size:32px;
 }
 
-/* task cards */
+.section-title{
+ font-size:14px;
+ font-weight:900;
+ margin:14px 0 8px;
+ color:var(--navy);
+}
+
 .task-card{
  background:white;
  border-radius:16px;
@@ -181,7 +145,6 @@ body{margin:0;background:transparent}
  transform:translateY(-3px);
 }
 
-/* hidden */
 .hidden-card{
  opacity:.6;
  background:#f8fafc;
@@ -191,9 +154,9 @@ body{margin:0;background:transparent}
  font-weight:900;
  font-size:14px;
  margin-bottom:5px;
+ color:var(--navy);
 }
 
-/* badges */
 .badges{
  display:flex;
  flex-wrap:wrap;
@@ -215,7 +178,6 @@ body{margin:0;background:transparent}
 .pending{background:#fee2e2}
 .progress{background:#e0e7ff}
 
-/* actions */
 .task-actions{
  display:flex;
  gap:6px;
@@ -237,6 +199,61 @@ body{margin:0;background:transparent}
 
 #hiddenSection{display:none;}
 
+/* Bottom Nav */
+.nav{
+ position:absolute;
+ bottom:0;
+ left:18px;
+ right:18px;
+ height:76px;
+ border-top:1px solid #e5e7eb;
+ background:rgba(255,255,255,.9);
+ backdrop-filter:blur(10px);
+ display:flex;
+ justify-content:space-around;
+ align-items:center;
+ border-radius:0 0 32px 32px;
+}
+
+.nav form{
+ margin:0;
+ width:32%;
+}
+
+.nav button{
+ width:100%;
+ background:transparent;
+ border:none;
+ font-weight:900;
+ font-size:13px;
+ cursor:pointer;
+ color:#111827;
+ padding:6px 0;
+ border-radius:16px;
+ transition:.25s;
+}
+
+.nav button:hover{
+ background:#eef6ff;
+ color:var(--accent);
+ transform:translateY(-3px);
+}
+
+.nav span{
+ display:block;
+ font-size:25px;
+ color:#376f91;
+ margin-bottom:2px;
+}
+
+.nav button:hover span{
+ color:var(--accent);
+}
+
+.nav .active-nav{
+ color:var(--accent);
+ background:#eef6ff;
+}
 </style>
 </head>
 
@@ -284,10 +301,25 @@ body{margin:0;background:transparent}
     </div>
 </div>
 
+<div class="nav">
+    <form action="/" method="get" target="_top">
+        <input type="hidden" name="page" value="employee">
+        <button type="submit"><span>⌂</span>Home</button>
+    </form>
+
+    <form action="/" method="get" target="_top">
+        <button type="submit"><span>⇥</span>Logout</button>
+    </form>
+
+    <form action="/" method="get" target="_top">
+        <input type="hidden" name="page" value="todo">
+        <button type="submit" class="active-nav"><span>☑</span>To Do List</button>
+    </form>
+</div>
+
 </div>
 
 <script>
-// نفس الكود تبعك بدون تغيير
 function addTask(){
     const task = document.getElementById("taskInput").value.trim();
     const date = document.getElementById("taskDate").value;
@@ -366,7 +398,9 @@ function deleteTask(btn){
 
 function toggleHiddenSection(){
     const section = document.getElementById("hiddenSection");
-    section.style.display = section.style.display === "none" ? "block" : "none";
+    section.style.display = section.style.display === "none" || section.style.display === ""
+        ? "block"
+        : "none";
 }
 
 function checkEmpty(){
@@ -380,19 +414,4 @@ function checkEmpty(){
 
 </body>
 </html>
-""", height=750)
-
-# Navigation buttons
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    if st.button("⌂ Home"):
-        st.switch_page("pages/3_Employee.py")
-
-with col2:
-    if st.button("⇥ Logout"):
-        st.switch_page("app.py")
-
-with col3:
-    if st.button("☑ To Do List"):
-        st.switch_page("pages/4_To_Do.py")
+""", height=820)
