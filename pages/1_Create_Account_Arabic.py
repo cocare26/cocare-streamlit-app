@@ -65,21 +65,20 @@ div[data-testid="stTextInput"] input {
     box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
 
-div[data-testid="stTextInput"] input:focus {
-    box-shadow: 0 8px 18px rgba(47,128,237,.22) !important;
+/* الحركة على الحاوية فقط */
+div[data-testid="stTextInput"] > div,
+div[data-testid="stSelectbox"] > div {
+    transition: all .25s ease;
 }
 
-div[data-testid="stSelectbox"] div {
-    border-radius: 25px;
+div[data-testid="stTextInput"]:hover > div,
+div[data-testid="stSelectbox"]:hover > div {
+    transform: translateY(-3px);
 }
 
-div[data-testid="stHorizontalBlock"] .stButton > button {
-    width: 70px !important;
-    height: 34px !important;
-    font-size: 12px !important;
-    border-radius: 20px !important;
-    background: linear-gradient(90deg,#2f80ed,#1c6fa4);
-    color: white;
+div[data-testid="stTextInput"]:focus-within > div,
+div[data-testid="stSelectbox"]:focus-within > div {
+    transform: scale(1.02);
 }
 
 div.stButton > button {
