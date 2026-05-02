@@ -106,9 +106,24 @@ function goPage(p){
     window.top.location.href = "/?page=" + p;
 }
 
-function login(){
-    goPage("employee");
+<form action="/" method="get" target="_top" onsubmit="return validateLogin()">
+    <input type="hidden" name="page" value="employee">
+    <button class="login" type="submit">Log In ›</button>
+</form>
+
+<script>
+function validateLogin(){
+    const v = document.getElementById("username").value;
+    const e = document.getElementById("error");
+
+    if(/^[0-9]{11}$/.test(v)){
+        return true;
+    } else {
+        e.innerText = "Enter valid ID: 11 digits";
+        return false;
+    }
 }
+</script>
 </script>
 </body>
 </html>
