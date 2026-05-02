@@ -3,14 +3,14 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="wide") 
 
-# 2. تنسيق الـ CSS
+# 2. تنسيق الـ CSS المتقدم
 st.markdown("""
     <style>
     .stApp {
         background-color: #cbdbe5;
     }
 
-    /* إلغاء الهوامش الجانبية تماماً */
+    /* إلغاء الهوامش الجانبية تماماً ليمتد البوكس للحواف */
     .block-container {
         max-width: 100% !important;
         padding-left: 0px !important;
@@ -18,31 +18,44 @@ st.markdown("""
         margin: 0px !important;
     }
 
-    /* تنسيق الأزرار (أشرطة كاملة العرض) */
+    /* تنسيق الزر ليكون صندوق مرن (Flexbox) */
     .stButton > button {
         background-color: white !important;
         color: #000000 !important; 
         border-radius: 0px !important; 
         border: none !important;
         width: 100% !important;
-        height: 70px !important;
-        font-size: 18px !important;
+        height: 75px !important;
+        font-size: 20px !important;
         font-weight: bold !important;
         box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
         margin-bottom: 2px !important; 
-        display: flex;
-        justify-content: space-between; 
-        padding: 0 20px !important;
+        
+        /* جعل المحتوى يتوزع بين الطرفين */
+        display: flex !important;
+        flex-direction: row !important; /* ترتيب أفقي */
+        justify-content: space-between !important; /* دفع العناصر للأطراف */
+        align-items: center !important;
+        padding: 0 30px !important;
     }
 
-    /* تنسيق خاص للأعمدة لتقليل الفراغ بين الزرين */
+    /* التأكد من أن النص يذهب لليمين */
+    .stButton > button div p {
+        width: 100%;
+        text-align: right !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row-reverse; /* عكس الترتيب ليكون الإيموجي يسار والنص يمين */
+    }
+
+    /* تنسيق الأعمدة للسطر الأخير */
     [data-testid="column"] {
         padding-left: 0px !important;
         padding-right: 0px !important;
     }
-
     [data-testid="stHorizontalBlock"] {
-        gap: 2px !important; /* مسافة بسيطة جداً بين زر ريبورت وكونتاكت */
+        gap: 2px !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -68,28 +81,29 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # القائمة العلوية (أزرار تحت بعض)
-    if st.button("🔒 Change Password                                                                                                             >"): nav('password')
-    if st.button("🌐 Change Language                                                                                                           >"): nav('language')
-    if st.button("⭐ Rate App                                                                                                                     >"): nav('rate')
-    if st.button("🚪 Log Out                                                                                                                       >"): st.write("Logged Out!")
+    # القائمة الرئيسية (الإيموجي يسار - النص يمين - السهم يمين)
+    # ملاحظة: تم ترتيب النص داخل الزر بحيث يظهر الإيموجي أولاً (يسار) ثم النص (يمين)
+    if st.button("🔒                                                                                       Change Password >"): nav('password')
+    if st.button("🌐                                                                                       Change Language >"): nav('language')
+    if st.button("⭐                                                                                                     Rate App >"): nav('rate')
+    if st.button("🚪                                                                                                       Log Out >"): st.write("Logged Out!")
     
-    # وضع Report a Problem و Contact Us في نفس السطر
+    # السطر الأخير (قسمين متساويين)
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("⚠️ Report a Problem   >"): nav('report')
+        if st.button("⚠️       Report a Problem >"): nav('report')
     with col2:
-        if st.button("✉️ Contact Us   >"): nav('contact')
+        if st.button("✉️               Contact Us >"): nav('contact')
 
 # --- الشاشات الفرعية ---
 elif st.session_state.page == 'password':
     if st.button("< Back"): nav('main')
-    st.markdown("<h3 style='padding:20px;'>Change Password</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='padding:20px; color: black; text-align: right;'>Change Password</h3>", unsafe_allow_html=True)
 
 elif st.session_state.page == 'report':
     if st.button("< Back"): nav('main')
-    st.markdown("<h3 style='padding:20px;'>Report a Problem</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='padding:20px; color: black; text-align: right;'>Report a Problem</h3>", unsafe_allow_html=True)
 
 elif st.session_state.page == 'contact':
     if st.button("< Back"): nav('main')
-    st.markdown("<h3 style='padding:20px;'>Contact Us</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='padding:20px; color: black; text-align: right;'>Contact Us</h3>", unsafe_allow_html=True)
