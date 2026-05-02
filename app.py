@@ -42,22 +42,23 @@ st.markdown("""
 header, footer {visibility:hidden;}
 
 /* البوت */
+/* البوت */
 .robot{
-    width:140px;
+    width:135px;
     position:relative;
-    top:70px;      /* ينزل لحد ما “يقعد” على الحافة */
-    left:75px;     /* تمركزه فوق البوكس */
+    top:75px;        /* ينزل ليقعد على الحافة */
+    left:140px;      /* يروح للطرف اليمين */
     z-index:3;
 }
 
-/* حاوية الإدخال */
+/* بوكس الإدخال */
 .stTextInput{
     position:relative;
-    margin-top:-45px;  /* ترفع البوكس ليصير تحت البوت */
+    margin-top:-50px;   /* يرفع البوكس تحت البوت */
     z-index:1;
 }
 
-/* نخلي البوكس يبين كأنه تحت رجلي البوت */
+/* شكل البوكس */
 .stTextInput input{
     height:42px;
     border-radius:25px;
