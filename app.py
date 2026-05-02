@@ -30,77 +30,47 @@ st.markdown("""
     background:#eef3f6;
 }
 
-[data-testid="stAppViewContainer"]{
-    background:#e6eef5;
-}
-
-.block-container{
+.block-container {
     max-width:360px;
-    height:660px;
+    min-height:660px;
     margin:auto;
-    border-radius:40px;
-
-    /* 🔥 الخلفية الزجاجية */
-    background: linear-gradient(145deg,#cfe6f5,#9fbcd1);
-    box-shadow: 0 10px 25px rgba(0,0,0,.25);
-    
-    padding:90px 40px 40px 40px;
-    position:relative;
-    overflow:hidden;
+    border-radius:42px;
+    background:linear-gradient(180deg,#c9e7f7,#dff4ff);
+    padding:80px 50px 30px 50px;
 }
 
-/* 🤖 البوت */
-.robot{
-    width:150px;
-    position:absolute;
-    top:70px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:5;
+header, footer {visibility:hidden;}
+
+.robot {
+    width:145px;
+    display:block;
+    margin:auto;
+    margin-bottom:10px;
 }
 
-/* 📦 البوكسات */
-.stTextInput{
-    margin-bottom:14px;
-}
-
-.stTextInput input{
-    width:100%;
-    height:45px;
+.stTextInput input {
+    height:42px;
     border-radius:25px;
     border:none;
-    padding-left:20px;
-
-    background:#ffffff;
-    box-shadow:0 4px 12px rgba(0,0,0,.1);
-
-    font-size:14px;
+    padding-left:18px;
 }
 
-/* 🔘 زر اللوق ان */
-.stButton > button{
+.stButton > button {
     width:100%;
-    height:48px;
+    height:46px;
     border-radius:25px;
     border:none;
-
-    background:#ffffff;
+    background:white;
+    color:#111;
     font-weight:bold;
-    margin-top:10px;
 }
 
-/* 🔗 نص */
-.signup-text{
-    text-align:center;
-    font-size:13px;
-    margin-top:14px;
-}
-
-.small button{
+.small button {
     background:transparent !important;
-    color:#333 !important;
-    box-shadow:none !important;
+    height:25px !important;
+    color:#555 !important;
     font-size:12px !important;
+    box-shadow:none !important;
 }
 
 .signup-text {
