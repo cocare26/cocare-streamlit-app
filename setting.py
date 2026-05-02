@@ -24,7 +24,7 @@ st.markdown("""
     background: #eef2f7; 
 }
 
-/* البوكس الرئيسي مزاح لليمين وممتد */
+/* البوكس الرئيسي مزاح لليمين */
 .block-container {
     max-width: 80% !important; 
     margin-left: auto !important;  
@@ -35,7 +35,7 @@ st.markdown("""
     box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
 
-/* تصميم الأزرار: نحيفة جداً وتوزيع المحتوى لأقصى اليمين */
+/* تصميم الأزرار النحيفة */
 div.stButton > button {
     width: 100% !important;
     height: 55px !important; 
@@ -59,10 +59,17 @@ div.stButton > button:hover {
     box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 
-h1 {
-    color: var(--navy);
+/* تنسيق عنوان السيتنج (أسود ومزاح لليمين قليلاً) */
+.settings-header {
+    color: #000000 !important; 
     font-weight: 900;
+    font-size: 38px;
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+    padding-left: 50px; 
 }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -70,9 +77,9 @@ h1 {
 if st.session_state.page == 'main':
     # هيدر الصفحة
     st.markdown("""
-        <div style="display: flex; align-items: center; gap: 40px; margin-bottom: 50px; padding-left: 20px;">
-            <span style="font-size: 40px; font-weight: 900; color: #0f2446; cursor: pointer;">‹</span>
-            <h1 style="margin: 0; font-size: 38px; color: #0f2446;">Settings</h1>
+        <div style="display: flex; align-items: center; margin-bottom: 50px; padding-left: 20px;">
+            <span style="font-size: 40px; font-weight: 900; color: #000000; cursor: pointer;">‹</span>
+            <p class="settings-header">Settings</p>
         </div>
     """, unsafe_allow_html=True)
     
@@ -82,11 +89,11 @@ if st.session_state.page == 'main':
         if st.button(f"{emoji} {gap} {label} &nbsp;&nbsp; ›"):
             nav(page)
 
-    # أول زرين: تم تقليل المسافة لـ 130
+    # أول زرين: مسافة 130
     make_btn("🔒", "Change Password", "password", gap_size=130)
     make_btn("🌐", "Change Language", "language", gap_size=130)
     
-    # الزرين الأخيرين: بقيا على 145 كما هما
+    # الزرين الأخيرين: مسافة 145
     make_btn("⭐", "Rate App", "rate", gap_size=145)
     make_btn("🚪", "Log Out", "main", gap_size=145)
     
@@ -102,8 +109,8 @@ if st.session_state.page == 'main':
 # الشاشات الفرعية
 elif st.session_state.page == 'password':
     if st.button("‹ Back"): nav('main')
-    st.markdown("<h1 style='text-align:center;'>Change Password</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; color: black;'>Change Password</h1>", unsafe_allow_html=True)
 
 elif st.session_state.page == 'language':
     if st.button("‹ Back"): nav('main')
-    st.markdown("<h1 style='text-align:center;'>Change Language</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; color: black;'>Change Language</h1>", unsafe_allow_html=True)
