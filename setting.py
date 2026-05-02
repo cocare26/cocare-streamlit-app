@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS (الألوان + الإزاحة لليمين + نحافة الأزرار)
+# 3. تنسيق الـ CSS
 st.markdown("""
 <style>
 :root {
@@ -24,7 +24,7 @@ st.markdown("""
     background: #eef2f7; 
 }
 
-/* البوكس الرئيسي مزاح لليمين */
+/* البوكس الرئيسي */
 .block-container {
     max-width: 80% !important; 
     margin-left: auto !important;  
@@ -59,11 +59,11 @@ div.stButton > button:hover {
     box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 
-/* --- تعديل كلمة Settings فقط لتكون ضخمة جداً --- */
+/* --- تصغير كلمة Settings قليلاً بناءً على طلبك --- */
 .settings-header {
     color: #000000 !important; 
     font-weight: 900 !important;
-    font-size: 180px !important; /* تكبير الكلمة فقط */
+    font-size: 130px !important; /* تم التصغير من 180 إلى 130 */
     margin: 0 !important;
     flex-grow: 1;
     text-align: center;
@@ -71,9 +71,9 @@ div.stButton > button:hover {
     line-height: 1;
 }
 
-/* تكبير أيقونة السهم الجانبي لتناسب العنوان */
+/* تعديل سهم الرجوع ليناسب الحجم الجديد */
 .back-arrow {
-    font-size: 100px !important; 
+    font-size: 80px !important; 
     font-weight: 900 !important; 
     color: #000000 !important; 
 }
@@ -85,23 +85,21 @@ div.stButton > button:hover {
 if st.session_state.page == 'main':
     # هيدر الصفحة
     st.markdown("""
-        <div style="display: flex; align-items: center; margin-bottom: 80px; padding-left: 20px;">
+        <div style="display: flex; align-items: center; margin-bottom: 60px; padding-left: 20px;">
             <span class="back-arrow">‹</span>
             <p class="settings-header">Settings</p>
         </div>
     """, unsafe_allow_html=True)
     
-    # دالة بناء الأزرار بمسافات مرنة
+    # دالة بناء الأزرار
     def make_btn(emoji, label, page, gap_size):
         gap = "&nbsp;" * gap_size 
         if st.button(f"{emoji} {gap} {label} &nbsp;&nbsp; ›"):
             nav(page)
 
-    # أول زرين: مسافة 130
+    # الأزرار بالمسافات المطلوبة
     make_btn("🔒", "Change Password", "password", gap_size=130)
     make_btn("🌐", "Change Language", "language", gap_size=130)
-    
-    # الزرين الأخيرين: مسافة 145
     make_btn("⭐", "Rate App", "rate", gap_size=145)
     make_btn("🚪", "Log Out", "main", gap_size=145)
     
