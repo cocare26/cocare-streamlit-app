@@ -39,7 +39,7 @@ st.markdown("""
         font-weight: 900 !important;
         margin-bottom: 25px !important;
 
-        margin-left: 40px !important;  /* ⬅ زحلقنا لليمين */
+        margin-left: 120px !important;  /* ⬅ مزحلقين للنص */
 
         display: flex !important;
         align-items: center !important;
@@ -52,7 +52,7 @@ st.markdown("""
     .stButton > button div p {
         width: 100%;
         text-align: left !important;
-        margin-left: 400px !important; 
+        margin-left: 520px !important;  /* ⬅ مسافة أكبر */
     }
 
     /* السطر الأخير */
