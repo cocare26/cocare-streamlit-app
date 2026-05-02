@@ -76,11 +76,58 @@ header, footer {visibility:hidden;}
     font-size:12px !important;
 }
 
-.signup-text {
+.forgot,
+.signup{
     text-align:center;
+    width:100%;
+}
+
+.forgot a{
+    display:block;
+    width:100%;
+    height:42px;
+    line-height:42px;
+    border-radius:25px;
+    background:linear-gradient(90deg,#2f80ed,#1c6fa4);
+    color:white !important;
+    text-decoration:none !important;
+    font-weight:700;
+    box-shadow:0 6px 14px rgba(47,128,237,.25);
+}
+
+.login{
+    width:100%;
+    height:46px;
+    border-radius:25px;
+    background:linear-gradient(90deg,#2f80ed,#1c6fa4);
+    color:white;
+    text-align:center;
+    line-height:46px;
+    font-weight:bold;
+    border:none;
+    cursor:pointer;
+    box-shadow:0 6px 14px rgba(47,128,237,.25);
+    margin:10px 0 14px;
+}
+
+.signup{
     font-size:13px;
+    margin-top:0;
+    color:#0f2446;
+}
+
+.signup a{
+    display:block;
+    width:100%;
+    height:42px;
+    line-height:42px;
+    border-radius:25px;
     margin-top:10px;
-    
+    background:linear-gradient(90deg,#2f80ed,#1c6fa4);
+    color:white !important;
+    text-decoration:none !important;
+    font-weight:700;
+    box-shadow:0 6px 14px rgba(47,128,237,.25);
 }
 .input{
     width:100%;
@@ -122,7 +169,16 @@ password = st.text_input(
     label_visibility="collapsed",
     placeholder="Password"
 )
+<div class="forgot">
+    <a href="/?page=forgot" target="_top">Forgot Password?</a>
+</div>
 
+<button class="login" type="button" onclick="login()">Log In ›</button>
+
+<div class="signup">
+    👤 New User?
+    <a href="/?page=create" target="_top">Create Account</a>
+</div>
 st.markdown('<div class="small">', unsafe_allow_html=True)
 if st.button("Forgot Password?"):
     st.switch_page("pages/2_Forgot_Password.py")
