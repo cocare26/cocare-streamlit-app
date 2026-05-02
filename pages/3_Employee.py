@@ -16,6 +16,29 @@ components.html("""
 <html>
 <head>
 <style>
+/* ✨ كروت قابلة للضغط */
+.alert,
+.chart,
+.employee {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* hover */
+.alert:hover,
+.chart:hover,
+.employee:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,.15);
+}
+
+/* عند الضغط */
+.alert:active,
+.chart:active,
+.employee:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 10px rgba(0,0,0,.2);
+}
 :root{
  --navy:#0f2446;
  --navy-light:#2f4f7c;
@@ -170,7 +193,35 @@ body{margin:0;background:transparent}
 .nav .active-nav{color:var(--accent);background:#eef6ff}
 </style>
 </head>
+<script>
+const alerts = document.querySelectorAll(".alert");
 
+alerts.forEach((card, index) => {
+    card.addEventListener("click", () => {
+        if(index === 0){
+            alert("🚨 Problem selected");
+        } else if(index === 1){
+            alert("⚠️ Internal issue");
+        } else {
+            alert("🌐 External issue");
+        }
+    });
+});
+
+const charts = document.querySelectorAll(".chart");
+
+charts.forEach((c, i) => {
+    c.addEventListener("click", () => {
+        alert(i === 0 ? "Latency details 📊" : "Packet Loss details 📊");
+    });
+});
+
+const employee = document.querySelector(".employee");
+
+employee.addEventListener("click", () => {
+    alert("👨‍💼 Employee Details: Ahmed Ali");
+});
+</script>
 <body>
 <div class="phone">
 
