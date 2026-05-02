@@ -116,6 +116,21 @@ function login(){
     else{
         e.innerText = "Invalid phone or ID number";
     }
+    if st.button("Log In ›"):
+    user_value = user_value.strip()
+
+    # 🔥 نفس فكرة الصفحات الثانية (switch_page)
+    if (
+        user_value.isdigit()
+        and (
+            (len(user_value) == 10 and user_value.startswith("07"))  # phone
+            or len(user_value) == 11  # ID
+        )
+    ):
+        st.switch_page("pages/3_Employee.py")
+
+    else:
+        st.error("Invalid phone or ID number")
 }
 </script>
 </body>
