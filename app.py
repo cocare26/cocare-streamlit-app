@@ -15,6 +15,33 @@ elif page == "customer":
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
 
+elif page == "customer_support":
+    st.switch_page("pages/5_Customer_Support_Arabic.py")
+elif page == "network_diagnostics":
+    st.switch_page("pages/6_Network_Diagnostics_Arabic.py")
+elif page == "customer_management":
+    st.switch_page("pages/7_Customer_Management_Arabic.py")
+elif page == "employee_performance":
+    st.switch_page("pages/8_Employee_Performance_Arabic.py")
+elif page == "service_management":
+    st.switch_page("pages/9_Service_Management_Arabic.py")
+elif page == "settings":
+    st.switch_page("pages/10_Settings_Arabic.py")
+elif page == "notifications":
+    st.switch_page("pages/11_Notifications_Arabic.py")
+
+elif page == "settings":
+    st.switch_page("pages/Settings.py")
+elif page == "change_password":
+    st.switch_page("pages/Change_Password.py")
+elif page == "change_language":
+    st.switch_page("pages/Change_Language.py")
+elif page == "report_problem":
+    st.switch_page("pages/Report_Problem.py")
+elif page == "contact_us":
+    st.switch_page("pages/Contact_Us.py")
+elif page == "rate_app":
+    st.switch_page("pages/Rate_App.py")
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
 
