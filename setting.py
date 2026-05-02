@@ -59,21 +59,21 @@ div.stButton > button:hover {
     box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 
-/* --- تصغير كلمة Settings لتصل لـ 100 بكسل --- */
+/* --- تصغير كلمة Settings لتصل لـ 50 بكسل --- */
 .settings-header {
     color: #000000 !important; 
     font-weight: 900 !important;
-    font-size: 100px !important; /* الحجم الجديد */
+    font-size: 50px !important; /* الحجم الجديد المطلوب */
     margin: 0 !important;
     flex-grow: 1;
     text-align: center;
     padding-left: 50px; 
-    line-height: 1.1;
+    line-height: 1.2;
 }
 
-/* سهم الرجوع متناسب مع العنوان */
+/* سهم الرجوع متناسب مع العنوان الجديد */
 .back-arrow {
-    font-size: 70px !important; 
+    font-size: 40px !important; 
     font-weight: 900 !important; 
     color: #000000 !important; 
 }
@@ -85,7 +85,7 @@ div.stButton > button:hover {
 if st.session_state.page == 'main':
     # هيدر الصفحة
     st.markdown("""
-        <div style="display: flex; align-items: center; margin-bottom: 50px; padding-left: 20px;">
+        <div style="display: flex; align-items: center; margin-bottom: 30px; padding-left: 20px;">
             <span class="back-arrow">‹</span>
             <p class="settings-header">Settings</p>
         </div>
