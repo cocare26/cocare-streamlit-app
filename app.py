@@ -59,12 +59,19 @@ header, footer {visibility:hidden;}
 }
 
 /* شكل البوكس */
-.stTextInput input{
-    height:42px;
+.stTextInput input {
+    width:100%;
+    height:48px;
     border-radius:25px;
     border:none;
-    padding-left:18px;
-    box-shadow:0 6px 14px rgba(0,0,0,.15);
+    padding-left:20px;
+    background:#e9edf2;   /* لون فاتح مثل الصورة */
+    color:#333;
+    font-size:14px;
+
+    box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.05),
+        0 4px 10px rgba(0,0,0,0.08);
 }
 .stButton > button {
     width:100%;
