@@ -94,21 +94,25 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🔘 حاوية الزر في الأسفل */
+        /* 🎨 تنسيق لون النص التوضيحي (رمادي) */
+        .report-textarea::placeholder {
+            color: #888888; /* لون رمادي */
+            opacity: 1; 
+        }
+
         .btn-container {
             margin-top: auto;
             padding-bottom: 10px;
         }
 
-        /* الزر عريض مع توزيع المحتوى */
         .send-btn {
             background: white;
             border-radius: 100px;
-            width: 100%; /* العرض كامل */
+            width: 100%;
             padding: 12px 25px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* نص يمين وأيقونة يسار مع مسافة قصوى */
+            justify-content: space-between;
             cursor: pointer;
             border: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -125,13 +129,13 @@ components.html("""
             color: #0f2446;
             font-weight: bold;
             font-size: 16px;
-            order: 2; /* وضع النص في اليمين */
+            order: 2;
         }
 
         .send-btn i {
             color: #0f2446;
             font-size: 18px;
-            order: 1; /* وضع الأيقونة في اليسار */
+            order: 1;
         }
     </style>
 </head>
@@ -142,9 +146,9 @@ components.html("""
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <textarea class="report-textarea" placeholder="Describe your problem here..."></textarea>
+        <!-- تم تغيير الـ placeholder هنا -->
+        <textarea class="report-textarea" placeholder="I need help"></textarea>
 
-        <!-- زر الإرسال بمساحة كبيرة بين المحتوى -->
         <div class="btn-container">
             <button class="send-btn" onclick="alert('Report Sent!')">
                 <span>Send Report</span>
