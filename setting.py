@@ -3,62 +3,50 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="wide") 
 
-# 2. تنسيق الـ CSS لتحويل الأزرار إلى كبسولات (Capsules) كما في الصورة
+# 2. تنسيق الـ CSS المخصص
 st.markdown("""
     <style>
     .stApp {
         background-color: #cbdbe5;
     }
 
-    /* إضافة هوامش جانبية لجعل القائمة في المنتصف مثل الصورة */
+    /* تركيز المحتوى في المنتصف مثل واجهة الهاتف */
     .block-container {
-        max-width: 600px !important;
-        padding-top: 50px !important;
+        max-width: 500px !important;
+        padding-top: 40px !important;
     }
 
-    /* تنسيق الأزرار لتصبح دائرية الحواف (Capsule shape) */
+    /* تصميم الأزرار (شكل الكبسولة) */
     .stButton > button {
         background-color: #f8f9fa !important;
         color: #333333 !important; 
-        border-radius: 50px !important; /* حواف دائرية جداً */
+        border-radius: 50px !important; 
         border: none !important;
         width: 100% !important;
-        height: 65px !important;
+        height: 60px !important;
         font-size: 18px !important;
-        font-weight: bold !important;
-        margin-bottom: 15px !important; /* مسافة بين كل زر وزر */
+        font-weight: 700 !important;
+        margin-bottom: 12px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: flex-start !important;
-        padding-left: 25px !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+        padding-left: 20px !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
     }
 
-    /* تنسيق النصوص داخل الأزرار */
+    /* موازنة النص في المنتصف مع وجود الإيموجي يساراً */
     .stButton > button div p {
         width: 100%;
-        text-align: center !important; /* النص في المنتصف */
-        margin-right: 40px !important; /* توازن بسبب وجود الإيموجي يسار */
+        text-align: center !important;
+        margin-right: 30px !important; 
     }
 
-    /* تنسيق خاص للأعمدة في السطر الأخير */
+    /* تنسيق السطر الأخير (الأعمدة) */
     [data-testid="column"] {
         padding: 0 5px !important;
     }
-    
     [data-testid="stHorizontalBlock"] {
         gap: 0px !important;
-    }
-
-    /* هيدر الإعدادات */
-    .settings-header {
-        text-align: center;
-        color: #333;
-        font-weight: bold;
-        margin-bottom: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -72,21 +60,21 @@ def nav(page_name):
 
 # 4. عرض الصفحات
 if st.session_state.page == 'main':
-    # الهيدر مع سهم الرجوع
+    # الهيدر: السهم وكلمة Settings باللون الأسود الصريح
     st.markdown("""
-        <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 30px;">
-            <div style="position: absolute; left: 20px; font-size: 24px; font-weight: bold; cursor: pointer;"> < </div>
-            <h1 style="font-size: 32px; margin: 0;">Settings</h1>
+        <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 35px;">
+            <div style="position: absolute; left: 10px; font-size: 28px; font-weight: 900; color: #000000; cursor: pointer;"> < </div>
+            <h1 style="color: #000000; font-size: 32px; font-weight: bold; margin: 0; text-align: center;">Settings</h1>
         </div>
     """, unsafe_allow_html=True)
     
-    # الأزرار الرئيسية بتنسيق الصورة
-    if st.button("🔒                       Change Password"): nav('password')
-    if st.button("🌐                       Change Language"): nav('language')
-    if st.button("⭐                               Rate App"): nav('rate')
-    if st.button("🚪                               Log Out"): st.write("Logged Out!")
+    # قائمة الخيارات بتصميم الكبسولة
+    if st.button("🔒               Change Password"): nav('password')
+    if st.button("🌐               Change Language"): nav('language')
+    if st.button("⭐                       Rate App"): nav('rate')
+    if st.button("🚪                       Log Out"): st.write("Logged Out!")
     
-    # السطر الأخير المقسم لزرين دائريين
+    # السطر الأخير
     col1, col2 = st.columns(2)
     with col1:
         if st.button("⚠️   Report a Problem"): nav('report')
@@ -96,12 +84,12 @@ if st.session_state.page == 'main':
 # --- الشاشات الفرعية ---
 elif st.session_state.page == 'password':
     if st.button("< Back"): nav('main')
-    st.header("Change Password")
+    st.markdown("<h2 style='text-align:center; color: black;'>Change Password</h2>", unsafe_allow_html=True)
 
 elif st.session_state.page == 'report':
     if st.button("< Back"): nav('main')
-    st.header("Report a Problem")
+    st.markdown("<h2 style='text-align:center; color: black;'>Report a Problem</h2>", unsafe_allow_html=True)
 
 elif st.session_state.page == 'contact':
     if st.button("< Back"): nav('main')
-    st.header("Contact Us")
+    st.markdown("<h2 style='text-align:center; color: black;'>Contact Us</h2>", unsafe_allow_html=True)
