@@ -114,14 +114,16 @@ st.markdown('<div class="small">', unsafe_allow_html=True)
 if st.button("Create Account"):
     st.switch_page("pages/1_Create_Account.py")
 st.markdown('</div>', unsafe_allow_html=True)حطلي <script>
-function login(){
-    const v = document.getElementById("username").value;
-    const e = document.getElementById("error");
- 
-    if(/^07[0-9]{8}$/.test(v) || /^[0-9]{11}$/.test(v)){
-        window.top.location.href = "/?page=employee";
-    } else {
-        e.innerText = "Enter valid phone number or ID";
-    }
-}
+if st.button("Log In ›"):
+    user_id = user_id.strip()
+
+    # Phone: يبدأ بـ 07 وطوله 10
+    # ID: طوله 11
+    if (
+        (user_id.isdigit() and len(user_id) == 11) or
+        (user_id.isdigit() and len(user_id) == 10 and user_id.startswith("07"))
+    ):
+        st.switch_page("pages/3_Employee.py")
+    else:
+        st.error("Enter valid phone number or ID")
 </script>
