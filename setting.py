@@ -39,7 +39,7 @@ st.markdown("""
         font-weight: 900 !important;
         margin-bottom: 25px !important;
 
-        margin-left: 20px !important;  /* ⬅ الإضافة الوحيدة */
+        margin-left: 40px !important;  /* ⬅ زحلقنا لليمين */
 
         display: flex !important;
         align-items: center !important;
