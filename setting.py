@@ -38,6 +38,9 @@ st.markdown("""
         font-size: 26px !important;
         font-weight: 900 !important;
         margin-bottom: 25px !important;
+
+        margin-left: 20px !important;  /* ⬅ الإضافة الوحيدة */
+
         display: flex !important;
         align-items: center !important;
         justify-content: flex-start !important;
@@ -45,7 +48,7 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
     }
 
-    /* 👇 التعديل النهائي (مسافة كبيرة جدًا) */
+    /* المسافة بين الإيموجي والكلام */
     .stButton > button div p {
         width: 100%;
         text-align: left !important;
