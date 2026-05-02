@@ -41,37 +41,29 @@ st.markdown("""
 
 header, footer {visibility:hidden;}
 
-/* البوت */
-/* البوت */
-.robot{
-    width:135px;
-    position:relative;
-    top:75px;        /* ينزل ليقعد على الحافة */
-    left:140px;      /* يروح للطرف اليمين */
-    z-index:3;
+.robot {
+    width: 145px;
+    position: relative;
+    top: 92px;
+    left: 160px;
+    z-index: 5;
+    margin-bottom: -45px;
 }
 
-/* بوكس الإدخال */
-.stTextInput{
-    position:relative;
-    margin-top:-50px;   /* يرفع البوكس تحت البوت */
-    z-index:1;
+.stTextInput {
+    margin-bottom: 10px;
 }
 
-/* شكل البوكس */
 .stTextInput input {
-    width:100%;
-    height:48px;
-    border-radius:25px;
-    border:none;
-    padding-left:20px;
-    background:#e9edf2;   /* لون فاتح مثل الصورة */
-    color:#333;
-    font-size:14px;
-
-    box-shadow:
-        inset 0 2px 4px rgba(0,0,0,0.05),
-        0 4px 10px rgba(0,0,0,0.08);
+    width: 100%;
+    height: 44px;
+    border-radius: 25px;
+    border: none;
+    padding-left: 22px;
+    background: rgba(255,255,255,0.88);
+    color: #333;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .stButton > button {
     width:100%;
@@ -81,6 +73,14 @@ header, footer {visibility:hidden;}
     background:white;
     color:#111;
     font-weight:bold;
+}
+.block-container {
+    max-width:360px;
+    min-height:660px;
+    margin:auto;
+    border-radius:42px;
+    background:linear-gradient(180deg,#c9e7f7,#dff4ff);
+    padding:75px 58px 30px 58px;
 }
 
 .small button {
