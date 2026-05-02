@@ -109,15 +109,16 @@ components.html("""
             margin-left: 10px;
         }
 
-        /* 📝 نص ريبورت باسورد */
+        /* 📝 نص ريبورت باسورد باللون الأبيض وبدون بوكس */
         .report-text {
             text-align: center;
-            color: #666;
+            color: white; /* تم تغيير اللون للأبيض */
             font-size: 14px;
             margin-top: 5px;
             margin-bottom: 20px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: bold; /* جعل الخط أعرض ليوضح على الخلفية الفاتحة */
+            text-shadow: 0px 1px 2px rgba(0,0,0,0.1); /* ظل خفيف ليبرز أكثر */
         }
 
         /* 🔘 بوكس زر الحفظ الأبيض */
@@ -177,7 +178,7 @@ components.html("""
             <i class="fas fa-eye-slash toggle-eye"></i>
         </div>
 
-        <!-- نص ريبورت باسورد بدون بوكس وفي المنتصف -->
+        <!-- نص ريبورت باسورد باللون الأبيض الصريح -->
         <div class="report-text">
             Report Password
         </div>
