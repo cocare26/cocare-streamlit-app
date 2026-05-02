@@ -115,7 +115,6 @@ st.markdown("""
         font-weight:bold;
         cursor:pointer;
     ">
-        تسجيل الدخول
     </button>
 </a>
 """, unsafe_allow_html=True)
