@@ -16,7 +16,7 @@ elif page == "employee":
     st.switch_page("pages/3_Employee.py")
 
 elif page == "forgot":
-    st.switch_page("pages/4_Forgot_Password.py")
+    st.switch_page("pages/2_Forgot_Password.py")
 
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
