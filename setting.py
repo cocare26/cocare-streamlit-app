@@ -59,21 +59,21 @@ div.stButton > button:hover {
     box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 
-/* --- تصغير كلمة Settings قليلاً بناءً على طلبك --- */
+/* --- تصغير كلمة Settings لتصل لـ 100 بكسل --- */
 .settings-header {
     color: #000000 !important; 
     font-weight: 900 !important;
-    font-size: 130px !important; /* تم التصغير من 180 إلى 130 */
+    font-size: 100px !important; /* الحجم الجديد */
     margin: 0 !important;
     flex-grow: 1;
     text-align: center;
     padding-left: 50px; 
-    line-height: 1;
+    line-height: 1.1;
 }
 
-/* تعديل سهم الرجوع ليناسب الحجم الجديد */
+/* سهم الرجوع متناسب مع العنوان */
 .back-arrow {
-    font-size: 80px !important; 
+    font-size: 70px !important; 
     font-weight: 900 !important; 
     color: #000000 !important; 
 }
@@ -85,7 +85,7 @@ div.stButton > button:hover {
 if st.session_state.page == 'main':
     # هيدر الصفحة
     st.markdown("""
-        <div style="display: flex; align-items: center; margin-bottom: 60px; padding-left: 20px;">
+        <div style="display: flex; align-items: center; margin-bottom: 50px; padding-left: 20px;">
             <span class="back-arrow">‹</span>
             <p class="settings-header">Settings</p>
         </div>
@@ -97,7 +97,7 @@ if st.session_state.page == 'main':
         if st.button(f"{emoji} {gap} {label} &nbsp;&nbsp; ›"):
             nav(page)
 
-    # الأزرار بالمسافات المطلوبة
+    # الأزرار بالمسافات الأصلية
     make_btn("🔒", "Change Password", "password", gap_size=130)
     make_btn("🌐", "Change Language", "language", gap_size=130)
     make_btn("⭐", "Rate App", "rate", gap_size=145)
