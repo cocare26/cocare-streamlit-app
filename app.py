@@ -113,7 +113,8 @@ st.markdown("<div class='signup-text'>👤 New User?</div>", unsafe_allow_html=T
 st.markdown('<div class="small">', unsafe_allow_html=True)
 if st.button("Create Account"):
     st.switch_page("pages/1_Create_Account.py")
-st.markdown('</div>', unsafe_allow_html=True)حطلي <script>
+st.markdown('</div>', unsafe_allow_html=True)
+<script>
 if st.button("Log In ›"):
     user_id = user_id.strip()
 
