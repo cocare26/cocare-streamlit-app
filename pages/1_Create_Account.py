@@ -1,6 +1,6 @@
 import time
 import streamlit as st
-
+import streamlit.components.v1 as components
 st.set_page_config(page_title="Create Account", layout="centered")
 
 if "generated_phone_code" not in st.session_state:
@@ -103,8 +103,27 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-if st.button("Sign in"):
-    st.switch_page("app")
+st.markdown("""
+<a href="/" target="_top">
+    <button style="
+        width:100%;
+        height:48px;
+        border-radius:25px;
+        border:none;
+        background:white;
+        color:#0f2446;
+        font-weight:bold;
+        cursor:pointer;
+    ">
+        تسجيل الدخول
+    </button>
+</a>
+""", unsafe_allow_html=True)
+components.html("""
+<script>
+window.parent.location.href = "/";
+</script>
+""", height=0)
 
 username = st.text_input("Username")
 
