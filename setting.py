@@ -1,8 +1,9 @@
 import streamlit as st
 
-st.set_page_config(page_title="Settings", layout="wide")
+st.set_page_config(page_title="Settings", layout="centered")
 
-st.write("")
+if "page" not in st.session_state:
+    st.session_state.page = "settings"
 
 st.markdown("""
 <style>
@@ -10,136 +11,116 @@ st.markdown("""
     background: linear-gradient(135deg, #dceff7, #cce6ef, #e8f6fa);
 }
 
-.settings-box {
-    width: 400px;
-    margin: 0 auto;
-    padding: 22px;
+.block-container {
+    padding-top: 20px;
+}
+
+div.stButton > button {
+    width: 100%;
+    height: 58px;
+    background-color: #f7f3e8;
+    color: black;
+    border-radius: 35px;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 8px 0;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    text-align: right;
+    padding-right: 25px;
+}
+
+div.stButton > button:hover {
+    background-color: #f5efe6;
+    color: black;
+    border: none;
+}
+
+.box {
     background: rgba(160, 195, 195, 0.55);
-    border-radius: 6px;
-}
-
-.header {
-    position: relative;
-    height: 48px;
-    margin-bottom: 18px;
-}
-
-.back {
-    position: absolute;
-    left: 0;
-    font-size: 34px;
-    color: #000;
+    padding: 25px;
+    border-radius: 8px;
 }
 
 .title {
-    position: absolute;
-    left: 85px;  /* زحلقناه شوي لليمين */
-    font-size: 28px;
-    font-weight: 600; /* أخف */
-    color: #000;
-}
-
-.item {
-    height: 58px;
-    background: #f7f3e8;
-    border-radius: 35px;
-    margin: 13px 0;
-    display: grid;
-    grid-template-columns: 58px 1fr 25px;
-    align-items: center;
-}
-
-.icon {
-    font-size: 26px;
+    font-size: 30px;
+    font-weight: 700;
+    color: black;
     text-align: center;
-}
-
-.label {
-    font-size: 17px;   /* أصغر */
-    font-weight: 600;  /* أنحف */
-    text-align: right;
-    color: #000;
-}
-
-.arrow {
-    color: #fff;
-    text-align: center;
-    font-size: 24px;
-}
-
-.bottom-row {
-    display: flex;
-    gap: 5px;
-}
-
-.small-item {
-    flex: 1;
-    background: #f7f3e8;
-    border-radius: 35px;
-    padding: 10px;
-    display: flex; /* بدل grid */
-    align-items: center;
-    gap: 6px; /* مسافة بسيطة بعد الإيموجي */
-}
-
-.small-item .arrow {
-    margin-left: auto; /* يخلي السهم أقصى اليمين */
-}
-
-.small-item .label {
-    text-align: left; /* يخلي النص جنب الإيموجي */
-    font-size: 15px;
-    font-weight: 600;
+    margin-bottom: 20px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-with st.container():
-    st.markdown("""
-    <div class="settings-box">
+if st.session_state.page == "settings":
 
-        <div class="header">
-            <div class="back">‹</div>
-            <div class="title">Settings</div>
-        </div>
+    st.markdown('<div class="box">', unsafe_allow_html=True)
+    st.markdown('<div class="title">‹ &nbsp;&nbsp;&nbsp;&nbsp; Settings</div>', unsafe_allow_html=True)
 
-        <div class="item">
-            <div class="icon">🔒</div>
-            <div class="label">Change Password</div>
-            <div class="arrow">›</div>
-        </div>
+    if st.button("🔒   Change Password        ›"):
+        st.session_state.page = "password"
 
-        <div class="item">
-            <div class="icon">🌐</div>
-            <div class="label">Change Language</div>
-            <div class="arrow">›</div>
-        </div>
+    if st.button("🌐   Change Language        ›"):
+        st.session_state.page = "language"
 
-        <div class="item">
-            <div class="icon">⭐</div>
-            <div class="label">Rate App</div>
-            <div class="arrow">›</div>
-        </div>
+    if st.button("⭐   Rate App        ›"):
+        st.session_state.page = "rate"
 
-        <div class="item">
-            <div class="icon">🚪</div>
-            <div class="label">Log Out</div>
-            <div class="arrow">›</div>
-        </div>
+    if st.button("🚪   Log Out        ›"):
+        st.session_state.page = "logout"
 
-        <div class="bottom-row">
-            <div class="small-item">
-                <div class="icon">⚠️</div>
-                <div class="label">Report a<br>Problem</div>
-                <div class="arrow">›</div>
-            </div>
+    col1, col2 = st.columns(2)
 
-            <div class="small-item">
-                <div class="icon">✉️</div>
-                <div class="label">Contact Us</div>
-                <div class="arrow">›</div>
-            </div>
-        </div>
+    with col1:
+        if st.button("⚠️ Report a Problem ›"):
+            st.session_state.page = "report"
 
-    </div>
-    """, unsafe_allow_html=True)
+    with col2:
+        if st.button("✉️ Contact Us ›"):
+            st.session_state.page = "contact"
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+elif st.session_state.page == "password":
+    st.title("Change Password")
+    st.text_input("Current Password", type="password")
+    st.text_input("New Password", type="password")
+    st.text_input("Re-write Password", type="password")
+    st.button("Save")
+    if st.button("← Back"):
+        st.session_state.page = "settings"
+
+elif st.session_state.page == "language":
+    st.title("Change Language")
+    st.button("🌐 English")
+    st.button("🌐 العربية")
+    if st.button("← Back"):
+        st.session_state.page = "settings"
+
+elif st.session_state.page == "rate":
+    st.title("Rate App")
+    st.button("▶ Google Play Store")
+    st.button(" Apple App Store")
+    st.button("🛍 Huawei AppGallery")
+    if st.button("← Back"):
+        st.session_state.page = "settings"
+
+elif st.session_state.page == "logout":
+    st.title("Log Out")
+    st.success("Logged out successfully")
+    if st.button("← Back"):
+        st.session_state.page = "settings"
+
+elif st.session_state.page == "report":
+    st.title("Report a Problem")
+    st.text_area("I need help")
+    st.button("✈ Send Report")
+    if st.button("← Back"):
+        st.session_state.page = "settings"
+
+elif st.session_state.page == "contact":
+    st.title("Contact Us")
+    st.info("Email: Co.Care26@gmail.com")
+    st.info("Phone: +962 79 123 4567")
+    if st.button("← Back"):
+        st.session_state.page = "settings"
