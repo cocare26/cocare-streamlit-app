@@ -24,13 +24,7 @@ h1 {
     text-align: center;
     font-size: 14px;
     margin-top: -4px;
-    margin-bottom: 12px;
-}
-.signin-line a {
-    color: #1c6fa4;
-    font-weight: bold;
-    text-decoration: none;
-    margin-left: 4px;
+    margin-bottom: 8px;
 }
 div[data-testid="stTextInput"] input {
     border-radius: 25px;
@@ -56,12 +50,13 @@ div.stButton > button {
 
 st.title("Create Account")
 
-st.markdown("""
-<div class="signin-line">
-    Already have an account?
-    <a href="/" target="_top">Sign in</a>
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<div class="signin-line">Already have an account?</div>',
+    unsafe_allow_html=True
+)
+
+if st.button("Sign in"):
+    st.switch_page("app.py")
 
 username = st.text_input("Username")
 
