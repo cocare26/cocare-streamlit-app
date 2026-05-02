@@ -51,7 +51,7 @@ components.html("""
             max-width: 380px;
             display: flex;
             flex-direction: column;
-            height: 480px; /* التحكم في الطول الإجمالي */
+            height: 480px;
         }
 
         .header-container {
@@ -77,11 +77,11 @@ components.html("""
             color: #0f2446;
         }
 
-        /* 📝 منطقة النص - حواف دائرية كبسولة */
+        /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
             height: 200px;
-            border-radius: 30px; /* حواف دائرية جداً */
+            border-radius: 30px;
             border: none;
             outline: none;
             padding: 20px;
@@ -94,26 +94,26 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🔘 حاوية زر الإرسال لتحديد الموضع */
+        /* 🔘 حاوية الزر في الأسفل */
         .btn-container {
-            display: flex;
-            justify-content: flex-end; /* لجهة اليمين */
-            margin-top: auto; /* لأسفل الصفحة */
+            margin-top: auto;
             padding-bottom: 10px;
         }
 
-        /* تصميم الزر */
+        /* الزر عريض مع توزيع المحتوى */
         .send-btn {
             background: white;
             border-radius: 100px;
-            padding: 10px 25px;
+            width: 100%; /* العرض كامل */
+            padding: 12px 25px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between; /* نص يمين وأيقونة يسار مع مسافة قصوى */
             cursor: pointer;
             border: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: 0.3s;
+            box-sizing: border-box;
         }
 
         .send-btn:hover {
@@ -124,34 +124,29 @@ components.html("""
         .send-btn span {
             color: #0f2446;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 16px;
+            order: 2; /* وضع النص في اليمين */
         }
 
         .send-btn i {
             color: #0f2446;
-            font-size: 16px;
-        }
-
-        /* عكس الترتيب: الإيموجي يسار والنص يمين */
-        .reverse-layout {
-            flex-direction: row-reverse;
+            font-size: 18px;
+            order: 1; /* وضع الأيقونة في اليسار */
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- الرأس -->
         <div class="header-container">
             <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <!-- صندوق النص -->
         <textarea class="report-textarea" placeholder="Describe your problem here..."></textarea>
 
-        <!-- زر الإرسال في الأسفل على اليمين -->
+        <!-- زر الإرسال بمساحة كبيرة بين المحتوى -->
         <div class="btn-container">
-            <button class="send-btn reverse-layout" onclick="alert('Report Sent!')">
+            <button class="send-btn" onclick="alert('Report Sent!')">
                 <span>Send Report</span>
                 <i class="fas fa-paper-plane"></i>
             </button>
