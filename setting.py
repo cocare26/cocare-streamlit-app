@@ -1,9 +1,9 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة - جعل العرض واسع (Wide Mode) لضمان وصول البوكس للأطراف
+# 1. إعدادات الصفحة - وضع العرض الواسع ضروري جداً هنا
 st.set_page_config(page_title="Settings UI", layout="wide")
 
-# 2. تنسيق الـ CSS (لجعل البوكسات تمتد من الحافة للحافة)
+# 2. تنسيق الـ CSS (إلغاء الحواف الجانبية تماماً)
 st.markdown("""
     <style>
     /* خلفية التطبيق */
@@ -11,32 +11,41 @@ st.markdown("""
         background-color: #cbdbe5;
     }
 
-    /* إلغاء الهوامش الجانبية لصفحة ستريم ليت لتسمح للأزرار بالتمدد */
-    .block-container {
+    /* هذا الجزء هو السر: إلغاء أي فراغات تضعها منصة ستريم ليت تلقائياً */
+    .main .block-container {
         padding-left: 0rem !important;
         padding-right: 0rem !important;
         max-width: 100% !important;
+        margin: 0px !important;
     }
 
-    /* تنسيق الأزرار لتمتد من بداية السطر لنهايته */
+    /* تنسيق الأزرار لتكون "طويلة بالعرض" من الحافة للحافة */
     .stButton > button {
         background-color: #f8f1e5 !important; 
         color: #000000 !important; 
-        border-radius: 0px !important; /* جعل الحواف مستقيمة لتمتد تماماً أو 50px لو تبيها دائرية */
+        border-radius: 0px !important; /* تصفير الحواف يجعلها تلتحم بجوانب الشاشة */
         border: none !important;
-        width: 100vw !important; /* عرض كامل الشاشة (Viewport Width) */
-        height: 80px !important; 
-        font-size: 24px !important; 
+        width: 100% !important; /* ملء كامل المساحة المتاحة */
+        height: 100px !important; /* ارتفاع ضخم */
+        font-size: 26px !important; 
         font-weight: bold !important;
-        margin-left: 0px !important;
-        margin-right: 0px !important;
-        margin-bottom: 10px !important;
+        margin: 0px !important; /* إلغاء أي هوامش جانبية للزر */
+        padding: 0px !important;
         display: block !important;
+        box-shadow: none !important; /* إلغاء الظل لتبدو كشريط مسطح ممتد */
+        border-bottom: 1px solid #d1c7b7 !important; /* خط بسيط للفصل بين الأشرطة */
     }
 
-    /* تعديل السهم Settings ليكون متناسق مع العرض الكامل */
-    .header-container {
+    /* تكبير حجم النص داخل الزر */
+    .stButton > button p {
+        font-size: 26px !important;
+        font-weight: bold !important;
+    }
+
+    /* تنسيق رأس الصفحة (Settings) ليكون له مسافة بسيطة عن الحافة */
+    .header-style {
         padding: 20px;
+        background-color: transparent;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -50,41 +59,29 @@ def nav(page_name):
 
 # 4. عرض الصفحات
 if st.session_state.page == 'main':
-    # العنوان
+    # العنوان مع مسافة جانبية بسيطة ليكون مرتباً
     st.markdown("""
-        <div class="header-container" style="display: flex; align-items: center; justify-content: flex-start; direction: ltr;">
-            <div style="padding-left: 20px;">
+        <div class="header-style" style="display: flex; align-items: center; justify-content: flex-start; direction: ltr;">
+            <div style="padding-left: 10px;">
                 <span style="font-size: 40px; font-weight: bold; color: #000000;"><</span>
             </div>
             <div style="flex-grow: 1; text-align: center; margin-left: -50px;">
-                <h1 style="color: #000000; margin: 0; font-weight: bold; font-size: 35px;">Settings</h1>
+                <h1 style="color: #000000; margin: 0; font-weight: bold; font-size: 38px;">Settings</h1>
             </div>
         </div>
     """, unsafe_allow_html=True)
     
-    # أزرار تمتد من بداية السطر لنهايته (Full Width)
-    st.button("🔒   Change Password", on_click=lambda: nav('password'))
-    st.button("🌐   Change Language", on_click=lambda: nav('language'))
-    st.button("⭐   Rate App", on_click=lambda: nav('rate'))
-    st.button("🚪   Log Out")
-    
-    st.button("⚠️   Report", on_click=lambda: nav('report'))
-    st.button("✉️   Contact", on_click=lambda: nav('contact'))
+    # أزرار ممتدة من بداية السطر لنهايته تماماً
+    if st.button("🔒   Change Password"): nav('password')
+    if st.button("🌐   Change Language"): nav('language')
+    if st.button("⭐   Rate App"): nav('rate')
+    if st.button("🚪   Log Out"): st.write("Logged Out!")
+    if st.button("⚠️   Report"): nav('report')
+    if st.button("✉️   Contact"): nav('contact')
 
-# --- شاشة تغيير كلمة المرور ---
+# --- باقي الشاشات (كمثال) ---
 elif st.session_state.page == 'password':
     if st.button("< Back"): nav('main')
-    st.markdown("<h2 style='color: black; text-align: center;'>Change Password</h2>", unsafe_allow_html=True)
-    # هنا المدخلات ستأخذ أيضاً العرض الكامل
+    st.markdown("<h2 style='text-align: center; color: black;'>Change Password</h2>", unsafe_allow_html=True)
     st.text_input("Current Password", type="password")
-    st.text_input("New Password", type="password")
-    if st.button("Save Now"):
-        st.success("Done!")
-        nav('main')
-
-# --- باقي الشاشات ---
-elif st.session_state.page == 'language':
-    if st.button("< Back"): nav('main')
-    st.markdown("<h2 style='color: black; text-align: center;'>Select Language</h2>", unsafe_allow_html=True)
-    st.button("English")
-    st.button("العربية")
+    st.button("Save")
