@@ -237,9 +237,17 @@ body{margin:0;background:transparent}
 </div>
 
 <div class="nav">
-    <button id="homeBtn" class="active-nav" onclick="goHome()"><span>⌂</span>Home</button>
-    <button id="logoutBtn" onclick="logoutToLogin()"><span>⇥</span>Logout</button>
-    <button id="todoBtn" onclick="goToTodo()"><span>☑</span>To Do List</button>
+    <form action="/" method="get" target="_top">
+    <input type="hidden" name="page" value="employee">
+    <button type="submit"><span>⌂</span>Home</button>
+</form>
+    <form action="/" method="get" target="_top">
+    <button type="submit"><span>⇥</span>Logout</button>
+</form>
+    <form action="/" method="get" target="_top">
+    <input type="hidden" name="page" value="todo">
+    <button type="submit"><span>☑</span>To Do List</button>
+</form>
 </div>
 
 </div>
