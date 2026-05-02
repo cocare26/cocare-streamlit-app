@@ -35,8 +35,8 @@ header, footer {visibility:hidden;}
 .robot{
     position:absolute;
 
-    top:140px;          /* مستوى بوكس الفون */
-    right:0;            /* أقصى اليمين */
+    top:140px;      /* مستوى بوكس الفون */
+    right:-20px;    /* 🔥 هذا السر — يطلعه لبرا */
 
     width:130px;
     z-index:5;
