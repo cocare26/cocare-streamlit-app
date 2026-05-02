@@ -1,8 +1,13 @@
 import streamlit as st
 
-# إضافة CSS مخصص للتحكم في الخطوط والأبعاد
+# إضافة CSS مخصص مع التعديلات الجديدة للألوان
 st.markdown("""
     <style>
+    /* تغيير خلفية التطبيق لـ بيبي بلو */
+    .stApp {
+        background-color: #E0F7FA; /* بيبي بلو هادئ */
+    }
+
     /* تنسيق العنوان والسهم */
     .header-container {
         display: flex;
@@ -15,11 +20,13 @@ st.markdown("""
         font-size: 24px;
         font-weight: bold;
         cursor: pointer;
+        color: white; /* سهم أبيض */
     }
     .settings-title {
         font-size: 28px;
         font-weight: bold;
-        margin-right: 20px; /* لتقريب كلمة Settings لجهة اليمين */
+        margin-right: 20px;
+        color: black; /* عنوان أسود */
     }
 
     /* تنسيق الأزرار والقوائم */
@@ -33,13 +40,14 @@ st.markdown("""
         box-shadow: 0px 2px 4px rgba(0,0,0,0.05);
     }
     
-    /* تصغير الخط للنصوص الأساسية */
+    /* تصغير الخط للنصوص الأساسية + لون أسود */
     .menu-text {
         font-size: 14px; 
         font-weight: 600;
-        margin-left: 15px; /* المسافة بين الايموجي والنص */
+        margin-left: 15px;
         flex-grow: 1;
-        text-align: right; /* لضمان المحاذاة حسب الرغبة */
+        text-align: right;
+        color: black; /* نص أسود */
     }
 
     .emoji {
@@ -62,7 +70,8 @@ st.markdown("""
     .small-text {
         font-size: 12px;
         font-weight: bold;
-        margin-left: 5px; /* النص بعد الايموجي مباشرة */
+        margin-left: 5px;
+        color: black; /* نص أسود */
     }
     </style>
     """, unsafe_allow_html=True)
@@ -78,7 +87,7 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-# الأزرار الرئيسية بخط أصغر
+# الأزرار الرئيسية بخط أصغر ولون أسود
 menu_items = [
     ("🔐", "Change Password"),
     ("🌐", "Change Language"),
@@ -94,7 +103,7 @@ for emoji, text in menu_items:
         </div>
         """, unsafe_allow_html=True)
 
-# الصف الأخير: Report a Problem و Contact Us
+# الصف الأخير: Report a Problem و Contact Us (لون أسود)
 st.markdown("""
     <div class="bottom-row">
         <div class="small-button">
