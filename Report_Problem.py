@@ -8,7 +8,6 @@ st.markdown("""
 /* 🎯 ألوان أساسية */
 :root{
     --navy:#0f2446;
-    --accent:#2f80ed;
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
@@ -19,11 +18,11 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - تم تقليل العرض من 450px إلى 400px */
+/* 📦 الكارد الرئيسي - تم تصغير العرض إلى 360px لجعل البوكس أنحف */
 .block-container{
-    max-width:400px !important; 
+    max-width:360px !important; 
     margin:auto !important;
-    padding:30px !important;
+    padding:25px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
@@ -48,7 +47,7 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 340px; /* تقليل عرض المحتوى الداخلي قليلاً */
+            max-width: 310px; /* تم تصغير عرض المحتوى الداخلي ليتناسب مع البوكس الجديد */
             display: flex;
             flex-direction: column;
             height: 480px;
@@ -58,15 +57,15 @@ components.html("""
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             position: relative;
         }
 
-        /* سهم الرجوع العلوي بالرمز < */
+        /* سهم الرجوع < جهة اليسار */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: bold;
             color: #0f2446;
             text-decoration: none;
@@ -77,7 +76,7 @@ components.html("""
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 22px;
+            font-size: 20px; /* تصغير الخط قليلاً ليناسب العرض الجديد */
             color: #0f2446;
         }
 
@@ -85,12 +84,12 @@ components.html("""
         .report-textarea {
             width: 100%;
             height: 200px;
-            border-radius: 30px;
+            border-radius: 25px;
             border: none;
             outline: none;
-            padding: 20px;
+            padding: 18px;
             background: white;
-            font-size: 16px;
+            font-size: 15px;
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
@@ -100,7 +99,7 @@ components.html("""
 
         /* 🎨 لون النص التوضيحي رمادي */
         .report-textarea::placeholder {
-            color: #888888;
+            color: #999999;
             opacity: 1;
         }
 
@@ -113,7 +112,7 @@ components.html("""
             background: white;
             border-radius: 100px;
             width: 100%;
-            padding: 12px 25px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -132,13 +131,13 @@ components.html("""
         .send-btn span {
             color: #0f2446;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
             order: 2;
         }
 
         .send-btn i {
             color: #0f2446;
-            font-size: 18px;
+            font-size: 16px;
             order: 1;
         }
     </style>
@@ -146,12 +145,10 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <!-- استبدال أيقونة السهم بالرمز < -->
             <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <!-- النص التوضيحي I need help باللون الرمادي (عبر CSS) -->
         <textarea class="report-textarea" placeholder="I need help"></textarea>
 
         <div class="btn-container">
