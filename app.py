@@ -34,13 +34,14 @@ header, footer {visibility:hidden;}
 
 .robot{
     position:absolute;
-    top:150px;      /* نزّلناه شوي */
-    right:30px;     /* قرّبناه من اليمين */
-    width:130px;    /* صغرناه شوي ليزبط */
+
+    top:135px;     /* أهم سطر — هذا يخليه يقعد على أول بوكس */
+    right:25px;
+
+    width:130px;
     z-index:5;
 
-    /* ✨ يخليه يقعد على البوكس */
-    transform: translateY(-20%);
+    transform: translateY(-30%);
 }
 
 .spacer {
