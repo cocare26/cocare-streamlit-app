@@ -1,137 +1,109 @@
 import streamlit as st
 
-st.set_page_config(page_title="Settings", layout="centered")
-
-if "page" not in st.session_state:
-    st.session_state.page = "settings"
-
+# إضافة CSS مخصص للتحكم في الخطوط والأبعاد
 st.markdown("""
-<style>
-.stApp {
-    background: linear-gradient(135deg, #dceff7, #cce6ef, #e8f6fa);
-}
+    <style>
+    /* تنسيق العنوان والسهم */
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+    .back-arrow {
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .settings-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-right: 20px; /* لتقريب كلمة Settings لجهة اليمين */
+    }
 
-/* ⬅ كبرنا العرض */
-.block-container {
-    padding-top: 20px;
-    max-width: 500px;
-}
+    /* تنسيق الأزرار والقوائم */
+    .menu-item {
+        background-color: white;
+        border-radius: 15px;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0px 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    /* تصغير الخط للنصوص الأساسية */
+    .menu-text {
+        font-size: 14px; 
+        font-weight: 600;
+        margin-left: 15px; /* المسافة بين الايموجي والنص */
+        flex-grow: 1;
+        text-align: right; /* لضمان المحاذاة حسب الرغبة */
+    }
 
-div.stButton > button {
-    width: 100%;
-    height: 58px;
-    background-color: #f7f3e8;
-    color: black;
-    border-radius: 35px;
-    border: none;
-    font-size: 18px;
-    font-weight: 600;
-    margin: 8px 0;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    .emoji {
+        font-size: 20px;
+    }
 
-    text-align: right;
-    padding-right: 8px;   /* ⬅ قربنا الكلام للسهم */
-    padding-left: 10px;
-}
+    /* تنسيق قسم التقرير والتواصل (جنب بعض) */
+    .bottom-row {
+        display: flex;
+        gap: 10px;
+    }
+    .small-button {
+        flex: 1;
+        background-color: white;
+        border-radius: 15px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+    .small-text {
+        font-size: 12px;
+        font-weight: bold;
+        margin-left: 5px; /* النص بعد الايموجي مباشرة */
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-div.stButton > button:hover {
-    background-color: #f5efe6;
-    color: black;
-    border: none;
-}
+# --- بناء واجهة المستخدم ---
 
-.box {
-    background: rgba(160, 195, 195, 0.55);
-    padding: 25px;
-    border-radius: 8px;
-}
+# الهيدر: سهم على أقصى الشمال وكلمة Settings لليمين
+st.markdown("""
+    <div class="header-container">
+        <div class="back-arrow"> &lt; </div>
+        <div class="settings-title">Settings</div>
+        <div></div> <!-- موازن للمساحة -->
+    </div>
+    """, unsafe_allow_html=True)
 
-.title {
-    font-size: 30px;
-    font-weight: 700;
-    color: black;
-    text-align: center;
-    margin-bottom: 20px;
-}
-</style>
-""", unsafe_allow_html=True)
+# الأزرار الرئيسية بخط أصغر
+menu_items = [
+    ("🔐", "Change Password"),
+    ("🌐", "Change Language"),
+    ("⭐", "Rate App"),
+    ("🚪", "Log Out")
+]
 
-# ======================
-# الصفحة الرئيسية
-# ======================
-if st.session_state.page == "settings":
+for emoji, text in menu_items:
+    st.markdown(f"""
+        <div class="menu-item">
+            <span class="emoji">{emoji}</span>
+            <span class="menu-text">{text}</span>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown('<div class="box">', unsafe_allow_html=True)
-    st.markdown('<div class="title">‹ &nbsp;&nbsp;&nbsp; Settings</div>', unsafe_allow_html=True)
-
-    if st.button("🔒 Change Password        ›"):
-        st.session_state.page = "password"
-
-    if st.button("🌐 Change Language       ›"):
-        st.session_state.page = "language"
-
-    if st.button("⭐ Rate App              ›"):
-        st.session_state.page = "rate"
-
-    if st.button("🚪 Log Out               ›"):
-        st.session_state.page = "logout"
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        if st.button("⚠️ Report a Problem   ›"):
-            st.session_state.page = "report"
-
-    with col2:
-        if st.button("✉️ Contact Us        ›"):
-            st.session_state.page = "contact"
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ======================
-# باقي الصفحات
-# ======================
-
-elif st.session_state.page == "password":
-    st.title("Change Password")
-    st.text_input("Current Password", type="password")
-    st.text_input("New Password", type="password")
-    st.text_input("Re-write Password", type="password")
-    st.button("Save")
-    if st.button("← Back"):
-        st.session_state.page = "settings"
-
-elif st.session_state.page == "language":
-    st.title("Change Language")
-    st.button("🌐 English")
-    st.button("🌐 العربية")
-    if st.button("← Back"):
-        st.session_state.page = "settings"
-
-elif st.session_state.page == "rate":
-    st.title("Rate App")
-    st.button("▶ Google Play Store")
-    st.button(" Apple App Store")
-    st.button("🛍 Huawei AppGallery")
-    if st.button("← Back"):
-        st.session_state.page = "settings"
-
-elif st.session_state.page == "logout":
-    st.title("Log Out")
-    st.success("Logged out successfully")
-    if st.button("← Back"):
-        st.session_state.page = "settings"
-
-elif st.session_state.page == "report":
-    st.title("Report a Problem")
-    st.text_area("I need help")
-    st.button("✈ Send Report")
-    if st.button("← Back"):
-        st.session_state.page = "settings"
-
-elif st.session_state.page == "contact":
-    st.title("Contact Us")
-    st.info("Email: Co.Care26@gmail.com")
-    st.info("Phone: +962 79 123 4567")
-    if st.button("← Back"):
-        st.session_state.page = "settings"
+# الصف الأخير: Report a Problem و Contact Us
+st.markdown("""
+    <div class="bottom-row">
+        <div class="small-button">
+            <span class="emoji">⚠️</span>
+            <span class="small-text">Report a Problem</span>
+        </div>
+        <div class="small-button">
+            <span class="emoji">✉️</span>
+            <span class="small-text">Contact Us</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
