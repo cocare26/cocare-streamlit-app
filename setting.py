@@ -1,53 +1,57 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة
+# 1. إعدادات الصفحة - جعل العرض ممتداً
 st.set_page_config(page_title="Settings UI", layout="wide") 
 
-# 2. تنسيق الـ CSS المخصص
+# 2. تنسيق الـ CSS لتوسيع الأزرار عرضياً
 st.markdown("""
     <style>
     .stApp {
         background-color: #cbdbe5;
     }
 
-    /* تركيز المحتوى في المنتصف */
+    /* الحاوية المركزية - جعلتها أعرض لتسمح للزر بالامتداد كما في رسمك */
     .block-container {
-        max-width: 500px !important;
-        padding-top: 40px !important;
+        max-width: 90% !important; 
+        padding-top: 30px !important;
     }
 
-    /* تصميم الأزرار - زيادة الطول وزيادة المسافات الداخلية */
+    /* تعديل العرض (Width) ليكون ممتداً جداً */
     .stButton > button {
         background-color: #f8f9fa !important;
         color: #000000 !important; 
-        border-radius: 50px !important; 
+        border-radius: 80px !important; /* حواف دائرية انسيابية */
         border: none !important;
-        width: 100% !important;
-        height: 95px !important; /* زيادة الطول أكثر */
-        font-size: 22px !important; /* تكبير الخط ليتناسب مع الضخامة */
-        font-weight: 700 !important;
-        margin-bottom: 18px !important;
+        
+        /* جعل الزر يمتد عرضياً */
+        width: 100% !important; 
+        height: 100px !important; /* طول مناسب */
+        
+        font-size: 24px !important;
+        font-weight: 800 !important;
+        margin-bottom: 20px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: flex-start !important;
-        padding-left: 35px !important; /* زيادة المسافة من الحافة اليسرى */
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1) !important;
-        transition: 0.3s;
+        padding-left: 60px !important; /* إزاحة الإيموجي للداخل أكثر */
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
     }
 
-    /* زيادة المسافة بين الإيموجي والنص بشكل يدوي عن طريق الـ CSS */
+    /* موازنة النص في منتصف المساحة العريضة */
     .stButton > button div p {
         width: 100%;
         text-align: center !important;
-        margin-right: 50px !important; /* موازنة المسافة ليبقى النص في المنتصف */
+        margin-right: 100px !important; 
     }
 
-    /* تنسيق السطر الأخير */
-    [data-testid="column"] {
-        padding: 0 7px !important;
-    }
-    [data-testid="stHorizontalBlock"] {
-        gap: 0px !important;
+    /* الهيدر */
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 50px;
+        width: 100%;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -59,38 +63,32 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 4. عرض الصفحات
+# 4. عرض الصفحة الرئيسية
 if st.session_state.page == 'main':
-    # الهيدر: السهم وكلمة Settings باللون الأسود
+    # الهيدر باللون الأسود
     st.markdown("""
-        <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 45px;">
-            <div style="position: absolute; left: 10px; font-size: 35px; font-weight: 900; color: #000000; cursor: pointer;"> < </div>
-            <h1 style="color: #000000; font-size: 38px; font-weight: bold; margin: 0; text-align: center;">Settings</h1>
+        <div class="header-container">
+            <div style="position: absolute; left: 5%; font-size: 45px; font-weight: 900; color: #000000; cursor: pointer;"> < </div>
+            <h1 style="color: #000000; font-size: 45px; font-weight: bold; margin: 0;">Settings</h1>
         </div>
     """, unsafe_allow_html=True)
     
-    # قائمة الخيارات مع زيادة المسافة يدوياً (عن طريق مسافات نصية إضافية)
-    if st.button("🔒 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Change Password"): nav('password')
-    if st.button("🌐 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Change Language"): nav('language')
-    if st.button("⭐ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rate App"): nav('rate')
-    if st.button("🚪 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Log Out"): st.write("Logged Out!")
+    # مسافة كبيرة بين الإيموجي والنص لتناسب العرض الجديد
+    spacer = "&nbsp;" * 40
+
+    if st.button(f"🔒 {spacer} Change Password"): nav('password')
+    if st.button(f"🌐 {spacer} Change Language"): nav('language')
+    if st.button(f"⭐ {spacer} &nbsp; Rate App"): nav('rate')
+    if st.button(f"🚪 {spacer} &nbsp; Log Out"): st.write("Logged Out!")
     
-    # السطر الأخير
+    # السطر الأخير ممتد أيضاً
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("⚠️ &nbsp;&nbsp; Report a Problem"): nav('report')
+        if st.button(f"⚠️ &nbsp; Report"): nav('report')
     with col2:
-        if st.button("✉️ &nbsp;&nbsp;&nbsp;&nbsp; Contact Us"): nav('contact')
+        if st.button(f"✉️ &nbsp; Contact"): nav('contact')
 
 # --- الشاشات الفرعية ---
 elif st.session_state.page == 'password':
     if st.button("< Back"): nav('main')
-    st.markdown("<h2 style='text-align:center; color: black;'>Change Password</h2>", unsafe_allow_html=True)
-
-elif st.session_state.page == 'report':
-    if st.button("< Back"): nav('main')
-    st.markdown("<h2 style='text-align:center; color: black;'>Report a Problem</h2>", unsafe_allow_html=True)
-
-elif st.session_state.page == 'contact':
-    if st.button("< Back"): nav('main')
-    st.markdown("<h2 style='text-align:center; color: black;'>Contact Us</h2>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; color: black;'>Change Password</h1>", unsafe_allow_html=True)
