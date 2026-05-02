@@ -152,10 +152,10 @@ components.html("""
             <i class="fas fa-eye-slash toggle-eye"></i>
         </div>
 
-        <!-- تأكيد كلمة السر -->
+        <!-- إعادة كتابة كلمة السر الجديدة -->
         <div class="input-capsule">
             <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="Confirm Password">
+            <input type="password" placeholder="Re-write Password">
             <i class="fas fa-eye-slash toggle-eye"></i>
         </div>
 
