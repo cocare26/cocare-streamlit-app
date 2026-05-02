@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS (الألوان + الإزاحة لليمين + نحافة الأزرار)
+# 3. تنسيق الـ CSS (تكبير خط العنوان + الألوان + الإزاحة)
 st.markdown("""
 <style>
 :root {
@@ -24,7 +24,7 @@ st.markdown("""
     background: #eef2f7; 
 }
 
-/* البوكس الرئيسي مزاح لليمين */
+/* البوكس الرئيسي */
 .block-container {
     max-width: 80% !important; 
     margin-left: auto !important;  
@@ -35,7 +35,7 @@ st.markdown("""
     box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
 
-/* تصميم الأزرار النحيفة */
+/* تصميم الأزرار */
 div.stButton > button {
     width: 100% !important;
     height: 55px !important; 
@@ -59,15 +59,23 @@ div.stButton > button:hover {
     box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 
-/* تنسيق عنوان السيتنج (أسود ومزاح لليمين قليلاً) */
+/* تكبير خط السيتنج بشكل واضح */
 .settings-header {
     color: #000000 !important; 
     font-weight: 900;
-    font-size: 38px;
+    font-size: 55px; /* تم تكبير الخط هنا من 38 إلى 55 */
     margin: 0;
     flex-grow: 1;
     text-align: center;
     padding-left: 50px; 
+}
+
+/* تكبير أيقونة السهم الجانبي */
+.back-arrow {
+    font-size: 50px; 
+    font-weight: 900; 
+    color: #000000; 
+    cursor: pointer;
 }
 
 </style>
@@ -75,15 +83,15 @@ div.stButton > button:hover {
 
 # 4. عرض المحتوى
 if st.session_state.page == 'main':
-    # هيدر الصفحة
+    # هيدر الصفحة مع الخط المكبر
     st.markdown("""
         <div style="display: flex; align-items: center; margin-bottom: 50px; padding-left: 20px;">
-            <span style="font-size: 40px; font-weight: 900; color: #000000; cursor: pointer;">‹</span>
+            <span class="back-arrow">‹</span>
             <p class="settings-header">Settings</p>
         </div>
     """, unsafe_allow_html=True)
     
-    # دالة بناء الأزرار بمسافات مرنة
+    # دالة بناء الأزرار
     def make_btn(emoji, label, page, gap_size):
         gap = "&nbsp;" * gap_size 
         if st.button(f"{emoji} {gap} {label} &nbsp;&nbsp; ›"):
@@ -109,8 +117,8 @@ if st.session_state.page == 'main':
 # الشاشات الفرعية
 elif st.session_state.page == 'password':
     if st.button("‹ Back"): nav('main')
-    st.markdown("<h1 style='text-align:center; color: black;'>Change Password</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; color: black; font-size: 45px;'>Change Password</h1>", unsafe_allow_html=True)
 
 elif st.session_state.page == 'language':
     if st.button("‹ Back"): nav('main')
-    st.markdown("<h1 style='text-align:center; color: black;'>Change Language</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; color: black; font-size: 45px;'>Change Language</h1>", unsafe_allow_html=True)
