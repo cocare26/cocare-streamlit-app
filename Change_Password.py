@@ -43,11 +43,15 @@ components.html("""
             margin: 0;
             display: flex;
             justify-content: center;
+            height: 100vh;
         }
         
         .main-wrapper {
             width: 100%;
             max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            height: 440px; /* تحديد ارتفاع مناسب للتحكم في مكان العناصر */
         }
 
         .header-container {
@@ -73,7 +77,7 @@ components.html("""
             color: #0f2446;
         }
 
-        /* 💊 تصميم بوكس الإدخال الأبيض (الكبسولة) */
+        /* 💊 تصميم بوكس الإدخال الأبيض */
         .input-capsule {
             background: white;
             border-radius: 100px;
@@ -105,63 +109,71 @@ components.html("""
             margin-left: 10px;
         }
 
-        /* 🔘 زر الحفظ */
+        /* 🔘 بوكس زر الحفظ الأبيض في الأسفل */
         .save-btn-container {
+            margin-top: auto; /* يدفع الزر إلى أقصى الأسفل */
             display: flex;
             justify-content: center;
-            margin-top: 25px;
+            padding-bottom: 10px;
         }
 
-        .save-btn {
-            background: linear-gradient(90deg, #2f80ed, #1c6fa4);
-            color: white;
-            border: none;
-            padding: 12px 50px;
+        .save-box {
+            background: white;
             border-radius: 100px;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+            display: block;
+        }
+
+        .save-box span {
+            color: #0f2446;
             font-weight: bold;
             font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 6px 15px rgba(47, 128, 237, 0.3);
-            transition: 0.3s;
         }
 
-        .save-btn:hover {
+        .save-box:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(47, 128, 237, 0.4);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
+        <!-- الرأس -->
         <div class="header-container">
             <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
             <h2 class="title">Change Password</h2>
         </div>
 
-        <!-- كلمة السر الحالية -->
+        <!-- الحقول -->
         <div class="input-capsule">
             <i class="fas fa-lock field-icon"></i>
             <input type="password" placeholder="Current Password">
             <i class="fas fa-eye-slash toggle-eye"></i>
         </div>
 
-        <!-- كلمة السر الجديدة -->
         <div class="input-capsule">
             <i class="fas fa-lock field-icon"></i>
             <input type="password" placeholder="New Password">
             <i class="fas fa-eye-slash toggle-eye"></i>
         </div>
 
-        <!-- إعادة كتابة كلمة السر الجديدة -->
         <div class="input-capsule">
             <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="Re-write Password">
+            <input type="password" placeholder="Re-write New Password">
             <i class="fas fa-eye-slash toggle-eye"></i>
         </div>
 
-        <!-- زر الحفظ في المنتصف -->
+        <!-- بوكس السيف الأبيض (تحت تحت) -->
         <div class="save-btn-container">
-            <button class="save-btn">Save</button>
+            <button class="save-box" onclick="alert('Password Saved!')">
+                <span>Save</span>
+            </button>
         </div>
     </div>
 </body>
