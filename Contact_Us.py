@@ -5,12 +5,9 @@ st.set_page_config(page_title="Contact Us", layout="centered")
 
 st.markdown("""
 <style>
-
 /* 🎯 ألوان أساسية */
 :root{
     --navy:#0f2446;
-    --accent:#2f80ed;
-    --accent2:#1c6fa4;
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
@@ -26,115 +23,100 @@ st.markdown("""
     max-width:420px;
     margin:auto;
     padding:25px 30px;
-
-    background:linear-gradient(160deg,
-        var(--bg1) 0%,
-        var(--bg2) 45%,
-        var(--bg3) 100%
-    );
-
+    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius:42px;
     box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
 
-/* 🧠 العناوين */
-h1, h2, h3{
-    color:var(--navy);
-    text-align:center;
-    font-weight:900;
-}
-
-/* 🧾 Inputs */
-div[data-testid="stTextInput"] input{
-    border-radius:25px;
-    height:44px;
-    border:none !important;
-    outline:none !important;
-    padding-left:16px;
-    background:rgba(255,255,255,0.95);
-}
-
-/* 📍 Select */
-div[data-testid="stSelectbox"] div{
-    border-radius:25px;
-}
-
-/* 🔘 الأزرار الأساسية */
-div.stButton > button{
-    width:100%;
-    height:46px;
-    border-radius:25px;
-    border:none;
-
-    background:linear-gradient(90deg,
-        var(--accent),
-        var(--accent2)
-    );
-
-    color:white;
-    font-weight:bold;
-
-    box-shadow:0 6px 14px rgba(47,128,237,.25);
-}
-
-/* ✨ hover */
-div.stButton > button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 18px rgba(0,0,0,.2);
-}
-
-/* 🤍 زر ثانوي */
-div.stButton:nth-of-type(1) > button{
-    background:white;
-    color:var(--navy);
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.contact-item {
+/* 💊 تصميم الكبسولة (المستطيل الأبيض الطويل) */
+.capsule-box {
     background: white;
-    border-radius: 25px;
-    padding: 12px 20px;
-    margin-bottom: 10px;
+    border-radius: 100px; /* تجعل الحواف دائرية تماماً كالكبسولة */
+    padding: 18px 25px;
+    margin-bottom: 15px;
     display: flex;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    width: 100%;
 }
-.contact-item-icon {
+
+.icon-style {
     font-size: 20px;
     color: var(--navy);
 }
-.contact-item-text {
+
+.text-style {
     font-weight: bold;
     color: var(--navy);
+    font-size: 16px;
 }
 </style>
 """, unsafe_allow_html=True)
 
+# دمج الـ HTML مع الـ CSS الجديد لضمان الشكل
 components.html("""
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Contact Us</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: transparent; }
+        .wrapper { max-width: 380px; margin: auto; }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            color: #0f2446;
+        }
+
+        .capsule {
+            background: white;
+            border-radius: 100px; /* سر شكل الكبسولة */
+            padding: 15px 25px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .icon {
+            margin-right: 15px;
+            color: #0f2446;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .text {
+            color: #0f2446;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        
+        a { text-decoration: none; color: inherit; }
+    </style>
 </head>
 <body>
-    <div class="block-container">
-        <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;"><i class="fas fa-arrow-left"></i></a>
-            <h3 style="margin: 0;">Contact Us</h3>
+    <div class="wrapper">
+        <div class="header">
+            <a href="#" style="font-size: 24px; margin-right: 15px;"><i class="fas fa-arrow-left"></i></a>
+            <h2 style="margin: 0; font-weight: 900;">Contact Us</h2>
         </div>
 
-        <div class="contact-item">
-            <span class="contact-item-icon"><i class="fas fa-envelope"></i></span>
-            <span class="contact-item-text">Email: CoCare26@gmail.com</span>
+        <!-- كبسولة الإيميل -->
+        <div class="capsule">
+            <div class="icon"><i class="fas fa-envelope"></i></div>
+            <div class="text">Email: CoCare26@gmail.com</div>
         </div>
 
-        <div class="contact-item">
-            <span class="contact-item-icon"><i class="fas fa-phone"></i></span>
-            <span class="contact-item-text">Phone: +962 79 123 4567</span>
+        <!-- كبسولة الهاتف -->
+        <div class="capsule">
+            <div class="icon"><i class="fas fa-phone"></i></div>
+            <div class="text">Phone: +962 79 123 4567</div>
         </div>
     </div>
 </body>
 </html>
-""", height=700)
+""", height=400)
