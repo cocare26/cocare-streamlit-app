@@ -41,20 +41,17 @@ st.markdown("""
 
 header, footer {visibility:hidden;}
 
-.robot {
-    width:145px;
-    display:block;
-    margin:auto;
-    margin-bottom:10px;
+.robot{
+    width:140px;
+    position:relative;
+    top:40px;      /* نزليه لتحت */
+    left:70px;     /* حركيه لليمين */
+    z-index:2;
 }
 
-.stTextInput input {
-    height:42px;
-    border-radius:25px;
-    border:none;
-    padding-left:18px;
+.stTextInput{
+    margin-top:-30px;  /* يرفع البوكس لفوق تحت البوت */
 }
-
 .stButton > button {
     width:100%;
     height:46px;
