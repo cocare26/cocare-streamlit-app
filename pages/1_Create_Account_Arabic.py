@@ -38,20 +38,13 @@ h1 {
     color: #333;
 }
 
-/* حركة البوكسات */
+/* البوكسات بدون حركة */
 div[data-testid="stTextInput"],
-div[data-testid="stSelectbox"] {
-    transition: all .25s ease;
-}
-
-div[data-testid="stTextInput"]:hover,
-div[data-testid="stSelectbox"]:hover {
-    transform: translateY(-3px);
-}
-
-div[data-testid="stTextInput"]:focus-within,
-div[data-testid="stSelectbox"]:focus-within {
-    transform: scale(1.03);
+div[data-testid="stTextInput"] *,
+div[data-testid="stSelectbox"],
+div[data-testid="stSelectbox"] * {
+    transform: none !important;
+    transition: none !important;
 }
 
 div[data-testid="stTextInput"] input {
@@ -65,20 +58,17 @@ div[data-testid="stTextInput"] input {
     box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
 
-/* الحركة على الحاوية فقط */
-div[data-testid="stTextInput"] > div,
-div[data-testid="stSelectbox"] > div {
-    
+div[data-testid="stTextInput"] input:focus {
+    box-shadow: 0 0 0 2px rgba(47,128,237,.25) !important;
 }
 
-div[data-testid="stTextInput"]:hover > div,
-div[data-testid="stSelectbox"]:hover > div {
-    
+div[data-testid="stSelectbox"] div {
+    border-radius: 25px;
 }
 
-div[data-testid="stTextInput"]:focus-within > div,
-div[data-testid="stSelectbox"]:focus-within > div {
-    
+div[data-testid="stSelectbox"]:focus-within {
+    box-shadow: 0 0 0 2px rgba(47,128,237,.15) !important;
+    border-radius: 25px;
 }
 
 div.stButton > button {
