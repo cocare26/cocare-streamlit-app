@@ -9,46 +9,84 @@ if "reset_code" not in st.session_state:
 
 st.markdown("""
 <style>
+
+/* 🎨 ألوان عامة */
+:root{
+    --navy:#0f2446;
+    --navy-light:#2f4f7c;
+    --accent:#2f80ed;
+}
+
+/* 📱 الكارد */
 .block-container {
     max-width: 390px;
     padding: 22px 30px 30px 30px;
     background: linear-gradient(180deg,#c9e7f7,#dff4ff);
     border-radius: 42px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
 
+/* 🧠 العنوان */
 h1 {
-    font-size: 26px;
+    font-size: 22px !important;
     text-align: center;
-    color: #0f2446;
-    margin-bottom: 16px;
-}
-h1 {
-    font-size: 22px !important;   /* تصغير الحجم */
-    margin-top: 10px !important;  /* تنزيله لتحت */
+    color: var(--navy);
+    margin-top: 10px !important;
+    font-weight: 900;
+    letter-spacing: .5px;
 }
 
+/* 🧾 الحقول */
 div[data-testid="stTextInput"] {
-    margin-bottom: 8px;
-}
-
-div[data-testid="stTextInput"] label {
-    margin-bottom: 3px;
+    margin-bottom: 10px;
 }
 
 div[data-testid="stTextInput"] input {
     border-radius: 25px;
     height: 44px;
+    border: none;
+    padding-left: 16px;
+    background: rgba(255,255,255,0.9);
+    box-shadow: inset 0 0 0 1px #d6e2f0;
+    transition: .2s;
 }
 
+/* ✨ فوكس */
+div[data-testid="stTextInput"] input:focus {
+    box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* 🔘 الأزرار */
 .stButton > button {
     width: 100%;
-    height: 44px;
+    height: 46px;
     border-radius: 25px;
     border: none;
-    background: #1c6fa4;
+    background: linear-gradient(90deg,#2f80ed,#1c6fa4);
     color: white;
     font-weight: bold;
+    font-size: 14px;
+    transition: .2s;
 }
+
+/* hover */
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,.2);
+}
+
+/* عند الضغط */
+.stButton > button:active {
+    transform: scale(0.97);
+}
+
+/* زر الرجوع */
+div.stButton:nth-of-type(3) > button {
+    background: white;
+    color: var(--navy);
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -57,11 +95,13 @@ st.title("Forgot Password")
 phone = st.text_input("Phone Number or ID", max_chars=11)
 
 if st.button("Send Code"):
-    if phone.isdigit() and len(phone) == 10 and phone.startswith("07"):
+    if phone.isdigit() and (
+        (len(phone) == 10 and phone.startswith("07")) or len(phone) == 11
+    ):
         st.session_state.reset_code = str(random.randint(1000, 9999))
         st.success(f"Reset code: {st.session_state.reset_code}")
     else:
-        st.error("Phone must be 10 digits and start with 07")
+        st.error("Enter valid phone (07...) or ID (11 digits)")
 
 code = st.text_input("Enter Code")
 new_password = st.text_input("New Password", type="password")
