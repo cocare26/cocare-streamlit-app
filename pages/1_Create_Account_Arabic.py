@@ -68,17 +68,17 @@ div[data-testid="stTextInput"] input {
 /* الحركة على الحاوية فقط */
 div[data-testid="stTextInput"] > div,
 div[data-testid="stSelectbox"] > div {
-    transition: all .25s ease;
+    
 }
 
 div[data-testid="stTextInput"]:hover > div,
 div[data-testid="stSelectbox"]:hover > div {
-    transform: translateY(-3px);
+    
 }
 
 div[data-testid="stTextInput"]:focus-within > div,
 div[data-testid="stSelectbox"]:focus-within > div {
-    transform: scale(1.02);
+    
 }
 
 div.stButton > button {
