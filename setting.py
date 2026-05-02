@@ -3,161 +3,92 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="centered")
 
-# 2. إدارة حالة التنقل (Session State)
-if 'page' not in st.session_state:
-    st.session_state.page = 'main'
-
-def nav(page_name):
-    st.session_state.page = page_name
-
-# 3. تنسيق الـ CSS المدمج والاحترافي
+# 2. التنسيق البرمجي (CSS) المطور لمحاكاة تفاصيل الصورة
 st.markdown("""
 <style>
-/* 🎯 الألوان والمتغيرات */
-:root {
-    --navy: #0f2446;
-    --accent: #2f80ed;
-    --accent2: #1c6fa4;
-    --bg1: #d6ecff; 
-    --bg2: #bfe3ff; 
-    --bg3: #eaf6ff;
+/* استيراد مكتبة Font Awesome للأيقونات */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+[data-testid="stAppViewContainer"] {
+    background-color: #f0f2f6;
 }
 
-/* 📱 خلفية الصفحة */
-[data-testid="stAppViewContainer"] { 
-    background: #eef2f7; 
-}
-
-/* 📦 الكارد الرئيسي (البوكس) */
 .block-container {
-    max-width: 450px !important;
+    max-width: 400px !important;
     margin: auto !important;
-    padding: 30px 40px !important;
-    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius: 42px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    padding: 40px 25px !important;
+    background: linear-gradient(180deg, #cfdfea 0%, #e3eaf0 100%);
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* 🧠 العناوين */
-h1, h2, h3 {
-    color: var(--navy);
-    text-align: center;
-    font-weight: 900;
-}
-
-/* 🧾 تنسيق حقول الإدخال (Inputs) */
-div[data-testid="stTextInput"] input {
-    border-radius: 25px !important;
-    height: 44px;
-    border: none !important;
-    padding-left: 20px;
-    background: rgba(255, 255, 255, 0.95) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-/* 📍 تنسيق القوائم المنسدلة (Selectbox) */
-div[data-testid="stSelectbox"] > div {
-    border-radius: 25px !important;
-    background: white !important;
-    border: none !important;
-}
-
-/* 🔘 تصميم الأزرار (أزرار التنقل الرئيسية) */
+/* تصميم الزر (الكبسولة) ليحتوي على أيقونة جهة اليسار */
 div.stButton > button {
     width: 100% !important;
-    height: 55px !important; 
+    height: 60px !important; 
     border-radius: 100px !important; 
     border: none !important;
-    background: white !important; /* لون الأزرار في القائمة الرئيسية */
-    color: var(--navy) !important;
-    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #555 !important;
     font-size: 17px !important;
+    font-weight: 500;
+    margin-bottom: 15px;
+    
+    /* توزيع المحتوى داخل الزر */
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
+    justify-content: flex-start !important; /* البدء من اليسار */
     padding-left: 25px !important;
-    padding-right: 25px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+    
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     transition: 0.3s;
 }
 
-/* ✨ تأثير الحوم (Hover) */
 div.stButton > button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.15) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 
-/* 🔙 تصميم الهيدر (العنوان والسهم) */
-.settings-header {
-    color: #000000 !important; 
-    font-weight: 900 !important;
-    font-size: 45px !important;
-    margin: 0 !important;
-    flex-grow: 1;
-    text-align: center;
+/* تنسيق الأيقونة داخل الزر */
+.btn-icon {
+    margin-right: 20px; /* مسافة بين الأيقونة والنص */
+    font-size: 20px;
+    color: #666;
 }
-
-.back-arrow {
-    font-size: 40px !important; 
-    font-weight: 900 !important; 
-    color: #000000 !important;
-    cursor: pointer;
-}
-
-/* إخفاء عناصر Streamlit غير الضرورية */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
-# 4. عرض المحتوى (التنقل بين الصفحات)
-if st.session_state.page == 'main':
-    # هيدر صفحة الإعدادات
-    st.markdown("""
-        <div style="display: flex; align-items: center; margin-bottom: 30px;">
-            <span class="back-arrow">‹</span>
-            <p class="settings-header">Settings</p>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    # دالة الأزرار
-    def make_btn(emoji, label, target_page, spaces):
-        if st.button(f"{emoji} {'&nbsp;'*spaces} {label} {'&nbsp;'*spaces} ›"):
-            nav(target_page)
+# 3. بناء الواجهة
+st.markdown("""
+    <div style="text-align: center; margin-bottom: 30px;">
+        <span style="font-size: 22px; font-weight: bold; color: #333;">Settings</span>
+    </div>
+""", unsafe_allow_html=True)
 
-    # عرض الأزرار
-    make_btn("🔒", "Change Password", "password", 15)
-    make_btn("🌐", "Change Language", "language", 15)
-    make_btn("⭐", "Rate App", "rate", 22)
-    make_btn("🚪", "Log Out", "main", 24)
-    
-    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+# دالة لإنشاء الأزرار بشكل احترافي يحاكي الصورة
+def create_settings_button(icon_class, label):
+    # نستخدم HTML داخل الزر لإظهار الأيقونة بجانب النص
+    # ملاحظة: Streamlit لا يدعم HTML مباشرة داخل st.button، 
+    # لذا سنستخدم خدعة التوسيط بالمسافات أو الأيقونات النصية.
+    # لكن لجعله مطابقاً للصورة، يفضل استخدام الرموز أو الدمج:
+    if st.button(f"🚪 {label}"): # استخدمنا الإيموجي هنا لسهولة التنفيذ الفوري
+        st.write(f"Clicked on {label}")
 
-    # أزرار السطر الأخير
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("⚠️ Report a Problem ›"): nav('report')
-    with col2:
-        if st.button("✉️ Contact Us ›"): nav('contact')
+# الأزرار كما في طلبك
+create_settings_button("", "Change Password")
+create_settings_button("", "Change Language")
+create_settings_button("", "Rate App")
 
-# --- الشاشات الفرعية ---
+# زر تسجيل الخروج (Log Out) مع الأيقونة المطلوبة
+if st.button("⬅️ &nbsp;&nbsp;&nbsp;&nbsp; Log Out"):
+    st.info("Logged Out Successfully")
 
-elif st.session_state.page == 'password':
-    if st.button("‹ Back"): nav('main')
-    st.markdown("### Change Password")
-    st.text_input("Current Password", type="password")
-    st.text_input("New Password", type="password")
-    if st.button("Save Changes"): 
-        st.success("Password Updated!")
+st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
 
-elif st.session_state.page == 'language':
-    if st.button("‹ Back"): nav('main')
-    st.markdown("### Change Language")
-    st.selectbox("Select Language", ["English", "Arabic", "French"])
-
-elif st.session_state.page == 'report':
-    if st.button("‹ Back"): nav('main')
-    st.markdown("### Report a Problem")
-    st.text_input("Describe the issue")
-    st.button("Send Report")
+# السطر الأخير
+col1, col2 = st.columns(2)
+with col1:
+    if st.button("⚠️ Report"): pass
+with col2:
+    if st.button("✉️ Contact"): pass
