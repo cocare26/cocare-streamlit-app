@@ -131,36 +131,37 @@ components.html("""
 <html>
 <head>
     <title>Rate App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="block-container">
         <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;">←</a>
+            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;"><i class="fas fa-arrow-left"></i></a>
             <h3 style="margin: 0;">Rate App</h3>
         </div>
 
         <div class="store-item" onclick="window.open(\'https://play.google.com/store/apps/details?id=com.cocare.app\', \'_blank\')">
             <div class="store-item-left">
-                <span class="store-item-icon">▶️</span>
+                <span class="store-item-icon"><i class="fab fa-google-play"></i></span>
                 <span class="store-item-text">Google Play Store</span>
             </div>
-            <span class="store-item-arrow">›</span>
+            <span class="store-item-arrow"><i class="fas fa-chevron-right"></i></span>
         </div>
 
         <div class="store-item" onclick="window.open(\'https://apps.apple.com/us/app/cocare/id1234567890\', \'_blank\')">
             <div class="store-item-left">
-                <span class="store-item-icon"></span>
+                <span class="store-item-icon"><i class="fab fa-apple"></i></span>
                 <span class="store-item-text">Apple App Store</span>
             </div>
-            <span class="store-item-arrow">›</span>
+            <span class="store-item-arrow"><i class="fas fa-chevron-right"></i></span>
         </div>
 
         <div class="store-item" onclick="window.open(\'https://appgallery.huawei.com/app/C101234567\', \'_blank\')">
             <div class="store-item-left">
-                <span class="store-item-icon">H</span>
+                <span class="store-item-icon"><i class="fas fa-mobile-alt"></i></span>
                 <span class="store-item-text">Huawei AppGallery</span>
             </div>
-            <span class="store-item-arrow">›</span>
+            <span class="store-item-arrow"><i class="fas fa-chevron-right"></i></span>
         </div>
     </div>
 </body>
