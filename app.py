@@ -90,16 +90,13 @@ body{margin:0;background:#eef2f7;font-family:Arial}
 function login(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
-    const pageValue = document.getElementById("pageValue");
-    const form = document.getElementById("loginForm");
 
+    // 🔥 التنقل الصحيح داخل Streamlit
     if(/^07[0-9]{8}$/.test(v)){
-        pageValue.value = "customer";
-        form.submit();
+        window.parent.location.href = "?page=customer";
     }
     else if(/^[0-9]{11}$/.test(v)){
-        pageValue.value = "employee";
-        form.submit();
+        window.parent.location.href = "?page=employee";
     }
     else{
         e.innerText = "Invalid phone or ID number";
