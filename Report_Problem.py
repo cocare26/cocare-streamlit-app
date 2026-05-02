@@ -8,6 +8,7 @@ st.markdown("""
 /* 🎯 ألوان أساسية */
 :root{
     --navy:#0f2446;
+    --accent:#2f80ed;
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
@@ -18,11 +19,11 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - تم تصغير العرض إلى 360px لجعل البوكس أنحف */
+/* 📦 الكارد الرئيسي - تم تقليل العرض من 400px إلى 350px ليكون أنحف */
 .block-container{
-    max-width:360px !important; 
+    max-width:350px !important; 
     margin:auto !important;
-    padding:25px !important;
+    padding:30px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
@@ -47,7 +48,7 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 310px; /* تم تصغير عرض المحتوى الداخلي ليتناسب مع البوكس الجديد */
+            max-width: 290px; /* تقليل عرض المحتوى الداخلي ليتناسب مع البوكس الجديد */
             display: flex;
             flex-direction: column;
             height: 480px;
@@ -57,15 +58,14 @@ components.html("""
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             position: relative;
         }
 
-        /* سهم الرجوع < جهة اليسار */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 26px;
+            font-size: 28px;
             font-weight: bold;
             color: #0f2446;
             text-decoration: none;
@@ -76,20 +76,19 @@ components.html("""
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 20px; /* تصغير الخط قليلاً ليناسب العرض الجديد */
+            font-size: 20px; /* تقليل حجم الخط قليلاً ليناسب العرض الأقل */
             color: #0f2446;
         }
 
-        /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
             height: 200px;
-            border-radius: 25px;
+            border-radius: 30px;
             border: none;
             outline: none;
-            padding: 18px;
+            padding: 20px;
             background: white;
-            font-size: 15px;
+            font-size: 16px;
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
@@ -97,9 +96,8 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🎨 لون النص التوضيحي رمادي */
         .report-textarea::placeholder {
-            color: #999999;
+            color: #888888;
             opacity: 1;
         }
 
@@ -112,7 +110,7 @@ components.html("""
             background: white;
             border-radius: 100px;
             width: 100%;
-            padding: 12px 20px;
+            padding: 12px 25px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -123,21 +121,16 @@ components.html("""
             box-sizing: border-box;
         }
 
-        .send-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-        }
-
         .send-btn span {
             color: #0f2446;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 16px;
             order: 2;
         }
 
         .send-btn i {
             color: #0f2446;
-            font-size: 16px;
+            font-size: 18px;
             order: 1;
         }
     </style>
