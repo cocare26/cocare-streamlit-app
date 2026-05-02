@@ -45,11 +45,11 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
     }
 
-    /* 👇 التعديل هنا (كبرنا المسافة) */
+    /* 👇 التعديل النهائي (مسافة كبيرة جدًا) */
     .stButton > button div p {
         width: 100%;
         text-align: left !important;
-        margin-left: 260px !important; 
+        margin-left: 400px !important; 
     }
 
     /* السطر الأخير */
