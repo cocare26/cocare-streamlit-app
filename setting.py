@@ -27,7 +27,7 @@ st.markdown("""
     margin-bottom: 100px !important; 
 }
 
-/* 🔥 الأزرار الكبيرة */
+/* 🔥 توحيد أول 4 أزرار */
 .stButton > button {
     background-color: #ffffff !important;
     color: #000000 !important; 
@@ -36,17 +36,18 @@ st.markdown("""
     width: 100% !important;
 
     height: 120px !important;
+    min-height: 120px !important;
+    padding: 0 0 0 80px !important;
+
     font-size: 28px !important;
-
     font-weight: 900 !important;
-    margin-bottom: 25px !important;
 
-    margin-left: 120px !important;
+    margin: 0 0 25px 120px !important;
 
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    padding-left: 80px !important; 
+
     box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
 }
 
@@ -60,8 +61,10 @@ st.markdown("""
 /* 🔥 Report + Contact (صغار) */
 div[data-testid="column"] .stButton > button {
     height: 55px !important;
+    min-height: 55px !important;
     font-size: 15px !important;
     border-radius: 25px !important;
+    margin: 0 0 15px 0 !important;
 }
 
 /* الأعمدة */
@@ -104,4 +107,3 @@ if st.session_state.page == 'main':
 elif st.session_state.page == 'password':
     if st.button("< Back"): nav('main')
     st.markdown("<h1 style='text-align:center;'>Change Password</h1>", unsafe_allow_html=True)
-    
