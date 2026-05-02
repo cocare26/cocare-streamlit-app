@@ -3,7 +3,7 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="centered")
 
-# 2. تنسيق الـ CSS المحدث
+# 2. تنسيق الـ CSS المطور
 st.markdown("""
     <style>
     /* خلفية التطبيق */
@@ -17,12 +17,13 @@ st.markdown("""
         color: #000000 !important; /* لون النص أسود */
         border-radius: 20px !important;
         border: none !important;
-        width: 100% !important; /* هذا السطر يجعل الزر يمتد للعرض الكامل */
-        height: 60px !important; /* زيادة الارتفاع قليلاً ليعطي فخامة */
+        width: 100% !important; /* هذا السطر يضمن العرض الكامل من البداية للنهاية */
+        height: 60px !important; /* زيادة الارتفاع ليعطي مظهر البوكس الكبير */
         font-size: 18px !important;
         font-weight: bold !important;
         box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
         margin-bottom: 15px !important;
+        display: block !important;
     }
 
     /* تحسين شكل المدخلات */
@@ -49,7 +50,7 @@ def nav(page_name):
 
 # 4. عرض الصفحات
 if st.session_state.page == 'main':
-    # العنوان: السهم < وكلمة Settings كلاهما بالأسود
+    # العنوان: السهم < وكلمة Settings كلاهما باللون الأسود
     st.markdown("""
         <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 30px; direction: ltr;">
             <div style="padding-left: 10px;">
@@ -61,21 +62,20 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # الأزرار الأربعة الأولى (تمتد تلقائياً للعرض الكامل بسبب width: 100% في CSS)
+    # الأزرار الأربعة الأولى (موضوعة مباشرة لتأخذ العرض الكامل)
     if st.button("🔒 Change Password"): nav('password')
     if st.button("🌐 Change Language"): nav('language')
     if st.button("⭐ Rate App"): nav('rate')
     if st.button("🚪 Log Out"): st.write("Logged Out!")
     
-    # إذا أردت Report و Contact بجانب بعضهما، نستخدم الأعمدة
-    # أما إذا أردتهما كباراً أيضاً، ضع كل واحد في سطر بدون columns
+    # أزرار البلاغات والتواصل (مقسمة لعمودين، إذا أردتها كبيرة أيضاً ضع كل واحدة في سطر)
     col1, col2 = st.columns(2)
     with col1:
         if st.button("⚠️ Report"): nav('report')
     with col2:
         if st.button("✉️ Contact"): nav('contact')
 
-# --- باقي الشاشات (تعديل السهم ليصبح متناسقاً) ---
+# --- باقي الشاشات ---
 elif st.session_state.page == 'password':
     if st.button("< Back"): nav('main')
     st.markdown("<h3 style='color: black;'>Change Password</h3>", unsafe_allow_html=True)
@@ -87,6 +87,7 @@ elif st.session_state.page == 'password':
 elif st.session_state.page == 'language':
     if st.button("< Back"): nav('main')
     st.markdown("<h3 style='color: black;'>Change Language</h3>", unsafe_allow_html=True)
+    # أزرار اللغات داخل الصفحة الفرعية أيضاً ستكون كبيرة
     st.button("English (Active)")
     st.button("العربية")
 
