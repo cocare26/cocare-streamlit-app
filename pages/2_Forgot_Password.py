@@ -10,14 +10,12 @@ if "reset_code" not in st.session_state:
 st.markdown("""
 <style>
 
-/* 🎨 ألوان عامة */
 :root{
     --navy:#0f2446;
-    --navy-light:#2f4f7c;
     --accent:#2f80ed;
 }
 
-/* 📱 الكارد */
+/* الكارد */
 .block-container {
     max-width: 390px;
     padding: 22px 30px 30px 30px;
@@ -26,37 +24,33 @@ st.markdown("""
     box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
 
-/* 🧠 العنوان */
+/* العنوان */
 h1 {
     font-size: 22px !important;
     text-align: center;
     color: var(--navy);
     margin-top: 10px !important;
     font-weight: 900;
-    letter-spacing: .5px;
 }
 
-/* 🧾 الحقول */
-div[data-testid="stTextInput"] {
-    margin-bottom: 10px;
-}
-
+/* input بدون حواف */
 div[data-testid="stTextInput"] input {
     border-radius: 25px;
     height: 44px;
-    border: none;
+    border: none !important;
+    outline: none !important;
     padding-left: 16px;
-    background: rgba(255,255,255,0.9);
-    box-shadow: inset 0 0 0 1px #d6e2f0;
-    transition: .2s;
+    background: rgba(255,255,255,0.95);
+    box-shadow: none !important;
 }
 
-/* ✨ فوكس */
+/* حتى عند الفوكس */
 div[data-testid="stTextInput"] input:focus {
-    box-shadow: 0 0 0 2px var(--accent);
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-/* 🔘 الأزرار */
+/* الأزرار */
 .stButton > button {
     width: 100%;
     height: 46px;
@@ -65,26 +59,17 @@ div[data-testid="stTextInput"] input:focus {
     background: linear-gradient(90deg,#2f80ed,#1c6fa4);
     color: white;
     font-weight: bold;
-    font-size: 14px;
     transition: .2s;
 }
 
-/* hover */
 .stButton > button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0,0,0,.2);
-}
-
-/* عند الضغط */
-.stButton > button:active {
-    transform: scale(0.97);
 }
 
 /* زر الرجوع */
 div.stButton:nth-of-type(3) > button {
     background: white;
     color: var(--navy);
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 
 </style>
@@ -101,7 +86,7 @@ if st.button("Send Code"):
         st.session_state.reset_code = str(random.randint(1000, 9999))
         st.success(f"Reset code: {st.session_state.reset_code}")
     else:
-        st.error("Enter valid phone (07...) or ID (11 digits)")
+        st.error("Enter valid phone or ID")
 
 code = st.text_input("Enter Code")
 new_password = st.text_input("New Password", type="password")
