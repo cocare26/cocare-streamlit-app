@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS (تكبير خط العنوان + الألوان + الإزاحة)
+# 3. تنسيق الـ CSS
 st.markdown("""
 <style>
 :root {
@@ -35,7 +35,7 @@ st.markdown("""
     box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
 
-/* تصميم الأزرار */
+/* تصميم الأزرار (بقيت كما هي في كودك) */
 div.stButton > button {
     width: 100% !important;
     height: 55px !important; 
@@ -59,20 +59,21 @@ div.stButton > button:hover {
     box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 
-/* تكبير خط السيتنج بشكل واضح */
+/* تكبير كلمة السيتنج لتكون عملاقة جداً */
 .settings-header {
     color: #000000 !important; 
-    font-weight: 900;
-    font-size: 55px; /* تم تكبير الخط هنا من 38 إلى 55 */
+    font-weight: 950;
+    font-size: 150px; /* تم رفع الحجم إلى 150 بكسل */
     margin: 0;
     flex-grow: 1;
     text-align: center;
     padding-left: 50px; 
+    line-height: 1; /* لضمان عدم وجود مسافات عمودية زائدة */
 }
 
 /* تكبير أيقونة السهم الجانبي */
 .back-arrow {
-    font-size: 50px; 
+    font-size: 130px; /* تم التكبير ليناسب العنوان */
     font-weight: 900; 
     color: #000000; 
     cursor: pointer;
@@ -83,9 +84,9 @@ div.stButton > button:hover {
 
 # 4. عرض المحتوى
 if st.session_state.page == 'main':
-    # هيدر الصفحة مع الخط المكبر
+    # هيدر الصفحة
     st.markdown("""
-        <div style="display: flex; align-items: center; margin-bottom: 50px; padding-left: 20px;">
+        <div style="display: flex; align-items: center; margin-bottom: 70px; padding-left: 20px;">
             <span class="back-arrow">‹</span>
             <p class="settings-header">Settings</p>
         </div>
