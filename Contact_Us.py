@@ -116,21 +116,22 @@ components.html("""
 <html>
 <head>
     <title>Contact Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="block-container">
         <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;">←</a>
+            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;"><i class="fas fa-arrow-left"></i></a>
             <h3 style="margin: 0;">Contact Us</h3>
         </div>
 
         <div class="contact-item">
-            <span class="contact-item-icon">✉️</span>
+            <span class="contact-item-icon"><i class="fas fa-envelope"></i></span>
             <span class="contact-item-text">Email: CoCare26@gmail.com</span>
         </div>
 
         <div class="contact-item">
-            <span class="contact-item-icon">📞</span>
+            <span class="contact-item-icon"><i class="fas fa-phone"></i></span>
             <span class="contact-item-text">Phone: +962 79 123 4567</span>
         </div>
     </div>
