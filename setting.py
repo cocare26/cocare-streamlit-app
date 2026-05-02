@@ -33,7 +33,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 3. إدارة التنقل (هذا الجزء هو الذي منع الخطأ)
+# 3. إدارة التنقل
 if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
@@ -42,14 +42,14 @@ def nav(page_name):
 
 # 4. عرض الصفحات
 if st.session_state.page == 'main':
-    # كود العنوان مع السهم المطلوب <
+    # كود العنوان: السهم < وكلمة Settings كلاهما باللون الأسود
     st.markdown("""
         <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 25px; direction: ltr;">
-            <div style="cursor: pointer; padding-left: 10px;">
-                <span style="font-size: 30px; font-weight: bold; color: black;"><</span>
+            <div style="padding-left: 10px;">
+                <span style="font-size: 30px; font-weight: bold; color: #000000;"><</span>
             </div>
             <div style="flex-grow: 1; text-align: center; margin-left: -40px;">
-                <h2 style="color: #4a4a4a; margin: 0;">Settings</h2>
+                <h2 style="color: #000000; margin: 0; font-weight: bold;">Settings</h2>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -65,9 +65,10 @@ if st.session_state.page == 'main':
     with col2:
         if st.button("✉️ Contact"): nav('contact')
 
+# --- باقي الشاشات ---
 elif st.session_state.page == 'password':
     if st.button("← Back"): nav('main')
-    st.markdown("<h3>Change Password</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: black;'>Change Password</h3>", unsafe_allow_html=True)
     st.text_input("Current Password", type="password")
     st.text_input("New Password", type="password")
     st.text_input("Re-write New Password", type="password")
@@ -75,13 +76,13 @@ elif st.session_state.page == 'password':
 
 elif st.session_state.page == 'language':
     if st.button("← Back"): nav('main')
-    st.markdown("<h3>Change Language</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: black;'>Change Language</h3>", unsafe_allow_html=True)
     st.button("English (Active)")
     st.button("العربية")
 
 elif st.session_state.page == 'report':
     if st.button("← Back"): nav('main')
-    st.markdown("<h3>Report a Problem</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: black;'>Report a Problem</h3>", unsafe_allow_html=True)
     st.text_area("Message", value="I need help...")
     if st.button("Send Report"):
         st.success("Report Sent!")
@@ -89,6 +90,6 @@ elif st.session_state.page == 'report':
 
 elif st.session_state.page == 'contact':
     if st.button("← Back"): nav('main')
-    st.markdown("<h3>Contact Us</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: black;'>Contact Us</h3>", unsafe_allow_html=True)
     st.info("📧 Email: Co.Care26@gmail.com")
     st.info("📞 Phone: +962 79 123 4657")
