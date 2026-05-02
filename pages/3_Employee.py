@@ -113,6 +113,8 @@ body{margin:0;background:transparent}
  display:flex;justify-content:space-around;align-items:center
 }
 
+.nav form{margin:0}
+
 .nav button{
  background:none;border:none;font-weight:900;font-size:14px;cursor:pointer;color:#111827
 }
@@ -238,33 +240,23 @@ body{margin:0;background:transparent}
 
 <div class="nav">
     <form action="/" method="get" target="_top">
-    <input type="hidden" name="page" value="employee">
-    <button type="submit"><span>⌂</span>Home</button>
-</form>
+        <input type="hidden" name="page" value="employee">
+        <button type="submit" class="active-nav"><span>⌂</span>Home</button>
+    </form>
+
     <form action="/" method="get" target="_top">
-    <button type="submit"><span>⇥</span>Logout</button>
-</form>
+        <button type="submit"><span>⇥</span>Logout</button>
+    </form>
+
     <form action="/" method="get" target="_top">
-    <input type="hidden" name="page" value="todo">
-    <button type="submit"><span>☑</span>To Do List</button>
-</form>
+        <input type="hidden" name="page" value="todo">
+        <button type="submit"><span>☑</span>To Do List</button>
+    </form>
 </div>
 
 </div>
 
 <script>
-function goHome(){
-    window.top.location.href = "/?page=employee";
-}
-
-function goToTodo(){
-    window.top.location.href = "/?page=todo";
-}
-
-<form action="/" method="get" target="_top">
-    <button type="submit"><span>⇥</span>Logout</button>
-</form>
-
 function updateRegion(){
     const selected = document.getElementById("region").value;
     const regions = document.getElementsByClassName("region-name");
