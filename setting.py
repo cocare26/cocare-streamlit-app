@@ -9,6 +9,7 @@ st.markdown("""
     .stApp {
         background-color: #cbdbe5;
     }
+    
 
     /* --- التعديل المقصود لزيادة الإزاحة لجهة اليمين --- */
     .block-container {
