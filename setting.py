@@ -1,6 +1,6 @@
 # 4. عرض الصفحة الرئيسية
 if st.session_state.page == 'main':
-    # الهيدر المنسق
+    # الهيدر
     st.markdown("""
         <div style="display: flex; align-items: center; justify-content: flex-start; gap: 40px; margin-bottom: 50px; padding-left: 20px;">
             <span style="font-size: 40px; font-weight: 900; color: #0f2446; cursor: pointer;">‹</span>
@@ -8,23 +8,23 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # دالة بناء الأزرار مع إمكانية التحكم في المسافة (Gap)
+    # دالة بناء الأزرار
     def make_btn(emoji, label, page, gap_size):
         gap = "&nbsp;" * gap_size 
         if st.button(f"{emoji} {gap} {label} &nbsp;&nbsp; ›"):
             nav(page)
 
-    # --- تصغير أول بوكسين (تقليل عدد المسافات ليكونوا أقصر) ---
-    make_btn("🔒", "Change Password", "password", gap_size=80) # كانت 110 وصارت 80
-    make_btn("🌐", "Change Language", "language", gap_size=80) # كانت 110 وصارت 80
+    # --- تقليل المسافة في أول بوكسين (خليتها 40 بدل 80 عشان "يصغر" الفراغ) ---
+    make_btn("🔒", "Change Password", "password", gap_size=40) 
+    make_btn("🌐", "Change Language", "language", gap_size=40) 
     
-    # --- إبقاء الريت واللوق طوال جداً كما طلبت سابقاً ---
+    # --- إبقاء الريت واللوق طوال جداً بمسافة ضخمة (145) ---
     make_btn("⭐", "Rate App", "rate", gap_size=145)
     make_btn("🚪", "Log Out", "main", gap_size=145)
     
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # السطر الأخير
+    # السطر الأخير (Report & Contact)
     col1, col2 = st.columns(2)
     with col1:
         if st.button("⚠️ Report a Problem &nbsp; ›"): nav('report')
