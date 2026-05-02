@@ -80,6 +80,28 @@ header, footer {visibility:hidden;}
     text-align:center;
     font-size:13px;
     margin-top:10px;
+    
+}
+.input{
+    width:100%;
+    height:46px;
+
+    border:none;              /* ❌ إزالة الحواف */
+    outline:none;             /* ❌ إزالة إطار التركيز */
+
+    border-radius:30px;       /* 🔥 نعومة أكثر */
+    padding-left:18px;
+
+    background:rgba(255,255,255,0.95);
+
+    /* ✨ سموث */
+    box-shadow:0 6px 16px rgba(0,0,0,0.08);
+
+    transition:all 0.25s ease;
+}
+.input:focus{
+    box-shadow:0 8px 20px rgba(47,128,237,0.25);
+    background:white;
 }
 </style>
 """, unsafe_allow_html=True)
