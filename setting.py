@@ -11,8 +11,10 @@ st.markdown("""
     background: linear-gradient(135deg, #dceff7, #cce6ef, #e8f6fa);
 }
 
+/* ⬅ كبرنا العرض */
 .block-container {
     padding-top: 20px;
+    max-width: 500px;
 }
 
 div.stButton > button {
@@ -26,8 +28,10 @@ div.stButton > button {
     font-weight: 600;
     margin: 8px 0;
     box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+
     text-align: right;
-    padding-right: 25px;
+    padding-right: 8px;   /* ⬅ قربنا الكلام للسهم */
+    padding-left: 10px;
 }
 
 div.stButton > button:hover {
@@ -52,34 +56,41 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
+# ======================
+# الصفحة الرئيسية
+# ======================
 if st.session_state.page == "settings":
 
     st.markdown('<div class="box">', unsafe_allow_html=True)
-    st.markdown('<div class="title">‹ &nbsp;&nbsp;&nbsp;&nbsp; Settings</div>', unsafe_allow_html=True)
+    st.markdown('<div class="title">‹ &nbsp;&nbsp;&nbsp; Settings</div>', unsafe_allow_html=True)
 
-    if st.button("🔒   Change Password        ›"):
+    if st.button("🔒 Change Password        ›"):
         st.session_state.page = "password"
 
-    if st.button("🌐   Change Language        ›"):
+    if st.button("🌐 Change Language       ›"):
         st.session_state.page = "language"
 
-    if st.button("⭐   Rate App        ›"):
+    if st.button("⭐ Rate App              ›"):
         st.session_state.page = "rate"
 
-    if st.button("🚪   Log Out        ›"):
+    if st.button("🚪 Log Out               ›"):
         st.session_state.page = "logout"
 
     col1, col2 = st.columns(2)
 
     with col1:
-        if st.button("⚠️ Report a Problem ›"):
+        if st.button("⚠️ Report a Problem   ›"):
             st.session_state.page = "report"
 
     with col2:
-        if st.button("✉️ Contact Us ›"):
+        if st.button("✉️ Contact Us        ›"):
             st.session_state.page = "contact"
 
     st.markdown('</div>', unsafe_allow_html=True)
+
+# ======================
+# باقي الصفحات
+# ======================
 
 elif st.session_state.page == "password":
     st.title("Change Password")
