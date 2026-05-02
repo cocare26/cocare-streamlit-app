@@ -127,30 +127,31 @@ components.html("""
 <html>
 <head>
     <title>Change Password</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="block-container">
         <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;">←</a>
+            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;"><i class="fas fa-arrow-left"></i></a>
             <h3 style="margin: 0;">Change Password</h3>
         </div>
 
         <div class="password-input-container">
-            <span class="password-input-icon">🔒</span>
+            <span class="password-input-icon"><i class="fas fa-lock"></i></span>
             <input type="password" placeholder="Current Password">
-            <span class="password-toggle-icon">👁️</span>
+            <span class="password-toggle-icon"><i class="fas fa-eye-slash"></i></span>
         </div>
 
         <div class="password-input-container">
-            <span class="password-input-icon">🔒</span>
+            <span class="password-input-icon"><i class="fas fa-lock"></i></span>
             <input type="password" placeholder="New Password">
-            <span class="password-toggle-icon">👁️</span>
+            <span class="password-toggle-icon"><i class="fas fa-eye-slash"></i></span>
         </div>
 
         <div class="password-input-container">
-            <span class="password-input-icon">🔒</span>
+            <span class="password-input-icon"><i class="fas fa-lock"></i></span>
             <input type="password" placeholder="Re-write New Password">
-            <span class="password-toggle-icon">👁️</span>
+            <span class="password-toggle-icon"><i class="fas fa-eye-slash"></i></span>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
@@ -159,3 +160,4 @@ components.html("""
     </div>
 </body>
 </html>
+""", height=700)
