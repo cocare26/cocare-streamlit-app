@@ -3,7 +3,6 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Change Language", layout="centered")
 
-
 st.markdown("""
 <style>
 
@@ -132,25 +131,26 @@ components.html("""
 <html>
 <head>
     <title>Change Language</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="block-container">
         <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;">←</a>
+            <a href="/?page=settings" style="text-decoration: none; color: var(--navy); font-size: 24px; margin-right: 10px;"><i class="fas fa-arrow-left"></i></a>
             <h3 style="margin: 0;">Change Language</h3>
         </div>
 
         <div class="language-item" onclick="window.location.href=\'/?page=settings\'" >
             <div class="language-item-left">
-                <span class="language-item-icon">🌐</span>
+                <span class="language-item-icon"><i class="fas fa-globe"></i></span>
                 <span class="language-item-text">English</span>
             </div>
-            <span class="language-item-check">✔️</span>
+            <span class="language-item-check"><i class="fas fa-check"></i></span>
         </div>
 
         <div class="language-item" onclick="window.location.href=\'/?page=settings_arabic\'" >
             <div class="language-item-left">
-                <span class="language-item-icon">🌐</span>
+                <span class="language-item-icon"><i class="fas fa-globe"></i></span>
                 <span class="language-item-text">العربية</span>
             </div>
             <span class="language-item-check"></span>
