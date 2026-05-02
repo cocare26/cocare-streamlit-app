@@ -1,95 +1,107 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة - عرض واسع
+# 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="wide") 
 
-# 2. تنسيق الـ CSS المتقدم
+# 2. CSS
 st.markdown("""
-    <style>
-    .stApp {
-        background-color: #cbdbe5;
-    }
+<style>
+.stApp {
+    background-color: #cbdbe5;
+}
 
-    /* إلغاء الهوامش الجانبية للوصول للحواف */
-    .block-container {
-        max-width: 100% !important; 
-        padding-left: 0px !important;
-        padding-right: 0px !important;
-        padding-top: 20px !important;
-    }
+/* عرض كامل */
+.block-container {
+    max-width: 100% !important; 
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 20px !important;
+}
 
-    /* هيدر الإعدادات */
-    .header-section {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        margin-bottom: 100px !important; 
-    }
+/* الهيدر */
+.header-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 100px !important; 
+}
 
-    /* تصميم الأزرار */
-    .stButton > button {
-        background-color: #ffffff !important;
-        color: #000000 !important; 
-        border-radius: 100px !important; 
-        border: none !important;
-        width: 100% !important;
-        height: 100px !important; 
-        font-size: 26px !important;
-        font-weight: 900 !important;
-        margin-bottom: 25px !important;
+/* 🔥 الأزرار الكبيرة */
+.stButton > button {
+    background-color: #ffffff !important;
+    color: #000000 !important; 
+    border-radius: 100px !important; 
+    border: none !important;
+    width: 100% !important;
 
-        margin-left: 120px !important;  /* ⬅ مزحلقين للنص */
+    height: 120px !important;
+    font-size: 28px !important;
 
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-        padding-left: 80px !important; 
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
-    }
+    font-weight: 900 !important;
+    margin-bottom: 25px !important;
 
-    /* المسافة بين الإيموجي والكلام */
-    .stButton > button div p {
-        width: 100%;
-        text-align: left !important;
-        margin-left: 520px !important;  /* ⬅ مسافة أكبر */
-    }
+    margin-left: 120px !important;
 
-    /* السطر الأخير */
-    [data-testid="column"] {
-        padding: 0 10px !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding-left: 80px !important; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+}
 
-# 3. إدارة التنقل
+/* 🔥 المسافة بين الإيموجي والكلام */
+.stButton > button div p {
+    width: 100%;
+    text-align: left !important;
+    margin-left: 520px !important;
+}
+
+/* 🔥 Report + Contact (صغار) */
+div[data-testid="column"] .stButton > button {
+    height: 55px !important;
+    font-size: 15px !important;
+    border-radius: 25px !important;
+}
+
+/* الأعمدة */
+[data-testid="column"] {
+    padding: 0 10px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# 3. التنقل
 if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
-def nav(page_name):
-    st.session_state.page = page_name
+def nav(p):
+    st.session_state.page = p
 
 # 4. الصفحة الرئيسية
 if st.session_state.page == 'main':
     st.markdown("""
-        <div class="header-section">
-            <div style="position: absolute; left: 40px; font-size: 50px; font-weight: 900; color: #000;"> < </div>
-            <h1 style="color: #000; font-size: 50px; font-weight: 900; margin: 0;">Settings</h1>
-        </div>
+    <div class="header-section">
+        <div style="position:absolute; left:40px; font-size:50px; font-weight:900;"> < </div>
+        <h1 style="font-size:50px; font-weight:900;">Settings</h1>
+    </div>
     """, unsafe_allow_html=True)
-    
+
     if st.button("🔒 Change Password"): nav('password')
     if st.button("🌐 Change Language"): nav('language')
     if st.button("⭐ Rate App"): nav('rate')
     if st.button("🚪 Log Out"): st.write("Logged Out!")
-    
+
     col1, col2 = st.columns(2)
+
     with col1:
         if st.button("⚠️ Report Problem"): nav('report')
+
     with col2:
         if st.button("✉️ Contact Us"): nav('contact')
 
-# --- باقي الصفحات ---
+# صفحات ثانية
 elif st.session_state.page == 'password':
     if st.button("< Back"): nav('main')
-    st.markdown("<h1 style='text-align:center; color: black; font-size: 45px;'>Change Password</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center;'>Change Password</h1>", unsafe_allow_html=True)
+    
