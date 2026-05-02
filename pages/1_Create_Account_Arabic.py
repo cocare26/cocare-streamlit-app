@@ -1,4 +1,3 @@
-
 import time
 import streamlit as st
 
@@ -9,7 +8,6 @@ if "generated_phone_code" not in st.session_state:
 
 st.markdown("""
 <style>
-
 :root{
     --navy:#0f2446;
     --accent:#2f80ed;
@@ -21,6 +19,7 @@ st.markdown("""
     background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 40%, #eaf6ff 100%);
     border-radius: 42px;
     box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    direction: rtl;
 }
 
 h1 {
@@ -39,6 +38,22 @@ h1 {
     color: #333;
 }
 
+/* حركة البوكسات */
+div[data-testid="stTextInput"],
+div[data-testid="stSelectbox"] {
+    transition: all .25s ease;
+}
+
+div[data-testid="stTextInput"]:hover,
+div[data-testid="stSelectbox"]:hover {
+    transform: translateY(-3px);
+}
+
+div[data-testid="stTextInput"]:focus-within,
+div[data-testid="stSelectbox"]:focus-within {
+    transform: scale(1.03);
+}
+
 div[data-testid="stTextInput"] input {
     border-radius: 25px;
     height: 44px;
@@ -47,6 +62,11 @@ div[data-testid="stTextInput"] input {
     padding-right: 16px;
     text-align: right;
     background: rgba(255,255,255,0.95);
+    box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+div[data-testid="stTextInput"] input:focus {
+    box-shadow: 0 8px 18px rgba(47,128,237,.22) !important;
 }
 
 div[data-testid="stSelectbox"] div {
@@ -71,6 +91,12 @@ div.stButton > button {
     background: linear-gradient(90deg,#2f80ed,#1c6fa4);
     color: white;
     font-weight: bold;
+    transition: .2s;
+}
+
+div.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,.2);
 }
 
 div.stButton:nth-of-type(1) > button {
@@ -78,7 +104,6 @@ div.stButton:nth-of-type(1) > button {
     color: var(--navy);
     box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
-
 </style>
 """, unsafe_allow_html=True)
 
