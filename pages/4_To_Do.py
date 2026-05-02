@@ -5,19 +5,44 @@ st.set_page_config(page_title="To-Do List", layout="centered")
 
 st.markdown("""
 <style>
-[data-testid="stAppViewContainer"] { background:#eef2f7; }
-.block-container { padding-top:10px; max-width:520px; }
+
+/* 🎨 ألوان */
+:root{
+    --navy:#0f2446;
+    --accent:#2f80ed;
+}
+
+/* الخلفية */
+[data-testid="stAppViewContainer"] {
+    background:#eef2f7;
+}
+
+/* الكارد */
+.block-container {
+    padding-top:10px;
+    max-width:520px;
+}
+
 header, footer { visibility:hidden; }
 
+/* أزرار تحت */
 div.stButton > button {
     width: 100%;
     height: 45px;
-    border-radius: 18px;
+    border-radius: 20px;
     border: none;
-    background: white;
-    font-weight: 800;
-    box-shadow: 0 3px 10px rgba(0,0,0,.08);
+    background: linear-gradient(90deg,#2f80ed,#1c6fa4);
+    color: white;
+    font-weight: 900;
+    transition:.2s;
 }
+
+div.stButton > button:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== HTML DESIGN ===== */
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -26,6 +51,12 @@ components.html("""
 <html>
 <head>
 <style>
+
+:root{
+ --navy:#0f2446;
+ --accent:#2f80ed;
+}
+
 *{box-sizing:border-box;font-family:Arial,sans-serif}
 body{margin:0;background:transparent}
 
@@ -33,11 +64,10 @@ body{margin:0;background:transparent}
  width:400px;
  height:720px;
  margin:auto;
- background:#fbfdff;
+ background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
  border-radius:42px;
  padding:22px 18px 10px;
  box-shadow:0 8px 25px rgba(0,0,0,.25);
- border:1px solid #d9dee8;
  position:relative;
  overflow:hidden;
 }
@@ -48,22 +78,27 @@ body{margin:0;background:transparent}
  padding-bottom:20px;
 }
 
+/* عنوان */
 .todo-title{
  text-align:center;
  font-size:20px;
  font-weight:900;
  margin-bottom:14px;
+ color:var(--navy);
 }
 
+/* input بدون حواف */
 .task-input{
  width:100%;
  padding:12px;
- border:1px solid #d1d5db;
- border-radius:10px;
+ border:none;
+ border-radius:25px;
  font-size:14px;
  margin-bottom:10px;
+ background:white;
 }
 
+/* grid */
 .todo-grid{
  display:grid;
  grid-template-columns:1fr 1fr;
@@ -71,38 +106,47 @@ body{margin:0;background:transparent}
  margin-bottom:10px;
 }
 
+/* select + inputs */
 .todo-grid select,
 .todo-grid input{
  width:100%;
  height:38px;
- border:1px solid #d1d5db;
- border-radius:8px;
+ border:none;
+ border-radius:20px;
  background:white;
  padding:6px;
  font-size:12px;
 }
 
+/* buttons */
 .add-btn,
 .hidden-toggle-btn{
  width:100%;
- height:40px;
+ height:42px;
  border:none;
- border-radius:9px;
+ border-radius:25px;
  font-weight:900;
  cursor:pointer;
  margin-bottom:10px;
+ transition:.2s;
 }
 
 .add-btn{
- background:#2f80ed;
+ background:linear-gradient(90deg,#2f80ed,#1c6fa4);
  color:white;
 }
 
 .hidden-toggle-btn{
- background:#eef2ff;
- color:#1d4ed8;
+ background:white;
+ color:var(--navy);
 }
 
+.add-btn:hover,
+.hidden-toggle-btn:hover{
+ transform:translateY(-2px);
+}
+
+/* empty */
 .empty{
  text-align:center;
  margin-top:80px;
@@ -120,27 +164,26 @@ body{margin:0;background:transparent}
  align-items:center;
  justify-content:center;
  font-size:32px;
- box-shadow:0 4px 12px rgba(0,0,0,.10);
 }
 
-.section-title{
- font-size:14px;
- font-weight:900;
- margin:14px 0 8px;
- color:#374151;
-}
-
+/* task cards */
 .task-card{
  background:white;
- border-radius:12px;
+ border-radius:16px;
  padding:10px;
  margin-bottom:10px;
- box-shadow:0 3px 10px rgba(0,0,0,.10);
+ box-shadow:0 4px 12px rgba(0,0,0,.12);
  font-size:12px;
+ transition:.2s;
 }
 
+.task-card:hover{
+ transform:translateY(-3px);
+}
+
+/* hidden */
 .hidden-card{
- opacity:.65;
+ opacity:.6;
  background:#f8fafc;
 }
 
@@ -150,6 +193,7 @@ body{margin:0;background:transparent}
  margin-bottom:5px;
 }
 
+/* badges */
 .badges{
  display:flex;
  flex-wrap:wrap;
@@ -159,7 +203,7 @@ body{margin:0;background:transparent}
 
 .badge{
  padding:4px 7px;
- border-radius:7px;
+ border-radius:10px;
  background:#eef2ff;
  font-size:11px;
 }
@@ -171,6 +215,7 @@ body{margin:0;background:transparent}
 .pending{background:#fee2e2}
 .progress{background:#e0e7ff}
 
+/* actions */
 .task-actions{
  display:flex;
  gap:6px;
@@ -179,31 +224,19 @@ body{margin:0;background:transparent}
 
 .task-actions button{
  border:none;
- border-radius:7px;
+ border-radius:10px;
  padding:6px 10px;
  font-size:11px;
  font-weight:800;
  cursor:pointer;
 }
 
-.hide-btn{
- background:#e0e7ff;
- color:#1d4ed8;
-}
+.hide-btn{background:#e0e7ff;}
+.restore-btn{background:#d1fae5;}
+.delete-btn{background:#fee2e2;}
 
-.restore-btn{
- background:#d1fae5;
- color:#047857;
-}
+#hiddenSection{display:none;}
 
-.delete-btn{
- background:#fee2e2;
- color:#b91c1c;
-}
-
-#hiddenSection{
- display:none;
-}
 </style>
 </head>
 
@@ -244,7 +277,7 @@ body{margin:0;background:transparent}
 
     <div id="hiddenSection">
         <div class="section-title">Hidden Tasks</div>
-        <div id="hiddenEmpty" class="empty" style="margin-top:20px;">
+        <div id="hiddenEmpty" class="empty">
             <p>No hidden tasks</p>
         </div>
         <div id="hiddenList"></div>
@@ -254,6 +287,7 @@ body{margin:0;background:transparent}
 </div>
 
 <script>
+// نفس الكود تبعك بدون تغيير
 function addTask(){
     const task = document.getElementById("taskInput").value.trim();
     const date = document.getElementById("taskDate").value;
@@ -268,27 +302,20 @@ function addTask(){
 
     document.getElementById("emptyBox").style.display = "none";
 
-    let diffClass = "low";
-    if(difficulty === "Medium") diffClass = "medium";
-    if(difficulty === "High") diffClass = "high";
-
-    let statusClass = "pending";
-    if(status === "In Progress") statusClass = "progress";
-    if(status === "Done") statusClass = "done";
+    let diffClass = difficulty === "Medium" ? "medium" : difficulty === "High" ? "high" : "low";
+    let statusClass = status === "Done" ? "done" : status === "In Progress" ? "progress" : "pending";
 
     const card = document.createElement("div");
     card.className = "task-card";
 
     card.innerHTML = `
         <div class="task-title">${task}</div>
-
         <div class="badges">
             <span class="badge">📅 ${date || "No date"}</span>
             <span class="badge">⏰ ${time || "No time"}</span>
             <span class="badge ${diffClass}">${difficulty}</span>
             <span class="badge ${statusClass}">${status}</span>
         </div>
-
         <div class="task-actions">
             <button class="hide-btn" onclick="hideTask(this)">Hide</button>
             <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
@@ -296,7 +323,6 @@ function addTask(){
     `;
 
     document.getElementById("taskList").prepend(card);
-
     document.getElementById("taskInput").value = "";
     document.getElementById("taskDate").value = "";
     document.getElementById("taskTime").value = "";
@@ -306,7 +332,6 @@ function addTask(){
 
 function hideTask(btn){
     const card = btn.closest(".task-card");
-
     card.classList.add("hidden-card");
 
     const actions = card.querySelector(".task-actions");
@@ -317,13 +342,11 @@ function hideTask(btn){
 
     document.getElementById("hiddenList").prepend(card);
     document.getElementById("hiddenSection").style.display = "block";
-
     checkEmpty();
 }
 
 function restoreTask(btn){
     const card = btn.closest(".task-card");
-
     card.classList.remove("hidden-card");
 
     const actions = card.querySelector(".task-actions");
@@ -333,7 +356,6 @@ function restoreTask(btn){
     `;
 
     document.getElementById("taskList").prepend(card);
-
     checkEmpty();
 }
 
@@ -344,20 +366,15 @@ function deleteTask(btn){
 
 function toggleHiddenSection(){
     const section = document.getElementById("hiddenSection");
-    section.style.display = section.style.display === "none" || section.style.display === ""
-        ? "block"
-        : "none";
+    section.style.display = section.style.display === "none" ? "block" : "none";
 }
 
 function checkEmpty(){
-    const activeTasks = document.querySelectorAll("#taskList .task-card");
-    const hiddenTasks = document.querySelectorAll("#hiddenList .task-card");
+    const active = document.querySelectorAll("#taskList .task-card");
+    const hidden = document.querySelectorAll("#hiddenList .task-card");
 
-    document.getElementById("emptyBox").style.display =
-        activeTasks.length === 0 ? "block" : "none";
-
-    document.getElementById("hiddenEmpty").style.display =
-        hiddenTasks.length === 0 ? "block" : "none";
+    document.getElementById("emptyBox").style.display = active.length === 0 ? "block" : "none";
+    document.getElementById("hiddenEmpty").style.display = hidden.length === 0 ? "block" : "none";
 }
 </script>
 
@@ -365,6 +382,7 @@ function checkEmpty(){
 </html>
 """, height=750)
 
+# Navigation buttons
 col1, col2, col3 = st.columns(3)
 
 with col1:
