@@ -8,25 +8,28 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # دالة بناء الأزرار مع إمكانية التحكم في المسافة (Gap)
-    def make_btn(emoji, label, page, gap_size):
-        gap = "&nbsp;" * gap_size 
+    # دالة بناء الأزرار العادية
+    def make_btn(emoji, label, page, extra_gap=110):
+        gap = "&nbsp;" * extra_gap 
         if st.button(f"{emoji} {gap} {label} &nbsp;&nbsp; ›"):
             nav(page)
 
-    # --- تصغير أول بوكسين (تقليل عدد المسافات ليكونوا أقصر) ---
-    make_btn("🔒", "Change Password", "password", gap_size=80) # كانت 110 وصارت 80
-    make_btn("🌐", "Change Language", "language", gap_size=80) # كانت 110 وصارت 80
+    # الأزرار العادية
+    make_btn("🔒", "Change Password", "password")
+    make_btn("🌐", "Change Language", "language")
     
-    # --- إبقاء الريت واللوق طوال جداً كما طلبت سابقاً ---
-    make_btn("⭐", "Rate App", "rate", gap_size=145)
-    make_btn("🚪", "Log Out", "main", gap_size=145)
+    # --- تعديل "الريت" و "اللوق" لزيادة الطول والمسافة بشكل أكبر ---
+    # زدنا عدد المسافات لـ 140 لتدفع النص لأقصى زاوية اليمين
+    make_btn("⭐", "Rate App", "rate", extra_gap=145)
+    make_btn("🚪", "Log Out", "main", extra_gap=145)
     
     st.markdown("<br>", unsafe_allow_html=True)
 
     # السطر الأخير
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("⚠️ Report a Problem &nbsp; ›"): nav('report')
+        # زر الريبورت مع سهم ممتد
+        if st.button("⚠️ Report a Problem &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ›"): nav('report')
     with col2:
-        if st.button("✉️ Contact Us &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ›"): nav('contact')
+        # زر كونتاكت مع سهم ممتد
+        if st.button("✉️ Contact Us &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ›"): nav('contact')
