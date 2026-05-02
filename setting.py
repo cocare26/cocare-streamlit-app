@@ -1,68 +1,18 @@
-import streamlit as st
-
-# إعدادات الصفحة
-st.set_page_config(page_title="Settings UI", layout="centered")
-
-# دمج كود الـ CSS
-st.markdown("""
-    <style>
-    .stApp {
-        background-color: #cbdbe5;
-    }
-    .stButton > button {
-        background-color: white !important;
-        color: #4a4a4a !important;
-        border-radius: 20px !important;
-        border: none !important;
-        width: 100% !important;
-        height: 50px !important;
-        font-size: 16px !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
-        margin-bottom: 10px !important;
-    }
-    .stTextInput > div > div > input {
-        border-radius: 15px !important;
-        border: none !important;
-        padding: 12px !important;
-    }
-    .stTextArea > div > div > textarea {
-        background-color: #fef8e8 !important;
-        border-radius: 20px !important;
-        border: none !important;
-    }
-    /* تنسيق خاص لسهم العودة العلوي */
-    .back-arrow {
-        text-decoration: none;
-        color: black;
-        font-size: 24px;
-        font-weight: bold;
-        float: left;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-# إدارة التنقل
-if 'page' not in st.session_state:
-    st.session_state.page = 'main'
-
-def nav(page_name):
-    st.session_state.page = page_name
-
 # --- الشاشة الرئيسية ---
 if st.session_state.page == 'main':
-    # تعديل هنا: إضافة السهم بجانب العنوان
+    # كود HTML لعرض السهم < بجانب كلمة Settings
     st.markdown("""
-        <div style="display: flex; align-items: center; margin-bottom: 20px;">
-            <div style="flex: 1;">
-                <a href="#" style="text-decoration: none; color: black; font-size: 30px;">←</a>
+        <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 20px;">
+            <div style="cursor: pointer;">
+                <span style="font-size: 30px; font-weight: bold; color: black; font-family: sans-serif;"><</span>
             </div>
-            <div style="flex: 2; text-align: center; margin-left: -50px;">
-                <h2 style="color: #4a4a4a; margin: 0;">Settings</h2>
+            <div style="flex-grow: 1; text-align: center;">
+                <h2 style="color: #4a4a4a; margin: 0; padding-right: 30px;">Settings</h2>
             </div>
-            <div style="flex: 1;"></div>
         </div>
     """, unsafe_allow_html=True)
     
+    # باقي الأزرار كما هي
     if st.button("🔒 Change Password"): nav('password')
     if st.button("🌐 Change Language"): nav('language')
     if st.button("⭐ Rate App"): nav('rate')
@@ -73,33 +23,3 @@ if st.session_state.page == 'main':
         if st.button("⚠️ Report"): nav('report')
     with col2:
         if st.button("✉️ Contact"): nav('contact')
-
-# --- شاشة تغيير كلمة المرور ---
-elif st.session_state.page == 'password':
-    if st.button("← Back"): nav('main')
-    st.markdown("<h3>Change Password</h3>", unsafe_allow_html=True)
-    st.text_input("Current Password", type="password")
-    st.text_input("New Password", type="password")
-    st.text_input("Re-write New Password", type="password")
-    if st.button("Save"): nav('main')
-
-# --- باقي الشاشات تبقى كما هي ---
-elif st.session_state.page == 'language':
-    if st.button("← Back"): nav('main')
-    st.markdown("<h3>Change Language</h3>", unsafe_allow_html=True)
-    st.button("English (Active)")
-    st.button("العربية")
-
-elif st.session_state.page == 'report':
-    if st.button("← Back"): nav('main')
-    st.markdown("<h3>Report a Problem</h3>", unsafe_allow_html=True)
-    st.text_area("Message", value="I need help...")
-    if st.button("Send Report"):
-        st.success("Report Sent!")
-        nav('main')
-
-elif st.session_state.page == 'contact':
-    if st.button("← Back"): nav('main')
-    st.markdown("<h3>Contact Us</h3>", unsafe_allow_html=True)
-    st.info("📧 Email: Co.Care26@gmail.com")
-    st.info("📞 Phone: +962 79 123 4657")
