@@ -62,15 +62,12 @@ components.html("""
             position: relative;
         }
 
-        /* تعديل سهم الرجوع ليصبح الرمز < */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 28px; /* تكبير الحجم قليلاً ليناسب التصميم */
-            font-weight: bold;
+            font-size: 24px;
             color: #0f2446;
             text-decoration: none;
-            line-height: 1;
         }
 
         .title {
@@ -80,6 +77,7 @@ components.html("""
             color: #0f2446;
         }
 
+        /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
             height: 200px;
@@ -96,24 +94,21 @@ components.html("""
             font-family: inherit;
         }
 
-        .report-textarea::placeholder {
-            color: #888888;
-            opacity: 1; 
-        }
-
+        /* 🔘 حاوية الزر في الأسفل */
         .btn-container {
             margin-top: auto;
             padding-bottom: 10px;
         }
 
+        /* الزر عريض مع توزيع المحتوى */
         .send-btn {
             background: white;
             border-radius: 100px;
-            width: 100%;
+            width: 100%; /* العرض كامل */
             padding: 12px 25px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-between; /* نص يمين وأيقونة يسار مع مسافة قصوى */
             cursor: pointer;
             border: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -130,32 +125,30 @@ components.html("""
             color: #0f2446;
             font-weight: bold;
             font-size: 16px;
-            order: 1;
+            order: 2; /* وضع النص في اليمين */
         }
 
-        /* أيقونة السهم داخل الزر كما طلبت سابقاً */
-        .send-btn .arrow-label {
+        .send-btn i {
             color: #0f2446;
-            font-size: 20px;
-            font-weight: bold;
-            order: 2;
+            font-size: 18px;
+            order: 1; /* وضع الأيقونة في اليسار */
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <!-- تم تغيير الأيقونة هنا لتصبح < مباشرة -->
-            <a href="#" class="back-icon">&lt;</a>
+            <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <textarea class="report-textarea" placeholder="I need help"></textarea>
+        <textarea class="report-textarea" placeholder="Describe your problem here..."></textarea>
 
+        <!-- زر الإرسال بمساحة كبيرة بين المحتوى -->
         <div class="btn-container">
             <button class="send-btn" onclick="alert('Report Sent!')">
                 <span>Send Report</span>
-                <span class="arrow-label">&lt;</span>
+                <i class="fas fa-paper-plane"></i>
             </button>
         </div>
     </div>
