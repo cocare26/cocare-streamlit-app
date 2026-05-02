@@ -1,74 +1,149 @@
 import streamlit as st
 
-st.set_page_config(layout="centered")
+st.set_page_config(page_title="Settings", layout="centered")
 
-# 🎨 CSS
 st.markdown("""
 <style>
 .stApp {
-    background: linear-gradient(135deg, #dff4fb, #cfeef7);
+    background: linear-gradient(135deg, #dff4fb 0%, #cfeef7 50%, #e8f7fb 100%);
 }
 
-.box {
-    width: 360px;
-    margin: 80px auto;
-    padding: 25px;
-    border-radius: 6px;
-    background: rgba(170, 205, 205, 0.6);
+.block-container {
+    padding-top: 45px;
+}
+
+.settings-box {
+    width: 430px;
+    margin: 0 auto;
+    padding: 28px 28px 34px 28px;
+    background: rgba(165, 200, 200, 0.55);
     text-align: center;
 }
 
-.title {
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 25px;
-    color: #222;
+.header {
     position: relative;
+    height: 50px;
+    margin-bottom: 18px;
 }
 
 .back {
     position: absolute;
     left: 0;
-    top: 0;
-    font-size: 28px;
-}
-
-.pill {
-    background: #f7f5ee;
-    border-radius: 30px;
-    padding: 14px;
-    margin: 10px 0;
-    font-weight: 600;
+    top: 2px;
+    font-size: 38px;
     color: #222;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-    text-align: left;
+    font-weight: 400;
 }
 
-.row {
-    display: flex;
-    gap: 10px;
+.title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #222;
+    line-height: 50px;
 }
 
-.row .pill {
-    flex: 1;
+.item {
+    height: 58px;
+    background: #f7f3e8;
+    border-radius: 35px;
+    margin: 16px 0;
+    display: grid;
+    grid-template-columns: 58px 1fr 25px;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    color: #222;
+}
+
+.icon {
+    font-size: 28px;
+    opacity: 0.55;
+    text-align: center;
+}
+
+.label {
+    font-size: 21px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.arrow {
+    font-size: 24px;
+    opacity: 0.35;
+    padding-right: 8px;
+}
+
+.bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 18px;
+}
+
+.small-item {
+    height: 68px;
+    background: #f7f3e8;
+    border-radius: 35px;
+    display: grid;
+    grid-template-columns: 45px 1fr 18px;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+    color: #222;
+}
+
+.small-label {
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 22px;
     text-align: center;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 🟦 البوكس
-st.markdown('<div class="box">', unsafe_allow_html=True)
+st.markdown("""
+<div class="settings-box">
 
-st.markdown('<div class="title"><span class="back">←</span>Settings</div>', unsafe_allow_html=True)
+    <div class="header">
+        <div class="back">‹</div>
+        <div class="title">Settings</div>
+    </div>
 
-st.markdown('<div class="pill">🔒   Change Password        ›</div>', unsafe_allow_html=True)
-st.markdown('<div class="pill">🌐   Change Language        ›</div>', unsafe_allow_html=True)
-st.markdown('<div class="pill">⭐   Rate App               ›</div>', unsafe_allow_html=True)
-st.markdown('<div class="pill">🚪↗️  Log Out               ›</div>', unsafe_allow_html=True)
+    <div class="item">
+        <div class="icon">🔒</div>
+        <div class="label">Change Password</div>
+        <div class="arrow">›</div>
+    </div>
 
-st.markdown('<div class="row">', unsafe_allow_html=True)
-st.markdown('<div class="pill">⚠️ Report<br>a Problem</div>', unsafe_allow_html=True)
-st.markdown('<div class="pill">✉️ Contact Us</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
+    <div class="item">
+        <div class="icon">🌐</div>
+        <div class="label">Change Language</div>
+        <div class="arrow">›</div>
+    </div>
 
-st.markdown('</div>', unsafe_allow_html=True)
+    <div class="item">
+        <div class="icon">⭐</div>
+        <div class="label">Rate App</div>
+        <div class="arrow">›</div>
+    </div>
+
+    <div class="item">
+        <div class="icon">🚪↗️</div>
+        <div class="label">Log Out</div>
+        <div class="arrow">›</div>
+    </div>
+
+    <div class="bottom-row">
+        <div class="small-item">
+            <div class="icon">⚠️</div>
+            <div class="small-label">Report a<br>Problem</div>
+            <div class="arrow">›</div>
+        </div>
+
+        <div class="small-item">
+            <div class="icon">✉️</div>
+            <div class="small-label">Contact Us</div>
+            <div class="arrow">›</div>
+        </div>
+    </div>
+
+</div>
+""", unsafe_allow_html=True)
