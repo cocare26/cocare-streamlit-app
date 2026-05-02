@@ -1,7 +1,7 @@
 import streamlit as st
 
 # 1. إعدادات الصفحة
-st.set_page_config(page_title="Settings UI", layout="wide")  # ⬅ غيرناها
+st.set_page_config(page_title="Settings UI", layout="wide") 
 
 # 2. تنسيق الـ CSS
 st.markdown("""
@@ -10,25 +10,29 @@ st.markdown("""
         background-color: #cbdbe5;
     }
 
-    /* ⬅ الإضافة الوحيدة */
     .block-container {
         max-width: 100% !important;
-        padding-left: 5px !important;
-        padding-right: 5px !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
     }
 
     .stButton > button {
         background-color: white !important;
-        color: #4a4a4a !important;
-        border-radius: 20px !important;
+        color: #000000 !important; /* لون النص أسود */
+        border-radius: 0px !important; /* عرض كامل بدون حواف دائرية ليلتصق بالجوانب */
         border: none !important;
         width: 100% !important;
-        height: 50px !important;
-        font-size: 16px !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
-        margin-bottom: 10px !important;
+        height: 60px !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+        margin-bottom: 2px !important; /* مسافة بسيطة جدا بين الأشرطة */
+        display: flex;
+        justify-content: space-between; /* لتوزيع النص والسهم */
+        padding: 0 20px !important;
     }
 
+    /* تحسين شكل خانات الإدخال */
     .stTextInput > div > div > input {
         border-radius: 15px !important;
         border: none !important;
@@ -52,8 +56,9 @@ def nav(page_name):
 
 # 4. عرض الصفحات
 if st.session_state.page == 'main':
+    # العنوان
     st.markdown("""
-        <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 25px; direction: ltr;">
+        <div style="display: flex; align-items: center; justify-content: flex-start; margin-bottom: 25px; direction: ltr; padding: 20px;">
             <div style="padding-left: 10px;">
                 <span style="font-size: 30px; font-weight: bold; color: #000000;"><</span>
             </div>
@@ -63,20 +68,19 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    if st.button("🔒 Change Password"): nav('password')
-    if st.button("🌐 Change Language"): nav('language')
-    if st.button("⭐ Rate App"): nav('rate')
-    if st.button("🚪 Log Out"): st.write("Logged Out!")
+    # الأزرار الرئيسية مع سهم أبيض (>) في النهاية
+    if st.button("🔒 Change Password                                                                                                             >"): nav('password')
+    if st.button("🌐 Change Language                                                                                                           >"): nav('language')
+    if st.button("⭐ Rate App                                                                                                                     >"): nav('rate')
+    if st.button("🚪 Log Out                                                                                                                       >"): st.write("Logged Out!")
     
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("⚠️ Report"): nav('report')
-    with col2:
-        if st.button("✉️ Contact"): nav('contact')
+    # التعديل المطلوب: Report a problem و Contacts مع سهم أبيض
+    if st.button("⚠️ Report a Problem                                                                                                         >"): nav('report')
+    if st.button("✉️ Contacts Us                                                                                                                 >"): nav('contact')
 
 # --- باقي الشاشات ---
 elif st.session_state.page == 'password':
-    if st.button("← Back"): nav('main')
+    if st.button("< Back"): nav('main')
     st.markdown("<h3 style='color: black;'>Change Password</h3>", unsafe_allow_html=True)
     st.text_input("Current Password", type="password")
     st.text_input("New Password", type="password")
@@ -84,13 +88,13 @@ elif st.session_state.page == 'password':
     if st.button("Save"): nav('main')
 
 elif st.session_state.page == 'language':
-    if st.button("← Back"): nav('main')
+    if st.button("< Back"): nav('main')
     st.markdown("<h3 style='color: black;'>Change Language</h3>", unsafe_allow_html=True)
     st.button("English (Active)")
     st.button("العربية")
 
 elif st.session_state.page == 'report':
-    if st.button("← Back"): nav('main')
+    if st.button("< Back"): nav('main')
     st.markdown("<h3 style='color: black;'>Report a Problem</h3>", unsafe_allow_html=True)
     st.text_area("Message", value="I need help...")
     if st.button("Send Report"):
@@ -98,8 +102,7 @@ elif st.session_state.page == 'report':
         nav('main')
 
 elif st.session_state.page == 'contact':
-    if st.button("← Back"): nav('main')
+    if st.button("< Back"): nav('main')
     st.markdown("<h3 style='color: black;'>Contact Us</h3>", unsafe_allow_html=True)
     st.info("📧 Email: Co.Care26@gmail.com")
     st.info("📞 Phone: +962 79 123 4657")
-    
