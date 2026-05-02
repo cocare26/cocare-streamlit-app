@@ -85,3 +85,46 @@ function login(){
 
 html = html.replace("IMG_HERE", img)
 components.html(html, height=700)
+# ... الكود السابق ...
+
+html_code = f"""
+<html>
+<head>
+    <style>
+        /* التنسيقات كما هي */
+        .login-btn {{
+            display: block;
+            width: 100%;
+            height: 46px;
+            border-radius: 25px;
+            background: linear-gradient(90deg,#2f80ed,#1c6fa4);
+            color: white;
+            text-align: center;
+            line-height: 46px;
+            font-weight: bold;
+            text-decoration: none; /* لإزالة الخط تحت النص */
+            box-shadow: 0 6px 14px rgba(47,128,237,.25);
+        }}
+    </style>
+</head>
+<body>
+    <div class="phone">
+        <img class="robot" src="data:image/png;base64,{img}">
+        <div class="form">
+            <input id="username" class="input" placeholder="phone / ID Number" type="text">
+            <input class="input" placeholder="Password" type="password">
+            
+            <!-- تعديل الزر ليصبح رابط مباشر -->
+            <a href="./?page=employee" target="_top" class="login-btn">Log In ›</a>
+            
+            <div class="signup">
+                👤 New User? 
+                <a href="./?page=create" target="_top" style="color:#222; text-decoration:underline;">Create Account</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+components.html(html_code, height=700)
