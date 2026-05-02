@@ -19,9 +19,9 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي */
+/* 📦 الكارد الرئيسي - تم تقليل العرض من 450px إلى 400px */
 .block-container{
-    max-width:450px !important;
+    max-width:400px !important; 
     margin:auto !important;
     padding:30px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
@@ -48,7 +48,7 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 380px;
+            max-width: 340px; /* تقليل عرض المحتوى الداخلي قليلاً */
             display: flex;
             flex-direction: column;
             height: 480px;
@@ -62,12 +62,16 @@ components.html("""
             position: relative;
         }
 
+        /* سهم الرجوع العلوي بالرمز < */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: bold;
             color: #0f2446;
             text-decoration: none;
+            line-height: 1;
+            cursor: pointer;
         }
 
         .title {
@@ -94,21 +98,25 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🔘 حاوية الزر في الأسفل */
+        /* 🎨 لون النص التوضيحي رمادي */
+        .report-textarea::placeholder {
+            color: #888888;
+            opacity: 1;
+        }
+
         .btn-container {
             margin-top: auto;
             padding-bottom: 10px;
         }
 
-        /* الزر عريض مع توزيع المحتوى */
         .send-btn {
             background: white;
             border-radius: 100px;
-            width: 100%; /* العرض كامل */
+            width: 100%;
             padding: 12px 25px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* نص يمين وأيقونة يسار مع مسافة قصوى */
+            justify-content: space-between;
             cursor: pointer;
             border: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -125,26 +133,27 @@ components.html("""
             color: #0f2446;
             font-weight: bold;
             font-size: 16px;
-            order: 2; /* وضع النص في اليمين */
+            order: 2;
         }
 
         .send-btn i {
             color: #0f2446;
             font-size: 18px;
-            order: 1; /* وضع الأيقونة في اليسار */
+            order: 1;
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+            <!-- استبدال أيقونة السهم بالرمز < -->
+            <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <textarea class="report-textarea" placeholder="Describe your problem here..."></textarea>
+        <!-- النص التوضيحي I need help باللون الرمادي (عبر CSS) -->
+        <textarea class="report-textarea" placeholder="I need help"></textarea>
 
-        <!-- زر الإرسال بمساحة كبيرة بين المحتوى -->
         <div class="btn-container">
             <button class="send-btn" onclick="alert('Report Sent!')">
                 <span>Send Report</span>
