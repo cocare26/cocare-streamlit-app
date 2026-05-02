@@ -1,66 +1,55 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة
+# 1. إعدادات الصفحة - عرض كامل
 st.set_page_config(page_title="Settings UI", layout="wide") 
 
-# 2. تنسيق الـ CSS المتقدم لتحقيق الشكل المطلوب
+# 2. تنسيق الـ CSS المتقدم
 st.markdown("""
     <style>
     .stApp {
         background-color: #cbdbe5;
     }
 
-    /* الحاوية المركزية */
+    /* إلغاء الحواف الجانبية تماماً */
     .block-container {
         max-width: 100% !important; 
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-        padding-top: 30px !important;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+        padding-top: 10px !important;
     }
 
-    /* الهيدر: السهم وكلمة Settings */
+    /* هيدر الإعدادات: سهم Settings */
     .header-style {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        gap: 150px; /* مسافة كبيرة بين السهم والكلمة */
-        margin-bottom: 80px;
-        padding-left: 20px;
+        /* مسافة ضخمة بين السهم والكلمة */
+        gap: 250px; 
+        margin-bottom: 120px;
+        padding-left: 50px;
     }
 
-    /* تصميم الأزرار (الكبسولة) */
+    /* تصميم الأزرار (كبسولة ضخمة وطويلة جداً) */
     .stButton > button {
         background-color: #ffffff !important;
         color: #000000 !important; 
         border-radius: 100px !important; 
         border: none !important;
         width: 100% !important;
-        height: 85px !important; 
-        font-size: 22px !important;
-        font-weight: bold !important;
-        margin-bottom: 15px !important;
+        height: 120px !important; /* زيادة الطول الرأسي (الارتفاع) */
+        font-size: 28px !important; /* تكبير الخط */
+        font-weight: 900 !important;
+        margin-bottom: 30px !important;
         display: flex !important;
         align-items: center !important;
-        justify-content: space-between !important; /* لتوزيع المحتوى بين الطرفين */
-        padding: 0 40px !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    }
-
-    /* تنسيق المحتوى الداخلي للزر (الإيموجي + النص) */
-    .button-content {
-        display: flex;
-        align-items: center;
-        width: 100%;
-    }
-
-    .emoji-space {
-        margin-right: 80px; /* المسافة الكبيرة بعد الإيموجي */
-        font-size: 26px;
+        justify-content: space-between !important;
+        padding: 0 60px !important;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.06) !important;
     }
 
     /* السطر الأخير */
     [data-testid="column"] {
-        padding: 0 10px !important;
+        padding: 0 15px !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -74,37 +63,39 @@ def nav(page_name):
 
 # 4. عرض الصفحة الرئيسية
 if st.session_state.page == 'main':
-    # الهيدر المخصص
+    # الهيدر
     st.markdown("""
         <div class="header-style">
-            <span style="font-size: 40px; font-weight: bold; color: #000; cursor: pointer;">‹</span>
-            <span style="font-size: 45px; font-weight: bold; color: #000;">Settings</span>
+            <span style="font-size: 60px; font-weight: 900; color: #000; cursor: pointer;">‹</span>
+            <span style="font-size: 55px; font-weight: 900; color: #000;">Settings</span>
         </div>
     """, unsafe_allow_html=True)
     
-    # دالة مساعدة لإنشاء الأزرار بالشكل الجديد (نص + سهم في الآخر)
-    def settings_btn(emoji, label, page):
-        # نستخدم markdown لعرض الشكل، و Streamlit Button للضغط
-        # لجعل السهم في الآخر، ندمجه في نص الزر
-        if st.button(f"{emoji} {'&nbsp;'*20} {label} {'&nbsp;'*(40 - len(label))} ›"):
+    # دالة لبناء الزر بمسافات (Nbsp) "طويلة جداً"
+    # زدنا عدد المسافات لتدفع النص لليمين بقوة
+    def mega_button(emoji, label, page):
+        # 40 مسافة برمجية لزيادة طول الفراغ
+        long_space = "&nbsp;" * 40
+        arrow_space = "&nbsp;" * 20
+        if st.button(f"{emoji} {long_space} {label} {arrow_space} ›"):
             nav(page)
 
-    # قائمة الأزرار الرئيسية
-    settings_btn("🔒", "Change Password", "password")
-    settings_btn("🌐", "Change Language", "language")
-    settings_btn("⭐", "Rate App", "rate")
-    settings_btn("🚪", "Log Out", "main")
+    # قائمة الأزرار الرئيسية الممتدة
+    mega_button("🔒", "Change Password", "password")
+    mega_button("🌐", "Change Language", "language")
+    mega_button("⭐", "Rate App", "rate")
+    mega_button("🚪", "Log Out", "main")
     
-    st.write("") # مسافة بسيطة
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    # السطر الأخير المقسم لزرين
+    # السطر الأخير (Report & Contact)
     col1, col2 = st.columns(2)
     with col1:
         if st.button("⚠️ Report a Problem &nbsp;&nbsp; ›"): nav('report')
     with col2:
-        if st.button("✉️ Contact Us &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ›"): nav('contact')
+        if st.button("✉️ Contact Us &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ›"): nav('contact')
 
-# --- شاشة تجريبية ---
+# --- شاشات فرعية ---
 elif st.session_state.page == 'password':
     if st.button("‹ Back"): nav('main')
-    st.markdown("<h1 style='text-align:center;'>Change Password</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center; font-size:60px; margin-top:100px;'>Change Password</h1>", unsafe_allow_html=True)
