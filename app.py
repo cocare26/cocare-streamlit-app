@@ -1,125 +1,126 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import base64
-import os
 
 st.set_page_config(page_title="Telecom App", layout="centered")
 
-# 🔹 Navigation
 page = st.query_params.get("page", "")
 
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
-elif page == "forgot":
-    st.switch_page("pages/2_Forgot_Password.py")
+
+elif page == "customer":
+    st.switch_page("pages/2_Customer.py")
+
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
-elif page == "todo":
-    st.switch_page("pages/4_To_Do.py")
 
-# 🔹 Image
-BASE_DIR = os.path.dirname(__file__)
-robot_path = os.path.join(BASE_DIR, "robot.png")
+elif page == "forgot":
+    st.switch_page("pages/4_Forgot_Password.py")
 
-with open(robot_path, "rb") as f:
+with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
-# 🔹 Style
-st.markdown("""
+html = """
+<html>
+<head>
 <style>
-[data-testid="stAppViewContainer"]{
-    background:#e6eef5;
+body{margin:0;background:#eef3f6;font-family:Arial}
+.phone{
+width:360px;height:660px;margin:auto;border-radius:42px;overflow:hidden;
+position:relative;background:linear-gradient(180deg,#c9e7f7,#dff4ff)
 }
-
-.block-container{
-    max-width:360px;
-    height:660px;
-    margin:auto;
-    border-radius:40px;
-    background: linear-gradient(145deg,#cfe6f5,#9fbcd1);
-    box-shadow: 0 10px 25px rgba(0,0,0,.25);
-    padding:100px 40px 40px 40px;
-    position:relative;
-    overflow:hidden;
+.robot{position:absolute;top:85px;left:168px;width:145px;z-index:3}
+.form{position:absolute;top:200px;left:58px;width:244px;z-index:2}
+.input{
+width:100%;height:40px;border-radius:25px;margin-bottom:13px;
+padding-left:18px;border:none;background:white;box-sizing:border-box
 }
-
-.robot{
-    width:150px;
-    position:absolute;
-    top:70px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:5;
+.forgot{text-align:center;font-size:11px;color:#555;margin:8px 0 20px;cursor:pointer}
+.login{
+width:100%;height:46px;border-radius:25px;background:white;
+text-align:center;line-height:46px;font-weight:bold;border:none;cursor:pointer
 }
-
-.stTextInput input{
-    width:100%;
-    height:45px;
-    border-radius:25px;
-    border:none;
-    padding-left:20px;
-    background:#ffffff;
-    box-shadow:0 4px 12px rgba(0,0,0,.1);
+.signup{
+display:block;
+text-align:center;
+font-size:13px;
+margin-top:15px;
+cursor:pointer;
+color:#222;
+text-decoration:none;
 }
+.error{text-align:center;color:#c62828;font-size:11px;margin-top:8px}
 
-.stButton > button{
-    width:100%;
-    height:48px;
-    border-radius:25px;
-    border:none;
-    background:#ffffff;
-    font-weight:bold;
-    margin-top:10px;
-}
-
-.small button{
-    background:transparent !important;
-    color:#333 !important;
-    box-shadow:none !important;
-    font-size:12px !important;
-}
-
-.signup-text{
+.signup-line{
     text-align:center;
     font-size:13px;
-    margin-top:14px;
+    margin-top:15px;
+    color:#222;
 }
 
-header, footer {visibility:hidden;}
+.signup-line span{
+    color:#1c6fa4;
+    font-weight:bold;
+    text-decoration:none;
+    margin-left:4px;
+    cursor:pointer;
+}
 </style>
-""", unsafe_allow_html=True)
+</head>
 
-# 🔹 Robot
-st.markdown(
-    f'<img class="robot" src="data:image/png;base64,{img}">',
-    unsafe_allow_html=True
-)
+<body>
+<div class="phone">
+<img class="robot" src="data:image/png;base64,IMG_HERE">
 
-# 🔹 Inputs
-user_id = st.text_input("", placeholder="phone / ID Number", max_chars=11)
-password = st.text_input("", placeholder="Password", type="password")
+<form class="form" id="loginForm" method="get" target="_top">
+    <input type="hidden" name="page" id="pageValue">
 
-# 🔹 Forgot
-st.markdown('<div class="small">', unsafe_allow_html=True)
-if st.button("Forgot Password?"):
-    st.switch_page("pages/2_Forgot_Password.py")
-st.markdown('</div>', unsafe_allow_html=True)
+    <input id="username" class="input" placeholder="phone / ID Number"
+    inputmode="numeric" maxlength="11"
+    oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-# 🔥 Login Logic (Python فقط)
-if st.button("Log In ›"):
-    user_id = user_id.strip()
+    <input class="input" placeholder="Password" type="password">
 
-    if (
-        (user_id.isdigit() and len(user_id) == 11) or
-        (user_id.isdigit() and len(user_id) == 10 and user_id.startswith("07"))
-    ):
-        st.switch_page("pages/3_Employee.py")
-    else:
-        st.error("Enter valid phone number or ID")
+    <div class="forgot">
+    <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
+        Forgot Password?
+    </a>
+</div>
+    <button class="login" type="button" onclick="login()">Log In ›</button>
+    <div id="error" class="error"></div>
+    <div class="signup">
+    👤 New User?
+    <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
+        Create Account
+    </a>
+</div>
+</form>
+</div>
 
-# 🔹 Create
-st.markdown("<div class='signup-text'>👤 New User?</div>", unsafe_allow_html=True)
+<script>
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
 
-st.markdown('<div class="small">', unsafe_allow_html=True)
-if st.button("Create Account"):
-    st.switch_page("pages/1_Create_Account.py")
-st.markdown('</div>', unsafe_allow_html=True)
+function login(){
+    const v = document.getElementById("username").value;
+    const e = document.getElementById("error");
+
+    if(/^07[0-9]{8}$/.test(v)){
+        goPage("customer");
+    }
+    else if(/^[0-9]{11}$/.test(v)){
+        goPage("employee");
+    }
+    else{
+        e.innerText = "Invalid phone or ID number";
+    }
+}
+</script>
+</body>
+</html>
+"""
+
+html = html.replace("IMG_HERE", img)
+components.html(html, height=700)
