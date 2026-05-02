@@ -62,12 +62,15 @@ components.html("""
             position: relative;
         }
 
+        /* تعديل سهم الرجوع ليصبح الرمز < */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 24px;
+            font-size: 28px; /* تكبير الحجم قليلاً ليناسب التصميم */
+            font-weight: bold;
             color: #0f2446;
             text-decoration: none;
+            line-height: 1;
         }
 
         .title {
@@ -77,7 +80,6 @@ components.html("""
             color: #0f2446;
         }
 
-        /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
             height: 200px;
@@ -94,9 +96,8 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🎨 تنسيق لون النص التوضيحي (رمادي) */
         .report-textarea::placeholder {
-            color: #888888; /* لون رمادي */
+            color: #888888;
             opacity: 1; 
         }
 
@@ -129,30 +130,32 @@ components.html("""
             color: #0f2446;
             font-weight: bold;
             font-size: 16px;
-            order: 2;
+            order: 1;
         }
 
-        .send-btn i {
+        /* أيقونة السهم داخل الزر كما طلبت سابقاً */
+        .send-btn .arrow-label {
             color: #0f2446;
-            font-size: 18px;
-            order: 1;
+            font-size: 20px;
+            font-weight: bold;
+            order: 2;
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+            <!-- تم تغيير الأيقونة هنا لتصبح < مباشرة -->
+            <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <!-- تم تغيير الـ placeholder هنا -->
         <textarea class="report-textarea" placeholder="I need help"></textarea>
 
         <div class="btn-container">
             <button class="send-btn" onclick="alert('Report Sent!')">
                 <span>Send Report</span>
-                <i class="fas fa-paper-plane"></i>
+                <span class="arrow-label">&lt;</span>
             </button>
         </div>
     </div>
