@@ -3,70 +3,70 @@ import streamlit as st
 # إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="centered")
 
-# التعديلات القوية على الـ CSS
+# كود الـ CSS المعدل لتكبير البوكسات وإضافة الأسهم البيضاء
 st.markdown("""
     <style>
+    /* الخلفية السماوية */
     .stApp {
         background-color: #cbdbe5;
     }
 
-    /* توسيع الحاوية لتصل للنهاية تقريباً */
-    .main-container {
-        width: 100%;
-        max-width: 500px;
-        margin: auto;
-    }
-
-    /* تنسيق الأزرار: عرض كامل + سهم أسود بجهة اليسار + تقريب النص */
+    /* تكبير وتنسيق الأزرار لتصل للنهاية */
     .stButton > button {
         background-color: white !important;
-        color: #000000 !important; /* نص أسود */
+        color: #4a4a4a !important;
         border-radius: 15px !important;
         border: none !important;
         width: 100% !important; /* تكبير البوكس للنهاية */
-        height: 55px !important;
-        font-size: 17px !important;
+        height: 60px !important; /* زيادة الطول قليلاً */
+        font-size: 18px !important;
         font-weight: 500 !important;
-        text-align: right !important; /* تقريب الحكي لجهة اليمين (العربي) */
-        padding-right: 20px !important;
+        margin-bottom: 15px !important;
         display: flex !important;
-        justify-content: space-between !important; /* توزيع المحتوى */
+        justify-content: space-between !important; /* توزيع النص والسهم */
         align-items: center !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-        margin-bottom: 12px !important;
-        flex-direction: row-reverse !important; /* عشان السهم يطلع يسار */
+        padding: 0 25px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+        transition: 0.3s !important;
     }
 
-    /* إضافة السهم الأسود يدوياً كأنه أيقونة بجهة اليسار */
-    .stButton > button::before {
-        content: "←"; 
-        font-weight: bold;
-        color: black;
-        font-size: 20px;
-        padding-left: 10px;
-    }
-
-    /* تنسيق خاص لشاشة Report و Contact */
-    .big-box {
-        background-color: white;
-        border-radius: 20px;
-        padding: 20px;
-        margin-bottom: 15px;
-        color: black;
-        text-align: left; /* تقريب الحكي الإنجليزي */
+    /* إضافة سهم أبيض بجهة اليسار داخل مربع صغير */
+    .stButton > button::after {
+        content: "→"; 
+        background-color: #4a4a4a; /* لون المربع اللي خلف السهم ليظهر السهم أبيض */
+        color: white; /* السهم أبيض */
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        width: 100%;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    /* تكبير بوكسات الـ Report والـ Contact */
+    .stColumn > div > div > button {
+        height: 80px !important; /* جعلهم أكبر من البقية */
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 5px !important;
+    }
+
+    /* تحسين شكل المدخلات */
+    .stTextInput > div > div > input {
+        border-radius: 12px !important;
+        height: 50px !important;
     }
 
     .stTextArea > div > div > textarea {
         background-color: #fef8e8 !important;
-        border-radius: 15px !important;
+        border-radius: 20px !important;
     }
     </style>
     """, unsafe_allow_html=True)
 
+# إدارة التنقل
 if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
@@ -75,36 +75,38 @@ def nav(page_name):
 
 # --- الشاشة الرئيسية ---
 if st.session_state.page == 'main':
-    st.markdown("<h2 style='text-align: center; color: black; margin-bottom: 30px;'>Settings</h2>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: #333; margin-bottom: 40px;'>Settings</h1>", unsafe_allow_html=True)
     
-    # أزرار بكامل العرض مع الأسهم
-    if st.button("Change Password"): nav('password')
-    if st.button("Change Language"): nav('language')
-    if st.button("Rate App"): nav('rate')
-    if st.button("Log Out"): st.write("Done!")
+    # الأزرار الرئيسية - الآن تأخذ العرض الكامل تلقائياً
+    if st.button("🔒 Change Password"): nav('password')
+    if st.button("🌐 Change Language"): nav('language')
+    if st.button("⭐ Rate App"): nav('rate')
+    if st.button("🚪 Log Out"): st.toast("Logged Out!")
     
-    # تكبير Report و Contact
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+    
+    # جعل أزرار Report و Contact عريضة أيضاً
     if st.button("⚠️ Report a Problem"): nav('report')
     if st.button("✉️ Contact Us"): nav('contact')
 
-# --- شاشة البلاغات ---
-elif st.session_state.page == 'report':
-    if st.button("Back"): nav('main')
-    st.markdown("<h2 style='color: black;'>Report a Problem</h2>", unsafe_allow_html=True)
-    st.text_area("How can we help?", value="I need help...", height=200)
-    if st.button("Send Report"):
-        st.success("Sent!")
-        nav('main')
+# --- الشاشات الفرعية (نفس المنطق السابق مع التنسيق الجديد) ---
+elif st.session_state.page == 'password':
+    if st.button("← Back"): nav('main')
+    st.markdown("<h3>Change Password</h3>", unsafe_allow_html=True)
+    st.text_input("Current Password", type="password")
+    st.text_input("New Password", type="password")
+    st.text_input("Re-write New Password", type="password")
+    if st.button("Save"): nav('main')
 
-# --- شاشة التواصل ---
+elif st.session_state.page == 'report':
+    if st.button("← Back"): nav('main')
+    st.markdown("<h3>Report a Problem</h3>", unsafe_allow_html=True)
+    st.text_area("How can we help?", height=200)
+    if st.button("Send Report"): nav('main')
+
 elif st.session_state.page == 'contact':
-    if st.button("Back"): nav('main')
-    st.markdown("<h2 style='color: black;'>Contact Us</h2>", unsafe_allow_html=True)
-    
-    # بوكسات كبيرة للتواصل مع سهم
-    st.markdown("""
-        <div class="big-box"><span>Co.Care26@gmail.com</span><span style="font-weight:bold;">←</span></div>
-        <div class="big-box"><span>+962 79 123 4657</span><span style="font-weight:bold;">←</span></div>
-    """, unsafe_allow_html=True)
+    if st.button("← Back"): nav('main')
+    st.markdown("<h3>Contact Us</h3>", unsafe_allow_html=True)
+    st.write("📧 Email: Co.Care26@gmail.com")
+    st.write("📞 Phone: +962 79 123 4657")
     
