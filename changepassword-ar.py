@@ -21,7 +21,7 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - مقاس (350px) الموحد */
+/* 📦 الكارد الرئيسي - مقاس موحد (350px) */
 .block-container{
     max-width:350px !important;
     margin:auto !important;
@@ -36,7 +36,7 @@ st.markdown("""
 # 3. محتوى الصفحة (HTML/JS) باللغة العربية
 components.html("""
 <!DOCTYPE html>
-<html dir="rtl"> <!-- تفعيل الاتجاه من اليمين لليسار -->
+<html dir="rtl">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -64,7 +64,7 @@ components.html("""
             position: relative;
         }
 
-        /* 🔙 رمز الرجوع الموحد > للعربية */
+        /* 🔙 سهم الرجوع الموحد > للعربية */
         .back-icon {
             position: absolute;
             right: 0;
@@ -73,6 +73,7 @@ components.html("""
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
+            cursor: pointer;
         }
 
         .title {
@@ -95,7 +96,7 @@ components.html("""
 
         .input-capsule i.field-icon {
             color: #0f2446;
-            margin-left: 12px; /* مسافة للأيقونة من جهة اليمين */
+            margin-left: 12px;
             font-size: 16px;
         }
 
@@ -106,28 +107,16 @@ components.html("""
             font-size: 14px;
             color: #0f2446;
             background: transparent;
-            font-family: inherit;
+            text-align: right;
         }
 
         .input-capsule i.toggle-eye {
             color: #ccc;
             cursor: pointer;
-            margin-right: 10px; /* مسافة لعين الإخفاء */
+            margin-right: 10px;
         }
 
-        /* 📝 نص الإبلاغ */
-        .report-text {
-            text-align: center;
-            color: white;
-            font-size: 13px;
-            margin-top: 5px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            text-shadow: 0px 1px 2px rgba(0,0,0,0.1);
-        }
-
-        /* 🔘 زر الحفظ */
+        /* 🔘 زر الحفظ الأبيض */
         .save-btn-container {
             margin-top: auto;
             display: flex;
@@ -162,7 +151,7 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <a href="#" class="back-icon">&gt;</a>
+            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
             <h2 class="title">تغيير كلمة المرور</h2>
         </div>
 
@@ -180,12 +169,8 @@ components.html("""
 
         <div class="input-capsule">
             <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="تأكيد كلمة المرور الجديدة">
+            <input type="password" placeholder="تأكيد كلمة المرور">
             <i class="fas fa-eye-slash toggle-eye"></i>
-        </div>
-
-        <div class="report-text">
-            الإبلاغ عن مشكلة في كلمة المرور
         </div>
 
         <div class="save-btn-container">
@@ -194,6 +179,12 @@ components.html("""
             </button>
         </div>
     </div>
+
+    <script>
+    function goPage(p){
+        window.top.location.href = "/?page=" + p;
+    }
+    </script>
 </body>
 </html>
 """, height=500)
