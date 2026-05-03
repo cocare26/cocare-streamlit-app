@@ -302,6 +302,7 @@ body{margin:0;background:transparent}
 </div>
 
 <div class="nav">
+
     <form action="/" method="get" target="_top">
         <input type="hidden" name="page" value="employee">
         <button type="submit"><span>⌂</span>Home</button>
@@ -313,8 +314,9 @@ body{margin:0;background:transparent}
 
     <form action="/" method="get" target="_top">
         <input type="hidden" name="page" value="todo">
-        <button type="submit" class="active-nav"><span>☑</span>To Do List</button>
+        <button type="submit" class="active-nav"><span>☑</span>To Do</button>
     </form>
+
 </div>
 
 </div>
