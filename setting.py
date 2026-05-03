@@ -74,7 +74,7 @@ body{
     color:#0f2446;
 }
 
-/* Settings Item Container */
+/* الأزرار العلوية: أيقونة يسار | نص وسهم يمين */
 .setting-item{
     background:white;
     border-radius:100px;
@@ -87,19 +87,17 @@ body{
     transition:0.3s;
 }
 
-/* Icons stay on the far left */
-.setting-item i{
+.setting-item i.left-icon{
     color:#0f2446;
     font-size:16px;
-    margin-right: auto; /* Pushes everything else to the right */
+    margin-right: auto; /* دفع النص والسهم لليمين */
 }
 
-/* Text is now right-aligned and pushed against the arrow */
-.setting-text{
+.setting-text-right{
     font-size:14px;
     font-weight:600;
     color:#0f2446;
-    margin-right: 12px; /* Space between text and the arrow */
+    margin-right: 10px;
 }
 
 .setting-item .arrow{
@@ -108,12 +106,7 @@ body{
     font-size: 18px;
 }
 
-.setting-item:hover{
-    transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,0.12);
-}
-
-/* Bottom Row Styling */
+/* تصميم أزرار Bottom Row (كما كانت في الكود الأصلي) */
 .bottom-row{
     margin-top:auto;
     display:flex;
@@ -123,11 +116,21 @@ body{
 .bottom-row .setting-item{
     flex:1;
     padding:12px 14px;
+    justify-content: space-between; /* توزيع الأيقونة والنص والسهم */
 }
 
 .bottom-row .setting-text{
-    font-size:11px;
-    margin-right: 5px;
+    flex:1;
+    text-align:left;
+    margin-left:15px;
+    font-size:13px;
+    font-weight:600;
+    color:#0f2446;
+}
+
+.setting-item:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
 </style>
@@ -142,41 +145,42 @@ body{
         <h2 class="title">Settings</h2>
     </div>
 
-    <!-- Layout: Icon (Left) | Text + Arrow (Right) -->
+    <!-- الأزرار المعدلة: الأيقونة على اليسار -->
     <div class="setting-item" onclick="goPage('Change_password')">
-        <i class="fas fa-lock"></i>
-        <span class="setting-text">Change Password</span>
+        <i class="fas fa-lock left-icon"></i>
+        <span class="setting-text-right">Change Password</span>
         <span class="arrow">›</span>
     </div>
 
     <div class="setting-item" onclick="goPage('Change_language')">
-        <i class="fas fa-globe"></i>
-        <span class="setting-text">Change Language</span>
+        <i class="fas fa-globe left-icon"></i>
+        <span class="setting-text-right">Change Language</span>
         <span class="arrow">›</span>
     </div>
 
     <div class="setting-item" onclick="goPage('Rate_app')">
-        <i class="fas fa-star"></i>
-        <span class="setting-text">Rate App</span>
+        <i class="fas fa-star left-icon"></i>
+        <span class="setting-text-right">Rate App</span>
         <span class="arrow">›</span>
     </div>
 
     <div class="setting-item" onclick="goPage('logout')">
-        <i class="fas fa-sign-out-alt"></i>
-        <span class="setting-text">Log Out</span>
+        <i class="fas fa-sign-out-alt left-icon"></i>
+        <span class="setting-text-right">Log Out</span>
         <span class="arrow">›</span>
     </div>
 
+    <!-- الأزرار السفلية: رجعت كما كانت في كودك الأساسي -->
     <div class="bottom-row">
         <div class="setting-item" onclick="goPage('Report_Problem')">
             <i class="fas fa-exclamation-triangle"></i>
-            <span class="setting-text">Report</span>
+            <span class="setting-text">Report Problem</span>
             <span class="arrow">›</span>
         </div>
 
         <div class="setting-item" onclick="goPage('Contact_Us')">
             <i class="fas fa-envelope"></i>
-            <span class="setting-text">Contact</span>
+            <span class="setting-text">Contact Us</span>
             <span class="arrow">›</span>
         </div>
     </div>
