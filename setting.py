@@ -3,17 +3,16 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="centered") 
 
-# 2. إدارة حالة التنقل (Session State)
+# 2. إدارة حالة التنقل
 if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS (بناءً على اعتماداتك مع تعديل توزيع الأطراف)
+# 3. تنسيق الـ CSS (التعديل النهائي للتوزيع الصحيح)
 st.markdown("""
 <style>
-/* 🎯 الألوان الأساسية المعتمدة */
 :root{
     --navy:#0f2446;
     --bg1:#d6ecff;
@@ -58,7 +57,7 @@ footer {visibility: hidden;}
     color: var(--navy);
 }
 
-/* 🔘 تنسيق الأزرار (توزيع الأطراف الأقصى) */
+/* 🔘 الأزرار */
 div.stButton > button {
     width: 100% !important;
     height: 52px !important;
@@ -69,14 +68,14 @@ div.stButton > button {
     margin-bottom: 12px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     transition: 0.3s ease;
-    padding: 0 20px !important; /* مسافة أمان عن الحواف */
+    padding: 0 20px !important;
 }
 
-/* 🎯 السحر هنا: دفع الإيموجي لليسار والنص لليمين */
+/* 🎯 التوزيع الصحيح: الإيموجي (يسار) والكلمات (يمين) */
 div.stButton > button p {
     display: flex !important;
-    flex-direction: row-reverse !important; /* عكس الاتجاه لجعل النص أولاً من اليمين والإيموجي آخراً من اليسار */
-    justify-content: space-between !important; /* فراغ كامل بينهما */
+    flex-direction: row !important; /* الترتيب الطبيعي */
+    justify-content: space-between !important; /* رمي العناصر على الأطراف */
     width: 100% !important;
     align-items: center !important;
     margin: 0 !important;
@@ -88,7 +87,6 @@ div.stButton > button:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 18px rgba(0,0,0,.1) !important;
 }
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -101,18 +99,17 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # لاحظ الترتيب في الكود (النص ثم الإيموجي) والـ CSS سيتكفل بالتوزيع
-    st.button("Change Password 🔒")
-    st.button("Change Language 🌐")
-    st.button("Rate App ⭐")
-    st.button("Log Out 🚪")
+    # الترتيب: الإيموجي أولاً ثم النص لضمان ظهور الإيموجي يساراً
+    st.button("🔒 &nbsp;&nbsp; Change Password")
+    st.button("🌐 &nbsp;&nbsp; Change Language")
+    st.button("⭐ &nbsp;&nbsp; Rate App")
+    st.button("🚪 &nbsp;&nbsp; Log Out")
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    st.button("Report a Problem ⚠️")
-    st.button("Contact Us ✉️")
+    st.button("⚠️ &nbsp;&nbsp; Report a Problem")
+    st.button("✉️ &nbsp;&nbsp; Contact Us")
 
-# الشاشات الفرعية (أمثلة لضمان التنقل)
 elif st.session_state.page == 'password':
     if st.button("‹ Back"): nav('main')
     st.markdown("### Change Password")
