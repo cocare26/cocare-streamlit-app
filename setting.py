@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS المعتمد - تحديث السطر الأخير
+# 3. تنسيق الـ CSS المعتمد والمعدل للسطرين
 st.markdown("""
 <style>
 :root{
@@ -53,10 +53,10 @@ div.stButton > button {
     margin-bottom: 12px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     transition: 0.3s ease;
-    padding: 0 20px !important;
+    padding: 0 15px !important;
 }
 
-/* 🎯 توزيع المحتوى داخل الزر (إيموجي يسار .. مسافة .. نص يمين) */
+/* 🎯 توزيع المحتوى داخل الزر */
 div.stButton > button p {
     display: flex !important;
     justify-content: space-between !important; 
@@ -65,20 +65,16 @@ div.stButton > button p {
     margin: 0 !important;
     font-weight: 800 !important;
     font-size: 15px !important;
-    white-space: pre-line !important; 
+    white-space: pre-line !important; /* هذا يسمح بنزول النص لسطر جديد */
+    text-align: right !important;      /* محاذاة النص لليمين */
 }
 
-/* الأزرار العادية */
+/* زر القائمة الطويل (الارتفاع العادي) */
 div.stButton > button { height: 52px !important; }
 
-/* 🛠️ تكبير البوكسات في السطر الأخير (طول وعرض) */
-[data-testid="stHorizontalBlock"] {
-    gap: 10px !important; /* تقليل الفجوة بين العمودين لزيادة عرض البوكسات */
-}
-
+/* 🛠️ تعديل الارتفاع للسطر الأخير ليناسب السطرين */
 [data-testid="stHorizontalBlock"] div.stButton > button {
-    height: 95px !important;  /* زيادة الطول الرأسي */
-    padding: 15px !important; /* زيادة المساحة الداخلية */
+    height: 75px !important; 
 }
 
 div.stButton > button:hover {
@@ -105,15 +101,16 @@ if st.session_state.page == 'main':
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # 🎯 السطر الأخير الممدد (عرضاً وطولاً)
-    col1, col2 = st.columns([1, 1]) # توزيع متساوي لملء العرض بالكامل
+    # 🎯 السطر الأخير: تقسيم الصفحة لعمودين
+    col1, col2 = st.columns([1.3, 1]) 
     
     with col1:
+        # كلمة Report في سطر و to Problem في سطر أسفلها
         if st.button("⚠️ Report\nto Problem"): 
             nav('report')
             
     with col2:
-        if st.button("✉️ Contact\nUs"): 
+        if st.button("✉️ Contact Us"): 
             nav('contact')
 
 # الشاشات الفرعية
