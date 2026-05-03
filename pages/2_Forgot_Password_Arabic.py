@@ -32,9 +32,14 @@ h1 {
     font-weight: 900;
 }
 
-/* RTL كامل */
+/* RTL */
 body {
     direction: rtl;
+}
+
+/* 🔥 إخفاء Press Enter + العداد */
+[data-testid="InputInstructions"] {
+    display: none !important;
 }
 
 /* input */
@@ -75,15 +80,15 @@ div.stButton:nth-of-type(3) > button {
 st.title("نسيت كلمة المرور")
 
 # 📱 رقم الهاتف
-phone = st.text_input("رقم الهاتف", max_chars=10)
+phone = st.text_input("رقم الهاتف")
 
 # 📩 إرسال الكود
 if st.button("إرسال الكود"):
     if phone.isdigit() and len(phone) == 10 and phone.startswith("07"):
         st.session_state.reset_code = "0000"
-        st.success("يرجى التحقق من رسالة SMS")
+        st.markdown("<p style='text-align:center;color:#0f2446;'>يرجى التحقق من رسالة SMS</p>", unsafe_allow_html=True)
     else:
-        st.error("يجب أن يكون الرقم 10 أرقام ويبدأ بـ 07")
+        st.markdown("<p style='color:red;text-align:center;'>يجب أن يبدأ الرقم بـ 07</p>", unsafe_allow_html=True)
 
 # 🔐 إدخال الكود
 code = st.text_input("أدخل الكود")
@@ -95,13 +100,13 @@ confirm_password = st.text_input("تأكيد كلمة المرور", type="passw
 # ✅ إعادة التعيين
 if st.button("تغيير كلمة المرور"):
     if not phone or not code or not new_password or not confirm_password:
-        st.error("يرجى تعبئة جميع الحقول")
+        st.markdown("<p style='color:red;text-align:center;'>يرجى تعبئة جميع الحقول</p>", unsafe_allow_html=True)
     elif code != st.session_state.reset_code:
-        st.error("الكود غير صحيح")
+        st.markdown("<p style='color:red;text-align:center;'>الكود غير صحيح</p>", unsafe_allow_html=True)
     elif new_password != confirm_password:
-        st.error("كلمتا المرور غير متطابقتين")
+        st.markdown("<p style='color:red;text-align:center;'>كلمتا المرور غير متطابقتين</p>", unsafe_allow_html=True)
     else:
-        st.success("تم تغيير كلمة المرور بنجاح")
+        st.markdown("<p style='color:green;text-align:center;'>تم تغيير كلمة المرور بنجاح</p>", unsafe_allow_html=True)
         time.sleep(1)
         st.switch_page("app.py")
 
