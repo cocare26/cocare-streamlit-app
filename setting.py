@@ -1,86 +1,198 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# 1. إدارة الحالة (Navigation State)
-if 'page' not in st.session_state:
-    st.session_state.page = 'main'
-
-def navigate_to(page_name):
-    st.session_state.page = page_name
-
-# 2. التنسيق (CSS) لتحويل أزرار ستريمليت لتشبه تصميمك
 st.markdown("""
 <style>
-    /* الخلفية العامة */
-    [data-testid="stAppViewContainer"] { background:#eef2f7; }
-    
-    .block-container {
-        max-width:400px !important;
-        background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
-        border-radius: 42px;
-        padding: 40px 20px !important;
-    }
+:root{
+    --navy:#0f2446;
+    --bg1:#d6ecff;
+    --bg2:#bfe3ff;
+    --bg3:#eaf6ff;
+}
 
-    /* تنسيق زر ستريمليت ليصبح مثل الـ setting-item */
-    div.stButton > button {
-        width: 100%;
-        background-color: white !important;
-        color: #0f2446 !important;
-        border-radius: 100px !important;
-        border: none !important;
-        padding: 20px 25px !important;
-        font-weight: 600 !important;
-        text-align: right !important; /* النص يمين */
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
-        display: flex !important;
-        justify-content: flex-end !important;
-        transition: 0.3s !important;
-    }
+[data-testid="stAppViewContainer"]{
+    background:#eef2f7;
+}
 
-    div.stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
-        background-color: #f8f9fa !important;
-    }
+.block-container{
+    max-width:350px !important;
+    margin:auto !important;
+    padding:30px !important;
+    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+    border-radius:42px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
 </style>
 """, unsafe_allow_html=True)
 
-# 3. عرض الصفحات
-if st.session_state.page == "main":
-    st.markdown("<h2 style='text-align: center; color: #0f2446; margin-bottom:30px;'>Settings</h2>", unsafe_allow_html=True)
-    
-    # الأزرار (أيقونة وهمية عبر Markdown قبل الزر أو داخل الزر إذا دعمت المكتبة)
-    # ملاحظة: ستريمليت لا يدعم الأيقونات داخل الزر بسهولة إلا عبر Unicode أو رموز
-    
-    if st.button("Change Password  ›"):
-        navigate_to("change_password")
-        st.rerun()
+components.html("""
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
 
-    if st.button("Change Language  ›"):
-        navigate_to("change_language")
-        st.rerun()
+body{
+    font-family:'Segoe UI', sans-serif;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    background:transparent;
+}
 
-    if st.button("Rate App  ›"):
-        pass
+.main-wrapper{
+    width:100%;
+    max-width:290px;
+    display:flex;
+    flex-direction:column;
+    height:480px;
+}
 
-    if st.button("Log Out  ›"):
-        pass
+.header-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:35px;
+    position:relative;
+}
 
-    # الصف السفلي (Report / Contact)
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Report ›"):
-            pass
-    with col2:
-        if st.button("Contact ›"):
-            pass
+.back-icon{
+    position:absolute;
+    left:0;
+    font-size:28px;
+    font-weight:bold;
+    color:#0f2446;
+    cursor:pointer;
+}
 
-elif st.session_state.page == "change_password":
-    st.markdown("### 🔒 Change Password")
-    new_pass = st.text_input("New Password", type="password")
-    if st.button("Save"):
-        st.success("Updated!")
-    if st.button("← Back"):
-        navigate_to("main")
-        st.rerun()
+.title{
+    margin:0;
+    font-weight:900;
+    font-size:20px;
+    color:#0f2446;
+}
+
+/* الأزرار العلوية: أيقونة يسار | نص وسهم يمين */
+.setting-item{
+    background:white;
+    border-radius:100px;
+    padding:14px 18px;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.setting-item i.left-icon{
+    color:#0f2446;
+    font-size:16px;
+    margin-right: auto; /* دفع النص والسهم لليمين */
+}
+
+.setting-text-right{
+    font-size:14px;
+    font-weight:600;
+    color:#0f2446;
+    margin-right: 10px;
+}
+
+.setting-item .arrow{
+    color:#0f2446;
+    font-weight:bold;
+    font-size: 18px;
+}
+
+/* تصميم أزرار Bottom Row (كما كانت في الكود الأصلي) */
+.bottom-row{
+    margin-top:auto;
+    display:flex;
+    gap:10px;
+}
+
+.bottom-row .setting-item{
+    flex:1;
+    padding:12px 14px;
+    justify-content: space-between; /* توزيع الأيقونة والنص والسهم */
+}
+
+.bottom-row .setting-text{
+    flex:1;
+    text-align:left;
+    margin-left:15px;
+    font-size:13px;
+    font-weight:600;
+    color:#0f2446;
+}
+
+.setting-item:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+    <div class="header-container">
+        <div class="back-icon" onclick="goPage('customer')">&lt;</div>
+        <h2 class="title">Settings</h2>
+    </div>
+
+    <!-- الأزرار المعدلة: الأيقونة على اليسار -->
+    <div class="setting-item" onclick="goPage('Change_password')">
+        <i class="fas fa-lock left-icon"></i>
+        <span class="setting-text-right">Change Password</span>
+        <span class="arrow">›</span>
+    </div>
+
+    <div class="setting-item" onclick="goPage('Change_language')">
+        <i class="fas fa-globe left-icon"></i>
+        <span class="setting-text-right">Change Language</span>
+        <span class="arrow">›</span>
+    </div>
+
+    <div class="setting-item" onclick="goPage('Rate_app')">
+        <i class="fas fa-star left-icon"></i>
+        <span class="setting-text-right">Rate App</span>
+        <span class="arrow">›</span>
+    </div>
+
+    <div class="setting-item" onclick="goPage('logout')">
+        <i class="fas fa-sign-out-alt left-icon"></i>
+        <span class="setting-text-right">Log Out</span>
+        <span class="arrow">›</span>
+    </div>
+
+    <!-- الأزرار السفلية: رجعت كما كانت في كودك الأساسي -->
+    <div class="bottom-row">
+        <div class="setting-item" onclick="goPage('Report_Problem')">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span class="setting-text">Report Problem</span>
+            <span class="arrow">›</span>
+        </div>
+
+        <div class="setting-item" onclick="goPage('Contact_Us')">
+            <i class="fas fa-envelope"></i>
+            <span class="setting-text">Contact Us</span>
+            <span class="arrow">›</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
+</script>
+
+</body>
+</html>
+""", height=500)
