@@ -19,7 +19,7 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - تم تقليل العرض ليكون أنحف (350px) */
+/* 📦 الكارد الرئيسي - مقاس موحد (350px) */
 .block-container{
     max-width:350px !important;
     margin:auto !important;
@@ -45,20 +45,25 @@ components.html("""
             justify-content: center;
         }
         
+        /* الحاوية الداخلية الموحدة (290px x 480px) */
         .main-wrapper {
             width: 100%;
-            max-width: 290px; /* تقليل عرض المحتوى الداخلي */
+            max-width: 290px;
+            display: flex;
+            flex-direction: column;
+            height: 480px;
         }
 
+        /* الرأس الموحد */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* مسافة موحدة 40px */
             position: relative;
         }
 
-        /* 🔙 سهم الرجوع العلوي < */
+        /* سهم الرجوع الموحد < */
         .back-icon {
             position: absolute;
             left: 0;
@@ -69,6 +74,7 @@ components.html("""
             line-height: 1;
         }
 
+        /* العنوان الموحد */
         .title {
             margin: 0;
             font-weight: 900;
@@ -76,12 +82,12 @@ components.html("""
             color: #0f2446;
         }
 
-        /* ⚪ بوكس مستطيل أبيض بحواف دائرية */
+        /* ⚪ كبسولة الخيارات الموحدة (المتاجر) */
         .store-item {
             background: white;
-            border-radius: 100px;
-            padding: 12px 20px;
-            margin-bottom: 15px;
+            border-radius: 100px; /* حواف دائرية بالكامل */
+            padding: 14px 22px;   /* بادينج موحد */
+            margin-bottom: 15px;  /* مسافة موحدة بين الكبسولات */
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -99,67 +105,70 @@ components.html("""
         .store-item-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 12px; /* فجوة موحدة 12px */
         }
 
+        /* أيقونة المتجر */
         .store-item-icon {
-            font-size: 18px;
+            font-size: 16px; /* حجم موحد للأيقونة */
             color: #0f2446;
-            width: 25px;
+            width: 20px;
             text-align: center;
         }
 
+        /* نص المتجر */
         .store-item-text {
-            font-weight: bold;
+            font-weight: 700;
             color: #0f2446;
-            font-size: 14px;
+            font-size: 14px; /* حجم خط موحد */
         }
 
-        /* ⬅️ الرمز < بدل السهم في الأزرار */
+        /* الرمز < الموحد في نهاية الكبسولة */
         .store-item-arrow {
             font-size: 18px;
             font-weight: bold;
             color: #0f2446; 
-            transform: rotate(180deg); /* تدوير الرمز ليشير لليمين */
+            transform: rotate(180deg);
             display: inline-block;
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- الرأس -->
         <div class="header-container">
             <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Rate App</h2>
         </div>
 
-        <!-- Google Play -->
-        <div class="store-item" onclick="window.open('https://play.google.com/store/apps', '_blank')">
-            <div class="store-item-left">
-                <span class="store-item-icon"><i class="fab fa-google-play"></i></span>
-                <span class="store-item-text">Google Play Store</span>
+        <div class="store-list">
+            <!-- Google Play -->
+            <div class="store-item" onclick="window.open('https://play.google.com/store/apps', '_blank')">
+                <div class="store-item-left">
+                    <span class="store-item-icon"><i class="fab fa-google-play"></i></span>
+                    <span class="store-item-text">Google Play Store</span>
+                </div>
+                <span class="store-item-arrow">&lt;</span>
             </div>
-            <span class="store-item-arrow">&lt;</span>
-        </div>
 
-        <!-- App Store -->
-        <div class="store-item" onclick="window.open('https://apps.apple.com', '_blank')">
-            <div class="store-item-left">
-                <span class="store-item-icon"><i class="fab fa-apple"></i></span>
-                <span class="store-item-text">Apple App Store</span>
+            <!-- App Store -->
+            <div class="store-item" onclick="window.open('https://apps.apple.com', '_blank')">
+                <div class="store-item-left">
+                    <span class="store-item-icon"><i class="fab fa-apple"></i></span>
+                    <span class="store-item-text">Apple App Store</span>
+                </div>
+                <span class="store-item-arrow">&lt;</span>
             </div>
-            <span class="store-item-arrow">&lt;</span>
-        </div>
 
-        <!-- Huawei -->
-        <div class="store-item" onclick="window.open('https://appgallery.huawei.com', '_blank')">
-            <div class="store-item-left">
-                <span class="store-item-icon"><i class="fas fa-mobile-alt"></i></span>
-                <span class="store-item-text">Huawei AppGallery</span>
+            <!-- Huawei -->
+            <div class="store-item" onclick="window.open('https://appgallery.huawei.com', '_blank')">
+                <div class="store-item-left">
+                    <span class="store-item-icon"><i class="fas fa-mobile-alt"></i></span>
+                    <span class="store-item-text">Huawei AppGallery</span>
+                </div>
+                <span class="store-item-arrow">&lt;</span>
             </div>
-            <span class="store-item-arrow">&lt;</span>
         </div>
     </div>
 </body>
 </html>
-""", height=400)
+""", height=500) # ارتفاع المكون البرمجي الموحد
