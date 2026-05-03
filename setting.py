@@ -1,136 +1,277 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="Settings UI", layout="centered") 
-
-# 2. إدارة حالة التنقل (Session State)
-if 'page' not in st.session_state:
-    st.session_state.page = 'main'
-
-def nav(page_name):
-    st.session_state.page = page_name
-
-# 3. تنسيق الـ CSS (بناءً على اعتماداتك الأخيرة)
-st.markdown("""
-<style>
-/* 🎯 الألوان الأساسية المعتمدة */
-:root{
-    --navy:#0f2446;
-    --accent:#2f80ed;
-    --accent2:#1c6fa4;
-    --bg1:#d6ecff;
-    --bg2:#bfe3ff;
-    --bg3:#eaf6ff;
+# إعداد روابط الصفحات (استبدل الروابط بالصفحات الفعلية في تطبيقك)
+links = {
+    "change_password": "?page=password",
+    "change_language": "?page=language",
+    "rate_app": "?page=rate",
+    "logout": "?page=logout",
+    "report": "?page=report",
+    "contact": "?page=contact"
 }
 
-[data-testid="stHeader"] {display: none !important;}
-[data-testid="stAppViewContainer"]{ background:#eef2f7; }
-footer {visibility: hidden;}
+st.markdown(f"""
+    <style>
+    /* 1. الخلفية بيبي بلو */
+    .stApp {{
+        background-color: #E0F7FA;
+    }}
 
-/* 📦 الكارد الرئيسي (عرض 420px حسب الاعتمادات) */
-.block-container{
-    max-width:420px !important;
-    margin:auto !important;
-    padding:25px 30px !important;
-    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius:42px;
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
-    margin-top: 20px !important;
-}
+    .main-container {{
+        max-width: 400px;
+        margin: 0 auto;
+        padding-top: 30px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }}
 
-/* 🧠 الهيدر (متناسق مع الحجم الجديد) */
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 35px;
-    position: relative;
-}
+    /* 2. سهم السيتنج العلوي أسود */
+    .header {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }}
+    .back-arrow-top {{
+        color: black; 
+        font-size: 22px;
+        text-decoration: none;
+        font-weight: bold;
+    }}
+    .title {{
+        color: black;
+        font-size: 22px;
+        font-weight: bold;
+        margin-right: 10px;
+    }}
 
-.back-arrow {
-    position: absolute; left: 0;
-    font-size: 28px;
-    font-weight: bold; color: var(--navy);
-    cursor: pointer;
-}
+    /* 3. تنسيق الأزرار كروابط */
+    .menu-item-link {{
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        margin-bottom: 12px;
+    }}
 
-.settings-header {
-    margin: 0;
-    font-weight: 900;
-    font-size: 22px;
-    color: var(--navy);
-}
+    .menu-button {{
+        background-color: white;
+        border-radius: 50px;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+        transition: 0.3s;
+    }}
+    
+    .menu-button:hover {{
+        transform: scale(1.02);
+        background-color: #f8f9fa;
+    }}
 
-/* 🔘 الأزرار الأساسية (تعديل لتناسب توزيع الإيموجي والنص) */
-div.stButton > button {
-    width: 100% !important;
-    height: 50px !important;
-    border-radius: 25px !important; /* حواف الأزرار المعتمدة */
-    border: none !important;
-    background: white !important; /* خلفية بيضاء للأزرار الداخلية */
-    color: var(--navy) !important;
-    margin-bottom: 10px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    transition: 0.3s ease;
-}
+    .left-section {{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }}
 
-/* 🎯 توزيع العناصر داخل الزر (إيموجي يسار .. مسافة .. نص يمين) */
-div.stButton > button p {
-    display: flex !important;
-    width: 100% !important;
-    align-items: center !important;
-    justify-content: space-between !important; /* المسافة الطويلة بينهم */
-    margin: 0 !important;
-    font-weight: 800 !important;
-    font-size: 15px !important;
-    padding: 0 10px !important;
-}
+    .menu-text {{
+        color: black;
+        font-size: 15px;
+        font-weight: 500;
+    }}
 
-/* ✨ تأثير الـ Hover المعتمد */
-div.stButton > button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 18px rgba(0,0,0,.1) !important;
-    background: #f8f9fa !important;
-}
+    /* 4. الأسهم الجانبية بيضاء وعلى اليمين */
+    .arrow-right {{
+        background-color: white; /* لجعل السهم يظهر إذا كانت الخلفية بيضاء، نضع له حاوية أو نغير لونه */
+        color: #FFFFFF; /* لون السهم أبيض */
+        background: #f0f0f0; /* خلفية دائرية خفيفة للسهم ليظهر الأبيض بوضوح */
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        text-shadow: 0px 0px 2px rgba(0,0,0,0.2); /* ظل خفيف للسهم الأبيض */
+    }}
 
-/* 🧾 تنسيق خاص لزر اللوج أوت أو الأزرار الملونة إذا رغبت */
-/* يمكنك تفعيل التدرج المعتمد لزر معين هنا */
+    .bottom-row {{
+        display: flex;
+        gap: 10px;
+    }}
+    .small-btn {{
+        flex: 1;
+        background-color: white;
+        border-radius: 50px;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }}
+    </style>
 
-</style>
-""", unsafe_allow_html=True)
-
-# 4. عرض المحتوى بناءً على الصفحة الحالية
-if st.session_state.page == 'main':
-    # هيدر الإعدادات
-    st.markdown("""
-        <div class="header-container">
-            <div class="back-arrow">‹</div>
-            <p class="settings-header">Settings</p>
+    <div class="main-container">
+        <div class="header">
+            <a href="#" class="back-arrow-top"> &lt; </a>
+            <div class="title">Settings</div>
+            <div style="width:20px;"></div>
         </div>
+
+        <a href="{links['change_password']}" class="menu-item-link">
+            <div class="menu-button">
+                <div class="left-section"><span>🔐</span> <span class="menu-text">Change Password</span></div>
+                <div class="arrow-right"> &gt; </div>
+            </div>
+        </a>
+
+        <a href="{links['change_language']}" class="menu-item-link">
+            <div class="menu-button">
+                <div class="left-section"><span>🌐</span> <span class="menu-text">Change Language</span></div>
+                <div class="arrow-right"> &gt; </div>
+            </div>
+        </a>
+
+        <a href="{links['rate_app']}" class="menu-item-link">
+            <div class="menu-button">
+                <div class="left-section"><span>⭐</span> <span class="menu-text">Rate App</span></div>
+                <div class="arrow-right"> &gt; </div>
+            </div>
+        </a>
+
+        <a href="{links['logout']}" class="menu-item-link">
+            <div class="menu-button">
+                <div class="left-section"><span>🚪</span> <span class="menu-text">Log Out</span></div>
+                <div class="arrow-right"> &gt; </div>
+            </div>
+        </a>
+
+        <div class="bottom-row">
+            <a href="{links['report']}" class="menu-item-link" style="flex:1;">
+                <div class="small-btn">
+                    <div class="left-section" style="gap:5px;"><span>⚠️</span><span class="menu-text" style="font-size:12px;">Report</span></div>
+                    <div class="arrow-right" style="width:18px; height:18px; font-size:10px;"> &gt; </div>
+                </div>
+            </a>
+            <a href="{links['contact']}" class="menu-item-link" style="flex:1;">
+                <div class="small-btn">
+                    <div class="left-section" style="gap:5px;"><span>✉️</span><span class="menu-text" style="font-size:12px;">Contact</span></div>
+                    <div class="arrow-right" style="width:18px; height:18px; font-size:10px;"> &gt; </div>
+                </div>
+            </a>
+        </div>
+import React, { useState } from 'react';
+
+const AppSettings = () => {
+  const [view, setView] = useState('main');
+
+  // التنسيقات العامة المستوحاة من الصورة
+  const styles = {
+    container: {
+      backgroundColor: '#d1e5f0', // الخلفية السماوية الفاتحة
+      minHeight: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontFamily: 'Arial, sans-serif',
+      padding: '20px'
+    },
+    card: {
+      backgroundColor: 'rgba(255, 255, 255, 0.4)', // تأثير الشفافية للأزرار
+      borderRadius: '20px',
+      padding: '20px',
+      width: '350px',
+      boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
+      textAlign: 'center'
+    },
+    button: {
+      backgroundColor: 'white',
+      border: 'none',
+      borderRadius: '25px',
+      padding: '12px 20px',
+      margin: '10px 0',
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      cursor: 'pointer',
+      fontSize: '16px',
+      color: '#555'
+    },
+    input: {
+      width: '100%',
+      padding: '12px',
+      margin: '8px 0',
+      borderRadius: '10px',
+      border: '1px solid #ddd',
+      boxSizing: 'border-box'
+    },
+    saveBtn: {
+      backgroundColor: 'white',
+      border: 'none',
+      borderRadius: '20px',
+      padding: '10px 40px',
+      marginTop: '20px',
+      cursor: 'pointer',
+      fontWeight: 'bold'
+    }
+  };
+
+  // شاشة الإعدادات الرئيسية
+  const MainSettings = () => (
+    <div style={styles.card}>
+      <h2 style={{color: '#555'}}>Settings</h2>
+      <button style={styles.button} onClick={() => setView('password')}>
+        <span>🔒 Change Password</span> <span>&gt;</span>
+      </button>
+      <button style={styles.button} onClick={() => setView('language')}>
+        <span>🌐 Change Language</span> <span>&gt;</span>
+      </button>
+      <button style={styles.button} onClick={() => setView('rate')}>
+        <span>⭐ Rate App</span> <span>&gt;</span>
+      </button>
+      <button style={styles.button}>
+        <span>🚪 Log Out</span> <span>&gt;</span>
+      </button>
+      <div style={{display: 'flex', gap: '10px'}}>
+        <button style={{...styles.button, fontSize: '14px'}} onClick={() => setView('report')}>
+           ⚠️ Report a Problem
+        </button>
+        <button style={{...styles.button, fontSize: '14px'}} onClick={() => setView('contact')}>
+           ✉️ Contact Us
+        </button>
+      </div>
+    </div>
+  );
+
+  // شاشة تغيير كلمة المرور
+  const PasswordView = () => (
+    <div style={styles.card}>
+      <h3>Change Password</h3>
+      <input type="password" placeholder="Current Password" style={styles.input} />
+      <input type="password" placeholder="New Password" style={styles.input} />
+      <input type="password" placeholder="Re-write New Password" style={styles.input} />
+      <button style={styles.saveBtn} onClick={() => setView('main')}>Save</button>
+    </div>
     """, unsafe_allow_html=True)
     
-    # بناء الأزرار بنفس الترتيب المعتمد (الإيموجي سيظهر يساراً والنص يميناً بسبب الـ CSS)
-    if st.button("🔒 Change Password"): nav('password')
-    if st.button("🌐 Change Language"): nav('language')
-    if st.button("⭐ Rate App"): nav('rate')
-    if st.button("🚪 Log Out"): nav('main')
-    
-    # فاصل بسيط
-    st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
+  );
 
-    # أزرار السطر الأخير
-    if st.button("⚠️ Report a Problem"): nav('report')
-    if st.button("✉️ Contact Us"): nav('contact')
+  return (
+    <div style={styles.container}>
+      {view === 'main' && <MainSettings />}
+      {view === 'password' && <PasswordView />}
+      {/* يمكنك إضافة باقي الشاشات (اللغة، التواصل) بنفس الطريقة */}
+      {view !== 'main' && (
+        <button 
+          onClick={() => setView('main')} 
+          style={{position: 'absolute', top: '20px', left: '20px', background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px'}}
+        >
+          ←
+        </button>
+      )}
+    </div>
+  );
+};
 
-# الشاشات الفرعية (أمثلة)
-elif st.session_state.page == 'password':
-    if st.button("‹ Back"): nav('main')
-    st.markdown("### Change Password")
-    st.text_input("New Password", type="password")
-    st.button("Update")
-
-elif st.session_state.page == 'report':
-    if st.button("‹ Back"): nav('main')
-    st.markdown("### Report a Problem")
-    st.text_area("How can we help?", height=150)
-    st.button("Send Report")
+export default AppSettings;
