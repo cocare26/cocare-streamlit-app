@@ -97,14 +97,19 @@ div.stButton:nth-of-type(1) > button {
 """, unsafe_allow_html=True)
 
 st.title("إنشاء حساب")
-
-st.markdown(
-    '<div class="signin-line">هل لديك حساب بالفعل؟</div>',
-    unsafe_allow_html=True
-)
-
-if st.button("تسجيل الدخول"):
-    st.switch_page("app.py")
+st.markdown("""
+<div style="text-align:center; font-size:14px;">
+هل لديك حساب؟
+<a href="/" target="_self" style="
+color:#1c6fa4;
+font-weight:bold;
+text-decoration:none;
+margin-right:4px;
+">
+تسجيل الدخول
+</a>
+</div>
+""", unsafe_allow_html=True)
 
 username = st.text_input("اسم المستخدم")
 
