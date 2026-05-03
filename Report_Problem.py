@@ -4,38 +4,32 @@ import streamlit.components.v1 as components
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 2. التنسيق العام (CSS) - بناءً على المقاسات والمعلومات التي اعتمدتها
+# 2. التنسيق العام (CSS)
 st.markdown("""
 <style>
-/* 🎯 ألوان أساسية */
+/* 🎯 الألوان الأساسية */
 :root{
     --navy:#0f2446;
     --accent:#2f80ed;
-    --accent2:#1c6fa4;
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
 }
 
-/* إخفاء الهيدر لرفع الكارد */
 [data-testid="stHeader"] {display: none !important;}
-
-/* 📱 خلفية الصفحة */
-[data-testid="stAppViewContainer"]{
-    background:#eef2f7;
-}
 
 /* 📦 1. الكارد الرئيسي (Main Container) */
 .block-container{
-    max-width:350px !important;    /* العرض النحيف المعتمد */
+    max-width:350px !important;    /* العرض 350px */
     margin:auto !important;
     padding:30px !important;       /* المسافات الداخلية 30px */
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius:42px;            /* الحواف الدائرية 42px */
-    box-shadow:0 15px 35px rgba(0,0,0,0.15); /* الظل المعتمد */
+    border-radius:42px;            /* الحواف 42px */
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
     margin-top: 20px !important;
 }
 
+[data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
@@ -49,39 +43,36 @@ components.html("""
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
         
-        /* 📏 2. الحاوية الداخلية (Main Wrapper) */
         .main-wrapper {
             width: 100%;
-            max-width: 290px;      /* العرض الأقصى الداخلي 290px */
+            max-width: 290px;      /* العرض الداخلي 290px */
             height: 480px;         /* الارتفاع المخصص 480px */
             display: flex;
             flex-direction: column;
         }
 
-        /* 🔝 3. الرأس (Header Section) */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 40px;   /* المسافة السفلية 40px */
+            margin-bottom: 40px;
             position: relative;
         }
 
         .back-icon {
             position: absolute; left: 0;
-            font-size: 28px;       /* حجم أيقونة الرجوع 28px */
+            font-size: 28px;
             font-weight: bold; color: #0f2446;
-            cursor: pointer;
         }
 
         .title {
             margin: 0;
-            font-weight: 900;      /* وزن الخط 900 */
-            font-size: 20px;       /* حجم الخط 20px */
+            font-weight: 900;
+            font-size: 20px;
             color: #0f2446;
         }
 
-        /* 📝 صندوق النص */
+        /* 📝 صندوق النص مع توحيد لون Placeholder */
         .report-textarea {
             width: 100%;
             height: 220px;
@@ -98,15 +89,21 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🔘 4. كبسولة الإرسال (زر أبيض صريح بمواصفاتك) */
+        /* 🎨 جعل لون "I need help" نفس لون البحرية (Navy) */
+        .report-textarea::placeholder {
+            color: #0f2446;
+            opacity: 0.8; /* شفافية بسيطة لتمييزه كـ placeholder */
+        }
+
+        /* 🔘 زر الإرسال */
         .send-btn {
             background: white;
-            border-radius: 100px;  /* الحواف 100px */
+            border-radius: 100px;
             width: 100%;
-            padding: 14px 22px;    /* المسافات: 14px عمودي و 22px أفقي */
+            padding: 14px 22px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* ✅ لضمان توزيع العناصر على الأطراف */
+            justify-content: space-between; /* توزيع المحتوى على الأطراف */
             border: none;
             margin-top: auto;
             cursor: pointer;
@@ -114,32 +111,31 @@ components.html("""
             box-sizing: border-box;
         }
 
+        /* نص السيند ريبورت - جهة اليمين */
         .send-btn span { 
             color: #0f2446; 
             font-weight: 700; 
             font-size: 14px; 
-            order: 2; /* ✅ النص يروح لجهة اليمين */
+            order: 2; 
         }
 
+        /* أيقونة الطيارة - جهة الشمال */
         .main-icon { 
-            color: #0f2446; 
+            color: #0f2446; /* نفس لون الـ placeholder والـ Navy */
             font-size: 18px; 
-            order: 1; /* ✅ الأيقونة تروح لجهة الشمال */
+            order: 1; 
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- الرأس -->
         <div class="header-container">
             <div class="back-icon">&lt;</div>
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <!-- صندوق النص معPlaceholder المطلوب -->
         <textarea class="report-textarea" placeholder="I need help"></textarea>
 
-        <!-- زر الإرسال مع توزيع العناصر على الأطراف -->
         <div style="margin-top: auto; padding-bottom: 10px;">
             <button class="send-btn" onclick="alert('Sent!')">
                 <i class="fas fa-paper-plane main-icon"></i>
