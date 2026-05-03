@@ -19,9 +19,9 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي */
+/* 📦 الكارد الرئيسي - العرض الموحد 350px */
 .block-container{
-    max-width:450px !important;
+    max-width:350px !important;
     margin:auto !important;
     padding:30px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
@@ -47,7 +47,10 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 380px;
+            max-width: 290px;
+            display: flex;
+            flex-direction: column;
+            height: 480px;
         }
 
         .header-container {
@@ -58,30 +61,33 @@ components.html("""
             position: relative;
         }
 
+        /* 🔙 رمز الرجوع < */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: bold;
             color: #0f2446;
             text-decoration: none;
+            line-height: 1;
         }
 
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 24px;
+            font-size: 20px;
             color: #0f2446;
         }
 
-        /* 💊 تصميم الكبسولة البيضاء الطويلة */
+        /* ⚪ كبسولة اللغة */
         .language-capsule {
             background: white;
             border-radius: 100px;
-            padding: 15px 25px;
+            padding: 14px 22px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* توزيع العناصر (الاسم يسار والعلامة يمين) */
+            justify-content: space-between;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             cursor: pointer;
             transition: 0.3s;
@@ -96,38 +102,44 @@ components.html("""
         .left-content {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .icon {
             color: #0f2446;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .label {
             color: #0f2446;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 14px;
         }
 
-        /* علامة الصح والسهم في أقصى اليمين */
+        /* علامة الصح والرمز الجديد > */
         .status-mark {
             font-size: 18px;
             font-weight: bold;
         }
         
-        .check { color: #2f80ed; } /* لون الصح */
-        .arrow { color: #0f2446; font-size: 22px; } /* لون وحجم السهم */
+        .check { color: #2f80ed; } 
+        
+        .arrow-icon { 
+            color: #0f2446; 
+            font-size: 18px; 
+            transform: rotate(180deg); 
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+            <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Change Language</h2>
         </div>
 
-        <!-- كبسولة الإنجليزية مع علامة صح -->
+        <!-- English -->
         <a href="#" class="language-capsule">
             <div class="left-content">
                 <div class="icon"><i class="fas fa-globe"></i></div>
@@ -136,13 +148,15 @@ components.html("""
             <div class="status-mark check"><i class="fas fa-check"></i></div>
         </a>
 
-        <!-- كبسولة العربية مع سهم -->
+        <!-- العربية -->
         <a href="#" class="language-capsule">
             <div class="left-content">
                 <div class="icon"><i class="fas fa-globe"></i></div>
                 <div class="label">العربية</div>
             </div>
-            <div class="status-mark arrow">›</div>
+            <div class="status-mark">
+                <span class="arrow-icon">&lt;</span>
+            </div>
         </a>
     </div>
 </body>
