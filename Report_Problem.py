@@ -19,11 +19,11 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - تم تنحيف العرض إلى 310px */
+/* 📦 الكارد الرئيسي - تم تنحيفه ليتطابق تماماً مع صفحة Language */
 .block-container{
     max-width:310px !important; 
     margin:auto !important;
-    padding:25px !important;
+    padding:20px !important; /* تقليل البادينج لتنحيف المسافات الجانبية */
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
@@ -47,7 +47,7 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 260px; /* تنحيف المحتوى الداخلي */
+            max-width: 270px; /* العرض الداخلي الرشيق */
             display: flex;
             flex-direction: column;
             height: 460px;
@@ -70,13 +70,12 @@ components.html("""
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
-            cursor: pointer;
         }
 
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 18px; /* تصغير الخط قليلاً ليتناسب مع النحافة */
+            font-size: 18px;
             color: #0f2446;
         }
 
@@ -93,7 +92,7 @@ components.html("""
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             font-family: inherit;
         }
 
@@ -101,7 +100,7 @@ components.html("""
             color: #888888;
         }
 
-        /* 🔘 زر الإرسال */
+        /* 🔘 زر الإرسال الكبسولة */
         .btn-container {
             margin-top: auto;
             padding-bottom: 5px;
@@ -111,7 +110,7 @@ components.html("""
             background: white;
             border-radius: 100px;
             width: 100%;
-            padding: 10px 18px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -124,7 +123,6 @@ components.html("""
 
         .send-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
         }
 
         .send-btn span {
