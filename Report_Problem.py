@@ -1,40 +1,42 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
+# 1. إعدادات الصفحة
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 🛠️ كود CSS لإجبار البوكس على النحافة القصوى
+# 2. التنسيق العام (CSS) - المقاسات الموحدة 350px
 st.markdown("""
 <style>
-/* إزالة المسافات الجانبية من الحاوية الأساسية لستريمليت */
-.main .block-container {
-    max-width: 300px !important; 
-    padding-left: 0px !important;
-    padding-right: 0px !important;
+/* 🎯 ألوان أساسية */
+:root {
+    --navy: #0f2446;
+    --bg1: #d6ecff;
+    --bg2: #bfe3ff;
+    --bg3: #eaf6ff;
+}
+
+/* 📱 خلفية الصفحة */
+[data-testid="stAppViewContainer"] {
+    background: #eef2f7;
+}
+
+/* 📦 الكارد الرئيسي - المقاس الموحد (350px) */
+.block-container {
+    max-width: 350px !important;
     margin: auto !important;
-}
-
-/* 📦 الكارد الرئيسي - نحيف جداً (300px) */
-[data-testid="stAppViewContainer"] .block-container {
-    max-width: 300px !important;
-    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
+    padding: 30px !important;
+    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius: 42px;
-    padding: 20px !important;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    margin-top: 50px !important;
 }
 
-/* إخفاء شريط التنقل العلوي لزيادة الجمالية */
+/* إخفاء الزوائد لجمالية التصميم */
 header {visibility: hidden;}
 footer {visibility: hidden;}
-
-/* خلفية الصفحة العامة */
-[data-testid="stAppViewContainer"]{
-    background:#eef2f7;
-}
 </style>
 """, unsafe_allow_html=True)
 
+# 3. محتوى الصفحة (HTML/JS)
 components.html("""
 <!DOCTYPE html>
 <html>
@@ -49,80 +51,94 @@ components.html("""
             justify-content: center;
         }
         
+        /* الحاوية الداخلية الموحدة (290px x 480px) */
         .main-wrapper {
             width: 100%;
-            max-width: 250px; /* المحتوى الداخلي نحيف جداً */
+            max-width: 290px;
             display: flex;
             flex-direction: column;
-            height: 450px;
+            height: 480px;
         }
 
+        /* الرأس الموحد */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* المسافة الموحدة 40px */
             position: relative;
         }
 
-        /* 🔙 سهم الرجوع < */
+        /* 🔙 رمز الرجوع الموحد < */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 26px;
+            font-size: 28px;
             font-weight: bold;
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
+            cursor: pointer;
         }
 
+        /* العنوان الموحد */
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 18px;
+            font-size: 20px;
             color: #0f2446;
         }
 
-        /* 📝 صندوق النص */
+        /* 📝 صندوق النص (التعديل ليناسب المساحة الموحدة) */
         .report-textarea {
             width: 100%;
-            height: 200px;
+            height: 240px; /* زيادة الارتفاع قليلاً لملء الفراغ بشكل متناسق */
             border-radius: 25px;
             border: none;
             outline: none;
-            padding: 15px;
+            padding: 18px;
             background: white;
             font-size: 14px;
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             font-family: inherit;
         }
 
-        /* 🔘 زر الإرسال */
+        .report-textarea::placeholder {
+            color: #888888;
+        }
+
+        /* 🔘 زر الإرسال الموحد (نفس نمط الكبسولة) */
         .btn-container {
             margin-top: auto;
-            padding-bottom: 5px;
+            padding-bottom: 10px;
         }
 
         .send-btn {
             background: white;
             border-radius: 100px;
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 22px; /* بادينج موحد مثل الكبسولات */
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
             border: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: 0.3s;
             box-sizing: border-box;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
         }
 
         .send-btn span {
             color: #0f2446;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 14px;
         }
 
@@ -134,13 +150,16 @@ components.html("""
 </head>
 <body>
     <div class="main-wrapper">
+        <!-- الهيدر الموحد -->
         <div class="header-container">
             <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Report a Problem</h2>
         </div>
 
+        <!-- صندوق النص -->
         <textarea class="report-textarea" placeholder="I need help"></textarea>
 
+        <!-- زر الإرسال بنمط الكبسولة -->
         <div class="btn-container">
             <button class="send-btn" onclick="alert('Report Sent!')">
                 <i class="fas fa-paper-plane"></i>
@@ -150,4 +169,4 @@ components.html("""
     </div>
 </body>
 </html>
-""", height=470)
+""", height=500)
