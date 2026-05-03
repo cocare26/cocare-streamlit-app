@@ -4,38 +4,37 @@ import streamlit.components.v1 as components
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 2. التنسيق العام (CSS) - حل مشكلة الفراغ العلوي
+# 2. التنسيق العام (CSS) - تصفير الـ Padding الافتراضي لـ Streamlit
 st.markdown("""
 <style>
-/* 🎯 الألوان المعتمدة */
-:root {
-    --navy: #0f2446;
-    --bg-grad: linear-gradient(160deg, #d6ecff 0%, #eaf6ff 100%);
+/* تصفير المسافات الإضافية التي يضعها ستريمليت في الأعلى */
+.block-container {
+    padding-top: 2rem !important; /* مسافة بسيطة جداً ليتنفس الكارد */
+    padding-bottom: 0rem !important;
 }
 
-/* تصفير المسافات العلوية لـ Streamlit */
-.stApp {
-    margin-top: -80px !important; /* رفع المحتوى بالكامل للأعلى */
+/* إخفاء الهيدر تماماً */
+[data-testid="stHeader"] {
+    display: none !important;
 }
 
+/* 📱 خلفية التطبيق */
 [data-testid="stAppViewContainer"] {
     background: #eef2f7;
 }
 
-/* إخفاء الهيدر تماماً مع مساحته */
-header {visibility: hidden; height: 0px !important;}
-footer {visibility: hidden;}
-[data-testid="stHeader"] {display: none !important;}
-
-/* 📦 الكارد الرئيسي (350px) */
-.block-container {
+/* 📦 الكارد الرئيسي (350px) كما طلبت */
+.main .block-container {
     max-width: 350px !important;
     margin: auto !important;
-    padding: 30px !important;
-    background: var(--bg-grad);
+    background: linear-gradient(160deg, #d6ecff 0%, #eaf6ff 100%);
     border-radius: 42px;
+    padding: 30px !important; /* المسافة الداخلية المعتمدة */
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
+
+/* إخفاء الفوتر */
+footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -66,7 +65,7 @@ components.html("""
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 40px;
+            margin-bottom: 40px; /* المسافة المعتمدة */
             position: relative;
         }
 
@@ -119,7 +118,6 @@ components.html("""
             cursor: pointer;
             border: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: 0.3s;
             box-sizing: border-box;
         }
 
@@ -142,7 +140,7 @@ components.html("""
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <textarea class="report-textarea" placeholder="Describe your problem here..."></textarea>
+        <textarea class="report-textarea" placeholder="How can we help?"></textarea>
 
         <div class="btn-container">
             <button class="send-btn" onclick="alert('Report Sent!')">
