@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS الموحد والمطور
+# 3. تنسيق الـ CSS
 st.markdown("""
 <style>
 :root {
@@ -24,7 +24,7 @@ st.markdown("""
 [data-testid="stAppViewContainer"] { background: #eef2f7; }
 footer {visibility: hidden;}
 
-/* 📦 الكارد الرئيسي (350px نحيف) */
+/* 📦 الكارد الرئيسي (350px) */
 .block-container {
     max-width: 350px !important;
     margin: auto !important;
@@ -57,13 +57,13 @@ footer {visibility: hidden;}
     color: var(--navy);
 }
 
-/* 🔘 تنسيق الأزرار (توزيع الأطراف) */
+/* 🔘 تنسيق الأزرار مع توزيع المحتوى */
 div.stButton > button {
     background: white !important;
     border-radius: 100px !important;  
     width: 100% !important;
-    height: 54px !important; /* طولت البوكس شوي ليطلع أفخم */
-    padding: 0 25px !important; /* مسافات جانبية داخل الزر */
+    height: 54px !important; 
+    padding: 0 25px !important; 
     border: none !important;
     margin-bottom: 12px !important;
     cursor: pointer !important;
@@ -72,15 +72,27 @@ div.stButton > button {
     transition: 0.3s ease;
 }
 
-/* 🎯 السحر هنا: توزيع المحتوى داخل الزر */
+/* 🎯 تعديل الـ Flex لرمي النص لأقصى اليمين */
 div.stButton > button p {
     display: flex !important;
-    justify-content: space-between !important; /* يرمي الإيموجي شمال والنص يمين */
+    flex-direction: row !important;
     width: 100% !important;
     align-items: center !important;
     margin: 0 !important;
     font-weight: 700 !important;
     font-size: 14px !important;
+}
+
+/* إضافة مسافة مطاطية بين أول عنصر (الإيموجي) وآخر عنصر (النص) */
+div.stButton > button p::after {
+    content: "";
+    flex: 1; /* هذه هي المساحة الطويلة التي طلبتها */
+    order: 1;
+}
+
+div.stButton > button p span:last-child, 
+div.stButton > button p {
+    justify-content: space-between;
 }
 
 div.stButton > button:hover {
@@ -92,7 +104,6 @@ div.stButton > button:hover {
 
 # 4. عرض المحتوى
 if st.session_state.page == 'main':
-    # هيدر الصفحة
     st.markdown("""
         <div class="header-container">
             <div class="back-arrow">‹</div>
@@ -100,21 +111,18 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # بناء الأزرار (لاحظ ترتيب الإيموجي أولاً ثم النص)
-    # الـ CSS سيتكفل برمي الإيموجي لليسار والنص لليمين
+    # لاحظ: الإيموجي أولاً، ثم النص. الـ CSS سيخلق المسافة الطويلة بينهم تلقائياً.
     if st.button("🔒 Change Password"): nav('password')
     if st.button("🌐 Change Language"): nav('language')
     if st.button("⭐ Rate App"): nav('rate')
     if st.button("🚪 Log Out"): nav('main')
     
-    # فاصل بسيط
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # أزرار السطر الأخير
     if st.button("⚠️ Report a Problem"): nav('report')
     if st.button("✉️ Contact Us"): nav('contact')
 
 # الشاشات الفرعية
-elif st.session_state.page == 'report':
+elif st.session_state.page == 'password':
     if st.button("‹ Back"): nav('main')
-    st.write("Report logic here...")
+    st.write("Password Settings...")
