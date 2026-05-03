@@ -4,7 +4,7 @@ import streamlit.components.v1 as components
 # إعداد الصفحة
 st.set_page_config(page_title="الإعدادات", layout="centered")
 
-# CSS الخارجي (تنسيق الكارد الرئيسي)
+# CSS الخارجي (الكارد)
 st.markdown("""
 <style>
 :root{
@@ -18,7 +18,6 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* الكارد الرئيسي الموحد بمقاس 350px */
 .block-container{
     max-width:350px !important;
     margin:auto !important;
@@ -26,7 +25,6 @@ st.markdown("""
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
-    direction: rtl; /* اتجاه المحتوى للعربية */
 }
 </style>
 """, unsafe_allow_html=True)
@@ -39,11 +37,12 @@ components.html("""
 <style>
 
 body{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Segoe UI', sans-serif;
     margin:0;
     display:flex;
     justify-content:center;
     background:transparent;
+    direction: rtl;
 }
 
 .main-wrapper{
@@ -54,7 +53,7 @@ body{
     height:480px;
 }
 
-/* الرأس (Header) */
+/* Header */
 .header-container{
     display:flex;
     align-items:center;
@@ -65,7 +64,7 @@ body{
 
 .back-icon{
     position:absolute;
-    right:0; /* وضع السهم على اليمين في العربي */
+    right:0;
     font-size:28px;
     font-weight:bold;
     color:#0f2446;
@@ -75,11 +74,11 @@ body{
 .title{
     margin:0;
     font-weight:900;
-    font-size:22px;
+    font-size:20px;
     color:#0f2446;
 }
 
-/* عناصر الإعدادات (الأزرار) */
+/* عناصر الإعدادات */
 .setting-item{
     background:white;
     border-radius:100px;
@@ -91,28 +90,29 @@ body{
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     cursor:pointer;
     transition:0.3s;
-    text-decoration:none;
+    flex-direction: row-reverse; /* 🔥 يعكس الترتيب */
 }
 
 .setting-item i{
     color:#0f2446;
     font-size:16px;
-    margin-left: 15px; /* مسافة بين الأيقونة والنص */
 }
 
+/* النص */
 .setting-text{
     flex:1;
     text-align:right;
+    margin-left:10px;
     font-size:14px;
-    font-weight:700;
+    font-weight:600;
     color:#0f2446;
 }
 
+/* السهم */
 .setting-item .arrow{
     margin-right:10px;
     color:#0f2446;
     font-weight:bold;
-    font-size: 18px;
 }
 
 .setting-item:hover{
@@ -120,7 +120,7 @@ body{
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* الصف السفلي (أزرار التواصل) */
+/* الصف السفلي */
 .bottom-row{
     margin-top:auto;
     display:flex;
@@ -129,20 +129,11 @@ body{
 
 .bottom-row .setting-item{
     flex:1;
-    padding:12px 10px;
-    flex-direction: column; /* جعل الأيقونة فوق النص لضمان المساحة */
-    border-radius: 20px;
-    text-align: center;
+    padding:12px 14px;
 }
 
 .bottom-row .setting-text{
-    text-align: center;
-    margin: 5px 0 0 0;
-    font-size: 12px;
-}
-
-.bottom-row i{
-    margin: 0;
+    font-size:13px;
 }
 
 </style>
@@ -153,32 +144,28 @@ body{
 <div class="main-wrapper">
 
     <div class="header-container">
-        <a href="#" class="back-icon">&gt;</a>
+        <a href="#" class="back-icon">›</a>
         <h2 class="title">الإعدادات</h2>
     </div>
 
-    <!-- تغيير كلمة المرور -->
     <div class="setting-item">
         <i class="fas fa-lock"></i>
         <span class="setting-text">تغيير كلمة المرور</span>
         <span class="arrow">‹</span>
     </div>
 
-    <!-- تغيير اللغة -->
     <div class="setting-item">
         <i class="fas fa-globe"></i>
         <span class="setting-text">تغيير اللغة</span>
         <span class="arrow">‹</span>
     </div>
 
-    <!-- تقييم التطبيق -->
     <div class="setting-item">
         <i class="fas fa-star"></i>
         <span class="setting-text">تقييم التطبيق</span>
         <span class="arrow">‹</span>
     </div>
 
-    <!-- تسجيل الخروج -->
     <div class="setting-item">
         <i class="fas fa-sign-out-alt"></i>
         <span class="setting-text">تسجيل الخروج</span>
@@ -186,16 +173,16 @@ body{
     </div>
 
     <div class="bottom-row">
-        <!-- الإبلاغ عن مشكلة -->
         <div class="setting-item">
             <i class="fas fa-exclamation-triangle"></i>
-            <span class="setting-text">بلاغ عن مشكلة</span>
+            <span class="setting-text">الإبلاغ عن مشكلة</span>
+            <span class="arrow">‹</span>
         </div>
 
-        <!-- تواصل معنا -->
         <div class="setting-item">
             <i class="fas fa-envelope"></i>
             <span class="setting-text">تواصل معنا</span>
+            <span class="arrow">‹</span>
         </div>
     </div>
 
