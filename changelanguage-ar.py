@@ -73,6 +73,7 @@ components.html("""
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
+            cursor: pointer;
         }
 
         .title {
@@ -139,21 +140,21 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <a href="#" class="back-icon">&gt;</a>
+            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
             <h2 class="title">تغيير اللغة</h2>
         </div>
 
         <!-- العربية (مختارة) -->
-        <a href="#" class="language-capsule">
+        <div class="language-capsule" onclick="goPage('settings-ar')">
             <div class="right-content">
                 <div class="icon"><i class="fas fa-globe"></i></div>
                 <div class="label">العربية</div>
             </div>
             <div class="status-mark check"><i class="fas fa-check"></i></div>
-        </a>
+        </div>
 
         <!-- English -->
-        <a href="#" class="language-capsule">
+        <div class="language-capsule" onclick="goPage('settings')">
             <div class="right-content">
                 <div class="icon"><i class="fas fa-globe"></i></div>
                 <div class="label">English</div>
@@ -161,8 +162,14 @@ components.html("""
             <div class="status-mark">
                 <span class="arrow-icon">&lt;</span>
             </div>
-        </a>
+        </div>
     </div>
+
+    <script>
+    function goPage(p){
+        window.top.location.href = "/?page=" + p;
+    }
+    </script>
 </body>
 </html>
 """, height=500)
