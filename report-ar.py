@@ -1,13 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
 st.set_page_config(page_title="الإبلاغ عن مشكلة", layout="centered")
 
-# 2. التنسيق العام (CSS)
 st.markdown("""
 <style>
-/* 🎯 الألوان الأساسية */
 :root{
     --navy:#0f2446;
     --accent:#2f80ed;
@@ -19,7 +16,6 @@ st.markdown("""
 
 [data-testid="stHeader"] {display: none !important;}
 
-/* 📦 1. الكارد الرئيسي (Main Container) */
 .block-container{
     max-width:350px !important;    
     margin:auto !important;
@@ -35,7 +31,6 @@ footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة (HTML/JS) باللغة العربية
 components.html("""
 <!DOCTYPE html>
 <html dir="rtl"> <!-- تفعيل الاتجاه من اليمين لليسار -->
@@ -144,7 +139,7 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <div class="back-icon">&gt;</div>
+            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
             <h2 class="title">الإبلاغ عن مشكلة</h2>
         </div>
 
@@ -157,6 +152,12 @@ components.html("""
             </button>
         </div>
     </div>
+
+    <script>
+    function goPage(p){
+        window.top.location.href = "/?page=" + p;
+    }
+    </script>
 </body>
 </html>
 """, height=500)
