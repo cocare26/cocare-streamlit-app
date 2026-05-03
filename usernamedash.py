@@ -29,7 +29,7 @@ robot_head = get_base64("robot_head.png")
 user_name = st.text_input("Enter User Name", value="User Name")
 
 # =====================================
-# CSS المطور (يحتوي على نظام النجوم التفاعلي)
+# CSS المطور (نظام النجوم والتحسينات)
 # =====================================
 st.markdown(f"""
 <style>
@@ -67,7 +67,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
     margin: 8px 0 8px 4px;
 }}
 
-/* جعل العناصر قابلة للنقر */
+/* تفاعل النقر */
 .clickable {{
     cursor: pointer;
     transition: transform 0.2s, opacity 0.2s;
@@ -118,7 +118,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
     font-weight: 900; color: #003366;
 }}
 
-/* --- نظام النجوم التفاعلي المدمج --- */
+/* نظام النجوم التفاعلي */
 .star-rating {{
     display: flex;
     flex-direction: row-reverse;
@@ -128,7 +128,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 }}
 .star-rating input {{ display: none; }}
 .star-rating label {{
-    font-size: 28px; /* حجم النجوم ليناسب التصميم */
+    font-size: 30px;
     color: #ddd;
     cursor: pointer;
     transition: color 0.2s;
@@ -136,7 +136,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 .star-rating label:hover,
 .star-rating label:hover ~ label,
 .star-rating input:checked ~ label {{
-    color: #f4b400; /* لون النجوم عند التحديد */
+    color: #f4b400;
 }}
 
 /* النافبار السفلي */
@@ -211,7 +211,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. RATINGS (تم تعديلها لتصبح تفاعلية بالكامل)
+# 4. RATINGS (تم تصحيح علامات الاقتباس هنا)
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
