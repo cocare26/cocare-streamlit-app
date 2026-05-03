@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS المعتمد مع تكبير البوكسات الأخيرة
+# 3. تنسيق الـ CSS المعتمد - تحديث السطر الأخير
 st.markdown("""
 <style>
 :root{
@@ -53,10 +53,10 @@ div.stButton > button {
     margin-bottom: 12px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     transition: 0.3s ease;
-    padding: 0 15px !important;
+    padding: 0 20px !important;
 }
 
-/* 🎯 توزيع المحتوى داخل الزر */
+/* 🎯 توزيع المحتوى داخل الزر (إيموجي يسار .. مسافة .. نص يمين) */
 div.stButton > button p {
     display: flex !important;
     justify-content: space-between !important; 
@@ -66,16 +66,19 @@ div.stButton > button p {
     font-weight: 800 !important;
     font-size: 15px !important;
     white-space: pre-line !important; 
-    text-align: right !important;      
 }
 
-/* الأزرار الطويلة العادية */
+/* الأزرار العادية */
 div.stButton > button { height: 52px !important; }
 
-/* 🛠️ تكبير البوكسات في السطر الأخير (تمت زيادة الارتفاع لـ 85px) */
+/* 🛠️ تكبير البوكسات في السطر الأخير (طول وعرض) */
+[data-testid="stHorizontalBlock"] {
+    gap: 10px !important; /* تقليل الفجوة بين العمودين لزيادة عرض البوكسات */
+}
+
 [data-testid="stHorizontalBlock"] div.stButton > button {
-    height: 85px !important; 
-    padding: 10px 15px !important; /* إضافة مساحة داخلية رأسية */
+    height: 95px !important;  /* زيادة الطول الرأسي */
+    padding: 15px !important; /* زيادة المساحة الداخلية */
 }
 
 div.stButton > button:hover {
@@ -102,23 +105,22 @@ if st.session_state.page == 'main':
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # 🎯 السطر الأخير ببوكسات أكبر
-    col1, col2 = st.columns([1.3, 1]) 
+    # 🎯 السطر الأخير الممدد (عرضاً وطولاً)
+    col1, col2 = st.columns([1, 1]) # توزيع متساوي لملء العرض بالكامل
     
     with col1:
         if st.button("⚠️ Report\nto Problem"): 
             nav('report')
             
     with col2:
-        # زر كونتاكت بنفس الارتفاع الكبير ليكون متناسقاً
         if st.button("✉️ Contact\nUs"): 
             nav('contact')
 
 # الشاشات الفرعية
 elif st.session_state.page == 'report':
     if st.button("‹ Back"): nav('main')
-    st.markdown("<h3 style='text-align:center;'>Report a Problem</h3>", unsafe_allow_html=True)
+    st.write("Report logic...")
 
 elif st.session_state.page == 'contact':
     if st.button("‹ Back"): nav('main')
-    st.markdown("<h3 style='text-align:center;'>Contact Us</h3>", unsafe_allow_html=True)
+    st.write("Contact logic...")
