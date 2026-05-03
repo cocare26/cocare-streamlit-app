@@ -44,7 +44,7 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 290px; /* عرض المحتوى الداخلي ليتناسق مع الحجم الجديد */
+            max-width: 290px;
             display: flex;
             flex-direction: column;
             height: 480px;
@@ -58,7 +58,6 @@ components.html("""
             position: relative;
         }
 
-        /* 🔙 تبديل السهم لرمز < */
         .back-icon {
             position: absolute;
             left: 0;
@@ -77,7 +76,6 @@ components.html("""
             color: #0f2446;
         }
 
-        /* ⚪ بوكس الإدخال */
         .input-capsule {
             background: white;
             border-radius: 100px;
@@ -109,7 +107,6 @@ components.html("""
             margin-left: 10px;
         }
 
-        /* 📝 نص ريبورت باسورد */
         .report-text {
             text-align: center;
             color: white;
@@ -121,7 +118,6 @@ components.html("""
             text-shadow: 0px 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* 🔘 زر الحفظ الأبيض */
         .save-btn-container {
             margin-top: auto;
             display: flex;
