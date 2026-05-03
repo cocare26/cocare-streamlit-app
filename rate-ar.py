@@ -1,13 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
 st.set_page_config(page_title="تقييم التطبيق", layout="centered")
 
-# 2. التنسيق العام (CSS) - المقاسات الموحدة 350px
 st.markdown("""
 <style>
-/* 🎯 ألوان أساسية */
 :root{
     --navy:#0f2446;
     --accent:#2f80ed;
@@ -16,12 +13,10 @@ st.markdown("""
     --bg3:#eaf6ff;
 }
 
-/* 📱 خلفية الصفحة */
 [data-testid="stAppViewContainer"]{
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - مقاس موحد (350px) */
 .block-container{
     max-width:350px !important;
     margin:auto !important;
@@ -33,7 +28,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة (HTML/JS) باللغة العربية
 components.html("""
 <!DOCTYPE html>
 <html dir="rtl"> <!-- تفعيل الاتجاه من اليمين لليسار -->
@@ -48,7 +42,6 @@ components.html("""
             justify-content: center;
         }
         
-        /* الحاوية الداخلية الموحدة (290px x 480px) */
         .main-wrapper {
             width: 100%;
             max-width: 290px;
@@ -57,7 +50,6 @@ components.html("""
             height: 480px;
         }
 
-        /* الرأس الموحد */
         .header-container {
             display: flex;
             align-items: center;
@@ -66,7 +58,6 @@ components.html("""
             position: relative;
         }
 
-        /* سهم الرجوع الموحد > للعربية على اليمين */
         .back-icon {
             position: absolute;
             right: 0;
@@ -75,9 +66,9 @@ components.html("""
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
+            cursor: pointer;
         }
 
-        /* العنوان الموحد */
         .title {
             margin: 0;
             font-weight: 900;
@@ -85,7 +76,6 @@ components.html("""
             color: #0f2446;
         }
 
-        /* ⚪ كبسولة الخيارات الموحدة (المتاجر) */
         .store-item {
             background: white;
             border-radius: 100px;
@@ -111,7 +101,6 @@ components.html("""
             gap: 12px;
         }
 
-        /* أيقونة المتجر */
         .store-item-icon {
             font-size: 16px;
             color: #0f2446;
@@ -122,14 +111,12 @@ components.html("""
             justify-content: center;
         }
 
-        /* نص المتجر */
         .store-item-text {
             font-weight: 700;
             color: #0f2446;
             font-size: 14px;
         }
 
-        /* الرمز < الموحد في نهاية الكبسولة */
         .store-item-arrow {
             font-size: 18px;
             font-weight: bold;
@@ -141,7 +128,7 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <a href="#" class="back-icon">&gt;</a>
+            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
             <h2 class="title">تقييم التطبيق</h2>
         </div>
 
@@ -174,6 +161,12 @@ components.html("""
             </div>
         </div>
     </div>
+
+    <script>
+    function goPage(p){
+        window.top.location.href = "/?page=" + p;
+    }
+    </script>
 </body>
 </html>
 """, height=500)
