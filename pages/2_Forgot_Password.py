@@ -1,4 +1,3 @@
-import random
 import time
 import streamlit as st
 
@@ -33,7 +32,12 @@ h1 {
     font-weight: 900;
 }
 
-/* input بدون حواف */
+/* 🔥 الحل الصحيح لإخفاء Press Enter + العداد */
+[data-testid="InputInstructions"] {
+    display: none !important;
+}
+
+/* input */
 div[data-testid="stTextInput"] input {
     border-radius: 25px;
     height: 44px;
@@ -70,37 +74,37 @@ div.stButton:nth-of-type(3) > button {
 
 st.title("Forgot Password")
 
-# 📱 رقم الهاتف
-phone = st.text_input("Phone Number", max_chars=10)
+# ❌ حذف max_chars لأنه هو سبب المشكلة
+phone = st.text_input("Phone Number")
 
-# 📩 إرسال الكود
+# إرسال الكود
 if st.button("Send Code"):
     if phone.isdigit() and len(phone) == 10 and phone.startswith("07"):
         st.session_state.reset_code = "0000"
-        st.success("Please check your SMS")
+        st.markdown("<p style='text-align:center;color:#0f2446;'>Check your SMS</p>", unsafe_allow_html=True)
     else:
-        st.error("Phone must be 10 digits and start with 07")
+        st.markdown("<p style='color:red;text-align:center;'>Phone must start with 07</p>", unsafe_allow_html=True)
 
-# 🔐 إدخال الكود
+# إدخال الكود
 code = st.text_input("Enter Code")
 
-# 🔑 كلمات المرور
+# كلمات المرور
 new_password = st.text_input("New Password", type="password")
 confirm_password = st.text_input("Confirm Password", type="password")
 
-# ✅ إعادة التعيين
+# إعادة التعيين
 if st.button("Reset Password"):
     if not phone or not code or not new_password or not confirm_password:
-        st.error("Fill all fields")
+        st.markdown("<p style='color:red;text-align:center;'>Fill all fields</p>", unsafe_allow_html=True)
     elif code != st.session_state.reset_code:
-        st.error("Wrong code")
+        st.markdown("<p style='color:red;text-align:center;'>Wrong code</p>", unsafe_allow_html=True)
     elif new_password != confirm_password:
-        st.error("Passwords do not match")
+        st.markdown("<p style='color:red;text-align:center;'>Passwords do not match</p>", unsafe_allow_html=True)
     else:
-        st.success("Password changed successfully")
+        st.markdown("<p style='color:green;text-align:center;'>Password changed successfully</p>", unsafe_allow_html=True)
         time.sleep(1)
         st.switch_page("app.py")
 
-# 🔙 رجوع
+# رجوع
 if st.button("Back to Login"):
     st.switch_page("app.py")
