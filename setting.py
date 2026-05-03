@@ -74,7 +74,7 @@ body{
     color:#0f2446;
 }
 
-/* عناصر الإعدادات */
+/* Settings Item Container */
 .setting-item{
     background:white;
     border-radius:100px;
@@ -82,30 +82,30 @@ body{
     margin-bottom:15px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     cursor:pointer;
     transition:0.3s;
 }
 
+/* Icons stay on the far left */
 .setting-item i{
     color:#0f2446;
     font-size:16px;
+    margin-right: auto; /* Pushes everything else to the right */
 }
 
+/* Text is now right-aligned and pushed against the arrow */
 .setting-text{
-    flex:1;
-    text-align:left;
-    margin-left:15px;
     font-size:14px;
     font-weight:600;
     color:#0f2446;
+    margin-right: 12px; /* Space between text and the arrow */
 }
 
 .setting-item .arrow{
-    margin-left:10px;
     color:#0f2446;
     font-weight:bold;
+    font-size: 18px;
 }
 
 .setting-item:hover{
@@ -113,7 +113,7 @@ body{
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* الصف السفلي */
+/* Bottom Row Styling */
 .bottom-row{
     margin-top:auto;
     display:flex;
@@ -126,8 +126,8 @@ body{
 }
 
 .bottom-row .setting-text{
-    font-size:13px;
-    margin-left:8px;
+    font-size:11px;
+    margin-right: 5px;
 }
 
 </style>
@@ -142,6 +142,7 @@ body{
         <h2 class="title">Settings</h2>
     </div>
 
+    <!-- Layout: Icon (Left) | Text + Arrow (Right) -->
     <div class="setting-item" onclick="goPage('Change_password')">
         <i class="fas fa-lock"></i>
         <span class="setting-text">Change Password</span>
@@ -169,13 +170,13 @@ body{
     <div class="bottom-row">
         <div class="setting-item" onclick="goPage('Report_Problem')">
             <i class="fas fa-exclamation-triangle"></i>
-            <span class="setting-text">Report Problem</span>
+            <span class="setting-text">Report</span>
             <span class="arrow">›</span>
         </div>
 
         <div class="setting-item" onclick="goPage('Contact_Us')">
             <i class="fas fa-envelope"></i>
-            <span class="setting-text">Contact Us</span>
+            <span class="setting-text">Contact</span>
             <span class="arrow">›</span>
         </div>
     </div>
