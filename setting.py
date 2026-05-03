@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS المعتمد والمعدل للسطرين
+# 3. تنسيق الـ CSS المطور والموسع
 st.markdown("""
 <style>
 :root{
@@ -24,11 +24,11 @@ st.markdown("""
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
 
-/* 📦 الكارد الرئيسي */
+/* 📦 الكارد الرئيسي (ضبط العرض ليكون أوسع قليلاً لاستيعاب الأزرار الضخمة) */
 .block-container{
     max-width:420px !important;
     margin:auto !important;
-    padding:25px 30px !important;
+    padding:30px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius:42px;
     box-shadow:0 10px 30px rgba(0,0,0,.15);
@@ -43,20 +43,20 @@ footer {visibility: hidden;}
 .back-arrow { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: var(--navy); }
 .settings-header { margin: 0; font-weight: 900; font-size: 22px; color: var(--navy); }
 
-/* 🔘 تنسيق الأزرار الأساسي */
+/* 🔘 تنسيق الأزرار الأساسي - تم جعلها تمتد لأقصى الحدود */
 div.stButton > button {
-    width: 100% !important;
+    width: 100% !important; /* العرض الكامل */
     border-radius: 25px !important;
     border: none !important;
     background: white !important;
     color: var(--navy) !important;
-    margin-bottom: 12px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
     transition: 0.3s ease;
-    padding: 0 15px !important;
+    padding: 0 25px !important; /* زيادة المسافة الجانبية لتمتد العناصر للأطراف */
 }
 
-/* 🎯 توزيع المحتوى داخل الزر */
+/* 🎯 التوزيع: إيموجي أقصى الشمال وكلام أقصى اليمين */
 div.stButton > button p {
     display: flex !important;
     justify-content: space-between !important; 
@@ -64,17 +64,22 @@ div.stButton > button p {
     align-items: center !important;
     margin: 0 !important;
     font-weight: 800 !important;
-    font-size: 15px !important;
-    white-space: pre-line !important; /* هذا يسمح بنزول النص لسطر جديد */
-    text-align: right !important;      /* محاذاة النص لليمين */
+    font-size: 16px !important;
+    white-space: pre-line !important;
 }
 
-/* زر القائمة الطويل (الارتفاع العادي) */
-div.stButton > button { height: 52px !important; }
+/* 📏 الأزرار العلوية: تكبير الطول (العرض أصلاً 100%) */
+div.stButton > button { height: 58px !important; }
 
-/* 🛠️ تعديل الارتفاع للسطر الأخير ليناسب السطرين */
+/* 🛠️ السطر الأخير: تكبير الطول الرأسي ليتناسب مع السطرين */
 [data-testid="stHorizontalBlock"] div.stButton > button {
-    height: 75px !important; 
+    height: 90px !important; 
+    padding: 10px 20px !important;
+}
+
+/* تقليل الفراغ بين أعمدة السطر الأخير لزيادة مساحة العرض للبوكسات */
+[data-testid="stHorizontalBlock"] {
+    gap: 12px !important;
 }
 
 div.stButton > button:hover {
@@ -93,24 +98,23 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # القائمة الرئيسية
+    # القائمة الرئيسية الممتدة أفقياً
     st.button("🔒 Change Password")
     st.button("🌐 Change Language")
     st.button("⭐ Rate App")
     st.button("🚪 Log Out")
     
-    st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin: 5px 0;'></div>", unsafe_allow_html=True)
 
-    # 🎯 السطر الأخير: تقسيم الصفحة لعمودين
-    col1, col2 = st.columns([1.3, 1]) 
+    # 🎯 السطر الأخير: ممتد بنفس مستوى الأزرار العلوية
+    col1, col2 = st.columns([1.2, 1]) 
     
     with col1:
-        # كلمة Report في سطر و to Problem في سطر أسفلها
         if st.button("⚠️ Report\nto Problem"): 
             nav('report')
             
     with col2:
-        if st.button("✉️ Contact Us"): 
+        if st.button("✉️ Contact\nUs"): 
             nav('contact')
 
 # الشاشات الفرعية
