@@ -78,7 +78,7 @@ body{
     color:#0f2446;
 }
 
-/* Buttons (نفس input-capsule بالضبط) */
+/* 🔥 عناصر الإعدادات */
 .setting-item{
     background:white;
     border-radius:100px;
@@ -86,6 +86,7 @@ body{
     margin-bottom:15px;
     display:flex;
     align-items:center;
+    justify-content:space-between;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     cursor:pointer;
     transition:0.3s;
@@ -96,15 +97,19 @@ body{
     font-size:16px;
 }
 
-.setting-item span{
-    margin-left:12px;
+/* النص */
+.setting-text{
+    flex:1;
+    text-align:right;
+    margin-right:10px;
     font-size:14px;
     font-weight:600;
     color:#0f2446;
 }
 
+/* السهم */
 .setting-item .arrow{
-    margin-left:auto;
+    margin-left:10px;
     color:#0f2446;
     font-weight:bold;
 }
@@ -115,7 +120,7 @@ body{
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* bottom buttons */
+/* أزرار تحت */
 .bottom-row{
     margin-top:auto;
     display:flex;
@@ -155,25 +160,25 @@ body{
 
     <div class="setting-item">
         <i class="fas fa-lock"></i>
-        <span>Change Password</span>
+        <span class="setting-text">Change Password</span>
         <span class="arrow">›</span>
     </div>
 
     <div class="setting-item">
         <i class="fas fa-globe"></i>
-        <span>Change Language</span>
+        <span class="setting-text">Change Language</span>
         <span class="arrow">›</span>
     </div>
 
     <div class="setting-item">
         <i class="fas fa-star"></i>
-        <span>Rate App</span>
+        <span class="setting-text">Rate App</span>
         <span class="arrow">›</span>
     </div>
 
     <div class="setting-item">
         <i class="fas fa-sign-out-alt"></i>
-        <span>Log Out</span>
+        <span class="setting-text">Log Out</span>
         <span class="arrow">›</span>
     </div>
 
