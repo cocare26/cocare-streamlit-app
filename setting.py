@@ -3,14 +3,14 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="centered") 
 
-# 2. إدارة حالة التنقل (Session State)
+# 2. إدارة حالة التنقل
 if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS
+# 3. تنسيق الـ CSS (تم ضبط المسافات بناءً على الصورة)
 st.markdown("""
 <style>
 :root {
@@ -24,7 +24,7 @@ st.markdown("""
 [data-testid="stAppViewContainer"] { background: #eef2f7; }
 footer {visibility: hidden;}
 
-/* 📦 الكارد الرئيسي (350px) */
+/* الكارد الرئيسي */
 .block-container {
     max-width: 350px !important;
     margin: auto !important;
@@ -35,7 +35,7 @@ footer {visibility: hidden;}
     margin-top: 20px !important;
 }
 
-/* 🔝 هيدر الإعدادات */
+/* الهيدر */
 .header-container {
     display: flex;
     align-items: center;
@@ -57,7 +57,7 @@ footer {visibility: hidden;}
     color: var(--navy);
 }
 
-/* 🔘 تنسيق الأزرار مع توزيع المحتوى */
+/* 🔘 تصميم الأزرار بناءً على الصورة المرسلة */
 div.stButton > button {
     background: white !important;
     border-radius: 100px !important;  
@@ -66,33 +66,43 @@ div.stButton > button {
     padding: 0 25px !important; 
     border: none !important;
     margin-bottom: 12px !important;
-    cursor: pointer !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
-    color: var(--navy) !important;
     transition: 0.3s ease;
 }
 
-/* 🎯 تعديل الـ Flex لرمي النص لأقصى اليمين */
+/* 🎯 توزيع العناصر: الإيموجي يسار - مسافة كبيرة - النص يمين */
 div.stButton > button p {
     display: flex !important;
-    flex-direction: row !important;
     width: 100% !important;
     align-items: center !important;
     margin: 0 !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
+    color: var(--navy) !important;
+    font-weight: 800 !important; /* خط عريض كما في الصورة */
+    font-size: 16px !important;
 }
 
-/* إضافة مسافة مطاطية بين أول عنصر (الإيموجي) وآخر عنصر (النص) */
-div.stButton > button p::after {
+/* دفع النص لليمين بترك مسافة مطاطية بعد الإيموجي مباشرة */
+div.stButton > button p::before {
     content: "";
-    flex: 1; /* هذه هي المساحة الطويلة التي طلبتها */
-    order: 1;
+    flex-grow: 1; /* هذه تصنع الفراغ الكبير في الوسط */
+    order: 2;
 }
 
-div.stButton > button p span:last-child, 
+/* ترتيب العناصر داخل الزر */
 div.stButton > button p {
-    justify-content: space-between;
+    justify-content: flex-start !important;
+}
+
+/* الإيموجي (أول عنصر) */
+div.stButton > button p :first-child {
+    order: 1;
+    font-size: 20px; /* تكبير الإيموجي قليلاً */
+}
+
+/* النص (ثاني عنصر) */
+div.stButton > button p :last-child {
+    order: 3;
+    padding-right: 5px; /* مسافة بسيطة عن الحافة اليمنى */
 }
 
 div.stButton > button:hover {
@@ -111,18 +121,17 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # لاحظ: الإيموجي أولاً، ثم النص. الـ CSS سيخلق المسافة الطويلة بينهم تلقائياً.
-    if st.button("🔒 Change Password"): nav('password')
-    if st.button("🌐 Change Language"): nav('language')
-    if st.button("⭐ Rate App"): nav('rate')
-    if st.button("🚪 Log Out"): nav('main')
+    # توزيع العناصر: إيموجي ثم نص
+    st.button("🔒 Change Password")
+    st.button("🌐 Change Language")
+    st.button("⭐ Rate App")
+    st.button("🚪 Log Out")
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
     if st.button("⚠️ Report a Problem"): nav('report')
     if st.button("✉️ Contact Us"): nav('contact')
 
-# الشاشات الفرعية
-elif st.session_state.page == 'password':
+elif st.session_state.page == 'report':
     if st.button("‹ Back"): nav('main')
-    st.write("Password Settings...")
+    st.write("Report page content...")
