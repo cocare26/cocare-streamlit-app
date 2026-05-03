@@ -9,6 +9,7 @@ if "generated_phone_code" not in st.session_state:
 st.markdown("""
 <style>
 
+
 /* 🎨 ألوان موحّدة */
 :root{
     --navy:#0f2446;
