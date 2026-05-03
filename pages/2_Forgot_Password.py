@@ -9,64 +9,86 @@ if "reset_code" not in st.session_state:
 
 st.markdown("""
 <style>
+
+:root{
+    --navy:#0f2446;
+    --accent:#2f80ed;
+}
+
+/* الكارد */
 .block-container {
     max-width: 390px;
     padding: 22px 30px 30px 30px;
     background: linear-gradient(180deg,#c9e7f7,#dff4ff);
     border-radius: 42px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
 
+/* العنوان */
 h1 {
-    font-size: 26px;
+    font-size: 22px !important;
     text-align: center;
-    color: #0f2446;
-    margin-bottom: 16px;
-}
-h1 {
-    font-size: 22px !important;   /* تصغير الحجم */
-    margin-top: 10px !important;  /* تنزيله لتحت */
+    color: var(--navy);
+    margin-top: 10px !important;
+    font-weight: 900;
 }
 
-div[data-testid="stTextInput"] {
-    margin-bottom: 8px;
-}
-
-div[data-testid="stTextInput"] label {
-    margin-bottom: 3px;
-}
-
+/* input بدون حواف */
 div[data-testid="stTextInput"] input {
     border-radius: 25px;
     height: 44px;
+    border: none !important;
+    outline: none !important;
+    padding-left: 16px;
+    background: rgba(255,255,255,0.95);
 }
 
+/* الأزرار */
 .stButton > button {
     width: 100%;
-    height: 44px;
+    height: 46px;
     border-radius: 25px;
     border: none;
-    background: #1c6fa4;
+    background: linear-gradient(90deg,#2f80ed,#1c6fa4);
     color: white;
     font-weight: bold;
+    transition: .2s;
 }
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+}
+
+/* زر الرجوع */
+div.stButton:nth-of-type(3) > button {
+    background: white;
+    color: var(--navy);
+}
+
 </style>
 """, unsafe_allow_html=True)
 
 st.title("Forgot Password")
 
+# 📱 رقم الهاتف
 phone = st.text_input("Phone Number", max_chars=10)
 
+# 📩 إرسال الكود
 if st.button("Send Code"):
     if phone.isdigit() and len(phone) == 10 and phone.startswith("07"):
-        st.session_state.reset_code = str(random.randint(1000, 9999))
-        st.success(f"Reset code: {st.session_state.reset_code}")
+        st.session_state.reset_code = "0000"
+        st.success("Please check your SMS")
     else:
         st.error("Phone must be 10 digits and start with 07")
 
+# 🔐 إدخال الكود
 code = st.text_input("Enter Code")
+
+# 🔑 كلمات المرور
 new_password = st.text_input("New Password", type="password")
 confirm_password = st.text_input("Confirm Password", type="password")
 
+# ✅ إعادة التعيين
 if st.button("Reset Password"):
     if not phone or not code or not new_password or not confirm_password:
         st.error("Fill all fields")
@@ -79,5 +101,6 @@ if st.button("Reset Password"):
         time.sleep(1)
         st.switch_page("app.py")
 
+# 🔙 رجوع
 if st.button("Back to Login"):
     st.switch_page("app.py")
