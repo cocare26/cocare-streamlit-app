@@ -1,10 +1,8 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# إعداد الصفحة
 st.set_page_config(page_title="Settings", layout="centered")
 
-# CSS الخارجي (الكارد)
 st.markdown("""
 <style>
 :root{
@@ -52,7 +50,6 @@ body{
     height:480px;
 }
 
-/* Header */
 .header-container{
     display:flex;
     align-items:center;
