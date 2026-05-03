@@ -69,6 +69,7 @@ body{
     font-weight:bold;
     color:#0f2446;
     text-decoration:none;
+    cursor: pointer;
 }
 
 .title{
@@ -90,7 +91,6 @@ body{
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     cursor:pointer;
     transition:0.3s;
-    flex-direction: row-reverse; /* 🔥 يعكس الترتيب */
 }
 
 .setting-item i{
@@ -102,7 +102,7 @@ body{
 .setting-text{
     flex:1;
     text-align:right;
-    margin-left:10px;
+    margin-right:15px;
     font-size:14px;
     font-weight:600;
     color:#0f2446;
@@ -110,7 +110,7 @@ body{
 
 /* السهم */
 .setting-item .arrow{
-    margin-right:10px;
+    margin-left:10px;
     color:#0f2446;
     font-weight:bold;
 }
@@ -134,6 +134,7 @@ body{
 
 .bottom-row .setting-text{
     font-size:13px;
+    margin-right:8px;
 }
 
 </style>
@@ -144,42 +145,42 @@ body{
 <div class="main-wrapper">
 
     <div class="header-container">
-        <a href="#" class="back-icon">›</a>
+        <div class="back-icon" onclick="goPage('customer')">›</div>
         <h2 class="title">الإعدادات</h2>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Change_password-ar')">
         <i class="fas fa-lock"></i>
         <span class="setting-text">تغيير كلمة المرور</span>
         <span class="arrow">‹</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Change_language-ar')">
         <i class="fas fa-globe"></i>
         <span class="setting-text">تغيير اللغة</span>
         <span class="arrow">‹</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Rate_app-ar')">
         <i class="fas fa-star"></i>
         <span class="setting-text">تقييم التطبيق</span>
         <span class="arrow">‹</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('logout')">
         <i class="fas fa-sign-out-alt"></i>
         <span class="setting-text">تسجيل الخروج</span>
         <span class="arrow">‹</span>
     </div>
 
     <div class="bottom-row">
-        <div class="setting-item">
+        <div class="setting-item" onclick="goPage('Report_Problem-ar')">
             <i class="fas fa-exclamation-triangle"></i>
             <span class="setting-text">الإبلاغ عن مشكلة</span>
             <span class="arrow">‹</span>
         </div>
 
-        <div class="setting-item">
+        <div class="setting-item" onclick="goPage('Contact_Us-ar')">
             <i class="fas fa-envelope"></i>
             <span class="setting-text">تواصل معنا</span>
             <span class="arrow">‹</span>
@@ -187,6 +188,12 @@ body{
     </div>
 
 </div>
+
+<script>
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
+</script>
 
 </body>
 </html>
