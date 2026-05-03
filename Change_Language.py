@@ -1,10 +1,11 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Change Password", layout="centered")
+st.set_page_config(page_title="Change Language", layout="centered")
 
 st.markdown("""
 <style>
+/* 🎯 ألوان أساسية */
 :root{
     --navy:#0f2446;
     --accent:#2f80ed;
@@ -13,10 +14,12 @@ st.markdown("""
     --bg3:#eaf6ff;
 }
 
+/* 📱 خلفية الصفحة */
 [data-testid="stAppViewContainer"]{
     background:#eef2f7;
 }
 
+/* 📦 الكارد الرئيسي - العرض الموحد 350px */
 .block-container{
     max-width:350px !important;
     margin:auto !important;
@@ -54,10 +57,11 @@ components.html("""
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
             position: relative;
         }
 
+        /* 🔙 رمز الرجوع < */
         .back-icon {
             position: absolute;
             left: 0;
@@ -76,76 +80,56 @@ components.html("""
             color: #0f2446;
         }
 
-        .input-capsule {
+        /* ⚪ كبسولة اللغة */
+        .language-capsule {
             background: white;
             border-radius: 100px;
-            padding: 10px 18px;
+            padding: 14px 22px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .input-capsule i.field-icon {
-            color: #0f2446;
-            margin-right: 12px;
-            font-size: 16px;
-        }
-
-        .input-capsule input {
-            border: none;
-            outline: none;
-            flex-grow: 1;
-            font-size: 14px;
-            color: #0f2446;
-            background: transparent;
-        }
-
-        .input-capsule i.toggle-eye {
-            color: #ccc;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .report-text {
-            text-align: center;
-            color: white;
-            font-size: 13px;
-            margin-top: 5px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            text-shadow: 0px 1px 2px rgba(0,0,0,0.1);
-        }
-
-        .save-btn-container {
-            margin-top: auto;
-            display: flex;
-            justify-content: center;
-            padding-bottom: 10px;
-        }
-
-        .save-box {
-            background: white;
-            border-radius: 100px;
-            width: 100%;
-            padding: 12px;
-            text-align: center;
+            justify-content: space-between;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             cursor: pointer;
             transition: 0.3s;
-            border: none;
+            text-decoration: none;
         }
 
-        .save-box span {
+        .language-capsule:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .left-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon {
             color: #0f2446;
-            font-weight: bold;
             font-size: 16px;
         }
 
-        .save-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        .label {
+            color: #0f2446;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* علامة الصح والرمز الجديد > */
+        .status-mark {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .check { color: #2f80ed; } 
+        
+        .arrow-icon { 
+            color: #0f2446; 
+            font-size: 18px; 
+            transform: rotate(0deg); 
+            display: inline-block;
         }
     </style>
 </head>
@@ -153,35 +137,26 @@ components.html("""
     <div class="main-wrapper">
         <div class="header-container">
             <div class="back-icon" onclick="goPage('settings')">&lt;</div>
-            <h2 class="title">Change Password</h2>
+            <h2 class="title">Change Language</h2>
         </div>
 
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="Current Password">
-            <i class="fas fa-eye-slash toggle-eye"></i>
+        <!-- English -->
+        <div class="language-capsule" onclick="goPage('settings')">
+            <div class="left-content">
+                <div class="icon"><i class="fas fa-globe"></i></div>
+                <div class="label">English</div>
+            </div>
+            <div class="status-mark check"><i class="fas fa-check"></i></div>
         </div>
 
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="New Password">
-            <i class="fas fa-eye-slash toggle-eye"></i>
-        </div>
-
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="Re-write New Password">
-            <i class="fas fa-eye-slash toggle-eye"></i>
-        </div>
-
-        <div class="report-text">
-            Report Password
-        </div>
-
-        <div class="save-btn-container">
-            <button class="save-box" onclick="alert('Password Saved!')">
-                <span>Save</span>
-            </button>
+        <div class="language-capsule" onclick="goPage('settings-ar')">
+            <div class="left-content">
+                <div class="icon"><i class="fas fa-globe"></i></div>
+                <div class="label">العربية</div>
+            </div>
+            <div class="status-mark">
+                <span class="arrow-icon">&gt;</span>
+            </div>
         </div>
     </div>
 
