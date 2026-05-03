@@ -87,7 +87,6 @@ if st.button("Send Code"):
         st.error("Phone must be 10 digits and start with 07")
 
 code = st.text_input("Enter Code")
-code = st.text_input("Enter Code")
 new_password = st.text_input("New Password", type="password")
 confirm_password = st.text_input("Confirm Password", type="password")
 
