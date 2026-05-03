@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS (المسافات المطاطية مع السهم)
+# 3. CSS
 st.markdown("""
 <style>
 :root{
@@ -24,7 +24,6 @@ st.markdown("""
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
 
-/* 📦 الكارد الرئيسي */
 .block-container{
     max-width:420px !important;
     margin:auto !important;
@@ -35,7 +34,6 @@ footer {visibility: hidden;}
     margin-top: 20px !important;
 }
 
-/* 🔝 الهيدر */
 .header-container {
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 35px; position: relative;
@@ -43,7 +41,7 @@ footer {visibility: hidden;}
 .back-arrow { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: var(--navy); }
 .settings-header { margin: 0; font-weight: 900; font-size: 22px; color: var(--navy); }
 
-/* 🔘 تنسيق الزر الممتد */
+/* 🔘 الأزرار */
 div.stButton { width: 100% !important; }
 
 div.stButton > button {
@@ -58,26 +56,26 @@ div.stButton > button {
     padding: 0 20px !important;
 }
 
-/* 🎯 توزيع المسافة المطلوب [ إيموجي  ---  نص + سهم ] */
+/* 🔥 المسافة بين الإيموجي والكلام */
 div.stButton > button p {
     display: flex !important;
-    width: 100% !important;
+    justify-content: space-between !important;
     align-items: center !important;
+    width: 100% !important;
     margin: 0 !important;
     font-weight: 800 !important;
     font-size: 16px !important;
 }
 
-/* دفع النص والسهم لليمين بترك فراغ كبير بعد الإيموجي */
-div.stButton > button p::before {
-    content: "";
-    flex-grow: 1; /* هذه هي المسافة التي طلبتها */
-    order: 2;
+/* الإيموجي */
+div.stButton > button p span:first-child {
+    font-size: 20px;
 }
 
-/* ترتيب العناصر */
-div.stButton > button p span:first-child { order: 1; font-size: 20px; } /* الإيموجي يسار */
-div.stButton > button p span:last-child { order: 3; } /* النص والسهم يمين */
+/* الكلام + السهم */
+div.stButton > button p span:last-child {
+    text-align: right;
+}
 
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
@@ -86,7 +84,7 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# 4. عرض المحتوى
+# 4. الصفحة الرئيسية
 if st.session_state.page == 'main':
     st.markdown("""
         <div class="header-container">
@@ -95,21 +93,15 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # لاحظ إضافة السهم ( › ) في نهاية النص لكل زر
-    st.button("🔒 Change Password &nbsp; ›")
-    st.button("🌐 Change Language &nbsp; ›")
-    st.button("⭐ Rate App &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ›")
-    st.button("🚪 Log Out &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ›")
+    st.button("🔒 Change Password ›")
+    st.button("🌐 Change Language ›")
+    st.button("⭐ Rate App ›")
+    st.button("🚪 Log Out ›")
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # السطر الأخير
     col1, col2 = st.columns(2)
     with col1:
         st.button("⚠️ Report\nto Problem")
     with col2:
         st.button("✉️ Contact\nUs")
-
-# الشاشات الفرعية
-elif st.session_state.page == 'report':
-    if st.button("‹ Back"): nav('main')
