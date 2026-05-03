@@ -95,8 +95,8 @@ body{
 
 .setting-text{
     flex:1;
-    text-align:right;
-    margin-right:10px;
+    text-align:left;
+    margin-left:15px;
     font-size:14px;
     font-weight:600;
     color:#0f2446;
@@ -127,6 +127,7 @@ body{
 
 .bottom-row .setting-text{
     font-size:13px;
+    margin-left:8px;
 }
 
 </style>
