@@ -4,25 +4,26 @@ import streamlit.components.v1 as components
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 2. التنسيق العام (CSS) - الألوان المستوحاة من الصورة
+# 2. التنسيق العام (CSS) - بناءً على المواصفات المذكورة
 st.markdown("""
 <style>
-/* 🎯 5. ألوان التنسيق (Color Palette) المعدلة */
+/* 🎯 5. ألوان التنسيق (Color Palette) */
 :root {
     --navy: #0f2446;
     --accent-blue: #2f80ed;
-    /* التدرج اللوني المحدث ليكون مثل الصورة */
-    --bg-grad: linear-gradient(180deg, #d8efff 0%, #ebf7ff 100%);
+    --bg1: #d6ecff;
+    --bg2: #bfe3ff;
+    --bg3: #eaf6ff;
 }
 
-/* تصفير المسافات العلوية لستريمليت */
+/* إخفاء عناصر ستريمليت الافتراضية */
 [data-testid="stHeader"] {display: none !important;}
 header {visibility: hidden;}
 footer {visibility: hidden;}
 
-/* 📱 خلفية الصفحة الخارجية */
+/* 📱 خلفية التطبيق */
 [data-testid="stAppViewContainer"] {
-    background: #f4f7f9;
+    background: #eef2f7;
 }
 
 /* 📦 1. الكارد الرئيسي (Main Container) */
@@ -30,10 +31,10 @@ footer {visibility: hidden;}
     max-width: 350px !important;    /* العرض الموحد 350px */
     margin: auto !important;
     padding: 30px !important;       /* المسافات الداخلية 30px */
-    background: var(--bg-grad);     /* لون الصورة المرفقة */
+    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%); /* التدرج المعتمد */
     border-radius: 42px;            /* الحواف 42px */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
-    margin-top: 30px !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15); /* الظل المعتمد */
+    margin-top: 40px !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -56,10 +57,10 @@ components.html("""
         /* 📏 2. الحاوية الداخلية (Main Wrapper) */
         .main-wrapper {
             width: 100%;
-            max-width: 290px; 
+            max-width: 290px;      /* العرض الأقصى 290px */
             display: flex;
             flex-direction: column;
-            height: 480px;
+            height: 480px;         /* الارتفاع المخصص 480px */
         }
 
         /* 🔝 3. الرأس (Header Section) */
@@ -67,33 +68,34 @@ components.html("""
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 40px; /* المسافة 40px */
+            margin-bottom: 40px;   /* المسافة السفلية 40px */
             position: relative;
         }
 
-        /* 🔙 أيقونة الرجوع الموحدة < */
+        /* 🔙 أيقونة الرجوع */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 28px; /* حجم 28px */
+            font-size: 28px;       /* الحجم المعتمد 28px */
             font-weight: bold;
-            color: #0f2446;
+            color: #0f2446;        /* لون Navy */
             text-decoration: none;
             line-height: 1;
+            cursor: pointer;
         }
 
-        /* 🏷️ العنوان الموحد */
+        /* 🏷️ العنوان */
         .title {
             margin: 0;
-            font-weight: 900; /* Extra Bold */
-            font-size: 20px;   /* حجم 20px */
+            font-weight: 900;      /* وزن الخط 900 */
+            font-size: 20px;       /* حجم الخط 20px */
             color: #0f2446;
         }
 
         /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
-            height: 240px;
+            height: 220px;
             border-radius: 25px;
             border: none;
             outline: none;
@@ -103,25 +105,21 @@ components.html("""
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             font-family: inherit;
         }
 
-        .report-textarea::placeholder {
-            color: #aaa;
-        }
-
-        /* 🔘 4. كبسولة الإرسال (زر أبيض صريح) */
+        /* 🔘 4. كبسولة الإرسال (Language Capsules Style) */
         .btn-container {
             margin-top: auto;
             padding-bottom: 10px;
         }
 
         .send-btn {
-            background: white;
-            border-radius: 100px; /* دائرية تماماً */
+            background: white;             /* خلفية بيضاء صريحة */
+            border-radius: 100px;          /* دائرية تماماً 100px */
             width: 100%;
-            padding: 14px 22px;   /* 14px عمودي و 22px أفقي */
+            padding: 14px 22px;            /* 14px عمودياً و 22px أفقياً */
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -132,27 +130,26 @@ components.html("""
             transition: 0.3s;
         }
 
-        .send-btn span {
-            color: #0f2446;
-            font-weight: 700;
-            font-size: 14px; /* حجم 14px */
-        }
-
-        /* الفراغ والأيقونات */
         .btn-content {
             display: flex;
             align-items: center;
-            gap: 12px; /* فجوة 12px */
+            gap: 12px;                     /* الفراغ بين الأيقونة والنص 12px */
+        }
+
+        .send-btn span {
+            color: #0f2446;                /* لون Navy */
+            font-weight: 700;
+            font-size: 14px;               /* حجم الخط 14px */
         }
 
         .send-btn i.main-icon {
             color: #0f2446;
-            font-size: 18px; /* حجم 18px */
+            font-size: 18px;               /* حجم الأيقونة 18px */
         }
-        
+
         .send-btn i.arrow-icon {
-            color: #0f2446;
-            font-size: 16px;
+            color: #2f80ed;                /* لون السهم Accent Blue */
+            font-size: 18px;               /* حجم الأيقونة 18px */
         }
     </style>
 </head>
@@ -177,4 +174,4 @@ components.html("""
     </div>
 </body>
 </html>
-""", height=500)
+""", height=500) # 500px لضمان عدم ظهور شريط تمرير
