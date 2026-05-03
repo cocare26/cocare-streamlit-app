@@ -56,10 +56,9 @@ div.stButton > button {
     padding: 0 20px !important;
 }
 
-/* 🔥 المسافة بين الإيموجي والكلام */
+/* 🔥 توزيع الإيموجي + النص */
 div.stButton > button p {
     display: flex !important;
-    justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
     margin: 0 !important;
@@ -72,11 +71,13 @@ div.stButton > button p span:first-child {
     font-size: 20px;
 }
 
-/* الكلام + السهم */
+/* 🔥 دفع الكلام لنهاية البوكس */
 div.stButton > button p span:last-child {
+    margin-left: auto !important;
     text-align: right;
 }
 
+/* hover */
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 18px rgba(0,0,0,.1) !important;
