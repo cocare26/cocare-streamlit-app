@@ -1,5 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
+from engine import process_message
 
 st.set_page_config(page_title="Employee Dashboard", layout="centered")
 
@@ -124,7 +125,6 @@ body{margin:0;background:transparent}
 .emp-name{font-size:15px;font-weight:900;color:var(--navy)}
 .emp-text{font-size:10px;line-height:1.25;color:#1f2937}
 
-/* NAV INSIDE PHONE */
 .nav{
  position:absolute;
  bottom:10px;
@@ -316,3 +316,54 @@ function updateRegion(){
 </body>
 </html>
 """, height=820)
+
+# =========================
+# CoCare Engine Integration
+# =========================
+st.markdown("---")
+st.subheader("🤖 CoCare Message Analysis")
+
+user_message = st.text_input("رسالة العميل")
+user_id = st.text_input("Customer ID", "customer_1")
+region = st.selectbox(
+    "Region",
+    ["Amman", "Zarqa", "Irbid", "Balqa", "Mafraq", "Jerash", "Ajloun", "Madaba", "Karak", "Tafilah", "Ma'an", "Aqaba"]
+)
+
+if st.button("Analyze"):
+    if not user_message.strip():
+        st.warning("اكتبي رسالة العميل أولاً")
+    else:
+        result = process_message(
+            user_message=user_message,
+            user_id=user_id,
+            region=region
+        )
+
+        st.subheader("Message Analysis")
+        st.write("Language:", result.get("language"))
+        st.write("Intent:", result.get("intent"))
+        st.write("Intent Confidence:", result.get("intent_confidence"))
+        st.write("Sentiment:", result.get("sentiment"))
+        st.write("Sentiment Score:", result.get("sentiment_score"))
+        st.write("Prediction:", result.get("prediction"))
+
+        st.subheader("Network / Notification")
+        st.write("Issue Type:", result.get("issue_type"))
+        st.write("Network Problem:", result.get("network_problem"))
+        st.write("Notification:", result.get("notification_type"))
+        st.write("Channel:", result.get("display_channel"))
+        st.write("Escalation:", result.get("escalation"))
+        st.write("Reason:", result.get("reason"))
+        st.write("Repeat Count:", result.get("repeat_count"))
+        st.write("Area Issue Count:", result.get("area_issue_count"))
+        st.write("Show To Customer:", result.get("show_to_customer"))
+        st.write("Suggested Action:", result.get("suggested_action"))
+
+        st.subheader("Internal Messages")
+        st.write("AR:", result.get("internal_message_ar"))
+        st.write("EN:", result.get("internal_message_en"))
+
+        st.subheader("External Messages")
+        st.write("AR:", result.get("external_message_ar"))
+        st.write("EN:", result.get("external_message_en"))
