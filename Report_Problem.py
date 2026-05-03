@@ -14,17 +14,18 @@ st.markdown("""
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
+    --gray-color: #808080; /* اللون الرمادي المطلوب */
 }
 
 [data-testid="stHeader"] {display: none !important;}
 
 /* 📦 1. الكارد الرئيسي (Main Container) */
 .block-container{
-    max-width:350px !important;    /* العرض 350px */
+    max-width:350px !important;    
     margin:auto !important;
-    padding:30px !important;       /* المسافات الداخلية 30px */
+    padding:30px !important;       
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius:42px;            /* الحواف 42px */
+    border-radius:42px;            
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
     margin-top: 20px !important;
 }
@@ -45,8 +46,8 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 290px;      /* العرض الداخلي 290px */
-            height: 480px;         /* الارتفاع المخصص 480px */
+            max-width: 290px;      
+            height: 480px;         
             display: flex;
             flex-direction: column;
         }
@@ -72,7 +73,7 @@ components.html("""
             color: #0f2446;
         }
 
-        /* 📝 صندوق النص مع توحيد لون Placeholder */
+        /* 📝 صندوق النص مع تعديل لون الـ Placeholder للرمادي */
         .report-textarea {
             width: 100%;
             height: 220px;
@@ -89,10 +90,9 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🎨 جعل لون "I need help" نفس لون البحرية (Navy) */
+        /* 🎨 جعل لون "I need help" رمادي */
         .report-textarea::placeholder {
-            color: #0f2446;
-            opacity: 0.8; /* شفافية بسيطة لتمييزه كـ placeholder */
+            color: #808080;
         }
 
         /* 🔘 زر الإرسال */
@@ -103,7 +103,7 @@ components.html("""
             padding: 14px 22px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* توزيع المحتوى على الأطراف */
+            justify-content: space-between; 
             border: none;
             margin-top: auto;
             cursor: pointer;
@@ -119,9 +119,9 @@ components.html("""
             order: 2; 
         }
 
-        /* أيقونة الطيارة - جهة الشمال */
+        /* أيقونة الطيارة - جهة الشمال بلون رمادي */
         .main-icon { 
-            color: #0f2446; /* نفس لون الـ placeholder والـ Navy */
+            color: #808080; /* تم تغيير اللون للرمادي */
             font-size: 18px; 
             order: 1; 
         }
