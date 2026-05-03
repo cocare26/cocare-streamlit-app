@@ -73,6 +73,7 @@ components.html("""
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
+            cursor: pointer;
         }
 
         .title {
@@ -92,6 +93,7 @@ components.html("""
             align-items: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .capsule:hover {
@@ -116,34 +118,34 @@ components.html("""
             direction: ltr; /* لضمان بقاء الأرقام والإيميل بشكل صحيح من اليسار لليمين */
             display: inline-block;
         }
-        
-        .text-label {
-            color: #0f2446;
-            font-weight: 700;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <!-- الهيدر -->
         <div class="header-container">
-            <a href="#" class="back-icon">&gt;</a>
+            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
             <h2 class="title">تواصل معنا</h2>
         </div>
 
         <!-- كبسولة البريد الإلكتروني -->
-        <div class="capsule">
+        <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">
             <div class="icon"><i class="fas fa-envelope"></i></div>
             <div class="text">CoCare26@gmail.com</div>
         </div>
 
         <!-- كبسولة الهاتف -->
-        <div class="capsule">
+        <div class="capsule" onclick="window.location.href='tel:+962791234567'">
             <div class="icon"><i class="fas fa-phone"></i></div>
             <div class="text">+962 79 123 4567</div>
         </div>
     </div>
+
+    <script>
+    function goPage(p){
+        window.top.location.href = "/?page=" + p;
+    }
+    </script>
 </body>
 </html>
 """, height=500)
