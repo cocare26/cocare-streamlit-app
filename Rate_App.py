@@ -119,7 +119,7 @@ components.html("""
         .store-item-arrow {
             font-size: 18px;
             font-weight: bold;
-            color: #0f2446; /* تغيير اللون ليكون متناسقاً مع التصميم */
+            color: #0f2446; 
             transform: rotate(180deg); /* تدوير الرمز ليشير لليمين */
             display: inline-block;
         }
