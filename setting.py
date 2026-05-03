@@ -64,7 +64,7 @@ body{
     font-size:28px;
     font-weight:bold;
     color:#0f2446;
-    text-decoration:none;
+    cursor:pointer;
 }
 
 .title{
@@ -137,42 +137,42 @@ body{
 <div class="main-wrapper">
 
     <div class="header-container">
-        <a href="#" class="back-icon">&lt;</a>
+        <div class="back-icon" onclick="goPage('customer')">&lt;</div>
         <h2 class="title">Settings</h2>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Change_password')">
         <i class="fas fa-lock"></i>
         <span class="setting-text">Change Password</span>
         <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Change_language')">
         <i class="fas fa-globe"></i>
         <span class="setting-text">Change Language</span>
         <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Rate_app')">
         <i class="fas fa-star"></i>
         <span class="setting-text">Rate App</span>
         <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('logout')">
         <i class="fas fa-sign-out-alt"></i>
         <span class="setting-text">Log Out</span>
         <span class="arrow">›</span>
     </div>
 
     <div class="bottom-row">
-        <div class="setting-item">
+        <div class="setting-item" onclick="goPage('Report_Problem')">
             <i class="fas fa-exclamation-triangle"></i>
             <span class="setting-text">Report Problem</span>
             <span class="arrow">›</span>
         </div>
 
-        <div class="setting-item">
+        <div class="setting-item" onclick="goPage('Contact_Us')">
             <i class="fas fa-envelope"></i>
             <span class="setting-text">Contact Us</span>
             <span class="arrow">›</span>
@@ -180,6 +180,12 @@ body{
     </div>
 
 </div>
+
+<script>
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
+</script>
 
 </body>
 </html>
