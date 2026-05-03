@@ -24,7 +24,7 @@ robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تنسيق الواجهة الكاملة)
+# CSS المطور (تنسيق الواجهة)
 # =====================================
 st.markdown(f"""
 <style>
@@ -63,7 +63,6 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 .clickable {{ cursor: pointer; transition: transform 0.2s; }}
 .clickable:active {{ transform: scale(0.98); }}
 
-/* نظام النجوم */
 .star-rating {{
     display: flex;
     flex-direction: row-reverse;
@@ -175,14 +174,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (النسخة المطابقة للأصل)
+# 5. قوة الشبكة (النسخة المصححة والمطابقة للصورة)
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
 <div class="card clickable">
     <div style="font-size:17px; font-weight:900;">📍 Amman</div>
     <div style="font-size:14px; font-weight:700; color:#003366; margin-bottom:12px;">Very Strong Signal</div>
-    
     <div style="display: flex; justify-content: space-between; gap: 8px; margin-top: 5px;">
         <div style="flex: 1; background: #f1f7ff; border-radius: 15px; padding: 12px; text-align: center;">
             <div style="font-size: 11px; font-weight: 700; color: #555;">Packet Loss (%)</div>
@@ -193,7 +191,6 @@ st.markdown("""
             <div style="font-size: 24px; font-weight: 900; color: #000; margin-top: 4px;">19</div>
         </div>
     </div>
-
     <div style="text-align:center; margin-top:15px; font-size:18px; font-weight:900; color:#003366;">📶 -68 dBm (Excellent)</div>
 </div>
 """, unsafe_allow_html=True)
