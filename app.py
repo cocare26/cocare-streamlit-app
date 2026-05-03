@@ -80,7 +80,7 @@ html = """
 <div style="width:360px;height:660px;margin:auto;border-radius:42px;
 background:linear-gradient(180deg,#c9e7f7,#dff4ff);position:relative;">
 
-<img src="data:image/png;base64:IMG_HERE" 
+<img src="data:image/png;base64,IMG_HERE" 
 style="position:absolute;top:85px;left:110px;width:140px">
 
 <div style="position:absolute;top:250px;left:60px;width:240px;">
