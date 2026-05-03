@@ -2,13 +2,10 @@ import streamlit as st
 import streamlit.components.v1 as components
 import base64
 
-# إعداد الصفحة
 st.set_page_config(page_title="Telecom App", layout="centered")
 
-# 🔥 قراءة الصفحة من الرابط
 page = st.query_params.get("page", "")
 
-# 🔥 Router (التنقل بين الصفحات)
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
 
@@ -62,7 +59,6 @@ elif page == "logout":
     st.switch_page("app.py")
 
 
-# 🔽 الصفحة الرئيسية (Login UI)
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
