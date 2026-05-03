@@ -20,16 +20,14 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# استبدلي هذه بأسماء ملفات الصور الموجودة لديكِ
 robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (يحتوي على تنسيق النجوم والواجهة)
+# CSS المطور (تنسيق الواجهة)
 # =====================================
 st.markdown(f"""
 <style>
-/* الأساسيات وتنسيق الخلفية */
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 html, body, [data-testid="stAppViewContainer"] {{
     background:#f0f7ff;
@@ -38,7 +36,6 @@ html, body, [data-testid="stAppViewContainer"] {{
 section.main > div {{ padding-top:8px; }}
 div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 
-/* حاوية الموبايل */
 .block-container {{
     max-width:430px;
     margin:auto;
@@ -48,7 +45,6 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
-/* الكروت */
 .card {{
     background:white;
     border-radius:24px;
@@ -64,13 +60,10 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
     margin: 8px 0 8px 4px;
 }}
 
-.clickable {{
-    cursor: pointer;
-    transition: transform 0.2s;
-}}
+.clickable {{ cursor: pointer; transition: transform 0.2s; }}
 .clickable:active {{ transform: scale(0.98); }}
 
-/* نظام النجوم التفاعلي (تم إصلاحه ليعمل كـ HTML) */
+/* نظام النجوم */
 .star-rating {{
     display: flex;
     flex-direction: row-reverse;
@@ -91,7 +84,6 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
     color: #f4b400;
 }}
 
-/* الشبكة والبيانات */
 .grid4 {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }}
 .mini {{
     background:white; border-radius:20px; min-height:105px;
@@ -100,7 +92,6 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 .icon {{ font-size:24px; margin-bottom:5px; }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-/* النافبار السفلي */
 .nav {{
     margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
     text-align:center; font-size:11px; font-weight:800; color:#6b6b6b;
@@ -165,7 +156,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم (الذي كان به الخطأ وتم إصلاحه)
+# 4. قسم التقييم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -184,24 +175,26 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة
+# 5. قوة الشبكة (تم تعديل المواقع هنا لتصبح بجانب بعضها)
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
 <div class="card clickable">
     <div style="font-size:17px; font-weight:900;">📍 Amman</div>
     <div style="font-size:14px; font-weight:700; color:#003366;">Very Strong Signal</div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
-        <div style="background:#f1f7ff; border-radius:15px; padding:10px; text-align:center;">
-            <div style="font-size:11px; color:#555;">Packet Loss (%)</div>
-            <div style="font-size:22px; font-weight:900;">0</div>
+    
+    <div style="display: flex; justify-content: space-between; gap: 10px; margin-top: 15px;">
+        <div style="flex: 1; text-align: center;">
+            <div style="font-size: 11px; font-weight: 700; color: #555;">Packet Loss (%)</div>
+            <div style="font-size: 24px; font-weight: 900; color: #000; margin-top: 5px;">0</div>
         </div>
-        <div style="background:#f1f7ff; border-radius:15px; padding:10px; text-align:center;">
-            <div style="font-size:11px; color:#555;">Avg Jitter (ms)</div>
-            <div style="font-size:22px; font-weight:900;">19</div>
+        <div style="flex: 1; text-align: center;">
+            <div style="font-size: 11px; font-weight: 700; color: #555;">Avg Jitter (ms)</div>
+            <div style="font-size: 24px; font-weight: 900; color: #000; margin-top: 5px;">19</div>
         </div>
     </div>
-    <div style="text-align:center; margin-top:12px; font-size:18px; font-weight:900; color:#003366;">📶 -68 dBm (Excellent)</div>
+
+    <div style="text-align:center; margin-top:15px; font-size:18px; font-weight:900; color:#003366;">📶 -68 dBm (Excellent)</div>
 </div>
 """, unsafe_allow_html=True)
 
