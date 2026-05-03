@@ -29,7 +29,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
+# HTML UI
+components.html("""
 <!DOCTYPE html>
 <html>
 <head>
@@ -185,3 +186,4 @@ body{
 
 </body>
 </html>
+""", height=500)
