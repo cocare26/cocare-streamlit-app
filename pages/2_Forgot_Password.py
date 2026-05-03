@@ -77,17 +77,16 @@ div.stButton:nth-of-type(3) > button {
 
 st.title("Forgot Password")
 
-phone = st.text_input("Phone Number ", max_chars=11)
+phone = st.text_input("Phone Number ", max_chars=10)
 
 if st.button("Send Code"):
-    if phone.isdigit() and (
-        (len(phone) == 10 and phone.startswith("07")) 
-    ):
+    if phone.isdigit() and len(phone) == 10 and phone.startswith("07"):
         st.session_state.reset_code = str(random.randint(1000, 9999))
         st.success(f"Reset code: {st.session_state.reset_code}")
     else:
-        st.error("Enter valid phone ")
+        st.error("Phone must be 10 digits and start with 07")
 
+code = st.text_input("Enter Code")
 code = st.text_input("Enter Code")
 new_password = st.text_input("New Password", type="password")
 confirm_password = st.text_input("Confirm Password", type="password")
