@@ -74,6 +74,7 @@ components.html("""
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
+            cursor: pointer;
         }
 
         /* العنوان الموحد */
@@ -94,6 +95,7 @@ components.html("""
             align-items: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: 0.3s;
+            cursor: pointer;
         }
 
         .capsule:hover {
@@ -123,22 +125,28 @@ components.html("""
     <div class="main-wrapper">
         <!-- الهيدر مع رمز < الموحد -->
         <div class="header-container">
-            <a href="#" class="back-icon">&lt;</a>
+            <div class="back-icon" onclick="goPage('settings')">&lt;</div>
             <h2 class="title">Contact Us</h2>
         </div>
 
         <!-- كبسولة الإيميل -->
-        <div class="capsule">
+        <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">
             <div class="icon"><i class="fas fa-envelope"></i></div>
             <div class="text">CoCare26@gmail.com</div>
         </div>
 
         <!-- كبسولة الهاتف -->
-        <div class="capsule">
+        <div class="capsule" onclick="window.location.href='tel:+962791234567'">
             <div class="icon"><i class="fas fa-phone"></i></div>
             <div class="text">+962 79 123 4567</div>
         </div>
     </div>
+
+    <script>
+    function goPage(p){
+        window.top.location.href = "/?page=" + p;
+    }
+    </script>
 </body>
 </html>
 """, height=500)
