@@ -8,56 +8,44 @@ page = st.query_params.get("page", "")
 
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
-
 elif page == "customer":
-    st.switch_page("pages/2_Customer.py")
-
+    pass
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
-
-elif page == "customer_support":
-    st.switch_page("pages/5_Customer_Support_Arabic.py")
-
-elif page == "network_diagnostics":
-    st.switch_page("pages/6_Network_Diagnostics_Arabic.py")
-
-elif page == "customer_management":
-    st.switch_page("pages/7_Customer_Management_Arabic.py")
-
-elif page == "employee_performance":
-    st.switch_page("pages/8_Employee_Performance_Arabic.py")
-
-elif page == "service_management":
-    st.switch_page("pages/9_Service_Management_Arabic.py")
-
-elif page == "settings":
-    st.switch_page("pages/10_Settings_Arabic.py")
-
-elif page == "notifications":
-    st.switch_page("pages/11_Notifications_Arabic.py")
-
-elif page == "change_password":
-    st.switch_page("pages/Change_Password.py")
-
-elif page == "change_language":
-    st.switch_page("pages/Change_Language.py")
-
-elif page == "report_problem":
-    st.switch_page("pages/Report_Problem.py")
-
-elif page == "contact_us":
-    st.switch_page("pages/Contact_Us.py")
-
-elif page == "rate_app":
-    st.switch_page("pages/Rate_App.py")
-
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
+
+# Settings & Subpages (English)
+elif page == "settings":
+    st.switch_page("setting.py")
+elif page == "Change_password":
+    st.switch_page("Change_Password.py")
+elif page == "Change_language":
+    st.switch_page("Change_Language.py")
+elif page == "Rate_app":
+    st.switch_page("Rate_App.py")
+elif page == "Report_Problem":
+    st.switch_page("Report_Problem.py")
+elif page == "Contact_Us":
+    st.switch_page("Contact_Us.py")
+
+# Settings & Subpages (Arabic)
+elif page == "settings-ar":
+    st.switch_page("setting-ar.py")
+elif page == "Change_password-ar":
+    st.switch_page("changepassword-ar.py")
+elif page == "Change_language-ar":
+    st.switch_page("changelanguage-ar.py")
+elif page == "Rate_app-ar":
+    st.switch_page("rate-ar.py")
+elif page == "Report_Problem-ar":
+    st.switch_page("report-ar.py")
+elif page == "Contact_Us-ar":
+    st.switch_page("contact-ar.py")
 
 elif page == "logout":
     st.query_params.clear()
     st.switch_page("app.py")
-
 
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
@@ -92,21 +80,6 @@ color:#222;
 text-decoration:none;
 }
 .error{text-align:center;color:#c62828;font-size:11px;margin-top:8px}
-
-.signup-line{
-    text-align:center;
-    font-size:13px;
-    margin-top:15px;
-    color:#222;
-}
-
-.signup-line span{
-    color:#1c6fa4;
-    font-weight:bold;
-    text-decoration:none;
-    margin-left:4px;
-    cursor:pointer;
-}
 </style>
 </head>
 
