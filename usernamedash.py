@@ -3,7 +3,7 @@ import base64
 import os
 
 # =====================================
-# إعداد الصفحة
+#  إعداد الصفحة
 # =====================================
 st.set_page_config(
     page_title="Telecom Dashboard",
