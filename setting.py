@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS (تم تعديل العرض ليمتد بالكامل)
+# 3. تنسيق الـ CSS (المسافات المطاطية مع السهم)
 st.markdown("""
 <style>
 :root{
@@ -43,40 +43,41 @@ footer {visibility: hidden;}
 .back-arrow { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: var(--navy); }
 .settings-header { margin: 0; font-weight: 900; font-size: 22px; color: var(--navy); }
 
-/* 🔘 السر هنا: جعل الأزرار تمتد (Stretch) لتغطي كل المساحة الخضراء */
-div.stButton {
-    width: 100% !important;
-}
+/* 🔘 تنسيق الزر الممتد */
+div.stButton { width: 100% !important; }
 
 div.stButton > button {
-    width: 100% !important; /* يمط الزر لآخر الكارد */
-    height: 55px !important;
+    width: 100% !important;
+    height: 58px !important;
     border-radius: 25px !important;
     border: none !important;
     background: white !important;
     color: var(--navy) !important;
     margin-bottom: 12px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    transition: 0.3s ease;
     padding: 0 20px !important;
 }
 
-/* 🎯 توزيع العناصر: الإيموجي أقصى اليسار والكلام أقصى اليمين */
+/* 🎯 توزيع المسافة المطلوب [ إيموجي  ---  نص + سهم ] */
 div.stButton > button p {
     display: flex !important;
-    justify-content: space-between !important; 
     width: 100% !important;
     align-items: center !important;
     margin: 0 !important;
     font-weight: 800 !important;
     font-size: 16px !important;
-    white-space: pre-line !important; 
 }
 
-/* 🛠️ تعديل السطر الأخير ليكون بنفس العرض الممتد وبطول أكبر للسطرين */
-[data-testid="stHorizontalBlock"] div.stButton > button {
-    height: 90px !important; 
+/* دفع النص والسهم لليمين بترك فراغ كبير بعد الإيموجي */
+div.stButton > button p::before {
+    content: "";
+    flex-grow: 1; /* هذه هي المسافة التي طلبتها */
+    order: 2;
 }
+
+/* ترتيب العناصر */
+div.stButton > button p span:first-child { order: 1; font-size: 20px; } /* الإيموجي يسار */
+div.stButton > button p span:last-child { order: 3; } /* النص والسهم يمين */
 
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
@@ -94,30 +95,21 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # كل هذه الأزرار ستمتد الآن لتغطي المساحة الخضراء التي رسمتها
-    st.button("🔒 Change Password")
-    st.button("🌐 Change Language")
-    st.button("⭐ Rate App")
-    st.button("🚪 Log Out")
+    # لاحظ إضافة السهم ( › ) في نهاية النص لكل زر
+    st.button("🔒 Change Password &nbsp; ›")
+    st.button("🌐 Change Language &nbsp; ›")
+    st.button("⭐ Rate App &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ›")
+    st.button("🚪 Log Out &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ›")
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # السطر الأخير الممتد أيضاً
-    col1, col2 = st.columns([1.3, 1]) 
-    
+    # السطر الأخير
+    col1, col2 = st.columns(2)
     with col1:
-        if st.button("⚠️ Report\nto Problem"): 
-            nav('report')
-            
+        st.button("⚠️ Report\nto Problem")
     with col2:
-        if st.button("✉️ Contact\nUs"): 
-            nav('contact')
+        st.button("✉️ Contact\nUs")
 
 # الشاشات الفرعية
 elif st.session_state.page == 'report':
     if st.button("‹ Back"): nav('main')
-    st.markdown("<h3 style='text-align:center;'>Report a Problem</h3>", unsafe_allow_html=True)
-
-elif st.session_state.page == 'contact':
-    if st.button("‹ Back"): nav('main')
-    st.markdown("<h3 style='text-align:center;'>Contact Us</h3>", unsafe_allow_html=True)
