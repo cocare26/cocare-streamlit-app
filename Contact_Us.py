@@ -4,7 +4,7 @@ import streamlit.components.v1 as components
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Contact Us", layout="centered")
 
-# 2. التنسيق العام (CSS)
+# 2. التنسيق العام (CSS) - المقاسات الموحدة 350px
 st.markdown("""
 <style>
 /* 🎯 ألوان أساسية */
@@ -15,36 +15,24 @@ st.markdown("""
     --bg3: #eaf6ff;
 }
 
-/* 📱 جعل الخلفية تمتد لتغطية الشاشة بالكامل وتوسيط المحتوى */
+/* 📱 خلفية الصفحة */
 [data-testid="stAppViewContainer"] {
     background: #eef2f7;
 }
 
-/* 📦 الكارد الرئيسي مع توسيطه في منتصف الشاشة */
+/* 📦 الكارد الرئيسي - المقاس الموحد (350px) */
 .block-container {
-    max-width: 450px !important;
+    max-width: 350px !important;
     margin: auto !important;
     padding: 30px !important;
     background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius: 42px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    
-    /* توسيط المحتوى داخلياً */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-/* تحسين شكل النصوص داخل المكون */
-h2 {
-    color: var(--navy);
-    font-weight: 900;
-    text-align: center;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة (HTML/JS) داخل كبسولة متوسطة
+# 3. محتوى الصفحة (HTML/JS)
 components.html("""
 <!DOCTYPE html>
 <html>
@@ -57,88 +45,98 @@ components.html("""
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100%;
         }
         
+        /* الحاوية الداخلية الموحدة (290px x 480px) */
         .main-wrapper {
             width: 100%;
-            max-width: 380px;
-            text-align: center;
+            max-width: 290px;
+            display: flex;
+            flex-direction: column;
+            height: 480px;
         }
 
+        /* الرأس الموحد */
         .header-container {
             display: flex;
             align-items: center;
-            justify-content: center; /* توسيط الهيدر */
-            margin-bottom: 40px;
+            justify-content: center;
+            margin-bottom: 40px; /* مسافة موحدة 40px */
             position: relative;
         }
 
+        /* 🔙 رمز الرجوع الموحد < */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: bold;
             color: #0f2446;
             text-decoration: none;
+            line-height: 1;
         }
 
+        /* العنوان الموحد */
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 28px;
+            font-size: 20px;
             color: #0f2446;
         }
 
-        /* 💊 تصميم الكبسولة البيضاء الطويلة */
+        /* 💊 كبسولة الخيارات الموحدة */
         .capsule {
             background: white;
             border-radius: 100px;
-            padding: 18px 25px;
-            margin-bottom: 20px;
+            padding: 14px 22px; /* بادينج موحد */
+            margin-bottom: 15px; /* مسافة موحدة بين الكبسولات */
             display: flex;
             align-items: center;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: 0.3s;
         }
 
         .capsule:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
         }
 
         .icon {
-            margin-right: 15px;
+            margin-right: 12px;
             color: #0f2446;
-            font-size: 20px;
+            font-size: 16px; /* حجم موحد للأيقونات */
             display: flex;
             align-items: center;
+            width: 20px;
+            justify-content: center;
         }
 
         .text {
             color: #0f2446;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 14px; /* حجم خط موحد */
+            word-break: break-all; /* لضمان عدم خروج الإيميل الطويل عن الكبسولة */
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- الهيدر مع السهم على اليسار والعنوان في المنتصف -->
+        <!-- الهيدر مع رمز < الموحد -->
         <div class="header-container">
-            <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+            <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Contact Us</h2>
         </div>
 
         <!-- كبسولة الإيميل -->
         <div class="capsule">
             <div class="icon"><i class="fas fa-envelope"></i></div>
-            <div class="text">Email: CoCare26@gmail.com</div>
+            <div class="text">CoCare26@gmail.com</div>
         </div>
 
         <!-- كبسولة الهاتف -->
         <div class="capsule">
             <div class="icon"><i class="fas fa-phone"></i></div>
-            <div class="text">Phone: +962 79 123 4567</div>
+            <div class="text">+962 79 123 4567</div>
         </div>
     </div>
 </body>
