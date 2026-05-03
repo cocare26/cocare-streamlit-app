@@ -6,6 +6,7 @@ st.set_page_config(page_title="Telecom App", layout="centered")
 
 page = st.query_params.get("page", "")
 
+# --- Router Logic ---
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
 
@@ -31,38 +32,60 @@ elif page == "service_management":
     st.switch_page("pages/9_Service_Management_Arabic.py")
 
 elif page == "settings":
-    st.switch_page("setting.py")
-elif page == "Change_password":
-    st.switch_page("Change_Password.py")
-elif page == "Change_language":
-    st.switch_page("Change_Language.py")
-elif page == "Rate_app":
-    st.switch_page("Rate_App.py")
-elif page == "Report_Problem":
-    st.switch_page("Report_Problem.py")
-elif page == "Contact_Us":
-    st.switch_page("Contact_Us.py")
+    st.switch_page("pages/10_Settings_Arabic.py")
 
+elif page == "notifications":
+    st.switch_page("pages/11_Notifications_Arabic.py")
 
-elif page == "settings-ar":
-    st.switch_page("setting-ar.py")
-elif page == "Change_password-ar":
-    st.switch_page("changepassword-ar.py")
-elif page == "Change_language-ar":
-    st.switch_page("changelanguage-ar.py")
-elif page == "Rate_app-ar":
-    st.switch_page("rate-ar.py")
-elif page == "Report_Problem-ar":
-    st.switch_page("report-ar.py")
-elif page == "Contact_Us-ar":
-    st.switch_page("contact-ar.py")
-
+elif page == "forgot":
+    st.switch_page("pages/2_Forgot_Password.py")
 
 elif page == "logout":
     st.query_params.clear()
     st.switch_page("app.py")
 
+# --- Integrated Settings Routing (Cleaned & Merged) ---
 
+# English Pages
+elif page in ["change_password", "Change_password"]:
+    st.switch_page("Change_Password.py")
+
+elif page in ["change_language", "Change_language"]:
+    st.switch_page("Change_Language.py")
+
+elif page in ["report_problem", "Report_Problem"]:
+    st.switch_page("Report_Problem.py")
+
+elif page in ["contact_us", "Contact_Us"]:
+    st.switch_page("Contact_Us.py")
+
+elif page in ["rate_app", "Rate_app"]:
+    st.switch_page("Rate_App.py")
+
+elif page == "settings_en":
+    st.switch_page("setting.py")
+
+# Arabic Pages
+elif page == "settings-ar":
+    st.switch_page("setting-ar.py")
+
+elif page == "Change_password-ar":
+    st.switch_page("changepassword-ar.py")
+
+elif page == "Change_language-ar":
+    st.switch_page("changelanguage-ar.py")
+
+elif page == "Rate_app-ar":
+    st.switch_page("rate-ar.py")
+
+elif page == "Report_Problem-ar":
+    st.switch_page("report-ar.py")
+
+elif page == "Contact_Us-ar":
+    st.switch_page("contact-ar.py")
+
+
+# --- Login Page UI ---
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
