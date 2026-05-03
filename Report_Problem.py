@@ -19,11 +19,11 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - العرض الموحد 350px (مطابق لصفحة اللغة والباسورد) */
+/* 📦 الكارد الرئيسي - تم تنحيف العرض إلى 310px */
 .block-container{
-    max-width:350px !important; 
+    max-width:310px !important; 
     margin:auto !important;
-    padding:30px !important;
+    padding:25px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
@@ -47,25 +47,25 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 290px; /* العرض الداخلي الموحد */
+            max-width: 260px; /* تنحيف المحتوى الداخلي */
             display: flex;
             flex-direction: column;
-            height: 480px; /* الارتفاع الموحد */
+            height: 460px;
         }
 
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 40px; /* نفس مسافة صفحة اللغة */
+            margin-bottom: 35px;
             position: relative;
         }
 
-        /* 🔙 سهم الرجوع الموحد < */
+        /* 🔙 سهم الرجوع < */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: bold;
             color: #0f2446;
             text-decoration: none;
@@ -76,20 +76,20 @@ components.html("""
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 20px; /* حجم الخط الموحد */
+            font-size: 18px; /* تصغير الخط قليلاً ليتناسب مع النحافة */
             color: #0f2446;
         }
 
         /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
-            height: 220px; /* ارتفاع متناسب مع حجم الكارد الجديد */
+            height: 220px;
             border-radius: 25px;
             border: none;
             outline: none;
-            padding: 18px;
+            padding: 15px;
             background: white;
-            font-size: 14px;
+            font-size: 13px;
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
@@ -101,17 +101,17 @@ components.html("""
             color: #888888;
         }
 
-        /* 🔘 زر الإرسال الموحد ككبسولة */
+        /* 🔘 زر الإرسال */
         .btn-container {
             margin-top: auto;
-            padding-bottom: 10px;
+            padding-bottom: 5px;
         }
 
         .send-btn {
             background: white;
             border-radius: 100px;
             width: 100%;
-            padding: 12px 20px;
+            padding: 10px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -130,12 +130,12 @@ components.html("""
         .send-btn span {
             color: #0f2446;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .send-btn i {
             color: #0f2446;
-            font-size: 18px;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -157,4 +157,4 @@ components.html("""
     </div>
 </body>
 </html>
-""", height=500)
+""", height=480)
