@@ -104,20 +104,17 @@ st.markdown(
 )
 
 st.markdown("""
-<a href="/" target="_top">
-    <button style="
-        width:100%;
-        height:48px;
-        border-radius:25px;
-        border:none;
-        background:white;
-        color:#0f2446;
+<div style="text-align:center; font-size:14px; margin-top:-4px; margin-bottom:12px;">
+    Already have an account?
+    <a href="/" target="_top" style="
+        color:#2f80ed;
         font-weight:bold;
-        cursor:pointer;
-    ">
-    </button>
-</a>
+        text-decoration:none;
+        margin-left:4px;
+    ">Sign in</a>
+</div>
 """, unsafe_allow_html=True)
+
 components.html("""
 <script>
 window.parent.location.href = "/";
