@@ -47,7 +47,7 @@ elif page == "logout":
 # --- Integrated Settings Routing (Cleaned & Merged) ---
 
 # English Pages
-elif page in ["change_password", "Change_password"]:
+elif page in ["Change_Password", "Change_Password"]:
     st.switch_page("Change_Password.py")
 
 elif page in ["change_language", "Change_language"]:
