@@ -98,11 +98,6 @@ div.stButton:nth-of-type(1) > button {
 
 st.title("Create Account")
 
-st.markdown(
-    '<div class="signin-line">Already have an account?</div>',
-    unsafe_allow_html=True
-)
-
 st.markdown("""
 <div style="text-align:center; font-size:14px; margin-top:-4px; margin-bottom:12px;">
     Already have an account?
