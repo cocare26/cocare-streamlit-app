@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS (التعديل النهائي للتوزيع الصحيح)
+# 3. تنسيق الـ CSS المطور لزيادة المسافة
 st.markdown("""
 <style>
 :root{
@@ -24,7 +24,6 @@ st.markdown("""
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
 
-/* 📦 الكارد الرئيسي */
 .block-container{
     max-width:420px !important;
     margin:auto !important;
@@ -35,29 +34,15 @@ footer {visibility: hidden;}
     margin-top: 20px !important;
 }
 
-/* 🔝 الهيدر */
 .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 35px;
-    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 35px; position: relative;
 }
 
-.back-arrow {
-    position: absolute; left: 0;
-    font-size: 28px;
-    font-weight: bold; color: var(--navy);
-}
+.back-arrow { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: var(--navy); }
+.settings-header { margin: 0; font-weight: 900; font-size: 22px; color: var(--navy); }
 
-.settings-header {
-    margin: 0;
-    font-weight: 900;
-    font-size: 22px;
-    color: var(--navy);
-}
-
-/* 🔘 الأزرار */
+/* 🔘 الأزرار وتوزيع الأطراف الأقصى */
 div.stButton > button {
     width: 100% !important;
     height: 52px !important;
@@ -68,20 +53,28 @@ div.stButton > button {
     margin-bottom: 12px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     transition: 0.3s ease;
-    padding: 0 20px !important;
+    padding: 0 15px !important; /* تقليل المسافة الجانبية ليلتصقوا بالأطراف أكثر */
 }
 
-/* 🎯 التوزيع الصحيح: الإيموجي (يسار) والكلمات (يمين) */
 div.stButton > button p {
     display: flex !important;
-    flex-direction: row !important; /* الترتيب الطبيعي */
-    justify-content: space-between !important; /* رمي العناصر على الأطراف */
+    justify-content: space-between !important; /* دفع العناصر لأقصى اليمين واليسار */
     width: 100% !important;
     align-items: center !important;
     margin: 0 !important;
     font-weight: 800 !important;
     font-size: 15px !important;
 }
+
+/* 🎯 إضافة عنصر وهمي في الوسط لضمان التباعد المطلق */
+div.stButton > button p::after {
+    content: "";
+    flex: 1; /* يشغل كل المساحة الفارغة في الوسط */
+    order: 1;
+}
+
+div.stButton > button p span:first-child { order: 0; } /* الإيموجي يسار */
+div.stButton > button p span:last-child { order: 2; }  /* النص يمين */
 
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
@@ -99,16 +92,16 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # الترتيب: الإيموجي أولاً ثم النص لضمان ظهور الإيموجي يساراً
-    st.button("🔒 &nbsp;&nbsp; Change Password")
-    st.button("🌐 &nbsp;&nbsp; Change Language")
-    st.button("⭐ &nbsp;&nbsp; Rate App")
-    st.button("🚪 &nbsp;&nbsp; Log Out")
+    # كتابة الإيموجي أولاً ثم النص، والـ CSS بيتكفل بالباقي
+    st.button("🔒 Change Password")
+    st.button("🌐 Change Language")
+    st.button("⭐ Rate App")
+    st.button("🚪 Log Out")
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    st.button("⚠️ &nbsp;&nbsp; Report a Problem")
-    st.button("✉️ &nbsp;&nbsp; Contact Us")
+    st.button("⚠️ Report a Problem")
+    st.button("✉️ Contact Us")
 
 elif st.session_state.page == 'password':
     if st.button("‹ Back"): nav('main')
