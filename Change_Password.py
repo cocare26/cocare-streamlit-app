@@ -19,9 +19,9 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي */
+/* 📦 الكارد الرئيسي - تم تقليل العرض ليكون (350px) ليتطابق مع الصفحات السابقة */
 .block-container{
-    max-width:450px !important;
+    max-width:350px !important;
     margin:auto !important;
     padding:30px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
@@ -43,12 +43,11 @@ components.html("""
             margin: 0;
             display: flex;
             justify-content: center;
-            height: 100vh;
         }
         
         .main-wrapper {
             width: 100%;
-            max-width: 380px;
+            max-width: 290px; /* عرض المحتوى الداخلي ليتناسق مع الحجم الجديد */
             display: flex;
             flex-direction: column;
             height: 480px;
@@ -58,30 +57,33 @@ components.html("""
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             position: relative;
         }
 
+        /* 🔙 تبديل السهم لرمز < */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: bold;
             color: #0f2446;
             text-decoration: none;
+            line-height: 1;
         }
 
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 24px;
+            font-size: 20px;
             color: #0f2446;
         }
 
-        /* 💊 تصميم بوكس الإدخال الأبيض */
+        /* ⚪ بوكس الإدخال */
         .input-capsule {
             background: white;
             border-radius: 100px;
-            padding: 12px 20px;
+            padding: 10px 18px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
@@ -91,14 +93,14 @@ components.html("""
         .input-capsule i.field-icon {
             color: #0f2446;
             margin-right: 12px;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .input-capsule input {
             border: none;
             outline: none;
             flex-grow: 1;
-            font-size: 15px;
+            font-size: 14px;
             color: #0f2446;
             background: transparent;
         }
@@ -109,19 +111,19 @@ components.html("""
             margin-left: 10px;
         }
 
-        /* 📝 نص ريبورت باسورد باللون الأبيض وبدون بوكس */
+        /* 📝 نص ريبورت باسورد */
         .report-text {
             text-align: center;
-            color: white; /* تم تغيير اللون للأبيض */
-            font-size: 14px;
+            color: white;
+            font-size: 13px;
             margin-top: 5px;
             margin-bottom: 20px;
             cursor: pointer;
-            font-weight: bold; /* جعل الخط أعرض ليوضح على الخلفية الفاتحة */
-            text-shadow: 0px 1px 2px rgba(0,0,0,0.1); /* ظل خفيف ليبرز أكثر */
+            font-weight: bold;
+            text-shadow: 0px 1px 2px rgba(0,0,0,0.1);
         }
 
-        /* 🔘 بوكس زر الحفظ الأبيض */
+        /* 🔘 زر الحفظ الأبيض */
         .save-btn-container {
             margin-top: auto;
             display: flex;
@@ -156,7 +158,7 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+            <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Change Password</h2>
         </div>
 
@@ -178,7 +180,6 @@ components.html("""
             <i class="fas fa-eye-slash toggle-eye"></i>
         </div>
 
-        <!-- نص ريبورت باسورد باللون الأبيض الصريح -->
         <div class="report-text">
             Report Password
         </div>
@@ -191,4 +192,4 @@ components.html("""
     </div>
 </body>
 </html>
-""", height=520)
+""", height=500)
