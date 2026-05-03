@@ -5,7 +5,6 @@ st.set_page_config(page_title="Change Password", layout="centered")
 
 st.markdown("""
 <style>
-/* 🎯 ألوان أساسية */
 :root{
     --navy:#0f2446;
     --accent:#2f80ed;
@@ -14,12 +13,10 @@ st.markdown("""
     --bg3:#eaf6ff;
 }
 
-/* 📱 خلفية الصفحة */
 [data-testid="stAppViewContainer"]{
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - تم تقليل العرض ليكون (350px) ليتطابق مع الصفحات السابقة */
 .block-container{
     max-width:350px !important;
     margin:auto !important;
@@ -70,6 +67,7 @@ components.html("""
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
+            cursor: pointer;
         }
 
         .title {
@@ -158,7 +156,7 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <a href="#" class="back-icon">&lt;</a>
+            <div class="back-icon" onclick="goPage('settings')">&lt;</div>
             <h2 class="title">Change Password</h2>
         </div>
 
@@ -190,6 +188,12 @@ components.html("""
             </button>
         </div>
     </div>
+
+    <script>
+    function goPage(p){
+        window.top.location.href = "/?page=" + p;
+    }
+    </script>
 </body>
 </html>
 """, height=500)
