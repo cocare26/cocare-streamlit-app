@@ -3,7 +3,7 @@ import base64
 import os
 
 # =====================================
-# 1. إعداد الصفحة
+# إعداد الصفحة
 # =====================================
 st.set_page_config(
     page_title="Telecom Dashboard",
@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # =====================================
-# 2. قراءة الصور وتحويلها لـ Base64
+# قراءة الصور
 # =====================================
 def get_base64(path):
     if os.path.exists(path):
@@ -24,215 +24,218 @@ robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# 3. واجهة المستخدم (CSS) - مطابقة للتصميم الأصلي
+# اسم المستخدم
+# =====================================
+user_name = st.text_input("Enter User Name", value="User Name")
+
+# =====================================
+# CSS
 # =====================================
 st.markdown(f"""
 <style>
-/* إخفاء القوائم الافتراضية لـ Streamlit */
-#MainMenu, header, footer {{visibility: hidden;}}
-
-/* تنسيق الخلفية العامة */
+/* الأساسيات */
+* {{ margin:0; padding:0; box-sizing:border-box; }}
 html, body, [data-testid="stAppViewContainer"] {{
-    background-color: #f0f7ff;
-    font-family: 'Segoe UI', sans-serif;
+    background:#f0f7ff;
+    font-family:'Segoe UI', sans-serif;
 }}
+section.main > div {{ padding-top:8px; }}
+div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 
 /* حاوية الموبايل */
 .block-container {{
-    max-width: 430px;
-    margin: auto;
-    padding: 20px 15px;
-    background: linear-gradient(180deg, #e1f1ff 0%, #ffffff 100%);
-    border-radius: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    max-width:430px;
+    margin:auto;
+    padding:18px 16px;
+    background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
+    border-radius:42px;
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
-/* تصميم الكروت */
+/* الكروت */
 .card {{
-    background: white;
-    border-radius: 20px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.05);
+    background:white;
+    border-radius:24px;
+    padding:14px;
+    margin-bottom:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
+}}
+.title {{
+    font-size:17px;
+    font-weight:900;
+    color:#102646;
+    margin: 8px 0 8px 4px;
 }}
 
-.section-title {{
-    font-size: 17px;
-    font-weight: 700;
-    color: #000;
-    margin: 10px 0;
+/* جعل العناصر قابلة للنقر */
+.clickable {{
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}}
+.clickable:active {{
+    transform: scale(0.95);
+    opacity: 0.8;
 }}
 
 /* الملف الشخصي */
-.profile-info {{
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.profile {{ display:flex; gap:10px; align-items:flex-start; }}
+.avatar {{ width:55px; height:70px; object-fit:contain; }}
+.name {{ font-size:17px; font-weight:900; }}
+.sub {{ font-size:13px; color: #555; }}
+.location {{
+    margin-top:10px; background:#eef5ff; padding:10px 14px;
+    border-radius:18px; font-size:14px; font-weight:700;
 }}
 
-.avatar-img {{
-    width: 55px;
-    height: 55px;
-    object-fit: contain;
-}}
-
-.user-details {{
-    font-size: 13px;
-    color: #555;
-    line-height: 1.4;
-}}
-
-.location-box {{
-    background: #eef5ff;
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 10px;
-}}
-
-/* شريط البيانات GB */
-.gb-val {{
-    font-size: 36px;
-    font-weight: 800;
-    color: #003366;
-}}
-
-.progress-bg {{
-    background: #e0eefc;
-    height: 10px;
-    border-radius: 10px;
-    margin: 10px 0;
-}}
-
-.progress-fill {{
-    background: linear-gradient(90deg, #0052cc, #4ca1ff);
-    width: 78%;
-    height: 100%;
-    border-radius: 10px;
-}}
+/* البيانات GB */
+.big-number {{ font-size:42px; font-weight:900; color:#102646; line-height:1; }}
+.progress {{ margin-top:12px; height:10px; border-radius:20px; background:#dce8f7; overflow:hidden; }}
+.fill {{ width:78%; height:100%; background:linear-gradient(90deg,#083d8c,#1567e0); }}
 
 /* شبكة الأيقونات */
-.icon-grid {{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 15px;
+.grid4 {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }}
+.mini {{
+    background:white; border-radius:20px; min-height:110px;
+    padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 }}
+.icon {{ font-size:28px; margin-bottom:8px; }}
+.mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-.icon-item {{
-    background: white;
-    border-radius: 18px;
-    padding: 10px 5px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+/* الجزء المطلوب تعديله: Network Strength */
+.network-card {{
+    background: white; border-radius: 24px; padding: 15px; margin-bottom: 12px;
 }}
-
-/* شريط القوة Ratings */
-.rating-bar {{
-    height: 12px;
-    background: linear-gradient(90deg, #0047ba 0%, #27a4ff 40%, #ff8c00 70%, #df4126 100%);
-    border-radius: 6px;
-    margin: 10px 0;
+.net-city {{ font-size: 18px; font-weight: 900; color: #000; }}
+.net-status {{ font-size: 15px; font-weight: 700; color: #003366; margin-bottom: 12px; }}
+.stat-box-container {{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }}
+.stat-box {{
+    background: #f1f7ff; border-radius: 18px; padding: 12px; text-align: center;
+}}
+.stat-label {{ font-size: 12px; font-weight: 700; color: #555; margin-bottom: 5px; }}
+.stat-value {{ font-size: 26px; font-weight: 900; color: #000; }}
+.dbm-meter {{
+    text-align: center; margin-top: 15px; font-size: 20px;
+    font-weight: 900; color: #003366;
 }}
 
 /* النافبار السفلي */
-.bottom-nav {{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 10px;
-    border-top: 1px solid #eee;
+.nav {{
+    margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
+    text-align:center; font-size:12px; font-weight:800; color:#6b6b6b;
 }}
-
-.nav-btn {{
-    text-align: center;
-    font-size: 11px;
-    color: #888;
-}}
-
-.active-nav {{ color: #0066cc; font-weight: 700; }}
-
-.bot-icon-bg {{
-    width: 45px;
-    height: 45px;
-    background: white;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.nav-item {{ padding: 5px; }}
+.bot-bg {{
+    width:48px; height:48px; background:white; border-radius:15px;
+    margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    margin: auto auto 4px auto;
 }}
+.active {{ color:#0d69dd; }}
+
+#MainMenu, header, footer {{ visibility:hidden; }}
 </style>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. بناء هيكل الصفحة (HTML)
+# 1. PROFILE
 # =====================================
-
-# الملف الشخصي
 st.markdown(f"""
-<div class="card">
-    <div class="profile-info">
-        <img src="data:image/png;base64,{robot_full}" class="avatar-img">
+<div class="card clickable">
+    <div class="profile">
+        <img class="avatar" src="data:image/png;base64,{robot_full}">
         <div>
-            <div style="font-size: 18px; font-weight: 800;">Welcome: User Name</div>
-            <div class="user-details">+962 79 123 4567<br>Valid until: May 25, 2024</div>
+            <div class="name">Welcome: {user_name}</div>
+            <div class="sub">+962 79 123 4567</div>
+            <div class="sub">Valid until: May 25, 2024</div>
         </div>
     </div>
-    <div class="location-box">📍 Location: Amman</div>
+    <div class="location">📍 Location: Amman</div>
 </div>
 """, unsafe_allow_html=True)
 
-# معلومات البيانات
+# =====================================
+# 2. NUMBER INFO
+# =====================================
 st.markdown("""
-<div class="section-title">Your Number Info</div>
-<div class="card">
-    <div style="font-size: 14px; color: #666;">Remaining GB</div>
-    <div class="gb-val">4.7 <span style="font-size: 18px;">GB</span></div>
-    <div class="progress-bg"><div class="progress-fill"></div></div>
-    <div style="text-align: right; font-weight: 700;">6 GB</div>
+<div class="title">Your Number Info</div>
+<div class="card clickable">
+    <div style="font-size:14px; font-weight:700; color:#666;">Remaining GB</div>
+    <div class="big-number">4.7 <span style="font-size:18px;">GB</span></div>
+    <div class="progress"><div class="fill"></div></div>
+    <div style="text-align:right; font-size:24px; font-weight:900; color:#102646; margin-top:8px;">6 GB</div>
 </div>
 """, unsafe_allow_html=True)
 
-# الأيقونات الأربعة
+# =====================================
+# 3. ICONS (Clickable)
+# =====================================
 st.markdown("""
-<div class="icon-grid">
-    <div class="icon-item">📡<br><span style="font-size: 10px; font-weight: 700;">Internet</span></div>
-    <div class="icon-item">🔄<br><span style="font-size: 10px; font-weight: 700;">Renewals</span></div>
-    <div class="icon-item">💰<br><span style="font-size: 10px; font-weight: 700;">Intl Calls</span></div>
-    <div class="icon-item">🔔<br><span style="font-size: 10px; font-weight: 700;">Network</span></div>
+<div class="grid4">
+    <div class="mini clickable">
+        <div class="icon">📡</div>
+        <div class="mini-text">Internet<br>Packages</div>
+    </div>
+    <div class="mini clickable">
+        <div class="icon">🌍</div>
+        <div class="mini-text">Renewals +<br>Changes</div>
+    </div>
+    <div class="mini clickable">
+        <div class="icon">💰</div>
+        <div class="mini-text">International<br>Calls</div>
+    </div>
+    <div class="mini clickable">
+        <div class="icon">🔔</div>
+        <div class="mini-text">Network<br>Notifications</div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
-# التقييمات وقوة الشبكة
+# =====================================
+# 4. RATINGS (Clickable)
+# =====================================
 st.markdown("""
-<div class="section-title">Service Ratings</div>
-<div class="card">
-    <div style="font-size: 13px; font-weight: 700;">⭐ Service Security Rate</div>
-    <div class="rating-bar"></div>
-    <div style="text-align:center; color:#ffcc00; font-size:20px;">★ ★ ★ ★ ☆</div>
-</div>
-
-<div class="section-title">Network Strength</div>
-<div class="card">
-    <div style="font-weight: 800;">📍 Amman</div>
-    <div style="color: #003366; font-size: 14px; font-weight: 700;">Very Strong Signal</div>
-    <div style="text-align: center; font-size: 20px; font-weight: 900; color: #003366; margin-top: 10px;">📶 -68dBm</div>
+<div class="title">Service Ratings</div>
+<div class="card clickable">
+    <div style="font-weight:900; font-size:14px;">⭐ Service Security Rate</div>
+    <div style="margin-top:10px; height:24px; border-radius:18px; background:linear-gradient(90deg,#0047ba 0%,#27a4ff 40%,#ff8c00 70%,#df4126 100%);"></div>
+    <div style="text-align:center; margin-top:10px; font-weight:700; font-size:13px;">Rate our service</div>
+    <div style="text-align:center; font-size:26px; color:#f4b400; letter-spacing:2px;">★ ★ ★ ★ ☆</div>
 </div>
 """, unsafe_allow_html=True)
 
-# النافبار السفلي
+# =====================================
+# 5. NETWORK STRENGTH (تعديل مطابق للصورة)
+# =====================================
+st.markdown("""
+<div class="title">Network Strength in your area</div>
+<div class="network-card clickable">
+    <div class="net-city">📍 Amman</div>
+    <div class="net-status">Very Strong Signal</div>
+    <div class="stat-box-container">
+        <div class="stat-box">
+            <div class="stat-label">Packet Loss (%)</div>
+            <div class="stat-value">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Avg Jitter (ms)</div>
+            <div class="stat-value">19</div>
+        </div>
+    </div>
+    <div class="dbm-meter">📶 -68 dBm (Excellent)</div>
+</div>
+""", unsafe_allow_html=True)
+
+# =====================================
+# 6. NAVBAR (Clickable)
+# =====================================
 st.markdown(f"""
-<div class="bottom-nav">
-    <div class="nav-btn">⚙️<br>Settings</div>
-    <div class="nav-btn">🎡<br>Spin</div>
-    <div class="nav-btn">
-        <div class="bot-icon-bg"><img src="data:image/png;base64,{robot_head}" style="width:30px;"></div>
+<div class="nav">
+    <div class="nav-item clickable">⚙️<br>Settings</div>
+    <div class="nav-item clickable">🎡<br>Spin</div>
+    <div class="nav-item clickable">
+        <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
         Chatbot
     </div>
-    <div class="nav-btn active-nav">🏠<br>Home</div>
-    <div class="nav-btn">🎁<br>Game</div>
+    <div class="nav-item active clickable">🏠<br>Home</div>
+    <div class="nav-item clickable">🎁<br>Game</div>
 </div>
 """, unsafe_allow_html=True)
