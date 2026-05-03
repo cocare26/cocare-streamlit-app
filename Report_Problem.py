@@ -1,25 +1,21 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 2. التنسيق العام (CSS)
 st.markdown("""
 <style>
-/* 🎯 الألوان الأساسية */
 :root{
     --navy:#0f2446;
     --accent:#2f80ed;
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
-    --gray-color: #808080; /* اللون الرمادي المطلوب */
+    --gray-color: #808080; 
 }
 
 [data-testid="stHeader"] {display: none !important;}
 
-/* 📦 1. الكارد الرئيسي (Main Container) */
 .block-container{
     max-width:350px !important;    
     margin:auto !important;
@@ -64,6 +60,7 @@ components.html("""
             position: absolute; left: 0;
             font-size: 28px;
             font-weight: bold; color: #0f2446;
+            cursor: pointer;
         }
 
         .title {
@@ -130,7 +127,7 @@ components.html("""
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <div class="back-icon">&lt;</div>
+            <div class="back-icon" onclick="goPage('settings')">&lt;</div>
             <h2 class="title">Report a Problem</h2>
         </div>
 
@@ -143,6 +140,12 @@ components.html("""
             </button>
         </div>
     </div>
+
+    <script>
+    function goPage(p){
+        window.top.location.href = "/?page=" + p;
+    }
+    </script>
 </body>
 </html>
 """, height=500)
