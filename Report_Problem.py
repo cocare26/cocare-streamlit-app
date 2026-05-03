@@ -4,38 +4,38 @@ import streamlit.components.v1 as components
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 2. التنسيق العام (CSS) - المقاسات الموحدة 350px
+# 2. التنسيق العام (CSS) - حل مشكلة الفراغ العلوي
 st.markdown("""
 <style>
 /* 🎯 الألوان المعتمدة */
 :root {
     --navy: #0f2446;
-    --accent-blue: #2f80ed;
     --bg-grad: linear-gradient(160deg, #d6ecff 0%, #eaf6ff 100%);
 }
 
-/* تصفير المسافات العلوية الافتراضية لـ Streamlit */
-[data-testid="stHeader"] {display: none !important;}
-.block-container {
-    padding-top: 2rem !important;
-    max-width: 350px !important; /* 1. العرض الموحد */
-    margin: auto !important;
+/* تصفير المسافات العلوية لـ Streamlit */
+.stApp {
+    margin-top: -80px !important; /* رفع المحتوى بالكامل للأعلى */
 }
 
 [data-testid="stAppViewContainer"] {
     background: #eef2f7;
 }
 
-/* 📦 الكارد الرئيسي (Main Container) */
-.main .block-container {
-    background: var(--bg-grad); /* 5. الخلفية المتدرجة */
-    border-radius: 42px;         /* 1. الحواف الدائرية */
-    padding: 30px !important;    /* 1. المسافات الداخلية */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15); /* 1. الظل المعتمد */
-}
-
-header {visibility: hidden;}
+/* إخفاء الهيدر تماماً مع مساحته */
+header {visibility: hidden; height: 0px !important;}
 footer {visibility: hidden;}
+[data-testid="stHeader"] {display: none !important;}
+
+/* 📦 الكارد الرئيسي (350px) */
+.block-container {
+    max-width: 350px !important;
+    margin: auto !important;
+    padding: 30px !important;
+    background: var(--bg-grad);
+    border-radius: 42px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -54,44 +54,39 @@ components.html("""
             justify-content: center;
         }
         
-        /* 📏 الحاوية الداخلية (Main Wrapper) */
         .main-wrapper {
             width: 100%;
-            max-width: 290px; /* 2. العرض الأقصى الداخلي */
+            max-width: 290px; 
             display: flex;
             flex-direction: column;
-            height: 480px;    /* 2. الارتفاع المخصص */
+            height: 480px;
         }
 
-        /* 🔝 الرأس (Header Section) */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 40px; /* 3. المسافة السفلية */
+            margin-bottom: 40px;
             position: relative;
         }
 
-        /* 🔙 أيقونة الرجوع */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 28px; /* 3. حجم الأيقونة */
+            font-size: 28px;
             font-weight: bold;
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
         }
 
-        /* 🏷️ العنوان */
         .title {
             margin: 0;
-            font-weight: 900; /* 3. وزن الخط */
-            font-size: 20px;   /* 3. حجم الخط */
-            color: #0f2446;    /* 5. لون Navy */
+            font-weight: 900;
+            font-size: 20px;
+            color: #0f2446;
         }
 
-        /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
             height: 240px;
@@ -108,17 +103,16 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🔘 زر الإرسال (على نمط كبسولة الخيارات) */
         .btn-container {
             margin-top: auto;
             padding-bottom: 10px;
         }
 
         .send-btn {
-            background: white;       /* 4. خلفية بيضاء صريحة */
-            border-radius: 100px;    /* 4. حواف دائرية تماماً */
+            background: white;
+            border-radius: 100px;
             width: 100%;
-            padding: 14px 22px;      /* 4. المسافات الداخلية المعتمدة */
+            padding: 14px 22px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -129,41 +123,34 @@ components.html("""
             box-sizing: border-box;
         }
 
-        .send-btn:hover {
-            transform: translateY(-2px);
-        }
-
         .send-btn span {
-            color: #0f2446;     /* 5. لون Navy */
+            color: #0f2446;
             font-weight: 700;
-            font-size: 14px;    /* 4. حجم الخط الداخلي */
+            font-size: 14px;
         }
 
         .send-btn i {
-            color: #2f80ed;     /* 5. لون Accent Blue للأيقونة */
-            font-size: 18px;    /* 4. حجم الأيقونة */
+            color: #0f2446;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- الهيدر الموحد -->
         <div class="header-container">
             <div class="back-icon">&lt;</div>
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <!-- صندوق النص -->
         <textarea class="report-textarea" placeholder="Describe your problem here..."></textarea>
 
-        <!-- زر الإرسال (كبسولة) -->
         <div class="btn-container">
             <button class="send-btn" onclick="alert('Report Sent!')">
-                <span>Send Report</span>
                 <i class="fas fa-paper-plane"></i>
+                <span>Send Report</span>
             </button>
         </div>
     </div>
 </body>
 </html>
-""", height=500) # 2. الارتفاع المخصص لستريمليت
+""", height=500)
