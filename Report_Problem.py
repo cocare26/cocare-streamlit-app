@@ -4,38 +4,49 @@ import streamlit.components.v1 as components
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 2. التنسيق العام (CSS)
+# 2. التنسيق العام (CSS) - دمج مقاسات الكود الأول مع تصميم الكارد
 st.markdown("""
 <style>
-:root {
-    --navy: #0f2446;
-    --accent-blue: #2f80ed;
-    --bg1: #d6ecff;
-    --bg2: #bfe3ff;
-    --bg3: #eaf6ff;
+/* 🎯 ألوان أساسية من الكود الأول */
+:root{
+    --navy:#0f2446;
+    --accent:#2f80ed;
+    --accent2:#1c6fa4;
+    --bg1:#d6ecff;
+    --bg2:#bfe3ff;
+    --bg3:#eaf6ff;
 }
 
 /* إخفاء الهيدر تماماً لرفع الكارد */
 [data-testid="stHeader"] {display: none !important;}
 
-/* 📦 1. الكارد الرئيسي (Main Container) */
-.block-container {
-    max-width: 350px !important;    /* ✅ العرض الأقصى: 350px */
-    margin: auto !important;
-    padding: 30px !important;       /* ✅ المسافات الداخلية: 30px */
-    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius: 42px;            /* ✅ الحواف الدائرية: 42px */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15); /* ✅ الظل: إزاحة 15px وضبابية 35px */
-    border: 1px solid var(--navy);  /* التحديد الذي طلبته */
+/* 📱 خلفية الصفحة */
+[data-testid="stAppViewContainer"]{
+    background:#eef2f7;
+}
+
+/* 📦 الكارد الرئيسي - مقاسات الكود الأول */
+.block-container{
+    max-width:420px !important; /* اعتماد 420px كما في طلبك الأول */
+    margin:auto !important;
+    padding:25px 30px !important; /* حواف داخلية 25px فوق-تحت و 30px يمين-يسار */
+
+    background:linear-gradient(160deg, 
+        var(--bg1) 0%, 
+        var(--bg2) 45%, 
+        var(--bg3) 100%
+    );
+
+    border-radius:42px; /* الحواف الدائرية المعتمدة */
+    box-shadow:0 10px 30px rgba(0,0,0,.15); /* الظل من الكود الأول */
     margin-top: 20px !important;
 }
 
-[data-testid="stAppViewContainer"] { background: #eef2f7; }
 footer {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة
+# 3. محتوى الصفحة (HTML/JS)
 components.html("""
 <!DOCTYPE html>
 <html>
@@ -44,69 +55,86 @@ components.html("""
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
         
-        /* 📏 2. الحاوية الداخلية (Main Wrapper) */
+        /* 📏 الحاوية الداخلية (Main Wrapper) */
         .main-wrapper {
             width: 100%;
-            max-width: 290px;      /* ✅ العرض الأقصى الداخلي: 290px */
-            height: 480px;         /* ✅ الارتفاع المخصص: 480px */
+            max-width: 340px; /* توسيع المحتوى الداخلي قليلاً ليتناسب مع كارد 420px */
+            height: 480px;
             display: flex;
             flex-direction: column;
         }
 
-        /* 🔝 3. الرأس (Header Section) */
+        /* 🔝 الرأس (Header Section) */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 40px;   /* ✅ المسافة السفلية: 40px */
+            margin-bottom: 30px;
             position: relative;
         }
 
         .back-icon {
             position: absolute; left: 0;
-            font-size: 28px;       /* ✅ حجم أيقونة الرجوع: 28px */
-            font-weight: bold; color: #0f2446;
+            font-size: 28px;
+            font-weight: 900; 
+            color: #0f2446;
+            cursor: pointer;
         }
 
         .title {
             margin: 0;
-            font-weight: 900;      /* ✅ وزن الخط: 900 */
-            font-size: 20px;       /* ✅ حجم الخط: 20px */
+            font-weight: 900; /* Extra Bold كما في h1 من الكود الأول */
+            font-size: 22px; 
             color: #0f2446;
         }
 
+        /* 🧾 Inputs - ستايل الكود الأول */
         .report-textarea {
             width: 100%;
             height: 220px;
             border-radius: 25px;
-            border: 1px solid rgba(15, 36, 70, 0.1);
-            padding: 18px;
-            font-size: 14px;
+            border: none !important;
+            outline: none !important;
+            padding: 20px;
+            background: rgba(255,255,255,0.95); /* شفافية بسيطة كما في الكود الأول */
+            font-size: 16px;
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
             font-family: inherit;
         }
 
-        /* 🔘 4. كبسولة الإرسال (نفس ستايل الخيارات) */
+        /* 🔘 الأزرار الأساسية - ستايل الكود الأول */
         .send-btn {
-            background: white;
-            border-radius: 100px;  /* ✅ الحواف الدائرية: 100px */
             width: 100%;
-            padding: 14px 22px;    /* ✅ المسافات: 14px عمودي و 22px أفقي */
+            height: 46px;
+            border-radius: 25px;
+            border: none;
+            background: linear-gradient(90deg, #2f80ed, #1c6fa4); /* تدرج الأزرار من الكود الأول */
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid #0f2446;
-            margin-top: auto;
+            padding: 0 25px;
             cursor: pointer;
+            box-shadow: 0 6px 14px rgba(47,128,237,.25);
+            transition: 0.3s ease;
+            margin-top: auto;
         }
 
-        .btn-content { display: flex; align-items: center; gap: 12px; } /* ✅ الفراغ (gap): 12px */
+        /* ✨ hover من الكود الأول */
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0,0,0,.2);
+        }
 
-        .send-btn span { color: #0f2446; font-weight: 700; font-size: 14px; } /* ✅ حجم الخط: 14px */
-        .main-icon { color: #0f2446; font-size: 18px; } /* ✅ حجم الأيقونة: 18px */
-        .arrow-icon { color: #2f80ed; font-size: 18px; } /* ✅ لون الصح/السهم: Accent Blue */
+        .btn-content { display: flex; align-items: center; gap: 12px; }
+
+        .main-icon { color: white; font-size: 18px; }
+        .arrow-icon { color: white; font-size: 18px; }
     </style>
 </head>
 <body>
@@ -115,7 +143,9 @@ components.html("""
             <div class="back-icon">&lt;</div>
             <h2 class="title">Report a Problem</h2>
         </div>
-        <textarea class="report-textarea" placeholder="I need help"></textarea>
+        
+        <textarea class="report-textarea" placeholder="Describe your problem here..."></textarea>
+        
         <button class="send-btn" onclick="alert('Sent!')">
             <div class="btn-content">
                 <i class="fas fa-paper-plane main-icon"></i>
@@ -126,4 +156,4 @@ components.html("""
     </div>
 </body>
 </html>
-""", height=500) # ✅ الارتفاع في Streamlit: 500px
+""", height=500)
