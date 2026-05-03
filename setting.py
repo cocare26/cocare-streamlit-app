@@ -10,7 +10,7 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS المعتمد والمعدل للسطرين
+# 3. تنسيق الـ CSS المعتمد مع تكبير البوكسات الأخيرة
 st.markdown("""
 <style>
 :root{
@@ -65,16 +65,17 @@ div.stButton > button p {
     margin: 0 !important;
     font-weight: 800 !important;
     font-size: 15px !important;
-    white-space: pre-line !important; /* هذا يسمح بنزول النص لسطر جديد */
-    text-align: right !important;      /* محاذاة النص لليمين */
+    white-space: pre-line !important; 
+    text-align: right !important;      
 }
 
-/* زر القائمة الطويل (الارتفاع العادي) */
+/* الأزرار الطويلة العادية */
 div.stButton > button { height: 52px !important; }
 
-/* 🛠️ تعديل الارتفاع للسطر الأخير ليناسب السطرين */
+/* 🛠️ تكبير البوكسات في السطر الأخير (تمت زيادة الارتفاع لـ 85px) */
 [data-testid="stHorizontalBlock"] div.stButton > button {
-    height: 75px !important; 
+    height: 85px !important; 
+    padding: 10px 15px !important; /* إضافة مساحة داخلية رأسية */
 }
 
 div.stButton > button:hover {
@@ -101,23 +102,23 @@ if st.session_state.page == 'main':
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # 🎯 السطر الأخير: تقسيم الصفحة لعمودين
+    # 🎯 السطر الأخير ببوكسات أكبر
     col1, col2 = st.columns([1.3, 1]) 
     
     with col1:
-        # كلمة Report في سطر و to Problem في سطر أسفلها
         if st.button("⚠️ Report\nto Problem"): 
             nav('report')
             
     with col2:
-        if st.button("✉️ Contact Us"): 
+        # زر كونتاكت بنفس الارتفاع الكبير ليكون متناسقاً
+        if st.button("✉️ Contact\nUs"): 
             nav('contact')
 
 # الشاشات الفرعية
 elif st.session_state.page == 'report':
     if st.button("‹ Back"): nav('main')
-    st.write("Report logic...")
+    st.markdown("<h3 style='text-align:center;'>Report a Problem</h3>", unsafe_allow_html=True)
 
 elif st.session_state.page == 'contact':
     if st.button("‹ Back"): nav('main')
-    st.write("Contact logic...")
+    st.markdown("<h3 style='text-align:center;'>Contact Us</h3>", unsafe_allow_html=True)
