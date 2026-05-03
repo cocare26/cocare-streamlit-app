@@ -1,35 +1,30 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# إعدادات الصفحة الأساسية
+# إعداد الصفحة
 st.set_page_config(page_title="Settings", layout="centered")
 
-# 1. نظام إدارة الصفحات (Session State)
-# نستخدم هذا المتغير لتخزين الصفحة الحالية التي يتواجد فيها المستخدم
+# 1. تعريف الحالة (Session State) للتحكم في التنقل
 if 'current_page' not in st.session_state:
     st.session_state.current_page = 'main'
 
-# 2. منطق عرض واجهة "تغيير كلمة المرور"
+# 2. منطق عرض الصفحات
 if st.session_state.current_page == "Change_password":
-    st.markdown("<h2 style='text-align:center; color:#0f2446;'>🔒 Change Password</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align:center;'>🔒 Change Password</h2>", unsafe_allow_html=True)
     
-    # واجهة إدخال كلمة المرور (بأدوات ستريمليت الأصلية)
-    with st.container():
-        old_p = st.text_input("Current Password", type="password")
-        new_p = st.text_input("New Password", type="password")
-        conf_p = st.text_input("Confirm New Password", type="password")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Save Changes", use_container_width=True):
-                st.success("Password Updated!")
-        with col2:
-            if st.button("Back", use_container_width=True):
-                st.session_state.current_page = 'main'
-                st.rerun()
-    st.stop() # إيقاف التنفيذ لضمان عدم ظهور القائمة الرئيسية بالأسفل
+    # هنا تضع كود واجهة تغيير كلمة المرور
+    with st.form("password_form"):
+        old_pass = st.text_input("Old Password", type="password")
+        new_pass = st.text_input("New Password", type="password")
+        if st.form_submit_button("Update"):
+            st.success("Success!")
+    
+    if st.button("← Back to Settings"):
+        st.session_state.current_page = 'main'
+        st.rerun()
+    st.stop()
 
-# 3. تنسيق CSS للقائمة الرئيسية
+# 3. واجهة الإعدادات الرئيسية
 st.markdown("""
 <style>
 :root{ --navy:#0f2446; --bg1:#d6ecff; --bg2:#bfe3ff; --bg3:#eaf6ff; }
@@ -42,8 +37,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 4. المكون الذي يربط الـ HTML بـ Python
-# القيمة التي يتم إرسالها من 'onclick' ستخزن في المتغير 'selection'
+# المكون الذي يربط الـ HTML بـ Streamlit
+# القيمة التي ترجع من هذا المكون ستخزن في متغير 'selection'
 selection = components.html("""
 <!DOCTYPE html>
 <html>
@@ -67,47 +62,36 @@ body{ font-family:'Segoe UI', sans-serif; margin:0; display:flex; justify-conten
 <div class="main-wrapper">
     <div class="header-container"><h2 class="title">Settings</h2></div>
 
-    <!-- عند الضغط هنا، نرسل كلمة 'Change_password' لستريمليت -->
+    <!-- نستخدم دالة 'send' لإرسال اسم الصفحة لـ Python -->
     <div class="setting-item" onclick="send('Change_password')">
-        <i class="fas fa-lock left-icon"></i>
-        <span class="setting-text-right">Change Password</span>
-        <span class="arrow">›</span>
+        <i class="fas fa-lock left-icon"></i><span class="setting-text-right">Change Password</span><span class="arrow">›</span>
     </div>
 
     <div class="setting-item" onclick="send('Change_language')">
-        <i class="fas fa-globe left-icon"></i>
-        <span class="setting-text-right">Change Language</span>
-        <span class="arrow">›</span>
+        <i class="fas fa-globe left-icon"></i><span class="setting-text-right">Change Language</span><span class="arrow">›</span>
     </div>
 
     <div class="bottom-row">
         <div class="setting-item" onclick="send('Report')">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span class="setting-text">Report</span>
-            <span class="arrow">›</span>
-        </div>
-        <div class="setting-item" onclick="send('Contact')">
-            <i class="fas fa-envelope"></i>
-            <span class="setting-text">Contact</span>
-            <span class="arrow">›</span>
+            <i class="fas fa-exclamation-triangle"></i><span class="setting-text">Report</span><span class="arrow">›</span>
         </div>
     </div>
 </div>
 
 <script>
-// هذه الدالة السحرية التي تربط العالمين ببعضهما
-function send(val) {
+function send(pageName) {
+    // إرسال القيمة مباشرة لمتغير 'selection' في كود البايثون
     window.parent.postMessage({
         type: 'streamlit:setComponentValue',
-        value: val
+        value: pageName
     }, '*');
 }
 </script>
 </body>
 </html>
-""", height=480)
+""", height=500)
 
-# 5. معالجة الإشارة القادمة من الـ HTML
+# 4. تحديث الصفحة بناءً على اختيار المستخدم من الـ HTML
 if selection:
     st.session_state.current_page = selection
-    st.rerun() # إعادة تشغيل الكود ليتم تطبيق الشرط في البداية (Page Router)
+    st.rerun()
