@@ -142,7 +142,7 @@ body{
         <h2 class="title">Settings</h2>
     </div>
 
-    <div class="setting-item" onclick="goPage('Change_password')">
+    <div class="setting-item" onclick="goPage('Change_Password')">
         <i class="fas fa-lock"></i>
         <span class="setting-text">Change Password</span>
         <span class="arrow">›</span>
