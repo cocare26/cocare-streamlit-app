@@ -10,14 +10,12 @@ if 'page' not in st.session_state:
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS (بناءً على اعتماداتك الأخيرة)
+# 3. تنسيق الـ CSS (بناءً على اعتماداتك مع تعديل توزيع الأطراف)
 st.markdown("""
 <style>
 /* 🎯 الألوان الأساسية المعتمدة */
 :root{
     --navy:#0f2446;
-    --accent:#2f80ed;
-    --accent2:#1c6fa4;
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
@@ -27,7 +25,7 @@ st.markdown("""
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
 
-/* 📦 الكارد الرئيسي (عرض 420px حسب الاعتمادات) */
+/* 📦 الكارد الرئيسي */
 .block-container{
     max-width:420px !important;
     margin:auto !important;
@@ -38,7 +36,7 @@ footer {visibility: hidden;}
     margin-top: 20px !important;
 }
 
-/* 🧠 الهيدر (متناسق مع الحجم الجديد) */
+/* 🔝 الهيدر */
 .header-container {
     display: flex;
     align-items: center;
@@ -51,7 +49,6 @@ footer {visibility: hidden;}
     position: absolute; left: 0;
     font-size: 28px;
     font-weight: bold; color: var(--navy);
-    cursor: pointer;
 }
 
 .settings-header {
@@ -61,47 +58,42 @@ footer {visibility: hidden;}
     color: var(--navy);
 }
 
-/* 🔘 الأزرار الأساسية (تعديل لتناسب توزيع الإيموجي والنص) */
+/* 🔘 تنسيق الأزرار (توزيع الأطراف الأقصى) */
 div.stButton > button {
     width: 100% !important;
-    height: 50px !important;
-    border-radius: 25px !important; /* حواف الأزرار المعتمدة */
+    height: 52px !important;
+    border-radius: 25px !important;
     border: none !important;
-    background: white !important; /* خلفية بيضاء للأزرار الداخلية */
+    background: white !important;
     color: var(--navy) !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     transition: 0.3s ease;
+    padding: 0 20px !important; /* مسافة أمان عن الحواف */
 }
 
-/* 🎯 توزيع العناصر داخل الزر (إيموجي يسار .. مسافة .. نص يمين) */
+/* 🎯 السحر هنا: دفع الإيموجي لليسار والنص لليمين */
 div.stButton > button p {
     display: flex !important;
+    flex-direction: row-reverse !important; /* عكس الاتجاه لجعل النص أولاً من اليمين والإيموجي آخراً من اليسار */
+    justify-content: space-between !important; /* فراغ كامل بينهما */
     width: 100% !important;
     align-items: center !important;
-    justify-content: space-between !important; /* المسافة الطويلة بينهم */
     margin: 0 !important;
     font-weight: 800 !important;
     font-size: 15px !important;
-    padding: 0 10px !important;
 }
 
-/* ✨ تأثير الـ Hover المعتمد */
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 18px rgba(0,0,0,.1) !important;
-    background: #f8f9fa !important;
 }
-
-/* 🧾 تنسيق خاص لزر اللوج أوت أو الأزرار الملونة إذا رغبت */
-/* يمكنك تفعيل التدرج المعتمد لزر معين هنا */
 
 </style>
 """, unsafe_allow_html=True)
 
-# 4. عرض المحتوى بناءً على الصفحة الحالية
+# 4. عرض المحتوى
 if st.session_state.page == 'main':
-    # هيدر الإعدادات
     st.markdown("""
         <div class="header-container">
             <div class="back-arrow">‹</div>
@@ -109,28 +101,18 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # بناء الأزرار بنفس الترتيب المعتمد (الإيموجي سيظهر يساراً والنص يميناً بسبب الـ CSS)
-    if st.button("🔒 Change Password"): nav('password')
-    if st.button("🌐 Change Language"): nav('language')
-    if st.button("⭐ Rate App"): nav('rate')
-    if st.button("🚪 Log Out"): nav('main')
+    # لاحظ الترتيب في الكود (النص ثم الإيموجي) والـ CSS سيتكفل بالتوزيع
+    st.button("Change Password 🔒")
+    st.button("Change Language 🌐")
+    st.button("Rate App ⭐")
+    st.button("Log Out 🚪")
     
-    # فاصل بسيط
-    st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # أزرار السطر الأخير
-    if st.button("⚠️ Report a Problem"): nav('report')
-    if st.button("✉️ Contact Us"): nav('contact')
+    st.button("Report a Problem ⚠️")
+    st.button("Contact Us ✉️")
 
-# الشاشات الفرعية (أمثلة)
+# الشاشات الفرعية (أمثلة لضمان التنقل)
 elif st.session_state.page == 'password':
     if st.button("‹ Back"): nav('main')
     st.markdown("### Change Password")
-    st.text_input("New Password", type="password")
-    st.button("Update")
-
-elif st.session_state.page == 'report':
-    if st.button("‹ Back"): nav('main')
-    st.markdown("### Report a Problem")
-    st.text_area("How can we help?", height=150)
-    st.button("Send Report")
