@@ -3,30 +3,34 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
+# 🛠️ كود CSS لإجبار البوكس على النحافة القصوى
 st.markdown("""
 <style>
-/* 🎯 ألوان أساسية */
-:root{
-    --navy:#0f2446;
-    --accent:#2f80ed;
-    --bg1:#d6ecff;
-    --bg2:#bfe3ff;
-    --bg3:#eaf6ff;
+/* إزالة المسافات الجانبية من الحاوية الأساسية لستريمليت */
+.main .block-container {
+    max-width: 300px !important; 
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin: auto !important;
 }
 
-/* 📱 خلفية الصفحة */
+/* 📦 الكارد الرئيسي - نحيف جداً (300px) */
+[data-testid="stAppViewContainer"] .block-container {
+    max-width: 300px !important;
+    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
+    border-radius: 42px;
+    padding: 20px !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    margin-top: 50px !important;
+}
+
+/* إخفاء شريط التنقل العلوي لزيادة الجمالية */
+header {visibility: hidden;}
+footer {visibility: hidden;}
+
+/* خلفية الصفحة العامة */
 [data-testid="stAppViewContainer"]{
     background:#eef2f7;
-}
-
-/* 📦 الكارد الرئيسي - تم تنحيفه ليتطابق تماماً مع صفحة Language */
-.block-container{
-    max-width:310px !important; 
-    margin:auto !important;
-    padding:20px !important; /* تقليل البادينج لتنحيف المسافات الجانبية */
-    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius:42px;
-    box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -47,17 +51,17 @@ components.html("""
         
         .main-wrapper {
             width: 100%;
-            max-width: 270px; /* العرض الداخلي الرشيق */
+            max-width: 250px; /* المحتوى الداخلي نحيف جداً */
             display: flex;
             flex-direction: column;
-            height: 460px;
+            height: 450px;
         }
 
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             position: relative;
         }
 
@@ -82,25 +86,21 @@ components.html("""
         /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
-            height: 220px;
+            height: 200px;
             border-radius: 25px;
             border: none;
             outline: none;
             padding: 15px;
             background: white;
-            font-size: 13px;
+            font-size: 14px;
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             font-family: inherit;
         }
 
-        .report-textarea::placeholder {
-            color: #888888;
-        }
-
-        /* 🔘 زر الإرسال الكبسولة */
+        /* 🔘 زر الإرسال */
         .btn-container {
             margin-top: auto;
             padding-bottom: 5px;
@@ -110,19 +110,14 @@ components.html("""
             background: white;
             border-radius: 100px;
             width: 100%;
-            padding: 12px 20px;
+            padding: 12px 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
             border: none;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: 0.3s;
             box-sizing: border-box;
-        }
-
-        .send-btn:hover {
-            transform: translateY(-2px);
         }
 
         .send-btn span {
@@ -155,4 +150,4 @@ components.html("""
     </div>
 </body>
 </html>
-""", height=480)
+""", height=470)
