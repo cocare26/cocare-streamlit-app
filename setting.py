@@ -74,7 +74,7 @@ body{
     color:#0f2446;
 }
 
-/* عناصر الإعدادات */
+/* Settings Items */
 .setting-item{
     background:white;
     border-radius:100px;
@@ -82,7 +82,8 @@ body{
     margin-bottom:15px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
+    /* This ensures the arrow stays on one side and the text/icon on the other */
+    justify-content:space-between; 
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     cursor:pointer;
     transition:0.3s;
@@ -91,21 +92,22 @@ body{
 .setting-item i{
     color:#0f2446;
     font-size:16px;
+    margin-left:12px; /* Gap between text and icon */
 }
 
 .setting-text{
     flex:1;
-    text-align:left;
-    margin-left:15px;
+    text-align:right; /* Align text to the right */
     font-size:14px;
     font-weight:600;
     color:#0f2446;
 }
 
 .setting-item .arrow{
-    margin-left:10px;
     color:#0f2446;
     font-weight:bold;
+    font-size:18px;
+    margin-right: 5px;
 }
 
 .setting-item:hover{
@@ -113,7 +115,7 @@ body{
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* الصف السفلي */
+/* Bottom Row Adjustments */
 .bottom-row{
     margin-top:auto;
     display:flex;
@@ -126,8 +128,9 @@ body{
 }
 
 .bottom-row .setting-text{
-    font-size:13px;
-    margin-left:8px;
+    font-size:11px;
+    margin-left:0;
+    text-align: right;
 }
 
 </style>
@@ -142,41 +145,42 @@ body{
         <h2 class="title">Settings</h2>
     </div>
 
+    <!-- Swapped the order: Arrow first (left), then Text, then Icon (right) -->
     <div class="setting-item" onclick="goPage('Change_password')">
-        <i class="fas fa-lock"></i>
+        <span class="arrow">‹</span>
         <span class="setting-text">Change Password</span>
-        <span class="arrow">›</span>
+        <i class="fas fa-lock"></i>
     </div>
 
     <div class="setting-item" onclick="goPage('Change_language')">
-        <i class="fas fa-globe"></i>
+        <span class="arrow">‹</span>
         <span class="setting-text">Change Language</span>
-        <span class="arrow">›</span>
+        <i class="fas fa-globe"></i>
     </div>
 
     <div class="setting-item" onclick="goPage('Rate_app')">
-        <i class="fas fa-star"></i>
+        <span class="arrow">‹</span>
         <span class="setting-text">Rate App</span>
-        <span class="arrow">›</span>
+        <i class="fas fa-star"></i>
     </div>
 
     <div class="setting-item" onclick="goPage('logout')">
-        <i class="fas fa-sign-out-alt"></i>
+        <span class="arrow">‹</span>
         <span class="setting-text">Log Out</span>
-        <span class="arrow">›</span>
+        <i class="fas fa-sign-out-alt"></i>
     </div>
 
     <div class="bottom-row">
         <div class="setting-item" onclick="goPage('Report_Problem')">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span class="setting-text">Report Problem</span>
-            <span class="arrow">›</span>
+            <span class="arrow">‹</span>
+            <span class="setting-text">Report</span>
+            <i class="fas fa-exclamation-triangle" style="font-size:12px;"></i>
         </div>
 
         <div class="setting-item" onclick="goPage('Contact_Us')">
-            <i class="fas fa-envelope"></i>
-            <span class="setting-text">Contact Us</span>
-            <span class="arrow">›</span>
+            <span class="arrow">‹</span>
+            <span class="setting-text">Contact</span>
+            <i class="fas fa-envelope" style="font-size:12px;"></i>
         </div>
     </div>
 
