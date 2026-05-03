@@ -24,7 +24,7 @@ robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تنسيق الواجهة)
+# CSS المطور (تنسيق الواجهة الكاملة)
 # =====================================
 st.markdown(f"""
 <style>
@@ -175,22 +175,22 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (تم الضبط ليتطابق مع الصورة الأصلية)
+# 5. قوة الشبكة (النسخة المطابقة للأصل)
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
 <div class="card clickable">
     <div style="font-size:17px; font-weight:900;">📍 Amman</div>
-    <div style="font-size:14px; font-weight:700; color:#003366;">Very Strong Signal</div>
+    <div style="font-size:14px; font-weight:700; color:#003366; margin-bottom:12px;">Very Strong Signal</div>
     
-    <div style="display: flex; justify-content: center; gap: 8px; margin-top: 15px;">
-        <div style="flex: 1; background: #f1f7ff; border-radius: 15px; padding: 10px; text-align: center;">
+    <div style="display: flex; justify-content: space-between; gap: 8px; margin-top: 5px;">
+        <div style="flex: 1; background: #f1f7ff; border-radius: 15px; padding: 12px; text-align: center;">
             <div style="font-size: 11px; font-weight: 700; color: #555;">Packet Loss (%)</div>
-            <div style="font-size: 22px; font-weight: 900; color: #000; margin-top: 4px;">0</div>
+            <div style="font-size: 24px; font-weight: 900; color: #000; margin-top: 4px;">0</div>
         </div>
-        <div style="flex: 1; background: #f1f7ff; border-radius: 15px; padding: 10px; text-align: center;">
+        <div style="flex: 1; background: #f1f7ff; border-radius: 15px; padding: 12px; text-align: center;">
             <div style="font-size: 11px; font-weight: 700; color: #555;">Avg Jitter (ms)</div>
-            <div style="font-size: 22px; font-weight: 900; color: #000; margin-top: 4px;">19</div>
+            <div style="font-size: 24px; font-weight: 900; color: #000; margin-top: 4px;">19</div>
         </div>
     </div>
 
