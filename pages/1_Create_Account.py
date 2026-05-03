@@ -98,23 +98,17 @@ div.stButton:nth-of-type(1) > button {
 
 st.title("Create Account")
 
-st.markdown("""
-<div style="text-align:center; font-size:14px; margin-top:-4px; margin-bottom:12px;">
-    Already have an account?
-    <a href="/" target="_top" style="
-        color:#2f80ed;
-        font-weight:bold;
-        text-decoration:none;
-        margin-left:4px;
-    ">Sign in</a>
-</div>
-""", unsafe_allow_html=True)
+col_a, col_b = st.columns([3, 1])
 
-components.html("""
-<script>
-window.parent.location.href = "/";
-</script>
-""", height=0)
+with col_a:
+    st.markdown(
+        '<div style="text-align:right; font-size:14px; padding-top:8px;">Already have an account?</div>',
+        unsafe_allow_html=True
+    )
+
+with col_b:
+    if st.button("Sign in", key="signin_button"):
+        st.switch_page("app.py")
 
 username = st.text_input("Username")
 
