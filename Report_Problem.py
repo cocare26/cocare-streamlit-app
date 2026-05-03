@@ -19,9 +19,9 @@ st.markdown("""
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - تم تقليل العرض من 450px إلى 400px */
+/* 📦 الكارد الرئيسي - العرض الموحد 350px (مطابق لصفحة اللغة والباسورد) */
 .block-container{
-    max-width:400px !important; 
+    max-width:350px !important; 
     margin:auto !important;
     padding:30px !important;
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
@@ -43,26 +43,25 @@ components.html("""
             margin: 0;
             display: flex;
             justify-content: center;
-            height: 100vh;
         }
         
         .main-wrapper {
             width: 100%;
-            max-width: 340px; /* تقليل عرض المحتوى الداخلي قليلاً */
+            max-width: 290px; /* العرض الداخلي الموحد */
             display: flex;
             flex-direction: column;
-            height: 480px;
+            height: 480px; /* الارتفاع الموحد */
         }
 
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* نفس مسافة صفحة اللغة */
             position: relative;
         }
 
-        /* سهم الرجوع العلوي بالرمز < */
+        /* 🔙 سهم الرجوع الموحد < */
         .back-icon {
             position: absolute;
             left: 0;
@@ -77,20 +76,20 @@ components.html("""
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 22px;
+            font-size: 20px; /* حجم الخط الموحد */
             color: #0f2446;
         }
 
         /* 📝 صندوق النص */
         .report-textarea {
             width: 100%;
-            height: 200px;
-            border-radius: 30px;
+            height: 220px; /* ارتفاع متناسب مع حجم الكارد الجديد */
+            border-radius: 25px;
             border: none;
             outline: none;
-            padding: 20px;
+            padding: 18px;
             background: white;
-            font-size: 16px;
+            font-size: 14px;
             color: #0f2446;
             resize: none;
             box-sizing: border-box;
@@ -98,12 +97,11 @@ components.html("""
             font-family: inherit;
         }
 
-        /* 🎨 لون النص التوضيحي رمادي */
         .report-textarea::placeholder {
             color: #888888;
-            opacity: 1;
         }
 
+        /* 🔘 زر الإرسال الموحد ككبسولة */
         .btn-container {
             margin-top: auto;
             padding-bottom: 10px;
@@ -113,7 +111,7 @@ components.html("""
             background: white;
             border-radius: 100px;
             width: 100%;
-            padding: 12px 25px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -133,34 +131,30 @@ components.html("""
             color: #0f2446;
             font-weight: bold;
             font-size: 16px;
-            order: 2;
         }
 
         .send-btn i {
             color: #0f2446;
             font-size: 18px;
-            order: 1;
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <!-- استبدال أيقونة السهم بالرمز < -->
             <a href="#" class="back-icon">&lt;</a>
             <h2 class="title">Report a Problem</h2>
         </div>
 
-        <!-- النص التوضيحي I need help باللون الرمادي (عبر CSS) -->
         <textarea class="report-textarea" placeholder="I need help"></textarea>
 
         <div class="btn-container">
             <button class="send-btn" onclick="alert('Report Sent!')">
-                <span>Send Report</span>
                 <i class="fas fa-paper-plane"></i>
+                <span>Send Report</span>
             </button>
         </div>
     </div>
 </body>
 </html>
-""", height=520)
+""", height=500)
