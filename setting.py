@@ -24,8 +24,32 @@ st.markdown("""
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
+</style>
+""", unsafe_allow_html=True)
 
-/* الهيدر */
+components.html("""
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+
+body{
+    font-family:'Segoe UI', sans-serif;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    background:transparent;
+}
+
+.main-wrapper{
+    width:100%;
+    max-width:290px;
+    display:flex;
+    flex-direction:column;
+    height:480px;
+}
+
 .header-container{
     display:flex;
     align-items:center;
@@ -50,7 +74,7 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* البوكسات */
+/* عناصر الإعدادات */
 .setting-item{
     background:white;
     border-radius:100px;
@@ -69,19 +93,17 @@ st.markdown("""
     font-size:16px;
 }
 
-/* 🔥 التعديل هنا */
 .setting-text{
     flex:1;
-    text-align:right;
-    margin-left:0px;
-    margin-right:5px;
+    text-align:left;
+    margin-left:15px;
     font-size:14px;
     font-weight:600;
     color:#0f2446;
 }
 
 .setting-item .arrow{
-    margin-left:5px;
+    margin-left:10px;
     color:#0f2446;
     font-weight:bold;
 }
@@ -91,7 +113,7 @@ st.markdown("""
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* السطر الأخير */
+/* الصف السفلي */
 .bottom-row{
     margin-top:auto;
     display:flex;
@@ -107,57 +129,51 @@ st.markdown("""
     font-size:13px;
     margin-left:8px;
 }
-</style>
-""", unsafe_allow_html=True)
 
-components.html("""
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</style>
 </head>
 
-<body style="margin:0;font-family:sans-serif;background:transparent;display:flex;justify-content:center;">
+<body>
 
-<div style="width:100%;max-width:290px;display:flex;flex-direction:column;height:480px;">
+<div class="main-wrapper">
 
     <div class="header-container">
-        <div class="back-icon">&lt;</div>
+        <div class="back-icon" onclick="goPage('customer')">&lt;</div>
         <h2 class="title">Settings</h2>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Change_password')">
         <i class="fas fa-lock"></i>
         <span class="setting-text">Change Password</span>
         <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Change_language')">
         <i class="fas fa-globe"></i>
         <span class="setting-text">Change Language</span>
         <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('Rate_app')">
         <i class="fas fa-star"></i>
         <span class="setting-text">Rate App</span>
         <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item">
+    <div class="setting-item" onclick="goPage('logout')">
         <i class="fas fa-sign-out-alt"></i>
         <span class="setting-text">Log Out</span>
         <span class="arrow">›</span>
     </div>
 
     <div class="bottom-row">
-        <div class="setting-item">
+        <div class="setting-item" onclick="goPage('Report_Problem')">
             <i class="fas fa-exclamation-triangle"></i>
             <span class="setting-text">Report Problem</span>
             <span class="arrow">›</span>
         </div>
 
-        <div class="setting-item">
+        <div class="setting-item" onclick="goPage('Contact_Us')">
             <i class="fas fa-envelope"></i>
             <span class="setting-text">Contact Us</span>
             <span class="arrow">›</span>
@@ -165,6 +181,12 @@ components.html("""
     </div>
 
 </div>
+
+<script>
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
+</script>
 
 </body>
 </html>
