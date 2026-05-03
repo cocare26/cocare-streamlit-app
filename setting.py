@@ -8,9 +8,9 @@ if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
 def nav(page_name):
-    st.session_state.page = page_name
+    st.session_state.page = nav
 
-# 3. تنسيق الـ CSS (المسافات المطاطية مع السهم)
+# 3. تنسيق الـ CSS (تركيز كامل على المسافة القصوى)
 st.markdown("""
 <style>
 :root{
@@ -43,7 +43,7 @@ footer {visibility: hidden;}
 .back-arrow { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: var(--navy); }
 .settings-header { margin: 0; font-weight: 900; font-size: 22px; color: var(--navy); }
 
-/* 🔘 تنسيق الزر الممتد */
+/* 🔘 الزر الممتد */
 div.stButton { width: 100% !important; }
 
 div.stButton > button {
@@ -55,29 +55,19 @@ div.stButton > button {
     color: var(--navy) !important;
     margin-bottom: 12px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    padding: 0 20px !important;
+    padding: 0 20px !important; /* مسافة أمان عن الأطراف */
 }
 
-/* 🎯 توزيع المسافة المطلوب [ إيموجي  ---  نص + سهم ] */
+/* 🎯 التوزيع المطلوب: دفع الإيموجي لليسار والنص لليمين بأقصى مسافة */
 div.stButton > button p {
     display: flex !important;
+    justify-content: space-between !important; /* رمي العناصر على الأطراف */
     width: 100% !important;
     align-items: center !important;
     margin: 0 !important;
     font-weight: 800 !important;
     font-size: 16px !important;
 }
-
-/* دفع النص والسهم لليمين بترك فراغ كبير بعد الإيموجي */
-div.stButton > button p::before {
-    content: "";
-    flex-grow: 1; /* هذه هي المسافة التي طلبتها */
-    order: 2;
-}
-
-/* ترتيب العناصر */
-div.stButton > button p span:first-child { order: 1; font-size: 20px; } /* الإيموجي يسار */
-div.stButton > button p span:last-child { order: 3; } /* النص والسهم يمين */
 
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
@@ -95,21 +85,17 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # لاحظ إضافة السهم ( › ) في نهاية النص لكل زر
-    st.button("🔒 Change Password &nbsp; ›")
-    st.button("🌐 Change Language &nbsp; ›")
-    st.button("⭐ Rate App &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ›")
-    st.button("🚪 Log Out &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ›")
+    # الترتيب في الكود: الإيموجي ثم النص + السهم
+    st.button("🔒 <span>Change Password ›</span>")
+    st.button("🌐 <span>Change Language ›</span>")
+    st.button("⭐ <span>Rate App ›</span>")
+    st.button("🚪 <span>Log Out ›</span>")
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # السطر الأخير
+    # السطر الأخير بنفس التنسيق
     col1, col2 = st.columns(2)
     with col1:
-        st.button("⚠️ Report\nto Problem")
+        st.button("⚠️ <span>Report a\\nProblem</span>")
     with col2:
-        st.button("✉️ Contact\nUs")
-
-# الشاشات الفرعية
-elif st.session_state.page == 'report':
-    if st.button("‹ Back"): nav('main')
+        st.button("✉️ <span>Contact Us</span>")
