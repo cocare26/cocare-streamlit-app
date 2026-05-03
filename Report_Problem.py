@@ -2,16 +2,17 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # 1. إعدادات الصفحة
-st.set_page_config(page_title="Change Language", layout="centered")
+st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 2. التنسيق العام (CSS) - المقاس الموحد الجديد 290px
+# 2. التنسيق العام (CSS) - المقاس الموحد 350px
 st.markdown("""
 <style>
 /* 🎯 الألوان المعتمدة */
 :root {
     --navy: #0f2446;
-    --accent: #2f80ed;
-    --bg-grad: linear-gradient(160deg, #d6ecff 0%, #eaf6ff 100%);
+    --bg1: #d6ecff;
+    --bg2: #bfe3ff;
+    --bg3: #eaf6ff;
 }
 
 /* 📱 خلفية التطبيق */
@@ -19,20 +20,21 @@ st.markdown("""
     background: #eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - العرض المحدث (290px) */
+/* 📦 الكارد الرئيسي - العرض الموحد 350px بالتمام */
 .block-container {
-    max-width: 290px !important; 
+    max-width: 350px !important;
     margin: auto !important;
-    padding: 20px !important;    /* تقليل المسافات الجانبية لتناسب نحافة الكارد */
-    background: var(--bg-grad);
-    border-radius: 42px;         
+    padding: 30px !important;
+    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+    border-radius: 42px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     margin-top: 50px !important;
 }
 
-/* إخفاء عناصر ستريمليت */
+/* إخفاء أي هوامش إضافية من ستريمليت */
 header {visibility: hidden;}
 footer {visibility: hidden;}
+[data-testid="stHeader"] {background: rgba(0,0,0,0);}
 </style>
 """, unsafe_allow_html=True)
 
@@ -51,115 +53,111 @@ components.html("""
             justify-content: center;
         }
         
-        /* 📏 الحاوية الداخلية (تم تصغيرها لتناسب الـ 290px) */
+        /* 📏 الحاوية الداخلية الموحدة 290px */
         .main-wrapper {
             width: 100%;
-            max-width: 240px; 
+            max-width: 290px;
             display: flex;
             flex-direction: column;
             height: 480px;
         }
 
-        /* 🔝 الرأس */
+        /* 🔝 الهيدر الموحد */
         .header-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 35px; 
+            margin-bottom: 40px; /* المسافة الموحدة 40px */
             position: relative;
         }
 
-        /* 🔙 أيقونة الرجوع < */
+        /* 🔙 الرمز < الموحد */
         .back-icon {
             position: absolute;
             left: 0;
-            font-size: 24px; 
+            font-size: 28px;
             font-weight: bold;
             color: #0f2446;
             text-decoration: none;
             line-height: 1;
         }
 
-        /* 🏷️ العنوان */
+        /* 🏷️ العنوان الموحد */
         .title {
             margin: 0;
             font-weight: 900;
-            font-size: 17px; /* خط أصغر قليلاً ليناسب العرض النحيف */
+            font-size: 20px;
             color: #0f2446;
         }
 
-        /* 💊 الكبسولات */
-        .capsule {
+        /* 📝 صندوق النص */
+        .report-textarea {
+            width: 100%;
+            height: 240px;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            padding: 18px;
+            background: white;
+            font-size: 14px;
+            color: #0f2446;
+            resize: none;
+            box-sizing: border-box;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            font-family: inherit;
+        }
+
+        /* 🔘 زر الإرسال الموحد (كبسولة) */
+        .btn-container {
+            margin-top: auto;
+            padding-bottom: 10px;
+        }
+
+        .send-btn {
             background: white;
             border-radius: 100px;
-            padding: 12px 16px; 
-            margin-bottom: 12px;
+            width: 100%;
+            padding: 14px 22px; /* نفس بادينج كبسولة اللغة */
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
             cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            box-sizing: border-box;
         }
 
-        .left-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .send-btn:hover {
+            transform: translateY(-2px);
         }
 
-        .globe-icon {
-            font-size: 14px;
-            color: #0f2446;
-            width: 16px;
-        }
-
-        .lang-text {
+        .send-btn span {
             color: #0f2446;
             font-weight: 700;
-            font-size: 12.5px;
+            font-size: 14px;
         }
 
-        .check-icon {
-            color: #2f80ed;
+        .send-btn i {
+            color: #0f2446;
             font-size: 16px;
-            visibility: hidden;
-        }
-
-        .active .check-icon {
-            visibility: visible;
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
         <div class="header-container">
-            <div class="back-icon">&lt;</div>
-            <h2 class="title">Change Language</h2>
+            <a href="#" class="back-icon">&lt;</a>
+            <h2 class="title">Report a Problem</h2>
         </div>
 
-        <!-- خيارات اللغات -->
-        <div class="capsule active">
-            <div class="left-content">
-                <i class="fas fa-globe globe-icon"></i>
-                <span class="lang-text">English (UK)</span>
-            </div>
-            <i class="fas fa-check-circle check-icon"></i>
-        </div>
+        <textarea class="report-textarea" placeholder="I need help"></textarea>
 
-        <div class="capsule">
-            <div class="left-content">
-                <i class="fas fa-globe globe-icon"></i>
-                <span class="lang-text">Arabic (Jordan)</span>
-            </div>
-            <i class="fas fa-check-circle check-icon"></i>
-        </div>
-        
-        <div class="capsule">
-            <div class="left-content">
-                <i class="fas fa-globe globe-icon"></i>
-                <span class="lang-text">French (France)</span>
-            </div>
-            <i class="fas fa-check-circle check-icon"></i>
+        <div class="btn-container">
+            <button class="send-btn" onclick="alert('Report Sent!')">
+                <i class="fas fa-paper-plane"></i>
+                <span>Send Report</span>
+            </button>
         </div>
     </div>
 </body>
