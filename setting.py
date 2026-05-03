@@ -29,7 +29,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# HTML UI
 components.html("""
 <!DOCTYPE html>
 <html>
@@ -78,7 +77,7 @@ body{
     color:#0f2446;
 }
 
-/* 🔥 عناصر الإعدادات */
+/* عناصر الإعدادات */
 .setting-item{
     background:white;
     border-radius:100px;
@@ -97,7 +96,6 @@ body{
     font-size:16px;
 }
 
-/* النص */
 .setting-text{
     flex:1;
     text-align:right;
@@ -107,43 +105,31 @@ body{
     color:#0f2446;
 }
 
-/* السهم */
 .setting-item .arrow{
     margin-left:10px;
     color:#0f2446;
     font-weight:bold;
 }
 
-/* hover */
 .setting-item:hover{
     transform:translateY(-2px);
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* أزرار تحت */
+/* الصف السفلي */
 .bottom-row{
     margin-top:auto;
     display:flex;
     gap:10px;
 }
 
-.small-btn{
+.bottom-row .setting-item{
     flex:1;
-    background:white;
-    border-radius:100px;
-    padding:12px;
-    text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    font-size:13px;
-    font-weight:700;
-    color:#0f2446;
-    cursor:pointer;
-    transition:0.3s;
+    padding:12px 14px;
 }
 
-.small-btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,0.12);
+.bottom-row .setting-text{
+    font-size:13px;
 }
 
 </style>
@@ -183,8 +169,17 @@ body{
     </div>
 
     <div class="bottom-row">
-        <div class="small-btn">⚠️ Report Problem</div>
-        <div class="small-btn">✉️ Contact Us</div>
+        <div class="setting-item">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span class="setting-text">Report Problem</span>
+            <span class="arrow">›</span>
+        </div>
+
+        <div class="setting-item">
+            <i class="fas fa-envelope"></i>
+            <span class="setting-text">Contact Us</span>
+            <span class="arrow">›</span>
+        </div>
     </div>
 
 </div>
