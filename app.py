@@ -2,10 +2,13 @@ import streamlit as st
 import streamlit.components.v1 as components
 import base64
 
+# إعداد الصفحة
 st.set_page_config(page_title="Telecom App", layout="centered")
 
+# 🔥 قراءة الصفحة من الرابط
 page = st.query_params.get("page", "")
 
+# 🔥 Router (التنقل بين الصفحات)
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
 
@@ -17,34 +20,49 @@ elif page == "employee":
 
 elif page == "customer_support":
     st.switch_page("pages/5_Customer_Support_Arabic.py")
+
 elif page == "network_diagnostics":
     st.switch_page("pages/6_Network_Diagnostics_Arabic.py")
+
 elif page == "customer_management":
     st.switch_page("pages/7_Customer_Management_Arabic.py")
+
 elif page == "employee_performance":
     st.switch_page("pages/8_Employee_Performance_Arabic.py")
+
 elif page == "service_management":
     st.switch_page("pages/9_Service_Management_Arabic.py")
+
 elif page == "settings":
     st.switch_page("pages/10_Settings_Arabic.py")
+
 elif page == "notifications":
     st.switch_page("pages/11_Notifications_Arabic.py")
 
-elif page == "settings":
-    st.switch_page("pages/Settings.py")
 elif page == "change_password":
     st.switch_page("pages/Change_Password.py")
+
 elif page == "change_language":
     st.switch_page("pages/Change_Language.py")
+
 elif page == "report_problem":
     st.switch_page("pages/Report_Problem.py")
+
 elif page == "contact_us":
     st.switch_page("pages/Contact_Us.py")
+
 elif page == "rate_app":
     st.switch_page("pages/Rate_App.py")
+
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
 
+elif page == "logout":
+    st.query_params.clear()
+    st.switch_page("app.py")
+
+
+# 🔽 الصفحة الرئيسية (Login UI)
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
@@ -110,18 +128,21 @@ text-decoration:none;
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-    <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
-        Forgot Password?
-    </a>
-</div>
+        <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
+            Forgot Password?
+        </a>
+    </div>
+
     <button class="login" type="button" onclick="login()">Log In ›</button>
+
     <div id="error" class="error"></div>
+
     <div class="signup">
-    👤 New User?
-    <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
-        Create Account
-    </a>
-</div>
+        👤 New User?
+        <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
+            Create Account
+        </a>
+    </div>
 </form>
 </div>
 
