@@ -65,15 +65,16 @@ div.stButton > button p {
     margin: 0 !important;
     font-weight: 800 !important;
     font-size: 15px !important;
-    line-height: 1.2 !important; /* لضمان شكل السطرين في الريبورت */
+    white-space: pre-line !important; /* هذا يسمح بنزول النص لسطر جديد */
+    text-align: right !important;      /* محاذاة النص لليمين */
 }
 
 /* زر القائمة الطويل (الارتفاع العادي) */
 div.stButton > button { height: 52px !important; }
 
-/* 🛠️ تخصيص الأزرار في السطر الأخير (الارتفاع أعلى شوي للسطرين) */
+/* 🛠️ تعديل الارتفاع للسطر الأخير ليناسب السطرين */
 [data-testid="stHorizontalBlock"] div.stButton > button {
-    height: 65px !important; 
+    height: 75px !important; 
 }
 
 div.stButton > button:hover {
@@ -100,12 +101,12 @@ if st.session_state.page == 'main':
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    # 🎯 السطر الأخير المطلوب
-    col1, col2 = st.columns([1.2, 1]) # جعل عمود الريبورت أعرض قليلاً
+    # 🎯 السطر الأخير: تقسيم الصفحة لعمودين
+    col1, col2 = st.columns([1.3, 1]) 
     
     with col1:
-        # استخدام نص من سطرين للريبورت
-        if st.button("⚠️ Report a\\nProblem"): 
+        # كلمة Report في سطر و to Problem في سطر أسفلها
+        if st.button("⚠️ Report\nto Problem"): 
             nav('report')
             
     with col2:
