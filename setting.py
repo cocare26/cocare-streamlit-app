@@ -3,16 +3,17 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="centered") 
 
-# 2. إدارة حالة التنقل
+# 2. إدارة حالة التنقل (Session State)
 if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
 def nav(page_name):
     st.session_state.page = page_name
 
-# 3. تنسيق الـ CSS المطور لزيادة المسافة
+# 3. تنسيق الـ CSS (بناءً على اعتماداتك مع تعديل توزيع الأطراف)
 st.markdown("""
 <style>
+/* 🎯 الألوان الأساسية المعتمدة */
 :root{
     --navy:#0f2446;
     --bg1:#d6ecff;
@@ -24,6 +25,7 @@ st.markdown("""
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
 
+/* 📦 الكارد الرئيسي */
 .block-container{
     max-width:420px !important;
     margin:auto !important;
@@ -34,15 +36,29 @@ footer {visibility: hidden;}
     margin-top: 20px !important;
 }
 
+/* 🔝 الهيدر */
 .header-container {
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 35px; position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    position: relative;
 }
 
-.back-arrow { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: var(--navy); }
-.settings-header { margin: 0; font-weight: 900; font-size: 22px; color: var(--navy); }
+.back-arrow {
+    position: absolute; left: 0;
+    font-size: 28px;
+    font-weight: bold; color: var(--navy);
+}
 
-/* 🔘 الأزرار وتوزيع الأطراف الأقصى */
+.settings-header {
+    margin: 0;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--navy);
+}
+
+/* 🔘 تنسيق الأزرار (توزيع الأطراف الأقصى) */
 div.stButton > button {
     width: 100% !important;
     height: 52px !important;
@@ -53,12 +69,14 @@ div.stButton > button {
     margin-bottom: 12px !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     transition: 0.3s ease;
-    padding: 0 15px !important; /* تقليل المسافة الجانبية ليلتصقوا بالأطراف أكثر */
+    padding: 0 20px !important; /* مسافة أمان عن الحواف */
 }
 
+/* 🎯 السحر هنا: دفع الإيموجي لليسار والنص لليمين */
 div.stButton > button p {
     display: flex !important;
-    justify-content: space-between !important; /* دفع العناصر لأقصى اليمين واليسار */
+    flex-direction: row-reverse !important; /* عكس الاتجاه لجعل النص أولاً من اليمين والإيموجي آخراً من اليسار */
+    justify-content: space-between !important; /* فراغ كامل بينهما */
     width: 100% !important;
     align-items: center !important;
     margin: 0 !important;
@@ -66,20 +84,11 @@ div.stButton > button p {
     font-size: 15px !important;
 }
 
-/* 🎯 إضافة عنصر وهمي في الوسط لضمان التباعد المطلق */
-div.stButton > button p::after {
-    content: "";
-    flex: 1; /* يشغل كل المساحة الفارغة في الوسط */
-    order: 1;
-}
-
-div.stButton > button p span:first-child { order: 0; } /* الإيموجي يسار */
-div.stButton > button p span:last-child { order: 2; }  /* النص يمين */
-
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 18px rgba(0,0,0,.1) !important;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -92,17 +101,18 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # كتابة الإيموجي أولاً ثم النص، والـ CSS بيتكفل بالباقي
-    st.button("🔒 Change Password")
-    st.button("🌐 Change Language")
-    st.button("⭐ Rate App")
-    st.button("🚪 Log Out")
+    # لاحظ الترتيب في الكود (النص ثم الإيموجي) والـ CSS سيتكفل بالتوزيع
+    st.button("Change Password 🔒")
+    st.button("Change Language 🌐")
+    st.button("Rate App ⭐")
+    st.button("Log Out 🚪")
     
     st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
 
-    st.button("⚠️ Report a Problem")
-    st.button("✉️ Contact Us")
+    st.button("Report a Problem ⚠️")
+    st.button("Contact Us ✉️")
 
+# الشاشات الفرعية (أمثلة لضمان التنقل)
 elif st.session_state.page == 'password':
     if st.button("‹ Back"): nav('main')
     st.markdown("### Change Password")
