@@ -29,7 +29,7 @@ robot_head = get_base64("robot_head.png")
 user_name = st.text_input("Enter User Name", value="User Name")
 
 # =====================================
-# CSS
+# CSS المطور (يحتوي على نظام النجوم التفاعلي)
 # =====================================
 st.markdown(f"""
 <style>
@@ -101,7 +101,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 .icon {{ font-size:28px; margin-bottom:8px; }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-/* الجزء المطلوب تعديله: Network Strength */
+/* Network Strength */
 .network-card {{
     background: white; border-radius: 24px; padding: 15px; margin-bottom: 12px;
 }}
@@ -116,6 +116,27 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 .dbm-meter {{
     text-align: center; margin-top: 15px; font-size: 20px;
     font-weight: 900; color: #003366;
+}}
+
+/* --- نظام النجوم التفاعلي المدمج --- */
+.star-rating {{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 8px;
+}}
+.star-rating input {{ display: none; }}
+.star-rating label {{
+    font-size: 28px; /* حجم النجوم ليناسب التصميم */
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}}
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {{
+    color: #f4b400; /* لون النجوم عند التحديد */
 }}
 
 /* النافبار السفلي */
@@ -166,7 +187,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. ICONS (Clickable)
+# 3. ICONS
 # =====================================
 st.markdown("""
 <div class="grid4">
@@ -190,20 +211,27 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. RATINGS (Clickable)
+# 4. RATINGS (تم تعديلها لتصبح تفاعلية بالكامل)
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
-<div class="card clickable">
-    <div style="font-weight:900; font-size:14px;">⭐ Service Security Rate</div>
-    <div style="margin-top:10px; height:24px; border-radius:18px; background:linear-gradient(90deg,#0047ba 0%,#27a4ff 40%,#ff8c00 70%,#df4126 100%);"></div>
-    <div style="text-align:center; margin-top:10px; font-weight:700; font-size:13px;">Rate our service</div>
-    <div style="text-align:center; font-size:26px; color:#f4b400; letter-spacing:2px;">★ ★ ★ ★ ☆</div>
+<div class="card">
+    <div style="font-weight:900; font-size:14px; color:#102646;">⭐ Service Security Rate</div>
+    <div style="margin-top:10px; height:22px; border-radius:18px; background:linear-gradient(90deg,#0047ba 0%,#27a4ff 40%,#ff8c00 70%,#df4126 100%);"></div>
+    <div style="text-align:center; margin-top:12px; font-weight:700; font-size:13px; color:#102646;">Rate our service</div>
+    
+    <div class="star-rating">
+        <input type="radio" id="s5" name="rate" value="5"><label for="s5">★</label>
+        <input type="radio" id="s4" name="rate" value="4"><label for="s4">★</label>
+        <input type="radio" id="s3" name="rate" value="3"><label for="s3">★</label>
+        <input type="radio" id="s2" name="rate" value="2"><label for="s2">★</label>
+        <input type="radio" id="s1" name="rate" value="1"><label for="s1">★</label>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. NETWORK STRENGTH (تعديل مطابق للصورة)
+# 5. NETWORK STRENGTH
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -225,7 +253,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. NAVBAR (Clickable)
+# 6. NAVBAR
 # =====================================
 st.markdown(f"""
 <div class="nav">
