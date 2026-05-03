@@ -8,14 +8,28 @@ page = st.query_params.get("page", "")
 
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
+
 elif page == "customer":
-    pass
+    st.switch_page("pages/2_Customer.py")
+
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
-elif page == "forgot":
-    st.switch_page("pages/2_Forgot_Password.py")
 
-# Settings & Subpages (English)
+elif page == "customer_support":
+    st.switch_page("pages/5_Customer_Support_Arabic.py")
+
+elif page == "network_diagnostics":
+    st.switch_page("pages/6_Network_Diagnostics_Arabic.py")
+
+elif page == "customer_management":
+    st.switch_page("pages/7_Customer_Management_Arabic.py")
+
+elif page == "employee_performance":
+    st.switch_page("pages/8_Employee_Performance_Arabic.py")
+
+elif page == "service_management":
+    st.switch_page("pages/9_Service_Management_Arabic.py")
+
 elif page == "settings":
     st.switch_page("setting.py")
 elif page == "Change_password":
@@ -29,7 +43,7 @@ elif page == "Report_Problem":
 elif page == "Contact_Us":
     st.switch_page("Contact_Us.py")
 
-# Settings & Subpages (Arabic)
+
 elif page == "settings-ar":
     st.switch_page("setting-ar.py")
 elif page == "Change_password-ar":
@@ -43,9 +57,11 @@ elif page == "Report_Problem-ar":
 elif page == "Contact_Us-ar":
     st.switch_page("contact-ar.py")
 
+
 elif page == "logout":
     st.query_params.clear()
     st.switch_page("app.py")
+
 
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
@@ -80,6 +96,21 @@ color:#222;
 text-decoration:none;
 }
 .error{text-align:center;color:#c62828;font-size:11px;margin-top:8px}
+
+.signup-line{
+    text-align:center;
+    font-size:13px;
+    margin-top:15px;
+    color:#222;
+}
+
+.signup-line span{
+    color:#1c6fa4;
+    font-weight:bold;
+    text-decoration:none;
+    margin-left:4px;
+    cursor:pointer;
+}
 </style>
 </head>
 
