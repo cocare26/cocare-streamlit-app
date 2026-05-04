@@ -209,7 +209,26 @@ else:
     # -------- CONTACT -------- (مع card)
     elif st.session_state.page == "contact":
 
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
-        st.write("📧 CoCare26@gmail.com")
-        st.write("📞 +962 79 123 4567")
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("""
+        <style>
+        .contact-box {
+            background: white;
+            padding: 14px 18px;
+            border-radius: 50px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            margin-bottom: 12px;
+            color: #0f2446;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .contact-box:hover {
+            transform: translateY(-2px);
+            background: #f7fbff;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<div class='contact-box'>📧 CoCare26@gmail.com</div>", unsafe_allow_html=True)
+        st.markdown("<div class='contact-box'>📞 +962 79 123 4567</div>", unsafe_allow_html=True)
