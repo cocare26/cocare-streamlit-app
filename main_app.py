@@ -3,10 +3,10 @@ import streamlit as st
 st.set_page_config(layout="centered")
 
 def navigate():
-    # ✅ استخدام الطريقة المستقرة لقراءة الـ query params
+    # ✅ قراءة الـ query params بطريقة مضمونة
     params = st.experimental_get_query_params()
     page = params.get("page", ["login"])[0]
-    
+
     if page == "login":
         st.switch_page("arabic-app.py")
         
