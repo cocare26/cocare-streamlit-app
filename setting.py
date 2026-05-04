@@ -50,23 +50,40 @@ with st.sidebar:
 if selection == "setting":
     
     # ا. القائمة الرئيسية للإعدادات
-    if st.session_state.settings_sub_page == 'main_menu':
-        st.markdown('<div class="settings-card">', unsafe_allow_html=True)
-        st.markdown('<h2 style="text-align:center; color:#0f2446; margin-bottom:25px;">Settings</h2>', unsafe_allow_html=True)
+    # ا. القائمة الرئيسية للإعدادات
+if st.session_state.settings_sub_page == 'main_menu':
+    # الهيدر الجديد مع سهم العودة والعنوان المتمركز
+    st.markdown("""
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px; position: relative; width: 100%;">
+            <div style="position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer;">&lt;</div>
+            <h2 style="margin: 0; color:#0f2446; font-weight: 700; font-size: 24px;">Settings</h2>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # أزرار القائمة الرئيسية بتنسيق العرض الكامل مع الأيقونات والأسهم
+    if st.button("🔒 Change Password" + " " * 30 + "›"): 
+        nav_settings('change_password_page')
         
-        if st.button("🔒 Change Password                                 ›"): nav_settings('change_password_page')
-        if st.button("🌐 Change Language                                 ›"): nav_settings('language_page')
-        if st.button("⭐ Rate App                                         ›"): nav_settings('rate_page')
-        if st.button("🚪 Log Out                                         ›"): nav_settings('logout_page')
+    if st.button("🌐 Change Language" + " " * 30 + "›"): 
+        nav_settings('language_page')
         
-        st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("⚠️ Report\nProblem   ›"): nav_settings('report_page')
-        with col2:
-            if st.button("✉️ Contact\nUs             ›"): nav_settings('contact_page')
-        st.markdown('</div>', unsafe_allow_html=True)
-
+    if st.button("⭐ Rate App" + " " * 45 + "›"): 
+        nav_settings('rate_page')
+        
+    if st.button("🚪 Log Out" + " " * 45 + "›"): 
+        nav_settings('logout_page')
+    
+    # فاصل بسيط قبل أزرار الإبلاغ والتواصل
+    st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
+    
+    # توزيع أزرار Report و Contact Us بشكل أفقي
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("⚠️ Report\nProblem ›"): 
+            nav_settings('report_page')
+    with col2:
+        if st.button("✉️ Contact\nUs      ›"): 
+            nav_settings('contact_page')
     # ب. صفحة تغيير كلمة المرور
     elif st.session_state.settings_sub_page == 'change_password_page':
         if st.button("Back", key="back_pass", help="hidden"): nav_settings('main_menu')
