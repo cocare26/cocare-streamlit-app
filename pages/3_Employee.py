@@ -317,13 +317,24 @@ body{margin:0;background:transparent}
         <span>⌂</span>Home
     </button>
 
-    <button type="button" onclick="window.top.location.href='/'">
+   <div class="nav">
+
+    <button type="button" class="active-nav"
+        onclick="window.parent.location.href='/?page=employee'">
+        <span>⌂</span>Home
+    </button>
+
+    <button type="button"
+        onclick="window.parent.location.href='/'">
         <span>⇥</span>Logout
     </button>
 
-    <button type="button" onclick="window.top.location.href='/?page=todo'">
-    <span>☑</span>To Do
-</button>
+    <button type="button"
+        onclick="window.parent.location.href='/?page=todo'">
+        <span>☑</span>To Do
+    </button>
+
+</div>
 
 </div>
 
