@@ -299,6 +299,7 @@ st.markdown(f"""
         <span class="nav-text">Chatbot</span>
     </div>
 </a>
+<div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
 
 <div class="nav-item clickable">
     🎁
