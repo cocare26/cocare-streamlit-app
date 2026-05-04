@@ -322,8 +322,8 @@ body{margin:0;background:transparent}
     </button>
 
     <button type="button" onclick="window.top.location.href='/?page=todo'">
-        <span>☑</span>To Do
-    </button>
+    <span>☑</span>To Do
+</button>
 
 </div>
 
