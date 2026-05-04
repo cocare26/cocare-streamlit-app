@@ -83,6 +83,10 @@ input#\:ra\: {
     color: black;
 }
 
+.stMainBlockContainer.block-container.st-emotion-cache-1w723zb.eqt0gmo4 {
+    height: 500px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
