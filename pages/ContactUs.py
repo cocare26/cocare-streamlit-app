@@ -1,3 +1,4 @@
+
 import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
@@ -27,7 +28,7 @@ html, body, [data-testid="stAppViewContainer"] {
     background:white !important;
     color:#102646 !important;
     border-radius:100px !important;
-    padding:30px !important;
+    padding:20px !important;
     border:none !important;
     box-shadow:0 4px 12px rgba(0,0,0,0.08) !important;
     font-weight:800 !important;
@@ -47,30 +48,14 @@ html, body, [data-testid="stAppViewContainer"] {
 # 🔙 Back
 col_back, _ = st.columns([1, 10])
 with col_back:
-    st.markdown("""
-<div style="
-background:white;
-padding:30px;
-border-radius:30px;
-margin-top:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-font-weight:800;
-color:#102646;
-">
-✉️ Email: Co.Care26@gmail.com
-</div>
-""", unsafe_allow_html=True)
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("‹"):
+        st.switch_page("pages/Settings.py")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown("""
-<div style="
-background:white;
-padding:30px;
-border-radius:30px;
-margin-top:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-font-weight:800;
-color:#102646;
-">
-📞 Phone: +962 79 123 4567
-</div>
-""", unsafe_allow_html=True)
+# Title
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900;">Contact Us</h2>', unsafe_allow_html=True)
+
+# Buttons
+st.button("✉️ Email: Co.Care26@gmail.com")
+st.button("📞 Phone: +962 79 123 4567")
