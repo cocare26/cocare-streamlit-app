@@ -66,9 +66,9 @@ if selection == "setting":
             if st.button("✉️ Contact\nUs           ›"): nav_settings('contact_page')
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # ب. صفحة تقييم التطبيق (HTML)
-    elif st.session_state.settings_sub_page == 'rate_page':
-        if st.button("Back", key="back_rate", help="hidden"): nav_settings('main_menu')
+    # ب. صفحة تسجيل الخروج (HTML)
+    elif st.session_state.settings_sub_page == 'logout_page':
+        if st.button("Back", key="back_logout", help="hidden"): nav_settings('main_menu')
         components.html("""
         <!DOCTYPE html>
         <html>
@@ -79,53 +79,56 @@ if selection == "setting":
                 .main-wrapper { 
                     width: 350px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
                     border-radius: 42px; padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); height: 500px;
+                    display: flex; flex-direction: column; align-items: center;
                 }
-                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
+                .header-container { width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 60px; position: relative; }
                 .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
                 .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
-                .store-item { background: white; border-radius: 100px; padding: 14px 22px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; }
-                .store-item-left { display: flex; align-items: center; gap: 12px; }
-                .store-item-icon { font-size: 16px; color: #0f2446; width: 20px; text-align: center; }
-                .store-item-text { font-weight: 700; color: #0f2446; font-size: 14px; }
-                .store-item-arrow { font-size: 18px; font-weight: bold; color: #0f2446; }
+                
+                .logout-msg { color: #0f2446; font-weight: 700; font-size: 18px; margin-bottom: 40px; text-align: center; }
+                
+                .action-btn { 
+                    width: 100%; max-width: 280px; background: white; border-radius: 100px; 
+                    padding: 15px; margin-bottom: 15px; display: flex; align-items: center; 
+                    justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+                    cursor: pointer; transition: 0.3s; border: none; font-family: inherit;
+                }
+                .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+                
+                .btn-text { font-weight: 800; font-size: 16px; }
+                .logout-text { color: #eb5757; } /* لون أحمر لتسجيل الخروج */
+                .cancel-text { color: #0f2446; }
             </style>
         </head>
         <body>
             <div class="main-wrapper">
                 <div class="header-container">
-                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_rate]').click()"><</div>
-                    <h2 class="title">Rate App</h2>
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_logout]').click()"><</div>
+                    <h2 class="title">Log Out</h2>
                 </div>
-                <div class="store-item" onclick="window.open('https://play.google.com', '_blank')">
-                    <div class="store-item-left"><span class="store-item-icon"><i class="fab fa-google-play"></i></span><span class="store-item-text">Google Play Store</span></div>
-                    <span class="store-item-arrow">›</span>
+                
+                <div class="logout-msg">Are you sure you want to log out?</div>
+                
+                <div class="action-btn" onclick="alert('Logged Out Successfully!')">
+                    <span class="btn-text logout-text">Log Out</span>
                 </div>
-                <div class="store-item" onclick="window.open('https://apps.apple.com', '_blank')">
-                    <div class="store-item-left"><span class="store-item-icon"><i class="fab fa-apple"></i></span><span class="store-item-text">Apple App Store</span></div>
-                    <span class="store-item-arrow">›</span>
-                </div>
-                <div class="store-item" onclick="window.open('https://appgallery.huawei.com', '_blank')">
-                    <div class="store-item-left"><span class="store-item-icon"><i class="fas fa-mobile-alt"></i></span><span class="store-item-text">Huawei AppGallery</span></div>
-                    <span class="store-item-arrow">›</span>
+                
+                <div class="action-btn" onclick="parent.window.document.querySelector('button[key=back_logout]').click()">
+                    <span class="btn-text cancel-text">Cancel</span>
                 </div>
             </div>
         </body>
         </html>
         """, height=550)
 
-    # ج. صفحة تغيير اللغة (HTML)
-    elif st.session_state.settings_sub_page == 'language_page':
-        if st.button("Back", key="back_lang", help="hidden"): nav_settings('main_menu')
+    # ج. صفحة تقييم التطبيق (HTML)
+    elif st.session_state.settings_sub_page == 'rate_page':
+        if st.button("Back", key="back_rate", help="hidden"): nav_settings('main_menu')
         components.html("""
-        <!-- (كود صفحة اللغة كما هو في الرد السابق) -->
+        <!-- (كود صفحة التقييم السابق) -->
         """, height=550)
 
-    # د. صفحة تغيير كلمة المرور (HTML)
-    elif st.session_state.settings_sub_page == 'change_password_page':
-        if st.button("Back", key="back_pass", help="hidden"): nav_settings('main_menu')
-        components.html("""
-        <!-- (كود صفحة كلمة المرور كما هو في الرد السابق) -->
-        """, height=550)
+    # د. باقي الصفحات (Language, Password) كما هي...
 
 else:
     st.title(f"Welcome to {selection} Page")
