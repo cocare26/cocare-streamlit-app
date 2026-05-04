@@ -271,19 +271,22 @@ else:
             <div class="main-wrapper">
 
                 <div class="input-capsule">
-                    <i class="fas fa-lock field-icon"></i>
-                    <input type="password" placeholder="Current Password">
-                </div>
+    <i class="fas fa-lock field-icon"></i>
+    <input id="pass1" type="password" placeholder="Current Password">
+    <i class="fas fa-eye toggle-eye" onclick="togglePassword('pass1', this)"></i>
+</div>
 
-                <div class="input-capsule">
-                    <i class="fas fa-lock field-icon"></i>
-                    <input type="password" placeholder="New Password">
-                </div>
+<div class="input-capsule">
+    <i class="fas fa-lock field-icon"></i>
+    <input id="pass2" type="password" placeholder="New Password">
+    <i class="fas fa-eye toggle-eye" onclick="togglePassword('pass2', this)"></i>
+</div>
 
-                <div class="input-capsule">
-                    <i class="fas fa-lock field-icon"></i>
-                    <input type="password" placeholder="Re-write New Password">
-                </div>
+<div class="input-capsule">
+    <i class="fas fa-lock field-icon"></i>
+    <input id="pass3" type="password" placeholder="Re-write New Password">
+    <i class="fas fa-eye toggle-eye" onclick="togglePassword('pass3', this)"></i>
+</div>
 
                 <div class="report-text">
                     Report Password
