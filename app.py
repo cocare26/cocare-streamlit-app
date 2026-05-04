@@ -5,7 +5,6 @@ import base64
 st.set_page_config(page_title="Telecom App", layout="centered")
 
 page = st.query_params.get("page", "")
-page = page or ""
 
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
@@ -13,11 +12,13 @@ if page == "create":
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
 
-elif page == "customer":
+if page == "customer":
     st.switch_page("pages/2_Customer.py")
 
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
+
+
 
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
