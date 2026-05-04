@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Report a Problem", layout="centered")
+st.set_page_config(page_title="Rate App", layout="centered")
 
 st.markdown("""
 <style>
@@ -43,15 +43,11 @@ components.html("""
             margin: 0;
             display: flex;
             justify-content: center;
-            height: 100vh;
         }
         
         .main-wrapper {
             width: 100%;
             max-width: 380px;
-            display: flex;
-            flex-direction: column;
-            height: 480px;
         }
 
         .header-container {
@@ -77,81 +73,87 @@ components.html("""
             color: #0f2446;
         }
 
-        /* 📝 صندوق النص */
-        .report-textarea {
-            width: 100%;
-            height: 200px;
-            border-radius: 30px;
-            border: none;
-            outline: none;
-            padding: 20px;
+        /* ⚪ بوكس مستطيل أبيض بحواف دائرية (Style كبسولة) */
+        .store-item {
             background: white;
-            font-size: 16px;
-            color: #0f2446;
-            resize: none;
-            box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            font-family: inherit;
-        }
-
-        /* 🔘 حاوية الزر في الأسفل */
-        .btn-container {
-            margin-top: auto;
-            padding-bottom: 10px;
-        }
-
-        /* الزر عريض مع توزيع المحتوى */
-        .send-btn {
-            background: white;
-            border-radius: 100px;
-            width: 100%; /* العرض كامل */
-            padding: 12px 25px;
+            border-radius: 100px; /* حواف دائرية كاملة للمستطيل */
+            padding: 14px 25px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* نص يمين وأيقونة يسار مع مسافة قصوى */
-            cursor: pointer;
-            border: none;
+            justify-content: space-between; /* دفع السهم لأقصى اليمين */
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            cursor: pointer;
             transition: 0.3s;
-            box-sizing: border-box;
+            text-decoration: none;
         }
 
-        .send-btn:hover {
+        .store-item:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0,0,0,0.12);
         }
 
-        .send-btn span {
-            color: #0f2446;
-            font-weight: bold;
-            font-size: 16px;
-            order: 2; /* وضع النص في اليمين */
+        .store-item-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .send-btn i {
+        .store-item-icon {
+            font-size: 20px;
             color: #0f2446;
+            width: 25px;
+            text-align: center;
+        }
+
+        .store-item-text {
+            font-weight: bold;
+            color: #0f2446;
+            font-size: 15px;
+        }
+
+        /* ➡️ السهم في أقصى اليمين */
+        .store-item-arrow {
             font-size: 18px;
-            order: 1; /* وضع الأيقونة في اليسار */
+            color: #bbb;
         }
     </style>
 </head>
 <body>
     <div class="main-wrapper">
+        <!-- الرأس -->
         <div class="header-container">
             <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
-            <h2 class="title">Report a Problem</h2>
+            <h2 class="title">Rate App</h2>
         </div>
 
-        <textarea class="report-textarea" placeholder="Describe your problem here..."></textarea>
+        <!-- Google Play -->
+        <div class="store-item" onclick="window.open('https://play.google.com/store/apps', '_blank')">
+            <div class="store-item-left">
+                <span class="store-item-icon"><i class="fab fa-google-play"></i></span>
+                <span class="store-item-text">Google Play Store</span>
+            </div>
+            <span class="store-item-arrow"><i class="fas fa-chevron-right"></i></span>
+        </div>
 
-        <!-- زر الإرسال بمساحة كبيرة بين المحتوى -->
-        <div class="btn-container">
-            <button class="send-btn" onclick="alert('Report Sent!')">
-                <span>Send Report</span>
-                <i class="fas fa-paper-plane"></i>
-            </button>
+        <!-- App Store -->
+        <div class="store-item" onclick="window.open('https://apps.apple.com', '_blank')">
+            <div class="store-item-left">
+                <span class="store-item-icon"><i class="fab fa-apple"></i></span>
+                <span class="store-item-text">Apple App Store</span>
+            </div>
+            <span class="store-item-arrow"><i class="fas fa-chevron-right"></i></span>
+        </div>
+
+        <!-- Huawei -->
+        <div class="store-item" onclick="window.open('https://appgallery.huawei.com', '_blank')">
+            <div class="store-item-left">
+                <span class="store-item-icon"><i class="fas fa-mobile-alt"></i></span>
+                <span class="store-item-text">Huawei AppGallery</span>
+            </div>
+            <span class="store-item-arrow"><i class="fas fa-chevron-right"></i></span>
         </div>
     </div>
 </body>
 </html>
-""", height=520)
+""", height=500)
