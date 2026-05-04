@@ -2,7 +2,9 @@ import streamlit as st
 
 st.set_page_config(page_title="App", layout="centered")
 
-page = st.query_params.get("page", "")
+# ✅ الطريقة الصح لقراءة الرابط
+params = st.experimental_get_query_params()
+page = params.get("page", [""])[0]
 
 # ========= ROUTER =========
 if page == "settings":
