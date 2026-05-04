@@ -1,9 +1,10 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="App Navigation", layout="centered")
 
-# 2. إدارة الحالة للتنقل الداخلي (إضافة الحالات الجديدة)
+# 2. إدارة الحالة للتنقل الداخلي
 if 'settings_sub_page' not in st.session_state:
     st.session_state.settings_sub_page = 'main_menu'
 
@@ -11,13 +12,14 @@ def nav_settings(target):
     st.session_state.settings_sub_page = target
     st.rerun()
 
-# 3. التنسيق الجمالي (CSS) - محدث ليتناسب مع الأزرار الكبيرة والصغيرة
+# 3. التنسيق الجمالي (CSS) للقائمة الرئيسية
 st.markdown("""
 <style>
 :root { --navy: #0f2446; }
 [data-testid="stAppViewContainer"] { background: #f0f2f6; }
 [data-testid="stHeader"] {display: none !important;}
 
+/* تصميم الحاوية الزرقاء */
 .settings-card {
     background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
     border-radius: 42px;
@@ -25,7 +27,7 @@ st.markdown("""
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* تصميم الأزرار ككبسولات ممتدة */
+/* تحويل أزرار ستريمليت لشكب كبسولات ممتدة (للمنيو الرئيسي) */
 div.stButton > button {
     width: 100% !important;
     height: 55px !important;
@@ -36,17 +38,11 @@ div.stButton > button {
     font-weight: 700 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
 }
-
-/* توزيع الأيقونة والنص والسهم */
 div.stButton > button p {
     display: flex !important;
     justify-content: space-between !important;
     width: 100% !important;
-    align-items: center !important;
 }
-
-/* تعديل المسافات بين الأزرار */
-.stButton { margin-bottom: -10px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -58,10 +54,10 @@ with st.sidebar:
 # --- منطق عرض الصفحات ---
 
 if selection == "setting":
-    st.markdown('<div class="settings-card">', unsafe_allow_html=True)
     
-    # ا. القائمة الرئيسية للإعدادات
+    # ا. القائمة الرئيسية للإعدادات (تستخدم أزرار ستريمليت العادية)
     if st.session_state.settings_sub_page == 'main_menu':
+        st.markdown('<div class="settings-card">', unsafe_allow_html=True)
         st.markdown('<h2 style="text-align:center; color:#0f2446; margin-bottom:25px;">Settings</h2>', unsafe_allow_html=True)
         
         if st.button("🔒 Change Password                               ›"): nav_settings('change_password_page')
@@ -70,47 +66,67 @@ if selection == "setting":
         if st.button("🚪 Log Out                                       ›"): nav_settings('logout_page')
         
         st.markdown("<div style='margin: 20px 0;'></div>", unsafe_allow_html=True)
-        
-        # الأزرار الصغيرة (Report & Contact)
         col1, col2 = st.columns(2)
         with col1:
             if st.button("⚠️ Report\nProblem   ›"): nav_settings('report_page')
         with col2:
             if st.button("✉️ Contact\nUs           ›"): nav_settings('contact_page')
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # ب. صفحة تغيير كلمة المرور
+    # ب. صفحة تغيير كلمة المرور (تستخدم كود الـ HTML المخصص الذي أرسلته)
     elif st.session_state.settings_sub_page == 'change_password_page':
-        st.markdown('<h2 style="text-align:center; color:#0f2446;">Password</h2>', unsafe_allow_html=True)
-        st.text_input("Current Password", type="password")
-        st.text_input("New Password", type="password")
-        if st.button("Save"):
-            st.success("Updated!")
-            nav_settings('main_menu')
+        # زر "خفي" للرجوع يتم تفعيله عبر الجافاسكريبت
+        if st.button("Back to Menu", key="back_trigger", help="hidden"): nav_settings('main_menu')
+        
+        components.html("""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <style>
+                body { font-family: 'Segoe UI', sans-serif; margin: 0; background: transparent; display: flex; justify-content: center; }
+                .main-wrapper { 
+                    width: 350px; 
+                    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
+                    border-radius: 42px; padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+                    height: 520px; display: flex; flex-direction: column;
+                }
+                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 35px; position: relative; }
+                .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
+                .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
+                .input-capsule { background: white; border-radius: 100px; padding: 10px 18px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+                .input-capsule i.field-icon { color: #0f2446; margin-right: 12px; font-size: 16px; }
+                .input-capsule input { border: none; outline: none; flex-grow: 1; font-size: 14px; color: #0f2446; background: transparent; }
+                .input-capsule i.toggle-eye { color: #ccc; cursor: pointer; margin-left: 10px; }
+                .report-text { text-align: center; color: white; font-size: 13px; margin-top: 5px; cursor: pointer; font-weight: bold; }
+                .save-btn-container { margin-top: auto; display: flex; justify-content: center; padding-bottom: 10px; }
+                .save-box { background: white; border-radius: 100px; width: 100%; padding: 12px; text-align: center; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+                .save-box span { color: #0f2446; font-weight: bold; font-size: 16px; }
+            </style>
+        </head>
+        <body>
+            <div class="main-wrapper">
+                <div class="header-container">
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[kind=secondary]').click()"><</div>
+                    <h2 class="title">Change Password</h2>
+                </div>
+                <div class="input-capsule"><i class="fas fa-lock field-icon"></i><input type="password" placeholder="Current Password"><i class="fas fa-eye-slash toggle-eye"></i></div>
+                <div class="input-capsule"><i class="fas fa-lock field-icon"></i><input type="password" placeholder="New Password"><i class="fas fa-eye-slash toggle-eye"></i></div>
+                <div class="input-capsule"><i class="fas fa-lock field-icon"></i><input type="password" placeholder="Re-write New Password"><i class="fas fa-eye-slash toggle-eye"></i></div>
+                <div class="report-text">Report Password</div>
+                <div class="save-btn-container"><button class="save-box" onclick="alert('Password Saved!')"><span>Save</span></button></div>
+            </div>
+        </body>
+        </html>
+        """, height=600)
+
+    # د. باقي الصفحات (تعمل بنظام ستريمليت العادي)
+    elif st.session_state.settings_sub_page in ['language_page', 'rate_page', 'logout_page', 'report_page', 'contact_page']:
+        st.markdown('<div class="settings-card">', unsafe_allow_html=True)
+        st.markdown(f'<h2 style="text-align:center; color:#0f2446;">{st.session_state.settings_sub_page.replace("_", " ").title()}</h2>', unsafe_allow_html=True)
+        st.write("Content here...")
         if st.button("‹ Back"): nav_settings('main_menu')
-
-    # ج. صفحة تقييم التطبيق (Rate App)
-    elif st.session_state.settings_sub_page == 'rate_page':
-        st.markdown('<h2 style="text-align:center; color:#0f2446;">Rate App</h2>', unsafe_allow_html=True)
-        st.select_slider("Rate us:", options=["1", "2", "3", "4", "5"], value="5")
-        if st.button("Submit"): nav_settings('main_menu')
-        if st.button("‹ Back"): nav_settings('main_menu')
-
-    # د. صفحة البلاغات (Report Problem)
-    elif st.session_state.settings_sub_page == 'report_page':
-        st.markdown('<h2 style="text-align:center; color:#0f2446;">Report</h2>', unsafe_allow_html=True)
-        st.text_area("Describe the problem:")
-        if st.button("Send Report"): nav_settings('main_menu')
-        if st.button("‹ Back"): nav_settings('main_menu')
-
-    # هـ. صفحة تسجيل الخروج (Log Out)
-    elif st.session_state.settings_sub_page == 'logout_page':
-        st.markdown('<h2 style="text-align:center; color:#0f2446;">Log Out</h2>', unsafe_allow_html=True)
-        st.warning("Are you sure you want to log out?")
-        if st.button("Confirm Logout"): st.info("Logged out!")
-        if st.button("‹ Cancel"): nav_settings('main_menu')
-
-    st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
 else:
     st.title(f"Welcome to {selection} Page")
-    st.write("Content goes here...")
