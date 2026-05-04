@@ -46,6 +46,22 @@ div.stButton > button {
     font-weight: 700 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px !important;
+    transition: all 0.3s ease;
+}
+
+/* تأثير حركة الأيقونة عند مرور الماوس */
+div.stButton > button:hover span.icon {
+    display: inline-block;
+    animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
 }
 
 /* إخفاء زر Back الافتراضي لستريمليت لأنه سيتم استدعاؤه برمجياً */
@@ -78,6 +94,26 @@ button[key^="back_"] {
     font-weight: 700;
     font-size: 24px;
 }
+
+/* تنسيق محتوى الزر ليكون النص يسار والأيقونة يمين */
+.btn-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    direction: ltr; /* لضمان النص يسار والأيقونة يمين */
+}
+
+.btn-text {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.btn-icon-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -100,18 +136,28 @@ if selection == "setting":
             </div>
         """, unsafe_allow_html=True)
         
-        # الأزرار
-        if st.button("🔒 Change Password" + " "*30 + "›"): nav_settings('change_password_page')
-        if st.button("🌐 Change Language" + " "*30 + "›"): nav_settings('language_page')
-        if st.button("⭐ Rate App" + " "*45 + "›"): nav_settings('rate_page')
-        if st.button("🚪 Log Out" + " "*45 + "›"): nav_settings('logout_page')
+        # الأزرار بتنسيق جديد: النص يسار والأيقونة يمين مع حركة
+        def custom_button(label, icon, target, arrow="›"):
+            # استخدام HTML داخل الزر صعب في Streamlit button مباشرة، 
+            # لذا سنستخدم التنسيق النصي مع CSS المحدث
+            if st.button(f"{label} " + " "*20 + f"{icon} {arrow}"):
+                nav_settings(target)
+
+        # ملاحظة: Streamlit لا يدعم HTML داخل st.button مباشرة بشكل كامل، 
+        # لذا سنعتمد على التنسيق النصي الذي طلبه المستخدم مع تحسين الـ CSS للتعامل مع الأيقونات.
+        # بما أن المستخدم طلب "الأيقونة على اليمين والكلام على اليسار"
+        
+        if st.button("Change Password" + " "*20 + "🔒 ›"): nav_settings('change_password_page')
+        if st.button("Change Language" + " "*20 + "🌐 ›"): nav_settings('language_page')
+        if st.button("Rate App" + " "*35 + "⭐ ›"): nav_settings('rate_page')
+        if st.button("Log Out" + " "*35 + "🚪 ›"): nav_settings('logout_page')
         
         st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("⚠️ Report\n a Problem ›"): nav_settings('report_page')
+            if st.button("Report\nProblem ⚠️ ›"): nav_settings('report_page')
         with col2:
-            if st.button("✉️ Contact\nUs      ›"): nav_settings('contact_page')
+            if st.button("Contact\nUs ✉️      ›"): nav_settings('contact_page')
 
     # ب. صفحة تغيير كلمة المرور (الحفاظ على الكود القديم مع تحديث الهيدر)
     elif st.session_state.settings_sub_page == 'change_password_page':
@@ -234,12 +280,14 @@ if selection == "setting":
             .back { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
             .item { background: white; border-radius: 100px; padding: 15px 25px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.08); color: #0f2446; font-weight: bold; }
         </style>
-        <div class="header">
-            <div class="back" onclick="parent.window.document.querySelector('button[key=back_rate]').click()">&lt;</div>
-            <h2 style="color:#0f2446; margin:0">Rate App</h2>
+        <div class="wrapper">
+            <div class="header">
+                <div class="back" onclick="parent.window.document.querySelector('button[key=back_rate]').click()">&lt;</div>
+                <h2 style="color:#0f2446; margin:0">Rate App</h2>
+            </div>
+            <div class="item"><span>Google Play</span><span>&gt;</span></div>
+            <div class="item"><span>App Store</span><span>&gt;</span></div>
         </div>
-        <div class="item"><span>Google Play</span><span>&gt;</span></div>
-        <div class="item"><span>App Store</span><span>&gt;</span></div>
         """, height=480)
 
 else:
