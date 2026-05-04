@@ -31,9 +31,9 @@ T = {
     "save": "Save" if not is_ar else "حفظ",
 }
 
-# ---------------- STYLE ----------------
 arrow = "→" if not is_ar else "←"
 
+# ---------------- STYLE ----------------
 st.markdown(f"""
 <style>
 [data-testid="stAppViewContainer"] {{
@@ -61,32 +61,36 @@ body {{
     color:#0f2446;
 }}
 
-.menu-btn {{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.stButton > button {{
+    width:100%;
+    border:none;
     background:#ffffff;
-    padding:16px;
     border-radius:50px;
+    padding:16px;
     margin-bottom:12px;
-    box-shadow:0 6px 15px rgba(0,0,0,0.08);
-    cursor:pointer;
-    text-decoration:none;
-    color:#0f2446;
     font-size:14px;
+    color:#0f2446;
+    box-shadow:0 6px 15px rgba(0,0,0,0.08);
 }}
 
-.menu-btn:hover {{
+.stButton > button:hover {{
     transform:translateY(-2px);
 }}
 
-.menu-left {{
+.menu-content {{
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    gap:10px;
+    width:100%;
 }}
 
 .menu-right {{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}}
+
+.menu-left {{
     font-size:16px;
 }}
 
@@ -106,24 +110,20 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }}
-
 </style>
 """, unsafe_allow_html=True)
 
 # ---------------- BUTTON FUNCTION ----------------
 def menu_button(label, icon, key):
-    if st.markdown(f"""
-    <div class="menu-btn" onclick="window.location.href='?page={key}'">
-        <div class="menu-left">
-            <span>{arrow}</span>
-            <span>{label}</span>
-        </div>
-        <div class="menu-right">{icon}</div>
+    if st.button(f"""
+<div class="menu-content">
+    <div class="menu-left">{icon}</div>
+    <div class="menu-right">
+        <span>{label}</span>
+        <span>{arrow}</span>
     </div>
-    """, unsafe_allow_html=True):
-        pass
-
-    if st.query_params.get("page") == key:
+</div>
+""", key=key):
         go(key)
 
 # ================= MAIN =================
@@ -156,49 +156,34 @@ else:
     with col2:
         st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
 
-    # -------- PASSWORD --------
     if st.session_state.page == "pass":
-
         st.text_input("", placeholder="Current Password")
         st.text_input("", placeholder="New Password")
         st.text_input("", placeholder="Re-write Password")
-
         st.button(T["save"])
 
-    # -------- LANGUAGE --------
     elif st.session_state.page == "lang":
-
         if st.button("🌐 English"):
             set_lang("en")
-
         if st.button("🌐 العربية"):
             set_lang("ar")
 
-    # -------- RATE --------
     elif st.session_state.page == "rate":
-
         st.button("▶ Google Play Store")
         st.button("🍎 Apple App Store")
         st.button("📱 Huawei AppGallery")
 
-    # -------- LOGOUT --------
     elif st.session_state.page == "logout":
-
         st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
         st.button(T["logout"])
 
-    # -------- REPORT --------
     elif st.session_state.page == "report":
-
         st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.text_area("", placeholder="I need help")
         st.markdown("</div>", unsafe_allow_html=True)
-
         st.button("Send Report")
 
-    # -------- CONTACT --------
     elif st.session_state.page == "contact":
-
         st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.write("📧 CoCare26@gmail.com")
         st.write("📞 +962 79 123 4567")
