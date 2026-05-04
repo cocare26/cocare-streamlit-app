@@ -160,7 +160,8 @@ body{
         <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item" onclick="goPage('logout')">
+    <!-- 🔥 LOGOUT UPDATED -->
+    <div class="setting-item" onclick="logoutPage()">
         <i class="fas fa-sign-out-alt"></i>
         <span class="setting-text">Log Out</span>
         <span class="arrow">›</span>
@@ -185,6 +186,10 @@ body{
 <script>
 function goPage(p){
     window.top.location.href = "/?page=" + p;
+}
+
+function logoutPage(){
+    window.top.location.href = "/";
 }
 </script>
 
