@@ -5,12 +5,7 @@ import base64
 st.set_page_config(page_title="Telecom App", layout="centered")
 
 page = st.query_params.get("page", "")
-
-if page == "create":
-    st.switch_page("pages/1_Create_Account.py")
-
-elif page == "forgot":
-    st.switch_page("pages/2_Forgot_Password.py")
+page = page or ""
 
 if page == "customer":
     st.switch_page("pages/2_Customer.py")
@@ -18,7 +13,11 @@ if page == "customer":
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
 
+elif page == "create":
+    st.switch_page("pages/1_Create_Account.py")
 
+elif page == "forgot":
+    st.switch_page("pages/2_Forgot_Password.py")
 
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
@@ -113,10 +112,10 @@ function login(){
     const e = document.getElementById("error");
 
     if(/^07[0-9]{8}$/.test(v)){
-        goPage("customer");
+        window.top.location.href = "/?page=customer";
     }
     else if(/^[0-9]{11}$/.test(v)){
-        goPage("employee");
+        window.top.location.href = "/?page=employee";
     }
     else{
         e.innerText = "Invalid phone or ID number";
