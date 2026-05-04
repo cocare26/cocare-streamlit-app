@@ -280,25 +280,19 @@ else:
                 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
     <input id="pass1" type="password" placeholder="Current Password">
-    <i class="fas fa-eye-slash toggle-eye" onmousedown="showPassword('pass1', this)"
-   onmouseup="hidePassword('pass1', this)"
-   onmouseleave="hidePassword('pass1', this)">
+    <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
     <input id="pass2" type="password" placeholder="New Password">
-  <i class="fas fa-eye-slash toggle-eye" onmousedown="showPassword('pass2', this)"
-   onmouseup="hidePassword('pass2', this)"
-   onmouseleave="hidePassword('pass2', this)">
+  <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
     <input id="pass3" type="password" placeholder="Re-write New Password">
-    <i class="fas fa-eye-slash toggle-eye" onmousedown="showPassword('pass3', this)"
-   onmouseup="hidePassword('pass3', this)"
-   onmouseleave="hidePassword('pass3', this)">
+    <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
                 <div class="report-text">
@@ -311,30 +305,7 @@ else:
                     </button>
                 </div>
 
-
             </div>
-        
-    <script>
-function showPassword(id, icon) {
-    var input = document.getElementById(id);
-    if (input) {
-        input.type = "text";
-        icon.classList.remove("fa-eye-slash");
-        icon.classList.add("fa-eye");
-    }
-}
-
-function hidePassword(id, icon) {
-    var input = document.getElementById(id);
-    if (input) {
-        input.type = "password";
-        icon.classList.remove("fa-eye");
-        icon.classList.add("fa-eye-slash");
-    }
-}
-</script>
-        
-        
         </body>
         </html>
         """, height=420)
