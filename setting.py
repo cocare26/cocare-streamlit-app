@@ -94,6 +94,9 @@ button[key^="back_"] {
     font-weight: 700;
     font-size: 24px;
 }
+title {
+    color: black !important;
+}
 
 /* تنسيق محتوى الزر ليكون النص يسار والأيقونة يمين */
 .btn-content {
