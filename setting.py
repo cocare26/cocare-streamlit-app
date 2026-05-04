@@ -59,22 +59,25 @@ body {{
     color:#0f2446;
 }}
 
-/* شكل الزر */
-div.stButton > button {{
+.stButton > button {{
     width:100%;
     border:none;
-    background:white;
+    background:#ffffff;
     border-radius:50px;
-    padding:14px;
+    padding:16px;
     margin-bottom:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:14px;
+    color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
 }}
 
-div.stButton > button:hover {{
+.stButton > button:hover {{
     transform:translateY(-2px);
 }}
 
-/* inputs */
 input {{
     border-radius:30px !important;
     padding:12px !important;
@@ -86,6 +89,7 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
+
 .card {{
     background:white;
     padding:15px;
@@ -93,42 +97,62 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }}
+
+.st-b7 {{
+    background-color: rgb(255 255 255);
+        color: black;
+}}
+
+.st.text_input{{
+ color: black;
+}}
+
+.st-bc {{
+   color: black;
+}}
+
+.block-container {{
+    height: 600px;
+}}
+
+.st-emotion-cache-zh2fnc  {{
+   width:100%;
+    height: auto;
+    max-width: 100%;
+    min-width: 1rem;
+    position: relative;
+    overflow: visible;
+}}
+
 </style>
 """, unsafe_allow_html=True)
-
-# -------- helper زر مع layout --------
-def setting_item(icon, text, page):
-    col1, col2, col3 = st.columns([1,6,1])
-
-    with col1:
-        st.markdown(f"<div style='font-size:18px'>{icon}</div>", unsafe_allow_html=True)
-
-    with col2:
-        st.markdown(f"<div style='font-weight:500'>{text}</div>", unsafe_allow_html=True)
-
-    with col3:
-        st.markdown("<div style='font-size:18px'>›</div>", unsafe_allow_html=True)
-
-    if st.button("", key=text):
-        go(page)
 
 # ================= MAIN =================
 if st.session_state.page == "main":
 
     st.markdown(f"<div class='header'>{T['settings']}</div>", unsafe_allow_html=True)
 
-    setting_item("🔒", T['pass'], "pass")
-    setting_item("🌐", T['lang'], "lang")
-    setting_item("⭐", T['rate'], "rate")
-    setting_item("🚪", T['logout'], "logout")
+    if st.button(f"🔒 {T['pass']}"):
+        go("pass")
+
+    if st.button(f"🌐 {T['lang']}"):
+        go("lang")
+
+    if st.button(f"⭐ {T['rate']}"):
+        go("rate")
+
+    if st.button(f"🚪 {T['logout']}"):
+        go("logout")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        setting_item("⚠️", T['report'], "report")
+        if st.button(f"⚠️ {T['report']}"):
+            go("report")
 
     with col2:
-        setting_item("✉️", T['contact'], "contact")
+        if st.button(f"✉️ {T['contact']}"):
+            go("contact")
 
 # ================= SUB =================
 else:
@@ -142,39 +166,47 @@ else:
     with col2:
         st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
 
+    # -------- PASSWORD -------- (بدون card)
     if st.session_state.page == "pass":
 
         st.text_input("", placeholder="Current Password")
         st.text_input("", placeholder="New Password")
         st.text_input("", placeholder="Re-write Password")
+
         st.button(T["save"])
 
+    # -------- LANGUAGE -------- (بدون card)
     elif st.session_state.page == "lang":
 
-        if st.button("English"):
+        if st.button("🌐 English"):
             set_lang("en")
 
-        if st.button("العربية"):
+        if st.button("🌐 العربية"):
             set_lang("ar")
 
+    # -------- RATE -------- (بدون card)
     elif st.session_state.page == "rate":
 
-        st.button("Google Play Store")
-        st.button("Apple App Store")
-        st.button("Huawei AppGallery")
+        st.button("▶ Google Play Store")
+        st.button("🍎 Apple App Store")
+        st.button("📱 Huawei AppGallery")
 
+    # -------- LOGOUT --------
     elif st.session_state.page == "logout":
 
         st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
         st.button(T["logout"])
 
+    # -------- REPORT -------- (مع card)
     elif st.session_state.page == "report":
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.text_area("", placeholder="I need help")
         st.markdown("</div>", unsafe_allow_html=True)
+
         st.button("Send Report")
 
+    # -------- CONTACT -------- (مع card)
     elif st.session_state.page == "contact":
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
