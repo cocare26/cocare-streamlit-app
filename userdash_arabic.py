@@ -6,13 +6,13 @@ import os
 # إعداد الصفحة
 # =====================================
 st.set_page_config(
-    page_title="لوحة الاتصالات",
+    page_title="لوحة تحكم الاتصالات",
     page_icon="📱",
     layout="centered"
 )
 
 # =====================================
-# دالة الصور
+# دالة معالجة الصور (Base64)
 # =====================================
 def get_base64(path):
     if os.path.exists(path):
@@ -20,149 +20,241 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
+# تحميل الصور (تأكدي من وجود الملفات في نفس المجلد بنفس هذه الأسماء)
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS (RTL + إصلاحات)
+# CSS المطور (دعم العربية وتنسيق الواجهة)
 # =====================================
-st.markdown("""
+st.markdown(f"""
 <style>
-html, body, [data-testid="stAppViewContainer"] {
-    direction: rtl;
-    text-align: right;
-    background:#f0f7ff;
-    font-family:'Segoe UI', sans-serif;
-}
+* {{ margin:0; padding:0; box-sizing:border-box; direction: rtl; }}
+html, body, [data-testid="stAppViewContainer"] {{
+background:#f0f7ff;
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}}
+section.main > div {{ padding-top:8px; }}
+div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 
-.block-container {
-    max-width:430px;
-    margin:auto;
-    padding:18px;
-    background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
-    border-radius:42px;
-    box-shadow:0 14px 35px rgba(0,0,0,.15);
-}
+#MainMenu, header, footer {{ visibility:hidden; }}
 
-.card {
-    background:white;
-    border-radius:24px;
-    padding:14px;
-    margin-bottom:12px;
-    box-shadow:0 6px 18px rgba(0,0,0,.08);
-}
+.block-container {{
+max-width:430px;
+margin:auto;
+padding:18px 16px;
+background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
+border-radius:42px;
+box-shadow:0 14px 35px rgba(0,0,0,.15);
+}}
 
-.title {
-    font-size:17px;
-    font-weight:900;
-    margin: 8px 0;
-    color:#102646;
-}
+.card {{
+background:white;
+border-radius:24px;
+padding:14px;
+margin-bottom:12px;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+text-align: right;
+}}
 
-.grid4 { 
+.title {{
+font-size:17px;
+font-weight:900;
+color:#102646;
+margin: 8px 4px 8px 0;
+}}
+
+.clickable {{ 
+    cursor: pointer; 
+    transition: transform 0.2s ease; 
+}}
+.clickable:active {{ transform: scale(0.95); }}
+
+/* نظام النجوم التفاعلي */
+.star-rating {{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 4px;
+}}
+.star-rating input {{ display: none; }}
+.star-rating label {{
+    font-size: 35px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}}
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {{
+    color: #ffcc00;
+}}
+
+.grid4 {{ 
     display:grid; 
     grid-template-columns:repeat(4,1fr); 
     gap:8px; 
-    margin:20px 0;
-}
+    margin: 20px 0 12px; 
+}}
 
-.mini {
-    background:white;
-    border-radius:20px;
-    padding:12px 5px;
-    text-align:center;
-}
+.mini {{
+background:white; border-radius:20px; min-height:105px;
+padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
+}}
+.mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-.nav {
-    margin-top:12px;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    text-align:center;
-}
+/* الروبوت المدمج */
+.robot-img-welcome {{
+    width: 130px;
+    height: auto;
+    background: transparent !important;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
+    margin-left: 10px;
+    object-fit: contain;
+}}
 
-.bot-bg {
-    width:55px;
-    height:55px;
-    background:white;
-    border-radius:14px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
+.welcome-text-container {{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}}
+
+/* مؤشر العداد */
+.needle {{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: 30px;
+    background: #333;
+    transform-origin: bottom center;
+    z-index: 5;
+}}
+
+/* الشريط السفلي */
+.nav {{
+margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
+text-align:center; color:#6b6b6b; align-items: end;
+}}
+.nav-item {{ font-size: 24px; font-weight: 800; }}
+.nav-text {{ font-size: 11px; display: block; margin-top: 2px; }}
+.bot-bg {{
+width:55px; height:55px; background:white; border-radius:14px;
+margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
+box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}}
+.active {{ color:#0d69dd; }}
 </style>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. الملف الشخصي
+# 1. قسم الملف الشخصي (أهلاً بك)
 # =====================================
 st.markdown(f"""
-<div class="card">
+<div class="card clickable">
 <div style="display:flex; align-items:center;">
-    <img src="data:image/png;base64,{robot_full}" width="110">
-    <div>
-        <div style="font-size:24px; font-weight:900;">مرحباً</div>
-        <div>+962 79 123 4567</div>
-        <div>صالح حتى: 25 مايو 2026</div>
+    <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
+    <div class="welcome-text-container">
+        <div style="font-size:26px; font-weight:900; color:#102646; line-height:1.2;">أهلاً بك</div>
+        <div style="font-size:14px; color:#555; margin-top:4px; direction: ltr;">+962 79 123 4567</div>
+        <div style="font-size:14px; color:#555;">صالح لغاية: 25 مايو 2026</div>
     </div>
 </div>
-
-<div style="margin-top:12px; background:#eef5ff; padding:10px; border-radius:18px;">
-📍 الموقع: عمّان
+<div style="margin-top:15px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
+📍 الموقع الحالي: عمان
 </div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. الرصيد
+# 2. معلومات الرصيد (مع المؤشر)
 # =====================================
-st.markdown("""
+st.markdown(f"""
 <div class="title">معلومات رقمك</div>
-<div class="card">
-<div>البيانات المتبقية</div>
-<div style="font-size:40px; font-weight:900;">4.7 جيجابايت</div>
-<div>من 6 جيجابايت</div>
-
-<div style="margin-top:10px; height:8px; background:#dce8f7; border-radius:20px;">
-<div style="width:78%; height:100%; background:#1567e0;"></div>
+<div class="card clickable">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<div style="flex: 2; text-align: right;">
+<div style="font-size:13px; font-weight:700; color:#666;">الإنترنت المتبقي</div>
+<div style="font-size:40px; font-weight:900; color:#102646;">4.7 <span style="font-size:18px;">جيجابايت</span></div>
+</div>
+<div style="flex: 1; text-align: left;">
+<div style="position: relative; width: 70px; height: 35px; margin-right: auto;">
+    <div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
+        <div class="needle" style="transform: rotate(45deg);"></div>
+    </div>
+</div>
+<div style="font-size:14px; font-weight:900; color:#102646; margin-top:2px; text-align: center;">6 جيجابايت</div>
+</div>
+</div>
+<div style="margin-top:10px; height:8px; border-radius:20px; background:#dce8f7; overflow:hidden;">
+<div style="width:78%; height:100%; background:linear-gradient(90deg,#083d8c,#1567e0); float: right;"></div>
 </div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. الخدمات
+# 3. أيقونات الخدمات السريعة
 # =====================================
 st.markdown("""
 <div class="grid4">
-<div class="mini">📡<br>باقات الإنترنت</div>
-<div class="mini">🌍<br>تجديد</div>
-<div class="mini">💰<br>دولي</div>
-<div class="mini">🔔<br>إشعارات</div>
+<div class="mini clickable"><div style="font-size:28px;">📡</div><div class="mini-text">حزم<br>الإنترنت</div></div>
+<div class="mini clickable"><div style="font-size:28px;">🌍</div><div class="mini-text">تجديد +<br>تغيير</div></div>
+<div class="mini clickable"><div style="font-size:28px;">💰</div><div class="mini-text">اتصالات<br>دولية</div></div>
+<div class="mini clickable"><div style="font-size:28px;">🔔</div><div class="mini-text">تنبيهات<br>الشبكة</div></div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. التقييم (بدون HTML خطير)
+# 4. قسم التقييم
 # =====================================
-st.markdown('<div class="title">تقييم الخدمة</div>', unsafe_allow_html=True)
-
-rating = st.radio(
-    "قيّم الخدمة",
-    ["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"],
-    horizontal=True
-)
+st.markdown("""
+<div class="title">تقييم الخدمات</div>
+<div class="card">
+<div style="font-weight:900; font-size:14px; color:#102646;">⭐ مستوى أمان الخدمة</div>
+<div style="margin-top:10px; height:20px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
+<div style="text-align:center; margin-top:12px; font-weight:700; font-size:14px; color:#102646; margin-bottom:5px;">قيم تجربتك معنا</div>
+<div class="star-rating">
+    <input type="radio" id="1" name="rate"><label for="1">★</label>
+    <input type="radio" id="2" name="rate"><label for="2">★</label>
+    <input type="radio" id="3" name="rate"><label for="3">★</label>
+    <input type="radio" id="4" name="rate"><label for="4">★</label>
+    <input type="radio" id="5" name="rate"><label for="5">★</label>
+</div>
+</div>
+""", unsafe_allow_html=True)
 
 # =====================================
-# 5. الشبكة
+# 5. قوة الشبكة (مع المؤشر)
 # =====================================
 st.markdown("""
 <div class="title">قوة الشبكة في منطقتك</div>
-<div class="card">
-📍 عمّان<br>
-إشارة قوية جداً<br><br>
-
-فقدان الحزم: 0%<br>
-التذبذب: 19 ms
+<div class="card clickable">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<div style="flex: 1.2; text-align: right;">
+<div style="font-size:16px; font-weight:900; color:#102646;">📍 عمان</div>
+<div style="font-size:13px; font-weight:700; color:#003366; margin-bottom:8px;">إشارة قوية جداً</div>
+<div style="display: flex; gap: 6px; direction: ltr;">
+<div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
+<div style="font-size: 8px; font-weight: 700; color: #666; line-height:1;">فقدان البيانات (%)</div>
+<div style="font-size: 18px; font-weight: 900; color: #000; margin-top: 2px;">0</div>
+</div>
+<div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
+<div style="font-size: 8px; font-weight: 700; color: #666; line-height:1;">التذبذب (ms)</div>
+<div style="font-size: 18px; font-weight: 900; color: #000; margin-top: 2px;">19</div>
+</div>
+</div>
+</div>
+<div style="flex: 1; text-align: center;">
+<div style="position: relative; width: 100px; margin: 0 auto;">
+    <div style="width: 100px; height: 50px; border-radius: 100px 100px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 10px; width: 80px; height: 40px; background: white; border-radius: 80px 80px 0 0;"></div>
+        <div class="needle" style="height: 40px; transform: rotate(-60deg);"></div>
+    </div>
+<div style="font-size: 10px; font-weight: 900; color: #102646; margin-top: 5px;">ممتاز (-68dBm)</div>
+</div>
+</div>
+</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -171,15 +263,13 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div>⚙️<br>الإعدادات</div>
-<div>🎡<br>حظك</div>
-<div>
-    <div class="bot-bg">
-        <img src="data:image/png;base64,{robot_head}" width="35">
-    </div>
-    مساعد
+<div class="nav-item clickable">⚙️<span class="nav-text">الإعدادات</span></div>
+<div class="nav-item clickable">🎡<span class="nav-text">اربح</span></div>
+<div class="nav-item clickable">
+<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:38px;"></div>
+<span class="nav-text">المساعد</span>
 </div>
-<div>🏠<br>الرئيسية</div>
-<div>🎁<br>ألعاب</div>
+<div class="nav-item active clickable">🏠<span class="nav-text">الرئيسية</span></div>
+<div class="nav-item clickable">🎁<span class="nav-text">ألعاب</span></div>
 </div>
 """, unsafe_allow_html=True)
