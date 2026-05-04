@@ -71,53 +71,7 @@ text-decoration:none;
     cursor:pointer;
 }
 </style>
-<form class="form" method="get" action="/" target="_top" onsubmit="return loginForm()">
-    <input type="hidden" name="page" id="pageValue">
-
-    <input id="username" class="input" placeholder="phone / ID Number"
-    inputmode="numeric" maxlength="11"
-    oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-
-    <input class="input" placeholder="Password" type="password">
-
-    <div class="forgot">
-        <a href="/?page=forgot" target="_top" style="color:#555; text-decoration:none;">
-            Forgot Password?
-        </a>
-    </div>
-
-    <button class="login" type="submit">Log In ›</button>
-
-    <div id="error" class="error"></div>
-
-    <div class="signup">
-        👤 New User?
-        <a href="/?page=create" target="_top" style="color:#222; text-decoration:underline;">
-            Create Account
-        </a>
-    </div>
-</form>
-</div>
-
-<script>
-function loginForm(){
-    const v = document.getElementById("username").value;
-    const e = document.getElementById("error");
-    const pageValue = document.getElementById("pageValue");
-
-    if(/^07[0-9]{8}$/.test(v)){
-        pageValue.value = "customer";
-        return true;
-    }
-    else if(/^[0-9]{11}$/.test(v)){
-        pageValue.value = "employee";
-        return true;
-    }
-    else{
-        e.innerText = "Invalid phone or ID number";
-        return false;
-    }
-}
+<form class="form" id="loginForm" method="get" target="_top"> <input type="hidden" name="page" id="pageValue"> <input id="username" class="input" placeholder="phone / ID Number" inputmode="numeric" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')"> <input class="input" placeholder="Password" type="password"> <div class="forgot"> <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;"> Forgot Password? </a> </div> <button class="login" type="button" onclick="login()">Log In ›</button> <div id="error" class="error"></div> <div class="signup"> 👤 New User? <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;"> Create Account </a> </div> </form> </div> <script> function goPage(p){ window.top.location.href = "/?page=" + p; } function login(){ const v = document.getElementById("username").value; const e = document.getElementById("error"); if(/^07[0-9]{8}$/.test(v)){ window.top.location.href = "/?page=customer"; } else if(/^[0-9]{11}$/.test(v)){ window.top.location.href = "/?page=employee"; } else{ e.innerText = "Invalid phone or ID number"; } } 
 </script>
 
 </head>
