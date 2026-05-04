@@ -10,8 +10,6 @@ def navigate():
     if isinstance(page, list):
         page = page[0]
 
-    if page == "login":
-        st.switch_page("pages/0_arabic_app.py")
 
     elif page == "customer":
         st.switch_page("pages/2_Customer.py")
