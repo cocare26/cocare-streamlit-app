@@ -87,16 +87,14 @@ text-decoration:none;
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
 <form class="form" onsubmit="return setPage()">
-    <input id="username" class="input" placeholder="phone / ID Number"
+<input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
     oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-        <a href="?page=forgot" target="_top" style="color:#555; text-decoration:none;">
-            Forgot Password?
-        </a>
+       <a href="?page=forgot" target="_parent">
     </div>
 
     <button class="login" type="submit">Log In ›</button>
@@ -105,9 +103,7 @@ text-decoration:none;
 
     <div class="signup">
         👤 New User?
-        <a href="?page=create" target="_top" style="color:#222; text-decoration:underline;">
-            Create Account
-        </a>
+       <a href="?page=create" target="_parent">
     </div>
 </form>
 
@@ -116,13 +112,13 @@ function setPage(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
 
-    if(/^[0-9]{10}$/.test(v)){
-        window.top.location.href = "?page=customer";
+    if(/^07[0-9]{8}$/.test(v)){{
+        window.parent.location.href = window.parent.location.pathname + "?page=customer";
         return false;
     }
 
     if(/^[0-9]{11}$/.test(v)){
-        window.top.location.href = "?page=employee";
+        window.parent.location.href = window.parent.location.pathname + "?page=employee";
         return false;
     }
 
@@ -136,4 +132,15 @@ function setPage(){
 """
 
 html = html.replace("IMG_HERE", img)
-components.html(html, height=700)
+msg = components.html(html, height=700)
+
+page = st.query_params.get("page", "")
+
+if page == "customer":
+    st.switch_page("pages/2_Customer.py")
+elif page == "employee":
+    st.switch_page("pages/3_Employee.py")
+elif page == "create":
+    st.switch_page("pages/1_Create_Account.py")
+elif page == "forgot":
+    st.switch_page("pages/2_Forgot_Password.py")
