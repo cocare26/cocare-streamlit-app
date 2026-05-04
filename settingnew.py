@@ -37,7 +37,7 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* 🔥 زر ستريمليت */
+/* 🔥 كل الأزرار */
 .stButton > button {
     width:100%;
     border:none;
@@ -54,15 +54,28 @@ st.markdown("""
     direction: ltr;
 }
 
-/* 🔥 النص داخل الزر (المسافة كبرت) */
-.stButton > button p {
+/* 🔥 أول 4 أزرار (مسافة كبيرة) */
+.stButton:nth-of-type(-n+4) button p {
     width:100%;
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin:0;
-    padding-left:60px;   /* 👈 مسافة كبيرة من جهة الإيموجي */
-    padding-right:60px;  /* 👈 مسافة كبيرة من جهة النص */
+    padding-left:60px;
+    padding-right:60px;
+}
+
+/* 🔥 آخر زرين (صغار) */
+.stButton:nth-of-type(n+5) button {
+    padding:10px !important;
+    font-size:12px !important;
+    border-radius:40px;
+}
+
+/* 🔥 مسافة داخلية بسيطة لآخر زرين */
+.stButton:nth-of-type(n+5) button p {
+    padding-left:15px;
+    padding-right:15px;
 }
 
 .stButton > button:hover {
@@ -92,14 +105,13 @@ if st.button(f"🚪 {T['logout']}"):
     st.session_state.clear()
     st.switch_page("app.py")
 
+# 👇 آخر زرين بنفس السطر
 col1, col2 = st.columns(2)
 
-# ⚠️ Report
 with col1:
     if st.button(f"⚠️ {T['report']}"):
         st.switch_page("pages/Report.py")
 
-# ✉️ Contact
 with col2:
     if st.button(f"✉️ {T['contact']}"):
         st.switch_page("pages/Contact.py")
