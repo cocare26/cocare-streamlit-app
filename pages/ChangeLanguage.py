@@ -1,110 +1,62 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Change Language", layout="centered")
 
+# ===== CSS =====
 st.markdown("""
 <style>
-* { margin:0; padding:0; box-sizing:border-box; direction:ltr; }
+#MainMenu, header, footer {visibility:hidden;}
 
-html, body, [data-testid="stAppViewContainer"] {
+[data-testid="stAppViewContainer"] {
     background:#f0f7ff;
-    font-family:'Segoe UI';
 }
-
-#MainMenu, header, footer { visibility:hidden; }
 
 .block-container {
     max-width:430px;
     margin:auto;
-    padding:18px 16px;
+    padding:18px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
-    min-height:600px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-components.html("""
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+# ===== HEADER =====
+col1, col2 = st.columns([1,5])
+
+with col1:
+    if st.button("‹"):
+        st.query_params["page"] = "settings"
+        st.rerun()
+
+with col2:
+    st.markdown("<h3 style='margin-top:5px;'>Change Language</h3>", unsafe_allow_html=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# ===== BUTTON STYLE =====
+st.markdown("""
 <style>
-
-body{
-    margin:0;
-    font-family:'Segoe UI';
-    display:flex;
-    justify-content:center;
-}
-
-.wrapper{
+div.stButton > button {
     width:100%;
-    max-width:380px;
-}
-
-/* HEADER */
-.header{
-    text-align:center;
-    position:relative;
-    margin-bottom:40px;
-}
-
-.back{
-    position:absolute;
-    left:0;
-    font-size:28px;
-    color:#102646;
-    text-decoration:none;
-}
-
-/* ITEM */
-.item{
-    background:white;
     border-radius:100px;
-    padding:14px 22px;
-    margin-bottom:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    padding:15px;
+    margin-bottom:12px;
+    background:white;
+    border:none;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    text-decoration:none;
-    color:#102646;
     font-weight:800;
-}
-
-.item:hover{
-    transform:translateY(-2px);
+    text-align:left;
 }
 </style>
-</head>
+""", unsafe_allow_html=True)
 
-<body>
+# ===== OPTIONS =====
+if st.button("🌐 Arabic   ✔"):
+    st.query_params["page"] = "settings-ar"
+    st.rerun()
 
-<div class="wrapper">
-
-<div class="header">
-    <!-- 🔥 الحل هون -->
-    <a href="/?page=settings" target="_top" class="back">‹</a>
-    <h2>Change Language</h2>
-</div>
-
-<!-- Arabic -->
-<a href="/?page=settings-ar" target="_top" class="item">
-    <span>Arabic</span>
-    ✔
-</a>
-
-<!-- English -->
-<a href="/?page=settings" target="_top" class="item">
-    <span>English</span>
-    ›
-</a>
-
-</div>
-
-</body>
-</html>
-""", height=600)
+if st.button("🌐 English   ›"):
+    st.query_params["page"] = "settings"
+    st.rerun()
