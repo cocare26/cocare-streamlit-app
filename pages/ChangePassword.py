@@ -24,8 +24,25 @@ html, body, [data-testid="stAppViewContainer"] {
     box-shadow:0 14px 35px rgba(0,0,0,.15);
     min-height: 600px;
 }
+
+/* 🔥 سهم الرجوع */
+.back-style .stButton > button {
+    background:transparent !important;
+    box-shadow:none !important;
+    font-size:26px !important;
+    width:auto !important;
+    color:#102646 !important;
+}
 </style>
 """, unsafe_allow_html=True)
+
+# ===== 🔙 BACK BUTTON (Streamlit) =====
+col_back, _ = st.columns([1, 10])
+with col_back:
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("‹"):
+        st.switch_page("pages/Settings.py")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== UI =====
 components.html("""
@@ -54,16 +71,7 @@ body {
 /* HEADER */
 .header {
     text-align:center;
-    position:relative;
     margin-bottom:30px;
-}
-
-.back {
-    position:absolute;
-    left:0;
-    font-size:26px;
-    cursor:pointer;
-    color:#102646;
 }
 
 .title {
@@ -93,19 +101,6 @@ body {
     flex:1;
 }
 
-/* REPORT */
-.report {
-    text-align:center;
-    margin-bottom:20px;
-}
-
-.report span {
-    cursor:pointer;
-    font-size:13px;
-    font-weight:700;
-    color:#102646;
-}
-
 /* BUTTON */
 .save {
     margin-top:auto;
@@ -122,11 +117,7 @@ body {
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-.save button:hover {
-    transform:translateY(-2px);
-}
-
-/* ===== POPUP ===== */
+/* POPUP */
 .modal {
     display:none;
     position:fixed;
@@ -145,7 +136,6 @@ body {
     border-radius:20px;
     text-align:center;
     width:250px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
 .modal-box p {
@@ -170,7 +160,6 @@ body {
 <div class="main-wrapper">
 
 <div class="header">
-    <div class="back" onclick="goBack()">‹</div>
     <h2 class="title">Change Password</h2>
 </div>
 
@@ -189,7 +178,6 @@ body {
     <input type="password" id="new2" placeholder="Confirm Password">
 </div>
 
-
 <div class="save">
     <button onclick="save()">Save</button>
 </div>
@@ -205,14 +193,6 @@ body {
 </div>
 
 <script>
-function goBack(){
-    window.parent.location.href = "/?page=settings";
-}
-
-function goReport(){
-    window.parent.location.href = "/?page=report";
-}
-
 function save(){
     let oldPass = document.getElementById("old").value;
     let p1 = document.getElementById("new1").value;
@@ -233,14 +213,11 @@ function save(){
         return;
     }
 
-    // show popup
     document.getElementById("popup").style.display = "flex";
 }
 
 function goSettings(){
-    setTimeout(() => {
-        window.parent.location.href = "/?page=settings";
-    }, 200);
+    window.parent.location.href = "/?page=settings";
 }
 </script>
 
