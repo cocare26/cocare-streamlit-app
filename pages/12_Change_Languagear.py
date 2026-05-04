@@ -1,13 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="تغيير كلمة المرور", layout="centered")
+st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# 2. التنسيق العام (CSS)
 st.markdown("""
 <style>
-/* 🎯 ألوان أساسية */
 :root{
     --navy:#0f2446;
     --accent:#2f80ed;
@@ -16,12 +13,10 @@ st.markdown("""
     --bg3:#eaf6ff;
 }
 
-/* 📱 خلفية الصفحة */
 [data-testid="stAppViewContainer"]{
     background:#eef2f7;
 }
 
-/* 📦 الكارد الرئيسي - مقاس موحد (350px) */
 .block-container{
     max-width:350px !important;
     margin:auto !important;
@@ -33,158 +28,145 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة (HTML/JS) باللغة العربية
 components.html("""
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: transparent;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .main-wrapper {
-            width: 100%;
-            max-width: 290px;
-            display: flex;
-            flex-direction: column;
-            height: 480px;
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
 
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 35px;
-            position: relative;
-        }
+body{
+    font-family:'Segoe UI', sans-serif;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    background:transparent;
+}
 
-        /* 🔙 سهم الرجوع الموحد > للعربية */
-        .back-icon {
-            position: absolute;
-            right: 0;
-            font-size: 28px;
-            font-weight: bold;
-            color: #0f2446;
-            text-decoration: none;
-            line-height: 1;
-            cursor: pointer;
-        }
+.main-wrapper{
+    width:100%;
+    max-width:290px;
+    display:flex;
+    flex-direction:column;
+    height:480px;
+}
 
-        .title {
-            margin: 0;
-            font-weight: 900;
-            font-size: 20px;
-            color: #0f2446;
-        }
+.header-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:40px;
+    position:relative;
+}
 
-        /* ⚪ بوكس الإدخال */
-        .input-capsule {
-            background: white;
-            border-radius: 100px;
-            padding: 10px 18px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
+/* 🔙 السهم صار يمين */
+.back-icon{
+    position:absolute;
+    right:0;
+    font-size:28px;
+    font-weight:bold;
+    color:#0f2446;
+    cursor:pointer;
+}
 
-        .input-capsule i.field-icon {
-            color: #0f2446;
-            margin-left: 12px;
-            font-size: 16px;
-        }
+.title{
+    margin:0;
+    font-weight:900;
+    font-size:20px;
+    color:#0f2446;
+}
 
-        .input-capsule input {
-            border: none;
-            outline: none;
-            flex-grow: 1;
-            font-size: 14px;
-            color: #0f2446;
-            background: transparent;
-            text-align: right;
-        }
+/* ⚪ كبسولة اللغة */
+.language-capsule{
+    background:white;
+    border-radius:100px;
+    padding:14px 22px;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    cursor:pointer;
+    transition:0.3s;
+}
 
-        .input-capsule i.toggle-eye {
-            color: #ccc;
-            cursor: pointer;
-            margin-right: 10px;
-        }
+.language-capsule:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+}
 
-        /* 🔘 زر الحفظ الأبيض */
-        .save-btn-container {
-            margin-top: auto;
-            display: flex;
-            justify-content: center;
-            padding-bottom: 10px;
-        }
+.left-content{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
 
-        .save-box {
-            background: white;
-            border-radius: 100px;
-            width: 100%;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-        }
+.icon{
+    color:#0f2446;
+    font-size:16px;
+}
 
-        .save-box span {
-            color: #0f2446;
-            font-weight: bold;
-            font-size: 16px;
-        }
+.label{
+    color:#0f2446;
+    font-weight:700;
+    font-size:14px;
+}
 
-        .save-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-        }
-    </style>
+/* ✔ و > */
+.status-mark{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.check{ color:#2f80ed; }
+
+.arrow-icon{
+    color:#0f2446;
+    font-size:18px;
+}
+
+</style>
 </head>
+
 <body>
-    <div class="main-wrapper">
-        <div class="header-container">
-            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
-            <h2 class="title">تغيير كلمة المرور</h2>
-        </div>
 
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="كلمة المرور الحالية">
-            <i class="fas fa-eye-slash toggle-eye"></i>
-        </div>
+<div class="main-wrapper">
 
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="كلمة المرور الجديدة">
-            <i class="fas fa-eye-slash toggle-eye"></i>
-        </div>
+    <div class="header-container">
+        <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
+        <h2 class="title">تغيير اللغة</h2>
+    </div>
 
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="تأكيد كلمة المرور">
-            <i class="fas fa-eye-slash toggle-eye"></i>
+    <!-- الإنجليزية -->
+    <div class="language-capsule" onclick="goPage('settings')">
+        <div class="left-content">
+            <div class="icon"><i class="fas fa-globe"></i></div>
+            <div class="label">English</div>
         </div>
-
-        <div class="save-btn-container">
-            <button class="save-box" onclick="alert('تم حفظ كلمة المرور!')">
-                <span>حفظ</span>
-            </button>
+        <div class="status-mark">
+            <span class="arrow-icon">&lt;</span>
         </div>
     </div>
 
-    <script>
-    function goPage(p){
-        window.top.location.href = "/?page=" + p;
-    }
-    </script>
+    <!-- العربية -->
+    <div class="language-capsule" onclick="goPage('settings-ar')">
+        <div class="left-content">
+            <div class="icon"><i class="fas fa-globe"></i></div>
+            <div class="label">العربية</div>
+        </div>
+        <div class="status-mark check">
+            <i class="fas fa-check"></i>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
+</script>
+
 </body>
 </html>
 """, height=500)
