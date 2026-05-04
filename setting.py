@@ -52,15 +52,56 @@ if selection == "setting":
     
     # ا. القائمة الرئيسية للإعدادات (يجب أن تكون مزاحة بـ 4 مسافات عن الـ if أعلاها)
     if st.session_state.settings_sub_page == 'main_menu':
-        # الهيدر الجديد
+        # دمج الألوان والـ Container الجديد داخل الجزء الخاص بالإعدادات
         st.markdown("""
-            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px; position: relative; width: 100%;">
-                <div style="position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer;">&lt;</div>
-                <h2 style="margin: 0; color:#0f2446; font-weight: 700; font-size: 24px;">Settings</h2>
+            <style>
+                :root {
+                    --navy: #0f2446;
+                    --bg1: #d6ecff;
+                    --bg2: #bfe3ff;
+                    --bg3: #eaf6ff;
+                }
+                
+                /* تطبيق التعديلات على الحاوية الكبيرة */
+                [data-testid="stAppViewBlockContainer"] {
+                    max-width: 350px !important;
+                    margin: auto !important;
+                    padding: 30px !important;
+                    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%) !important;
+                    border-radius: 42px !important;
+                }
+
+                .header-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 25px;
+                    position: relative;
+                    width: 100%;
+                }
+                .back-icon {
+                    position: absolute;
+                    left: 0;
+                    font-size: 28px;
+                    font-weight: bold;
+                    color: var(--navy);
+                    cursor: pointer;
+                }
+                .title {
+                    margin: 0;
+                    color: var(--navy);
+                    font-weight: 700;
+                    font-size: 24px;
+                }
+            </style>
+            
+            <div class="header-container">
+                <div class="back-icon">&lt;</div>
+                <h2 class="title">Settings</h2>
             </div>
         """, unsafe_allow_html=True)
         
-        # الأزرار (يجب أن تكون مزاحة بـ 8 مسافات عن بداية السطر)
+        # الأزرار بنفس المسافات المطلوبة
         if st.button("🔒 Change Password" + " " * 30 + "›"): 
             nav_settings('change_password_page')
             
