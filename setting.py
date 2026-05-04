@@ -314,19 +314,23 @@ else:
 
             </div>
         
-        <script>
+    <script>
 function showPassword(id, icon) {
     var input = document.getElementById(id);
-    input.type = "text";
-    icon.classList.remove("fa-eye-slash");
-    icon.classList.add("fa-eye");
+    if (input) {
+        input.type = "text";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+    }
 }
 
 function hidePassword(id, icon) {
     var input = document.getElementById(id);
-    input.type = "password";
-    icon.classList.remove("fa-eye");
-    icon.classList.add("fa-eye-slash");
+    if (input) {
+        input.type = "password";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    }
 }
 </script>
         
