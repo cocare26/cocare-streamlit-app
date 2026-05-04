@@ -51,6 +51,7 @@ if selection == "setting":
     
     # ا. القائمة الرئيسية للإعدادات
     # ا. القائمة الرئيسية للإعدادات
+    
 if st.session_state.settings_sub_page == 'main_menu':
     # الهيدر الجديد مع سهم العودة والعنوان المتمركز
     st.markdown("""
