@@ -1,18 +1,20 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة الأساسية
+# 1. إعدادات الصفحة
 st.set_page_config(page_title="Settings UI", layout="centered") 
 
-# 2. إدارة حالة التنقل (Navigation State)
+# 2. إدارة حالة التنقل
 if 'page' not in st.session_state:
     st.session_state.page = 'main'
 
-def navigate_to(page_name):
+def nav(page_name):
     st.session_state.page = page_name
     st.rerun()
 
-# 3. التنسيقات (CSS) - لتحويل أزرار ستريمليت إلى تصميم "الكبسولة" الممتدة
+# 3. تحميل مكتبة الأيقونات وتنسيق الـ CSS
+# أضفنا رابط Font Awesome في البداية لضمان ظهور الرموز
 st.markdown("""
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 :root{
     --navy:#0f2446;
@@ -21,12 +23,11 @@ st.markdown("""
     --bg3:#eaf6ff;
 }
 
-/* إخفاء العناصر الافتراضية لستريمليت */
 [data-testid="stHeader"] {display: none !important;}
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
 
-/* الحاوية الزرقاء الرئيسية */
+/* الكارد الرئيسي */
 .block-container{
     max-width:400px !important;
     margin:auto !important;
@@ -34,7 +35,7 @@ footer {visibility: hidden;}
     background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
-    margin-top: 50px !important;
+    margin-top: 40px !important;
 }
 
 /* الهيدر */
@@ -45,7 +46,7 @@ footer {visibility: hidden;}
 .back-arrow { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: var(--navy); cursor: pointer; }
 .settings-header { margin: 0; font-weight: 900; font-size: 22px; color: var(--navy); }
 
-/* تعديل شكل زر ستريمليت ليصبح كبسولة ممتدة */
+/* تنسيق أزرار ستريمليت لتصبح كبسولات */
 div.stButton > button {
     width: 100% !important;
     height: 55px !important;
@@ -53,12 +54,12 @@ div.stButton > button {
     border: none !important;
     background: white !important;
     color: var(--navy) !important;
-    margin-bottom: 15px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
-    transition: 0.3s ease;
+    margin-bottom: 12px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+    padding: 0 20px !important;
 }
 
-/* توزيع الأيقونة والنص داخل الزر */
+/* توزيع الأيقونة والنص والسهم */
 div.stButton > button p {
     display: flex !important;
     justify-content: space-between !important; 
@@ -69,22 +70,13 @@ div.stButton > button p {
     margin: 0 !important;
 }
 
-/* تأثير عند تمرير الماوس */
-div.stButton > button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
-}
-
-/* تنسيق السطر الأخير (Report & Contact) */
-[data-testid="stHorizontalBlock"] div.stButton > button {
-    height: 70px !important; 
-}
+/* تكبير الأيقونات وتغيير لونها */
+.icon-style { font-size: 18px; margin-right: 10px; }
 </style>
 """, unsafe_allow_html=True)
 
-# 4. عرض الصفحات بناءً على الحالة
+# 4. عرض المحتوى
 if st.session_state.page == 'main':
-    # الهيدر
     st.markdown("""
         <div class="header-container">
             <div class="back-arrow">‹</div>
@@ -92,36 +84,23 @@ if st.session_state.page == 'main':
         </div>
     """, unsafe_allow_html=True)
     
-    # القائمة الرئيسية - ربط الأزرار بالصفحات الفرعية
-    if st.button("🔒 Change Password"): navigate_to('password')
-    if st.button("🌐 Change Language"): navigate_to('language')
-    if st.button("⭐ Rate App"): navigate_to('rate')
-    if st.button("🚪 Log Out"): pass
+    # استخدام نصوص واضحة مع الـ Emoji كحل بديل ومضمون
+    if st.button("🔒 Change Password                                 ›"): nav('password')
+    if st.button("🌐 Change Language                                 ›"): nav('language')
+    if st.button("⭐ Rate App                                         ›"): nav('rate')
+    if st.button("🚪 Log Out                                           ›"): pass
     
-    st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
 
-    # السطر الأخير: تقسيم الصفحة لعمودين
     col1, col2 = st.columns(2) 
-    
     with col1:
-        if st.button("⚠️ Report\nProblem"): navigate_to('report')
-            
+        if st.button("⚠️ Report\nProblem"): nav('report')
     with col2:
-        if st.button("✉️ Contact\nUs"): navigate_to('contact')
-
-# --- الشاشات الفرعية ---
+        if st.button("✉️ Contact\nUs"): nav('contact')
 
 elif st.session_state.page == 'password':
-    st.markdown('<div class="header-container"><p class="settings-header">Change Password</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="header-container"><div class="back-arrow" onclick="window.location.reload()">‹</div><p class="settings-header">Password</p></div>', unsafe_allow_html=True)
     st.text_input("Current Password", type="password")
     st.text_input("New Password", type="password")
-    if st.button("Save Changes"): navigate_to('main')
-    if st.button("‹ Back"): navigate_to('main')
-
-elif st.session_state.page == 'report':
-    st.markdown('<div class="header-container"><p class="settings-header">Report Problem</p></div>', unsafe_allow_html=True)
-    st.text_area("Describe the issue...")
-    if st.button("Submit Report"): navigate_to('main')
-    if st.button("‹ Back"): navigate_to('main')
-
-# يمكنك إضافة بقية الصفحات بنفس النمط (language, rate, contact)
+    if st.button("Save Changes"): nav('main')
+    if st.button("Back"): nav('main')
