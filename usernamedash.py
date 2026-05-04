@@ -60,9 +60,6 @@ color:#102646;
 margin: 8px 0 8px 4px;
 }}
 
-.clickable {{ cursor: pointer; transition: transform 0.2s; }}
-.clickable:active {{ transform: scale(0.98); }}
-
 /* نظام النجوم التفاعلي */
 .star-rating {{
 display: flex;
@@ -113,7 +110,7 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 user_name = st.text_input("Enter User Name", value="User Name")
 
 st.markdown(f"""
-<div class="card clickable">
+<div class="card">
 <div style="display:flex; gap:10px; align-items:flex-start;">
 <img src="data:image/png;base64,{robot_full}" style="width:55px; height:70px; object-fit:contain;">
 <div>
@@ -129,17 +126,29 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد
+# 2. معلومات الرصيد (مع العداد المضاف)
 # =====================================
-st.markdown("""
+st.markdown(f"""
 <div class="title">Your Number Info</div>
-<div class="card clickable">
+<div class="card">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+<div style="flex: 2;">
 <div style="font-size:13px; font-weight:700; color:#666;">Remaining GB</div>
 <div style="font-size:40px; font-weight:900; color:#102646;">4.7 <span style="font-size:18px;">GB</span></div>
+</div>
+<div style="flex: 1; text-align: right;">
+<div style="position: relative; width: 70px; height: 35px; margin-left: auto;">
+<div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
+<div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
+<div style="position: absolute; bottom: 0; left: 50%; width: 2px; height: 28px; background: #083d8c; transform-origin: bottom; transform: rotate(45deg);"></div>
+</div>
+</div>
+<div style="font-size:14px; font-weight:900; color:#102646; margin-top:2px;">6 GB</div>
+</div>
+</div>
 <div style="margin-top:10px; height:8px; border-radius:20px; background:#dce8f7; overflow:hidden;">
 <div style="width:78%; height:100%; background:linear-gradient(90deg,#083d8c,#1567e0);"></div>
 </div>
-<div style="text-align:right; font-size:22px; font-weight:900; color:#102646; margin-top:5px;">6 GB</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -148,15 +157,15 @@ st.markdown("""
 # =====================================
 st.markdown("""
 <div class="grid4">
-<div class="mini clickable"><div class="icon">📡</div><div class="mini-text">Internet<br>Packages</div></div>
-<div class="mini clickable"><div class="icon">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
-<div class="mini clickable"><div class="icon">💰</div><div class="mini-text">International<br>Calls</div></div>
-<div class="mini clickable"><div class="icon">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
+<div class="mini"><div class="icon">📡</div><div class="mini-text">Internet<br>Packages</div></div>
+<div class="mini"><div class="icon">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
+<div class="mini"><div class="icon">💰</div><div class="mini-text">International<br>Calls</div></div>
+<div class="mini"><div class="icon">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم (معدل بالنجوم)
+# 4. قسم التقييم بالنجوم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -175,11 +184,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (النسخة المطابقة تماماً للأبعاد والموقع)
+# 5. قوة الشبكة
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
-<div class="card clickable">
+<div class="card">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 1.2;">
 <div style="font-size:16px; font-weight:900; color:#102646;">📍 Amman</div>
@@ -219,13 +228,13 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable">⚙️<br>Settings</div>
-<div class="nav-item clickable">🎡<br>Spin</div>
-<div class="nav-item clickable">
+<div class="nav-item">⚙️<br>Settings</div>
+<div class="nav-item">🎡<br>Spin</div>
+<div class="nav-item">
 <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:32px;"></div>
 Chatbot
 </div>
-<div class="nav-item active clickable">🏠<br>Home</div>
-<div class="nav-item clickable">🎁<br>Game</div>
+<div class="nav-item active">🏠<br>Home</div>
+<div class="nav-item">🎁<br>Game</div>
 </div>
 """, unsafe_allow_html=True)
