@@ -63,6 +63,7 @@ text-decoration:none;
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
 <form class="form" method="get" target="_self" onsubmit="return setPage()">
+    <form class="form" onsubmit="return setPage()">
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
     oninput="this.value=this.value.replace(/[^0-9]/g,'')">
@@ -93,12 +94,12 @@ function setPage(){
     const e = document.getElementById("error");
 
     if(/^[0-9]{10}$/.test(v)){
-        window.parent.location.href = window.parent.location.pathname + "?page=customer";
+        window.top.location.href = "?page=customer";
         return false;
     }
 
     if(/^[0-9]{11}$/.test(v)){
-        window.parent.location.href = window.parent.location.pathname + "?page=employee";
+        window.top.location.href = "?page=employee";
         return false;
     }
 
