@@ -73,10 +73,6 @@ body {{
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
 }}
 
-.stButton > button:hover {{
-    transform:translateY(-2px);
-}}
-
 .menu-content {{
     display:flex;
     justify-content:space-between;
@@ -94,15 +90,6 @@ body {{
     font-size:16px;
 }}
 
-input {{
-    border-radius:30px !important;
-    padding:12px !important;
-}}
-
-textarea {{
-    border-radius:20px !important;
-}}
-
 .card {{
     background:white;
     padding:15px;
@@ -114,7 +101,7 @@ textarea {{
 """, unsafe_allow_html=True)
 
 # ---------------- BUTTON FUNCTION ----------------
-def menu_button(label, icon, key):
+def menu_button(label, icon, page_key):
     if st.button(f"""
 <div class="menu-content">
     <div class="menu-left">{icon}</div>
@@ -123,8 +110,8 @@ def menu_button(label, icon, key):
         <span>{arrow}</span>
     </div>
 </div>
-""", key=key):
-        go(key)
+""", key=f"btn_{page_key}"):   # ✅ حل المشكلة هون
+        go(page_key)
 
 # ================= MAIN =================
 if st.session_state.page == "main":
