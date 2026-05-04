@@ -60,7 +60,6 @@ color:#102646;
 margin: 8px 0 8px 4px;
 }}
 
-/* إضافة خاصية النقر مرة أخرى */
 .clickable {{ cursor: pointer; transition: transform 0.2s, opacity 0.2s; }}
 .clickable:active {{ transform: scale(0.96); opacity: 0.8; }}
 
@@ -109,10 +108,19 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الملف الشخصي
+# مدخلات المستخدم (الاسم والموقع)
 # =====================================
-user_name = st.text_input("Enter User Name", value="User Name")
+col_in1, col_in2 = st.columns(2)
+with col_in1:
+    user_name = st.text_input("Enter User Name", value="User Name")
+with col_in2:
+    # قائمة المحافظات بناءً على الصورة
+    locations = ["Amman", "Zarqa", "Irbid", "Balqa", "Mafraq", "Jerash", "Ajloun", "Madaba", "Karak", "Tafilah", "Ma'an", "Aqaba"]
+    selected_location = st.selectbox("Select Location", options=locations)
 
+# =====================================
+# 1. قسم الملف الشخصي (يتعدل بناءً على الاختيار)
+# =====================================
 st.markdown(f"""
 <div class="card clickable">
 <div style="display:flex; gap:10px; align-items:flex-start;">
@@ -124,13 +132,13 @@ st.markdown(f"""
 </div>
 </div>
 <div style="margin-top:10px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
-📍 Location: Amman
+📍 Location: {selected_location}
 </div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد (مع العداد وخاصية النقر)
+# 2. معلومات الرصيد
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
@@ -157,7 +165,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (مع خاصية النقر)
+# 3. أيقونات الخدمات
 # =====================================
 st.markdown("""
 <div class="grid4">
@@ -188,14 +196,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (مع العداد وخاصية النقر)
+# 5. قوة الشبكة (يتعدل بناءً على الاختيار)
 # =====================================
-st.markdown("""
+st.markdown(f"""
 <div class="title">Network Strength in your area</div>
 <div class="card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 1.2;">
-<div style="font-size:16px; font-weight:900; color:#102646;">📍 Amman</div>
+<div style="font-size:16px; font-weight:900; color:#102646;">📍 {selected_location}</div>
 <div style="font-size:13px; font-weight:700; color:#003366; margin-bottom:8px;">Very Strong Signal</div>
 <div style="display: flex; gap: 6px;">
 <div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
