@@ -6,152 +6,156 @@ st.set_page_config(page_title="Settings", layout="centered")
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
+if "lang" not in st.session_state:
+    st.session_state.lang = "en"
+
 def go(page):
     st.session_state.page = page
     st.rerun()
 
-# ---------------- STYLE ----------------
-st.markdown("""
-<style>
-[data-testid="stAppViewContainer"] {
-    background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
+def set_lang(lang):
+    st.session_state.lang = lang
+    st.rerun()
+
+is_ar = st.session_state.lang == "ar"
+
+# ---------------- TEXT ----------------
+T = {
+    "settings": "الإعدادات" if is_ar else "Settings",
+    "pass": "Change Password" if not is_ar else "تغيير كلمة المرور",
+    "lang": "Change Language" if not is_ar else "تغيير اللغة",
+    "rate": "Rate App" if not is_ar else "تقييم التطبيق",
+    "logout": "Log Out" if not is_ar else "تسجيل الخروج",
+    "report": "Report a Problem" if not is_ar else "الإبلاغ عن مشكلة",
+    "contact": "Contact Us" if not is_ar else "تواصل معنا",
+    "save": "Save" if not is_ar else "حفظ",
 }
 
-.block-container {
+# ---------------- STYLE ----------------
+st.markdown(f"""
+<style>
+[data-testid="stAppViewContainer"] {{
+    background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
+}}
+
+.block-container {{
     max-width:370px;
     margin:auto;
     padding:30px 20px;
     background: rgba(255,255,255,0.25);
     backdrop-filter: blur(10px);
     border-radius:40px;
-    min-height:650px;
-}
+}}
 
-/* header */
-.header {
+body {{
+    direction: {"rtl" if is_ar else "ltr"};
+}}
+
+.header {{
     text-align:center;
     font-size:20px;
     font-weight:700;
     margin-bottom:25px;
     color:#0f2446;
-}
+}}
 
-/* ===== SETTINGS ROW ===== */
-.row {
+.stButton > button {{
+    width:100%;
+    border:none;
     background:#ffffff;
     border-radius:50px;
-    padding:14px 18px;
+    padding:16px;
     margin-bottom:12px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-    cursor:pointer;
-}
-
-.left {
-    display:flex;
     align-items:center;
-    gap:10px;
-    font-weight:600;
-    color:#0f2446;
-}
-
-.icon {
-    font-size:16px;
-}
-
-.arrow {
-    font-size:18px;
-    color:#0f2446;
-}
-
-/* ===== INPUT ===== */
-.input-box {
-    background:#ffffff;
-    border-radius:40px;
-    padding:14px 18px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:20px;
-    box-shadow:0 6px 0px #2c2f36;
-}
-
-.input-box input {
-    border:none;
-    outline:none;
-    background:transparent;
-    width:100%;
     font-size:14px;
-    color:#000;
-}
+    color:#0f2446;
+    box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}}
 
-.lock {
-    color:#d8c7a0;
-}
+.stButton > button:hover {{
+    transform:translateY(-2px);
+}}
 
-.eye {
-    color:#555;
-}
-
-/* ===== BUTTON ===== */
-.stButton > button {
-    width:100%;
-    border:none;
-    background:#ffffff;
-    border-radius:50px;
-    padding:14px;
-    font-size:14px;
-    color:#000;
+input {{
+    border-radius:30px !important;
+    padding:12px !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}
+}}
 
-/* save */
-.save-wrap {
-    margin-top:40px;
-    display:flex;
-    justify-content:center;
-}
+textarea {{
+    border-radius:20px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}}
 
-.save-wrap button {
-    width:180px;
-    padding:16px;
-    font-size:16px;
-    border-radius:50px;
-}
+
+.card {{
+    background:white;
+    padding:15px;
+    border-radius:25px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    margin-bottom:15px;
+}}
+
+.st-b7 {{
+    background-color: rgb(255 255 255);
+        color: black;
+}}
+
+.st.text_input{{
+ color: black;
+}}
+
+.st-bc {{
+   color: black;
+}}
+
+.block-container {{
+    height: 600px;
+}}
+
+.st-emotion-cache-zh2fnc  {{
+   width:100%;
+    height: auto;
+    max-width: 100%;
+    min-width: 1rem;
+    position: relative;
+    overflow: visible;
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
 # ================= MAIN =================
 if st.session_state.page == "main":
 
-    st.markdown('<div class="header">Settings</div>', unsafe_allow_html=True)
+    st.markdown(f"<div class='header'>{T['settings']}</div>", unsafe_allow_html=True)
 
-    if st.button("🔒  Change Password   ›"):
+    if st.button(f"🔒 {T['pass']}"):
         go("pass")
 
-    if st.button("🌐  Change Language   ›"):
+    if st.button(f"🌐 {T['lang']}"):
         go("lang")
 
-    if st.button("⭐  Rate App   ›"):
+    if st.button(f"⭐ {T['rate']}"):
         go("rate")
 
-    if st.button("🚪  Log Out   ›"):
+    if st.button(f"🚪 {T['logout']}"):
         go("logout")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        if st.button("⚠️ Report"):
+        if st.button(f"⚠️ {T['report']}"):
             go("report")
 
     with col2:
-        if st.button("✉️ Contact"):
+        if st.button(f"✉️ {T['contact']}"):
             go("contact")
 
-# ================= PASSWORD =================
-elif st.session_state.page == "pass":
+# ================= SUB =================
+else:
 
     col1, col2 = st.columns([1,4])
 
@@ -160,69 +164,52 @@ elif st.session_state.page == "pass":
             go("main")
 
     with col2:
-        st.markdown('<div class="header">Change Password</div>', unsafe_allow_html=True)
+        st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="input-box">
-        <span class="lock">🔒</span>
-        <input placeholder="Current Password">
-        <span class="eye">👁</span>
-    </div>
+    # -------- PASSWORD -------- (بدون card)
+    if st.session_state.page == "pass":
 
-    <div class="input-box">
-        <span class="lock">🔒</span>
-        <input placeholder="New Password">
-        <span class="eye">👁</span>
-    </div>
+        st.text_input("", placeholder="Current Password")
+        st.text_input("", placeholder="New Password")
+        st.text_input("", placeholder="Re-write Password")
 
-    <div class="input-box">
-        <span class="lock">🔒</span>
-        <input placeholder="Re-write New Password">
-        <span class="eye">👁</span>
-    </div>
-    """, unsafe_allow_html=True)
+        st.button(T["save"])
 
-    st.markdown('<div class="save-wrap">', unsafe_allow_html=True)
-    st.button("Save")
-    st.markdown('</div>', unsafe_allow_html=True)
+    # -------- LANGUAGE -------- (بدون card)
+    elif st.session_state.page == "lang":
 
-# ================= LANGUAGE =================
-elif st.session_state.page == "lang":
+        if st.button("🌐 English"):
+            set_lang("en")
 
-    st.markdown('<div class="header">Change Language</div>', unsafe_allow_html=True)
+        if st.button("🌐 العربية"):
+            set_lang("ar")
 
-    st.button("English")
-    st.button("العربية")
+    # -------- RATE -------- (بدون card)
+    elif st.session_state.page == "rate":
 
-# ================= RATE =================
-elif st.session_state.page == "rate":
+        st.button("▶ Google Play Store")
+        st.button("🍎 Apple App Store")
+        st.button("📱 Huawei AppGallery")
 
-    st.markdown('<div class="header">Rate App</div>', unsafe_allow_html=True)
+    # -------- LOGOUT --------
+    elif st.session_state.page == "logout":
 
-    st.button("Google Play Store")
-    st.button("Apple App Store")
-    st.button("Huawei AppGallery")
+        st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
+        st.button(T["logout"])
 
-# ================= LOGOUT =================
-elif st.session_state.page == "logout":
+    # -------- REPORT -------- (مع card)
+    elif st.session_state.page == "report":
 
-    st.markdown('<div class="header">Log Out</div>', unsafe_allow_html=True)
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.text_area("", placeholder="I need help")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-    st.warning("Are you sure?")
-    st.button("Confirm Logout")
+        st.button("Send Report")
 
-# ================= REPORT =================
-elif st.session_state.page == "report":
+    # -------- CONTACT -------- (مع card)
+    elif st.session_state.page == "contact":
 
-    st.markdown('<div class="header">Report</div>', unsafe_allow_html=True)
-
-    st.text_area("", placeholder="I need help")
-    st.button("Send Report")
-
-# ================= CONTACT =================
-elif st.session_state.page == "contact":
-
-    st.markdown('<div class="header">Contact Us</div>', unsafe_allow_html=True)
-
-    st.write("📧 CoCare26@gmail.com")
-    st.write("📞 +962 79 123 4567")
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.write("📧 CoCare26@gmail.com")
+        st.write("📞 +962 79 123 4567")
+        st.markdown("</div>", unsafe_allow_html=True)
