@@ -1,8 +1,11 @@
 import streamlit as st
 
+st.set_page_config(layout="centered")
+
 def navigate():
-    params = st.query_params
-    page = params.get("page", "login")
+    # ✅ استخدام الطريقة المستقرة لقراءة الـ query params
+    params = st.experimental_get_query_params()
+    page = params.get("page", ["login"])[0]
     
     if page == "login":
         st.switch_page("arabic-app.py")
@@ -33,7 +36,7 @@ def navigate():
         
     elif page == "logout":
         st.session_state.clear()
-        st.query_params.clear()
+        st.experimental_set_query_params()
         st.switch_page("arabic-app.py")
 
 if __name__ == "__main__":
