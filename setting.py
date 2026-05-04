@@ -54,20 +54,20 @@ if selection == "setting":
         st.markdown('<div class="settings-card">', unsafe_allow_html=True)
         st.markdown('<h2 style="text-align:center; color:#0f2446; margin-bottom:25px;">Settings</h2>', unsafe_allow_html=True)
         
-        if st.button("🔒 Change Password                               ›"): nav_settings('change_password_page')
-        if st.button("🌐 Change Language                               ›"): nav_settings('language_page')
-        if st.button("⭐ Rate App                                       ›"): nav_settings('rate_page')
-        if st.button("🚪 Log Out                                       ›"): nav_settings('logout_page')
+        if st.button("🔒 Change Password                                ›"): nav_settings('change_password_page')
+        if st.button("🌐 Change Language                                ›"): nav_settings('language_page')
+        if st.button("⭐ Rate App                                        ›"): nav_settings('rate_page')
+        if st.button("🚪 Log Out                                        ›"): nav_settings('logout_page')
         
         st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
             if st.button("⚠️ Report\nProblem   ›"): nav_settings('report_page')
         with col2:
-            if st.button("✉️ Contact\nUs            ›"): nav_settings('contact_page')
+            if st.button("✉️ Contact\nUs             ›"): nav_settings('contact_page')
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # ب. صفحة تغيير كلمة المرور (التصميم الجديد والمتحرك)
+    # ب. صفحة تغيير كلمة المرور
     elif st.session_state.settings_sub_page == 'change_password_page':
         if st.button("Back", key="back_pass", help="hidden"): nav_settings('main_menu')
         components.html("""
@@ -113,22 +113,64 @@ if selection == "setting":
         </html>
         """, height=550)
 
-    # ج. صفحة تغيير اللغة
+    # ج. صفحة تغيير اللغة (النسخة المحدثة بالحركات)
     elif st.session_state.settings_sub_page == 'language_page':
         if st.button("Back", key="back_lang", help="hidden"): nav_settings('main_menu')
         components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
-            .card { width: 350px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; cursor: pointer; color: #0f2446; font-weight: bold; }
-            .lang-opt { background: white; border-radius: 100px; padding: 15px 25px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; color: #0f2446; font-weight: bold; cursor: pointer; }
-        </style>
-        <div class="card">
-            <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_lang]').click()"><</div><h2 style="color:#0f2446">Language</h2></div>
-            <div class="lang-opt" onclick="alert('English Selected')"><span>🇺🇸 English</span><span>›</span></div>
-            <div class="lang-opt" onclick="alert('العربية مختارة')"><span>🇯🇴 العربية</span><span>›</span></div>
-        </div>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <style>
+                body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
+                .main-wrapper { 
+                    width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
+                    border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px; display: flex; flex-direction: column;
+                }
+                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
+                .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; transition: transform 0.2s ease; }
+                .back-icon:active { transform: scale(0.7); }
+                .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
+                .language-capsule { 
+                    background: white; border-radius: 100px; padding: 15px 25px; margin-bottom: 15px; 
+                    display: flex; align-items: center; justify-content: space-between; 
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; 
+                    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+                }
+                .language-capsule:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+                .left-content { display: flex; align-items: center; gap: 12px; }
+                .icon { color: #0f2446; font-size: 18px; transition: transform 0.3s ease; }
+                .language-capsule:active .icon { transform: rotate(20deg) scale(1.2); }
+                .label { color: #0f2446; font-weight: 700; font-size: 14px; }
+                .status-mark { font-size: 18px; font-weight: bold; transition: transform 0.3s ease; }
+                .language-capsule:active .status-mark { transform: translateX(5px); }
+                .check { color: #2f80ed; } 
+                .arrow-icon { color: #0f2446; font-size: 18px; }
+            </style>
+        </head>
+        <body>
+            <div class="main-wrapper">
+                <div class="header-container">
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_lang]').click()">&lt;</div>
+                    <h2 class="title">Language</h2>
+                </div>
+                <div class="language-capsule" onclick="alert('English Selected')">
+                    <div class="left-content">
+                        <div class="icon"><i class="fas fa-globe"></i></div>
+                        <div class="label">English</div>
+                    </div>
+                    <div class="status-mark check"><i class="fas fa-check"></i></div>
+                </div>
+                <div class="language-capsule" onclick="alert('العربية مختارة')">
+                    <div class="left-content">
+                        <div class="icon"><i class="fas fa-globe"></i></div>
+                        <div class="label">العربية</div>
+                    </div>
+                    <div class="status-mark"><span class="arrow-icon">&gt;</span></div>
+                </div>
+            </div>
+        </body>
+        </html>
         """, height=550)
 
     # د. صفحة الإبلاغ عن مشكلة
