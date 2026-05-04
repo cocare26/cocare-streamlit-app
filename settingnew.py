@@ -1,117 +1,122 @@
 import streamlit as st
 
-st.set_page_config(page_title="Settings", layout="centered")
+# 1. إعدادات الصفحة
+st.set_page_config(page_title="Settings UI", layout="wide") 
 
-# ---------------- TEXT ----------------
-T = {
-    "settings": "Settings",
-    "pass": "Change Password",
-    "lang": "Change Language",
-    "rate": "Rate App",
-    "logout": "Log Out",
-    "report": "Report a Problem",
-    "contact": "Contact Us",
-}
+# 2. إدارة حالة التنقل (Session State)
+if 'page' not in st.session_state:
+    st.session_state.page = 'main'
 
-# ---------------- STYLE ----------------
+def nav(page_name):
+    st.session_state.page = page_name
+
+# 3. تنسيق الـ CSS
 st.markdown("""
 <style>
-[data-testid="stAppViewContainer"] {
-    background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
+:root {
+    --navy: #0f2446;
+    --bg1: #d6ecff; 
+    --bg2: #bfe3ff; 
+    --bg3: #eaf6ff;
 }
 
+[data-testid="stAppViewContainer"] { 
+    background: #eef2f7; 
+}
+
+/* البوكس الرئيسي */
 .block-container {
-    max-width:370px;
-    margin:auto;
-    padding:30px 20px;
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(10px);
-    border-radius:40px;
+    max-width: 80% !important; 
+    margin-left: auto !important;  
+    margin-right: 2% !important;   
+    padding: 30px 40px;
+    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+    border-radius: 42px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
 }
 
-.header {
-    text-align:center;
-    font-size:20px;
-    font-weight:700;
-    margin-bottom:25px;
-    color:#0f2446;
+/* تصميم الأزرار النحيفة */
+div.stButton > button {
+    width: 100% !important;
+    height: 55px !important; 
+    border-radius: 100px !important; 
+    border: none !important;
+    background: white !important;
+    color: var(--navy) !important;
+    font-weight: bold;
+    font-size: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-left: 35px !important;
+    padding-right: 35px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+    transition: 0.3s;
 }
 
-/* 🔥 كل الأزرار */
-.stButton > button {
-    width:100%;
-    border:none;
-    background:#ffffff;
-    border-radius:50px;
-    padding:16px;
-    margin-bottom:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-size:14px;
-    color:#0f2446;
-    box-shadow:0 6px 15px rgba(0,0,0,0.08);
-    direction: ltr;
+div.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 
-/* 🔥 أول 4 أزرار (مسافة كبيرة) */
-.stButton:nth-of-type(-n+4) button p {
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin:0;
-    padding-left:60px;
-    padding-right:60px;
+/* --- تصغير كلمة Settings لتصل لـ 50 بكسل --- */
+.settings-header {
+    color: #000000 !important; 
+    font-weight: 900 !important;
+    font-size: 50px !important; /* الحجم الجديد المطلوب */
+    margin: 0 !important;
+    flex-grow: 1;
+    text-align: center;
+    padding-left: 50px; 
+    line-height: 1.2;
 }
 
-/* 🔥 آخر زرين (صغار) */
-.stButton:nth-of-type(n+5) button {
-    padding:10px !important;
-    font-size:12px !important;
-    border-radius:40px;
+/* سهم الرجوع متناسب مع العنوان الجديد */
+.back-arrow {
+    font-size: 40px !important; 
+    font-weight: 900 !important; 
+    color: #000000 !important; 
 }
 
-/* 🔥 مسافة داخلية بسيطة لآخر زرين */
-.stButton:nth-of-type(n+5) button p {
-    padding-left:15px;
-    padding-right:15px;
-}
-
-.stButton > button:hover {
-    transform:translateY(-2px);
-}
 </style>
 """, unsafe_allow_html=True)
 
-# ================= MAIN =================
+# 4. عرض المحتوى
+if st.session_state.page == 'main':
+    # هيدر الصفحة
+    st.markdown("""
+        <div style="display: flex; align-items: center; margin-bottom: 30px; padding-left: 20px;">
+            <span class="back-arrow">‹</span>
+            <p class="settings-header">Settings</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # دالة بناء الأزرار
+    def make_btn(emoji, label, page, gap_size):
+        gap = "&nbsp;" * gap_size 
+        if st.button(f"{emoji} {gap} {label} &nbsp;&nbsp; ›"):
+            nav(page)
 
-st.markdown(f"<div class='header'>{T['settings']}</div>", unsafe_allow_html=True)
+    # الأزرار بالمسافات الأصلية
+    make_btn("🔒", "Change Password", "password", gap_size=130)
+    make_btn("🌐", "Change Language", "language", gap_size=130)
+    make_btn("⭐", "Rate App", "rate", gap_size=145)
+    make_btn("🚪", "Log Out", "main", gap_size=145)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
 
-# 🔒 Password
-if st.button(f"🔒 {T['pass']}"):
-    st.switch_page("pages/Change_Password.py")
+    # السطر الأخير
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("⚠️ Report a Problem &nbsp; ›"): nav('report')
+    with col2:
+        if st.button("✉️ Contact Us &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ›"): nav('contact')
 
-# 🌐 Language
-if st.button(f"🌐 {T['lang']}"):
-    st.switch_page("pages/Language.py")
+# الشاشات الفرعية
+elif st.session_state.page == 'password':
+    if st.button("‹ Back"): nav('main')
+    st.markdown("<h1 style='text-align:center; color: black;'>Change Password</h1>", unsafe_allow_html=True)
 
-# ⭐ Rate App
-if st.button(f"⭐ {T['rate']}"):
-    st.switch_page("pages/Rate_App.py")
-
-# 🚪 Logout
-if st.button(f"🚪 {T['logout']}"):
-    st.session_state.clear()
-    st.switch_page("app.py")
-
-# 👇 آخر زرين بنفس السطر
-col1, col2 = st.columns(2)
-
-with col1:
-    if st.button(f"⚠️ {T['report']}"):
-        st.switch_page("pages/Report.py")
-
-with col2:
-    if st.button(f"✉️ {T['contact']}"):
-        st.switch_page("pages/Contact.py")
+elif st.session_state.page == 'language':
+    if st.button("‹ Back"): nav('main')
+    st.markdown("<h1 style='text-align:center; color: black;'>Change Language</h1>", unsafe_allow_html=True)
