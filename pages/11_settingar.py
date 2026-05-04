@@ -81,46 +81,6 @@ if st.button("🔒 تغيير كلمة المرور               
     st.switch_page("pages/6_Change_Password.py")
 
 if st.button("🌐 تغيير اللغة                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         صفحات السيتنغ بدنا نفصلهم 
-ونخلي كل صفحة جواها لحالها تصير 
-وصفحة السيتنغ يكون فيها صفحة السيتنغ بس 
-والصفحات الباقية كل وحده انقلها على صفحتها المخصصه 
-ومن صفحة السيتنغ بس يدخل على اي صفحة من خلال رابط يودي على الصفحة الي بدي ياها 
-وحسب ديزاينات باقي صفحات المشروع 
-على اساسهم اعملي عرض وطول الصفحات والخطوط والاوان وكل اشي 
-ضروري تعملي نفس ديزاينات الصفحات الثانية 
-وهسا ببعتلك صورة فيها كيف لازم يكون ديزاين الصفحات الثانية يا قلبي 
-ضروري كتير يكون كل اشي شغال وما في اي غلط يا قلبي 
-<attachment filename="cocare-streamlit-app-main(2).zip" local_path="/home/ubuntu/upload/cocare-streamlit-app-main(2).zip" />
 
-هي صورة بس مش واضحه بس بشكل تقريبي يعني 
-<attachment filename="الصفحات.jpg" local_path="/home/ubuntu/upload/الصفحات.jpg" />
-لو تشوف كيف المشروع مربوط والصفحات مربوطه 
-وتربطلي صفحات السيتنغ زيهم 
-ولو بدك توخدج منهم اشياء متشابهة وتحطهم بالستنغ برضو بصير 
-
-أنا Manus، قمت بتنفيذ طلبك بدقة عالية وفصلت جميع صفحات الإعدادات لتصبح مستقلة تماماً مع الحفاظ على التصميم الفاخر الذي طلبته.
-
-### ما تم إنجازه:
-1.  **فصل الصفحات**: تم إنشاء ملفات مستقلة لكل صفحة (تغيير كلمة المرور، اللغة، التقييم، الإبلاغ، تواصل معنا) داخل مجلد `pages`.
-2.  **نظام الربط الجذري**: قمت بإنشاء ملف `main_app.py` ليكون المركز الرئيسي للمشروع، واستخدمت تقنية `st.switch_page` الرسمية لضمان عمل التنقل بين الصفحات بنسبة 100% وبدون أي مشاكل في المتصفح.
-3.  **مطابقة التصميم**: استخدمت CSS مخصص لتحويل أزرار Streamlit إلى كبسولات مطابقة تماماً للصورة التي أرفقتها، مع الحفاظ على الألوان والخطوط والأبعاد.
-
-### الملفات الجديدة التي تم إنشاؤها/تحديثها:
-*   `/home/ubuntu/cocare-streamlit-app-main/main_app.py` (الملف الرئيسي للتشغيل)
-*   `/home/ubuntu/cocare-streamlit-app-main/pages/11_settingar.py` (صفحة الإعدادات العربية)
-*   `/home/ubuntu/cocare-streamlit-app-main/pages/5_setting.py` (صفحة الإعدادات الإنجليزية)
-*   `/home/ubuntu/cocare-streamlit-app-main/pages/6_Change_Password.py`
-*   `/home/ubuntu/cocare-streamlit-app-main/pages/7_Change_Language.py`
-*   `/home/ubuntu/cocare-streamlit-app-main/pages/8_Rate_App.py`
-*   `/home/ubuntu/cocare-streamlit-app-main/pages/9_Report_Problem.py`
-*   `/home/ubuntu/cocare-streamlit-app-main/pages/10_Contact_Us.py`
-
-### طريقة التشغيل الصحيحة:
-يرجى استخدام الأمر التالي لتشغيل المشروع لضمان عمل كافة الروابط:
-`streamlit run main_app.py`
-
-لقد أرفقت لك النسخة الكاملة والمحدثة من المشروع في ملف مضغوط. جميع الصفحات الآن مترابطة وتعمل بسلاسة تامة.
-
-<attachment filename="cocare_project_final_fixed.zip" local_path="/home/ubuntu/cocare_project_final_fixed.zip" />
 
 أي خدمة ثانية أنا موجود يا قلبي!
