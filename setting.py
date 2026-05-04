@@ -173,7 +173,7 @@ if selection == "setting":
         </html>
         """, height=550)
 
-    # د. صفحة الإبلاغ عن مشكلة (التحديث الجديد المدمج)
+    # د. صفحة الإبلاغ عن مشكلة
     elif st.session_state.settings_sub_page == 'report_page':
         if st.button("Back", key="back_report", help="hidden"): nav_settings('main_menu')
         components.html("""
@@ -234,22 +234,56 @@ if selection == "setting":
         </html>
         """, height=550)
 
-    # هـ. صفحة اتصل بنا
+    # هـ. صفحة اتصل بنا (تم تحديثها بالكود الجديد)
     elif st.session_state.settings_sub_page == 'contact_page':
         if st.button("Back", key="back_contact", help="hidden"): nav_settings('main_menu')
         components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
-            .card { width: 350px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; cursor: pointer; color: #0f2446; font-weight: bold; }
-            .capsule { background: white; border-radius: 100px; padding: 15px 20px; margin-bottom: 15px; display: flex; align-items: center; color: #0f2446; font-weight: bold; cursor: pointer; }
-        </style>
-        <div class="card">
-            <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_contact]').click()"><</div><h2 style="color:#0f2446">Contact Us</h2></div>
-            <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">📧 CoCare26@gmail.com</div>
-            <div class="capsule" onclick="window.location.href='tel:+962791234567'">📞 +962 79 123 4567</div>
-        </div>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <style>
+                body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
+                .main-wrapper {
+                    width: 100%; max-width: 310px; display: flex; flex-direction: column; padding: 10px;
+                }
+                .header-container {
+                    display: flex; align-items: center; justify-content: center; margin-bottom: 45px; position: relative;
+                }
+                /* حركة سهم الرجوع للخلف */
+                .back-icon {
+                    position: absolute; left: 5px; font-size: 26px; font-weight: bold; color: #0f2446; cursor: pointer; transition: all 0.3s ease;
+                }
+                .back-icon:hover { transform: translateX(-10px); color: #1a3a6d; }
+                .title { margin: 0; font-weight: 800; font-size: 22px; color: #0f2446; }
+                /* حركة الكبسولة */
+                .capsule {
+                    background: white; border-radius: 25px; padding: 18px 25px; margin-bottom: 20px;
+                    display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer;
+                }
+                .capsule:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 12px 20px rgba(15, 36, 70, 0.15); }
+                .icon { margin-right: 18px; color: #0f2446; font-size: 19px; width: 25px; display: flex; justify-content: center; }
+                .text { color: #0f2446; font-weight: 700; font-size: 15px; }
+            </style>
+        </head>
+        <body>
+            <div class="main-wrapper">
+                <div class="header-container">
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_contact]').click()">&lt;</div>
+                    <h2 class="title">Contact Us</h2>
+                </div>
+                <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">
+                    <div class="icon"><i class="fas fa-envelope"></i></div>
+                    <div class="text">CoCare26@gmail.com</div>
+                </div>
+                <div class="capsule" onclick="window.location.href='tel:+962791234567'">
+                    <div class="icon"><i class="fas fa-phone-alt"></i></div>
+                    <div class="text">+962 79 123 4567</div>
+                </div>
+            </div>
+        </body>
+        </html>
         """, height=550)
 
     # و. صفحة تسجيل الخروج
