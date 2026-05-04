@@ -1,74 +1,30 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
-st.set_page_config(page_title="App", layout="centered")
+st.set_page_config(page_title="Settings", layout="centered")
 
-components.html("""
-<!DOCTYPE html>
-<html>
-<head>
+# ===== CSS =====
+st.markdown("""
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-body{
-    margin:0;
+#MainMenu, header, footer { visibility:hidden; }
+
+[data-testid="stAppViewContainer"] {
     background:#f0f7ff;
-    font-family:Arial;
-    display:flex;
-    justify-content:center;
 }
 
-/* phone frame */
-.app {
-    width:390px;
-    height:700px;
+.block-container {
+    max-width:430px;
+    margin:auto;
+    padding:18px 16px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius:42px;
-    padding:20px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
-    overflow:hidden;
+}
+
+/* الكارد */
+.card {
     position:relative;
-}
-
-/* pages */
-.page {
-    position:absolute;
-    width:100%;
-    top:0;
-    left:0;
-    transition:0.4s;
-}
-
-.hidden {
-    transform:translateX(100%);
-    opacity:0;
-}
-
-.active {
-    transform:translateX(0);
-    opacity:1;
-}
-
-/* header */
-.header {
-    text-align:center;
-    position:relative;
-    margin-bottom:25px;
-}
-
-.back {
-    position:absolute;
-    left:0;
-    font-size:26px;
-    cursor:pointer;
-}
-
-.title {
-    font-weight:900;
-}
-
-/* cards */
-.item {
     background:white;
     border-radius:100px;
     padding:14px 22px;
@@ -77,122 +33,56 @@ body{
     justify-content:space-between;
     align-items:center;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    cursor:pointer;
-    transition:0.2s;
 }
 
-.item:hover {
-    transform:scale(0.97);
+/* زر يغطي الكارد كامل */
+div.stButton > button {
+    position:absolute;
+    left:0;
+    width:100%;
+    height:55px;
+    opacity:0;
+    z-index:10;
 }
 
-/* bottom */
-.bottom {
-    display:flex;
-    gap:10px;
-    margin-top:40px;
-}
-
-.bottom div {
-    flex:1;
-    background:white;
-    padding:12px;
-    border-radius:100px;
-    text-align:center;
-    cursor:pointer;
+/* hover */
+.card:hover {
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 </style>
-</head>
 
-<body>
+<h2 style="text-align:center;color:#102646;">Settings</h2>
+""", unsafe_allow_html=True)
 
-<div class="app">
-
-<!-- SETTINGS -->
-<div id="settings" class="page active">
-    <div class="header">
-        <h2 class="title">Settings</h2>
-    </div>
-
-    <div class="item" onclick="go('password')">
-        <span><i class="fas fa-lock"></i> Change Password</span>
+# ===== عنصر reusable =====
+def item(label, icon, page):
+    st.markdown(f"""
+    <div class="card">
+        <div style="display:flex;gap:12px;align-items:center;">
+            <i class="{icon}"></i>
+            <span style="font-weight:800;">{label}</span>
+        </div>
         <span>›</span>
     </div>
+    """, unsafe_allow_html=True)
 
-    <div class="item" onclick="go('language')">
-        <span><i class="fas fa-globe"></i> Change Language</span>
-        <span>›</span>
-    </div>
+    if st.button(label):
+        st.switch_page(page)
 
-    <div class="item" onclick="go('rate')">
-        <span><i class="fas fa-star"></i> Rate App</span>
-        <span>›</span>
-    </div>
+# ===== العناصر =====
+item("Change Password", "fas fa-lock", "pages/ChangePassword.py")
+item("Change Language", "fas fa-globe", "pages/ChangeLanguage.py")
+item("Rate App", "fas fa-star", "pages/RateApp.py")
+item("Log Out", "fas fa-sign-out-alt", "main_app.py")
 
-    <div class="item" onclick="go('logout')">
-        <span><i class="fas fa-sign-out-alt"></i> Log Out</span>
-        <span>›</span>
-    </div>
+# ===== bottom =====
+col1, col2 = st.columns(2)
 
-    <div class="bottom">
-        <div onclick="go('report')">Report</div>
-        <div onclick="go('contact')">Contact</div>
-    </div>
-</div>
+with col1:
+    if st.button("Report Problem"):
+        st.switch_page("pages/ReportProblem.py")
 
-<!-- PASSWORD -->
-<div id="password" class="page hidden">
-    <div class="header">
-        <div class="back" onclick="go('settings')">‹</div>
-        <h2>Change Password</h2>
-    </div>
-</div>
-
-<!-- LANGUAGE -->
-<div id="language" class="page hidden">
-    <div class="header">
-        <div class="back" onclick="go('settings')">‹</div>
-        <h2>Change Language</h2>
-    </div>
-</div>
-
-<!-- RATE -->
-<div id="rate" class="page hidden">
-    <div class="header">
-        <div class="back" onclick="go('settings')">‹</div>
-        <h2>Rate App ⭐</h2>
-    </div>
-</div>
-
-<!-- CONTACT -->
-<div id="contact" class="page hidden">
-    <div class="header">
-        <div class="back" onclick="go('settings')">‹</div>
-        <h2>Contact Us</h2>
-    </div>
-</div>
-
-<!-- REPORT -->
-<div id="report" class="page hidden">
-    <div class="header">
-        <div class="back" onclick="go('settings')">‹</div>
-        <h2>Report Problem</h2>
-    </div>
-</div>
-
-</div>
-
-<script>
-function go(id){
-    document.querySelectorAll('.page').forEach(p=>{
-        p.classList.remove('active');
-        p.classList.add('hidden');
-    });
-
-    document.getElementById(id).classList.remove('hidden');
-    document.getElementById(id).classList.add('active');
-}
-</script>
-
-</body>
-</html>
-""", height=720)
+with col2:
+    if st.button("Contact Us"):
+        st.switch_page("pages/ContactUs.py")
