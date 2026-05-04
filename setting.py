@@ -234,7 +234,7 @@ if selection == "setting":
         </html>
         """, height=550)
 
-    # هـ. صفحة اتصل بنا (تم تحديثها بالكود الجديد)
+    # هـ. صفحة اتصل بنا (تم التحديث كما هو مطلوب)
     elif st.session_state.settings_sub_page == 'contact_page':
         if st.button("Back", key="back_contact", help="hidden"): nav_settings('main_menu')
         components.html("""
@@ -245,20 +245,16 @@ if selection == "setting":
             <style>
                 body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
                 .main-wrapper {
-                    width: 100%; max-width: 310px; display: flex; flex-direction: column; padding: 10px;
+                    width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
+                    border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px; display: flex; flex-direction: column;
                 }
-                .header-container {
-                    display: flex; align-items: center; justify-content: center; margin-bottom: 45px; position: relative;
-                }
-                /* حركة سهم الرجوع للخلف */
-                .back-icon {
-                    position: absolute; left: 5px; font-size: 26px; font-weight: bold; color: #0f2446; cursor: pointer; transition: all 0.3s ease;
-                }
-                .back-icon:hover { transform: translateX(-10px); color: #1a3a6d; }
-                .title { margin: 0; font-weight: 800; font-size: 22px; color: #0f2446; }
-                /* حركة الكبسولة */
+                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 45px; position: relative; }
+                .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; transition: all 0.3s ease; }
+                .back-icon:hover { transform: translateX(-5px); }
+                .back-icon:active { transform: scale(0.7); }
+                .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
                 .capsule {
-                    background: white; border-radius: 25px; padding: 18px 25px; margin-bottom: 20px;
+                    background: white; border-radius: 100px; padding: 18px 25px; margin-bottom: 20px;
                     display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.06);
                     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer;
                 }
