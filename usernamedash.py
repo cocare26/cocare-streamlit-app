@@ -60,9 +60,30 @@ color:#102646;
 margin: 8px 0 8px 4px;
 }}
 
-/* خاصية النقر */
+/* إضافة خاصية النقر مرة أخرى */
 .clickable {{ cursor: pointer; transition: transform 0.2s, opacity 0.2s; }}
 .clickable:active {{ transform: scale(0.96); opacity: 0.8; }}
+
+/* نظام النجوم التفاعلي */
+.star-rating {{
+display: flex;
+flex-direction: row-reverse;
+justify-content: center;
+gap: 4px;
+margin-top: 5px;
+}}
+.star-rating input {{ display: none; }}
+.star-rating label {{
+font-size: 32px;
+color: #ddd;
+cursor: pointer;
+transition: color 0.2s;
+}}
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {{
+color: #f4b400;
+}}
 
 .grid4 {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }}
 .mini {{
@@ -93,7 +114,7 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 user_name = st.text_input("Enter User Name", value="User Name")
 
 st.markdown(f"""
-<div class="card clickable" onclick="alert('Profile details for {user_name}')">
+<div class="card clickable">
 <div style="display:flex; gap:10px; align-items:flex-start;">
 <img src="data:image/png;base64,{robot_full}" style="width:55px; height:70px; object-fit:contain;">
 <div>
@@ -109,11 +130,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد
+# 2. معلومات الرصيد (مع العداد وخاصية النقر)
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
-<div class="card clickable" onclick="alert('Data Usage: 4.7GB used out of 6GB')">
+<div class="card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 2;">
 <div style="font-size:13px; font-weight:700; color:#666;">Remaining GB</div>
@@ -136,24 +157,42 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (مع خاصية الـ Pop-up)
+# 3. أيقونات الخدمات (مع خاصية النقر)
 # =====================================
 st.markdown("""
 <div class="grid4">
-<div class="mini clickable" onclick="alert('Internet Packages: No active offers at the moment.')"><div class="icon">📡</div><div class="mini-text">Internet<br>Packages</div></div>
-<div class="mini clickable" onclick="alert('Renewals: Your plan expires in 21 days.')"><div class="icon">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
-<div class="mini clickable" onclick="alert('International Calls: Balance is 0.00 JOD')"><div class="icon">💰</div><div class="mini-text">International<br>Calls</div></div>
-<div class="mini clickable" onclick="alert('Notifications: Network maintenance scheduled for Friday.')"><div class="icon">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
+<div class="mini clickable"><div class="icon">📡</div><div class="mini-text">Internet<br>Packages</div></div>
+<div class="mini clickable"><div class="icon">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
+<div class="mini clickable"><div class="icon">💰</div><div class="mini-text">International<br>Calls</div></div>
+<div class="mini clickable"><div class="icon">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم و 5. قوة الشبكة
+# 4. قسم التقييم بالنجوم
 # =====================================
-# (بقيت كما هي مع إضافة onclick للتوضيح)
+st.markdown("""
+<div class="title">Service Ratings</div>
+<div class="card">
+<div style="font-weight:900; font-size:14px; color:#102646;">⭐ Service Security Rate</div>
+<div style="margin-top:10px; height:20px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
+<div style="text-align:center; margin-top:12px; font-weight:700; font-size:13px; color:#102646;">Rate our service</div>
+<div class="star-rating">
+<input type="radio" id="s5" name="rate" value="5"><label for="s5">★</label>
+<input type="radio" id="s4" name="rate" value="4"><label for="s4">★</label>
+<input type="radio" id="s3" name="rate" value="3"><label for="s3">★</label>
+<input type="radio" id="s2" name="rate" value="2"><label for="s2">★</label>
+<input type="radio" id="s1" name="rate" value="1"><label for="s1">★</label>
+</div>
+</div>
+""", unsafe_allow_html=True)
+
+# =====================================
+# 5. قوة الشبكة (مع العداد وخاصية النقر)
+# =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
-<div class="card clickable" onclick="alert('Latency Details: \\nPacket Loss: 0% \\nAvg Jitter: 19ms')">
+<div class="card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 1.2;">
 <div style="font-size:16px; font-weight:900; color:#102646;">📍 Amman</div>
@@ -176,6 +215,12 @@ st.markdown("""
 <div style="position: absolute; bottom: 0; left: 50%; width: 2px; height: 40px; background: #333; transform-origin: bottom; transform: rotate(-60deg);"></div>
 </div>
 <div style="font-size: 10px; font-weight: 900; color: #102646; margin-top: 5px;">-68dBm (Excellent)</div>
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 2px; margin-top: 4px;">
+<div style="width: 4px; height: 6px; background: #0056b3;"></div>
+<div style="width: 4px; height: 10px; background: #0056b3;"></div>
+<div style="width: 4px; height: 14px; background: #0056b3;"></div>
+<div style="width: 4px; height: 18px; background: #ccc;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -187,13 +232,13 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable" onclick="alert('Settings menu')">⚙️<br>Settings</div>
-<div class="nav-item clickable" onclick="alert('Spin & Win is loading...')">🎡<br>Spin</div>
-<div class="nav-item clickable" onclick="alert('Chatbot: How can I help you?')">
+<div class="nav-item clickable">⚙️<br>Settings</div>
+<div class="nav-item clickable">🎡<br>Spin</div>
+<div class="nav-item clickable">
 <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:32px;"></div>
 Chatbot
 </div>
-<div class="nav-item active clickable" onclick="alert('You are already at Home')">🏠<br>Home</div>
-<div class="nav-item clickable" onclick="alert('Games section')">🎁<br>Game</div>
+<div class="nav-item active clickable">🏠<br>Home</div>
+<div class="nav-item clickable">🎁<br>Game</div>
 </div>
 """, unsafe_allow_html=True)
