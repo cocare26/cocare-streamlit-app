@@ -177,7 +177,7 @@ else:
 
         import streamlit.components.v1 as components
 
-        components.html((f"""
+        components.html(f"""
         <!DOCTYPE html>
         <html>
         <head>
