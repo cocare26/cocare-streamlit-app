@@ -20,7 +20,7 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور (تأكدي من وجود الملفات في نفس المجلد)
+# تحميل الصور (تأكدي من وجود الملفات في نفس المجلد بنفس هذه الأسماء)
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
@@ -102,17 +102,16 @@ padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-/* --- تعديل: تكبير صورة الروبوت بجانب Welcome --- */
+/* --- تعديل: تكبير الروبوت لدمجه في الداشبورد بدون خلفية --- */
 .robot-img-welcome {{
-    width: 120px; /* تم تكبير العرض */
-    height: auto; /* الحفاظ على التناسب */
-    background: transparent !important;
-    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.15));
-    margin-right: 15px; /* زيادة المسافة قليلاً */
+    width: 130px; /* حجم كبير وواضح */
+    height: auto;
+    background: transparent !important; /* ضمان عدم وجود خلفية */
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1)); /* ظل خفيف لإعطاء عمق */
+    margin-right: 10px;
     object-fit: contain;
 }}
 
-/* تنسيق النصوص المحاذية للصورة الكبيرة */
 .welcome-text-container {{
     display: flex;
     flex-direction: column;
@@ -148,7 +147,7 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الملف الشخصي (Welcome + صورة مكبرة جداً)
+# 1. قسم الملف الشخصي (Welcome + صورة مكبرة مدمجة)
 # =====================================
 st.markdown(f"""
 <div class="card clickable">
