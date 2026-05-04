@@ -26,17 +26,21 @@ st.markdown("""
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* ===== Card Button ===== */
+/* ===== Wrapper ===== */
+.card-wrapper{
+    position:relative;
+}
+
+/* ===== Card UI ===== */
 .card{
     background:white;
     border-radius:100px;
     padding:14px 18px;
     margin-bottom:14px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    cursor:pointer;
     transition:0.25s;
 }
 
@@ -57,12 +61,20 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* hide real button */
-.stButton > button{
+/* ===== Invisible button overlay ===== */
+.card-wrapper .stButton{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+.card-wrapper .stButton button{
+    width:100%;
+    height:100%;
     opacity:0;
-    height:0;
-    padding:0;
-    margin:0;
+    cursor:pointer;
 }
 
 /* header */
@@ -74,7 +86,7 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* inner page card */
+/* inner pages */
 .inner-card{
     background:white;
     padding:18px;
@@ -83,7 +95,6 @@ st.markdown("""
     margin-bottom:15px;
 }
 
-/* nicer inputs */
 input, textarea{
     border-radius:10px !important;
 }
@@ -93,11 +104,13 @@ input, textarea{
 # -------- helper ----------
 def card(label, icon, page, key):
     st.markdown(f"""
-    <div class="card">
-        <div class="left">{label}</div>
-        <div class="right">
-            <span>{icon}</span>
-            <span>›</span>
+    <div class="card-wrapper">
+        <div class="card">
+            <div class="left">{label}</div>
+            <div class="right">
+                <span>{icon}</span>
+                <span>›</span>
+            </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
