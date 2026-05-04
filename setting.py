@@ -173,7 +173,7 @@ else:
 
         components.html("""
         <!DOCTYPE html>
-        <html dir="rtl">
+        <html>
         <head>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
             <style>
@@ -186,9 +186,9 @@ else:
                 .main-wrapper {
                     width: 100%;
                     max-width: 290px;
-                    height: 400px;
                     display: flex;
                     flex-direction: column;
+                    height: 420px;
                 }
 
                 .input-capsule {
@@ -203,7 +203,7 @@ else:
 
                 .input-capsule i.field-icon {
                     color: #0f2446;
-                    margin-left: 12px;
+                    margin-right: 12px;
                     font-size: 16px;
                 }
 
@@ -214,7 +214,6 @@ else:
                     font-size: 14px;
                     color: #0f2446;
                     background: transparent;
-                    text-align: right;
                 }
 
                 .input-capsule input::placeholder {
@@ -224,7 +223,17 @@ else:
                 .input-capsule i.toggle-eye {
                     color: #ccc;
                     cursor: pointer;
-                    margin-right: 10px;
+                    margin-left: 10px;
+                }
+
+                .report-text {
+                    text-align: center;
+                    color: white;
+                    font-size: 13px;
+                    margin-top: 5px;
+                    margin-bottom: 15px;
+                    cursor: pointer;
+                    font-weight: bold;
                 }
 
                 .save-btn-container {
@@ -263,25 +272,26 @@ else:
 
                 <div class="input-capsule">
                     <i class="fas fa-lock field-icon"></i>
-                    <input type="password" placeholder="كلمة المرور الحالية">
-                    <i class="fas fa-eye-slash toggle-eye"></i>
+                    <input type="password" placeholder="Current Password">
                 </div>
 
                 <div class="input-capsule">
                     <i class="fas fa-lock field-icon"></i>
-                    <input type="password" placeholder="كلمة المرور الجديدة">
-                    <i class="fas fa-eye-slash toggle-eye"></i>
+                    <input type="password" placeholder="New Password">
                 </div>
 
                 <div class="input-capsule">
                     <i class="fas fa-lock field-icon"></i>
-                    <input type="password" placeholder="تأكيد كلمة المرور">
-                    <i class="fas fa-eye-slash toggle-eye"></i>
+                    <input type="password" placeholder="Confirm Password">
+                </div>
+
+                <div class="report-text">
+                    Report Password
                 </div>
 
                 <div class="save-btn-container">
-                    <button class="save-box" onclick="alert('تم حفظ كلمة المرور!')">
-                        <span>حفظ</span>
+                    <button class="save-box" onclick="alert('Password Saved!')">
+                        <span>Save</span>
                     </button>
                 </div>
 
