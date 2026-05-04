@@ -61,17 +61,8 @@ margin: 8px 4px 8px 0;
 text-align: right;
 }}
 
-/* تأثير النقر والحركة (Animation) */
-.clickable {{ 
-    cursor: pointer; 
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-}}
-.clickable:active {{ 
-    transform: scale(0.92); /* تأثير الضغط */
-}}
-.nav-item.clickable:active {{
-    transform: scale(1.2); /* تكبير أيقونات الشريط السفلي عند النقر */
-}}
+.clickable {{ cursor: pointer; transition: transform 0.2s, opacity 0.2s; }}
+.clickable:active {{ transform: scale(0.96); opacity: 0.8; }}
 
 /* نظام النجوم */
 .star-rating {{
@@ -80,21 +71,20 @@ justify-content: center;
 gap: 4px;
 margin-top: 5px;
 }}
+.star-rating input {{ display: none; }}
 .star-rating label {{
 font-size: 32px;
 color: #ddd;
 cursor: pointer;
+transition: color 0.2s;
+}}
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {{
+color: #f4b400;
 }}
 
-/* تعديل المسافة بين قسم الرصيد والأيقونات */
-.grid4 {{ 
-    display:grid; 
-    grid-template-columns:repeat(4,1fr); 
-    gap:8px; 
-    margin-top: 25px; /* مسافة لمنع الالتصاق */
-    margin-bottom: 12px; 
-}}
-
+.grid4 {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }}
 .mini {{
 background:white; border-radius:20px; min-height:105px;
 padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
@@ -102,23 +92,12 @@ padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 .icon {{ font-size:24px; margin-bottom:5px; }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-/* تعديل الشريط السفلي والأيقونات */
 .nav {{
 margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
-text-align:center; color:#6b6b6b; align-items: end;
+text-align:center; font-size:11px; font-weight:800; color:#6b6b6b;
 }}
-.nav-item {{
-    font-size: 22px; /* تكبير حجم الأيقونة */
-    font-weight: 800;
-}}
-.nav-text {{
-    font-size: 11px;
-    display: block;
-    margin-top: 2px;
-}}
-
 .bot-bg {{
-width:52px; height:52px; background:white; border-radius:14px;
+width:45px; height:45px; background:white; border-radius:12px;
 margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
@@ -177,7 +156,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (مفصولة بمسافة الآن)
+# 3. أيقونات الخدمات
 # =====================================
 st.markdown("""
 <div class="grid4">
@@ -212,4 +191,49 @@ st.markdown("""
 <div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
 <div style="flex: 1.2; text-align: right;">
 <div style="font-size:16px; font-weight:900; color:#102646;">📍 عمان</div>
-<div style="font-size:13px;
+<div style="font-size:13px; font-weight:700; color:#003366; margin-bottom:8px;">إشارة قوية جداً</div>
+<div style="display: flex; gap: 6px; direction: ltr;">
+<div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
+<div style="font-size: 8px; font-weight: 700; color: #666; line-height:1;">Packet Loss (%)</div>
+<div style="font-size: 18px; font-weight: 900; color: #000; margin-top: 2px;">0</div>
+</div>
+<div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
+<div style="font-size: 8px; font-weight: 700; color: #666; line-height:1;">Avg Jitter (ms)</div>
+<div style="font-size: 18px; font-weight: 900; color: #000; margin-top: 2px;">19</div>
+</div>
+</div>
+</div>
+<div style="flex: 1; text-align: center;">
+<div style="position: relative; width: 100px; margin: 0 auto;">
+<div style="width: 100px; height: 50px; border-radius: 100px 100px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
+<div style="position: absolute; bottom: 0; left: 10px; width: 80px; height: 40px; background: white; border-radius: 80px 80px 0 0;"></div>
+<div style="position: absolute; bottom: 0; left: 50%; width: 2px; height: 40px; background: #333; transform-origin: bottom; transform: rotate(-60deg);"></div>
+</div>
+<div style="font-size: 10px; font-weight: 900; color: #102646; margin-top: 5px; direction: ltr;">-68dBm (ممتاز)</div>
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 2px; margin-top: 4px;">
+<div style="width: 4px; height: 6px; background: #0056b3;"></div>
+<div style="width: 4px; height: 10px; background: #0056b3;"></div>
+<div style="width: 4px; height: 14px; background: #0056b3;"></div>
+<div style="width: 4px; height: 18px; background: #ccc;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+""", unsafe_allow_html=True)
+
+# =====================================
+# 6. الشريط السفلي
+# =====================================
+st.markdown(f"""
+<div class="nav">
+<div class="nav-item clickable">⚙️<br>الإعدادات</div>
+<div class="nav-item clickable">🎡<br>العجلة</div>
+<div class="nav-item clickable">
+<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:32px;"></div>
+المساعد
+</div>
+<div class="nav-item active clickable">🏠<br>الرئيسية</div>
+<div class="nav-item clickable">🎁<br>الألعاب</div>
+</div>
+""", unsafe_allow_html=True)
