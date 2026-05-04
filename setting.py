@@ -74,6 +74,10 @@ st.markdown("""
     position: relative;
     overflow: visible;
 }
+
+.st-b7 {
+    background-color: rgb(255 255 255);
+}
 </style>
 """, unsafe_allow_html=True)
 
