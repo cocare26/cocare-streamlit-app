@@ -26,13 +26,10 @@ st.markdown("""
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* ===== Wrapper ===== */
-.card-wrapper{
-    position:relative;
-}
-
-/* ===== Card UI ===== */
-.card{
+/* ===== BUTTON CARD ===== */
+.stButton > button{
+    width:100%;
+    border:none;
     background:white;
     border-radius:100px;
     padding:14px 18px;
@@ -40,41 +37,24 @@ st.markdown("""
     display:flex;
     justify-content:space-between;
     align-items:center;
+    font-weight:600;
+    color:#0f2446;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     transition:0.25s;
 }
 
-.card:hover{
+/* hover */
+.stButton > button:hover{
     transform:translateY(-2px);
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-.left{
-    font-weight:600;
-    color:#0f2446;
-}
-
-.right{
+/* نص يسار */
+.stButton > button span{
     display:flex;
+    width:100%;
+    justify-content:space-between;
     align-items:center;
-    gap:10px;
-    color:#0f2446;
-}
-
-/* ===== Invisible button overlay ===== */
-.card-wrapper .stButton{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-}
-
-.card-wrapper .stButton button{
-    width:100%;
-    height:100%;
-    opacity:0;
-    cursor:pointer;
 }
 
 /* header */
@@ -86,57 +66,60 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* inner pages */
-.inner-card{
+/* sub pages card */
+.card{
     background:white;
     padding:18px;
     border-radius:20px;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }
-
-input, textarea{
-    border-radius:10px !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
 # -------- helper ----------
-def card(label, icon, page, key):
-    st.markdown(f"""
-    <div class="card-wrapper">
-        <div class="card">
-            <div class="left">{label}</div>
-            <div class="right">
-                <span>{icon}</span>
-                <span>›</span>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("", key=key):
+def item(label, icon, page):
+    text = f"{label}|||{icon}›"  # separator trick
+    if st.button(text):
         go(page)
+
+# CSS trick to split text
+st.markdown("""
+<script>
+const buttons = window.parent.document.querySelectorAll('button');
+buttons.forEach(btn=>{
+    if(btn.innerText.includes('|||')){
+        let parts = btn.innerText.split('|||');
+        btn.innerHTML = `
+            <div style="display:flex; width:100%; justify-content:space-between;">
+                <div>${parts[0]}</div>
+                <div>${parts[1]}</div>
+            </div>
+        `;
+    }
+});
+</script>
+""", unsafe_allow_html=True)
 
 # ================= MAIN =================
 if st.session_state.page == "main":
 
     st.markdown("<div class='header'>Settings</div>", unsafe_allow_html=True)
 
-    card("Change Password", "🔒", "pass", "p1")
-    card("Change Language", "🌍", "lang", "p2")
-    card("Rate App", "⭐", "rate", "p3")
-    card("Log Out", "🚪", "logout", "p4")
+    item("Change Password", "🔒", "pass")
+    item("Change Language", "🌍", "lang")
+    item("Rate App", "⭐", "rate")
+    item("Log Out", "🚪", "logout")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        card("Report", "⚠️", "report", "p5")
+        item("Report", "⚠️", "report")
 
     with col2:
-        card("Contact", "✉️", "contact", "p6")
+        item("Contact", "✉️", "contact")
 
-# ================= SUB PAGES =================
+# ================= SUB =================
 else:
 
     titles = {
@@ -153,62 +136,44 @@ else:
     col1, col2 = st.columns([1,4])
 
     with col1:
-        if st.button("←"):
+        if st.button("← Back"):
             go("main")
 
     with col2:
         st.markdown(f"<div class='header'>{title}</div>", unsafe_allow_html=True)
 
-    # ===== CONTENT =====
+    # ===== content =====
 
     if st.session_state.page == "pass":
-
-        st.markdown("<div class='inner-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.text_input("Current Password", type="password")
         st.text_input("New Password", type="password")
         st.text_input("Confirm Password", type="password")
         st.markdown("</div>", unsafe_allow_html=True)
-
-        st.button("Save Password")
+        st.button("Save")
 
     elif st.session_state.page == "lang":
-
-        st.markdown("<div class='inner-card'>", unsafe_allow_html=True)
-        st.radio("Select Language", ["English", "Arabic"])
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.radio("Language", ["English", "Arabic"])
         st.markdown("</div>", unsafe_allow_html=True)
-
         st.button("Apply")
 
     elif st.session_state.page == "rate":
-
-        st.markdown("<div class='inner-card'>", unsafe_allow_html=True)
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.slider("Rating", 1, 5)
         st.text_area("Feedback")
         st.markdown("</div>", unsafe_allow_html=True)
-
         st.button("Submit")
 
     elif st.session_state.page == "logout":
-
-        st.markdown("<div class='inner-card'>", unsafe_allow_html=True)
-        st.warning("Are you sure you want to log out?")
-        st.markdown("</div>", unsafe_allow_html=True)
-
+        st.warning("Are you sure?")
         st.button("Confirm Logout")
 
     elif st.session_state.page == "report":
-
-        st.markdown("<div class='inner-card'>", unsafe_allow_html=True)
-        st.text_area("Describe the issue")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.button("Send Report")
+        st.text_area("Describe issue")
+        st.button("Send")
 
     elif st.session_state.page == "contact":
-
-        st.markdown("<div class='inner-card'>", unsafe_allow_html=True)
         st.text_input("Email")
         st.text_area("Message")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.button("Send Message")
+        st.button("Send")
