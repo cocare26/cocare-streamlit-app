@@ -1,47 +1,25 @@
 import streamlit as st
 
-st.set_page_config(layout="centered")
+st.set_page_config(page_title="App", layout="centered")
 
-def navigate():
+page = st.query_params.get("page", "")
 
-    params = st.query_params
-    page = params.get("page", "login")
+# ========= ROUTER =========
+if page == "settings":
+    st.switch_page("Setting")
 
-    if isinstance(page, list):
-        page = page[0]
+elif page == "change_password":
+    st.switch_page("ChangePassword")
 
-    if page == "login":
-        st.switch_page("pages/0_arabic_app.py")
+elif page == "change_language":
+    st.switch_page("ChangeLanguage")
 
-    elif page == "customer":
-        st.switch_page("pages/2_Customer.py")
+elif page == "contact":
+    st.switch_page("ContactUs")
 
-    elif page == "settings-en":
-        st.switch_page("pages/5_setting.py")
+elif page == "report":
+    st.switch_page("ReportProblem")
 
-    elif page == "Change_password-ar":
-        st.switch_page("pages/6_Change_Password.py")
-
-    elif page == "Change_language-ar":
-        st.switch_page("pages/7_Change_Language.py")
-
-    elif page == "Rate_app-ar":
-        st.switch_page("pages/8_Rate_App.py")
-
-    elif page == "Report_Problem-ar":
-        st.switch_page("pages/9_Report_Problem.py")
-
-    elif page == "Contact_Us-ar":
-        st.switch_page("pages/10_Contact_Us.py")
-
-    elif page == "settings-ar":
-        st.switch_page("pages/11_settingar.py")
-
-    elif page == "logout":
-        st.session_state.clear()
-        st.query_params.clear()
-        st.switch_page("pages/0_arabic_app.py")
-
-
-if __name__ == "__main__":
-    navigate()
+# ========= DEFAULT =========
+else:
+    st.switch_page("Setting")
