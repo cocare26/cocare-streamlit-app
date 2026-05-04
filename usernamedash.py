@@ -11,10 +11,6 @@ st.set_page_config(
     layout="centered"
 )
 
-# التأكد من وجود اسم مستخدم من صفحة الدخول، وإذا لم يوجد نضع قيمة افتراضية
-if 'user_name' not in st.session_state:
-    st.session_state['user_name'] = "Farah"  # القيمة الافتراضية
-
 # =====================================
 # دالة معالجة الصور (Base64)
 # =====================================
@@ -24,7 +20,6 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# استدعاء الصور
 robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
@@ -41,9 +36,7 @@ font-family:'Segoe UI', sans-serif;
 section.main > div {{ padding-top:8px; }}
 div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 
-/* إخفاء عناصر ستريمليت الافتراضية */
 #MainMenu, header, footer {{ visibility:hidden; }}
-.stTextInput, .stButton {{ display:none; }} 
 
 .block-container {{
 max-width:430px;
@@ -69,14 +62,11 @@ color:#102646;
 margin: 8px 0 8px 4px;
 }}
 
-/* تأثير النقر */
 .clickable {{ 
     cursor: pointer; 
     transition: transform 0.2s ease; 
 }}
-.clickable:active {{ 
-    transform: scale(0.95); 
-}}
+.clickable:active {{ transform: scale(0.95); }}
 
 /* نظام النجوم التفاعلي */
 .star-rating {{
@@ -125,25 +115,36 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 .active {{ color:#0d69dd; }}
 
-/* تحسين صورة الروبوت */
 .robot-img {{
-    width: 75px; /* تكبير الحجم */
+    width: 75px;
     height: auto;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); /* ظل لإبراز الشكل بدون خلفية */
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
     margin-right: 5px;
+}}
+
+/* إصلاح مؤشر العداد */
+.needle {{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: 30px;
+    background: #333;
+    transform-origin: bottom center;
+    z-index: 5;
 }}
 </style>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الملف الشخصي (بدون Input)
+# 1. قسم الملف الشخصي (Welcome فقط)
 # =====================================
 st.markdown(f"""
 <div class="card clickable">
 <div style="display:flex; gap:12px; align-items:center;">
 <img src="data:image/png;base64,{robot_full}" class="robot-img">
 <div>
-<div style="font-size:19px; font-weight:900;">Welcome: {st.session_state['user_name']}</div>
+<div style="font-size:22px; font-weight:900;">Welcome</div>
 <div style="font-size:13px; color:#555;">+962 79 123 4567</div>
 <div style="font-size:13px; color:#555;">Valid until: May 25, 2026</div>
 </div>
@@ -155,7 +156,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد
+# 2. معلومات الرصيد (مع المؤشر)
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
@@ -167,9 +168,10 @@ st.markdown(f"""
 </div>
 <div style="flex: 1; text-align: right;">
 <div style="position: relative; width: 70px; height: 35px; margin-left: auto;">
-<div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
-<div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
-</div>
+    <div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
+        <div class="needle" style="transform: rotate(45deg);"></div>
+    </div>
 </div>
 <div style="font-size:14px; font-weight:900; color:#102646; margin-top:2px;">6 GB</div>
 </div>
@@ -193,7 +195,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم (تفاعلي)
+# 4. قسم التقييم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -212,7 +214,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة
+# 5. قوة الشبكة (مع المؤشر)
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -234,9 +236,10 @@ st.markdown("""
 </div>
 <div style="flex: 1; text-align: center;">
 <div style="position: relative; width: 100px; margin: 0 auto;">
-<div style="width: 100px; height: 50px; border-radius: 100px 100px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
-<div style="position: absolute; bottom: 0; left: 10px; width: 80px; height: 40px; background: white; border-radius: 80px 80px 0 0;"></div>
-</div>
+    <div style="width: 100px; height: 50px; border-radius: 100px 100px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 10px; width: 80px; height: 40px; background: white; border-radius: 80px 80px 0 0;"></div>
+        <div class="needle" style="height: 40px; transform: rotate(-60deg);"></div>
+    </div>
 <div style="font-size: 10px; font-weight: 900; color: #102646; margin-top: 5px;">-68dBm (Excellent)</div>
 </div>
 </div>
