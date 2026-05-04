@@ -327,13 +327,10 @@ else:
         st.button("📱 Huawei AppGallery")
 
     # -------- LOGOUT --------
-  elif st.session_state.page == "logout":
+    elif st.session_state.page == "logout":
 
-    st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
-
-    if st.button(T["logout"]):
-        st.session_state.clear()
-        st.switch_page("app.py")يرجع لصفحة اللوج إن
+        st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
+        st.button(T["logout"])
 
     # -------- REPORT -------- (مع card)
     elif st.session_state.page == "report":
