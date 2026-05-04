@@ -103,23 +103,24 @@ text-decoration:none;
 </div>
 
 <script>
-function goPage(p){
-    window.top.location.href = "/?page=" + p;
-}
-
 function login(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
 
+    // ✅ موظف (11 رقم)
+    if(/^[0-9]{11}$/.test(v)){
+        window.top.location.href = "/?page=employee";
+        return;
+    }
+
+    // ✅ عميل (10 رقم يبدأ بـ 07)
     if(/^07[0-9]{8}$/.test(v)){
         window.top.location.href = "/?page=customer";
+        return;
     }
-    else if(/^[0-9]{11}$/.test(v)){
-        window.top.location.href = "/?page=employee";
-    }
-    else{
-        e.innerText = "Invalid phone or ID number";
-    }
+
+    // ❌ خطأ فقط إذا الرقم غلط
+    e.innerText = "Invalid phone or ID number";
 }
 </script>
 </body>
