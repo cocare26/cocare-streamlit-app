@@ -79,9 +79,8 @@ text-decoration:none;
 <body>
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
-##
 <form class="form" method="get" action="/" target="_self" onsubmit="return setPage()">
-##
+
 <input type="hidden" name="page" id="pageValue">
 
     <input id="username" class="input" placeholder="phone / ID Number"
