@@ -54,10 +54,10 @@ if selection == "setting":
         st.markdown('<div class="settings-card">', unsafe_allow_html=True)
         st.markdown('<h2 style="text-align:center; color:#0f2446; margin-bottom:25px;">Settings</h2>', unsafe_allow_html=True)
         
-        if st.button("🔒 Change Password                                ›"): nav_settings('change_password_page')
-        if st.button("🌐 Change Language                                ›"): nav_settings('language_page')
-        if st.button("⭐ Rate App                                        ›"): nav_settings('rate_page')
-        if st.button("🚪 Log Out                                        ›"): nav_settings('logout_page')
+        if st.button("🔒 Change Password                                 ›"): nav_settings('change_password_page')
+        if st.button("🌐 Change Language                                 ›"): nav_settings('language_page')
+        if st.button("⭐ Rate App                                         ›"): nav_settings('rate_page')
+        if st.button("🚪 Log Out                                         ›"): nav_settings('logout_page')
         
         st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
@@ -173,26 +173,65 @@ if selection == "setting":
         </html>
         """, height=550)
 
-    # د. صفحة الإبلاغ عن مشكلة
+    # د. صفحة الإبلاغ عن مشكلة (التحديث الجديد المدمج)
     elif st.session_state.settings_sub_page == 'report_page':
         if st.button("Back", key="back_report", help="hidden"): nav_settings('main_menu')
         components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
-            .card { width: 350px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; display: flex; flex-direction: column; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 30px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; cursor: pointer; color: #0f2446; font-weight: bold; }
-            textarea { width: 100%; height: 200px; border-radius: 25px; border: none; padding: 15px; box-sizing: border-box; resize: none; margin-bottom: 20px; }
-            .send-btn { background: white; border-radius: 100px; padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: none; width: 100%; margin-top: auto; }
-        </style>
-        <div class="card">
-            <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_report]').click()"><</div><h2 style="color:#0f2446">Report</h2></div>
-            <textarea placeholder="I need help..."></textarea>
-            <button class="send-btn" onclick="alert('Sent!')">
-                <span style="color:#808080">✈️</span>
-                <span style="color:#0f2446; font-weight:bold">Send Report</span>
-            </button>
-        </div>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <style>
+                body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
+                .main-wrapper {
+                    width: 330px;
+                    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
+                    border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px;
+                    display: flex; flex-direction: column;
+                }
+                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 30px; position: relative; }
+                .back-icon { 
+                    position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; 
+                    cursor: pointer; transition: all 0.3s ease; 
+                }
+                .back-icon:hover { transform: translateX(-5px); }
+                .back-icon:active { transform: scale(0.7); }
+                .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
+                
+                textarea { 
+                    width: 100%; height: 200px; border-radius: 35px; border: none; 
+                    padding: 20px; box-sizing: border-box; resize: none; margin-bottom: 20px;
+                    font-family: inherit; font-size: 14px; outline: none;
+                    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+                }
+                
+                .send-btn { 
+                    background: white; border-radius: 100px; padding: 15px 25px; 
+                    display: flex; justify-content: space-between; align-items: center; 
+                    cursor: pointer; border: none; width: 100%; margin-top: auto;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: all 0.3s ease;
+                }
+                .send-btn:hover { transform: translateY(-3px); }
+                .send-btn:active { transform: scale(0.96); }
+                
+                .main-icon { color: #808080; font-size: 18px; transition: all 0.4s ease; }
+                .send-btn:hover .main-icon { transform: translate(5px, -5px); color: #2f80ed; }
+            </style>
+        </head>
+        <body>
+            <div class="main-wrapper">
+                <div class="header-container">
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_report]').click()">&lt;</div>
+                    <h2 class="title">Report</h2>
+                </div>
+                <textarea placeholder="I need help..."></textarea>
+                <button class="send-btn" onclick="alert('Sent!')">
+                    <i class="fas fa-paper-plane main-icon"></i>
+                    <span style="color:#0f2446; font-weight:bold">Send Report</span>
+                </button>
+            </div>
+        </body>
+        </html>
         """, height=550)
 
     # هـ. صفحة اتصل بنا
@@ -232,7 +271,7 @@ if selection == "setting":
         </div>
         """, height=550)
 
-    # ز. صفحة التقييم (النسخة الاحترافية الجديدة بالحركات)
+    # ز. صفحة التقييم
     elif st.session_state.settings_sub_page == 'rate_page':
         if st.button("Back", key="back_rate", help="hidden"): nav_settings('main_menu')
         components.html("""
