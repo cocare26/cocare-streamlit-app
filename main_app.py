@@ -6,20 +6,20 @@ page = st.query_params.get("page", "")
 
 # ========= ROUTER =========
 if page == "settings":
-    st.switch_page("Settings")
+    st.switch_page("pages/Settings.py")
 
 elif page == "change_password":
-    st.switch_page("ChangePassword")
+    st.switch_page("pages/ChangePassword.py")
 
 elif page == "change_language":
-    st.switch_page("ChangeLanguage")
+    st.switch_page("pages/ChangeLanguage.py")
 
 elif page == "contact":
-    st.switch_page("ContactUs")
+    st.switch_page("pages/ContactUs.py")
 
 elif page == "report":
-    st.switch_page("ReportProblem")
+    st.switch_page("pages/ReportProblem.py")
 
 # ========= DEFAULT =========
 else:
-    st.switch_page("Settings")
+    st.switch_page("pages/Settings.py")
