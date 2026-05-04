@@ -106,6 +106,10 @@ textarea {{
 .st.text_input{{
  color: black;
 }}
+
+.st-bc {{
+   color: black;
+}}
 </style>
 """, unsafe_allow_html=True)
 
