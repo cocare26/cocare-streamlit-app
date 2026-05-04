@@ -32,32 +32,40 @@ st.markdown("""
 </style>
 
 <div style="text-align:center; margin-bottom:30px; position:relative; padding-top:10px;">
-    <a href="#" onclick="window.top.location.href='?page=customer'" style="position:absolute; left:0; font-size:28px; color:#102646; text-decoration:none;">‹</a>
+    <a href="#" onclick="sendPage('customer')" style="position:absolute; left:0; font-size:28px; color:#102646; text-decoration:none;">‹</a>
     <h2 style="color:#102646; font-weight:900; margin:0;">Settings</h2>
 </div>
 
-<a href="#" onclick="window.top.location.href='?page=Change_password-ar'" class="setting-item">
+<a href="#" onclick="sendPage('Change_password-ar')" class="setting-item">
     <div class="item-left"><i class="fas fa-lock"></i><span class="item-text">Change Password</span></div>
     <span class="arrow">›</span>
 </a>
 
-<a href="#" onclick="window.top.location.href='?page=Change_language-ar'" class="setting-item">
+<a href="#" onclick="sendPage('Change_language-ar')" class="setting-item">
     <div class="item-left"><i class="fas fa-globe"></i><span class="item-text">Change Language</span></div>
     <span class="arrow">›</span>
 </a>
 
-<a href="#" onclick="window.top.location.href='?page=Rate_app-ar'" class="setting-item">
+<a href="#" onclick="sendPage('Rate_app-ar')" class="setting-item">
     <div class="item-left"><i class="fas fa-star"></i><span class="item-text">Rate App</span></div>
     <span class="arrow">›</span>
 </a>
 
-<a href="#" onclick="window.top.location.href='?page=logout'" class="setting-item">
+<a href="#" onclick="sendPage('logout')" class="setting-item">
     <div class="item-left"><i class="fas fa-sign-out-alt"></i><span class="item-text">Log Out</span></div>
     <span class="arrow">›</span>
 </a>
 
 <div class="bottom-row">
-    <a href="#" onclick="window.top.location.href='?page=Report_Problem-ar'" class="bottom-item"><span>Report Problem</span></a>
-    <a href="#" onclick="window.top.location.href='?page=Contact_Us-ar'" class="bottom-item"><span>Contact Us</span></a>
+    <a href="#" onclick="sendPage('Report_Problem-ar')" class="bottom-item"><span>Report Problem</span></a>
+    <a href="#" onclick="sendPage('Contact_Us-ar')" class="bottom-item"><span>Contact Us</span></a>
 </div>
+
+<script>
+function sendPage(page){
+    const url = new URL(window.location);
+    url.searchParams.set("page", page);
+    window.location.href = url.toString();
+}
+</script>
 """, unsafe_allow_html=True)
