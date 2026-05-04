@@ -201,13 +201,12 @@ else:
         <h2>{title}</h2>
     </div>
 
-components.html(f"""
-...
+
 <script>
 function goBack(){{
     parent.document.querySelector('button[key="back_btn"]').click();
 }}
 </script>
-""")
+
     </html>
     """, height=150)
