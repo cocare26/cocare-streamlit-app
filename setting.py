@@ -327,7 +327,7 @@ else:
         st.button("📱 Huawei AppGallery")
 
     # -------- LOGOUT --------
-   elif st.session_state.page == "logout":
+    elif st.session_state.page == "logout":
 
     st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
 
