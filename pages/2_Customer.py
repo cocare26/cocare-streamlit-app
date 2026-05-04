@@ -276,7 +276,12 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
+<a href="/settingar" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item clickable">
+        ⚙️
+        <span class="nav-text">Settings</span>
+    </div>
+</a>
 <a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         🎡
