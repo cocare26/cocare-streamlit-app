@@ -1,265 +1,198 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة الأساسية
-st.set_page_config(page_title="Smart App Settings", layout="centered")
+st.set_page_config(page_title="Settings", layout="centered")
 
-# 2. إدارة الحالة للتنقل الداخلي
-if 'settings_sub_page' not in st.session_state:
-    st.session_state.settings_sub_page = 'main_menu'
-
-def nav_settings(target):
-    st.session_state.settings_sub_page = target
-    st.rerun()
-
-# 3. التنسيق الجمالي العام
 st.markdown("""
 <style>
-:root { 
-    --navy: #0f2446; 
-    --bg1: #d6ecff;
-    --bg2: #bfe3ff;
-    --bg3: #eaf6ff;
+:root{
+    --navy:#0f2446;
+    --bg1:#d6ecff;
+    --bg2:#bfe3ff;
+    --bg3:#eaf6ff;
 }
 
-/* تعديل الـ Container الرئيسي */
-.block-container {
-    max-width: 350px !important;
-    margin: auto;
-    padding: 30px !important;
-    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius: 42px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+[data-testid="stAppViewContainer"]{
+    background:#eef2f7;
 }
 
-[data-testid="stAppViewContainer"] { background: #f0f2f6; }
-[data-testid="stHeader"] {display: none !important;}
-
-/* تنسيق الأزرار الموحد */
-div.stButton > button {
-    width: 100% !important;
-    height: 60px !important; /* طول موحد */
-    border-radius: 100px !important;
-    border: none !important;
-    background: white !important;
-    color: var(--navy) !important;
-    font-weight: 700 !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    margin-bottom: 12px;
-    transition: all 0.2s ease-in-out;
-    display: flex;
-    align-items: center;
-    padding: 0 20px !important;
-}
-
-/* تأثير الحركة عند الهوفر */
-div.stButton > button:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
-}
-
-/* حركة الأيقونة */
-div.stButton > button:hover::first-letter, 
-div.stButton > button:active::first-letter {
-    display: inline-block;
-    animation: icon-move 0.5s infinite alternate;
-}
-
-/* تأثير الحركة عند الضغط */
-div.stButton > button:active {
-    transform: scale(0.95);
-}
-
-@keyframes icon-move {
-    from { transform: translateY(0) rotate(0deg); }
-    to { transform: translateY(-5px) rotate(10deg); }
-}
-
-/* تنسيق الأزرار السفلية */
-[data-testid="stHorizontalBlock"] div.stButton > button {
-    height: 80px !important;
-    font-size: 14px !important;
-    line-height: 1.2 !important;
-}
-
-/* إخفاء أزرار Back النصية تماماً */
-button[key^="back_"] {
-    display: none !important;
-}
-
-/* تنسيق الهيدر */
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 25px;
-    position: relative;
-    width: 100%;
-}
-
-.back-icon {
-    position: absolute;
-    left: 0;
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--navy);
-    cursor: pointer;
-    text-decoration: none;
-    background: none;
-    border: none;
-    padding: 0;
+.block-container{
+    max-width:350px !important;
+    margin:auto !important;
+    padding:30px !important;
+    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+    border-radius:42px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 4. القائمة الجانبية
-with st.sidebar:
-    st.title("Navigation")
-    selection = st.radio("Go to:", ["setting", "Create Account", "Forgot Password", "To Do"])
+components.html("""
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
 
-# --- منطق عرض الصفحات ---
+body{
+    font-family:'Segoe UI', sans-serif;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    background:transparent;
+}
 
-if selection == "setting":
-    
-    if st.session_state.settings_sub_page == 'main_menu':
-        st.markdown(f"""
-            <div class="header-container">
-                <div class="back-icon">&lt;</div>
-                <h2 class="title">Settings</h2>
-            </div>
-        """, unsafe_allow_html=True)
-        
-        # الأزرار الأربعة العلوية بمقاسات موحدة
-        if st.button("🔒" + " "*2 + "Change Password" + " "*15 + "›"): nav_settings('change_password_page')
-        if st.button("🌐" + " "*2 + "Change Language" + " "*15 + "›"): nav_settings('language_page')
-        if st.button("⭐" + " "*2 + "Rate App" + " "*30 + "›"): nav_settings('rate_page')
-        if st.button("🚪" + " "*2 + "Log Out" + " "*30 + "›"): nav_settings('logout_page')
-        
-        st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("⚠️\nReport\nProblem ›"): nav_settings('report_page')
-        with col2:
-            if st.button("✉️\nContact\nUs      ›"): nav_settings('contact_page')
+.main-wrapper{
+    width:100%;
+    max-width:290px;
+    display:flex;
+    flex-direction:column;
+    height:480px;
+}
 
-    # الصفحات الفرعية مع تفعيل سهم العودة وإخفاء الزر النصي
-    elif st.session_state.settings_sub_page == 'change_password_page':
-        st.button("Back", key="back_pass") # مخفي بالـ CSS
-        components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; margin: 0; display: flex; justify-content: center; }
-            .wrapper { width: 330px; height: 450px; display: flex; flex-direction: column; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 35px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
-            .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
-            .input-capsule { background: white; border-radius: 100px; padding: 12px 18px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-            .input-capsule input { border: none; outline: none; flex-grow: 1; font-size: 14px; color: #0f2446; background: transparent; }
-            .save-box { background: white; border-radius: 100px; width: 100%; padding: 15px; text-align: center; border: none; color: #0f2446; font-weight: bold; font-size: 18px; margin-top: auto; cursor: pointer; }
-        </style>
-        <div class="wrapper">
-            <div class="header">
-                <div class="back" onclick="parent.window.document.querySelector('button[key=back_pass]').click()">&lt;</div>
-                <h2 class="title">Change Password</h2>
-            </div>
-            <div class="input-capsule"><input type="password" placeholder="Current Password"></div>
-            <div class="input-capsule"><input type="password" placeholder="New Password"></div>
-            <div class="input-capsule"><input type="password" placeholder="Re-write New Password"></div>
-            <button class="save-box" onclick="alert('Password Saved!')">Save</button>
+.header-container{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:35px;
+    position:relative;
+}
+
+.back-icon{
+    position:absolute;
+    left:0;
+    font-size:28px;
+    font-weight:bold;
+    color:#0f2446;
+    cursor:pointer;
+}
+
+.title{
+    margin:0;
+    font-weight:900;
+    font-size:20px;
+    color:#0f2446;
+}
+
+/* الأزرار العلوية: أيقونة يسار | نص وسهم يمين */
+.setting-item{
+    background:white;
+    border-radius:100px;
+    padding:14px 18px;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.setting-item i.left-icon{
+    color:#0f2446;
+    font-size:16px;
+    margin-right: auto; /* دفع النص والسهم لليمين */
+}
+
+.setting-text-right{
+    font-size:14px;
+    font-weight:600;
+    color:#0f2446;
+    margin-right: 10px;
+}
+
+.setting-item .arrow{
+    color:#0f2446;
+    font-weight:bold;
+    font-size: 18px;
+}
+
+/* تصميم أزرار Bottom Row (كما كانت في الكود الأصلي) */
+.bottom-row{
+    margin-top:auto;
+    display:flex;
+    gap:10px;
+}
+
+.bottom-row .setting-item{
+    flex:1;
+    padding:12px 14px;
+    justify-content: space-between; /* توزيع الأيقونة والنص والسهم */
+}
+
+.bottom-row .setting-text{
+    flex:1;
+    text-align:left;
+    margin-left:15px;
+    font-size:13px;
+    font-weight:600;
+    color:#0f2446;
+}
+
+.setting-item:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+    <div class="header-container">
+        <div class="back-icon" onclick="goPage('customer')">&lt;</div>
+        <h2 class="title">Settings</h2>
+    </div>
+
+    <!-- الأزرار المعدلة: الأيقونة على اليسار -->
+    <div class="setting-item" onclick="goPage('Change_password')">
+        <i class="fas fa-lock left-icon"></i>
+        <span class="setting-text-right">Change Password</span>
+        <span class="arrow">›</span>
+    </div>
+
+    <div class="setting-item" onclick="goPage('Change_language')">
+        <i class="fas fa-globe left-icon"></i>
+        <span class="setting-text-right">Change Language</span>
+        <span class="arrow">›</span>
+    </div>
+
+    <div class="setting-item" onclick="goPage('Rate_app')">
+        <i class="fas fa-star left-icon"></i>
+        <span class="setting-text-right">Rate App</span>
+        <span class="arrow">›</span>
+    </div>
+
+    <div class="setting-item" onclick="goPage('logout')">
+        <i class="fas fa-sign-out-alt left-icon"></i>
+        <span class="setting-text-right">Log Out</span>
+        <span class="arrow">›</span>
+    </div>
+
+    <!-- الأزرار السفلية: رجعت كما كانت في كودك الأساسي -->
+    <div class="bottom-row">
+        <div class="setting-item" onclick="goPage('Report_Problem')">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span class="setting-text">Report Problem</span>
+            <span class="arrow">›</span>
         </div>
-        """, height=480)
 
-    elif st.session_state.settings_sub_page == 'language_page':
-        st.button("Back", key="back_lang") # مخفي بالـ CSS
-        components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
-            .wrapper { width: 330px; height: 450px; display: flex; flex-direction: column; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
-            .lang-card { background: white; border-radius: 100px; padding: 15px 25px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.08); color: #0f2446; font-weight: bold; }
-        </style>
-        <div class="wrapper">
-            <div class="header">
-                <div class="back" onclick="parent.window.document.querySelector('button[key=back_lang]').click()">&lt;</div>
-                <h2 style="color:#0f2446; margin:0">Language</h2>
-            </div>
-            <div class="lang-card"><span>English</span><span style="color:#2f80ed">✔</span></div>
-            <div class="lang-card"><span>العربية</span><span>&gt;</span></div>
+        <div class="setting-item" onclick="goPage('Contact_Us')">
+            <i class="fas fa-envelope"></i>
+            <span class="setting-text">Contact Us</span>
+            <span class="arrow">›</span>
         </div>
-        """, height=480)
+    </div>
 
-    elif st.session_state.settings_sub_page == 'report_page':
-        st.button("Back", key="back_report") # مخفي بالـ CSS
-        components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 25px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
-            textarea { width: 100%; height: 200px; border-radius: 30px; border: none; padding: 20px; box-sizing: border-box; outline: none; margin-bottom: 20px; }
-            .send-btn { background: white; border-radius: 100px; padding: 15px; text-align: center; font-weight: bold; color: #0f2446; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        </style>
-        <div class="header">
-            <div class="back" onclick="parent.window.document.querySelector('button[key=back_report]').click()">&lt;</div>
-            <h2 style="color:#0f2446; margin:0">Report</h2>
-        </div>
-        <textarea placeholder="How can we help?"></textarea>
-        <div class="send-btn" onclick="alert('Sent!')">Send Report</div>
-        """, height=480)
+</div>
 
-    elif st.session_state.settings_sub_page == 'contact_page':
-        st.button("Back", key="back_contact") # مخفي بالـ CSS
-        components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 45px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
-            .capsule { background: white; border-radius: 100px; padding: 18px 25px; margin-bottom: 20px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.06); color: #0f2446; font-weight: bold; }
-        </style>
-        <div class="header">
-            <div class="back" onclick="parent.window.document.querySelector('button[key=back_contact]').click()">&lt;</div>
-            <h2 style="color:#0f2446; margin:0">Contact Us</h2>
-        </div>
-        <div class="capsule">✉️ CoCare26@gmail.com</div>
-        <div class="capsule">📞 +962 79 123 4567</div>
-        """, height=480)
+<script>
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
+</script>
 
-    elif st.session_state.settings_sub_page == 'logout_page':
-        st.button("Back", key="back_logout") # مخفي بالـ CSS
-        components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; text-align: center; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 60px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; cursor: pointer; color: #0f2446; font-weight: bold; }
-            .btn { width: 100%; padding: 15px; border-radius: 100px; background: white; margin-bottom: 15px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        </style>
-        <div class="header">
-            <div class="back" onclick="parent.window.document.querySelector('button[key=back_logout]').click()"><</div>
-            <h2 style="color:#0f2446; margin:0">Log Out</h2>
-        </div>
-        <p style="color:#0f2446; font-weight:bold; margin-bottom:40px">Are you sure you want to log out?</p>
-        <div class="btn" style="color:#eb5757">Log Out</div>
-        <div class="btn" style="color:#0f2446" onclick="parent.window.document.querySelector('button[key=back_logout]').click()">Cancel</div>
-        """, height=480)
-
-    elif st.session_state.settings_sub_page == 'rate_page':
-        st.button("Back", key="back_rate") # مخفي بالـ CSS
-        components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
-            .item { background: white; border-radius: 100px; padding: 15px 25px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.08); color: #0f2446; font-weight: bold; }
-        </style>
-        <div class="wrapper">
-            <div class="header">
-                <div class="back" onclick="parent.window.document.querySelector('button[key=back_rate]').click()">&lt;</div>
-                <h2 style="color:#0f2446; margin:0">Rate App</h2>
-            </div>
-            <div class="item"><span>Google Play</span><span>&gt;</span></div>
-            <div class="item"><span>App Store</span><span>&gt;</span></div>
-        </div>
-        """, height=480)
-
-else:
-    st.title(f"Welcome to {selection} Page")
+</body>
+</html>
+""", height=500)
