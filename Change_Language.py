@@ -149,6 +149,7 @@ components.html("""
             <div class="status-mark check"><i class="fas fa-check"></i></div>
         </div>
 
+        <!-- العربية -->
         <div class="language-capsule" onclick="goPage('settings-ar')">
             <div class="left-content">
                 <div class="icon"><i class="fas fa-globe"></i></div>
