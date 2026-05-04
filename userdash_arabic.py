@@ -6,7 +6,7 @@ import os
 # إعداد الصفحة
 # =====================================
 st.set_page_config(
-    page_title="لوحة تحكم الاتصالات",
+    page_title="لوحة تحكم CoCare",
     page_icon="📱",
     layout="centered"
 )
@@ -20,8 +20,8 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور
-robot_full = get_base64("robot_full.png.jpeg")
+# تحميل الصور (تأكدي من وجود الملفات بنفس الأسماء في GitHub)
+robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
@@ -29,7 +29,7 @@ robot_head = get_base64("robot_head.png")
 # =====================================
 st.markdown(f"""
 <style>
-/* تفعيل الاتجاه من اليمين لليسار وضبط الخط */
+/* تفعيل الاتجاه من اليمين لليسار */
 * {{ 
     margin:0; 
     padding:0; 
@@ -73,13 +73,16 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 .clickable {{ cursor: pointer; transition: transform 0.2s ease; }}
 .clickable:active {{ transform: scale(0.95); }}
 
-.star-rating {{
-    display: flex;
-    flex-direction: row; /* تم التعديل ليتناسب مع RTL */
-    justify-content: center;
-    gap: 4px;
+/* العداد والمؤشر */
+.needle {{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: 30px;
+    background: #333;
+    transform-origin: bottom center;
 }}
-.star-rating label {{ font-size: 35px; color: #ffcc00; cursor: pointer; }}
 
 .grid4 {{ 
     display:grid; 
@@ -95,22 +98,13 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; text-align: center; }}
 
 .robot-img-welcome {{
-    width: 110px;
+    width: 100px;
     height: auto;
-    margin-left: 10px; /* هام لفصل الصورة عن النص في RTL */
+    margin-left: 15px;
     filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
 }}
 
-.needle {{
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    height: 30px;
-    background: #333;
-    transform-origin: bottom center;
-}}
-
+/* الشريط السفلي */
 .nav {{
     margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
     text-align:center; color:#6b6b6b; align-items: end;
@@ -140,7 +134,7 @@ st.markdown(f"""
         </div>
     </div>
     <div style="margin-top:12px; background:#eef5ff; padding:8px 12px; border-radius:15px; font-size:13px; font-weight:700;">
-    📍 الموقع: عمان
+    📍 الموقع الحالي: عمان
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -149,7 +143,7 @@ st.markdown(f"""
 # 2. معلومات الرصيد
 # =====================================
 st.markdown(f"""
-<div class="title">معلومات رقمك</div>
+<div class="title">معلومات الاشتراك</div>
 <div class="card clickable">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
@@ -163,7 +157,7 @@ st.markdown(f"""
                     <div class="needle" style="transform: rotate(45deg);"></div>
                 </div>
             </div>
-            <div style="font-size:12px; font-weight:900; text-align: center;">6 جيجابايت</div>
+            <div style="font-size:12px; font-weight:900; text-align: center;">إجمالي: 6 جيجابايت</div>
         </div>
     </div>
     <div style="margin-top:10px; height:8px; border-radius:10px; background:#dce8f7; overflow:hidden; position: relative;">
@@ -192,19 +186,18 @@ st.markdown("""
 <div class="card">
     <div style="font-weight:900; font-size:13px;">⭐ مستوى أمان الخدمة</div>
     <div style="margin-top:8px; height:18px; border-radius:10px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
-    <div style="text-align:center; margin-top:10px; font-size:13px; text-align: center;">قيم خدمتنا</div>
-    <div class="star-rating"><span>★ ★ ★ ★ ☆</span></div>
+    <div style="text-align:center; margin-top:10px; font-size:13px; text-align: center;">قيم خدمتنا: ★ ★ ★ ★ ☆</div>
 </div>
 
-<div class="title">قوة الشبكة في منطقتك</div>
+<div class="title">حالة الشبكة في منطقتك</div>
 <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <div>
             <div style="font-weight:900;">📍 عمان</div>
-            <div style="font-size:12px; color:green;">إشارة قوية جداً</div>
+            <div style="font-size:12px; color:green;">الإشارة: قوية جداً</div>
             <div style="display:flex; gap:5px; margin-top:5px; direction:ltr;">
-                <div style="background:#f1f7ff; padding:5px; border-radius:8px; font-size:10px;">Jitter: 19ms</div>
-                <div style="background:#f1f7ff; padding:5px; border-radius:8px; font-size:10px;">Loss: 0%</div>
+                <div style="background:#f1f7ff; padding:5px; border-radius:8px; font-size:10px;">التذبذب: 19ms</div>
+                <div style="background:#f1f7ff; padding:5px; border-radius:8px; font-size:10px;">الفقد: 0%</div>
             </div>
         </div>
         <div style="text-align: center;">
@@ -229,6 +222,6 @@ st.markdown(f"""
         <span class="nav-text">المساعد</span>
     </div>
     <div class="nav-item active">🏠<span class="nav-text">الرئيسية</span></div>
-    <div class="nav-item">🎁<span class="nav-text">ألعاب</span></div>
+    <div class="nav-item">🎁<span class="nav-text">العروض</span></div>
 </div>
 """, unsafe_allow_html=True)
