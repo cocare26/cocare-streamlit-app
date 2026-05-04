@@ -103,6 +103,9 @@ textarea {{
         color: black;
 }}
 
+.st.text_input{{
+ color: black;
+}}
 </style>
 """, unsafe_allow_html=True)
 
