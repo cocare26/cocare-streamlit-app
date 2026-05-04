@@ -20,12 +20,12 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور (تأكدي من وجود الملفات في نفس المجلد بنفس هذه الأسماء)
+# تحميل الصور
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (التنسيق وحجم الصورة المكبر)
+# CSS المطور (مع إضافة تأثيرات الحركة)
 # =====================================
 st.markdown(f"""
 <style>
@@ -54,6 +54,7 @@ border-radius:24px;
 padding:14px;
 margin-bottom:12px;
 box-shadow:0 6px 18px rgba(0,0,0,.08);
+transition: transform 0.3s ease;
 }}
 
 .title {{
@@ -65,9 +66,14 @@ margin: 8px 0 8px 4px;
 
 .clickable {{ 
     cursor: pointer; 
-    transition: transform 0.2s ease; 
+    transition: all 0.3s ease; 
 }}
 .clickable:active {{ transform: scale(0.95); }}
+
+/* --- تعديل: حركة الأيقونات عند مرور الماوس --- */
+.mini:hover, .nav-item:hover, .bot-bg:hover {{
+    transform: translateY(-5px) scale(1.05);
+}}
 
 /* نظام النجوم التفاعلي */
 .star-rating {{
@@ -81,8 +87,9 @@ margin: 8px 0 8px 4px;
     font-size: 35px;
     color: #ddd;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
 }}
+.star-rating label:hover {{ transform: scale(1.2); }}
 .star-rating input:checked ~ label,
 .star-rating label:hover,
 .star-rating label:hover ~ label {{
@@ -99,18 +106,20 @@ margin: 8px 0 8px 4px;
 .mini {{
 background:white; border-radius:20px; min-height:105px;
 padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
+transition: all 0.3s ease;
 }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-/* --- تعديل: تكبير الروبوت لدمجه في الداشبورد بدون خلفية --- */
 .robot-img-welcome {{
-    width: 130px; /* حجم كبير وواضح */
+    width: 130px; 
     height: auto;
-    background: transparent !important; /* ضمان عدم وجود خلفية */
-    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1)); /* ظل خفيف لإعطاء عمق */
+    background: transparent !important;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
     margin-right: 10px;
     object-fit: contain;
+    transition: transform 0.4s ease;
 }}
+.robot-img-welcome:hover {{ transform: rotate(-3deg) scale(1.05); }}
 
 .welcome-text-container {{
     display: flex;
@@ -118,7 +127,6 @@ padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
     justify-content: center;
 }}
 
-/* إصلاح مؤشر العداد */
 .needle {{
     position: absolute;
     bottom: 0;
@@ -135,19 +143,24 @@ padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
 }}
-.nav-item {{ font-size: 24px; font-weight: 800; }}
+.nav-item {{ 
+    font-size: 24px; 
+    font-weight: 800; 
+    transition: all 0.3s ease;
+}}
 .nav-text {{ font-size: 11px; display: block; margin-top: 2px; }}
 .bot-bg {{
 width:55px; height:55px; background:white; border-radius:14px;
 margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+transition: all 0.3s ease;
 }}
 .active {{ color:#0d69dd; }}
 </style>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الملف الشخصي (Welcome + صورة مكبرة مدمجة)
+# 1. قسم الملف الشخصي
 # =====================================
 st.markdown(f"""
 <div class="card clickable">
@@ -166,7 +179,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد (مع المؤشر)
+# 2. معلومات الرصيد
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
@@ -193,7 +206,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات
+# 3. أيقونات الخدمات (المتحركة)
 # =====================================
 st.markdown("""
 <div class="grid4">
@@ -224,7 +237,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (مع المؤشر)
+# 5. قوة الشبكة
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -258,17 +271,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي
+# 6. الشريط السفلي (المتحرك)
 # =====================================
 st.markdown(f"""
 <div class="nav">
 <div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
 <div class="nav-item clickable">🎡<span class="nav-text">Spin</span></div>
-<div class="nav-item clickable">
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:38px;"></div>
+<div class="nav-item clickable" onclick="goPage('Chatbot')">
+<div class="bot-bg">
+    <img src="data:image/png;base64,{robot_head}" style="width:38px;">
+</div>
 <span class="nav-text">Chatbot</span>
 </div>
 <div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
 <div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
 </div>
+<script>
+function goPage(page){
+    window.top.location.href = "/~/" + page;
+}
+</script>
 """, unsafe_allow_html=True)
