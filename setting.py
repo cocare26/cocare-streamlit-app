@@ -7,11 +7,12 @@ st.set_page_config(page_title="Settings", layout="centered")
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
-def go(page):
-    st.session_state.page = page
-    st.rerun()
+# ---------------- NAV HANDLER ----------------
+nav = st.query_params.get("nav")
+if nav:
+    st.session_state.page = nav
 
-# ---------------- GLOBAL STYLE ----------------
+# ---------------- STYLE ----------------
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"]{
@@ -25,16 +26,11 @@ st.markdown("""
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
-button{display:none;} /* إخفاء أزرار ستريمليت */
+button{display:none;}
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- JS BRIDGE ----------------
-query = st.query_params.get("nav")
-if query:
-    go(query)
-
-# ---------------- MAIN PAGE ----------------
+# ================= MAIN =================
 if st.session_state.page == "main":
 
     components.html("""
@@ -65,7 +61,6 @@ if st.session_state.page == "main":
         align-items:center;
         justify-content:center;
         margin-bottom:35px;
-        position:relative;
     }
 
     .title{
@@ -168,7 +163,9 @@ if st.session_state.page == "main":
 
     <script>
     function nav(page){
-        window.parent.location.search = "?nav=" + page;
+        const url = new URL(window.parent.location);
+        url.searchParams.set("nav", page);
+        window.parent.location.href = url.toString();
     }
     </script>
 
@@ -176,10 +173,10 @@ if st.session_state.page == "main":
     </html>
     """, height=500)
 
-# ---------------- SUB PAGES ----------------
+# ================= SUB PAGES =================
 else:
 
-    title_map = {
+    titles = {
         "pass":"Change Password",
         "lang":"Language",
         "rate":"Rate App",
@@ -188,7 +185,7 @@ else:
         "contact":"Contact Us"
     }
 
-    page_title = title_map[st.session_state.page]
+    title = titles[st.session_state.page]
 
     components.html(f"""
     <html>
@@ -234,14 +231,16 @@ else:
     <div class="wrap">
         <div class="header">
             <div class="back" onclick="goBack()">&lt;</div>
-            <h2>{page_title}</h2>
+            <h2>{title}</h2>
         </div>
     </div>
 
     <script>
     function goBack(){{
-        window.parent.location.search = "?nav=main";
+        const url = new URL(window.parent.location);
+        url.searchParams.set("nav", "main");
+        window.parent.location.href = url.toString();
     }}
     </script>
     </html>
-    """, height=150)
+    """, height=350)
