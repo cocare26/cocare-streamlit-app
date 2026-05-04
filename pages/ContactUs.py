@@ -27,7 +27,7 @@ html, body, [data-testid="stAppViewContainer"] {
     background:white !important;
     color:#102646 !important;
     border-radius:100px !important;
-    padding:20px !important;
+    padding:30px !important;
     border:none !important;
     box-shadow:0 4px 12px rgba(0,0,0,0.08) !important;
     font-weight:800 !important;
