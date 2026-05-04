@@ -128,7 +128,7 @@ body {
 </div>
 
 <!-- Arabic -->
-<div class="item" onclick="selectLang('arabic')">
+<div class="item" onclick="goArabic()">
     <div class="left">
         <i class="fas fa-globe icon"></i>
         <span class="label">Arabic</span>
@@ -137,7 +137,7 @@ body {
 </div>
 
 <!-- English -->
-<div class="item" onclick="selectLang('english')">
+<div class="item" onclick="goEnglish()">
     <div class="left">
         <i class="fas fa-globe icon"></i>
         <span class="label">English</span>
@@ -152,14 +152,12 @@ function goSettings(){
     window.parent.location.href = "/?page=settings";
 }
 
-function selectLang(lang){
-    // هون ممكن مستقبلاً تخزن اللغة
+function goArabic(){
+    window.parent.location.href = "/?page=settings-ar";
+}
 
-    if(lang === "arabic"){
-        window.parent.location.href = "/?page=settings-ar";
-    } else {
-        window.parent.location.href = "/?page=settings";
-    }
+function goEnglish(){
+    window.parent.location.href = "/?page=settings";
 }
 </script>
 
