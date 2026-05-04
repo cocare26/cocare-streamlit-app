@@ -63,6 +63,27 @@ margin: 8px 0 8px 4px;
 .clickable {{ cursor: pointer; transition: transform 0.2s; }}
 .clickable:active {{ transform: scale(0.98); }}
 
+/* نظام النجوم التفاعلي */
+.star-rating {{
+display: flex;
+flex-direction: row-reverse;
+justify-content: center;
+gap: 4px;
+margin-top: 5px;
+}}
+.star-rating input {{ display: none; }}
+.star-rating label {{
+font-size: 32px;
+color: #ddd;
+cursor: pointer;
+transition: color 0.2s;
+}}
+.star-rating label:hover,
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {{
+color: #f4b400;
+}}
+
 .grid4 {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }}
 .mini {{
 background:white; border-radius:20px; min-height:105px;
@@ -135,7 +156,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم
+# 4. قسم التقييم (معدل بالنجوم)
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -143,11 +164,18 @@ st.markdown("""
 <div style="font-weight:900; font-size:14px; color:#102646;">⭐ Service Security Rate</div>
 <div style="margin-top:10px; height:20px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
 <div style="text-align:center; margin-top:12px; font-weight:700; font-size:13px; color:#102646;">Rate our service</div>
+<div class="star-rating">
+<input type="radio" id="s5" name="rate" value="5"><label for="s5">★</label>
+<input type="radio" id="s4" name="rate" value="4"><label for="s4">★</label>
+<input type="radio" id="s3" name="rate" value="3"><label for="s3">★</label>
+<input type="radio" id="s2" name="rate" value="2"><label for="s2">★</label>
+<input type="radio" id="s1" name="rate" value="1"><label for="s1">★</label>
+</div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (النسخة المطابقة للأبعاد والموقع)
+# 5. قوة الشبكة (النسخة المطابقة تماماً للأبعاد والموقع)
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
