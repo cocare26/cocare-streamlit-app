@@ -3,8 +3,6 @@ import streamlit as st
 st.set_page_config(page_title="Settings", layout="centered")
 
 st.markdown("""
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
 #MainMenu, header, footer { visibility:hidden; }
 
@@ -17,52 +15,58 @@ st.markdown("""
     box-shadow:0 14px 35px rgba(0,0,0,.15);
     min-height:600px;
 }
-.setting-item {
-    background:white;
-    border-radius:100px;
-    padding:14px 22px;
-    margin-bottom:15px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    text-decoration:none;
-}
-.item-left {
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-.item-text {
-    font-weight:800;
-    color:#102646;
-}
-.arrow {
-    font-size:18px;
-}
-.bottom-row {
-    display:flex;
-    gap:10px;
-    margin-top:40px;
-}
-.bottom-item {
-    flex:1;
-    background:white;
-    padding:12px;
-    border-radius:100px;
+
+.title {
     text-align:center;
+    color:#102646;
+    font-weight:900;
+    margin-bottom:30px;
+}
+
+.btn {
+    background:white;
+    padding:14px 20px;
+    border-radius:100px;
+    margin-bottom:12px;
+    text-align:center;
+    font-weight:700;
+    color:#102646;
     text-decoration:none;
+    display:block;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
 }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("Settings")
+st.markdown("<h2 class='title'>Settings</h2>", unsafe_allow_html=True)
 
-# 🔥 بدل JS → استخدم page_link (الأصح)
-st.page_link("pages/6_Change_Password.py", label="🔒 Change Password")
-st.page_link("pages/7_Change_Language.py", label="🌐 Change Language")
-st.page_link("pages/8_Rate_App.py", label="⭐ Rate App")
+# 🔥 التنقل الصحيح (بدون JS)
 
-st.page_link("pages/9_Report_Problem.py", label="🐞 Report Problem")
-st.page_link("pages/10_Contact_Us.py", label="📞 Contact Us")
+if st.button("🔒 Change Password"):
+    st.query_params["page"] = "Change_password-ar"
+    st.rerun()
 
-st.page_link("pages/0_arabic_app.py", label="🚪 Log Out")
+if st.button("🌐 Change Language"):
+    st.query_params["page"] = "Change_language-ar"
+    st.rerun()
+
+if st.button("⭐ Rate App"):
+    st.query_params["page"] = "Rate_app-ar"
+    st.rerun()
+
+if st.button("🐞 Report Problem"):
+    st.query_params["page"] = "Report_Problem-ar"
+    st.rerun()
+
+if st.button("📞 Contact Us"):
+    st.query_params["page"] = "Contact_Us-ar"
+    st.rerun()
+
+if st.button("🚪 Log Out"):
+    st.session_state.clear()
+    st.query_params.clear()
+    st.switch_page("pages/0_arabic_app.py")
