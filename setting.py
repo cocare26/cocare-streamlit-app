@@ -26,13 +26,13 @@ st.markdown("""
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* الزر */
+/* ===== Buttons (Settings Items) ===== */
 .stButton > button{
     width:100%;
     border:none;
     background:white;
     border-radius:100px;
-    padding:14px 18px;
+    padding:14px 55px 14px 18px;
     margin-bottom:14px;
     text-align:left;
     font-weight:600;
@@ -43,11 +43,17 @@ st.markdown("""
     position:relative;
 }
 
-/* السهم */
+/* icon right */
+.stButton > button span:first-child{
+    position:absolute;
+    right:35px;
+}
+
+/* arrow */
 .stButton > button::after{
     content:"›";
     position:absolute;
-    right:18px;
+    right:15px;
     font-size:18px;
 }
 
@@ -57,13 +63,34 @@ st.markdown("""
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* الهيدر */
+/* header */
 .header{
     text-align:center;
     font-weight:900;
     font-size:20px;
     margin-bottom:30px;
     color:#0f2446;
+}
+
+/* section card (pages) */
+.card{
+    background:white;
+    padding:18px;
+    border-radius:20px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom:15px;
+}
+
+/* input styling */
+input, textarea{
+    border-radius:10px !important;
+}
+
+/* save button */
+.primary-btn button{
+    background:#0f2446 !important;
+    color:white !important;
+    border-radius:20px !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -118,34 +145,63 @@ else:
     with col2:
         st.markdown(f"<div class='header'>{title}</div>", unsafe_allow_html=True)
 
-    st.write("")
-
-    # -------- محتوى الصفحات --------
+    # ========= CONTENT =========
 
     if st.session_state.page == "pass":
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.text_input("Current Password", type="password")
         st.text_input("New Password", type="password")
         st.text_input("Confirm Password", type="password")
-        st.button("Save")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        with st.container():
+            if st.button("Save Password"):
+                st.success("Password updated!")
 
     elif st.session_state.page == "lang":
-        st.radio("Select Language", ["English", "Arabic"])
-        st.button("Apply")
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        lang = st.radio("Select Language", ["English", "Arabic"])
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        if st.button("Apply Language"):
+            st.success(f"Language set to {lang}")
 
     elif st.session_state.page == "rate":
-        st.slider("Your Rating", 1, 5)
-        st.text_area("Feedback")
-        st.button("Submit")
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        rating = st.slider("Your Rating", 1, 5)
+        feedback = st.text_area("Feedback")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        if st.button("Submit"):
+            st.success("Thanks for your feedback!")
 
     elif st.session_state.page == "logout":
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.warning("Are you sure you want to log out?")
-        st.button("Confirm Logout")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        if st.button("Confirm Logout"):
+            st.success("Logged out!")
 
     elif st.session_state.page == "report":
-        st.text_area("Describe the issue")
-        st.button("Send Report")
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        issue = st.text_area("Describe the issue")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        if st.button("Send Report"):
+            st.success("Report sent!")
 
     elif st.session_state.page == "contact":
-        st.text_input("Email")
-        st.text_area("Message")
-        st.button("Send")
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.text_input("Your Email")
+        msg = st.text_area("Your Message")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        if st.button("Send Message"):
+            st.success("Message sent!")
