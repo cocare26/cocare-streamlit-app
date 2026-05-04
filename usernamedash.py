@@ -21,7 +21,7 @@ def get_base64(path):
     return ""
 
 # تحميل الصور (تأكدي من وجود الملفات في نفس المجلد)
-robot_full = get_base64("robot_full.png")
+robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
