@@ -134,6 +134,17 @@ textarea {{
     width: 100%;
 }}
 
+.st-emotion-cache-1lads1q.e7msn5c22 {{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 100%;
+}}
+
+
+
 </style>
 """, unsafe_allow_html=True)
 
