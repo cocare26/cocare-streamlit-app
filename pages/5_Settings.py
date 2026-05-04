@@ -144,7 +144,8 @@ if st.session_state.page == "main":
         go("rate")
 
     if st.button(f"🚪 {T['logout']}"):
-        go("logout")
+        st.session_state.clear()
+        st.switch_page("pages/1_Create_Account.py")
 
     col1, col2 = st.columns(2)
 
@@ -329,8 +330,11 @@ else:
     # -------- LOGOUT --------
     elif st.session_state.page == "logout":
 
-        st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
-        st.button(T["logout"])
+        
+
+        if st.button(T["logout"]):
+            st.session_state.clear()   # يمسح كل البيانات
+            st.switch_page("pages/1_Create_Account.py")   # يرجع لصفحة اللوج إن
 
     # -------- REPORT -------- (مع card)
     elif st.session_state.page == "report":
