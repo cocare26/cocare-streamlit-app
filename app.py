@@ -21,6 +21,9 @@ elif page == "forgot":
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
 
+elif page == "logout":
+    st.switch_page("app.py")
+    
 elif page == "settings-ar":
     st.switch_page("pages/11_settingar.py")
 
