@@ -7,6 +7,23 @@ st.set_page_config(page_title="Settings", layout="centered")
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
+# ---------------- RECEIVE NAV FROM HTML ----------------
+components.html("""
+<script>
+window.addEventListener("message", (event) => {
+    if (event.data.type === "nav") {
+        const url = new URL(window.parent.location);
+        url.searchParams.set("nav", event.data.page);
+        window.parent.location.href = url.toString();
+    }
+});
+</script>
+""", height=0)
+
+nav = st.query_params.get("nav")
+if nav:
+    st.session_state.page = nav
+
 def go(page):
     st.session_state.page = page
     st.rerun()
@@ -25,30 +42,26 @@ st.markdown("""
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
-button[kind="secondary"]{
-    display:none;
-}
+button{display:none;}
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- HIDDEN BUTTONS ----------------
-if st.button("pass", key="pass_btn"): go("pass")
-if st.button("lang", key="lang_btn"): go("lang")
-if st.button("rate", key="rate_btn"): go("rate")
-if st.button("logout", key="logout_btn"): go("logout")
-if st.button("report", key="report_btn"): go("report")
-if st.button("contact", key="contact_btn"): go("contact")
-if st.button("back", key="back_btn"): go("main")
-
-# ================= MAIN =================
+# ================= MAIN PAGE =================
 if st.session_state.page == "main":
 
     components.html("""
     <html>
     <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
-    body{font-family:'Segoe UI';margin:0;display:flex;justify-content:center;background:transparent}
+    body{
+        font-family:'Segoe UI';
+        margin:0;
+        display:flex;
+        justify-content:center;
+        background:transparent;
+    }
 
     .main-wrapper{
         width:100%;
@@ -80,11 +93,24 @@ if st.session_state.page == "main":
         align-items:center;
         box-shadow:0 4px 12px rgba(0,0,0,0.08);
         cursor:pointer;
+        transition:0.3s;
     }
 
-    .setting-item i{margin-right:auto;color:#0f2446}
-    .text{margin-right:10px;color:#0f2446;font-weight:600}
-    .arrow{color:#0f2446;font-weight:bold}
+    .setting-item i{
+        margin-right:auto;
+        color:#0f2446;
+    }
+
+    .text{
+        margin-right:10px;
+        font-weight:600;
+        color:#0f2446;
+    }
+
+    .arrow{
+        font-weight:bold;
+        color:#0f2446;
+    }
 
     .bottom{
         margin-top:auto;
@@ -98,45 +124,50 @@ if st.session_state.page == "main":
         font-size:13px;
     }
 
+    .setting-item:hover{
+        transform:translateY(-2px);
+        box-shadow:0 6px 15px rgba(0,0,0,0.12);
+    }
     </style>
     </head>
 
     <body>
+
     <div class="main-wrapper">
 
         <div class="header-container">
             <h2 class="title">Settings</h2>
         </div>
 
-        <div class="setting-item" onclick="clickBtn('pass_btn')">
+        <div class="setting-item" onclick="nav('pass')">
             <i class="fas fa-lock"></i>
             <span class="text">Change Password</span>
             <span class="arrow">›</span>
         </div>
 
-        <div class="setting-item" onclick="clickBtn('lang_btn')">
+        <div class="setting-item" onclick="nav('lang')">
             <i class="fas fa-globe"></i>
             <span class="text">Change Language</span>
             <span class="arrow">›</span>
         </div>
 
-        <div class="setting-item" onclick="clickBtn('rate_btn')">
+        <div class="setting-item" onclick="nav('rate')">
             <i class="fas fa-star"></i>
             <span class="text">Rate App</span>
             <span class="arrow">›</span>
         </div>
 
-        <div class="setting-item" onclick="clickBtn('logout_btn')">
+        <div class="setting-item" onclick="nav('logout')">
             <i class="fas fa-sign-out-alt"></i>
             <span class="text">Log Out</span>
             <span class="arrow">›</span>
         </div>
 
         <div class="bottom">
-            <div class="setting-item" onclick="clickBtn('report_btn')">
+            <div class="setting-item" onclick="nav('report')">
                 ⚠️ Report <span>›</span>
             </div>
-            <div class="setting-item" onclick="clickBtn('contact_btn')">
+            <div class="setting-item" onclick="nav('contact')">
                 ✉️ Contact <span>›</span>
             </div>
         </div>
@@ -144,8 +175,8 @@ if st.session_state.page == "main":
     </div>
 
     <script>
-    function clickBtn(key){
-        parent.document.querySelector('button[key="'+key+'"]').click();
+    function nav(page){
+        window.parent.postMessage({type:"nav", page:page}, "*");
     }
     </script>
 
@@ -170,7 +201,13 @@ else:
     components.html(f"""
     <html>
     <style>
-    body{{font-family:'Segoe UI';margin:0;background:transparent}}
+    body{{
+        font-family:'Segoe UI';
+        margin:0;
+        display:flex;
+        justify-content:center;
+        background:transparent;
+    }}
 
     .header{{
         display:flex;
@@ -184,9 +221,9 @@ else:
         position:absolute;
         left:0;
         font-size:28px;
+        font-weight:bold;
         cursor:pointer;
         color:#0f2446;
-        font-weight:bold;
     }}
 
     h2{{
@@ -201,12 +238,11 @@ else:
         <h2>{title}</h2>
     </div>
 
-
-<script>
-function goBack(){{
-    parent.document.querySelector('button[key="back_btn"]').click();
-}}
-</script>
+    <script>
+    function goBack(){
+        window.parent.postMessage({type:"nav", page:"main"}, "*");
+    }
+    </script>
 
     </html>
     """, height=150)
