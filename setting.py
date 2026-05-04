@@ -333,7 +333,7 @@ else:
 
         if st.button(T["logout"]):
             st.session_state.clear()   # يمسح كل البيانات
-            st.switch_page("app.py")   # يرجع لصفحة اللوج إن
+            st.switch_page("pages/1_Create_Account.py")   # يرجع لصفحة اللوج إن
 
     # -------- REPORT -------- (مع card)
     elif st.session_state.page == "report":
