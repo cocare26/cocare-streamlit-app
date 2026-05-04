@@ -20,12 +20,12 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور
+# تحميل الصور (تأكدي من وجود الملفات في نفس المجلد)
 robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور
+# CSS المطور (التنسيق وحجم الصورة المكبر)
 # =====================================
 st.markdown(f"""
 <style>
@@ -102,14 +102,21 @@ padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-/* تعديل صورة الروبوت: تكبير الحجم وضمان عدم وجود خلفية */
+/* --- تعديل: تكبير صورة الروبوت بجانب Welcome --- */
 .robot-img-welcome {{
-    width: 90px; /* تكبير الحجم */
-    height: auto;
-    background: transparent !important; /* إزالة أي خلفية */
-    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.12)); /* ظل ناعم لإبراز الروبوت */
-    margin-right: 10px;
+    width: 120px; /* تم تكبير العرض */
+    height: auto; /* الحفاظ على التناسب */
+    background: transparent !important;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.15));
+    margin-right: 15px; /* زيادة المسافة قليلاً */
     object-fit: contain;
+}}
+
+/* تنسيق النصوص المحاذية للصورة الكبيرة */
+.welcome-text-container {{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }}
 
 /* إصلاح مؤشر العداد */
@@ -141,19 +148,19 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الملف الشخصي (Welcome + صورة مكبرة بدون خلفية)
+# 1. قسم الملف الشخصي (Welcome + صورة مكبرة جداً)
 # =====================================
 st.markdown(f"""
 <div class="card clickable">
-<div style="display:flex; gap:12px; align-items:center;">
-<img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
-<div>
-<div style="font-size:24px; font-weight:900; color:#102646;">Welcome</div>
-<div style="font-size:13px; color:#555;">+962 79 123 4567</div>
-<div style="font-size:13px; color:#555;">Valid until: May 25, 2026</div>
+<div style="display:flex; align-items:center;">
+    <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
+    <div class="welcome-text-container">
+        <div style="font-size:26px; font-weight:900; color:#102646; line-height:1.2;">Welcome</div>
+        <div style="font-size:14px; color:#555; margin-top:4px;">+962 79 123 4567</div>
+        <div style="font-size:14px; color:#555;">Valid until: May 25, 2026</div>
+    </div>
 </div>
-</div>
-<div style="margin-top:12px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
+<div style="margin-top:15px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
 📍 Location: Amman
 </div>
 </div>
