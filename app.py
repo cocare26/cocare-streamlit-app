@@ -21,27 +21,6 @@ elif page == "forgot":
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
 
-elif page == "logout":
-    st.switch_page("app.py")
-    
-elif page == "settings-ar":
-    st.switch_page("pages/11_settingar.py")
-
-elif page == "Change_password-ar":
-    st.switch_page("pages/6_Change_Password.py")
-
-elif page == "Change_language-ar":
-    st.switch_page("pages/7_Change_Language.py")
-
-elif page == "Rate_app-ar":
-    st.switch_page("pages/8_Rate_App.py")
-
-elif page == "Report_Problem-ar":
-    st.switch_page("pages/9_Report_Problem.py")
-
-elif page == "Contact_Us-ar":
-    st.switch_page("pages/10_Contact_Us.py")
-
 
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
@@ -82,9 +61,9 @@ text-decoration:none;
 <body>
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
-<form class="form" method="get" action="/" target="_self" onsubmit="return setPage()">
 
-<input type="hidden" name="page" id="pageValue">
+<form class="form" method="get" target="_self" onsubmit="return setPage()">
+    <input type="hidden" name="page" id="pageValue">
 
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
