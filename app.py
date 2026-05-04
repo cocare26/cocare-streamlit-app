@@ -70,61 +70,55 @@ text-decoration:none;
     margin-left:4px;
     cursor:pointer;
 }
-.form{
-    position:absolute;
-    top:200px;
-    left:50%;
-    transform:translateX(-50%);
-    width:244px;
-    z-index:2;
-}
 </style>
-
 </head>
 
 <body>
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form" onsubmit="return setPage()">
-<input id="username" class="input" placeholder="phone / ID Number"
+<form class="form" id="loginForm" method="get" target="_top">
+    <input type="hidden" name="page" id="pageValue">
+
+    <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
     oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-       <a href="?page=forgot" target="_parent">
-    </div>
-
-    <button class="login" type="submit">Log In ›</button>
-
+    <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
+        Forgot Password?
+    </a>
+</div>
+    <button class="login" type="button" onclick="login()">Log In ›</button>
     <div id="error" class="error"></div>
-
     <div class="signup">
-        👤 New User?
-       <a href="?page=create" target="_parent">
-    </div>
+    👤 New User?
+    <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
+        Create Account
+    </a>
+</div>
 </form>
+</div>
 
 <script>
 function goPage(p){
-    const base = window.parent.location.pathname;
-    window.parent.location.href = base + "?page=" + p;
+    window.top.location.href = "/?page=" + p;
 }
 
 function login(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
 
-    if(/^[0-9]{10}$/.test(v)){
-        goPage("customer");
+    if(/^07[0-9]{8}$/.test(v)){
+        window.top.location.href = "/?page=customer";
     }
     else if(/^[0-9]{11}$/.test(v)){
-        goPage("employee");
+        window.top.location.href = "/?page=employee";
     }
     else{
-        e.innerText = "10 digits for Customer, 11 digits for Employee";
+        e.innerText = "Invalid phone or ID number";
     }
 }
 </script>
@@ -133,15 +127,4 @@ function login(){
 """
 
 html = html.replace("IMG_HERE", img)
-msg = components.html(html, height=700)
-
-page = st.query_params.get("page", "")
-
-if page == "customer":
-    st.switch_page("pages/2_Customer.py")
-elif page == "employee":
-    st.switch_page("pages/3_Employee.py")
-elif page == "create":
-    st.switch_page("pages/1_Create_Account.py")
-elif page == "forgot":
-    st.switch_page("pages/2_Forgot_Password.py")
+components.html(html, height=700)
