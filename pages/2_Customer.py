@@ -277,8 +277,12 @@ st.markdown("""
 st.markdown(f"""
 <div class="nav">
 <div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
-<div class="nav-item clickable">🎡<span class="nav-text">Spin</span></div>
-
+<a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item clickable">
+        🎡
+        <span class="nav-text">Spin</span>
+    </div>
+</a>
 <a href="/Chatbot" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         <div class="bot-bg">
@@ -287,11 +291,8 @@ st.markdown(f"""
         <span class="nav-text">_Chatbot</span>
     </div>
 </a>
-<a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
-    <div class="nav-item clickable">
-        <div class="bot-bg">🎁</div>
-        <span class="nav-text">Game</span>
-    </div>
+<div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
+</div>
 </a>
 </a>
 <script>
