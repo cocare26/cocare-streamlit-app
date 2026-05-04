@@ -70,9 +70,9 @@ text-decoration:none;
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-        <a href="?page=forgot" target="_parent" style="color:#555; text-decoration:none;">
-            Forgot Password?
-        </a>
+       <a href="javascript:void(0)" onclick="goPage('forgot')" style="color:#555; text-decoration:none;">
+    Forgot Password?
+</a>
     </div>
 
     <button class="login" type="button" onclick="login()">Log In ›</button>
@@ -81,27 +81,29 @@ text-decoration:none;
 
     <div class="signup">
         👤 New User?
-        <a href="?page=create" target="_parent" style="color:#222; text-decoration:underline;">
-            Create Account
-        </a>
+       <a href="javascript:void(0)" onclick="goPage('create')" style="color:#222; text-decoration:underline;">
+    Create Account
+</a>
     </div>
 </form>
 </div>
 
 <script>
+function goPage(p){
+    window.parent.location.href = window.parent.location.pathname + "?page=" + p;
+}
+
 function login(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
 
-    // Employee
     if(/^[0-9]{11}$/.test(v)){
-        window.parent.location.href = window.parent.location.pathname + "?page=employee";
+        goPage("employee");
         return;
     }
 
-    // Customer
     if(/^[0-9]{10}$/.test(v)){
-        window.parent.location.href = window.parent.location.pathname + "?page=customer";
+        goPage("customer");
         return;
     }
 
