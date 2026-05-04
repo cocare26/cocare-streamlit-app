@@ -85,13 +85,7 @@ st.markdown("""
     <h2 style="color:#102646; font-weight:900;">Settings</h2>
 </div>
 
-<a href="/?page=change_password" target="_top" class="setting-item">
-    <div class="item-left">
-        <i class="fas fa-lock"></i>
-        <span class="item-text">Change Password</span>
-    </div>
-    <span class="arrow">›</span>
-</a>
+<a href="?page=change_password" target="_self" class="setting-item">
 
 <a href="/?page=change_language" target="_top" class="setting-item">
     <div class="item-left">
