@@ -25,24 +25,46 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height: 600px;
 }
 
-/* 🔥 سهم الرجوع */
+/* 🔥 السطر العلوي */
+.header-row {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:30px;
+}
+
+/* 🔙 زر الرجوع */
 .back-style .stButton > button {
-    background:transparent !important;
-    box-shadow:none !important;
-    font-size:26px !important;
-    width:auto !important;
-    color:#102646 !important;
+    background:white !important;   /* تقدر تشيله لو بدك بدون بوكس */
+    color:black !important;
+    border-radius:50% !important;
+    width:40px !important;
+    height:40px !important;
+    padding:0 !important;
+    font-size:20px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08) !important;
+}
+
+/* العنوان */
+.title-text {
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ===== 🔙 BACK BUTTON (Streamlit) =====
-col_back, _ = st.columns([1, 10])
-with col_back:
+# ===== HEADER (سطر واحد) =====
+col1, col2 = st.columns([1, 8])
+
+with col1:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
     if st.button("‹"):
         st.switch_page("pages/Settings.py")
     st.markdown('</div>', unsafe_allow_html=True)
+
+with col2:
+    st.markdown('<div class="title-text">Change Password</div>', unsafe_allow_html=True)
 
 # ===== UI =====
 components.html("""
@@ -66,17 +88,6 @@ body {
     display:flex;
     flex-direction:column;
     height:520px;
-}
-
-/* HEADER */
-.header {
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.title {
-    font-weight:900;
-    color:#102646;
 }
 
 /* INPUT */
@@ -158,10 +169,6 @@ body {
 <body>
 
 <div class="main-wrapper">
-
-<div class="header">
-    <h2 class="title">Change Password</h2>
-</div>
 
 <div class="input">
     <i class="fas fa-lock"></i>
