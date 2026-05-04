@@ -348,9 +348,9 @@ body{margin:0;background:transparent}
         <span>⇥</span>Logout
     </a>
 
-    <a href="?page=todo" target="_top">
-          <span>☑</span>To Do
-    </a>
+   <a href="/~/+/To%20Do?page=todo" target="_top">
+    <span>☑</span>To Do
+</a>
 
 </div>
 
