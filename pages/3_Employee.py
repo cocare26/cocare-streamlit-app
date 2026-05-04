@@ -317,9 +317,9 @@ body{margin:0;background:transparent}
         <span>⌂</span>Home
     </button>
 
-   <div class="nav">
+ <div class="nav">
 
-    <button type="button" class="active-nav"
+    <button type="button"
         onclick="window.parent.location.href='/?page=employee'">
         <span>⌂</span>Home
     </button>
