@@ -1,8 +1,9 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# --- Navigation State ---
+# ---------------- STATE ----------------
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
@@ -10,166 +11,237 @@ def go(page):
     st.session_state.page = page
     st.rerun()
 
-# --- Global CSS ---
+# ---------------- GLOBAL STYLE ----------------
 st.markdown("""
 <style>
-:root{
-    --navy:#0f2446;
-    --bg1:#d6ecff;
-    --bg2:#bfe3ff;
-    --bg3:#eaf6ff;
-}
-
 [data-testid="stAppViewContainer"]{
     background:#eef2f7;
 }
-
 .block-container{
     max-width:350px !important;
     margin:auto !important;
     padding:30px !important;
-    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+    background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
-
-/* header */
-.header{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    position:relative;
-    margin-bottom:30px;
-}
-
-.back{
-    position:absolute;
-    left:0;
-    font-size:26px;
-    font-weight:bold;
-    cursor:pointer;
-    color:var(--navy);
-}
-
-.title{
-    font-size:20px;
-    font-weight:900;
-    color:var(--navy);
-}
-
-/* buttons */
-.setting{
-    background:white;
-    border-radius:100px;
-    padding:14px 18px;
-    margin-bottom:15px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    cursor:pointer;
-    transition:0.3s;
-    font-weight:600;
-    color:var(--navy);
-}
-
-.setting:hover{
-    transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,0.12);
-}
-
-.icon{
-    margin-right:10px;
-}
-
-.row{
-    display:flex;
-    gap:10px;
-}
-
-.row .setting{
-    flex:1;
-    font-size:13px;
-}
+button{display:none;} /* إخفاء أزرار ستريمليت */
 </style>
 """, unsafe_allow_html=True)
 
-# --- UI Helpers ---
-def header(title, back=False):
-    cols = st.columns([1,6,1])
-    if back:
-        with cols[0]:
-            if st.button("←"):
-                go("main")
-    with cols[1]:
-        st.markdown(f"<div class='title'>{title}</div>", unsafe_allow_html=True)
+# ---------------- JS BRIDGE ----------------
+query = st.query_params.get("nav")
+if query:
+    go(query)
 
-def btn(icon, text, page):
-    if st.button(f"{icon}  {text}   ›"):
-        go(page)
-
-# --- Pages ---
-
-# MAIN
+# ---------------- MAIN PAGE ----------------
 if st.session_state.page == "main":
-    header("Settings")
 
-    btn("🔒","Change Password","pass")
-    btn("🌐","Change Language","lang")
-    btn("⭐","Rate App","rate")
-    btn("🚪","Log Out","logout")
+    components.html("""
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
 
-    col1,col2 = st.columns(2)
-    with col1:
-        if st.button("⚠️ Report"):
-            go("report")
-    with col2:
-        if st.button("✉️ Contact"):
-            go("contact")
+    body{
+        font-family:'Segoe UI', sans-serif;
+        margin:0;
+        display:flex;
+        justify-content:center;
+        background:transparent;
+    }
 
-# CHANGE PASSWORD
-elif st.session_state.page == "pass":
-    header("Change Password", True)
+    .main-wrapper{
+        width:100%;
+        max-width:290px;
+        display:flex;
+        flex-direction:column;
+        height:480px;
+    }
 
-    st.text_input("Current Password", type="password")
-    st.text_input("New Password", type="password")
-    st.text_input("Confirm Password", type="password")
+    .header-container{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        margin-bottom:35px;
+        position:relative;
+    }
 
-    st.button("Save")
+    .title{
+        margin:0;
+        font-weight:900;
+        font-size:20px;
+        color:#0f2446;
+    }
 
-# LANGUAGE
-elif st.session_state.page == "lang":
-    header("Language", True)
+    .setting-item{
+        background:white;
+        border-radius:100px;
+        padding:14px 18px;
+        margin-bottom:15px;
+        display:flex;
+        align-items:center;
+        box-shadow:0 4px 12px rgba(0,0,0,0.08);
+        cursor:pointer;
+        transition:0.3s;
+    }
 
-    st.button("English ✔")
-    st.button("العربية")
+    .setting-item i{
+        margin-right:auto;
+        color:#0f2446;
+    }
 
-# REPORT
-elif st.session_state.page == "report":
-    header("Report", True)
+    .text{
+        margin-right:10px;
+        font-weight:600;
+        color:#0f2446;
+    }
 
-    st.text_area("Write problem...")
-    st.button("Send")
+    .arrow{
+        font-weight:bold;
+        color:#0f2446;
+    }
 
-# CONTACT
-elif st.session_state.page == "contact":
-    header("Contact Us", True)
+    .bottom{
+        margin-top:auto;
+        display:flex;
+        gap:10px;
+    }
 
-    st.write("✉️ CoCare26@gmail.com")
-    st.write("📞 +962 79 123 4567")
+    .bottom .setting-item{
+        flex:1;
+        justify-content:space-between;
+        font-size:13px;
+    }
 
-# LOGOUT
-elif st.session_state.page == "logout":
-    header("Log Out", True)
+    .setting-item:hover{
+        transform:translateY(-2px);
+        box-shadow:0 6px 15px rgba(0,0,0,0.12);
+    }
 
-    st.write("Are you sure?")
-    st.button("Log Out")
-    if st.button("Cancel"):
-        go("main")
+    </style>
+    </head>
 
-# RATE
-elif st.session_state.page == "rate":
-    header("Rate App", True)
+    <body>
 
-    st.button("Google Play")
-    st.button("App Store")
+    <div class="main-wrapper">
+
+        <div class="header-container">
+            <h2 class="title">Settings</h2>
+        </div>
+
+        <div class="setting-item" onclick="nav('pass')">
+            <i class="fas fa-lock"></i>
+            <span class="text">Change Password</span>
+            <span class="arrow">›</span>
+        </div>
+
+        <div class="setting-item" onclick="nav('lang')">
+            <i class="fas fa-globe"></i>
+            <span class="text">Change Language</span>
+            <span class="arrow">›</span>
+        </div>
+
+        <div class="setting-item" onclick="nav('rate')">
+            <i class="fas fa-star"></i>
+            <span class="text">Rate App</span>
+            <span class="arrow">›</span>
+        </div>
+
+        <div class="setting-item" onclick="nav('logout')">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="text">Log Out</span>
+            <span class="arrow">›</span>
+        </div>
+
+        <div class="bottom">
+            <div class="setting-item" onclick="nav('report')">
+                <span>⚠️ Report</span><span>›</span>
+            </div>
+            <div class="setting-item" onclick="nav('contact')">
+                <span>✉️ Contact</span><span>›</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    function nav(page){
+        window.parent.location.search = "?nav=" + page;
+    }
+    </script>
+
+    </body>
+    </html>
+    """, height=500)
+
+# ---------------- SUB PAGES ----------------
+else:
+
+    title_map = {
+        "pass":"Change Password",
+        "lang":"Language",
+        "rate":"Rate App",
+        "logout":"Log Out",
+        "report":"Report",
+        "contact":"Contact Us"
+    }
+
+    page_title = title_map[st.session_state.page]
+
+    components.html(f"""
+    <html>
+    <style>
+    body {{
+        font-family:'Segoe UI';
+        margin:0;
+        display:flex;
+        justify-content:center;
+        background:transparent;
+    }}
+
+    .wrap {{
+        width:100%;
+        max-width:290px;
+    }}
+
+    .header {{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        margin-bottom:40px;
+        position:relative;
+    }}
+
+    .back {{
+        position:absolute;
+        left:0;
+        font-size:28px;
+        font-weight:bold;
+        cursor:pointer;
+        color:#0f2446;
+    }}
+
+    h2 {{
+        margin:0;
+        font-size:20px;
+        font-weight:900;
+        color:#0f2446;
+    }}
+    </style>
+
+    <div class="wrap">
+        <div class="header">
+            <div class="back" onclick="goBack()">&lt;</div>
+            <h2>{page_title}</h2>
+        </div>
+    </div>
+
+    <script>
+    function goBack(){{
+        window.parent.location.search = "?nav=main";
+    }}
+    </script>
+    </html>
+    """, height=150)
