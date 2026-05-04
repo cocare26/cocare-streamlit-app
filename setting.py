@@ -2,9 +2,9 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 # 1. إعدادات الصفحة الأساسية
-st.set_page_config(page_title="App Navigation", layout="centered")
+st.set_page_config(page_title="App Settings", layout="centered")
 
-# 2. إدارة الحالة للتنقل الداخلي
+# 2. إدارة الحالة للتنقل الداخلي (Navigation Logic)
 if 'settings_sub_page' not in st.session_state:
     st.session_state.settings_sub_page = 'main_menu'
 
@@ -66,9 +66,9 @@ if selection == "setting":
             if st.button("✉️ Contact\nUs           ›"): nav_settings('contact_page')
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # ب. صفحة الإبلاغ عن مشكلة (HTML المخصص من الصورة)
-    elif st.session_state.settings_sub_page == 'report_page':
-        if st.button("Back", key="back_report", help="hidden"): nav_settings('main_menu')
+    # ب. صفحة اتصل بنا (Contact Us)
+    elif st.session_state.settings_sub_page == 'contact_page':
+        if st.button("Back", key="back_contact", help="hidden"): nav_settings('main_menu')
         components.html("""
         <!DOCTYPE html>
         <html>
@@ -85,46 +85,47 @@ if selection == "setting":
                 .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
                 .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
                 
-                .report-textarea {
-                    width: 100%; height: 220px; border-radius: 25px; border: none; outline: none; padding: 18px;
-                    background: white; font-size: 16px; color: #0f2446; resize: none; box-sizing: border-box;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: inherit;
-                }
-                .report-textarea::placeholder { color: #808080; }
-                
-                .send-btn {
-                    background: white; border-radius: 100px; width: 100%; padding: 14px 22px;
-                    display: flex; align-items: center; justify-content: space-between; 
-                    border: none; margin-top: auto; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); box-sizing: border-box;
-                }
-                .send-btn span { color: #0f2446; font-weight: 700; font-size: 14px; order: 2; }
-                .main-icon { color: #808080; font-size: 18px; order: 1; }
+                .capsule { background: white; border-radius: 100px; padding: 14px 22px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: 0.3s; cursor: pointer; }
+                .capsule:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+                .icon { margin-right: 12px; color: #0f2446; font-size: 16px; width: 20px; display: flex; justify-content: center; }
+                .text { color: #0f2446; font-weight: 700; font-size: 14px; word-break: break-all; }
             </style>
         </head>
         <body>
             <div class="main-wrapper">
                 <div class="header-container">
-                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_report]').click()"><</div>
-                    <h2 class="title">Report a Problem</h2>
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_contact]').click()"><</div>
+                    <h2 class="title">Contact Us</h2>
                 </div>
-                <textarea class="report-textarea" placeholder="I need help"></textarea>
-                <div style="margin-top: auto; padding-bottom: 10px;">
-                    <button class="send-btn" onclick="alert('Report Sent!')">
-                        <i class="fas fa-paper-plane main-icon"></i>
-                        <span>Send Report</span>
-                    </button>
+                <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">
+                    <div class="icon"><i class="fas fa-envelope"></i></div>
+                    <div class="text">CoCare26@gmail.com</div>
+                </div>
+                <div class="capsule" onclick="window.location.href='tel:+962791234567'">
+                    <div class="icon"><i class="fas fa-phone"></i></div>
+                    <div class="text">+962 79 123 4567</div>
                 </div>
             </div>
         </body>
         </html>
         """, height=550)
 
-    # ج. صفحة تسجيل الخروج (HTML)
+    # ج. صفحة الإبلاغ عن مشكلة (Report Problem)
+    elif st.session_state.settings_sub_page == 'report_page':
+        if st.button("Back", key="back_report", help="hidden"): nav_settings('main_menu')
+        components.html("""
+        <!-- (كود صفحة الإبلاغ عن مشكلة المذكور سابقاً) -->
+        """, height=550)
+
+    # د. صفحة تسجيل الخروج (Log Out)
     elif st.session_state.settings_sub_page == 'logout_page':
         if st.button("Back", key="back_logout", help="hidden"): nav_settings('main_menu')
-        # ... (كود صفحة اللوق أوت السابق)
+        # ... (كود صفحة اللوق أوت)
 
-    # د. صفحة التقييم وصفحة اللغة وصفحة كلمة المرور...
+    # هـ. صفحة التقييم (Rate App)
+    elif st.session_state.settings_sub_page == 'rate_page':
+        if st.button("Back", key="back_rate", help="hidden"): nav_settings('main_menu')
+        # ... (كود صفحة التقييم)
 
 else:
     st.title(f"Welcome to {selection} Page")
