@@ -54,15 +54,15 @@ st.markdown("""
     direction: ltr;
 }
 
-/* 🔥 النص داخل الزر */
+/* 🔥 النص داخل الزر (المسافة كبرت) */
 .stButton > button p {
     width:100%;
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin:0;
-    padding-left:20px;   /* 👈 مسافة من جهة الإيموجي */
-    padding-right:20px;  /* 👈 مسافة من جهة النص */
+    padding-left:60px;   /* 👈 مسافة كبيرة من جهة الإيموجي */
+    padding-right:60px;  /* 👈 مسافة كبيرة من جهة النص */
 }
 
 .stButton > button:hover {
