@@ -6,17 +6,9 @@ st.set_page_config(page_title="Settings", layout="centered")
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
-# حالة إظهار/إخفاء لكل حقل
-for k in ["show1", "show2", "show3"]:
-    if k not in st.session_state:
-        st.session_state[k] = False
-
 def go(page):
     st.session_state.page = page
     st.rerun()
-
-def toggle(key):
-    st.session_state[key] = not st.session_state[key]
 
 # ---------------- STYLE ----------------
 st.markdown("""
@@ -44,19 +36,75 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* input style */
-.stTextInput > div > div > input {
-    background:#ffffff !important;
-    border-radius:40px !important;
-    padding:14px !important;
-    border:none !important;
-    color:#000 !important;
+/* ===== SETTINGS ROW ===== */
+.row {
+    background:#ffffff;
+    border-radius:50px;
+    padding:14px 18px;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    cursor:pointer;
+}
+
+.left {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
+    color:#0f2446;
+}
+
+.icon {
+    font-size:16px;
+}
+
+.arrow {
+    font-size:18px;
+    color:#0f2446;
+}
+
+/* ===== INPUT ===== */
+.input-box {
+    background:#ffffff;
+    border-radius:40px;
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
     box-shadow:0 6px 0px #2c2f36;
 }
 
-/* icon */
-.icon {
-    font-size:16px;
+.input-box input {
+    border:none;
+    outline:none;
+    background:transparent;
+    width:100%;
+    font-size:14px;
+    color:#000;
+}
+
+.lock {
+    color:#d8c7a0;
+}
+
+.eye {
+    color:#555;
+}
+
+/* ===== BUTTON ===== */
+.stButton > button {
+    width:100%;
+    border:none;
+    background:#ffffff;
+    border-radius:50px;
+    padding:14px;
+    font-size:14px;
+    color:#000;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
 /* save */
@@ -72,15 +120,6 @@ st.markdown("""
     font-size:16px;
     border-radius:50px;
 }
-
-/* buttons */
-.stButton > button {
-    border:none;
-    background:#ffffff;
-    border-radius:50px;
-    padding:10px 14px;
-    color:#000;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -91,6 +130,25 @@ if st.session_state.page == "main":
 
     if st.button("🔒  Change Password   ›"):
         go("pass")
+
+    if st.button("🌐  Change Language   ›"):
+        go("lang")
+
+    if st.button("⭐  Rate App   ›"):
+        go("rate")
+
+    if st.button("🚪  Log Out   ›"):
+        go("logout")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("⚠️ Report"):
+            go("report")
+
+    with col2:
+        if st.button("✉️ Contact"):
+            go("contact")
 
 # ================= PASSWORD =================
 elif st.session_state.page == "pass":
@@ -104,52 +162,67 @@ elif st.session_state.page == "pass":
     with col2:
         st.markdown('<div class="header">Change Password</div>', unsafe_allow_html=True)
 
-    # -------- INPUT 1 --------
-    c1, c2, c3 = st.columns([1,6,1])
-    with c1:
-        st.markdown("🔒")
-    with c2:
-        st.text_input(
-            "",
-            placeholder="Current Password",
-            key="p1",
-            type="default" if st.session_state.show1 else "password"
-        )
-    with c3:
-        if st.button("👁", key="eye1"):
-            toggle("show1")
+    st.markdown("""
+    <div class="input-box">
+        <span class="lock">🔒</span>
+        <input placeholder="Current Password">
+        <span class="eye">👁</span>
+    </div>
 
-    # -------- INPUT 2 --------
-    c1, c2, c3 = st.columns([1,6,1])
-    with c1:
-        st.markdown("🔒")
-    with c2:
-        st.text_input(
-            "",
-            placeholder="New Password",
-            key="p2",
-            type="default" if st.session_state.show2 else "password"
-        )
-    with c3:
-        if st.button("👁", key="eye2"):
-            toggle("show2")
+    <div class="input-box">
+        <span class="lock">🔒</span>
+        <input placeholder="New Password">
+        <span class="eye">👁</span>
+    </div>
 
-    # -------- INPUT 3 --------
-    c1, c2, c3 = st.columns([1,6,1])
-    with c1:
-        st.markdown("🔒")
-    with c2:
-        st.text_input(
-            "",
-            placeholder="Re-write New Password",
-            key="p3",
-            type="default" if st.session_state.show3 else "password"
-        )
-    with c3:
-        if st.button("👁", key="eye3"):
-            toggle("show3")
+    <div class="input-box">
+        <span class="lock">🔒</span>
+        <input placeholder="Re-write New Password">
+        <span class="eye">👁</span>
+    </div>
+    """, unsafe_allow_html=True)
 
-    # SAVE
     st.markdown('<div class="save-wrap">', unsafe_allow_html=True)
     st.button("Save")
     st.markdown('</div>', unsafe_allow_html=True)
+
+# ================= LANGUAGE =================
+elif st.session_state.page == "lang":
+
+    st.markdown('<div class="header">Change Language</div>', unsafe_allow_html=True)
+
+    st.button("English")
+    st.button("العربية")
+
+# ================= RATE =================
+elif st.session_state.page == "rate":
+
+    st.markdown('<div class="header">Rate App</div>', unsafe_allow_html=True)
+
+    st.button("Google Play Store")
+    st.button("Apple App Store")
+    st.button("Huawei AppGallery")
+
+# ================= LOGOUT =================
+elif st.session_state.page == "logout":
+
+    st.markdown('<div class="header">Log Out</div>', unsafe_allow_html=True)
+
+    st.warning("Are you sure?")
+    st.button("Confirm Logout")
+
+# ================= REPORT =================
+elif st.session_state.page == "report":
+
+    st.markdown('<div class="header">Report</div>', unsafe_allow_html=True)
+
+    st.text_area("", placeholder="I need help")
+    st.button("Send Report")
+
+# ================= CONTACT =================
+elif st.session_state.page == "contact":
+
+    st.markdown('<div class="header">Contact Us</div>', unsafe_allow_html=True)
+
+    st.write("📧 CoCare26@gmail.com")
+    st.write("📞 +962 79 123 4567")
