@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS شكل الصفحة =====
+# ===== CSS (اختياري للتنسيق) =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -23,38 +23,22 @@ st.markdown("""
     color:#102646;
     margin-bottom:25px;
 }
-
-.card {
-    background:white;
-    padding:14px;
-    margin-bottom:12px;
-    border-radius:100px;
-    text-align:center;
-    font-weight:700;
-    color:#102646;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
 </style>
 """, unsafe_allow_html=True)
 
 # ===== Title =====
 st.markdown("<div class='title'>Settings ⚙️</div>", unsafe_allow_html=True)
 
-# ===== Navigation (الأهم) =====
-
-st.page_link("pages/6_Change_Password.py", label="🔒 Change Password")
-
-st.page_link("pages/7_Change_Language.py", label="🌐 Change Language")
-
-st.page_link("pages/8_Rate_App.py", label="⭐ Rate App")
-
-st.page_link("pages/9_Report_Problem.py", label="🐞 Report Problem")
-
-st.page_link("pages/10_Contact_Us.py", label="📞 Contact Us")
+# ===== Navigation (IMPORTANT FIX) =====
+st.page_link("6_Change_Password", label="🔒 Change Password")
+st.page_link("7_Change_Language", label="🌐 Change Language")
+st.page_link("8_Rate_App", label="⭐ Rate App")
+st.page_link("9_Report_Problem", label="🐞 Report Problem")
+st.page_link("10_Contact_Us", label="📞 Contact Us")
 
 st.write("---")
 
 # ===== Logout =====
 if st.button("🚪 Log Out"):
     st.session_state.clear()
-    st.switch_page("pages/0_arabic_app.py")
+    st.switch_page("0_arabic_app")
