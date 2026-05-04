@@ -124,8 +124,6 @@ textarea {{
     overflow: visible;
 }}
 
-
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -171,139 +169,11 @@ else:
     # -------- PASSWORD -------- (بدون card)
     if st.session_state.page == "pass":
 
-        import streamlit.components.v1 as components
+        st.text_input("", placeholder="Current Password")
+        st.text_input("", placeholder="New Password")
+        st.text_input("", placeholder="Re-write Password")
 
-        components.html("""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-            <style>
-                body {
-                    font-family: 'Segoe UI', sans-serif;
-                    background: transparent;
-                    margin: 0;
-                }
-
-                .main-wrapper {
-                    width: 100%;
-                    max-width: 290px;
-                    display: flex;
-                    flex-direction: column;
-                    height: 420px;
-                }
-
-                .input-capsule {
-                    background: white;
-                    border-radius: 100px;
-                    padding: 10px 18px;
-                    margin-bottom: 15px;
-                    display: flex;
-                    align-items: center;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                }
-
-                .input-capsule i.field-icon {
-                    color: #0f2446;
-                    margin-right: 12px;
-                    font-size: 16px;
-                }
-
-                .input-capsule input {
-                    border: none;
-                    outline: none;
-                    flex-grow: 1;
-                    font-size: 14px;
-                    color: #0f2446;
-                    background: transparent;
-                }
-
-                .input-capsule input::placeholder {
-                    color: #808080;
-                }
-
-                .input-capsule i.toggle-eye {
-                    color: #ccc;
-                    cursor: pointer;
-                    margin-left: 10px;
-                }
-
-                .report-text {
-                    text-align: center;
-                    color: white;
-                    font-size: 13px;
-                    margin-top: 5px;
-                    margin-bottom: 15px;
-                    cursor: pointer;
-                    font-weight: bold;
-                }
-
-                .save-btn-container {
-                    margin-top: auto;
-                    display: flex;
-                    justify-content: center;
-                    padding-bottom: 10px;
-                }
-
-                .save-box {
-                    background: white;
-                    border-radius: 100px;
-                    width: 100%;
-                    padding: 12px;
-                    text-align: center;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                    cursor: pointer;
-                    transition: 0.3s;
-                    border: none;
-                }
-
-                .save-box span {
-                    color: #0f2446;
-                    font-weight: bold;
-                    font-size: 16px;
-                }
-
-                .save-box:hover {
-                    transform: translateY(-2px);
-                }
-            </style>
-        </head>
-
-        <body>
-            <div class="main-wrapper">
-
-                <div class="input-capsule">
-    <i class="fas fa-lock field-icon"></i>
-    <input id="pass1" type="password" placeholder="Current Password">
-    <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
-</div>
-
-<div class="input-capsule">
-    <i class="fas fa-lock field-icon"></i>
-    <input id="pass2" type="password" placeholder="New Password">
-  <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
-</div>
-
-<div class="input-capsule">
-    <i class="fas fa-lock field-icon"></i>
-    <input id="pass3" type="password" placeholder="Re-write New Password">
-    <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
-</div>
-
-                <div class="report-text">
-                    Report Password
-                </div>
-
-                <div class="save-btn-container">
-                    <button class="save-box" onclick="alert('Password Saved!')">
-                        <span>Save</span>
-                    </button>
-                </div>
-
-            </div>
-        </body>
-        </html>
-        """, height=420)
+        st.button(T["save"])
 
     # -------- LANGUAGE -------- (بدون card)
     elif st.session_state.page == "lang":
@@ -330,119 +200,16 @@ else:
     # -------- REPORT -------- (مع card)
     elif st.session_state.page == "report":
 
-        import streamlit.components.v1 as components
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.text_area("", placeholder="I need help")
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        components.html("""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-            <style>
-                body {
-                    font-family: 'Segoe UI', sans-serif;
-                    background: transparent;
-                    margin: 0;
-                }
-
-                .main-wrapper {
-                    width: 100%;
-                    max-width: 290px;
-                    height: 430px;
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .report-textarea {
-                    width: 100%;
-                    height: 220px;
-                    border-radius: 25px;
-                    border: none;
-                    outline: none;
-                    padding: 18px;
-                    background: white;
-                    font-size: 16px;
-                    color: #0f2446;
-                    resize: none;
-                    box-sizing: border-box;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                    font-family: inherit;
-                }
-
-                .report-textarea::placeholder {
-                    color: #808080;
-                }
-
-                .send-btn {
-                    background: white;
-                    border-radius: 100px;
-                    width: 100%;
-                    padding: 14px 22px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    border: none;
-                    margin-top: 30px;
-                    cursor: pointer;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                    box-sizing: border-box;
-                }
-
-                .send-btn:hover {
-                    transform: translateY(-2px);
-                    background: #f7fbff;
-                }
-
-                .send-btn span {
-                    color: #0f2446;
-                    font-weight: 700;
-                    font-size: 14px;
-                    order: 2;
-                }
-
-                .main-icon {
-                    color: #808080;
-                    font-size: 18px;
-                    order: 1;
-                }
-            </style>
-        </head>
-
-        <body>
-            <div class="main-wrapper">
-                <textarea class="report-textarea" placeholder="I need help"></textarea>
-
-                <button class="send-btn" onclick="alert('Sent!')">
-                    <i class="fas fa-paper-plane main-icon"></i>
-                    <span>Send Report</span>
-                </button>
-            </div>
-        </body>
-        </html>
-        """, height=360)
+        st.button("Send Report")
 
     # -------- CONTACT -------- (مع card)
     elif st.session_state.page == "contact":
 
-        st.markdown("""
-        <style>
-        .contact-box {
-            background: white;
-            padding: 14px 18px;
-            border-radius: 50px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-            margin-bottom: 12px;
-            color: #0f2446;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .contact-box:hover {
-            transform: translateY(-2px);
-            background: #f7fbff;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-
-        st.markdown("<div class='contact-box'>📧 CoCare26@gmail.com</div>", unsafe_allow_html=True)
-        st.markdown("<div class='contact-box'>📞 +962 79 123 4567</div>", unsafe_allow_html=True)
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.write("📧 CoCare26@gmail.com")
+        st.write("📞 +962 79 123 4567")
+        st.markdown("</div>", unsafe_allow_html=True)
