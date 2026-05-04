@@ -194,14 +194,19 @@ else:
                 }
 
                 .input-capsule {
-                    background: white;
-                    border-radius: 100px;
-                    padding: 10px 18px;
-                    margin-bottom: 15px;
-                    display: flex;
-                    align-items: center;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                }
+    background: white;
+    border-radius: 100px;
+    padding: 10px 18px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
+
+.input-capsule:hover {
+    transform: translateY(-4px);
+}
 
                 .input-capsule i.field-icon {
                     color: #0f2446;
