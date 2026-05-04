@@ -118,25 +118,26 @@ text-decoration:none;
 </form>
 
 <script>
-function goPage(p){
-    window.top.location.href = "/?page=" + p;
-}
-
-function login(){
+function setPage(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
+    const pageValue = document.getElementById("pageValue");
 
-    if(/^07[0-9]{8}$/.test(v)){
-        goPage("customer");
+    if(/^[0-9]{11}$/.test(v)){
+        pageValue.value = "employee";
+        return true;
     }
-    else if(/^[0-9]{11}$/.test(v)){
-        goPage("employee");
+
+    if(/^[0-9]{10}$/.test(v)){
+        pageValue.value = "customer";
+        return true;
     }
-    else{
-        e.innerText = "Invalid phone or ID number";
-    }
+
+    e.innerText = "10 digits for Customer, 11 digits for Employee";
+    return false;
 }
 </script>
+
 </body>
 </html>
 """
