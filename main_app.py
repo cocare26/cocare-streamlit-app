@@ -2,11 +2,11 @@ import streamlit as st
 
 st.set_page_config(page_title="App", layout="centered")
 
-page = st.query_params.get("pages", "")
+page = st.query_params.get("page", "")
 
 # ========= ROUTER =========
 if page == "settings":
-    st.switch_page("Settings")
+    st.switch_page("Setting")
 
 elif page == "change_password":
     st.switch_page("ChangePassword")
@@ -22,4 +22,4 @@ elif page == "report":
 
 # ========= DEFAULT =========
 else:
-st.switch_page("pages/Settings.py")
+    st.switch_page("Setting")
