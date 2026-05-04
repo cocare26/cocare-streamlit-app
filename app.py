@@ -63,7 +63,8 @@ text-decoration:none;
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
 <form class="form" method="get" target="_self" onsubmit="return setPage()">
-    <form class="form" onsubmit="return setPage()">
+    <input type="hidden" name="page" id="pageValue">
+
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
     oninput="this.value=this.value.replace(/[^0-9]/g,'')">
@@ -71,7 +72,7 @@ text-decoration:none;
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-        <a href="?page=forgot" target="_top" style="color:#555; text-decoration:none;">
+        <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
             Forgot Password?
         </a>
     </div>
@@ -82,7 +83,7 @@ text-decoration:none;
 
     <div class="signup">
         👤 New User?
-        <a href="?page=create" target="_top" style="color:#222; text-decoration:underline;">
+        <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
             Create Account
         </a>
     </div>
@@ -92,15 +93,16 @@ text-decoration:none;
 function setPage(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
-
-    if(/^[0-9]{10}$/.test(v)){
-        window.top.location.href = "?page=customer";
-        return false;
-    }
+    const pageValue = document.getElementById("pageValue");
 
     if(/^[0-9]{11}$/.test(v)){
-        window.top.location.href = "?page=employee";
-        return false;
+        pageValue.value = "employee";
+        return true;
+    }
+
+    if(/^[0-9]{10}$/.test(v)){
+        pageValue.value = "customer";
+        return true;
     }
 
     e.innerText = "10 digits for Customer, 11 digits for Employee";
