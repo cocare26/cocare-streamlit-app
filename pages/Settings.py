@@ -13,64 +13,129 @@ st.markdown("""
     background:#f0f7ff;
 }
 
+/* container */
 .block-container {
     max-width:430px;
     margin:auto;
-    padding:18px 16px;
-    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    padding:20px 16px;
+    background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
 
-/* الكارد */
+/* title */
+.title {
+    text-align:center;
+    font-weight:900;
+    color:#102646;
+    margin-bottom:25px;
+    font-size:20px;
+}
+
+/* card */
 .card {
     position:relative;
     background:white;
     border-radius:100px;
-    padding:14px 22px;
-    margin-bottom:15px;
+    padding:16px 20px;
+    margin-bottom:14px;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition:0.25s;
 }
 
-/* زر يغطي الكارد كامل */
+.card:hover {
+    transform:translateY(-2px);
+    box-shadow:0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* left side */
+.left {
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+/* icon */
+.left i {
+    color:#102646;
+    font-size:15px;
+    width:20px;
+    text-align:center;
+}
+
+/* text */
+.left span {
+    color:#102646;
+    font-weight:800;
+    font-size:14px;
+}
+
+/* arrow */
+.arrow {
+    font-size:18px;
+    color:#102646;
+    font-weight:bold;
+}
+
+/* button overlay */
 div.stButton > button {
     position:absolute;
     left:0;
     width:100%;
-    height:55px;
+    height:60px;
     opacity:0;
     z-index:10;
+    cursor:pointer;
 }
 
-/* hover */
-.card:hover {
+/* bottom row */
+.bottom {
+    display:flex;
+    gap:10px;
+    margin-top:40px;
+}
+
+.bottom button {
+    width:100%;
+    border-radius:100px;
+    padding:12px;
+    background:white;
+    color:#102646;
+    font-weight:800;
+    border:none;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    cursor:pointer;
+    transition:0.25s;
+}
+
+.bottom button:hover {
     transform:translateY(-2px);
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 </style>
 
-<h2 style="text-align:center;color:#102646;">Settings</h2>
+<div class="title">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== عنصر reusable =====
+# ===== عنصر =====
 def item(label, icon, page):
     st.markdown(f"""
     <div class="card">
-        <div style="display:flex;gap:12px;align-items:center;">
+        <div class="left">
             <i class="{icon}"></i>
-            <span style="font-weight:800;">{label}</span>
+            <span>{label}</span>
         </div>
-        <span>›</span>
+        <div class="arrow">›</div>
     </div>
     """, unsafe_allow_html=True)
 
     if st.button(label):
         st.switch_page(page)
 
-# ===== العناصر =====
+# ===== items =====
 item("Change Password", "fas fa-lock", "pages/ChangePassword.py")
 item("Change Language", "fas fa-globe", "pages/ChangeLanguage.py")
 item("Rate App", "fas fa-star", "pages/RateApp.py")
