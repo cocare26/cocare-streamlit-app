@@ -12,6 +12,9 @@ if 'settings_sub_page' not in st.session_state:
 if 'lang' not in st.session_state:
     st.session_state.lang = 'en'
 
+if 'nav_event' not in st.session_state:
+    st.session_state.nav_event = None
+
 def nav_settings(target):
     st.session_state.settings_sub_page = target
     st.rerun()
@@ -32,7 +35,8 @@ TEXT = {
         "logout": "Log Out",
         "report": "Report Problem",
         "contact": "Contact Us",
-        "language": "Language"
+        "language": "Language",
+        "back": "Back"
     },
     "ar": {
         "settings": "الإعدادات",
@@ -42,7 +46,8 @@ TEXT = {
         "logout": "تسجيل الخروج",
         "report": "الإبلاغ عن مشكلة",
         "contact": "اتصل بنا",
-        "language": "اللغة"
+        "language": "اللغة",
+        "back": "رجوع"
     }
 }
 
@@ -69,7 +74,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =============================
-# MAIN SETTINGS MENU (HTML UI)
+# LISTEN TO HTML EVENTS
+# =============================
+components.html("""
+<script>
+window.addEventListener("message", (event) => {
+    const value = event.data;
+    const streamlitDoc = window.parent.document;
+    const el = streamlitDoc.querySelector('textarea[data-testid="stTextArea"]');
+});
+</script>
+""", height=0)
+
+# =============================
+# MAIN MENU
 # =============================
 if st.session_state.settings_sub_page == 'main_menu':
 
@@ -113,21 +131,26 @@ if st.session_state.settings_sub_page == 'main_menu':
 
     .icon {{
         font-size:16px;
-        color:#0f2446;
     }}
 
     .text {{
         flex:1;
         text-align:{ 'right' if st.session_state.lang == 'ar' else 'left' };
+        margin:0 10px;
         font-weight:600;
         color:#0f2446;
-        margin:0 10px;
     }}
 
     .arrow {{
         font-size:18px;
-        transform: { 'rotate(180deg)' if st.session_state.lang == 'ar' else 'none' };
+        transform:{ 'rotate(180deg)' if st.session_state.lang == 'ar' else 'none' };
     }}
+
+    .bottom-row {{
+        display:flex;
+        gap:10px;
+    }}
+
     </style>
     </head>
 
@@ -161,53 +184,48 @@ if st.session_state.settings_sub_page == 'main_menu':
             <div class="arrow">›</div>
         </div>
 
-        <div class="setting-item" onclick="go('report')">
-            <div class="icon">⚠️</div>
-            <div class="text">{t("report")}</div>
-            <div class="arrow">›</div>
-        </div>
+        <div class="bottom-row">
+            <div class="setting-item" style="flex:1;" onclick="go('report')">
+                <div class="icon">⚠️</div>
+                <div class="text">{t("report")}</div>
+            </div>
 
-        <div class="setting-item" onclick="go('contact')">
-            <div class="icon">✉️</div>
-            <div class="text">{t("contact")}</div>
-            <div class="arrow">›</div>
+            <div class="setting-item" style="flex:1;" onclick="go('contact')">
+                <div class="icon">✉️</div>
+                <div class="text">{t("contact")}</div>
+            </div>
         </div>
 
     </div>
 
     <script>
     function go(p){{
-        window.parent.location.search = "?nav=" + p;
+        window.parent.postMessage(p, "*");
     }}
     </script>
 
     </body>
     </html>
-    """, height=500)
+    """, height=520)
 
-    # استقبال الأحداث من HTML
-    nav = st.query_params.get("nav")
+    # استقبال الرسالة
+    msg = st.query_params.get("nav")
 
-    if nav == "pass":
+    if msg == "pass":
         nav_settings('change_password_page')
-
-    elif nav == "lang":
+    elif msg == "lang":
         nav_settings('language_page')
-
-    elif nav == "rate":
+    elif msg == "rate":
         nav_settings('rate_page')
-
-    elif nav == "logout":
+    elif msg == "logout":
         nav_settings('logout_page')
-
-    elif nav == "report":
+    elif msg == "report":
         nav_settings('report_page')
-
-    elif nav == "contact":
+    elif msg == "contact":
         nav_settings('contact_page')
 
 # =============================
-# LANGUAGE PAGE
+# LANGUAGE
 # =============================
 elif st.session_state.settings_sub_page == 'language_page':
 
@@ -223,7 +241,7 @@ elif st.session_state.settings_sub_page == 'language_page':
         if st.button("العربية"):
             set_lang("ar")
 
-    if st.button("⬅ Back"):
+    if st.button("⬅ " + t("back")):
         nav_settings('main_menu')
 
 # =============================
@@ -240,7 +258,7 @@ elif st.session_state.settings_sub_page == 'change_password_page':
     if st.button("Save"):
         st.success("Saved!")
 
-    if st.button("⬅ Back"):
+    if st.button("⬅ " + t("back")):
         nav_settings('main_menu')
 
 # =============================
@@ -255,7 +273,7 @@ elif st.session_state.settings_sub_page == 'report_page':
     if st.button("Send"):
         st.success("Sent!")
 
-    if st.button("⬅ Back"):
+    if st.button("⬅ " + t("back")):
         nav_settings('main_menu')
 
 # =============================
@@ -268,7 +286,7 @@ elif st.session_state.settings_sub_page == 'contact_page':
     st.write("📧 CoCare26@gmail.com")
     st.write("📞 +962 79 123 4567")
 
-    if st.button("⬅ Back"):
+    if st.button("⬅ " + t("back")):
         nav_settings('main_menu')
 
 # =============================
@@ -284,7 +302,7 @@ elif st.session_state.settings_sub_page == 'rate_page':
     if st.button("App Store"):
         st.write("Open App Store")
 
-    if st.button("⬅ Back"):
+    if st.button("⬅ " + t("back")):
         nav_settings('main_menu')
 
 # =============================
@@ -298,5 +316,5 @@ elif st.session_state.settings_sub_page == 'logout_page':
     if st.button("Yes"):
         st.success("Logged out")
 
-    if st.button("⬅ Back"):
+    if st.button("⬅ " + t("back")):
         nav_settings('main_menu')
