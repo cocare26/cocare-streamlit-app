@@ -97,6 +97,11 @@ textarea {{
     margin-bottom:15px;
 }}
 
+input#\:rc\:{{
+
+    background-color: rgb(255 255 255);
+        color: black;
+}}
 
 .st-b7 {{
     background-color: rgb(255 255 255);
