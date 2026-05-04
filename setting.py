@@ -59,25 +59,43 @@ body {{
     color:#0f2446;
 }}
 
+/* ===== BUTTON STYLE ===== */
 .stButton > button {{
     width:100%;
     border:none;
     background:#ffffff;
     border-radius:50px;
-    padding:16px;
+    padding:16px 50px 16px 20px;
     margin-bottom:12px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
     font-size:14px;
     color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
+    text-align:left;
+    position:relative;
 }}
 
 .stButton > button:hover {{
     transform:translateY(-2px);
 }}
 
+/* السهم */
+.stButton > button::after {{
+    content:"›";
+    position:absolute;
+    right:15px;
+    font-size:18px;
+    color:#0f2446;
+}}
+
+/* الأيقونة */
+.stButton > button::before {{
+    content: attr(data-icon);
+    position:absolute;
+    right:40px;
+    font-size:16px;
+}}
+
+/* INPUT */
 input {{
     border-radius:30px !important;
     padding:12px !important;
@@ -89,7 +107,7 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
-
+/* CARD */
 .card {{
     background:white;
     padding:15px;
@@ -97,34 +115,23 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }}
-
-.st-b7 {{
-    background-color: rgb(255 255 255);
-        color: black;
-}}
-
-.st.text_input{{
- color: black;
-}}
-
-.st-bc {{
-   color: black;
-}}
-
-.block-container {{
-    height: 600px;
-}}
-
-.st-emotion-cache-zh2fnc  {{
-   width:100%;
-    height: auto;
-    max-width: 100%;
-    min-width: 1rem;
-    position: relative;
-    overflow: visible;
-}}
-
 </style>
+""", unsafe_allow_html=True)
+
+# -------- ICON SCRIPT --------
+st.markdown("""
+<script>
+const icons = ["🔒","🌐","⭐","🚪","⚠️","✉️"];
+
+setTimeout(() => {
+    const buttons = window.parent.document.querySelectorAll('button');
+    buttons.forEach((btn, i) => {
+        if(i < icons.length){
+            btn.setAttribute("data-icon", icons[i]);
+        }
+    });
+}, 300);
+</script>
 """, unsafe_allow_html=True)
 
 # ================= MAIN =================
@@ -132,26 +139,26 @@ if st.session_state.page == "main":
 
     st.markdown(f"<div class='header'>{T['settings']}</div>", unsafe_allow_html=True)
 
-    if st.button(f"🔒 {T['pass']}"):
+    if st.button(T['pass']):
         go("pass")
 
-    if st.button(f"🌐 {T['lang']}"):
+    if st.button(T['lang']):
         go("lang")
 
-    if st.button(f"⭐ {T['rate']}"):
+    if st.button(T['rate']):
         go("rate")
 
-    if st.button(f"🚪 {T['logout']}"):
+    if st.button(T['logout']):
         go("logout")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        if st.button(f"⚠️ {T['report']}"):
+        if st.button(T['report']):
             go("report")
 
     with col2:
-        if st.button(f"✉️ {T['contact']}"):
+        if st.button(T['contact']):
             go("contact")
 
 # ================= SUB =================
@@ -166,7 +173,6 @@ else:
     with col2:
         st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
 
-    # -------- PASSWORD -------- (بدون card)
     if st.session_state.page == "pass":
 
         st.text_input("", placeholder="Current Password")
@@ -175,29 +181,25 @@ else:
 
         st.button(T["save"])
 
-    # -------- LANGUAGE -------- (بدون card)
     elif st.session_state.page == "lang":
 
-        if st.button("🌐 English"):
+        if st.button("English"):
             set_lang("en")
 
-        if st.button("🌐 العربية"):
+        if st.button("العربية"):
             set_lang("ar")
 
-    # -------- RATE -------- (بدون card)
     elif st.session_state.page == "rate":
 
-        st.button("▶ Google Play Store")
-        st.button("🍎 Apple App Store")
-        st.button("📱 Huawei AppGallery")
+        st.button("Google Play Store")
+        st.button("Apple App Store")
+        st.button("Huawei AppGallery")
 
-    # -------- LOGOUT --------
     elif st.session_state.page == "logout":
 
         st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
         st.button(T["logout"])
 
-    # -------- REPORT -------- (مع card)
     elif st.session_state.page == "report":
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
@@ -206,7 +208,6 @@ else:
 
         st.button("Send Report")
 
-    # -------- CONTACT -------- (مع card)
     elif st.session_state.page == "contact":
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
