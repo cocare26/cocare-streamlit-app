@@ -37,7 +37,7 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* 🔥 التعديل هون */
+/* 🔥 زر ستريمليت */
 .stButton > button {
     width:100%;
     border:none;
@@ -51,15 +51,18 @@ st.markdown("""
     font-size:14px;
     color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
-
     direction: ltr;
 }
 
+/* 🔥 النص داخل الزر */
 .stButton > button p {
     width:100%;
     display:flex;
     justify-content:space-between;
+    align-items:center;
     margin:0;
+    padding-left:20px;   /* 👈 مسافة من جهة الإيموجي */
+    padding-right:20px;  /* 👈 مسافة من جهة النص */
 }
 
 .stButton > button:hover {
