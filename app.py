@@ -86,7 +86,7 @@ text-decoration:none;
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form" id="loginForm" method="get" target="_top">
+<form class="form" method="get" action="/" target="_top" onsubmit="return setPage()">
     <input type="hidden" name="page" id="pageValue">
 
     <input id="username" class="input" placeholder="phone / ID Number"
@@ -96,39 +96,41 @@ text-decoration:none;
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-    <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
-        Forgot Password?
-    </a>
-</div>
-    <button class="login" type="button" onclick="login()">Log In ›</button>
+        <a href="/?page=forgot" target="_top" style="color:#555; text-decoration:none;">
+            Forgot Password?
+        </a>
+    </div>
+
+    <button class="login" type="submit">Log In ›</button>
+
     <div id="error" class="error"></div>
+
     <div class="signup">
-    👤 New User?
-    <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
-        Create Account
-    </a>
-</div>
+        👤 New User?
+        <a href="/?page=create" target="_top" style="color:#222; text-decoration:underline;">
+            Create Account
+        </a>
+    </div>
 </form>
-</div>
 
 <script>
-function goPage(p){
-    window.top.location.href = "/?page=" + p;
-}
-
-function login(){
+function setPage(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
+    const pageValue = document.getElementById("pageValue");
 
     if(/^07[0-9]{8}$/.test(v)){
-        goPage("customer");
+        pageValue.value = "customer";
+        return true;
     }
-    else if(/^[0-9]{11}$/.test(v)){
-        goPage("employee");
+
+    if(/^[0-9]{11}$/.test(v)){
+        pageValue.value = "employee";
+        return true;
     }
-    else{
-        e.innerText = "Invalid phone or ID number";
-    }
+
+    e.innerText = "Invalid phone or ID number";
+    return false;
 }
 </script>
 
