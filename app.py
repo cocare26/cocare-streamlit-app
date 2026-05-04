@@ -17,7 +17,7 @@ elif page == "employee":
 
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
-
+    
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
