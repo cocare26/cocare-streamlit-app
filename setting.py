@@ -198,13 +198,97 @@ else:
         st.button(T["logout"])
 
     # -------- REPORT -------- (مع card)
-    elif st.session_state.page == "report":
+     elif st.session_state.page == "report":
 
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
-        st.text_area("", placeholder="I need help")
-        st.markdown("</div>", unsafe_allow_html=True)
+        import streamlit.components.v1 as components
 
-        st.button("Send Report")
+        components.html("""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <style>
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background: transparent;
+                    margin: 0;
+                }
+
+                .main-wrapper {
+                    width: 100%;
+                    max-width: 290px;
+                    height: 430px;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .report-textarea {
+                    width: 100%;
+                    height: 220px;
+                    border-radius: 25px;
+                    border: none;
+                    outline: none;
+                    padding: 18px;
+                    background: white;
+                    font-size: 16px;
+                    color: #0f2446;
+                    resize: none;
+                    box-sizing: border-box;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                    font-family: inherit;
+                }
+
+                .report-textarea::placeholder {
+                    color: #808080;
+                }
+
+                .send-btn {
+                    background: white;
+                    border-radius: 100px;
+                    width: 100%;
+                    padding: 14px 22px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    border: none;
+                    margin-top: 30px;
+                    cursor: pointer;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                    box-sizing: border-box;
+                }
+
+                .send-btn:hover {
+                    transform: translateY(-2px);
+                    background: #f7fbff;
+                }
+
+                .send-btn span {
+                    color: #0f2446;
+                    font-weight: 700;
+                    font-size: 14px;
+                    order: 2;
+                }
+
+                .main-icon {
+                    color: #808080;
+                    font-size: 18px;
+                    order: 1;
+                }
+            </style>
+        </head>
+
+        <body>
+            <div class="main-wrapper">
+                <textarea class="report-textarea" placeholder="I need help"></textarea>
+
+                <button class="send-btn" onclick="alert('Sent!')">
+                    <i class="fas fa-paper-plane main-icon"></i>
+                    <span>Send Report</span>
+                </button>
+            </div>
+        </body>
+        </html>
+        """, height=360)
 
     # -------- CONTACT -------- (مع card)
     elif st.session_state.page == "contact":
