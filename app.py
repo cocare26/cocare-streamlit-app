@@ -108,25 +108,26 @@ text-decoration:none;
 </form>
 
 <script>
-function setPage(){
+function goPage(p){
+    const base = window.parent.location.pathname;
+    window.parent.location.href = base + "?page=" + p;
+}
+
+function login(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
 
-    if(/^07[0-9]{8}$/.test(v)){{
-        window.parent.location.href = window.parent.location.pathname + "?page=customer";
-        return false;
+    if(/^[0-9]{10}$/.test(v)){
+        goPage("customer");
     }
-
-    if(/^[0-9]{11}$/.test(v)){
-        window.parent.location.href = window.parent.location.pathname + "?page=employee";
-        return false;
+    else if(/^[0-9]{11}$/.test(v)){
+        goPage("employee");
     }
-
-    e.innerText = "10 digits for Customer, 11 digits for Employee";
-    return false;
+    else{
+        e.innerText = "10 digits for Customer, 11 digits for Employee";
+    }
 }
 </script>
-
 </body>
 </html>
 """
