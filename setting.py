@@ -97,6 +97,11 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }}
+
+.st-b7 {{
+    background-color: rgb(255 255 255);
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
