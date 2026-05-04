@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Settings", layout="centered")
 
@@ -7,10 +6,9 @@ st.set_page_config(page_title="Settings", layout="centered")
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
-# ---------------- READ NAV FROM URL ----------------
-nav = st.query_params.get("nav")
-if nav:
-    st.session_state.page = nav
+def go(page):
+    st.session_state.page = page
+    st.rerun()
 
 # ---------------- STYLE ----------------
 st.markdown("""
@@ -18,6 +16,7 @@ st.markdown("""
 [data-testid="stAppViewContainer"]{
     background:#eef2f7;
 }
+
 .block-container{
     max-width:350px !important;
     margin:auto !important;
@@ -26,149 +25,57 @@ st.markdown("""
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
-button{display:none;}
+
+/* شكل الأزرار */
+.stButton>button{
+    width:100%;
+    border:none;
+    background:white;
+    border-radius:100px;
+    padding:14px 18px;
+    margin-bottom:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:600;
+    color:#0f2446;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.stButton>button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ================= MAIN PAGE =================
+# ================= MAIN =================
 if st.session_state.page == "main":
 
-    components.html("""
-    <html>
-    <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    st.markdown("<h2 style='text-align:center;color:#0f2446;'>Settings</h2>", unsafe_allow_html=True)
 
-    <style>
-    body{
-        font-family:'Segoe UI';
-        margin:0;
-        display:flex;
-        justify-content:center;
-        background:transparent;
-    }
+    if st.button("🔒 Change Password   ›"):
+        go("pass")
 
-    .main-wrapper{
-        width:100%;
-        max-width:290px;
-        display:flex;
-        flex-direction:column;
-        height:480px;
-    }
+    if st.button("🌍 Change Language   ›"):
+        go("lang")
 
-    .header-container{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        margin-bottom:35px;
-    }
+    if st.button("⭐ Rate App   ›"):
+        go("rate")
 
-    .title{
-        font-weight:900;
-        font-size:20px;
-        color:#0f2446;
-    }
+    if st.button("🚪 Log Out   ›"):
+        go("logout")
 
-    .setting-item{
-        background:white;
-        border-radius:100px;
-        padding:14px 18px;
-        margin-bottom:15px;
-        display:flex;
-        align-items:center;
-        box-shadow:0 4px 12px rgba(0,0,0,0.08);
-        cursor:pointer;
-        transition:0.3s;
-    }
+    col1, col2 = st.columns(2)
 
-    .setting-item:hover{
-        transform:translateY(-2px);
-        box-shadow:0 6px 15px rgba(0,0,0,0.12);
-    }
+    with col1:
+        if st.button("⚠️ Report   ›"):
+            go("report")
 
-    .setting-item i{
-        margin-right:auto;
-        color:#0f2446;
-    }
-
-    .text{
-        margin-right:10px;
-        font-weight:600;
-        color:#0f2446;
-    }
-
-    .arrow{
-        font-weight:bold;
-        color:#0f2446;
-    }
-
-    .bottom{
-        margin-top:auto;
-        display:flex;
-        gap:10px;
-    }
-
-    .bottom .setting-item{
-        flex:1;
-        justify-content:space-between;
-        font-size:13px;
-    }
-    </style>
-    </head>
-
-    <body>
-
-    <div class="main-wrapper">
-
-        <div class="header-container">
-            <h2 class="title">Settings</h2>
-        </div>
-
-        <div class="setting-item" onclick="nav('pass')">
-            <i class="fas fa-lock"></i>
-            <span class="text">Change Password</span>
-            <span class="arrow">›</span>
-        </div>
-
-        <div class="setting-item" onclick="nav('lang')">
-            <i class="fas fa-globe"></i>
-            <span class="text">Change Language</span>
-            <span class="arrow">›</span>
-        </div>
-
-        <div class="setting-item" onclick="nav('rate')">
-            <i class="fas fa-star"></i>
-            <span class="text">Rate App</span>
-            <span class="arrow">›</span>
-        </div>
-
-        <div class="setting-item" onclick="nav('logout')">
-            <i class="fas fa-sign-out-alt"></i>
-            <span class="text">Log Out</span>
-            <span class="arrow">›</span>
-        </div>
-
-        <div class="bottom">
-            <div class="setting-item" onclick="nav('report')">
-                ⚠️ Report <span>›</span>
-            </div>
-            <div class="setting-item" onclick="nav('contact')">
-                ✉️ Contact <span>›</span>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-    function nav(page){
-        const url = new URL(window.parent.location.href);
-        url.searchParams.set("nav", page);
-        window.parent.location.href = url.toString(); // 🔥 reload حقيقي
-    }
-    </script>
-
-    </body>
-    </html>
-    """, height=500)
+    with col2:
+        if st.button("✉️ Contact   ›"):
+            go("contact")
 
 # ================= SUB PAGES =================
 else:
@@ -184,53 +91,14 @@ else:
 
     title = titles.get(st.session_state.page, "Settings")
 
-    components.html(f"""
-    <html>
-    <style>
-    body{{
-        font-family:'Segoe UI';
-        margin:0;
-        display:flex;
-        justify-content:center;
-        background:transparent;
-    }}
+    col1, col2 = st.columns([1,4])
 
-    .header{{
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        position:relative;
-        margin-bottom:30px;
-    }}
+    with col1:
+        if st.button("←"):
+            go("main")
 
-    .back{{
-        position:absolute;
-        left:0;
-        font-size:28px;
-        font-weight:bold;
-        cursor:pointer;
-        color:#0f2446;
-    }}
+    with col2:
+        st.markdown(f"<h3 style='color:#0f2446'>{title}</h3>", unsafe_allow_html=True)
 
-    h2{{
-        font-size:20px;
-        font-weight:900;
-        color:#0f2446;
-    }}
-    </style>
-
-    <div class="header">
-        <div class="back" onclick="goBack()">&lt;</div>
-        <h2>{title}</h2>
-    </div>
-
-    <script>
-    function goBack(){{
-        const url = new URL(window.parent.location.href);
-        url.searchParams.set("nav", "main");
-        window.parent.location.href = url.toString();
-    }}
-    </script>
-
-    </html>
-    """, height=150)
+    st.write("---")
+    st.write(f"You are in **{title}** page")
