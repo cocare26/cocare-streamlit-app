@@ -278,18 +278,21 @@ st.markdown(f"""
 <div class="nav">
 <div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
 <div class="nav-item clickable">🎡<span class="nav-text">Spin</span></div>
+
 <div class="nav-item clickable" onclick="goPage('Chatbot')">
 <div class="bot-bg">
     <img src="data:image/png;base64,{robot_head}" style="width:38px;">
 </div>
 <span class="nav-text">Chatbot</span>
 </div>
+
 <div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
 <div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
 </div>
+
 <script>
-function goPage(page){
+function goPage(page){{
     window.top.location.href = "/~/" + page;
-}
+}}
 </script>
 """, unsafe_allow_html=True)
