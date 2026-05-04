@@ -34,13 +34,10 @@ T = {
 # ---------------- STYLE ----------------
 st.markdown(f"""
 <style>
-
-/* الخلفية */
 [data-testid="stAppViewContainer"] {{
     background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
 }}
 
-/* الكارد الرئيسي */
 .block-container {{
     max-width:370px;
     margin:auto;
@@ -54,7 +51,6 @@ body {{
     direction: {"rtl" if is_ar else "ltr"};
 }}
 
-/* الهيدر */
 .header {{
     text-align:center;
     font-size:20px;
@@ -63,18 +59,16 @@ body {{
     color:#0f2446;
 }}
 
-/* الأزرار (تعديل بسيط فقط بالعرض) */
 .stButton > button {{
-    width:90%;
-    margin:auto;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    width:100%;
     border:none;
     background:#ffffff;
     border-radius:50px;
     padding:16px;
     margin-bottom:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     font-size:14px;
     color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
@@ -82,27 +76,19 @@ body {{
 
 .stButton > button:hover {{
     transform:translateY(-2px);
-    box-shadow:0 8px 18px rgba(0,0,0,0.12);
 }}
 
-/* ===== input fix (المهم) ===== */
 input {{
-    background:#ffffff !important;
-    color:#000000 !important;
-    border:none !important;
     border-radius:30px !important;
     padding:12px !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
 textarea {{
-    background:#ffffff !important;
-    color:#000000 !important;
     border-radius:20px !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
-/* card */
 .card {{
     background:white;
     padding:15px;
@@ -110,7 +96,6 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -153,7 +138,7 @@ else:
     with col2:
         st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
 
-    # -------- PASSWORD --------
+    # -------- PASSWORD -------- (بدون card)
     if st.session_state.page == "pass":
 
         st.text_input("", placeholder="Current Password")
@@ -162,7 +147,7 @@ else:
 
         st.button(T["save"])
 
-    # -------- LANGUAGE --------
+    # -------- LANGUAGE -------- (بدون card)
     elif st.session_state.page == "lang":
 
         if st.button("🌐 English"):
@@ -171,7 +156,7 @@ else:
         if st.button("🌐 العربية"):
             set_lang("ar")
 
-    # -------- RATE --------
+    # -------- RATE -------- (بدون card)
     elif st.session_state.page == "rate":
 
         st.button("▶ Google Play Store")
@@ -184,7 +169,7 @@ else:
         st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
         st.button(T["logout"])
 
-    # -------- REPORT --------
+    # -------- REPORT -------- (مع card)
     elif st.session_state.page == "report":
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
@@ -193,7 +178,7 @@ else:
 
         st.button("Send Report")
 
-    # -------- CONTACT --------
+    # -------- CONTACT -------- (مع card)
     elif st.session_state.page == "contact":
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
