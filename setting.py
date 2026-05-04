@@ -50,13 +50,21 @@ with st.sidebar:
 # السطر 50 يبدأ هنا
 if selection == "setting":
     
-    # ا. القائمة الرئيسية للإعدادات (يجب أن تكون مزاحة بـ 4 مسافات عن الـ if أعلاها)
-    # ا. القائمة الرئيسية للإعدادات
+    #ا. القائمة الرئيسية للإعدادات
     # ا. القائمة الرئيسية للإعدادات
     if st.session_state.settings_sub_page == 'main_menu':
         st.markdown("""
             <style>
-                /* التنسيقات المطلوبة للهيدر والأزرار */
+                /* إعدادات الحاوية الرئيسية والألوان */
+                [data-testid="stAppViewBlockContainer"] {
+                    max-width: 350px !important;
+                    margin: auto !important;
+                    padding: 30px !important;
+                    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%) !important;
+                    border-radius: 42px !important;
+                }
+
+                /* تنسيق العنوان وسهم العودة (900 weight) */
                 .header-container {
                     display: flex;
                     align-items: center;
@@ -79,37 +87,25 @@ if selection == "setting":
                     color: #0f2446 !important;
                     cursor: pointer;
                 }
-                
-                /* تنسيق الحاوية (الخلفية المتدرجة) */
-                [data-testid="stAppViewBlockContainer"] {
-                    max-width: 350px !important;
-                    margin: auto !important;
-                    padding: 30px !important;
-                    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%) !important;
-                    border-radius: 42px !important;
-                }
 
-                /* تأثيرات الأزرار (setting-item) */
+                /* تنسيق العناصر (الأزرار) وتأثير الـ Hover */
                 div.stButton > button {
                     width: 100% !important;
                     padding: 15px 18px !important;
-                    margin-bottom: 12px !important;
+                    margin-bottom: 10px !important; /* مسافة 10px حسب طلبك */
                     background-color: white !important;
                     border: none !important;
                     border-radius: 100px !important;
                     color: #0f2446 !important;
-                    font-size: 15px !important;
+                    font-size: 15px !important; /* حجم الخط لـ setting-text-right */
                     font-weight: 700 !important;
                     box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
                     transition: 0.3s !important;
-                    display: flex !important;
-                    align-items: center !important;
                 }
 
                 div.stButton > button:hover {
                     transform: translateY(-3px) !important;
                     box-shadow: 0 9px 20px rgba(0,0,0,0.16) !important;
-                    background-color: #f8fbff !important;
                 }
             </style>
             
@@ -119,7 +115,7 @@ if selection == "setting":
             </div>
         """, unsafe_allow_html=True)
         
-        # الأزرار (تستخدم تنسيق الـ CSS الموضح أعلاه)
+        # الأزرار الرئيسية
         if st.button("🔒 Change Password" + " " * 20 + "›"): 
             nav_settings('change_password_page')
             
@@ -134,6 +130,7 @@ if selection == "setting":
         
         st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
         
+        # أزرار الـ Report و Contact Us
         col1, col2 = st.columns(2)
         with col1:
             if st.button("⚠️ Report\nProblem ›"): 
