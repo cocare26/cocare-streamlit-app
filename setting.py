@@ -177,7 +177,7 @@ else:
 
         import streamlit.components.v1 as components
 
-        components.html("""
+        components.html((f"""
         <!DOCTYPE html>
         <html>
         <head>
@@ -283,19 +283,19 @@ else:
 
                 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
-    <input id="pass1" type="password" placeholder="Current Password">
+    <input id="pass1" type="password" placeholder="{T['current']}">
     <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
-    <input id="pass2" type="password" placeholder="New Password">
+   <input id="pass2" type="password" placeholder="{T['new']}">
   <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
-    <input id="pass3" type="password" placeholder="Re-write New Password">
+    <input id="pass3" type="password" placeholder="{T['rewrite']}">
     <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
