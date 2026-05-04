@@ -96,6 +96,36 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }}
+
+
+.st-b7 {{
+    background-color: rgb(255 255 255);
+        color: black;
+}}
+
+.st.text_input{{
+ color: black;
+}}
+
+.st-bc {{
+   color: black;
+}}
+
+.block-container {{
+    height: 600px;
+}}
+
+.st-emotion-cache-zh2fnc  {{
+   width:100%;
+    height: auto;
+    max-width: 100%;
+    min-width: 1rem;
+    position: relative;
+    overflow: visible;
+}}
+
+
+
 </style>
 """, unsafe_allow_html=True)
 
