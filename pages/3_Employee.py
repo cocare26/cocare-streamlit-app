@@ -157,7 +157,7 @@ body{margin:0;background:transparent}
  z-index:999;
 }
 
-.nav button{
+.nav a{
  flex:1;
  height:58px;
  border-radius:18px;
@@ -168,8 +168,24 @@ body{margin:0;background:transparent}
  cursor:pointer;
  box-shadow:0 4px 10px rgba(0,0,0,.1);
  transition:.25s;
+ text-align:center;
+ text-decoration:none;
+ color:#111;
+ padding-top:7px;
 }
 
+.nav a:hover{
+ background:#eef6ff;
+ color:#2f80ed;
+ transform:translateY(-3px);
+}
+
+.nav a span{
+ display:block;
+ font-size:22px;
+ margin-bottom:3px;
+ color:#376f91;
+}
 .nav button:hover{
  background:#eef6ff;
  color:#2f80ed;
@@ -324,20 +340,17 @@ body{margin:0;background:transparent}
 
 <div class="nav">
 
-    <button type="button"
-        onclick="window.parent.location.href='/?page=employee'">
+    <a href="/?page=employee" target="_top">
         <span>⌂</span>Home
-    </button>
+    </a>
 
-    <button type="button"
-        onclick="window.parent.location.href='/?page=logout'">
+    <a href="/" target="_top">
         <span>⇥</span>Logout
-    </button>
+    </a>
 
-    <button type="button"
-        onclick="window.parent.location.href='/?page=todo'">
+    <a href="/?page=todo" target="_top">
         <span>☑</span>To Do
-    </button>
+    </a>
 
 </div>
 
