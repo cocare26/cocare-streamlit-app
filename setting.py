@@ -329,7 +329,7 @@ else:
     # -------- LOGOUT --------
     elif st.session_state.page == "logout":
 
-        st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
+        
 
         if st.button(T["logout"]):
             st.session_state.clear()   # يمسح كل البيانات
