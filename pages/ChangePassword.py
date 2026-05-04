@@ -1,9 +1,8 @@
-=import streamlit as st
+import streamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Change Password", layout="centered")
 
-# ===== CSS =====
 st.markdown("""
 <style>
 * { margin:0; padding:0; box-sizing:border-box; direction:ltr; }
@@ -25,7 +24,6 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height:600px;
 }
 
-/* 🔙 زر الرجوع */
 .back-style .stButton > button {
     background:white !important;
     color:black !important;
@@ -37,7 +35,6 @@ html, body, [data-testid="stAppViewContainer"] {
     box-shadow:0 4px 10px rgba(0,0,0,0.08) !important;
 }
 
-/* العنوان */
 .title-text {
     font-size:20px;
     font-weight:900;
@@ -46,7 +43,6 @@ html, body, [data-testid="stAppViewContainer"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER =====
 col1, col2 = st.columns([1, 8])
 
 with col1:
@@ -58,7 +54,6 @@ with col1:
 with col2:
     st.markdown('<div class="title-text">Change Password</div>', unsafe_allow_html=True)
 
-# ===== UI =====
 components.html("""
 <!DOCTYPE html>
 <html>
@@ -81,7 +76,6 @@ body {
     flex-direction:column;
 }
 
-/* INPUT */
 .input {
     background:white;
     border-radius:100px;
@@ -103,7 +97,6 @@ body {
     flex:1;
 }
 
-/* BUTTON */
 .save {
     margin-top:20px;
 }
@@ -117,42 +110,6 @@ body {
     font-weight:900;
     cursor:pointer;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* POPUP */
-.modal {
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.4);
-    justify-content:center;
-    align-items:center;
-}
-
-.modal-box {
-    background:white;
-    padding:25px;
-    border-radius:20px;
-    text-align:center;
-    width:250px;
-}
-
-.modal-box p {
-    font-weight:800;
-    color:#102646;
-    margin-bottom:20px;
-}
-
-.modal-box button {
-    border:none;
-    padding:10px 20px;
-    border-radius:100px;
-    background:#dff2ff;
-    cursor:pointer;
-    font-weight:700;
 }
 </style>
 </head>
@@ -182,14 +139,6 @@ body {
 
 </div>
 
-<!-- POPUP -->
-<div class="modal" id="popup">
-    <div class="modal-box">
-        <p>Password changed successfully ✅</p>
-        <button onclick="goSettings()">OK</button>
-    </div>
-</div>
-
 <script>
 function save(){
     let oldPass = document.getElementById("old").value;
@@ -211,14 +160,10 @@ function save(){
         return;
     }
 
-    document.getElementById("popup").style.display = "flex";
-}
-
-function goSettings(){
-    window.parent.location.href = "/?page=settings";
+    alert("Password changed successfully ✅");
 }
 </script>
 
 </body>
 </html>
-""", height=600)
+""", height=420)
