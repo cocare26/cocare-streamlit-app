@@ -175,7 +175,9 @@ body {{
 <div class="phone">
 
     <div class="topbar">
-        <div class="back">‹</div>
+       <a href="/Customer" target="_self" style="text-decoration:none;">
+    <div class="back">‹</div>
+</a>
         <img class="avatar" src="data:image/png;base64,{robot}">
         <div class="dot"></div>
         <div class="status">Ready to assist</div>
