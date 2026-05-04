@@ -25,30 +25,27 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height: 600px;
 }
 
-/* ===== HEADER ===== */
-.header {
-    position:relative;
-    text-align:center;
+/* 🔥 السطر العلوي */
+.header-row {
+    display:flex;
+    align-items:center;
+    gap:10px;
     margin-bottom:30px;
 }
 
-/* سهم الرجوع */
-.back-style {
-    position:absolute;
-    left:0;
-    top:0;
-}
-
+/* 🔙 زر الرجوع */
 .back-style .stButton > button {
-    background:transparent !important;
-    box-shadow:none !important;
+    background:white !important;   /* تقدر تشيله لو بدك بدون بوكس */
     color:black !important;
-    font-size:26px !important;
-    width:auto !important;
+    border-radius:50% !important;
+    width:40px !important;
+    height:40px !important;
     padding:0 !important;
+    font-size:20px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08) !important;
 }
 
-/* العنوان بالنص */
+/* العنوان */
 .title-text {
     font-size:20px;
     font-weight:900;
@@ -57,19 +54,17 @@ html, body, [data-testid="stAppViewContainer"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER =====
-st.markdown('<div class="header">', unsafe_allow_html=True)
+# ===== HEADER (سطر واحد) =====
+col1, col2 = st.columns([1, 8])
 
-# السهم
-st.markdown('<div class="back-style">', unsafe_allow_html=True)
-if st.button("‹"):
-    st.switch_page("pages/Settings.py")
-st.markdown('</div>', unsafe_allow_html=True)
+with col1:
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("‹"):
+        st.switch_page("pages/Settings.py")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# العنوان
-st.markdown('<div class="title-text">Change Password</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
+with col2:
+    st.markdown('<div class="title-text">Change Password</div>', unsafe_allow_html=True)
 
 # ===== UI =====
 components.html("""
