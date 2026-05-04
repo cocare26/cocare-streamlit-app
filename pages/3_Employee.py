@@ -338,21 +338,6 @@ body{margin:0;background:transparent}
     </div>
 </div>
 
-<div class="nav">
-
-    <a href="/?page=employee" target="_top">
-        <span>⌂</span>Home
-    </a>
-
-    <a href="/?page=logout" target="_top">
-        <span>⇥</span>Logout
-    </a>
-
-    <a href="/?page=todo" target="_top">
-        <span>☑</span>To Do
-    </a>
-
-</div>
 
 </div>
 
@@ -371,6 +356,20 @@ function updateRegion(){
 </html>
 """, height=820)
 
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    if st.button("⌂ Home", use_container_width=True):
+        st.switch_page("pages/3_Employee.py")
+
+with col2:
+    if st.button("⇥ Logout", use_container_width=True):
+        st.switch_page("app.py")
+
+with col3:
+    if st.button("☑ To Do", use_container_width=True):
+        st.switch_page("pages/4_To_Do.py")
+        
 # =========================
 # CoCare Engine Integration
 # =========================
