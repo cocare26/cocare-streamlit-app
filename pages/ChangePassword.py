@@ -122,6 +122,10 @@ body {
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
+.save button:hover {
+    transform:translateY(-2px);
+}
+
 /* ===== POPUP ===== */
 .modal {
     display:none;
@@ -205,11 +209,11 @@ body {
 
 <script>
 function goBack(){
-    window.top.location.href = "/?page=settings";
+    window.parent.location.href = "/?page=settings";
 }
 
 function goReport(){
-    window.top.location.href = "/?page=report";
+    window.parent.location.href = "/?page=report";
 }
 
 function save(){
@@ -232,12 +236,14 @@ function save(){
         return;
     }
 
-    // show popup بدل alert
+    // show popup
     document.getElementById("popup").style.display = "flex";
 }
 
 function goSettings(){
-    window.top.location.href = "/?page=settings";
+    setTimeout(() => {
+        window.parent.location.href = "/?page=settings";
+    }, 200);
 }
 </script>
 
