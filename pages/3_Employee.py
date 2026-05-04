@@ -340,7 +340,7 @@ body{margin:0;background:transparent}
 
 <div class="nav">
 
-    <a href="/?page=employee" target="_top">
+    <a href="?page=employee" target="_top">
         <span>⌂</span>Home
     </a>
 
@@ -348,8 +348,8 @@ body{margin:0;background:transparent}
         <span>⇥</span>Logout
     </a>
 
-    <a href="/?page=todo" target="_top">
-        <span>☑</span>To Do
+    <a href="?page=todo" target="_top">
+          <span>☑</span>To Do
     </a>
 
 </div>
