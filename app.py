@@ -91,7 +91,7 @@ text-decoration:none;
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
 <form class="form" method="get" action="/" target="_self" onsubmit="return setPage()">
-<input type="hidden" name="page" id="pageValue">
+ <input type="hidden" name="page" id="pageValue">
 
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
@@ -105,7 +105,7 @@ text-decoration:none;
         </a>
     </div>
 
-    <button class="login" type="button" onclick="login()">Log In ›</button>
+    <button class="login" type="submit">Log In ›</button>
 
     <div id="error" class="error"></div>
 
@@ -116,7 +116,6 @@ text-decoration:none;
         </a>
     </div>
 </form>
-</div>
 
 <script>
 function goPage(p){
