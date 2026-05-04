@@ -95,6 +95,20 @@ if selection == "setting":
                 .report-text:active { opacity: 0.6; transform: scale(0.95); }
                 .save-box { background: white; border-radius: 100px; width: 100%; padding: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; border: none; color: #0f2446; font-weight: bold; font-size: 18px; margin-top: auto; }
                 .save-box:active { transform: scale(0.95); background: #f9f9f9; }
+                i {
+    transition: all 0.3s ease;
+}
+
+/* عند المرور Hover */
+i:hover {
+    transform: scale(1.3) rotate(10deg);
+    color: #2f80ed;
+}
+
+/* عند الضغط Click */
+i:active {
+    transform: scale(0.8) rotate(-10deg);
+}
             </style>
         </head>
         <body>
