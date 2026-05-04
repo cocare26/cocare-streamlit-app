@@ -3,6 +3,7 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Change Language", layout="centered")
 
+# ===== CSS =====
 st.markdown("""
 <style>
 * { margin:0; padding:0; box-sizing:border-box; direction:ltr; }
@@ -23,9 +24,54 @@ html, body, [data-testid="stAppViewContainer"] {
     box-shadow:0 14px 35px rgba(0,0,0,.15);
     min-height:600px;
 }
+
+/* ===== HEADER ===== */
+.header {
+    position:relative;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+/* السهم */
+.back-style {
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+.back-style .stButton > button {
+    background:transparent !important;
+    box-shadow:none !important;
+    color:black !important;
+    font-size:26px !important;
+    width:auto !important;
+    padding:0 !important;
+}
+
+/* العنوان */
+.title-text {
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
+}
 </style>
 """, unsafe_allow_html=True)
 
+# ===== HEADER =====
+st.markdown('<div class="header">', unsafe_allow_html=True)
+
+# السهم
+st.markdown('<div class="back-style">', unsafe_allow_html=True)
+if st.button("‹"):
+    st.switch_page("pages/Settings.py")
+st.markdown('</div>', unsafe_allow_html=True)
+
+# العنوان بالنص
+st.markdown('<div class="title-text">Change Language</div>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# ===== UI =====
 components.html("""
 <!DOCTYPE html>
 <html>
@@ -43,22 +89,6 @@ body {
 .wrapper {
     width:100%;
     max-width:380px;
-}
-
-/* HEADER */
-.header {
-    text-align:center;
-    position:relative;
-    margin-bottom:40px;
-}
-
-.back {
-    position:absolute;
-    left:0;
-    font-size:28px;
-    color:#102646;
-    text-decoration:none;
-    font-weight:bold;
 }
 
 /* ITEM */
@@ -86,12 +116,6 @@ body {
 <body>
 
 <div class="wrapper">
-
-<div class="header">
-    <!-- ✅ زر الرجوع -->
-    <a href="/?page=settings" target="_top" class="back">‹</a>
-    <h2>Change Language</h2>
-</div>
 
 <!-- Arabic -->
 <a href="/?page=settings-ar" target="_top" class="item">
