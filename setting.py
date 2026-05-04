@@ -36,11 +36,6 @@ div.stButton > button {
     font-weight: 700 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     margin-bottom: 10px;
-    transition: transform 0.2s ease;
-}
-
-div.stButton > button:active {
-    transform: scale(0.97);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -72,9 +67,9 @@ if selection == "setting":
             if st.button("✉️ Contact\nUs            ›"): nav_settings('contact_page')
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # ب. صفحة تغيير اللغة (التصميم الجديد والمطلوب)
-    elif st.session_state.settings_sub_page == 'language_page':
-        if st.button("Back", key="back_lang", help="hidden"): nav_settings('main_menu')
+    # ب. صفحة تغيير كلمة المرور (التصميم الجديد والمتحرك)
+    elif st.session_state.settings_sub_page == 'change_password_page':
+        if st.button("Back", key="back_pass", help="hidden"): nav_settings('main_menu')
         components.html("""
         <!DOCTYPE html>
         <html>
@@ -86,80 +81,57 @@ if selection == "setting":
                     width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
                     border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px; display: flex; flex-direction: column;
                 }
-                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
+                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 35px; position: relative; }
                 .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; transition: transform 0.2s; }
                 .back-icon:active { transform: scale(0.8); }
                 .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
-                
-                .language-capsule {
-                    background: white; border-radius: 100px; padding: 15px 22px; margin-bottom: 15px;
-                    display: flex; align-items: center; justify-content: space-between;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: all 0.2s ease;
-                }
-                .language-capsule:active { transform: scale(0.96); }
-                
-                .left-content { display: flex; align-items: center; gap: 12px; }
-                .icon { color: #0f2446; font-size: 18px; }
-                .label { color: #0f2446; font-weight: 700; font-size: 16px; }
-                .status-mark { font-size: 18px; font-weight: bold; }
-                .check { color: #2f80ed; }
-                .arrow { color: #0f2446; }
+                .input-capsule { background: white; border-radius: 100px; padding: 12px 18px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; }
+                .input-capsule:focus-within { transform: scale(1.02); }
+                .input-capsule i.field-icon { color: #0f2446; margin-right: 12px; font-size: 16px; }
+                .input-capsule input { border: none; outline: none; flex-grow: 1; font-size: 14px; color: #0f2446; background: transparent; }
+                .toggle-eye { color: #ccc; cursor: pointer; margin-left: 10px; transition: 0.2s; }
+                .toggle-eye:active { transform: scale(0.7); color: #0f2446; }
+                .report-text { text-align: center; color: white; font-size: 14px; margin: 10px 0 20px 0; cursor: pointer; font-weight: bold; text-shadow: 0px 1px 2px rgba(0,0,0,0.1); transition: 0.2s; }
+                .report-text:active { opacity: 0.6; transform: scale(0.95); }
+                .save-box { background: white; border-radius: 100px; width: 100%; padding: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; border: none; color: #0f2446; font-weight: bold; font-size: 18px; margin-top: auto; }
+                .save-box:active { transform: scale(0.95); background: #f9f9f9; }
             </style>
         </head>
         <body>
             <div class="main-wrapper">
                 <div class="header-container">
-                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_lang]').click()">&lt;</div>
-                    <h2 class="title">Change Language</h2>
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_pass]').click()">&lt;</div>
+                    <h2 class="title">Change Password</h2>
                 </div>
-                
-                <!-- English -->
-                <div class="language-capsule" onclick="alert('English selected')">
-                    <div class="left-content">
-                        <div class="icon"><i class="fas fa-globe"></i></div>
-                        <div class="label">English</div>
-                    </div>
-                    <div class="status-mark check"><i class="fas fa-check"></i></div>
-                </div>
-
-                <!-- Arabic -->
-                <div class="language-capsule" onclick="alert('تم اختيار اللغة العربية')">
-                    <div class="left-content">
-                        <div class="icon"><i class="fas fa-globe"></i></div>
-                        <div class="label">العربية</div>
-                    </div>
-                    <div class="status-mark arrow">&gt;</div>
-                </div>
+                <div class="input-capsule"><i class="fas fa-lock field-icon"></i><input type="password" placeholder="Current Password"><i class="fas fa-eye-slash toggle-eye"></i></div>
+                <div class="input-capsule"><i class="fas fa-lock field-icon"></i><input type="password" placeholder="New Password"><i class="fas fa-eye-slash toggle-eye"></i></div>
+                <div class="input-capsule"><i class="fas fa-lock field-icon"></i><input type="password" placeholder="Re-write New Password"><i class="fas fa-eye-slash toggle-eye"></i></div>
+                <div class="report-text">Report Password</div>
+                <button class="save-box" onclick="alert('Password Saved!')">Save</button>
             </div>
         </body>
         </html>
         """, height=550)
 
-    # ج. صفحة تغيير كلمة المرور
-    elif st.session_state.settings_sub_page == 'change_password_page':
-        if st.button("Back", key="back_pass", help="hidden"): nav_settings('main_menu')
+    # ج. صفحة تغيير اللغة
+    elif st.session_state.settings_sub_page == 'language_page':
+        if st.button("Back", key="back_lang", help="hidden"): nav_settings('main_menu')
         components.html("""
         <style>
             body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
-            .card { width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; display: flex; flex-direction: column; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 35px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; cursor: pointer; color: #0f2446; font-weight: bold; transition: transform 0.2s; }
-            .back:active { transform: scale(0.8); }
-            .input-capsule { background: white; border-radius: 100px; padding: 12px 18px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-            input { border: none; outline: none; width: 100%; font-size: 14px; margin-left: 10px; }
-            .save-box { background: white; border-radius: 100px; width: 100%; padding: 15px; text-align: center; color: #0f2446; font-weight: bold; font-size: 18px; margin-top: auto; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: 0.3s; }
-            .save-box:active { transform: scale(0.95); }
+            .card { width: 350px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; }
+            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
+            .back { position: absolute; left: 0; font-size: 28px; cursor: pointer; color: #0f2446; font-weight: bold; }
+            .lang-opt { background: white; border-radius: 100px; padding: 15px 25px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; color: #0f2446; font-weight: bold; cursor: pointer; }
         </style>
         <div class="card">
-            <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_pass]').click()"><</div><h2 style="color:#0f2446; margin:0; font-size:20px;">Change Password</h2></div>
-            <div class="input-capsule">🔒 <input type="password" placeholder="Current Password"></div>
-            <div class="input-capsule">🔒 <input type="password" placeholder="New Password"></div>
-            <div class="input-capsule">🔒 <input type="password" placeholder="Re-write New Password"></div>
-            <div class="save-box" onclick="alert('Password Saved!')">Save</div>
+            <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_lang]').click()"><</div><h2 style="color:#0f2446">Language</h2></div>
+            <div class="lang-opt" onclick="alert('English Selected')"><span>🇺🇸 English</span><span>›</span></div>
+            <div class="lang-opt" onclick="alert('العربية مختارة')"><span>🇯🇴 العربية</span><span>›</span></div>
         </div>
         """, height=550)
 
-    # د. بقية الصفحات كما هي في الكود الأصلي
+    # د. صفحة الإبلاغ عن مشكلة
     elif st.session_state.settings_sub_page == 'report_page':
         if st.button("Back", key="back_report", help="hidden"): nav_settings('main_menu')
         components.html("""
@@ -174,10 +146,14 @@ if selection == "setting":
         <div class="card">
             <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_report]').click()"><</div><h2 style="color:#0f2446">Report</h2></div>
             <textarea placeholder="I need help..."></textarea>
-            <button class="send-btn" onclick="alert('Sent!')"><span style="color:#808080">✈️</span><span style="color:#0f2446; font-weight:bold">Send Report</span></button>
+            <button class="send-btn" onclick="alert('Sent!')">
+                <span style="color:#808080">✈️</span>
+                <span style="color:#0f2446; font-weight:bold">Send Report</span>
+            </button>
         </div>
         """, height=550)
 
+    # هـ. صفحة اتصل بنا
     elif st.session_state.settings_sub_page == 'contact_page':
         if st.button("Back", key="back_contact", help="hidden"): nav_settings('main_menu')
         components.html("""
@@ -195,6 +171,7 @@ if selection == "setting":
         </div>
         """, height=550)
 
+    # و. صفحة تسجيل الخروج
     elif st.session_state.settings_sub_page == 'logout_page':
         if st.button("Back", key="back_logout", help="hidden"): nav_settings('main_menu')
         components.html("""
@@ -213,6 +190,7 @@ if selection == "setting":
         </div>
         """, height=550)
 
+    # ز. صفحة التقييم
     elif st.session_state.settings_sub_page == 'rate_page':
         if st.button("Back", key="back_rate", help="hidden"): nav_settings('main_menu')
         components.html("""
