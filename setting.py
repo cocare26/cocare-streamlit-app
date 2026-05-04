@@ -37,7 +37,7 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* input style */
+/* input */
 .stTextInput > div > div > input {
     background:#e9e9e9 !important;
     border-radius:40px !important;
@@ -47,46 +47,56 @@ st.markdown("""
     box-shadow:0 6px 0px #2c2f36;
 }
 
-/* row for icon + input + eye */
-.input-row {
+/* icon */
+.icon {
+    font-size:16px;
+    opacity:0.6;
+}
+
+/* row layout */
+.row {
     display:flex;
     align-items:center;
     gap:10px;
     margin-bottom:20px;
 }
 
-/* icons */
-.icon {
-    font-size:16px;
-    opacity:0.6;
+/* button (ALL WHITE) */
+.stButton > button {
+    width:100%;
+    border:none;
+    background:#ffffff;
+    border-radius:50px;
+    padding:14px;
+    font-size:14px;
+    color:#000;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
 /* save button */
-.save-btn {
-    position:absolute;
-    bottom:30px;
-    left:0;
-    right:0;
+.save-wrap {
+    margin-top:20px;
     display:flex;
-    justify-content:center;
+    justify-content:flex-start;
 }
 
-.save-btn button {
-    width:70%;
-    border:none;
-    background:#e6e6e6;
-    border-radius:50px;
-    padding:16px;
-    font-size:15px;
+.save-wrap button {
+    width:120px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ================= PAGE =================
+# ================= MAIN =================
+if st.session_state.page == "main":
 
-if st.session_state.page == "pass":
+    st.markdown('<div class="header">Settings</div>', unsafe_allow_html=True)
 
-    # header + back
+    if st.button("Change Password"):
+        go("pass")
+
+# ================= PASSWORD =================
+elif st.session_state.page == "pass":
+
     col1, col2 = st.columns([1,4])
 
     with col1:
@@ -96,7 +106,7 @@ if st.session_state.page == "pass":
     with col2:
         st.markdown('<div class="header">Change Password</div>', unsafe_allow_html=True)
 
-    # ---------- INPUT 1 ----------
+    # ---- INPUT 1 ----
     col1, col2, col3 = st.columns([1,6,1])
     with col1:
         st.markdown('<div class="icon">🔒</div>', unsafe_allow_html=True)
@@ -105,7 +115,7 @@ if st.session_state.page == "pass":
     with col3:
         st.markdown('<div class="icon">👁️</div>', unsafe_allow_html=True)
 
-    # ---------- INPUT 2 ----------
+    # ---- INPUT 2 ----
     col1, col2, col3 = st.columns([1,6,1])
     with col1:
         st.markdown('<div class="icon">🔒</div>', unsafe_allow_html=True)
@@ -114,7 +124,7 @@ if st.session_state.page == "pass":
     with col3:
         st.markdown('<div class="icon">👁️</div>', unsafe_allow_html=True)
 
-    # ---------- INPUT 3 ----------
+    # ---- INPUT 3 ----
     col1, col2, col3 = st.columns([1,6,1])
     with col1:
         st.markdown('<div class="icon">🔒</div>', unsafe_allow_html=True)
@@ -123,14 +133,7 @@ if st.session_state.page == "pass":
     with col3:
         st.markdown('<div class="icon">👁️</div>', unsafe_allow_html=True)
 
-    # save button
-    st.markdown('<div class="save-btn">', unsafe_allow_html=True)
+    # SAVE BUTTON
+    st.markdown('<div class="save-wrap">', unsafe_allow_html=True)
     st.button("Save")
     st.markdown('</div>', unsafe_allow_html=True)
-
-# ================= MAIN =================
-else:
-    st.markdown('<div class="header">Settings</div>', unsafe_allow_html=True)
-
-    if st.button("Change Password"):
-        go("pass")
