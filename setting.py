@@ -111,7 +111,9 @@ textarea {{
    color: black;
 }}
 
-
+.block-container {{
+    height: 600px;
+}}
 
 .st-emotion-cache-zh2fnc  {{
    width:100%;
