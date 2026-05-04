@@ -62,7 +62,9 @@ text-decoration:none;
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form">
+<form class="form" method="get" target="_self" onsubmit="return setPage()">
+    <input type="hidden" name="page" id="pageValue">
+
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
     oninput="this.value=this.value.replace(/[^0-9]/g,'')">
@@ -70,44 +72,41 @@ text-decoration:none;
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-       <a href="javascript:void(0)" onclick="goPage('forgot')" style="color:#555; text-decoration:none;">
-    Forgot Password?
-</a>
+        <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
+            Forgot Password?
+        </a>
     </div>
 
-    <button class="login" type="button" onclick="login()">Log In ›</button>
+    <button class="login" type="submit">Log In ›</button>
 
     <div id="error" class="error"></div>
 
     <div class="signup">
         👤 New User?
-       <a href="javascript:void(0)" onclick="goPage('create')" style="color:#222; text-decoration:underline;">
-    Create Account
-</a>
+        <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
+            Create Account
+        </a>
     </div>
 </form>
-</div>
 
 <script>
-function goPage(p){
-    window.parent.location.href = window.parent.location.pathname + "?page=" + p;
-}
-
-function login(){
+function setPage(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
+    const pageValue = document.getElementById("pageValue");
 
     if(/^[0-9]{11}$/.test(v)){
-        goPage("employee");
-        return;
+        pageValue.value = "employee";
+        return true;
     }
 
     if(/^[0-9]{10}$/.test(v)){
-        goPage("customer");
-        return;
+        pageValue.value = "customer";
+        return true;
     }
 
     e.innerText = "10 digits for Customer, 11 digits for Employee";
+    return false;
 }
 </script>
 
