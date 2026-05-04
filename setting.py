@@ -110,6 +110,18 @@ textarea {{
 .st-bc {{
    color: black;
 }}
+
+
+
+.st-emotion-cache-zh2fnc  {{
+   width:100%;
+    height: auto;
+    max-width: 100%;
+    min-width: 1rem;
+    position: relative;
+    overflow: visible;
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
