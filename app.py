@@ -100,7 +100,7 @@ function setPage(){
         return true;
     }
 
-    if(/^[0-9]{10}$/.test(v)){
+   if(/^07[0-9]{8}$/.test(v)){{
         pageValue.value = "customer";
         return true;
     }
