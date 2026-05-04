@@ -86,8 +86,14 @@ st.markdown("""
 </div>
 
 <a href="?page=change_password" target="_self" class="setting-item">
+    <div class="item-left">
+        <i class="fas fa-lock"></i>
+        <span class="item-text">Change Password</span>
+    </div>
+    <span class="arrow">›</span>
+</a>
 
-<a href="/?page=change_language" target="_top" class="setting-item">
+<a href="?page=change_language" target="_self" class="setting-item">
     <div class="item-left">
         <i class="fas fa-globe"></i>
         <span class="item-text">Change Language</span>
@@ -95,7 +101,7 @@ st.markdown("""
     <span class="arrow">›</span>
 </a>
 
-<a href="/?page=contact" target="_top" class="setting-item">
+<a href="?page=contact" target="_self" class="setting-item">
     <div class="item-left">
         <i class="fas fa-envelope"></i>
         <span class="item-text">Contact Us</span>
@@ -103,7 +109,7 @@ st.markdown("""
     <span class="arrow">›</span>
 </a>
 
-<a href="/?page=report" target="_top" class="setting-item">
+<a href="?page=report" target="_self" class="setting-item">
     <div class="item-left">
         <i class="fas fa-bug"></i>
         <span class="item-text">Report Problem</span>
@@ -112,7 +118,7 @@ st.markdown("""
 </a>
 
 <div class="bottom-row">
-    <a href="/?page=settings" target="_top" class="bottom-item">
+    <a href="?page=settings" target="_self" class="bottom-item">
         <span>Back</span>
     </a>
 </div>
