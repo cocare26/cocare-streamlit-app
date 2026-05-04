@@ -35,25 +35,26 @@ T = {
 st.markdown(f"""
 <style>
 
-/* BACKGROUND */
+/* الخلفية */
 [data-testid="stAppViewContainer"] {{
     background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
 }}
 
-/* MAIN CONTAINER */
+/* الكارد الرئيسي */
 .block-container {{
-    max-width:360px;
+    max-width:370px;
     margin:auto;
-    padding:30px 10px;
+    padding:30px 20px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
     border-radius:40px;
 }}
 
-/* RTL */
 body {{
     direction: {"rtl" if is_ar else "ltr"};
 }}
 
-/* HEADER */
+/* الهيدر */
 .header {{
     text-align:center;
     font-size:20px;
@@ -62,23 +63,18 @@ body {{
     color:#0f2446;
 }}
 
-/* BUTTON STYLE */
-.stButton {{
-    display:flex;
-    justify-content:center;
-}}
-
+/* الأزرار (تعديل بسيط فقط بالعرض) */
 .stButton > button {{
-    width:92%;
-    max-width:320px;
-    border:none;
-    background:#ffffff;
-    border-radius:50px;
-    padding:14px 18px;
-    margin-bottom:12px;
+    width:90%;
+    margin:auto;
     display:flex;
     justify-content:space-between;
     align-items:center;
+    border:none;
+    background:#ffffff;
+    border-radius:50px;
+    padding:16px;
+    margin-bottom:12px;
     font-size:14px;
     color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
@@ -86,41 +82,28 @@ body {{
 
 .stButton > button:hover {{
     transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,0,0,0.12);
 }}
 
-/* INPUT STYLE (iOS-like) */
+/* ===== input fix (المهم) ===== */
 input {{
-    width:92% !important;
-    max-width:320px;
-    margin:auto !important;
-    display:block !important;
     background:#ffffff !important;
     color:#000000 !important;
     border:none !important;
     border-radius:30px !important;
-    padding:14px !important;
-    margin-bottom:10px !important;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}}
-
-textarea {{
-    width:92% !important;
-    max-width:320px;
-    margin:auto !important;
-    display:block !important;
-    background:#ffffff !important;
-    color:#000000 !important;
-    border:none !important;
-    border-radius:20px !important;
     padding:12px !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
-/* CARD (فقط لبعض الصفحات) */
+textarea {{
+    background:#ffffff !important;
+    color:#000000 !important;
+    border-radius:20px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}}
+
+/* card */
 .card {{
-    width:92%;
-    max-width:320px;
-    margin:auto;
     background:white;
     padding:15px;
     border-radius:25px;
