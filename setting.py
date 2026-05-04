@@ -59,43 +59,22 @@ body {{
     color:#0f2446;
 }}
 
-/* ===== BUTTON STYLE ===== */
 .stButton > button {{
     width:100%;
     border:none;
     background:#ffffff;
     border-radius:50px;
-    padding:16px 50px 16px 20px;
+    padding:16px;
     margin-bottom:12px;
     font-size:14px;
     color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
-    text-align:left;
-    position:relative;
 }}
 
 .stButton > button:hover {{
     transform:translateY(-2px);
 }}
 
-/* السهم */
-.stButton > button::after {{
-    content:"›";
-    position:absolute;
-    right:15px;
-    font-size:18px;
-    color:#0f2446;
-}}
-
-/* الأيقونة */
-.stButton > button::before {{
-    content: attr(data-icon);
-    position:absolute;
-    right:40px;
-    font-size:16px;
-}}
-
-/* INPUT */
 input {{
     border-radius:30px !important;
     padding:12px !important;
@@ -107,7 +86,6 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
-/* CARD */
 .card {{
     background:white;
     padding:15px;
@@ -118,18 +96,47 @@ textarea {{
 </style>
 """, unsafe_allow_html=True)
 
-# -------- ICON SCRIPT --------
+# -------- ICON + LAYOUT SCRIPT --------
 st.markdown("""
 <script>
 const icons = ["🔒","🌐","⭐","🚪","⚠️","✉️"];
 
 setTimeout(() => {
     const buttons = window.parent.document.querySelectorAll('button');
+
     buttons.forEach((btn, i) => {
         if(i < icons.length){
-            btn.setAttribute("data-icon", icons[i]);
+
+            let text = btn.innerText;
+
+            btn.innerHTML = `
+                <div style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    width:100%;
+                ">
+                    
+                    <!-- ICON LEFT -->
+                    <div style="font-size:16px">
+                        ${icons[i]}
+                    </div>
+
+                    <!-- TEXT + ARROW RIGHT -->
+                    <div style="
+                        display:flex;
+                        align-items:center;
+                        gap:8px;
+                    ">
+                        <span>${text}</span>
+                        <span style="font-size:18px">›</span>
+                    </div>
+
+                </div>
+            `;
         }
     });
+
 }, 300);
 </script>
 """, unsafe_allow_html=True)
