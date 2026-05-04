@@ -24,118 +24,98 @@ robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تنسيق الواجهة)
+# CSS المطور (لجعل الحقول مدمجة)
 # =====================================
 st.markdown(f"""
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 html, body, [data-testid="stAppViewContainer"] {{
-background:#f0f7ff;
-font-family:'Segoe UI', sans-serif;
+    background:#f0f7ff;
+    font-family:'Segoe UI', sans-serif;
 }}
-section.main > div {{ padding-top:8px; }}
-div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
+/* إخفاء إطار حقول إدخال streamlit الافتراضية لجعلها تبدو مدمجة */
+div[data-testid="stTextInput"] > div > div > input,
+div[data-testid="stSelectbox"] > div > div > div {{
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    font-weight: 900 !important;
+    color: #102646 !important;
+}}
+div[data-testid="stTextInput"] label, div[data-testid="stSelectbox"] label {{
+    display: none !important; /* إخفاء العناوين التوضيحية فوق الحقول */
+}}
 
 .block-container {{
-max-width:430px;
-margin:auto;
-padding:18px 16px;
-background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
-border-radius:42px;
-box-shadow:0 14px 35px rgba(0,0,0,.15);
+    max-width:430px;
+    margin:auto;
+    padding:18px 16px;
+    background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
+    border-radius:42px;
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
 .card {{
-background:white;
-border-radius:24px;
-padding:14px;
-margin-bottom:12px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+    background:white;
+    border-radius:24px;
+    padding:14px;
+    margin-bottom:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,.08);
 }}
 
 .title {{
-font-size:17px;
-font-weight:900;
-color:#102646;
-margin: 8px 0 8px 4px;
+    font-size:17px;
+    font-weight:900;
+    color:#102646;
+    margin: 8px 0 8px 4px;
 }}
 
-.clickable {{ cursor: pointer; transition: transform 0.2s, opacity 0.2s; }}
-.clickable:active {{ transform: scale(0.96); opacity: 0.8; }}
+.clickable {{ cursor: pointer; transition: transform 0.2s; }}
+.clickable:active {{ transform: scale(0.98); }}
 
-/* نظام النجوم التفاعلي */
-.star-rating {{
-display: flex;
-flex-direction: row-reverse;
-justify-content: center;
-gap: 4px;
-margin-top: 5px;
-}}
-.star-rating input {{ display: none; }}
-.star-rating label {{
-font-size: 32px;
-color: #ddd;
-cursor: pointer;
-transition: color 0.2s;
-}}
-.star-rating label:hover,
-.star-rating label:hover ~ label,
-.star-rating input:checked ~ label {{
-color: #f4b400;
-}}
+.star-rating {{ display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; margin-top: 5px; }}
+.star-rating label {{ font-size: 32px; color: #ddd; cursor: pointer; }}
 
 .grid4 {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }}
 .mini {{
-background:white; border-radius:20px; min-height:105px;
-padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
+    background:white; border-radius:20px; min-height:105px;
+    padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 }}
 .icon {{ font-size:24px; margin-bottom:5px; }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
 .nav {{
-margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
-text-align:center; font-size:11px; font-weight:800; color:#6b6b6b;
+    margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
+    text-align:center; font-size:11px; font-weight:800; color:#6b6b6b;
 }}
-.bot-bg {{
-width:45px; height:45px; background:white; border-radius:12px;
-margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
-box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}}
-.active {{ color:#0d69dd; }}
+.bot-bg {{ width:45px; height:45px; background:white; border-radius:12px; margin: 0 auto 5px; display:flex; align-items:center; justify-content:center; }}
 
 #MainMenu, header, footer {{ visibility:hidden; }}
 </style>
 """, unsafe_allow_html=True)
 
-# =====================================
-# مدخلات المستخدم (الاسم والموقع)
-# =====================================
-col_in1, col_in2 = st.columns(2)
-with col_in1:
-    user_name = st.text_input("Enter User Name", value="User Name")
-with col_in2:
-    # قائمة المحافظات بناءً على الصورة
-    locations = ["Amman", "Zarqa", "Irbid", "Balqa", "Mafraq", "Jerash", "Ajloun", "Madaba", "Karak", "Tafilah", "Ma'an", "Aqaba"]
-    selected_location = st.selectbox("Select Location", options=locations)
+# القائمة المنسدلة من الصورة
+locations_list = ["Amman", "Zarqa", "Irbid", "Balqa", "Mafraq", "Jerash", "Ajloun", "Madaba", "Karak", "Tafilah", "Ma'an", "Aqaba"]
 
 # =====================================
-# 1. قسم الملف الشخصي (يتعدل بناءً على الاختيار)
+# 1. بطاقة الترحيب المدمجة
 # =====================================
-st.markdown(f"""
-<div class="card clickable">
-<div style="display:flex; gap:10px; align-items:flex-start;">
-<img src="data:image/png;base64,{robot_full}" style="width:55px; height:70px; object-fit:contain;">
-<div>
-<div style="font-size:17px; font-weight:900;">Welcome: {user_name}</div>
-<div style="font-size:13px; color:#555;">+962 79 123 4567</div>
-<div style="font-size:13px; color:#555;">Valid until: May 25, 2024</div>
-</div>
-</div>
-<div style="margin-top:10px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
-📍 Location: {selected_location}
-</div>
-</div>
-""", unsafe_allow_html=True)
+with st.container():
+    st.write('<div class="card clickable">', unsafe_allow_html=True)
+    c1, c2 = st.columns([1, 4])
+    with c1:
+        st.markdown(f'<img src="data:image/png;base64,{robot_full}" style="width:55px; height:70px; object-fit:contain;">', unsafe_allow_html=True)
+    with c2:
+        st.write('<div style="font-size:17px; font-weight:900; margin-bottom:-10px;">Welcome:</div>', unsafe_allow_html=True)
+        user_name = st.text_input("", value="User Name", placeholder="Type name...")
+        st.write('<div style="font-size:13px; color:#555; margin-top:-5px;">+962 79 123 4567</div>', unsafe_allow_html=True)
+        st.write('<div style="font-size:13px; color:#555;">Valid until: May 25, 2024</div>', unsafe_allow_html=True)
+    
+    # قسم الموقع المدمج
+    st.write('<div style="margin-top:10px; background:#eef5ff; padding:5px 14px; border-radius:18px; display:flex; align-items:center; gap:5px;">', unsafe_allow_html=True)
+    st.write('📍', unsafe_allow_html=True)
+    selected_loc = st.selectbox("", options=locations_list, index=0)
+    st.write('</div></div>', unsafe_allow_html=True)
 
 # =====================================
 # 2. معلومات الرصيد
@@ -177,76 +157,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم بالنجوم
+# 4. قسم التقييم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
 <div class="card">
-<div style="font-weight:900; font-size:14px; color:#102646;">⭐ Service Security Rate</div>
-<div style="margin-top:10px; height:20px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
-<div style="text-align:center; margin-top:12px; font-weight:700; font-size:13px; color:#102646;">Rate our service</div>
-<div class="star-rating">
-<input type="radio" id="s5" name="rate" value="5"><label for="s5">★</label>
-<input type="radio" id="s4" name="rate" value="4"><label for="s4">★</label>
-<input type="radio" id="s3" name="rate" value="3"><label for="s3">★</label>
-<input type="radio" id="s2" name="rate" value="2"><label for="s2">★</label>
-<input type="radio" id="s1" name="rate" value="1"><label for="s1">★</label>
-</div>
-</div>
-""", unsafe_allow_html=True)
-
-# =====================================
-# 5. قوة الشبكة (يتعدل بناءً على الاختيار)
-# =====================================
-st.markdown(f"""
-<div class="title">Network Strength in your area</div>
-<div class="card clickable">
-<div style="display: flex; justify-content: space-between; align-items: center;">
-<div style="flex: 1.2;">
-<div style="font-size:16px; font-weight:900; color:#102646;">📍 {selected_location}</div>
-<div style="font-size:13px; font-weight:700; color:#003366; margin-bottom:8px;">Very Strong Signal</div>
-<div style="display: flex; gap: 6px;">
-<div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
-<div style="font-size: 8px; font-weight: 700; color: #666; line-height:1;">Packet Loss (%)</div>
-<div style="font-size: 18px; font-weight: 900; color: #000; margin-top: 2px;">0</div>
-</div>
-<div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
-<div style="font-size: 8px; font-weight: 700; color: #666; line-height:1;">Avg Jitter (ms)</div>
-<div style="font-size: 18px; font-weight: 900; color: #000; margin-top: 2px;">19</div>
-</div>
-</div>
-</div>
-<div style="flex: 1; text-align: center;">
-<div style="position: relative; width: 100px; margin: 0 auto;">
-<div style="width: 100px; height: 50px; border-radius: 100px 100px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
-<div style="position: absolute; bottom: 0; left: 10px; width: 80px; height: 40px; background: white; border-radius: 80px 80px 0 0;"></div>
-<div style="position: absolute; bottom: 0; left: 50%; width: 2px; height: 40px; background: #333; transform-origin: bottom; transform: rotate(-60deg);"></div>
-</div>
-<div style="font-size: 10px; font-weight: 900; color: #102646; margin-top: 5px;">-68dBm (Excellent)</div>
-<div style="display: flex; justify-content: center; align-items: flex-end; gap: 2px; margin-top: 4px;">
-<div style="width: 4px; height: 6px; background: #0056b3;"></div>
-<div style="width: 4px; height: 10px; background: #0056b3;"></div>
-<div style="width: 4px; height: 14px; background: #0056b3;"></div>
-<div style="width: 4px; height: 18px; background: #ccc;"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-""", unsafe_allow_html=True)
-
-# =====================================
-# 6. الشريط السفلي (Navbar)
-# =====================================
-st.markdown(f"""
-<div class="nav">
-<div class="nav-item clickable">⚙️<br>Settings</div>
-<div class="nav-item clickable">🎡<br>Spin</div>
-<div class="nav-item clickable">
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:32px;"></div>
-Chatbot
-</div>
-<div class="nav-item active clickable">🏠<br>Home</div>
-<div class="nav-item clickable">🎁<br>Game</div>
-</div>
-""", unsafe_allow_html=True)
+<div style="font-weight:900; font-size:14px; color:#10264
