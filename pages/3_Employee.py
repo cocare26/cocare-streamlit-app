@@ -134,10 +134,20 @@ body{margin:0;background:transparent}
  gap:10px;
 }
 
-.nav form{width:33%;margin:0}
+
+.nav{
+ position:absolute;
+ bottom:10px;
+ left:15px;
+ right:15px;
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+ z-index:999;
+}
 
 .nav button{
- width:100%;
+ flex:1;
  height:58px;
  border-radius:18px;
  border:none;
@@ -147,6 +157,24 @@ body{margin:0;background:transparent}
  cursor:pointer;
  box-shadow:0 4px 10px rgba(0,0,0,.1);
  transition:.25s;
+}
+
+.nav button:hover{
+ background:#eef6ff;
+ color:#2f80ed;
+ transform:translateY(-3px);
+}
+
+.nav span{
+ display:block;
+ font-size:22px;
+ margin-bottom:3px;
+ color:#376f91;
+}
+
+.nav .active-nav{
+ background:#eef6ff;
+ color:#2f80ed;
 }
 
 .nav button:hover{
@@ -284,23 +312,18 @@ body{margin:0;background:transparent}
 </div>
 
 <div class="nav">
-<a href="/?page=employee" target="_top">
-    <button class="active-nav">
+
+    <button type="button" class="active-nav" onclick="window.top.location.href='/?page=employee'">
         <span>⌂</span>Home
     </button>
-</a>
 
-<a href="/" target="_top">
-    <button>
+    <button type="button" onclick="window.top.location.href='/'">
         <span>⇥</span>Logout
     </button>
-</a>
 
- <a href="/?page=todo" target="_top">
-    <button>
+    <button type="button" onclick="window.top.location.href='/?page=todo'">
         <span>☑</span>To Do
     </button>
-</a>
 
 </div>
 
