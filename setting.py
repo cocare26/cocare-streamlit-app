@@ -113,7 +113,7 @@ if selection == "setting":
         </html>
         """, height=550)
 
-    # ج. صفحة تغيير اللغة (النسخة المحدثة بالحركات)
+    # ج. صفحة تغيير اللغة
     elif st.session_state.settings_sub_page == 'language_page':
         if st.button("Back", key="back_lang", help="hidden"): nav_settings('main_menu')
         components.html("""
@@ -232,22 +232,72 @@ if selection == "setting":
         </div>
         """, height=550)
 
-    # ز. صفحة التقييم
+    # ز. صفحة التقييم (النسخة الاحترافية الجديدة بالحركات)
     elif st.session_state.settings_sub_page == 'rate_page':
         if st.button("Back", key="back_rate", help="hidden"): nav_settings('main_menu')
         components.html("""
-        <style>
-            body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
-            .card { width: 350px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; }
-            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
-            .back { position: absolute; left: 0; font-size: 28px; cursor: pointer; color: #0f2446; font-weight: bold; }
-            .store { background: white; border-radius: 100px; padding: 15px 20px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; color: #0f2446; font-weight: bold; cursor: pointer; }
-        </style>
-        <div class="card">
-            <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_rate]').click()"><</div><h2 style="color:#0f2446">Rate App</h2></div>
-            <div class="store" onclick="window.open('https://play.google.com')"><span>▶️ Google Play</span><span>›</span></div>
-            <div class="store" onclick="window.open('https://apps.apple.com')"><span>🍎 App Store</span><span>›</span></div>
-        </div>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <style>
+                body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
+                .main-wrapper { 
+                    width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
+                    border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px; display: flex; flex-direction: column;
+                }
+                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
+                .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; transition: transform 0.2s ease; }
+                .back-icon:active { transform: scale(0.7); }
+                .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
+
+                .store-item { 
+                    background: white; border-radius: 100px; padding: 14px 22px; margin-bottom: 15px; 
+                    display: flex; align-items: center; justify-content: space-between; 
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; 
+                    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+                }
+                .store-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+                .store-item:active { transform: scale(0.96); }
+
+                .store-item-left { display: flex; align-items: center; gap: 15px; }
+                .store-item-icon { font-size: 18px; color: #0f2446; transition: transform 0.4s ease; }
+                .store-item:hover .store-item-icon { transform: scale(1.2) rotate(10deg); color: #2f80ed; }
+                .store-item-text { font-weight: 700; color: #0f2446; font-size: 14px; }
+                .store-item-arrow { font-size: 18px; font-weight: bold; color: #0f2446; transition: transform 0.3s ease; }
+                .store-item:hover .store-item-arrow { transform: translateX(5px); }
+            </style>
+        </head>
+        <body>
+            <div class="main-wrapper">
+                <div class="header-container">
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_rate]').click()">&lt;</div>
+                    <h2 class="title">Rate App</h2>
+                </div>
+                <div class="store-item" onclick="window.open('https://play.google.com', '_blank')">
+                    <div class="store-item-left">
+                        <span class="store-item-icon"><i class="fab fa-google-play"></i></span>
+                        <span class="store-item-text">Google Play Store</span>
+                    </div>
+                    <span class="store-item-arrow">&gt;</span>
+                </div>
+                <div class="store-item" onclick="window.open('https://apps.apple.com', '_blank')">
+                    <div class="store-item-left">
+                        <span class="store-item-icon"><i class="fab fa-apple"></i></span>
+                        <span class="store-item-text">Apple App Store</span>
+                    </div>
+                    <span class="store-item-arrow">&gt;</span>
+                </div>
+                <div class="store-item" onclick="window.open('https://appgallery.huawei.com', '_blank')">
+                    <div class="store-item-left">
+                        <span class="store-item-icon"><i class="fas fa-mobile-alt"></i></span>
+                        <span class="store-item-text">Huawei AppGallery</span>
+                    </div>
+                    <span class="store-item-arrow">&gt;</span>
+                </div>
+            </div>
+        </body>
+        </html>
         """, height=550)
 
 else:
