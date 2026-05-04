@@ -23,25 +23,25 @@ st.markdown("""
 }
 
 /* HEADER */
-.header {
-    text-align:center;
-    position:relative;
-    margin-bottom:30px;
-}
-
 .title {
+    text-align:center;
     font-weight:900;
     font-size:20px;
     color:#102646;
+    margin-bottom:30px;
 }
 
-/* CARD */
-.card {
+/* WRAPPER مهم */
+.card-wrapper {
     position:relative;
+    margin-bottom:15px;
+}
+
+/* CARD UI */
+.card-ui {
     background:white;
     border-radius:100px;
     padding:14px 22px;
-    margin-bottom:15px;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -49,7 +49,7 @@ st.markdown("""
     transition:0.3s;
 }
 
-.card:hover {
+.card-ui:hover {
     transform:translateY(-2px);
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
@@ -63,8 +63,6 @@ st.markdown("""
 .left i {
     color:#102646;
     font-size:16px;
-    width:20px;
-    text-align:center;
 }
 
 .left span {
@@ -74,78 +72,102 @@ st.markdown("""
 }
 
 .arrow {
-    color:#102646;
     font-size:18px;
     font-weight:bold;
+    color:#102646;
 }
 
-/* الزر الشفاف */
-div.stButton > button {
-    position:absolute;
+/* 💥 الزر يغطي كل الكارد */
+.card-wrapper button {
+    position:absolute !important;
+    top:0;
     left:0;
-    width:100%;
-    height:60px;
+    width:100% !important;
+    height:100% !important;
     opacity:0;
     cursor:pointer;
     z-index:10;
 }
 
-/* BOTTOM */
-.bottom {
+/* ===== bottom ===== */
+.bottom-row {
     display:flex;
     gap:10px;
     margin-top:40px;
 }
 
-.bottom button {
-    width:100%;
+.bottom-wrapper {
+    position:relative;
+    flex:1;
+}
+
+.bottom-ui {
     background:white;
     border-radius:100px;
     padding:12px;
+    text-align:center;
     font-weight:800;
-    border:none;
+    font-size:12px;
     color:#102646;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-.bottom button:hover {
-    transform:translateY(-2px);
+.bottom-wrapper button {
+    position:absolute !important;
+    top:0;
+    left:0;
+    width:100% !important;
+    height:100% !important;
+    opacity:0;
+    cursor:pointer;
 }
 </style>
 
-<div class="header">
-    <h2 class="title">Settings</h2>
-</div>
+<div class="title">Settings</div>
 """, unsafe_allow_html=True)
 
 # ===== عنصر =====
-def item(label, icon, page):
+def item(label, icon, page, key):
     st.markdown(f"""
-    <div class="card">
-        <div class="left">
-            <i class="{icon}"></i>
-            <span>{label}</span>
+    <div class="card-wrapper">
+        <div class="card-ui">
+            <div class="left">
+                <i class="{icon}"></i>
+                <span>{label}</span>
+            </div>
+            <div class="arrow">›</div>
         </div>
-        <div class="arrow">›</div>
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button(label):
+    if st.button("", key=key):
         st.switch_page(page)
 
-# ===== 6 BUTTONS =====
-item("Change Password", "fas fa-lock", "pages/ChangePassword.py")
-item("Change Language", "fas fa-globe", "pages/ChangeLanguage.py")
-item("Rate App", "fas fa-star", "pages/RateApp.py")
-item("Log Out", "fas fa-sign-out-alt", "main_app.py")
+# ===== العناصر =====
+item("Change Password", "fas fa-lock", "pages/ChangePassword.py", "p1")
+item("Change Language", "fas fa-globe", "pages/ChangeLanguage.py", "p2")
+item("Rate App", "fas fa-star", "pages/RateApp.py", "p3")
+item("Log Out", "fas fa-sign-out-alt", "main_app.py", "p4")
 
 # ===== bottom =====
 col1, col2 = st.columns(2)
 
 with col1:
-    if st.button("Report Problem"):
+    st.markdown("""
+    <div class="bottom-wrapper">
+        <div class="bottom-ui">Report Problem</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("", key="report"):
         st.switch_page("pages/ReportProblem.py")
 
 with col2:
-    if st.button("Contact Us"):
+    st.markdown("""
+    <div class="bottom-wrapper">
+        <div class="bottom-ui">Contact Us</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("", key="contact"):
         st.switch_page("pages/ContactUs.py")
