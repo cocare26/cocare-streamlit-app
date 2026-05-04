@@ -1,10 +1,8 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# إعداد الصفحة
-st.set_page_config(page_title="الإعدادات", layout="centered")
+st.set_page_config(page_title="Settings", layout="centered")
 
-# CSS الخارجي (الكارد)
 st.markdown("""
 <style>
 :root{
@@ -31,7 +29,7 @@ st.markdown("""
 
 components.html("""
 <!DOCTYPE html>
-<html dir="rtl">
+<html>
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
@@ -42,7 +40,6 @@ body{
     display:flex;
     justify-content:center;
     background:transparent;
-    direction: rtl;
 }
 
 .main-wrapper{
@@ -53,7 +50,6 @@ body{
     height:480px;
 }
 
-/* Header */
 .header-container{
     display:flex;
     align-items:center;
@@ -64,12 +60,11 @@ body{
 
 .back-icon{
     position:absolute;
-    right:0;
+    left:0;
     font-size:28px;
     font-weight:bold;
     color:#0f2446;
-    text-decoration:none;
-    cursor: pointer;
+    cursor:pointer;
 }
 
 .title{
@@ -98,17 +93,15 @@ body{
     font-size:16px;
 }
 
-/* النص */
 .setting-text{
     flex:1;
-    text-align:right;
-    margin-right:15px;
+    text-align:left;
+    margin-left:15px;
     font-size:14px;
     font-weight:600;
     color:#0f2446;
 }
 
-/* السهم */
 .setting-item .arrow{
     margin-left:10px;
     color:#0f2446;
@@ -134,7 +127,7 @@ body{
 
 .bottom-row .setting-text{
     font-size:13px;
-    margin-right:8px;
+    margin-left:8px;
 }
 
 </style>
@@ -145,45 +138,45 @@ body{
 <div class="main-wrapper">
 
     <div class="header-container">
-        <div class="back-icon" onclick="goPage('customer')">›</div>
-        <h2 class="title">الإعدادات</h2>
+        <div class="back-icon" onclick="goPage('customer')">&lt;</div>
+        <h2 class="title">Settings</h2>
     </div>
 
-    <div class="setting-item" onclick="goPage('Change_password-ar')">
+    <div class="setting-item" onclick="goPage('Change_password')">
         <i class="fas fa-lock"></i>
-        <span class="setting-text">تغيير كلمة المرور</span>
-        <span class="arrow">‹</span>
+        <span class="setting-text">Change Password</span>
+        <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item" onclick="goPage('Change_language-ar')">
+    <div class="setting-item" onclick="goPage('Change_language')">
         <i class="fas fa-globe"></i>
-        <span class="setting-text">تغيير اللغة</span>
-        <span class="arrow">‹</span>
+        <span class="setting-text">Change Language</span>
+        <span class="arrow">›</span>
     </div>
 
-    <div class="setting-item" onclick="goPage('Rate_app-ar')">
+    <div class="setting-item" onclick="goPage('Rate_app')">
         <i class="fas fa-star"></i>
-        <span class="setting-text">تقييم التطبيق</span>
-        <span class="arrow">‹</span>
+        <span class="setting-text">Rate App</span>
+        <span class="arrow">›</span>
     </div>
 
     <div class="setting-item" onclick="goPage('logout')">
         <i class="fas fa-sign-out-alt"></i>
-        <span class="setting-text">تسجيل الخروج</span>
-        <span class="arrow">‹</span>
+        <span class="setting-text">Log Out</span>
+        <span class="arrow">›</span>
     </div>
 
     <div class="bottom-row">
-        <div class="setting-item" onclick="goPage('Report_Problem-ar')">
+        <div class="setting-item" onclick="goPage('Report_Problem')">
             <i class="fas fa-exclamation-triangle"></i>
-            <span class="setting-text">الإبلاغ عن مشكلة</span>
-            <span class="arrow">‹</span>
+            <span class="setting-text">Report Problem</span>
+            <span class="arrow">›</span>
         </div>
 
-        <div class="setting-item" onclick="goPage('Contact_Us-ar')">
+        <div class="setting-item" onclick="goPage('Contact_Us')">
             <i class="fas fa-envelope"></i>
-            <span class="setting-text">تواصل معنا</span>
-            <span class="arrow">‹</span>
+            <span class="setting-text">Contact Us</span>
+            <span class="arrow">›</span>
         </div>
     </div>
 
