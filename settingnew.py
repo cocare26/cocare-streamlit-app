@@ -142,7 +142,8 @@ if st.session_state.page == "main":
         go("rate")
 
     if st.button(f"🚪 {T['logout']}"):
-        st.session_state.clear() st.switch_page("app.py")
+        st.session_state.clear() 
+        st.switch_page("app.py")
 
     col1, col2 = st.columns(2)
 
