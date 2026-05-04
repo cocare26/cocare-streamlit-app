@@ -47,6 +47,7 @@ st.markdown(f"""
     background: rgba(255,255,255,0.25);
     backdrop-filter: blur(10px);
     border-radius:40px;
+    min-height:600px;
 }}
 
 body {{
@@ -80,13 +81,22 @@ body {{
     transform:translateY(-2px);
 }}
 
+/* ===== INPUT FIX ===== */
 input {{
+    background:#ffffff !important;
+    color:#000000 !important;
+    border:none !important;
     border-radius:30px !important;
-    padding:12px !important;
+    padding:14px !important;
+    margin-bottom:12px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
 textarea {{
+    background:#ffffff !important;
+    color:#000000 !important;
     border-radius:20px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
 .card {{
@@ -97,71 +107,16 @@ textarea {{
     margin-bottom:15px;
 }}
 
-input#\:rc\:{{
-
-    background-color: rgb(255 255 255);
-        color: black;
+/* زر الحفظ تحت */
+.save-btn {{
+    position:relative;
+    margin-top:20px;
 }}
-
-.st-b3.st-b8.st-bw.st-b1.st-bm.st-ae.st-af.st-bn.st-ah.st-ai.st-aj.st-bx.st-bs {{
-
-     background-color: rgb(255 255 255);
-}}
-
-
-.st-b7 {{
-    background-color: rgb(255 255 255);
-        color: black;
-}}
-
-.st.text_input{{
- color: black;
-}}
-
-.st-bc {{
-   color: black;
-}}
-
-.block-container {{
-    height: 600px;
-}}
-
-.st-emotion-cache-zh2fnc  {{
-   width:100%;
-    height: auto;
-    max-width: 100%;
-    min-width: 1rem;
-    position: relative;
-    overflow: visible;
-}}
-
-
-.st-emotion-cache-1lads1q {{
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: flex-start;
-    width: 100%;
-}}
-
-.st-emotion-cache-1lads1q.e7msn5c22 {{
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    width: 100%;
-}}
-
-
-
 </style>
 """, unsafe_allow_html=True)
 
 # ---------------- BUTTON ----------------
 def menu_button(label, icon, page_key):
-    # الأيقونة يسار، النص + السهم يمين
     btn_label = f"{icon}   {label}   {arrow}"
     if st.button(btn_label, key=f"btn_{page_key}"):
         go(page_key)
@@ -198,10 +153,14 @@ else:
 
     # -------- PASSWORD --------
     if st.session_state.page == "pass":
+
         st.text_input("", placeholder="Current Password")
         st.text_input("", placeholder="New Password")
         st.text_input("", placeholder="Re-write Password")
+
+        st.markdown("<div class='save-btn'>", unsafe_allow_html=True)
         st.button(T["save"])
+        st.markdown("</div>", unsafe_allow_html=True)
 
     # -------- LANGUAGE --------
     elif st.session_state.page == "lang":
