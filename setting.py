@@ -1,50 +1,3 @@
-import streamlit as st
-import streamlit.components.v1 as components
-
-# 1. إعدادات الصفحة الأساسية
-st.set_page_config(page_title="Smart App Settings", layout="centered")
-
-# 2. إدارة الحالة للتنقل الداخلي (Navigation Logic)
-if 'settings_sub_page' not in st.session_state:
-    st.session_state.settings_sub_page = 'main_menu'
-
-def nav_settings(target):
-    st.session_state.settings_sub_page = target
-    st.rerun()
-
-# 3. التنسيق الجمالي العام لستريمليت
-st.markdown("""
-<style>
-:root { --navy: #0f2446; }
-[data-testid="stAppViewContainer"] { background: #f0f2f6; }
-[data-testid="stHeader"] {display: none !important;}
-
-.settings-card {
-    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
-    border-radius: 42px;
-    padding: 30px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-div.stButton > button {
-    width: 100% !important;
-    height: 55px !important;
-    border-radius: 100px !important;
-    border: none !important;
-    background: white !important;
-    color: var(--navy) !important;
-    font-weight: 700 !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    margin-bottom: 10px;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# 4. القائمة الجانبية (Sidebar)
-with st.sidebar:
-    st.title("Navigation")
-    selection = st.radio("Go to:", ["setting", "Create Account", "Forgot Password", "To Do"])
-
 # --- منطق عرض الصفحات ---
 
 if selection == "setting":
@@ -52,19 +5,32 @@ if selection == "setting":
     # ا. القائمة الرئيسية للإعدادات
     if st.session_state.settings_sub_page == 'main_menu':
         st.markdown('<div class="settings-card">', unsafe_allow_html=True)
-        st.markdown('<h2 style="text-align:center; color:#0f2446; margin-bottom:25px;">Settings</h2>', unsafe_allow_html=True)
         
+        # العنوان مع سهم العودة في أقصى اليسار
+        st.markdown("""
+            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 25px; position: relative;">
+                <div style="position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer;">
+                    &lt;
+                </div>
+                <h2 style="margin: 0; color:#0f2446; font-weight: 700;">Settings</h2>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # أزرار القائمة الرئيسية
         if st.button("🔒 Change Password                                 ›"): nav_settings('change_password_page')
         if st.button("🌐 Change Language                                 ›"): nav_settings('language_page')
         if st.button("⭐ Rate App                                         ›"): nav_settings('rate_page')
         if st.button("🚪 Log Out                                         ›"): nav_settings('logout_page')
         
         st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
+        
+        # أزرار الصف السفلي (Report & Contact)
         col1, col2 = st.columns(2)
         with col1:
             if st.button("⚠️ Report\nProblem   ›"): nav_settings('report_page')
         with col2:
             if st.button("✉️ Contact\nUs             ›"): nav_settings('contact_page')
+            
         st.markdown('</div>', unsafe_allow_html=True)
 
     # ب. صفحة تغيير كلمة المرور
@@ -140,10 +106,8 @@ if selection == "setting":
                 .language-capsule:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
                 .left-content { display: flex; align-items: center; gap: 12px; }
                 .icon { color: #0f2446; font-size: 18px; transition: transform 0.3s ease; }
-                .language-capsule:active .icon { transform: rotate(20deg) scale(1.2); }
                 .label { color: #0f2446; font-weight: 700; font-size: 14px; }
-                .status-mark { font-size: 18px; font-weight: bold; transition: transform 0.3s ease; }
-                .language-capsule:active .status-mark { transform: translateX(5px); }
+                .status-mark { font-size: 18px; font-weight: bold; }
                 .check { color: #2f80ed; } 
                 .arrow-icon { color: #0f2446; font-size: 18px; }
             </style>
@@ -184,38 +148,20 @@ if selection == "setting":
             <style>
                 body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
                 .main-wrapper {
-                    width: 330px;
-                    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
-                    border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px;
-                    display: flex; flex-direction: column;
+                    width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
+                    border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px; display: flex; flex-direction: column;
                 }
                 .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 30px; position: relative; }
-                .back-icon { 
-                    position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; 
-                    cursor: pointer; transition: all 0.3s ease; 
-                }
-                .back-icon:hover { transform: translateX(-5px); }
-                .back-icon:active { transform: scale(0.7); }
+                .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
                 .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
-                
                 textarea { 
-                    width: 100%; height: 200px; border-radius: 35px; border: none; 
-                    padding: 20px; box-sizing: border-box; resize: none; margin-bottom: 20px;
-                    font-family: inherit; font-size: 14px; outline: none;
-                    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+                    width: 100%; height: 200px; border-radius: 35px; border: none; padding: 20px; box-sizing: border-box; 
+                    resize: none; margin-bottom: 20px; font-family: inherit; outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
                 }
-                
                 .send-btn { 
-                    background: white; border-radius: 100px; padding: 15px 25px; 
-                    display: flex; justify-content: space-between; align-items: center; 
-                    cursor: pointer; border: none; width: 100%; margin-top: auto;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: all 0.3s ease;
+                    background: white; border-radius: 100px; padding: 15px; display: flex; justify-content: space-between; 
+                    align-items: center; cursor: pointer; border: none; width: 100%; margin-top: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
                 }
-                .send-btn:hover { transform: translateY(-3px); }
-                .send-btn:active { transform: scale(0.96); }
-                
-                .main-icon { color: #808080; font-size: 18px; transition: all 0.4s ease; }
-                .send-btn:hover .main-icon { transform: translate(5px, -5px); color: #2f80ed; }
             </style>
         </head>
         <body>
@@ -226,7 +172,7 @@ if selection == "setting":
                 </div>
                 <textarea placeholder="I need help..."></textarea>
                 <button class="send-btn" onclick="alert('Sent!')">
-                    <i class="fas fa-paper-plane main-icon"></i>
+                    <i class="fas fa-paper-plane" style="color: #2f80ed"></i>
                     <span style="color:#0f2446; font-weight:bold">Send Report</span>
                 </button>
             </div>
@@ -234,52 +180,32 @@ if selection == "setting":
         </html>
         """, height=550)
 
-    # هـ. صفحة اتصل بنا (تم التحديث كما هو مطلوب)
+    # هـ. صفحة اتصل بنا
     elif st.session_state.settings_sub_page == 'contact_page':
         if st.button("Back", key="back_contact", help="hidden"): nav_settings('main_menu')
         components.html("""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-            <style>
-                body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
-                .main-wrapper {
-                    width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
-                    border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px; display: flex; flex-direction: column;
-                }
-                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 45px; position: relative; }
-                .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; transition: all 0.3s ease; }
-                .back-icon:hover { transform: translateX(-5px); }
-                .back-icon:active { transform: scale(0.7); }
-                .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
-                .capsule {
-                    background: white; border-radius: 100px; padding: 18px 25px; margin-bottom: 20px;
-                    display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer;
-                }
-                .capsule:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 12px 20px rgba(15, 36, 70, 0.15); }
-                .icon { margin-right: 18px; color: #0f2446; font-size: 19px; width: 25px; display: flex; justify-content: center; }
-                .text { color: #0f2446; font-weight: 700; font-size: 15px; }
-            </style>
-        </head>
-        <body>
-            <div class="main-wrapper">
-                <div class="header-container">
-                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_contact]').click()">&lt;</div>
-                    <h2 class="title">Contact Us</h2>
-                </div>
-                <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">
-                    <div class="icon"><i class="fas fa-envelope"></i></div>
-                    <div class="text">CoCare26@gmail.com</div>
-                </div>
-                <div class="capsule" onclick="window.location.href='tel:+962791234567'">
-                    <div class="icon"><i class="fas fa-phone-alt"></i></div>
-                    <div class="text">+962 79 123 4567</div>
-                </div>
+        <style>
+            body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
+            .wrapper { width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; box-sizing: border-box; display: flex; flex-direction: column; }
+            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 45px; position: relative; }
+            .back { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
+            .capsule { background: white; border-radius: 100px; padding: 18px 25px; margin-bottom: 20px; display: flex; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.06); cursor: pointer; }
+            .text { color: #0f2446; font-weight: 700; font-size: 15px; margin-left: 15px; }
+        </style>
+        <div class="wrapper">
+            <div class="header">
+                <div class="back" onclick="parent.window.document.querySelector('button[key=back_contact]').click()">&lt;</div>
+                <h2 style="color:#0f2446; margin:0">Contact Us</h2>
             </div>
-        </body>
-        </html>
+            <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">
+                <span style="color:#0f2446">✉️</span>
+                <div class="text">CoCare26@gmail.com</div>
+            </div>
+            <div class="capsule" onclick="window.location.href='tel:+962791234567'">
+                <span style="color:#0f2446">📞</span>
+                <div class="text">+962 79 123 4567</div>
+            </div>
+        </div>
         """, height=550)
 
     # و. صفحة تسجيل الخروج
@@ -288,14 +214,14 @@ if selection == "setting":
         components.html("""
         <style>
             body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
-            .card { width: 350px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; display: flex; flex-direction: column; align-items: center; }
+            .card { width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box;}
             .header { width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 60px; position: relative; }
             .back { position: absolute; left: 0; font-size: 28px; cursor: pointer; color: #0f2446; font-weight: bold; }
             .btn { width: 100%; padding: 15px; border-radius: 100px; background: white; margin-bottom: 15px; cursor: pointer; font-weight: bold; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         </style>
         <div class="card">
-            <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_logout]').click()"><</div><h2 style="color:#0f2446">Log Out</h2></div>
-            <p style="color:#0f2446; font-weight:bold; margin-bottom:40px">Are you sure you want to log out?</p>
+            <div class="header"><div class="back" onclick="parent.window.document.querySelector('button[key=back_logout]').click()"><</div><h2 style="color:#0f2446; margin:0">Log Out</h2></div>
+            <p style="color:#0f2446; font-weight:bold; margin-bottom:40px; text-align:center">Are you sure you want to log out?</p>
             <div class="btn" style="color:#eb5757" onclick="alert('Logged Out!')">Log Out</div>
             <div class="btn" style="color:#0f2446" onclick="parent.window.document.querySelector('button[key=back_logout]').click()">Cancel</div>
         </div>
@@ -305,68 +231,23 @@ if selection == "setting":
     elif st.session_state.settings_sub_page == 'rate_page':
         if st.button("Back", key="back_rate", help="hidden"): nav_settings('main_menu')
         components.html("""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-            <style>
-                body { font-family: 'Segoe UI', sans-serif; background: transparent; margin: 0; display: flex; justify-content: center; }
-                .main-wrapper { 
-                    width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
-                    border-radius: 42px; padding: 30px; box-sizing: border-box; height: 500px; display: flex; flex-direction: column;
-                }
-                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
-                .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; transition: transform 0.2s ease; }
-                .back-icon:active { transform: scale(0.7); }
-                .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
-
-                .store-item { 
-                    background: white; border-radius: 100px; padding: 14px 22px; margin-bottom: 15px; 
-                    display: flex; align-items: center; justify-content: space-between; 
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; 
-                    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-                }
-                .store-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-                .store-item:active { transform: scale(0.96); }
-
-                .store-item-left { display: flex; align-items: center; gap: 15px; }
-                .store-item-icon { font-size: 18px; color: #0f2446; transition: transform 0.4s ease; }
-                .store-item:hover .store-item-icon { transform: scale(1.2) rotate(10deg); color: #2f80ed; }
-                .store-item-text { font-weight: 700; color: #0f2446; font-size: 14px; }
-                .store-item-arrow { font-size: 18px; font-weight: bold; color: #0f2446; transition: transform 0.3s ease; }
-                .store-item:hover .store-item-arrow { transform: translateX(5px); }
-            </style>
-        </head>
-        <body>
-            <div class="main-wrapper">
-                <div class="header-container">
-                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_rate]').click()">&lt;</div>
-                    <h2 class="title">Rate App</h2>
-                </div>
-                <div class="store-item" onclick="window.open('https://play.google.com', '_blank')">
-                    <div class="store-item-left">
-                        <span class="store-item-icon"><i class="fab fa-google-play"></i></span>
-                        <span class="store-item-text">Google Play Store</span>
-                    </div>
-                    <span class="store-item-arrow">&gt;</span>
-                </div>
-                <div class="store-item" onclick="window.open('https://apps.apple.com', '_blank')">
-                    <div class="store-item-left">
-                        <span class="store-item-icon"><i class="fab fa-apple"></i></span>
-                        <span class="store-item-text">Apple App Store</span>
-                    </div>
-                    <span class="store-item-arrow">&gt;</span>
-                </div>
-                <div class="store-item" onclick="window.open('https://appgallery.huawei.com', '_blank')">
-                    <div class="store-item-left">
-                        <span class="store-item-icon"><i class="fas fa-mobile-alt"></i></span>
-                        <span class="store-item-text">Huawei AppGallery</span>
-                    </div>
-                    <span class="store-item-arrow">&gt;</span>
-                </div>
+        <style>
+            body { font-family: 'Segoe UI'; background: transparent; display: flex; justify-content: center; }
+            .wrapper { width: 330px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%); border-radius: 42px; padding: 30px; height: 500px; box-sizing: border-box; display: flex; flex-direction: column; }
+            .header { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
+            .back { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
+            .item { background: white; border-radius: 100px; padding: 15px 25px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 12px rgba(0,0,0,0.08); cursor: pointer; }
+            .text { font-weight: 700; color: #0f2446; font-size: 14px; }
+        </style>
+        <div class="wrapper">
+            <div class="header">
+                <div class="back" onclick="parent.window.document.querySelector('button[key=back_rate]').click()">&lt;</div>
+                <h2 style="color:#0f2446; margin:0">Rate App</h2>
             </div>
-        </body>
-        </html>
+            <div class="item" onclick="window.open('https://play.google.com')"><span>📱 Google Play</span><span style="font-weight:bold">&gt;</span></div>
+            <div class="item" onclick="window.open('https://apps.apple.com')"><span>🍎 App Store</span><span style="font-weight:bold">&gt;</span></div>
+            <div class="item" onclick="window.open('https://appgallery.huawei.com')"><span>🏢 AppGallery</span><span style="font-weight:bold">&gt;</span></div>
+        </div>
         """, height=550)
 
 else:
