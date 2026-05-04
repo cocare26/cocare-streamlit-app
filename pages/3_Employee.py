@@ -3,17 +3,7 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Employee Dashboard", layout="centered")
 
-page = st.query_params.get("page", "")
 
-if page == "todo":
-    st.switch_page("pages/4_To_Do.py")
-
-elif page == "logout":
-    st.switch_page("app.py")
-
-elif page == "employee":
-    st.switch_page("pages/3_Employee.py")
- 
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] { background:#eef2f7; }
@@ -372,14 +362,9 @@ function goPage(p){
 }
 </script>
 
-<script>
-function go(page){
-    window.parent.postMessage(
-        {type: "streamlit:setComponentValue", value: page},
-        "*"
-    );
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
 }
-</script>
 
 </div>
 
