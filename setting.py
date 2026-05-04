@@ -103,6 +103,12 @@ input#\:rc\:{{
         color: black;
 }}
 
+.st-b3.st-b8.st-bw.st-b1.st-bm.st-ae.st-af.st-bn.st-ah.st-ai.st-aj.st-bx.st-bs {{
+
+     background-color: rgb(255 255 255);
+}}
+
+
 .st-b7 {{
     background-color: rgb(255 255 255);
         color: black;
