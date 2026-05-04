@@ -152,7 +152,7 @@ if st.session_state.page == "main":
             go("report")
 
     with col2:
-        if st.button(f"✉️ {T['contact']}"):
+        if st.button(f"✉️ {T['contact 2']}"):
             go("contact")
 
 # ================= SUB =================
