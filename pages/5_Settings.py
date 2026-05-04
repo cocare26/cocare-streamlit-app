@@ -301,8 +301,8 @@ else:
                 </div>
 
                 <div class="save-btn-container">
-                    <button class="save-box" onclick="alert('Password Saved!')">
-                        <span>Save</span>
+                    <button class="save-box" onclick="window.top.location.href='/?page=main'">
+    <span>Save</span>
                     </button>
                 </div>
 
