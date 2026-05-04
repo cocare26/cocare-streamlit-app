@@ -1,65 +1,57 @@
 import streamlit as st
 
-st.set_page_config(page_title="Settings", layout="centered")
+st.set_page_config(page_title="الإعدادات", layout="centered")
 
 # ---------------- STATE ----------------
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
-if "lang" not in st.session_state:
-    st.session_state.lang = "en"
-
 def go(page):
     st.session_state.page = page
     st.rerun()
 
-def set_lang(lang):
-    st.session_state.lang = lang
-    st.rerun()
-
-is_ar = st.session_state.lang == "ar"
-
 # ---------------- TEXT ----------------
 T = {
-    "settings": "الإعدادات" if is_ar else "Settings",
-    "pass": "Change Password" if not is_ar else "تغيير كلمة المرور",
-    "lang": "Change Language" if not is_ar else "تغيير اللغة",
-    "rate": "Rate App" if not is_ar else "تقييم التطبيق",
-    "logout": "Log Out" if not is_ar else "تسجيل الخروج",
-    "report": "Report a Problem" if not is_ar else "الإبلاغ عن مشكلة",
-    "contact": "Contact Us" if not is_ar else "تواصل معنا",
-    "save": "Save" if not is_ar else "حفظ",
+    "settings": "الإعدادات",
+    "pass": "تغيير كلمة المرور",
+    "lang": "تغيير اللغة",
+    "rate": "تقييم التطبيق",
+    "logout": "تسجيل الخروج",
+    "report": "الإبلاغ عن مشكلة",
+    "contact": "تواصل معنا",
+    "save": "حفظ",
 }
 
 # ---------------- STYLE ----------------
-st.markdown(f"""
+st.markdown("""
 <style>
-[data-testid="stAppViewContainer"] {{
+[data-testid="stAppViewContainer"] {
     background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
-}}
+}
 
-.block-container {{
+.block-container {
     max-width:370px;
     margin:auto;
     padding:30px 20px;
     background: rgba(255,255,255,0.25);
     backdrop-filter: blur(10px);
     border-radius:40px;
-}}
+    height:600px;
+}
 
-body {{
-    direction: {"rtl" if is_ar else "ltr"};
-}}
+body {
+    direction: rtl;
+}
 
-.header {{
+.header {
     text-align:center;
     font-size:20px;
     font-weight:700;
     margin-bottom:25px;
     color:#0f2446;
-}}
+}
 
-.stButton > button {{
+.stButton > button {
     width:100%;
     border:none;
     background:#ffffff;
@@ -72,34 +64,30 @@ body {{
     font-size:14px;
     color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
-}}
+}
 
-.stButton > button:hover {{
+.stButton > button:hover {
     transform:translateY(-2px);
-}}
+}
 
-input {{
+input {
     border-radius:30px !important;
     padding:12px !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}}
+}
 
-textarea {{
+textarea {
     border-radius:20px !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}}
+}
 
-.card {{
+.card {
     background:white;
     padding:15px;
     border-radius:25px;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
     margin-bottom:15px;
-}}
-
-.block-container {{
-    height: 600px;
-}}
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -112,7 +100,7 @@ if st.session_state.page == "main":
         go("pass")
 
     if st.button(f"🌐 {T['lang']}"):
-        go("lang")
+        st.switch_page("pages/7_Change_Language.py")
 
     if st.button(f"⭐ {T['rate']}"):
         go("rate")
@@ -137,39 +125,8 @@ else:
     col1, col2 = st.columns([1,4])
 
     with col1:
-        if st.button("←"):
+        if st.button("→"):
             go("main")
 
     with col2:
-        # 🔥 هذا الجزء اللي طلبتيه (العنوان عربي/إنجليزي)
         st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
-
-    # -------- PASSWORD --------
-    if st.session_state.page == "pass":
-        st.text_input("", placeholder="Current Password")
-        st.text_input("", placeholder="New Password")
-        st.text_input("", placeholder="Re-write Password")
-        st.button(T["save"])
-
-    # -------- LANGUAGE --------
-    elif st.session_state.page == "lang":
-        if st.button("🌐 English"):
-            set_lang("en")
-        if st.button("🌐 العربية"):
-            set_lang("ar")
-
-    # -------- RATE --------
-    elif st.session_state.page == "rate":
-        st.button("▶ Google Play Store")
-        st.button("🍎 Apple App Store")
-        st.button("📱 Huawei AppGallery")
-
-    # -------- REPORT --------
-    elif st.session_state.page == "report":
-        st.text_area("", placeholder="I need help")
-        st.button("Send Report")
-
-    # -------- CONTACT --------
-    elif st.session_state.page == "contact":
-        st.write("📧 CoCare26@gmail.com")
-        st.write("📞 +962 79 123 4567")
