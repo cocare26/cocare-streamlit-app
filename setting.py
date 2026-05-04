@@ -29,10 +29,6 @@ T = {
     "report": "Report a Problem" if not is_ar else "الإبلاغ عن مشكلة",
     "contact": "Contact Us" if not is_ar else "تواصل معنا",
     "save": "Save" if not is_ar else "حفظ",
-    "current": "Current Password" if not is_ar else "كلمة المرور الحالية",
-"new": "New Password" if not is_ar else "كلمة المرور الجديدة",
-"rewrite": "Re-write New Password" if not is_ar else "إعادة كتابة كلمة المرور",
-"report_pass": "Report Password" if not is_ar else "الإبلاغ عن كلمة المرور",
 }
 
 # ---------------- STYLE ----------------
@@ -177,17 +173,17 @@ else:
 
         import streamlit.components.v1 as components
 
-        components.html(f"""
+        components.html("""
         <!DOCTYPE html>
         <html>
         <head>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
             <style>
-                body {{
+                body {
                     font-family: 'Segoe UI', sans-serif;
                     background: transparent;
                     margin: 0;
-                }}
+                }
 
                 .main-wrapper {
                     width: 100%;
@@ -198,19 +194,14 @@ else:
                 }
 
                 .input-capsule {
-    background: white;
-    border-radius: 100px;
-    padding: 10px 18px;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease;
-}
-
-.input-capsule:hover {
-    transform: translateY(-4px);
-}
+                    background: white;
+                    border-radius: 100px;
+                    padding: 10px 18px;
+                    margin-bottom: 15px;
+                    display: flex;
+                    align-items: center;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                }
 
                 .input-capsule i.field-icon {
                     color: #0f2446;
@@ -283,19 +274,19 @@ else:
 
                 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
-    <input id="pass1" type="password" placeholder="{T['current']}">
+    <input id="pass1" type="password" placeholder="Current Password">
     <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
-   <input id="pass2" type="password" placeholder="{T['new']}">
+    <input id="pass2" type="password" placeholder="New Password">
   <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
-    <input id="pass3" type="password" placeholder="{T['rewrite']}">
+    <input id="pass3" type="password" placeholder="Re-write New Password">
     <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
