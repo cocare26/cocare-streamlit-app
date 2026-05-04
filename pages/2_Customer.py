@@ -276,29 +276,36 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<a href="/setting" target="_self" style="text-decoration:none; color:inherit;">
+
+<a href="/settingnew" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         ⚙️
         <span class="nav-text">Settings</span>
     </div>
 </a>
+
 <a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         🎡
         <span class="nav-text">Spin</span>
     </div>
 </a>
+
 <a href="/Chatbot" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         <div class="bot-bg">
             <img src="data:image/png;base64,{robot_head}" style="width:38px;">
         </div>
-        <span class="nav-text">_Chatbot</span>
+        <span class="nav-text">Chatbot</span>
     </div>
 </a>
-<div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
+
+<div class="nav-item clickable">
+    🎁
+    <span class="nav-text">Game</span>
 </div>
-</a>
+
+</div>
 </a>
 <script>
 function goPage(page){{
