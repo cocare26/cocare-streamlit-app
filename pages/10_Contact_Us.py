@@ -1,152 +1,33 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="Contact Us", layout="centered")
+st.set_page_config(page_title="تواصل معنا", layout="centered")
 
-# 2. التنسيق العام (CSS) - المقاسات الموحدة 350px
 st.markdown("""
 <style>
-/* 🎯 ألوان أساسية */
-:root {
-    --navy: #0f2446;
-    --bg1: #d6ecff;
-    --bg2: #bfe3ff;
-    --bg3: #eaf6ff;
-}
-
-/* 📱 خلفية الصفحة */
-[data-testid="stAppViewContainer"] {
-    background: #eef2f7;
-}
-
-/* 📦 الكارد الرئيسي - المقاس الموحد (350px) */
+* { margin:0; padding:0; box-sizing:border-box; direction: rtl; }
+html, body, [data-testid="stAppViewContainer"] { background:#f0f7ff; font-family:'Segoe UI', sans-serif; }
 .block-container {
-    max-width: 350px !important;
-    margin: auto !important;
-    padding: 30px !important;
-    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius: 42px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    max-width:430px; margin:auto; padding:18px 16px;
+    background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
+    border-radius:42px; box-shadow:0 14px 35px rgba(0,0,0,.15); min-height: 600px;
 }
+.stButton > button {
+    width: 100% !important; background: white !important; color: #102646 !important;
+    border-radius: 100px !important; padding: 20px !important; border: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important; font-weight: 800 !important;
+    text-align: right !important;
+}
+.back-style .stButton > button { background: transparent !important; box-shadow: none !important; font-size: 28px !important; width: auto !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة (HTML/JS)
-components.html("""
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: transparent;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-        
-        /* الحاوية الداخلية الموحدة (290px x 480px) */
-        .main-wrapper {
-            width: 100%;
-            max-width: 290px;
-            display: flex;
-            flex-direction: column;
-            height: 480px;
-        }
+col_back, _ = st.columns([1, 10])
+with col_back:
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("›"): st.switch_page("pages/11_settingar.py")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-        /* الرأس الموحد */
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 40px; /* مسافة موحدة 40px */
-            position: relative;
-        }
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900;">تواصل معنا</h2>', unsafe_allow_html=True)
 
-        /* 🔙 رمز الرجوع الموحد < */
-        .back-icon {
-            position: absolute;
-            left: 0;
-            font-size: 28px;
-            font-weight: bold;
-            color: #0f2446;
-            text-decoration: none;
-            line-height: 1;
-            cursor: pointer;
-        }
-
-        /* العنوان الموحد */
-        .title {
-            margin: 0;
-            font-weight: 900;
-            font-size: 20px;
-            color: #0f2446;
-        }
-
-        /* 💊 كبسولة الخيارات الموحدة */
-        .capsule {
-            background: white;
-            border-radius: 100px;
-            padding: 14px 22px; /* بادينج موحد */
-            margin-bottom: 15px; /* مسافة موحدة بين الكبسولات */
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .capsule:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-        }
-
-        .icon {
-            margin-right: 12px;
-            color: #0f2446;
-            font-size: 16px; /* حجم موحد للأيقونات */
-            display: flex;
-            align-items: center;
-            width: 20px;
-            justify-content: center;
-        }
-
-        .text {
-            color: #0f2446;
-            font-weight: 700;
-            font-size: 14px; /* حجم خط موحد */
-            word-break: break-all; /* لضمان عدم خروج الإيميل الطويل عن الكبسولة */
-        }
-    </style>
-</head>
-<body>
-    <div class="main-wrapper">
-        <!-- الهيدر مع رمز < الموحد -->
-        <div class="header-container">
-            <div class="back-icon" onclick="goPage('settings')">&lt;</div>
-            <h2 class="title">Contact Us</h2>
-        </div>
-
-        <!-- كبسولة الإيميل -->
-        <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">
-            <div class="icon"><i class="fas fa-envelope"></i></div>
-            <div class="text">CoCare26@gmail.com</div>
-        </div>
-
-        <!-- كبسولة الهاتف -->
-        <div class="capsule" onclick="window.location.href='tel:+962791234567'">
-            <div class="icon"><i class="fas fa-phone"></i></div>
-            <div class="text">+962 79 123 4567</div>
-        </div>
-    </div>
-
-    <script>
-    function goPage(p){
-        window.top.location.href = "/?page=" + p;
-    }
-    </script>
-</body>
-</html>
-""", height=500)
+if st.button("✉️ Email: Co.Care26@gmail.com"): pass
+if st.button("📞 Phone: +962 79 123 4567"): pass
