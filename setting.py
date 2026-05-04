@@ -198,7 +198,7 @@ else:
         st.button(T["logout"])
 
     # -------- REPORT -------- (مع card)
-     elif st.session_state.page == "report":
+    elif st.session_state.page == "report":
 
         import streamlit.components.v1 as components
 
