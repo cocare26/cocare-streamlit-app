@@ -125,6 +125,14 @@ textarea {{
 }}
 
 
+.st-emotion-cache-1lads1q {{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: flex-start;
+    width: 100%;
+}}
 
 </style>
 """, unsafe_allow_html=True)
