@@ -1,198 +1,167 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-st.markdown("""
+# ---------------- STATE ----------------
+if "page" not in st.session_state:
+    st.session_state.page = "main"
+
+if "lang" not in st.session_state:
+    st.session_state.lang = "en"
+
+def go(page):
+    st.session_state.page = page
+    st.rerun()
+
+def set_lang(lang):
+    st.session_state.lang = lang
+    st.rerun()
+
+is_ar = st.session_state.lang == "ar"
+
+# ---------------- TEXT ----------------
+T = {
+    "settings": "الإعدادات" if is_ar else "Settings",
+    "pass": "Change Password" if not is_ar else "تغيير كلمة المرور",
+    "lang": "Change Language" if not is_ar else "تغيير اللغة",
+    "rate": "Rate App" if not is_ar else "تقييم التطبيق",
+    "logout": "Log Out" if not is_ar else "تسجيل الخروج",
+    "report": "Report a Problem" if not is_ar else "الإبلاغ عن مشكلة",
+    "contact": "Contact Us" if not is_ar else "تواصل معنا",
+    "save": "Save" if not is_ar else "حفظ",
+}
+
+# ---------------- STYLE ----------------
+st.markdown(f"""
 <style>
-:root{
-    --navy:#0f2446;
-    --bg1:#d6ecff;
-    --bg2:#bfe3ff;
-    --bg3:#eaf6ff;
-}
+[data-testid="stAppViewContainer"] {{
+    background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
+}}
 
-[data-testid="stAppViewContainer"]{
-    background:#eef2f7;
-}
+.block-container {{
+    max-width:370px;
+    margin:auto;
+    padding:30px 20px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    border-radius:40px;
+}}
 
-.block-container{
-    max-width:350px !important;
-    margin:auto !important;
-    padding:30px !important;
-    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius:42px;
-    box-shadow:0 15px 35px rgba(0,0,0,0.15);
-}
+body {{
+    direction: {"rtl" if is_ar else "ltr"};
+}}
+
+.header {{
+    text-align:center;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:25px;
+    color:#0f2446;
+}}
+
+.stButton > button {{
+    width:100%;
+    border:none;
+    background:#ffffff;
+    border-radius:50px;
+    padding:16px;
+    margin-bottom:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:14px;
+    color:#0f2446;
+    box-shadow:0 6px 15px rgba(0,0,0,0.08);
+}}
+
+.stButton > button:hover {{
+    transform:translateY(-2px);
+}}
+
+input {{
+    border-radius:30px !important;
+    padding:12px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}}
+
+textarea {{
+    border-radius:20px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}}
+
+
+.card {{
+    background:white;
+    padding:15px;
+    border-radius:25px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    margin-bottom:15px;
+}}
+
+.st-b7 {{
+    background-color: rgb(255 255 255);
+        color: black;
+}}
+
+.st.text_input{{
+ color: black;
+}}
+
+.st-bc {{
+   color: black;
+}}
+
+.block-container {{
+    height: 600px;
+}}
+
+.st-emotion-cache-zh2fnc  {{
+   width:100%;
+    height: auto;
+    max-width: 100%;
+    min-width: 1rem;
+    position: relative;
+    overflow: visible;
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
-components.html("""
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
+# ================= MAIN =================
+if st.session_state.page == "main":
 
-body{
-    font-family:'Segoe UI', sans-serif;
-    margin:0;
-    display:flex;
-    justify-content:center;
-    background:transparent;
-}
+    st.markdown(f"<div class='header'>{T['settings']}</div>", unsafe_allow_html=True)
 
-.main-wrapper{
-    width:100%;
-    max-width:290px;
-    display:flex;
-    flex-direction:column;
-    height:480px;
-}
+    if st.button(f"🔒 {T['pass']}"):
+        go("pass")
 
-.header-container{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin-bottom:35px;
-    position:relative;
-}
+    if st.button(f"🌐 {T['lang']}"):
+        go("lang")
 
-.back-icon{
-    position:absolute;
-    left:0;
-    font-size:28px;
-    font-weight:bold;
-    color:#0f2446;
-    cursor:pointer;
-}
+    if st.button(f"⭐ {T['rate']}"):
+        go("rate")
 
-.title{
-    margin:0;
-    font-weight:900;
-    font-size:20px;
-    color:#0f2446;
-}
+    if st.button(f"🚪 {T['logout']}"):
+        go("logout")
 
-/* عناصر الإعدادات */
-.setting-item{
-    background:white;
-    border-radius:100px;
-    padding:14px 18px;
-    margin-bottom:15px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    cursor:pointer;
-    transition:0.3s;
-}
+    col1, col2 = st.columns(2)
 
-.setting-item i{
-    color:#0f2446;
-    font-size:16px;
-}
+    with col1:
+        if st.button(f"⚠️ {T['report']}"):
+            go("report")
 
-.setting-text{
-    flex:1;
-    text-align:left;
-    margin-left:15px;
-    font-size:14px;
-    font-weight:600;
-    color:#0f2446;
-}
+    with col2:
+        if st.button(f"✉️ {T['contact']}"):
+            go("contact")
 
-.setting-item .arrow{
-    margin-left:10px;
-    color:#0f2446;
-    font-weight:bold;
-}
+# ================= SUB =================
+else:
 
-.setting-item:hover{
-    transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,0.12);
-}
+    col1, col2 = st.columns([1,4])
 
-/* الصف السفلي */
-.bottom-row{
-    margin-top:auto;
-    display:flex;
-    gap:10px;
-}
+    with col1:
+        if st.button("←"):
+            go("main")
 
-.bottom-row .setting-item{
-    flex:1;
-    padding:12px 14px;
-}
-
-.bottom-row .setting-text{
-    font-size:13px;
-    margin-left:8px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="main-wrapper">
-
-    <div class="header-container">
-        <div class="back-icon" onclick="goPage('customer')">&lt;</div>
-        <h2 class="title">Settings</h2>
-    </div>
-
-    <div class="setting-item" onclick="goPage('Change_password')">
-        <i class="fas fa-lock"></i>
-        <span class="setting-text">Change Password</span>
-        <span class="arrow">›</span>
-    </div>
-
-    <div class="setting-item" onclick="goPage('Change_language')">
-        <i class="fas fa-globe"></i>
-        <span class="setting-text">Change Language</span>
-        <span class="arrow">›</span>
-    </div>
-
-    <div class="setting-item" onclick="goPage('Rate_app')">
-        <i class="fas fa-star"></i>
-        <span class="setting-text">Rate App</span>
-        <span class="arrow">›</span>
-    </div>
-
-    <!-- 🔥 LOGOUT UPDATED -->
-    <div class="setting-item" onclick="logoutPage()">
-        <i class="fas fa-sign-out-alt"></i>
-        <span class="setting-text">Log Out</span>
-        <span class="arrow">›</span>
-    </div>
-
-    <div class="bottom-row">
-        <div class="setting-item" onclick="goPage('Report_Problem')">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span class="setting-text">Report Problem</span>
-            <span class="arrow">›</span>
-        </div>
-
-        <div class="setting-item" onclick="goPage('Contact_Us')">
-            <i class="fas fa-envelope"></i>
-            <span class="setting-text">Contact Us</span>
-            <span class="arrow">›</span>
-        </div>
-    </div>
-
-</div>
-
-<script>
-function goPage(p){
-    window.top.location.href = "/?page=" + p;
-}
-
-function logoutPage(){
-    window.top.location.href = "/";
-}
-</script>
-
-</body>
-</html>
-""", height=500)
+    with col2:
+        st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
