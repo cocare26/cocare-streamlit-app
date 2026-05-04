@@ -6,11 +6,9 @@ st.set_page_config(page_title="Settings", layout="centered")
 st.markdown("""
 <style>
 * { margin:0; padding:0; box-sizing:border-box; direction:ltr; }
-
 html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
 }
-
 #MainMenu, header, footer { visibility:hidden; }
 
 .block-container {
@@ -30,15 +28,9 @@ components.html("""
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 
-body {
-    margin:0;
-    font-family:Arial;
-}
+body { margin:0; font-family:Arial; }
 
-.main-wrapper {
-    max-width:380px;
-    margin:auto;
-}
+.main-wrapper { max-width:380px; margin:auto; }
 
 .header-container {
     text-align:center;
@@ -50,14 +42,11 @@ body {
     position:absolute;
     left:0;
     font-size:28px;
-    cursor:pointer;
     color:#102646;
+    text-decoration:none;
 }
 
-.title {
-    font-weight:900;
-    color:#102646;
-}
+.title { font-weight:900; color:#102646; }
 
 .setting-item {
     background:white;
@@ -67,29 +56,20 @@ body {
     display:flex;
     justify-content:space-between;
     align-items:center;
-    cursor:pointer;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    transition:0.3s;
-}
-
-.setting-item:hover {
-    transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,0.12);
+    text-decoration:none;
+    color:#102646;
 }
 
 .item-left {
     display:flex;
     gap:12px;
     align-items:center;
-    color:#102646;
     font-weight:800;
     font-size:14px;
 }
 
-.arrow {
-    font-size:18px;
-    color:#102646;
-}
+.arrow { font-size:18px; }
 
 .bottom-row {
     display:flex;
@@ -103,10 +83,11 @@ body {
     border-radius:100px;
     padding:12px;
     text-align:center;
-    cursor:pointer;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    text-decoration:none;
+    color:#102646;
+    font-weight:800;
+    font-size:12px;
 }
-
 </style>
 </head>
 
@@ -115,50 +96,44 @@ body {
 <div class="main-wrapper">
 
 <div class="header-container">
-<div class="back-icon" onclick="goPage('customer')">‹</div>
+<a href="?page=settings" class="back-icon">‹</a>
 <h2 class="title">Settings</h2>
 </div>
 
-<div class="setting-item" onclick="goPage('change_password')">
+<a href="?page=change_password" class="setting-item">
 <div class="item-left">
 <i class="fas fa-lock"></i> Change Password
 </div>
 <span class="arrow">›</span>
-</div>
+</a>
 
-<div class="setting-item" onclick="goPage('change_language')">
+<a href="?page=change_language" class="setting-item">
 <div class="item-left">
 <i class="fas fa-globe"></i> Change Language
 </div>
 <span class="arrow">›</span>
-</div>
+</a>
 
-<div class="setting-item" onclick="goPage('rate_app')">
+<a href="?page=rate_app" class="setting-item">
 <div class="item-left">
 <i class="fas fa-star"></i> Rate App
 </div>
 <span class="arrow">›</span>
-</div>
+</a>
 
-<div class="setting-item" onclick="goPage('logout')">
+<a href="?page=logout" class="setting-item">
 <div class="item-left">
 <i class="fas fa-sign-out-alt"></i> Log Out
 </div>
 <span class="arrow">›</span>
-</div>
+</a>
 
 <div class="bottom-row">
-<div class="bottom-item" onclick="goPage('report')">Report Problem</div>
-<div class="bottom-item" onclick="goPage('contact')">Contact Us</div>
+<a href="?page=report" class="bottom-item">Report Problem</a>
+<a href="?page=contact" class="bottom-item">Contact Us</a>
 </div>
 
 </div>
-
-<script>
-function goPage(p){
-    window.parent.location.search = "?page=" + p;
-}
-</script>
 
 </body>
 </html>
