@@ -145,7 +145,7 @@ if st.session_state.page == "main":
 
     if st.button(f"🚪 {T['logout']}"):
         st.session_state.clear()
-        st.switch_page("pages/1_app.py")
+        st.switch_page("app.py")
 
     col1, col2 = st.columns(2)
 
