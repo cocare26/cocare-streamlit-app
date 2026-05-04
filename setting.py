@@ -239,9 +239,9 @@ else:
     </div>
 
     <script>
-    function goBack(){
-        window.parent.postMessage({type:"nav", page:"main"}, "*");
-    }
+    function goBack(){{
+        window.parent.postMessage({{type:"nav", page:"main"}}, "*");
+    }}
     </script>
 
     </html>
