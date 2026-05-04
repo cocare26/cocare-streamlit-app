@@ -107,9 +107,9 @@ button[key^="back_"] {
     cursor: pointer;
 }
 
-.title {
+title {
     margin: 0;
-    color: var(--navy);
+    color: black !important;
     font-weight: 700;
     font-size: 24px;
 }
