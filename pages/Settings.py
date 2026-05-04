@@ -18,7 +18,6 @@ st.markdown("""
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
     min-height:600px;
-    direction:ltr;
 }
 
 .setting-item { 
@@ -71,7 +70,6 @@ st.markdown("""
     display:flex;
     align-items:center;
     justify-content:center;
-    gap:8px;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     text-decoration:none !important;
 }
@@ -83,11 +81,11 @@ st.markdown("""
 }
 </style>
 
-<div style="text-align:center; margin-bottom:30px; position:relative; padding-top:10px;">
-    <h2 style="color:#102646; font-weight:900; margin:0;">Settings</h2>
+<div style="text-align:center; margin-bottom:30px;">
+    <h2 style="color:#102646; font-weight:900;">Settings</h2>
 </div>
 
-<a href="/?page=Change_password-ar" target="_top" class="setting-item">
+<a href="/?page=change_password" target="_top" class="setting-item">
     <div class="item-left">
         <i class="fas fa-lock"></i>
         <span class="item-text">Change Password</span>
@@ -95,7 +93,7 @@ st.markdown("""
     <span class="arrow">›</span>
 </a>
 
-<a href="/?page=Change_language-ar" target="_top" class="setting-item">
+<a href="/?page=change_language" target="_top" class="setting-item">
     <div class="item-left">
         <i class="fas fa-globe"></i>
         <span class="item-text">Change Language</span>
@@ -103,28 +101,26 @@ st.markdown("""
     <span class="arrow">›</span>
 </a>
 
-<a href="/?page=Rate_app-ar" target="_top" class="setting-item">
+<a href="/?page=contact" target="_top" class="setting-item">
     <div class="item-left">
-        <i class="fas fa-star"></i>
-        <span class="item-text">Rate App</span>
+        <i class="fas fa-envelope"></i>
+        <span class="item-text">Contact Us</span>
     </div>
     <span class="arrow">›</span>
 </a>
 
-<a href="/?page=logout" target="_top" class="setting-item">
+<a href="/?page=report" target="_top" class="setting-item">
     <div class="item-left">
-        <i class="fas fa-sign-out-alt"></i>
-        <span class="item-text">Log Out</span>
+        <i class="fas fa-bug"></i>
+        <span class="item-text">Report Problem</span>
     </div>
     <span class="arrow">›</span>
 </a>
 
 <div class="bottom-row">
-    <a href="/?page=Report_Problem-ar" target="_top" class="bottom-item">
-        <span>Report Problem</span>
-    </a>
-    <a href="/?page=Contact_Us-ar" target="_top" class="bottom-item">
-        <span>Contact Us</span>
+    <a href="/?page=settings" target="_top" class="bottom-item">
+        <span>Back</span>
     </a>
 </div>
+
 """, unsafe_allow_html=True)
