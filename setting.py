@@ -52,25 +52,11 @@ if selection == "setting":
     
     # ا. القائمة الرئيسية للإعدادات (يجب أن تكون مزاحة بـ 4 مسافات عن الـ if أعلاها)
     # ا. القائمة الرئيسية للإعدادات
+    # ا. القائمة الرئيسية للإعدادات
     if st.session_state.settings_sub_page == 'main_menu':
         st.markdown("""
             <style>
-                :root {
-                    --navy: #0f2446;
-                    --blue-primary: #2f80ed; /* أزرق صريح */
-                    --blue-light: #d6ecff;
-                }
-                
-                [data-testid="stAppViewBlockContainer"] {
-                    max-width: 350px !important;
-                    margin: auto !important;
-                    padding: 30px !important;
-                    /* تعديل التدرج ليكون أزرق أوضح */
-                    background: linear-gradient(180deg, #bfe3ff 0%, #2f80ed 100%) !important;
-                    border-radius: 42px !important;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                }
-
+                /* التنسيقات المطلوبة للهيدر والأزرار */
                 .header-container {
                     display: flex;
                     align-items: center;
@@ -79,19 +65,51 @@ if selection == "setting":
                     position: relative;
                     width: 100%;
                 }
+                .title {
+                    font-size: 28px !important;
+                    font-weight: 900 !important;
+                    color: #0f2446 !important;
+                    margin: 0;
+                }
                 .back-icon {
                     position: absolute;
                     left: 0;
-                    font-size: 28px;
-                    font-weight: bold;
-                    color: var(--navy);
+                    font-size: 32px !important;
+                    font-weight: 900 !important;
+                    color: #0f2446 !important;
                     cursor: pointer;
                 }
-                .title {
-                    margin: 0;
-                    color: var(--navy);
-                    font-weight: 700;
-                    font-size: 24px;
+                
+                /* تنسيق الحاوية (الخلفية المتدرجة) */
+                [data-testid="stAppViewBlockContainer"] {
+                    max-width: 350px !important;
+                    margin: auto !important;
+                    padding: 30px !important;
+                    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%) !important;
+                    border-radius: 42px !important;
+                }
+
+                /* تأثيرات الأزرار (setting-item) */
+                div.stButton > button {
+                    width: 100% !important;
+                    padding: 15px 18px !important;
+                    margin-bottom: 12px !important;
+                    background-color: white !important;
+                    border: none !important;
+                    border-radius: 100px !important;
+                    color: #0f2446 !important;
+                    font-size: 15px !important;
+                    font-weight: 700 !important;
+                    box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
+                    transition: 0.3s !important;
+                    display: flex !important;
+                    align-items: center !important;
+                }
+
+                div.stButton > button:hover {
+                    transform: translateY(-3px) !important;
+                    box-shadow: 0 9px 20px rgba(0,0,0,0.16) !important;
+                    background-color: #f8fbff !important;
                 }
             </style>
             
@@ -101,20 +119,20 @@ if selection == "setting":
             </div>
         """, unsafe_allow_html=True)
         
-        # الأزرار
-        if st.button("🔒 Change Password" + " " * 30 + "›"): 
+        # الأزرار (تستخدم تنسيق الـ CSS الموضح أعلاه)
+        if st.button("🔒 Change Password" + " " * 20 + "›"): 
             nav_settings('change_password_page')
             
-        if st.button("🌐 Change Language" + " " * 30 + "›"): 
+        if st.button("🌐 Change Language" + " " * 20 + "›"): 
             nav_settings('language_page')
             
-        if st.button("⭐ Rate App" + " " * 45 + "›"): 
+        if st.button("⭐ Rate App" + " " * 35 + "›"): 
             nav_settings('rate_page')
             
-        if st.button("🚪 Log Out" + " " * 45 + "›"): 
+        if st.button("🚪 Log Out" + " " * 35 + "›"): 
             nav_settings('logout_page')
         
-        st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
         with col1:
