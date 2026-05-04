@@ -5,7 +5,6 @@ import base64
 st.set_page_config(page_title="Telecom App", layout="centered")
 
 page = st.query_params.get("page", "")
-page = page or ""
 
 if page == "customer":
     st.switch_page("pages/2_Customer.py")
@@ -21,7 +20,8 @@ elif page == "forgot":
 
 elif page == "todo":
     st.switch_page("pages/4_To_Do.py")
-    
+
+
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
@@ -55,21 +55,6 @@ color:#222;
 text-decoration:none;
 }
 .error{text-align:center;color:#c62828;font-size:11px;margin-top:8px}
-
-.signup-line{
-    text-align:center;
-    font-size:13px;
-    margin-top:15px;
-    color:#222;
-}
-
-.signup-line span{
-    color:#1c6fa4;
-    font-weight:bold;
-    text-decoration:none;
-    margin-left:4px;
-    cursor:pointer;
-}
 </style>
 </head>
 
@@ -77,9 +62,7 @@ text-decoration:none;
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form" id="loginForm" method="get" target="_top">
-    <input type="hidden" name="page" id="pageValue">
-
+<form class="form">
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
     oninput="this.value=this.value.replace(/[^0-9]/g,'')">
@@ -87,18 +70,21 @@ text-decoration:none;
     <input class="input" placeholder="Password" type="password">
 
     <div class="forgot">
-    <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
-        Forgot Password?
-    </a>
-</div>
+        <a href="?page=forgot" target="_parent" style="color:#555; text-decoration:none;">
+            Forgot Password?
+        </a>
+    </div>
+
     <button class="login" type="button" onclick="login()">Log In ›</button>
+
     <div id="error" class="error"></div>
+
     <div class="signup">
-    👤 New User?
-    <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
-        Create Account
-    </a>
-</div>
+        👤 New User?
+        <a href="?page=create" target="_parent" style="color:#222; text-decoration:underline;">
+            Create Account
+        </a>
+    </div>
 </form>
 </div>
 
@@ -107,22 +93,22 @@ function login(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
 
-    // ✅ موظف (11 رقم)
+    // Employee
     if(/^[0-9]{11}$/.test(v)){
-        window.top.location.href = "/?page=employee";
+        window.parent.location.href = window.parent.location.pathname + "?page=employee";
         return;
     }
 
-    // ✅ عميل (10 رقم يبدأ بـ 07)
-    if(/^07[0-9]{8}$/.test(v)){
-        window.top.location.href = "/?page=customer";
+    // Customer
+    if(/^[0-9]{10}$/.test(v)){
+        window.parent.location.href = window.parent.location.pathname + "?page=customer";
         return;
     }
 
-    // ❌ خطأ فقط إذا الرقم غلط
-    e.innerText = "Invalid phone or ID number";
+    e.innerText = "10 digits for Customer, 11 digits for Employee";
 }
 </script>
+
 </body>
 </html>
 """
