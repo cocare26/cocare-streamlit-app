@@ -29,6 +29,10 @@ T = {
     "report": "Report a Problem" if not is_ar else "الإبلاغ عن مشكلة",
     "contact": "Contact Us" if not is_ar else "تواصل معنا",
     "save": "Save" if not is_ar else "حفظ",
+    "current": "Current Password" if not is_ar else "كلمة المرور الحالية",
+"new": "New Password" if not is_ar else "كلمة المرور الجديدة",
+"rewrite": "Re-write New Password" if not is_ar else "إعادة كتابة كلمة المرور",
+"report_pass": "Report Password" if not is_ar else "الإبلاغ عن كلمة المرور",
 }
 
 # ---------------- STYLE ----------------
