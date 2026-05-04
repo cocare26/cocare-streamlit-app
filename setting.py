@@ -124,13 +124,7 @@ textarea {{
     overflow: visible;
 }}
 
-.toggle-eye {
-    transition: transform 0.2s ease;
-}
 
-.toggle-eye:hover {
-    transform: translateY(-3px);
-}
 
 </style>
 """, unsafe_allow_html=True)
