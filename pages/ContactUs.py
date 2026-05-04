@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
@@ -28,7 +27,9 @@ html, body, [data-testid="stAppViewContainer"] {
     background:white !important;
     color:#102646 !important;
     border-radius:100px !important;
-    padding:20px !important;
+    padding:22px 20px !important;
+    min-height:90px !important;   /* ← كبرنا الطول */
+    margin-top:15px !important;   /* ← مسافة بينهم */
     border:none !important;
     box-shadow:0 4px 12px rgba(0,0,0,0.08) !important;
     font-weight:800 !important;
@@ -41,6 +42,8 @@ html, body, [data-testid="stAppViewContainer"] {
     box-shadow:none !important;
     font-size:28px !important;
     width:auto !important;
+    min-height:auto !important;
+    margin-top:0 !important;
 }
 </style>
 """, unsafe_allow_html=True)
