@@ -60,6 +60,10 @@ color:#102646;
 margin: 8px 0 8px 4px;
 }}
 
+/* إضافة خاصية النقر مرة أخرى */
+.clickable {{ cursor: pointer; transition: transform 0.2s, opacity 0.2s; }}
+.clickable:active {{ transform: scale(0.96); opacity: 0.8; }}
+
 /* نظام النجوم التفاعلي */
 .star-rating {{
 display: flex;
@@ -110,7 +114,7 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 user_name = st.text_input("Enter User Name", value="User Name")
 
 st.markdown(f"""
-<div class="card">
+<div class="card clickable">
 <div style="display:flex; gap:10px; align-items:flex-start;">
 <img src="data:image/png;base64,{robot_full}" style="width:55px; height:70px; object-fit:contain;">
 <div>
@@ -126,11 +130,11 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد (مع العداد المضاف)
+# 2. معلومات الرصيد (مع العداد وخاصية النقر)
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
-<div class="card">
+<div class="card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 2;">
 <div style="font-size:13px; font-weight:700; color:#666;">Remaining GB</div>
@@ -153,14 +157,14 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات
+# 3. أيقونات الخدمات (مع خاصية النقر)
 # =====================================
 st.markdown("""
 <div class="grid4">
-<div class="mini"><div class="icon">📡</div><div class="mini-text">Internet<br>Packages</div></div>
-<div class="mini"><div class="icon">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
-<div class="mini"><div class="icon">💰</div><div class="mini-text">International<br>Calls</div></div>
-<div class="mini"><div class="icon">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
+<div class="mini clickable"><div class="icon">📡</div><div class="mini-text">Internet<br>Packages</div></div>
+<div class="mini clickable"><div class="icon">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
+<div class="mini clickable"><div class="icon">💰</div><div class="mini-text">International<br>Calls</div></div>
+<div class="mini clickable"><div class="icon">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -184,11 +188,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة
+# 5. قوة الشبكة (مع العداد وخاصية النقر)
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
-<div class="card">
+<div class="card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 1.2;">
 <div style="font-size:16px; font-weight:900; color:#102646;">📍 Amman</div>
@@ -228,13 +232,13 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item">⚙️<br>Settings</div>
-<div class="nav-item">🎡<br>Spin</div>
-<div class="nav-item">
+<div class="nav-item clickable">⚙️<br>Settings</div>
+<div class="nav-item clickable">🎡<br>Spin</div>
+<div class="nav-item clickable">
 <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:32px;"></div>
 Chatbot
 </div>
-<div class="nav-item active">🏠<br>Home</div>
-<div class="nav-item">🎁<br>Game</div>
+<div class="nav-item active clickable">🏠<br>Home</div>
+<div class="nav-item clickable">🎁<br>Game</div>
 </div>
 """, unsafe_allow_html=True)
