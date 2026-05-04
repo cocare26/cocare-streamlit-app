@@ -59,22 +59,22 @@ body {{
     color:#0f2446;
 }}
 
-.stButton > button {{
+/* شكل الزر */
+div.stButton > button {{
     width:100%;
     border:none;
-    background:#ffffff;
+    background:white;
     border-radius:50px;
-    padding:16px;
+    padding:14px;
     margin-bottom:12px;
-    font-size:14px;
-    color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
 }}
 
-.stButton > button:hover {{
+div.stButton > button:hover {{
     transform:translateY(-2px);
 }}
 
+/* inputs */
 input {{
     border-radius:30px !important;
     padding:12px !important;
@@ -96,77 +96,39 @@ textarea {{
 </style>
 """, unsafe_allow_html=True)
 
-# -------- ICON + LAYOUT SCRIPT --------
-st.markdown("""
-<script>
-const icons = ["🔒","🌐","⭐","🚪","⚠️","✉️"];
+# -------- helper زر مع layout --------
+def setting_item(icon, text, page):
+    col1, col2, col3 = st.columns([1,6,1])
 
-setTimeout(() => {
-    const buttons = window.parent.document.querySelectorAll('button');
+    with col1:
+        st.markdown(f"<div style='font-size:18px'>{icon}</div>", unsafe_allow_html=True)
 
-    buttons.forEach((btn, i) => {
-        if(i < icons.length){
+    with col2:
+        st.markdown(f"<div style='font-weight:500'>{text}</div>", unsafe_allow_html=True)
 
-            let text = btn.innerText;
+    with col3:
+        st.markdown("<div style='font-size:18px'>›</div>", unsafe_allow_html=True)
 
-            btn.innerHTML = `
-                <div style="
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    width:100%;
-                ">
-                    
-                    <!-- ICON LEFT -->
-                    <div style="font-size:16px">
-                        ${icons[i]}
-                    </div>
-
-                    <!-- TEXT + ARROW RIGHT -->
-                    <div style="
-                        display:flex;
-                        align-items:center;
-                        gap:8px;
-                    ">
-                        <span>${text}</span>
-                        <span style="font-size:18px">›</span>
-                    </div>
-
-                </div>
-            `;
-        }
-    });
-
-}, 300);
-</script>
-""", unsafe_allow_html=True)
+    if st.button("", key=text):
+        go(page)
 
 # ================= MAIN =================
 if st.session_state.page == "main":
 
     st.markdown(f"<div class='header'>{T['settings']}</div>", unsafe_allow_html=True)
 
-    if st.button(T['pass']):
-        go("pass")
-
-    if st.button(T['lang']):
-        go("lang")
-
-    if st.button(T['rate']):
-        go("rate")
-
-    if st.button(T['logout']):
-        go("logout")
+    setting_item("🔒", T['pass'], "pass")
+    setting_item("🌐", T['lang'], "lang")
+    setting_item("⭐", T['rate'], "rate")
+    setting_item("🚪", T['logout'], "logout")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        if st.button(T['report']):
-            go("report")
+        setting_item("⚠️", T['report'], "report")
 
     with col2:
-        if st.button(T['contact']):
-            go("contact")
+        setting_item("✉️", T['contact'], "contact")
 
 # ================= SUB =================
 else:
@@ -185,7 +147,6 @@ else:
         st.text_input("", placeholder="Current Password")
         st.text_input("", placeholder="New Password")
         st.text_input("", placeholder="Re-write Password")
-
         st.button(T["save"])
 
     elif st.session_state.page == "lang":
@@ -212,7 +173,6 @@ else:
         st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.text_area("", placeholder="I need help")
         st.markdown("</div>", unsafe_allow_html=True)
-
         st.button("Send Report")
 
     elif st.session_state.page == "contact":
