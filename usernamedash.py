@@ -11,6 +11,10 @@ st.set_page_config(
     layout="centered"
 )
 
+# التأكد من وجود اسم مستخدم من صفحة الدخول، وإذا لم يوجد نضع قيمة افتراضية
+if 'user_name' not in st.session_state:
+    st.session_state['user_name'] = "Farah"  # القيمة الافتراضية
+
 # =====================================
 # دالة معالجة الصور (Base64)
 # =====================================
@@ -20,6 +24,7 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
+# استدعاء الصور
 robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
@@ -35,6 +40,10 @@ font-family:'Segoe UI', sans-serif;
 }}
 section.main > div {{ padding-top:8px; }}
 div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
+
+/* إخفاء عناصر ستريمليت الافتراضية */
+#MainMenu, header, footer {{ visibility:hidden; }}
+.stTextInput, .stButton {{ display:none; }} 
 
 .block-container {{
 max-width:430px;
@@ -60,93 +69,86 @@ color:#102646;
 margin: 8px 0 8px 4px;
 }}
 
-/* تأثير النقر والحركة (Animations) */
+/* تأثير النقر */
 .clickable {{ 
     cursor: pointer; 
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    transition: transform 0.2s ease; 
 }}
 .clickable:active {{ 
-    transform: scale(0.92); /* تأثير الضغط لجميع العناصر القابلة للنقر */
+    transform: scale(0.95); 
 }}
 
-/* نظام النجوم */
+/* نظام النجوم التفاعلي */
 .star-rating {{
-display: flex;
-flex-direction: row-reverse;
-justify-content: center;
-gap: 4px;
-margin-top: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 4px;
 }}
+.star-rating input {{ display: none; }}
 .star-rating label {{
-font-size: 32px;
-color: #ddd;
-cursor: pointer;
+    font-size: 35px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+}}
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {{
+    color: #ffcc00;
 }}
 
-/* تعديل المسافات والأحجام في الشبكة */
 .grid4 {{ 
     display:grid; 
     grid-template-columns:repeat(4,1fr); 
     gap:8px; 
-    margin-top: 25px; /* إضافة مساحة بين الرصيد والأيقونات لمنع الالتصاق */
-    margin-bottom: 12px; 
+    margin: 20px 0 12px; 
 }}
 
 .mini {{
 background:white; border-radius:20px; min-height:105px;
 padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 }}
-.icon {{ font-size:24px; margin-bottom:5px; }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-/* تعديلات الشريط السفلي والأيقونات */
+/* الشريط السفلي */
 .nav {{
 margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
 }}
-
-.nav-item {{
-    font-size: 22px; /* تكبير حجم أيقونات الشريط السفلي */
-    font-weight: 800;
-}}
-
-.nav-item:active {{
-    transform: scale(1.3); /* تكبير إضافي عند النقر على أيقونات التنقل */
-}}
-
-.nav-text {{
-    font-size: 11px;
-    display: block;
-    margin-top: 2px;
-}}
-
+.nav-item {{ font-size: 24px; font-weight: 800; }}
+.nav-text {{ font-size: 11px; display: block; margin-top: 2px; }}
 .bot-bg {{
-width:52px; height:52px; background:white; border-radius:14px;
+width:55px; height:55px; background:white; border-radius:14px;
 margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 .active {{ color:#0d69dd; }}
 
-#MainMenu, header, footer {{ visibility:hidden; }}
+/* تحسين صورة الروبوت */
+.robot-img {{
+    width: 75px; /* تكبير الحجم */
+    height: auto;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); /* ظل لإبراز الشكل بدون خلفية */
+    margin-right: 5px;
+}}
 </style>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الملف الشخصي
+# 1. قسم الملف الشخصي (بدون Input)
 # =====================================
-user_name = st.text_input("Enter User Name", value="User Name")
-
 st.markdown(f"""
 <div class="card clickable">
-<div style="display:flex; gap:10px; align-items:flex-start;">
-<img src="data:image/png;base64,{robot_full}" style="width:55px; height:70px; object-fit:contain;">
+<div style="display:flex; gap:12px; align-items:center;">
+<img src="data:image/png;base64,{robot_full}" class="robot-img">
 <div>
-<div style="font-size:17px; font-weight:900;">Welcome: {user_name}</div>
+<div style="font-size:19px; font-weight:900;">Welcome: {st.session_state['user_name']}</div>
 <div style="font-size:13px; color:#555;">+962 79 123 4567</div>
 <div style="font-size:13px; color:#555;">Valid until: May 25, 2026</div>
 </div>
 </div>
-<div style="margin-top:10px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
+<div style="margin-top:12px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
 📍 Location: Amman
 </div>
 </div>
@@ -167,7 +169,6 @@ st.markdown(f"""
 <div style="position: relative; width: 70px; height: 35px; margin-left: auto;">
 <div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
 <div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
-<div style="position: absolute; bottom: 0; left: 50%; width: 2px; height: 28px; background: #083d8c; transform-origin: bottom; transform: rotate(45deg);"></div>
 </div>
 </div>
 <div style="font-size:14px; font-weight:900; color:#102646; margin-top:2px;">6 GB</div>
@@ -180,28 +181,32 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (مفصولة الآن عن الرصيد)
+# 3. أيقونات الخدمات
 # =====================================
 st.markdown("""
 <div class="grid4">
-<div class="mini clickable"><div class="icon">📡</div><div class="mini-text">Internet<br>Packages</div></div>
-<div class="mini clickable"><div class="icon">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
-<div class="mini clickable"><div class="icon">💰</div><div class="mini-text">International<br>Calls</div></div>
-<div class="mini clickable"><div class="icon">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
+<div class="mini clickable"><div style="font-size:28px;">📡</div><div class="mini-text">Internet<br>Packages</div></div>
+<div class="mini clickable"><div style="font-size:28px;">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
+<div class="mini clickable"><div style="font-size:28px;">💰</div><div class="mini-text">International<br>Calls</div></div>
+<div class="mini clickable"><div style="font-size:28px;">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم
+# 4. قسم التقييم (تفاعلي)
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
 <div class="card">
 <div style="font-weight:900; font-size:14px; color:#102646;">⭐ Service Security Rate</div>
 <div style="margin-top:10px; height:20px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
-<div style="text-align:center; margin-top:12px; font-weight:700; font-size:13px; color:#102646;">Rate our service</div>
+<div style="text-align:center; margin-top:12px; font-weight:700; font-size:14px; color:#102646; margin-bottom:5px;">Rate our service</div>
 <div class="star-rating">
-<label>★</label><label>★</label><label>★</label><label>★</label><label>★</label>
+    <input type="radio" id="5" name="rate"><label for="5">★</label>
+    <input type="radio" id="4" name="rate"><label for="4">★</label>
+    <input type="radio" id="3" name="rate"><label for="3">★</label>
+    <input type="radio" id="2" name="rate"><label for="2">★</label>
+    <input type="radio" id="1" name="rate"><label for="1">★</label>
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -231,15 +236,8 @@ st.markdown("""
 <div style="position: relative; width: 100px; margin: 0 auto;">
 <div style="width: 100px; height: 50px; border-radius: 100px 100px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
 <div style="position: absolute; bottom: 0; left: 10px; width: 80px; height: 40px; background: white; border-radius: 80px 80px 0 0;"></div>
-<div style="position: absolute; bottom: 0; left: 50%; width: 2px; height: 40px; background: #333; transform-origin: bottom; transform: rotate(-60deg);"></div>
 </div>
 <div style="font-size: 10px; font-weight: 900; color: #102646; margin-top: 5px;">-68dBm (Excellent)</div>
-<div style="display: flex; justify-content: center; align-items: flex-end; gap: 2px; margin-top: 4px;">
-<div style="width: 4px; height: 6px; background: #0056b3;"></div>
-<div style="width: 4px; height: 10px; background: #0056b3;"></div>
-<div style="width: 4px; height: 14px; background: #0056b3;"></div>
-<div style="width: 4px; height: 18px; background: #ccc;"></div>
-</div>
 </div>
 </div>
 </div>
@@ -247,14 +245,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي (تكبير وحركة وتنسيق)
+# 6. الشريط السفلي
 # =====================================
 st.markdown(f"""
 <div class="nav">
 <div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
 <div class="nav-item clickable">🎡<span class="nav-text">Spin</span></div>
 <div class="nav-item clickable">
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:36px;"></div>
+<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:38px;"></div>
 <span class="nav-text">Chatbot</span>
 </div>
 <div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
