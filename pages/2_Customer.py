@@ -279,13 +279,14 @@ st.markdown(f"""
 <div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
 <div class="nav-item clickable">🎡<span class="nav-text">Spin</span></div>
 
-<div class="nav-item clickable" onclick="goPage('Chatbot')">
-<div class="bot-bg">
-    <img src="data:image/png;base64,{robot_head}" style="width:38px;">
-</div>
-<span class="nav-text">Chatbot</span>
-</div>
-
+<a href="/~/Chatbot" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item clickable">
+        <div class="bot-bg">
+            <img src="data:image/png;base64,{robot_head}" style="width:38px;">
+        </div>
+        <span class="nav-text">Chatbot</span>
+    </div>
+</a>
 <div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
 <div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
 </div>
