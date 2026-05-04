@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ======= CSS =======
+# ===== CSS =====
 st.markdown("""
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -21,121 +21,48 @@ st.markdown("""
     min-height:600px;
 }
 
-.card {
-    position:relative;
-    margin-bottom:15px;
-}
-
-.setting-item { 
-    background:white;
+/* 🎯 نخلي الزر شكله زي الكارد */
+div.stButton > button {
+    width:100%;
     border-radius:100px;
     padding:14px 22px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-.item-left {
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.item-text {
+    margin-bottom:15px;
+    background:white;
     color:#102646;
     font-weight:800;
     font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    border:none;
 }
 
-.arrow {
-    color:#102646;
-    font-weight:bold;
-    font-size:18px;
+/* hover effect */
+div.stButton > button:hover {
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* 🔥 الزر يغطي كل العنصر */
-div.stButton > button {
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    opacity:0;
-    z-index:10;
-    cursor:pointer;
+/* نخلي النص يسار */
+div.stButton > button p {
+    margin:0;
 }
 </style>
 
-<div style="text-align:center; margin-bottom:30px;">
-    <h2 style="color:#102646; font-weight:900;">Settings</h2>
-</div>
+<h2 style="text-align:center; color:#102646;">Settings</h2>
 """, unsafe_allow_html=True)
 
-# ======= ITEM 1 =======
-st.markdown('<div class="card">', unsafe_allow_html=True)
-st.markdown("""
-<div class="setting-item">
-    <div class="item-left">
-        <i class="fas fa-lock"></i>
-        <span class="item-text">Change Password</span>
-    </div>
-    <span class="arrow">›</span>
-</div>
-""", unsafe_allow_html=True)
+# ===== BUTTONS =====
 
-if st.button("cp"):
+if st.button("🔒   Change Password      ›"):
     st.switch_page("pages/ChangePassword.py")
 
-st.markdown('</div>', unsafe_allow_html=True)
-
-# ======= ITEM 2 =======
-st.markdown('<div class="card">', unsafe_allow_html=True)
-st.markdown("""
-<div class="setting-item">
-    <div class="item-left">
-        <i class="fas fa-globe"></i>
-        <span class="item-text">Change Language</span>
-    </div>
-    <span class="arrow">›</span>
-</div>
-""", unsafe_allow_html=True)
-
-if st.button("cl"):
+if st.button("🌐   Change Language      ›"):
     st.switch_page("pages/ChangeLanguage.py")
 
-st.markdown('</div>', unsafe_allow_html=True)
-
-# ======= ITEM 3 =======
-st.markdown('<div class="card">', unsafe_allow_html=True)
-st.markdown("""
-<div class="setting-item">
-    <div class="item-left">
-        <i class="fas fa-envelope"></i>
-        <span class="item-text">Contact Us</span>
-    </div>
-    <span class="arrow">›</span>
-</div>
-""", unsafe_allow_html=True)
-
-if st.button("cu"):
+if st.button("✉️   Contact Us      ›"):
     st.switch_page("pages/ContactUs.py")
 
-st.markdown('</div>', unsafe_allow_html=True)
-
-# ======= ITEM 4 =======
-st.markdown('<div class="card">', unsafe_allow_html=True)
-st.markdown("""
-<div class="setting-item">
-    <div class="item-left">
-        <i class="fas fa-bug"></i>
-        <span class="item-text">Report Problem</span>
-    </div>
-    <span class="arrow">›</span>
-</div>
-""", unsafe_allow_html=True)
-
-if st.button("rp"):
+if st.button("🐞   Report Problem      ›"):
     st.switch_page("pages/ReportProblem.py")
-
-st.markdown('</div>', unsafe_allow_html=True)
