@@ -89,6 +89,9 @@ textarea {{
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
+.st-b7 {{
+    background-color: rgb(255 255 255);
+}}
 .card {{
     background:white;
     padding:15px;
