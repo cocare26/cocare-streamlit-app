@@ -37,6 +37,7 @@ st.markdown("""
     color:#0f2446;
 }
 
+/* 🔥 التعديل هون */
 .stButton > button {
     width:100%;
     border:none;
@@ -50,6 +51,15 @@ st.markdown("""
     font-size:14px;
     color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
+
+    direction: ltr;
+}
+
+.stButton > button p {
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    margin:0;
 }
 
 .stButton > button:hover {
