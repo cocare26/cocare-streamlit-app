@@ -282,7 +282,7 @@ else:
 
                 <div class="input-capsule">
                     <i class="fas fa-lock field-icon"></i>
-                    <input type="password" placeholder="Confirm Password">
+                    <input type="password" placeholder="Re-write New Password">
                 </div>
 
                 <div class="report-text">
