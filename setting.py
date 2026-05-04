@@ -169,7 +169,7 @@ body{
     <div class="bottom-row">
         <div class="setting-item" onclick="goPage('Report_Problem')">
             <i class="fas fa-exclamation-triangle"></i>
-            <span class="setting-text">Report Problem</span>
+            <span class="setting-text">Report Problem 2</span>
             <span class="arrow">›</span>
         </div>
 
