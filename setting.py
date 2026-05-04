@@ -7,26 +7,10 @@ st.set_page_config(page_title="Settings", layout="centered")
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
-# ---------------- RECEIVE NAV FROM HTML ----------------
-components.html("""
-<script>
-window.addEventListener("message", (event) => {
-    if (event.data.type === "nav") {
-        const url = new URL(window.parent.location);
-        url.searchParams.set("nav", event.data.page);
-        window.parent.location.href = url.toString();
-    }
-});
-</script>
-""", height=0)
-
+# ---------------- READ NAV FROM URL ----------------
 nav = st.query_params.get("nav")
 if nav:
     st.session_state.page = nav
-
-def go(page):
-    st.session_state.page = page
-    st.rerun()
 
 # ---------------- STYLE ----------------
 st.markdown("""
@@ -96,6 +80,11 @@ if st.session_state.page == "main":
         transition:0.3s;
     }
 
+    .setting-item:hover{
+        transform:translateY(-2px);
+        box-shadow:0 6px 15px rgba(0,0,0,0.12);
+    }
+
     .setting-item i{
         margin-right:auto;
         color:#0f2446;
@@ -122,11 +111,6 @@ if st.session_state.page == "main":
         flex:1;
         justify-content:space-between;
         font-size:13px;
-    }
-
-    .setting-item:hover{
-        transform:translateY(-2px);
-        box-shadow:0 6px 15px rgba(0,0,0,0.12);
     }
     </style>
     </head>
@@ -176,7 +160,9 @@ if st.session_state.page == "main":
 
     <script>
     function nav(page){
-        window.parent.postMessage({type:"nav", page:page}, "*");
+        const url = new URL(window.parent.location.href);
+        url.searchParams.set("nav", page);
+        window.parent.location.href = url.toString(); // 🔥 reload حقيقي
     }
     </script>
 
@@ -196,7 +182,7 @@ else:
         "contact":"Contact Us"
     }
 
-    title = titles[st.session_state.page]
+    title = titles.get(st.session_state.page, "Settings")
 
     components.html(f"""
     <html>
@@ -240,7 +226,9 @@ else:
 
     <script>
     function goBack(){{
-        window.parent.postMessage({{type:"nav", page:"main"}}, "*");
+        const url = new URL(window.parent.location.href);
+        url.searchParams.set("nav", "main");
+        window.parent.location.href = url.toString();
     }}
     </script>
 
