@@ -6,22 +6,50 @@ st.set_page_config(page_title="Telecom App", layout="centered")
 
 page = st.query_params.get("page", "")
 
-if page == "customer":
-    st.switch_page("pages/2_Customer.py")
-
+# --- Router Logic ---
+if page == "create":
+    st.switch_page("pages/1_Create_Account.py")
+elif page == "customer":
+    # st.switch_page("pages/2_Customer.py") # Not found in file list, keeping for future
+    pass
 elif page == "employee":
     st.switch_page("pages/3_Employee.py")
-
-elif page == "create":
-    st.switch_page("pages/1_Create_Account.py")
-
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
 
-elif page == "todo":
-    st.switch_page("pages/4_To_Do.py")
+# Settings & Subpages (English)
+elif page == "settings":
+    st.switch_page("setting.py")
+elif page == "Change_password":
+    st.switch_page("Change_Password.py")
+elif page == "Change_language":
+    st.switch_page("Change_Language.py")
+elif page == "Rate_app":
+    st.switch_page("Rate_App.py")
+elif page == "Report_Problem":
+    st.switch_page("Report_Problem.py")
+elif page == "Contact_Us":
+    st.switch_page("Contact_Us.py")
 
+# Settings & Subpages (Arabic)
+elif page == "settings-ar":
+    st.switch_page("setting-ar.py")
+elif page == "Change_password-ar":
+    st.switch_page("changepassword-ar.py")
+elif page == "Change_language-ar":
+    st.switch_page("changelanguage-ar.py")
+elif page == "Rate_app-ar":
+    st.switch_page("rate-ar.py")
+elif page == "Report_Problem-ar":
+    st.switch_page("report-ar.py")
+elif page == "Contact_Us-ar":
+    st.switch_page("contact-ar.py")
 
+elif page == "logout":
+    st.query_params.clear()
+    st.switch_page("app.py")
+
+# --- Login Page UI ---
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
 
@@ -62,7 +90,8 @@ text-decoration:none;
 <div class="phone">
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form" method="get" action="/" target="_self" onsubmit="return setPage()">    <input type="hidden" name="page" id="pageValue">
+<form class="form" id="loginForm" method="get" target="_top">
+    <input type="hidden" name="page" id="pageValue">
 
     <input id="username" class="input" placeholder="phone / ID Number"
     inputmode="numeric" maxlength="11"
@@ -76,7 +105,7 @@ text-decoration:none;
         </a>
     </div>
 
-    <button class="login" type="submit">Log In ›</button>
+    <button class="login" type="button" onclick="login()">Log In ›</button>
 
     <div id="error" class="error"></div>
 
@@ -87,28 +116,28 @@ text-decoration:none;
         </a>
     </div>
 </form>
+</div>
 
 <script>
-function setPage(){
+function goPage(p){
+    window.top.location.href = "/?page=" + p;
+}
+
+function login(){
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
-    const pageValue = document.getElementById("pageValue");
 
-    if(/^[0-9]{11}$/.test(v)){
-        pageValue.value = "employee";
-        return true;
+    if(/^07[0-9]{8}$/.test(v)){
+        goPage("customer");
     }
-
-    if(/^[0-9]{10}$/.test(v)){
-        pageValue.value = "customer";
-        return true;
+    else if(/^[0-9]{11}$/.test(v)){
+        goPage("employee");
     }
-
-    e.innerText = "10 digits for Customer, 11 digits for Employee";
-    return false;
+    else{
+        e.innerText = "Invalid phone or ID number";
+    }
 }
 </script>
-
 </body>
 </html>
 """
