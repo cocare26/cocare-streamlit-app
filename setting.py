@@ -51,24 +51,24 @@ with st.sidebar:
 if selection == "setting":
     
     # ا. القائمة الرئيسية للإعدادات (يجب أن تكون مزاحة بـ 4 مسافات عن الـ if أعلاها)
+    # ا. القائمة الرئيسية للإعدادات
     if st.session_state.settings_sub_page == 'main_menu':
-        # دمج الألوان والـ Container الجديد داخل الجزء الخاص بالإعدادات
         st.markdown("""
             <style>
                 :root {
                     --navy: #0f2446;
-                    --bg1: #d6ecff;
-                    --bg2: #bfe3ff;
-                    --bg3: #eaf6ff;
+                    --blue-primary: #2f80ed; /* أزرق صريح */
+                    --blue-light: #d6ecff;
                 }
                 
-                /* تطبيق التعديلات على الحاوية الكبيرة */
                 [data-testid="stAppViewBlockContainer"] {
                     max-width: 350px !important;
                     margin: auto !important;
                     padding: 30px !important;
-                    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%) !important;
+                    /* تعديل التدرج ليكون أزرق أوضح */
+                    background: linear-gradient(180deg, #bfe3ff 0%, #2f80ed 100%) !important;
                     border-radius: 42px !important;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                 }
 
                 .header-container {
@@ -101,7 +101,7 @@ if selection == "setting":
             </div>
         """, unsafe_allow_html=True)
         
-        # الأزرار بنفس المسافات المطلوبة
+        # الأزرار
         if st.button("🔒 Change Password" + " " * 30 + "›"): 
             nav_settings('change_password_page')
             
