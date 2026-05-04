@@ -169,11 +169,126 @@ else:
     # -------- PASSWORD -------- (بدون card)
     if st.session_state.page == "pass":
 
-        st.text_input("", placeholder="Current Password")
-        st.text_input("", placeholder="New Password")
-        st.text_input("", placeholder="Re-write Password")
+        import streamlit.components.v1 as components
 
-        st.button(T["save"])
+        components.html("""
+        <!DOCTYPE html>
+        <html dir="rtl">
+        <head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+            <style>
+                body {
+                    font-family: 'Segoe UI', sans-serif;
+                    background: transparent;
+                    margin: 0;
+                }
+
+                .main-wrapper {
+                    width: 100%;
+                    max-width: 290px;
+                    height: 400px;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .input-capsule {
+                    background: white;
+                    border-radius: 100px;
+                    padding: 10px 18px;
+                    margin-bottom: 15px;
+                    display: flex;
+                    align-items: center;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                }
+
+                .input-capsule i.field-icon {
+                    color: #0f2446;
+                    margin-left: 12px;
+                    font-size: 16px;
+                }
+
+                .input-capsule input {
+                    border: none;
+                    outline: none;
+                    flex-grow: 1;
+                    font-size: 14px;
+                    color: #0f2446;
+                    background: transparent;
+                    text-align: right;
+                }
+
+                .input-capsule input::placeholder {
+                    color: #808080;
+                }
+
+                .input-capsule i.toggle-eye {
+                    color: #ccc;
+                    cursor: pointer;
+                    margin-right: 10px;
+                }
+
+                .save-btn-container {
+                    margin-top: auto;
+                    display: flex;
+                    justify-content: center;
+                    padding-bottom: 10px;
+                }
+
+                .save-box {
+                    background: white;
+                    border-radius: 100px;
+                    width: 100%;
+                    padding: 12px;
+                    text-align: center;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                    cursor: pointer;
+                    transition: 0.3s;
+                    border: none;
+                }
+
+                .save-box span {
+                    color: #0f2446;
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+
+                .save-box:hover {
+                    transform: translateY(-2px);
+                }
+            </style>
+        </head>
+
+        <body>
+            <div class="main-wrapper">
+
+                <div class="input-capsule">
+                    <i class="fas fa-lock field-icon"></i>
+                    <input type="password" placeholder="كلمة المرور الحالية">
+                    <i class="fas fa-eye-slash toggle-eye"></i>
+                </div>
+
+                <div class="input-capsule">
+                    <i class="fas fa-lock field-icon"></i>
+                    <input type="password" placeholder="كلمة المرور الجديدة">
+                    <i class="fas fa-eye-slash toggle-eye"></i>
+                </div>
+
+                <div class="input-capsule">
+                    <i class="fas fa-lock field-icon"></i>
+                    <input type="password" placeholder="تأكيد كلمة المرور">
+                    <i class="fas fa-eye-slash toggle-eye"></i>
+                </div>
+
+                <div class="save-btn-container">
+                    <button class="save-box" onclick="alert('تم حفظ كلمة المرور!')">
+                        <span>حفظ</span>
+                    </button>
+                </div>
+
+            </div>
+        </body>
+        </html>
+        """, height=420)
 
     # -------- LANGUAGE -------- (بدون card)
     elif st.session_state.page == "lang":
