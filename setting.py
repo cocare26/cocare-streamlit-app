@@ -332,8 +332,8 @@ else:
         st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
 
         if st.button(T["logout"]):
-        st.session_state.clear()   # يمسح كل البيانات
-        st.switch_page("app.py")   # يرجع لصفحة اللوج إن
+            st.session_state.clear()   # يمسح كل البيانات
+            st.switch_page("app.py")   # يرجع لصفحة اللوج إن
 
     # -------- REPORT -------- (مع card)
     elif st.session_state.page == "report":
