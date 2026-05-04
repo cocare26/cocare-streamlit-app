@@ -22,4 +22,4 @@ elif page == "report":
 
 # ========= DEFAULT =========
 else:
-    st.switch_page("Settings")
+st.switch_page("pages/Settings.py")
