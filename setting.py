@@ -78,6 +78,11 @@ st.markdown("""
 .st-b7 {
     background-color: rgb(255 255 255);
 }
+
+input#\:ra\: {
+    color: black;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
