@@ -80,6 +80,12 @@ text-decoration:none;
 }
 </style>
 
+</head>
+
+<body>
+<div class="phone">
+<img class="robot" src="data:image/png;base64,IMG_HERE">
+
 <form class="form" method="get" action="/" target="_top" onsubmit="return loginForm()">
     <input type="hidden" name="page" id="pageValue">
 
@@ -128,12 +134,6 @@ function loginForm(){
     }
 }
 </script>
-</head>
-
-<body>
-<div class="phone">
-<img class="robot" src="data:image/png;base64,IMG_HERE">
-
 
 </body>
 </html>
