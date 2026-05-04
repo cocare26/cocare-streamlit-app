@@ -1,91 +1,83 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-# 1. إعداد الصفحة
 st.set_page_config(page_title="الإعدادات", layout="centered")
 
-# 2. التنسيق العام (CSS)
+# CSS لإخفاء عناصر ستريمليت والحفاظ على أبعاد الكارد
 st.markdown("""
 <style>
-* { margin:0; padding:0; box-sizing:border-box; direction: rtl; }
-html, body, [data-testid="stAppViewContainer"] {
-    background:#f0f7ff;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-section.main > div { padding-top:8px; }
-div[data-testid="stVerticalBlock"] { gap:0rem; }
-#MainMenu, header, footer { visibility:hidden; }
-
+[data-testid="stAppViewContainer"] { background:#f0f7ff; }
 .block-container {
-    max-width:430px;
-    margin:auto;
-    padding:18px 16px;
+    max-width:430px; margin:auto; padding:18px 16px;
     background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
-    border-radius:42px;
-    box-shadow:0 14px 35px rgba(0,0,0,.15);
-    min-height: 600px;
+    border-radius:42px; box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
-
-/* تنسيق أزرار Streamlit لتصبح كبسولات */
-.stButton > button {
-    width: 100% !important;
-    background-color: white !important;
-    color: #102646 !important;
-    border-radius: 100px !important;
-    padding: 25px 22px !important;
-    margin-bottom: 15px !important;
-    border: none !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
-    transition: 0.3s !important;
-    text-align: right !important;
-    font-weight: 800 !important;
-    font-size: 14px !important;
-}
-
-.stButton > button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
-    background-color: #f9f9f9 !important;
-}
-
-/* زر الرجوع الصغير */
-.back-btn-style .stButton > button {
-    background: transparent !important;
-    box-shadow: none !important;
-    font-size: 28px !important;
-    width: auto !important;
-    padding: 0 !important;
-}
+#MainMenu, header, footer { visibility:hidden; }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. المحتوى
-col_back, col_title = st.columns([1, 10])
-with col_back:
-    st.markdown('<div class="back-btn-style">', unsafe_allow_html=True)
-    if st.button("›", key="back_home"):
-        st.switch_page("pages/userdash_arabic.py")
-    st.markdown('</div>', unsafe_allow_html=True)
+# التقاط اسم الصفحة من الرابط للتحويل
+page_nav = st.query_params.get("nav", "")
+if page_nav:
+    st.query_params.clear()
+    if page_nav == "logout":
+        st.session_state.clear()
+        st.switch_page("app.py")
+    else:
+        st.switch_page(f"pages/{page_nav}.py")
 
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:30px;">الإعدادات</h2>', unsafe_allow_html=True)
-
-if st.button("🔒 تغيير كلمة المرور          ‹"):
-    st.switch_page("pages/6_Change_Password.py")
-
-if st.button("🌐 تغيير اللغة                  ‹"):
-    st.switch_page("pages/7_Change_Language.py")
-
-if st.button("⭐ تقييم التطبيق               ‹"):
-    st.switch_page("pages/8_Rate_App.py")
-
-if st.button("🚪 تسجيل الخروج              ‹"):
-    st.session_state.clear()
-    st.switch_page("app.py")
-
-st.markdown('<div style="margin-top: 40px;"></div>', unsafe_allow_html=True)
-c1, c2 = st.columns(2)
-with c1:
-    if st.button("⚠️ الإبلاغ عن مشكلة"):
-        st.switch_page("pages/9_Report_Problem.py")
-with c2:
-    if st.button("✉️ تواصل معنا"):
-        st.switch_page("pages/10_Contact_Us.py")
+components.html("""
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family:'Segoe UI', sans-serif; margin:0; background:transparent; direction: rtl; }
+        .main-wrapper { width:100%; max-width:380px; display:flex; flex-direction:column; height:550px; }
+        .header-container { display:flex; align-items:center; justify-content:center; margin-bottom:35px; position:relative; padding-top:10px; }
+        .back-icon { position:absolute; right:0; font-size:28px; font-weight:bold; color:#102646; cursor:pointer; }
+        .title { margin:0; font-weight:900; font-size:20px; color:#102646; }
+        .setting-item { background:white; border-radius:100px; padding:14px 22px; margin-bottom:15px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 12px rgba(0,0,0,0.08 ); cursor:pointer; transition:0.3s; }
+        .setting-item:hover { transform:translateY(-2px); box-shadow:0 6px 15px rgba(0,0,0,0.12); }
+        .item-right { display:flex; align-items:center; gap:12px; }
+        .item-right i { color:#102646; font-size:16px; width:20px; text-align:center; }
+        .item-text { color:#102646; font-weight:800; font-size:14px; }
+        .arrow { color:#102646; font-weight:bold; font-size:18px; }
+        .bottom-row { display:flex; gap:10px; margin-top:auto; padding-bottom:10px; }
+        .bottom-item { flex:1; background:white; border-radius:100px; padding:12px; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 12px rgba(0,0,0,0.08); cursor:pointer; }
+        .bottom-item span { color:#102646; font-weight:800; font-size:12px; }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="header-container">
+            <div class="back-icon" onclick="go('userdash_arabic')">›</div>
+            <h2 class="title">الإعدادات</h2>
+        </div>
+        <div class="setting-item" onclick="go('6_Change_Password')">
+            <div class="item-right"><i class="fas fa-lock"></i><span class="item-text">تغيير كلمة المرور</span></div>
+            <span class="arrow">‹</span>
+        </div>
+        <div class="setting-item" onclick="go('7_Change_Language')">
+            <div class="item-right"><i class="fas fa-globe"></i><span class="item-text">تغيير اللغة</span></div>
+            <span class="arrow">‹</span>
+        </div>
+        <div class="setting-item" onclick="go('8_Rate_App')">
+            <div class="item-right"><i class="fas fa-star"></i><span class="item-text">تقييم التطبيق</span></div>
+            <span class="arrow">‹</span>
+        </div>
+        <div class="setting-item" onclick="go('logout')">
+            <div class="item-right"><i class="fas fa-sign-out-alt"></i><span class="item-text">تسجيل الخروج</span></div>
+            <span class="arrow">‹</span>
+        </div>
+        <div class="bottom-row">
+            <div class="bottom-item" onclick="go('9_Report_Problem')"><span>الإبلاغ عن مشكلة</span></div>
+            <div class="bottom-item" onclick="go('10_Contact_Us')"><span>تواصل معنا</span></div>
+        </div>
+    </div>
+    <script>
+        function go(p) { window.parent.location.href = window.parent.location.pathname + "?nav=" + p; }
+    </script>
+</body>
+</html>
+""", height=600)
