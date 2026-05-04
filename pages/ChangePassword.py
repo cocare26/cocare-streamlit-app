@@ -122,8 +122,41 @@ body {
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-.save button:hover {
-    transform:translateY(-2px);
+/* ===== POPUP ===== */
+.modal {
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-box {
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+    width:250px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-box p {
+    font-weight:800;
+    color:#102646;
+    margin-bottom:20px;
+}
+
+.modal-box button {
+    border:none;
+    padding:10px 20px;
+    border-radius:100px;
+    background:#dff2ff;
+    cursor:pointer;
+    font-weight:700;
 }
 </style>
 </head>
@@ -162,6 +195,14 @@ body {
 
 </div>
 
+<!-- POPUP -->
+<div class="modal" id="popup">
+    <div class="modal-box">
+        <p>Password changed successfully ✅</p>
+        <button onclick="goSettings()">OK</button>
+    </div>
+</div>
+
 <script>
 function goBack(){
     window.top.location.href = "/?page=settings";
@@ -191,9 +232,11 @@ function save(){
         return;
     }
 
-    alert("Password changed successfully ✅");
+    // show popup بدل alert
+    document.getElementById("popup").style.display = "flex";
+}
 
-    // رجوع لل settings
+function goSettings(){
     window.top.location.href = "/?page=settings";
 }
 </script>
