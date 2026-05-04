@@ -1,4 +1,4 @@
-import streamlit as st
+=import streamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Change Password", layout="centered")
@@ -22,20 +22,12 @@ html, body, [data-testid="stAppViewContainer"] {
     background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
-    min-height: 600px;
-}
-
-/* 🔥 السطر العلوي */
-.header-row {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:30px;
+    min-height:600px;
 }
 
 /* 🔙 زر الرجوع */
 .back-style .stButton > button {
-    background:white !important;   /* تقدر تشيله لو بدك بدون بوكس */
+    background:white !important;
     color:black !important;
     border-radius:50% !important;
     width:40px !important;
@@ -54,7 +46,7 @@ html, body, [data-testid="stAppViewContainer"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER (سطر واحد) =====
+# ===== HEADER =====
 col1, col2 = st.columns([1, 8])
 
 with col1:
@@ -87,7 +79,6 @@ body {
     max-width:380px;
     display:flex;
     flex-direction:column;
-    height:520px;
 }
 
 /* INPUT */
@@ -114,13 +105,13 @@ body {
 
 /* BUTTON */
 .save {
-    margin-top:auto;
+    margin-top:20px;
 }
 
 .save button {
     width:100%;
     border-radius:100px;
-    padding:14px;
+    padding:16px;
     border:none;
     background:white;
     font-weight:900;
@@ -182,7 +173,7 @@ body {
 
 <div class="input">
     <i class="fas fa-lock"></i>
-    <input type="password" id="new2" placeholder="Re-write New Password">
+    <input type="password" id="new2" placeholder="Rewrite New Password">
 </div>
 
 <div class="save">
