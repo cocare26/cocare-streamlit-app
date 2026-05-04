@@ -182,7 +182,7 @@ body {
 
 <div class="input">
     <i class="fas fa-lock"></i>
-    <input type="password" id="new2" placeholder="Confirm Password">
+    <input type="password" id="new2" placeholder="Re-write New Password">
 </div>
 
 <div class="save">
