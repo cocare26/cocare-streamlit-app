@@ -12,9 +12,6 @@ if 'settings_sub_page' not in st.session_state:
 if 'lang' not in st.session_state:
     st.session_state.lang = 'en'
 
-if 'nav_event' not in st.session_state:
-    st.session_state.nav_event = None
-
 def nav_settings(target):
     st.session_state.settings_sub_page = target
     st.rerun()
@@ -70,24 +67,37 @@ st.markdown("""
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
+
+/* hide hidden buttons */
+button[kind="secondary"]{
+    display:none !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
 # =============================
-# LISTEN TO HTML EVENTS
+# HIDDEN NAV BUTTONS
 # =============================
-components.html("""
-<script>
-window.addEventListener("message", (event) => {
-    const value = event.data;
-    const streamlitDoc = window.parent.document;
-    const el = streamlitDoc.querySelector('textarea[data-testid="stTextArea"]');
-});
-</script>
-""", height=0)
+if st.button("pass", key="pass_btn"):
+    nav_settings('change_password_page')
+
+if st.button("lang", key="lang_btn"):
+    nav_settings('language_page')
+
+if st.button("rate", key="rate_btn"):
+    nav_settings('rate_page')
+
+if st.button("logout", key="logout_btn"):
+    nav_settings('logout_page')
+
+if st.button("report", key="report_btn"):
+    nav_settings('report_page')
+
+if st.button("contact", key="contact_btn"):
+    nav_settings('contact_page')
 
 # =============================
-# MAIN MENU
+# MAIN MENU (HTML DESIGN)
 # =============================
 if st.session_state.settings_sub_page == 'main_menu':
 
@@ -150,7 +160,6 @@ if st.session_state.settings_sub_page == 'main_menu':
         display:flex;
         gap:10px;
     }}
-
     </style>
     </head>
 
@@ -199,33 +208,24 @@ if st.session_state.settings_sub_page == 'main_menu':
     </div>
 
     <script>
-    function go(p){{
-        window.parent.postMessage(p, "*");
-    }}
+    function go(p){
+        const doc = window.parent.document;
+
+        if(p === "pass") doc.querySelector('button[key="pass_btn"]').click();
+        if(p === "lang") doc.querySelector('button[key="lang_btn"]').click();
+        if(p === "rate") doc.querySelector('button[key="rate_btn"]').click();
+        if(p === "logout") doc.querySelector('button[key="logout_btn"]').click();
+        if(p === "report") doc.querySelector('button[key="report_btn"]').click();
+        if(p === "contact") doc.querySelector('button[key="contact_btn"]').click();
+    }
     </script>
 
     </body>
     </html>
     """, height=520)
 
-    # استقبال الرسالة
-    msg = st.query_params.get("nav")
-
-    if msg == "pass":
-        nav_settings('change_password_page')
-    elif msg == "lang":
-        nav_settings('language_page')
-    elif msg == "rate":
-        nav_settings('rate_page')
-    elif msg == "logout":
-        nav_settings('logout_page')
-    elif msg == "report":
-        nav_settings('report_page')
-    elif msg == "contact":
-        nav_settings('contact_page')
-
 # =============================
-# LANGUAGE
+# LANGUAGE PAGE
 # =============================
 elif st.session_state.settings_sub_page == 'language_page':
 
