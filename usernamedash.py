@@ -25,7 +25,7 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (التنسيق وحجم الصورة المكبر)
+# CSS المطور (مع إضافة تأثيرات الحركة عند Hover)
 # =====================================
 st.markdown(f"""
 <style>
@@ -54,6 +54,12 @@ border-radius:24px;
 padding:14px;
 margin-bottom:12px;
 box-shadow:0 6px 18px rgba(0,0,0,.08);
+transition: transform 0.3s ease;
+}}
+
+/* تحريك الكروت عند التأشير */
+.card:hover {{
+    transform: translateY(-5px);
 }}
 
 .title {{
@@ -65,9 +71,22 @@ margin: 8px 0 8px 4px;
 
 .clickable {{ 
     cursor: pointer; 
-    transition: transform 0.2s ease; 
+    transition: all 0.3s ease; 
 }}
-.clickable:active {{ transform: scale(0.95); }}
+
+/* تأثير الحركة للأيقونات والخدمات */
+.mini {{
+background:white; border-radius:20px; min-height:105px;
+padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
+transition: all 0.3s ease;
+}}
+.mini:hover {{
+    transform: scale(1.1); /* تكبير الأيقونة */
+    background-color: #f0f8ff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+}}
+
+.mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
 /* نظام النجوم التفاعلي */
 .star-rating {{
@@ -76,17 +95,14 @@ margin: 8px 0 8px 4px;
     justify-content: center;
     gap: 4px;
 }}
-.star-rating input {{ display: none; }}
 .star-rating label {{
     font-size: 35px;
     color: #ddd;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: transform 0.2s, color 0.2s;
 }}
-.star-rating input:checked ~ label,
-.star-rating label:hover,
-.star-rating label:hover ~ label {{
-    color: #ffcc00;
+.star-rating label:hover {{
+    transform: scale(1.3);
 }}
 
 .grid4 {{ 
@@ -96,20 +112,18 @@ margin: 8px 0 8px 4px;
     margin: 20px 0 12px; 
 }}
 
-.mini {{
-background:white; border-radius:20px; min-height:105px;
-padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
-}}
-.mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
-
-/* --- تعديل: تكبير الروبوت لدمجه في الداشبورد بدون خلفية --- */
+/* تحريك الروبوت عند التأشير عليه */
 .robot-img-welcome {{
-    width: 130px; /* حجم كبير وواضح */
+    width: 130px;
     height: auto;
-    background: transparent !important; /* ضمان عدم وجود خلفية */
-    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1)); /* ظل خفيف لإعطاء عمق */
+    background: transparent !important;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
     margin-right: 10px;
     object-fit: contain;
+    transition: transform 0.4s ease;
+}}
+.robot-img-welcome:hover {{
+    transform: rotate(-5px) scale(1.05);
 }}
 
 .welcome-text-container {{
@@ -118,7 +132,6 @@ padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
     justify-content: center;
 }}
 
-/* إصلاح مؤشر العداد */
 .needle {{
     position: absolute;
     bottom: 0;
@@ -128,26 +141,42 @@ padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
     background: #333;
     transform-origin: bottom center;
     z-index: 5;
+    transition: transform 1s ease-in-out;
 }}
 
-/* الشريط السفلي */
+/* تأثير الشريط السفلي */
 .nav {{
 margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
 }}
-.nav-item {{ font-size: 24px; font-weight: 800; }}
+.nav-item {{ 
+    font-size: 24px; 
+    font-weight: 800; 
+    transition: transform 0.3s ease, color 0.3s ease;
+}}
+.nav-item:hover {{
+    transform: translateY(-8px); /* رفع الأيقونة للأعلى */
+    color: #0d69dd;
+}}
+
 .nav-text {{ font-size: 11px; display: block; margin-top: 2px; }}
 .bot-bg {{
 width:55px; height:55px; background:white; border-radius:14px;
 margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+transition: all 0.3s ease;
 }}
+.bot-bg:hover {{
+    transform: scale(1.2) rotate(10deg);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}}
+
 .active {{ color:#0d69dd; }}
 </style>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الملف الشخصي (Welcome + صورة مكبرة مدمجة)
+# 1. قسم الملف الشخصي
 # =====================================
 st.markdown(f"""
 <div class="card clickable">
@@ -166,7 +195,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد (مع المؤشر)
+# 2. معلومات الرصيد
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
@@ -193,7 +222,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات
+# 3. أيقونات الخدمات (تتحرك عند Hover)
 # =====================================
 st.markdown("""
 <div class="grid4">
@@ -224,7 +253,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (مع المؤشر)
+# 5. قوة الشبكة
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -258,7 +287,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي
+# 6. الشريط السفلي (تتحرك عند Hover)
 # =====================================
 st.markdown(f"""
 <div class="nav">
