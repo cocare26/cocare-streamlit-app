@@ -203,9 +203,6 @@ else:
                     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
                 }
 
-                .input-capsule { transition: transform 0.2s ease;}
-                .input-capsule:hover { transform: translateY(-3px);}
-
                 .input-capsule i.field-icon {
                     color: #0f2446;
                     margin-right: 12px;
@@ -278,18 +275,19 @@ else:
                 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
     <input id="pass1" type="password" placeholder="Current Password">
-    <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)">
+    <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
+</div>
 
 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
     <input id="pass2" type="password" placeholder="New Password">
-  <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass2', this)">
+  <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
 <div class="input-capsule">
     <i class="fas fa-lock field-icon"></i>
     <input id="pass3" type="password" placeholder="Re-write New Password">
-    <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass3', this)">
+    <i class="fas fa-eye-slash toggle-eye" onclick="togglePassword('pass1', this)"></i>
 </div>
 
                 <div class="report-text">
