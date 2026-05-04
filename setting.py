@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
+# 1. إعدادات الصفحة الأساسية
 st.set_page_config(page_title="App Navigation", layout="centered")
 
 # 2. إدارة الحالة للتنقل الداخلي
@@ -12,7 +12,7 @@ def nav_settings(target):
     st.session_state.settings_sub_page = target
     st.rerun()
 
-# 3. التنسيق الجمالي (CSS) للقائمة الرئيسية
+# 3. التنسيق الجمالي العام (CSS) لستريمليت
 st.markdown("""
 <style>
 :root { --navy: #0f2446; }
@@ -39,7 +39,7 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-# 4. القائمة الجانبية
+# 4. القائمة الجانبية (Sidebar)
 with st.sidebar:
     st.title("Navigation")
     selection = st.radio("Go to:", ["setting", "Create Account", "Forgot Password", "To Do"])
@@ -66,9 +66,9 @@ if selection == "setting":
             if st.button("✉️ Contact\nUs           ›"): nav_settings('contact_page')
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # ب. صفحة تسجيل الخروج (HTML)
-    elif st.session_state.settings_sub_page == 'logout_page':
-        if st.button("Back", key="back_logout", help="hidden"): nav_settings('main_menu')
+    # ب. صفحة الإبلاغ عن مشكلة (HTML المخصص من الصورة)
+    elif st.session_state.settings_sub_page == 'report_page':
+        if st.button("Back", key="back_report", help="hidden"): nav_settings('main_menu')
         components.html("""
         <!DOCTYPE html>
         <html>
@@ -79,56 +79,52 @@ if selection == "setting":
                 .main-wrapper { 
                     width: 350px; background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
                     border-radius: 42px; padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); height: 500px;
-                    display: flex; flex-direction: column; align-items: center;
+                    display: flex; flex-direction: column;
                 }
-                .header-container { width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 60px; position: relative; }
+                .header-container { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; position: relative; }
                 .back-icon { position: absolute; left: 0; font-size: 28px; font-weight: bold; color: #0f2446; cursor: pointer; }
                 .title { margin: 0; font-weight: 900; font-size: 20px; color: #0f2446; }
                 
-                .logout-msg { color: #0f2446; font-weight: 700; font-size: 18px; margin-bottom: 40px; text-align: center; }
-                
-                .action-btn { 
-                    width: 100%; max-width: 280px; background: white; border-radius: 100px; 
-                    padding: 15px; margin-bottom: 15px; display: flex; align-items: center; 
-                    justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-                    cursor: pointer; transition: 0.3s; border: none; font-family: inherit;
+                .report-textarea {
+                    width: 100%; height: 220px; border-radius: 25px; border: none; outline: none; padding: 18px;
+                    background: white; font-size: 16px; color: #0f2446; resize: none; box-sizing: border-box;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: inherit;
                 }
-                .action-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+                .report-textarea::placeholder { color: #808080; }
                 
-                .btn-text { font-weight: 800; font-size: 16px; }
-                .logout-text { color: #eb5757; } /* لون أحمر لتسجيل الخروج */
-                .cancel-text { color: #0f2446; }
+                .send-btn {
+                    background: white; border-radius: 100px; width: 100%; padding: 14px 22px;
+                    display: flex; align-items: center; justify-content: space-between; 
+                    border: none; margin-top: auto; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); box-sizing: border-box;
+                }
+                .send-btn span { color: #0f2446; font-weight: 700; font-size: 14px; order: 2; }
+                .main-icon { color: #808080; font-size: 18px; order: 1; }
             </style>
         </head>
         <body>
             <div class="main-wrapper">
                 <div class="header-container">
-                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_logout]').click()"><</div>
-                    <h2 class="title">Log Out</h2>
+                    <div class="back-icon" onclick="parent.window.document.querySelector('button[key=back_report]').click()"><</div>
+                    <h2 class="title">Report a Problem</h2>
                 </div>
-                
-                <div class="logout-msg">Are you sure you want to log out?</div>
-                
-                <div class="action-btn" onclick="alert('Logged Out Successfully!')">
-                    <span class="btn-text logout-text">Log Out</span>
-                </div>
-                
-                <div class="action-btn" onclick="parent.window.document.querySelector('button[key=back_logout]').click()">
-                    <span class="btn-text cancel-text">Cancel</span>
+                <textarea class="report-textarea" placeholder="I need help"></textarea>
+                <div style="margin-top: auto; padding-bottom: 10px;">
+                    <button class="send-btn" onclick="alert('Report Sent!')">
+                        <i class="fas fa-paper-plane main-icon"></i>
+                        <span>Send Report</span>
+                    </button>
                 </div>
             </div>
         </body>
         </html>
         """, height=550)
 
-    # ج. صفحة تقييم التطبيق (HTML)
-    elif st.session_state.settings_sub_page == 'rate_page':
-        if st.button("Back", key="back_rate", help="hidden"): nav_settings('main_menu')
-        components.html("""
-        <!-- (كود صفحة التقييم السابق) -->
-        """, height=550)
+    # ج. صفحة تسجيل الخروج (HTML)
+    elif st.session_state.settings_sub_page == 'logout_page':
+        if st.button("Back", key="back_logout", help="hidden"): nav_settings('main_menu')
+        # ... (كود صفحة اللوق أوت السابق)
 
-    # د. باقي الصفحات (Language, Password) كما هي...
+    # د. صفحة التقييم وصفحة اللغة وصفحة كلمة المرور...
 
 else:
     st.title(f"Welcome to {selection} Page")
