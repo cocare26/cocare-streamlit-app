@@ -109,7 +109,7 @@ if selection == "setting":
         st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("⚠️ Report\nProblem ›"): nav_settings('report_page')
+            if st.button("⚠️ Report\n a Problem ›"): nav_settings('report_page')
         with col2:
             if st.button("✉️ Contact\nUs      ›"): nav_settings('contact_page')
 
