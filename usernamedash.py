@@ -24,7 +24,7 @@ robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تنسيق الواجهة)
+# CSS المطور (التنسيق وتعديلات الأبعاد والحركة)
 # =====================================
 st.markdown(f"""
 <style>
@@ -60,11 +60,16 @@ color:#102646;
 margin: 8px 0 8px 4px;
 }}
 
-/* إضافة خاصية النقر مرة أخرى */
-.clickable {{ cursor: pointer; transition: transform 0.2s, opacity 0.2s; }}
-.clickable:active {{ transform: scale(0.96); opacity: 0.8; }}
+/* تأثير النقر والحركة (Animations) */
+.clickable {{ 
+    cursor: pointer; 
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}}
+.clickable:active {{ 
+    transform: scale(0.92); /* تأثير الضغط لجميع العناصر القابلة للنقر */
+}}
 
-/* نظام النجوم التفاعلي */
+/* نظام النجوم */
 .star-rating {{
 display: flex;
 flex-direction: row-reverse;
@@ -72,20 +77,21 @@ justify-content: center;
 gap: 4px;
 margin-top: 5px;
 }}
-.star-rating input {{ display: none; }}
 .star-rating label {{
 font-size: 32px;
 color: #ddd;
 cursor: pointer;
-transition: color 0.2s;
-}}
-.star-rating label:hover,
-.star-rating label:hover ~ label,
-.star-rating input:checked ~ label {{
-color: #f4b400;
 }}
 
-.grid4 {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }}
+/* تعديل المسافات والأحجام في الشبكة */
+.grid4 {{ 
+    display:grid; 
+    grid-template-columns:repeat(4,1fr); 
+    gap:8px; 
+    margin-top: 25px; /* إضافة مساحة بين الرصيد والأيقونات لمنع الالتصاق */
+    margin-bottom: 12px; 
+}}
+
 .mini {{
 background:white; border-radius:20px; min-height:105px;
 padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
@@ -93,12 +99,29 @@ padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 .icon {{ font-size:24px; margin-bottom:5px; }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
+/* تعديلات الشريط السفلي والأيقونات */
 .nav {{
 margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
-text-align:center; font-size:11px; font-weight:800; color:#6b6b6b;
+text-align:center; color:#6b6b6b; align-items: end;
 }}
+
+.nav-item {{
+    font-size: 22px; /* تكبير حجم أيقونات الشريط السفلي */
+    font-weight: 800;
+}}
+
+.nav-item:active {{
+    transform: scale(1.3); /* تكبير إضافي عند النقر على أيقونات التنقل */
+}}
+
+.nav-text {{
+    font-size: 11px;
+    display: block;
+    margin-top: 2px;
+}}
+
 .bot-bg {{
-width:45px; height:45px; background:white; border-radius:12px;
+width:52px; height:52px; background:white; border-radius:14px;
 margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
@@ -120,7 +143,7 @@ st.markdown(f"""
 <div>
 <div style="font-size:17px; font-weight:900;">Welcome: {user_name}</div>
 <div style="font-size:13px; color:#555;">+962 79 123 4567</div>
-<div style="font-size:13px; color:#555;">Valid until: May 25, 2024</div>
+<div style="font-size:13px; color:#555;">Valid until: May 25, 2026</div>
 </div>
 </div>
 <div style="margin-top:10px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
@@ -130,7 +153,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد (مع العداد وخاصية النقر)
+# 2. معلومات الرصيد
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
@@ -157,7 +180,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (مع خاصية النقر)
+# 3. أيقونات الخدمات (مفصولة الآن عن الرصيد)
 # =====================================
 st.markdown("""
 <div class="grid4">
@@ -169,7 +192,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم بالنجوم
+# 4. قسم التقييم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -178,17 +201,13 @@ st.markdown("""
 <div style="margin-top:10px; height:20px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
 <div style="text-align:center; margin-top:12px; font-weight:700; font-size:13px; color:#102646;">Rate our service</div>
 <div class="star-rating">
-<input type="radio" id="s5" name="rate" value="5"><label for="s5">★</label>
-<input type="radio" id="s4" name="rate" value="4"><label for="s4">★</label>
-<input type="radio" id="s3" name="rate" value="3"><label for="s3">★</label>
-<input type="radio" id="s2" name="rate" value="2"><label for="s2">★</label>
-<input type="radio" id="s1" name="rate" value="1"><label for="s1">★</label>
+<label>★</label><label>★</label><label>★</label><label>★</label><label>★</label>
 </div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (مع العداد وخاصية النقر)
+# 5. قوة الشبكة
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -228,17 +247,17 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي (Navbar)
+# 6. الشريط السفلي (تكبير وحركة وتنسيق)
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable">⚙️<br>Settings</div>
-<div class="nav-item clickable">🎡<br>Spin</div>
+<div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
+<div class="nav-item clickable">🎡<span class="nav-text">Spin</span></div>
 <div class="nav-item clickable">
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:32px;"></div>
-Chatbot
+<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:36px;"></div>
+<span class="nav-text">Chatbot</span>
 </div>
-<div class="nav-item active clickable">🏠<br>Home</div>
-<div class="nav-item clickable">🎁<br>Game</div>
+<div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
+<div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
 </div>
 """, unsafe_allow_html=True)
