@@ -12,7 +12,7 @@ def nav_settings(target):
     st.session_state.settings_sub_page = target
     st.rerun()
 
-# 3. التنسيق الجمالي العام (تعديل الألوان والـ block-container)
+# 3. التنسيق الجمالي العام
 st.markdown("""
 <style>
 :root { 
@@ -22,7 +22,7 @@ st.markdown("""
     --bg3: #eaf6ff;
 }
 
-/* تعديل الـ Container الرئيسي ليصبح كالبطاقة */
+/* تعديل الـ Container الرئيسي */
 .block-container {
     max-width: 350px !important;
     margin: auto;
@@ -35,41 +35,60 @@ st.markdown("""
 [data-testid="stAppViewContainer"] { background: #f0f2f6; }
 [data-testid="stHeader"] {display: none !important;}
 
-/* تنسيق الأزرار داخل صفحة الإعدادات */
+/* تنسيق الأزرار الموحد */
 div.stButton > button {
     width: 100% !important;
-    height: 55px !important;
+    height: 60px !important; /* توحيد الطول */
     border-radius: 100px !important;
     border: none !important;
     background: white !important;
     color: var(--navy) !important;
     font-weight: 700 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    transition: all 0.2s ease-in-out;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 0 20px !important;
-    transition: all 0.3s ease;
 }
 
-/* تأثير حركة الأيقونة عند مرور الماوس */
-div.stButton > button:hover span.icon {
+/* تأثير الحركة عند الهوفر (المرور بالماوس) */
+div.stButton > button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
+}
+
+/* حركة الأيقونة (أول حرف/إيموجي في النص) */
+div.stButton > button:hover::first-letter, 
+div.stButton > button:active::first-letter {
     display: inline-block;
-    animation: bounce 0.5s infinite alternate;
+    animation: icon-move 0.5s infinite alternate;
 }
 
-@keyframes bounce {
-    from { transform: translateY(0); }
-    to { transform: translateY(-5px); }
+/* تأثير الحركة عند الضغط (Action) */
+div.stButton > button:active {
+    transform: scale(0.95);
 }
 
-/* إخفاء زر Back الافتراضي لستريمليت لأنه سيتم استدعاؤه برمجياً */
+@keyframes icon-move {
+    from { transform: translateY(0) rotate(0deg); }
+    to { transform: translateY(-5px) rotate(10deg); }
+}
+
+/* تنسيق الأزرار السفلية (جنب بعض) */
+[data-testid="stHorizontalBlock"] div.stButton > button {
+    height: 80px !important; /* طول موحد للأزرار السفلية */
+    font-size: 14px !important;
+    line-height: 1.2 !important;
+    padding: 10px !important;
+}
+
+/* إخفاء زر Back الافتراضي */
 button[key^="back_"] {
     display: none !important;
 }
 
-/* تنسيق الهيدر المخصص */
+/* تنسيق الهيدر */
 .header-container {
     display: flex;
     align-items: center;
@@ -94,29 +113,6 @@ button[key^="back_"] {
     font-weight: 700;
     font-size: 24px;
 }
-title {
-    color: black !important;
-}
-
-/* تنسيق محتوى الزر ليكون النص يسار والأيقونة يمين */
-.btn-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    direction: ltr; /* لضمان النص يسار والأيقونة يمين */
-}
-
-.btn-text {
-    flex-grow: 1;
-    text-align: left;
-}
-
-.btn-icon-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 </style>
 """, unsafe_allow_html=True)
 
@@ -129,9 +125,7 @@ with st.sidebar:
 
 if selection == "setting":
     
-    # ا. القائمة الرئيسية للإعدادات (تم التحديث للهيكل الجديد)
     if st.session_state.settings_sub_page == 'main_menu':
-        # الهيدر الجديد مع سهم العودة
         st.markdown(f"""
             <div class="header-container">
                 <div class="back-icon">&lt;</div>
@@ -139,30 +133,23 @@ if selection == "setting":
             </div>
         """, unsafe_allow_html=True)
         
-        # الأزرار بتنسيق جديد: النص يسار والأيقونة يمين مع حركة
-        def custom_button(label, icon, target, arrow="›"):
-            # استخدام HTML داخل الزر صعب في Streamlit button مباشرة، 
-            # لذا سنستخدم التنسيق النصي مع CSS المحدث
-            if st.button(f"{label} " + " "*20 + f"{icon} {arrow}"):
-                nav_settings(target)
-
-        # ملاحظة: Streamlit لا يدعم HTML داخل st.button مباشرة بشكل كامل، 
-        # لذا سنعتمد على التنسيق النصي الذي طلبه المستخدم مع تحسين الـ CSS للتعامل مع الأيقونات.
-        # بما أن المستخدم طلب "الأيقونة على اليمين والكلام على اليسار"
-        
-        if st.button("Change Password" + " "*20 + "🔒 ›"): nav_settings('change_password_page')
-        if st.button("Change Language" + " "*20 + "🌐 ›"): nav_settings('language_page')
-        if st.button("Rate App" + " "*35 + "⭐ ›"): nav_settings('rate_page')
-        if st.button("Log Out" + " "*35 + "🚪 ›"): nav_settings('logout_page')
+        # الأزرار الأربعة العلوية (الأيقونة يسار والنص يمين)
+        # تم استخدام مسافات لضبط الترتيب بصرياً داخل زر ستريمليت
+        if st.button("🔒" + " "*2 + "Change Password" + " "*15 + "›"): nav_settings('change_password_page')
+        if st.button("🌐" + " "*2 + "Change Language" + " "*15 + "›"): nav_settings('language_page')
+        if st.button("⭐" + " "*2 + "Rate App" + " "*30 + "›"): nav_settings('rate_page')
+        if st.button("🚪" + " "*2 + "Log Out" + " "*30 + "›"): nav_settings('logout_page')
         
         st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
+        
+        # الأزرار السفلية جنب بعض
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("Report\nProblem ⚠️ ›"): nav_settings('report_page')
+            if st.button("⚠️\nReport\nProblem ›"): nav_settings('report_page')
         with col2:
-            if st.button("Contact\nUs ✉️      ›"): nav_settings('contact_page')
+            if st.button("✉️\nContact\nUs      ›"): nav_settings('contact_page')
 
-    # ب. صفحة تغيير كلمة المرور (الحفاظ على الكود القديم مع تحديث الهيدر)
+    # باقي الصفحات (بدون تغيير في المنطق)
     elif st.session_state.settings_sub_page == 'change_password_page':
         if st.button("Back", key="back_pass"): nav_settings('main_menu')
         components.html("""
@@ -196,7 +183,6 @@ if selection == "setting":
         </html>
         """, height=480)
 
-    # ج. صفحة تغيير اللغة (الحفاظ على الكود القديم)
     elif st.session_state.settings_sub_page == 'language_page':
         if st.button("Back", key="back_lang"): nav_settings('main_menu')
         components.html("""
@@ -217,7 +203,6 @@ if selection == "setting":
         </div>
         """, height=480)
 
-    # د. صفحة الإبلاغ
     elif st.session_state.settings_sub_page == 'report_page':
         if st.button("Back", key="back_report"): nav_settings('main_menu')
         components.html("""
@@ -236,7 +221,6 @@ if selection == "setting":
         <div class="send-btn" onclick="alert('Sent!')">Send Report</div>
         """, height=480)
 
-    # هـ. صفحة اتصل بنا
     elif st.session_state.settings_sub_page == 'contact_page':
         if st.button("Back", key="back_contact"): nav_settings('main_menu')
         components.html("""
@@ -254,7 +238,6 @@ if selection == "setting":
         <div class="capsule">📞 +962 79 123 4567</div>
         """, height=480)
 
-    # و. تسجيل الخروج
     elif st.session_state.settings_sub_page == 'logout_page':
         if st.button("Back", key="back_logout"): nav_settings('main_menu')
         components.html("""
@@ -273,7 +256,6 @@ if selection == "setting":
         <div class="btn" style="color:#0f2446" onclick="parent.window.document.querySelector('button[key=back_logout]').click()">Cancel</div>
         """, height=480)
 
-    # ز. التقييم
     elif st.session_state.settings_sub_page == 'rate_page':
         if st.button("Back", key="back_rate"): nav_settings('main_menu')
         components.html("""
