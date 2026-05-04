@@ -1,10 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# إعداد الصفحة
+# 1. إعدادات الصفحة الأساسية
 st.set_page_config(page_title="Smart App Settings", layout="centered")
 
-# حالة التنقل
+# 2. إدارة الحالة للتنقل الداخلي (Navigation Logic)
 if 'settings_sub_page' not in st.session_state:
     st.session_state.settings_sub_page = 'main_menu'
 
@@ -12,27 +12,13 @@ def nav_settings(target):
     st.session_state.settings_sub_page = target
     st.rerun()
 
-# 🔥 CSS (كودك + إضافة اللون + الكبسولة فقط)
+# 3. التنسيق الجمالي العام لستريمليت
 st.markdown("""
 <style>
 :root { --navy: #0f2446; }
-
 [data-testid="stAppViewContainer"] { background: #f0f2f6; }
 [data-testid="stHeader"] {display: none !important;}
 
-/* 🎨 توحيد اللون */
-.title,
-.back-icon,
-div.stButton > button {
-    color: #0f2446 !important;
-}
-
-/* 💊 كبسولة */
-div.stButton > button {
-    border-radius: 100px !important;
-}
-
-/* كودك الأصلي */
 .settings-card {
     background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
     border-radius: 42px;
@@ -43,8 +29,10 @@ div.stButton > button {
 div.stButton > button {
     width: 100% !important;
     height: 55px !important;
+    border-radius: 100px !important;
     border: none !important;
     background: white !important;
+    color: var(--navy) !important;
     font-weight: 700 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     margin-bottom: 10px;
@@ -52,94 +40,33 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-# Sidebar
+# 4. القائمة الجانبية (Sidebar)
 with st.sidebar:
     st.title("Navigation")
     selection = st.radio("Go to:", ["setting", "Create Account", "Forgot Password", "To Do"])
 
-# الصفحات
+# --- منطق عرض الصفحات ---
+
 if selection == "setting":
-
+    
+    # ا. القائمة الرئيسية للإعدادات
     if st.session_state.settings_sub_page == 'main_menu':
-
-        st.markdown("""
-        <style>
-        [data-testid="stAppViewBlockContainer"] {
-            max-width: 350px !important;
-            margin: auto !important;
-            padding: 30px !important;
-            background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%) !important;
-            border-radius: 42px !important;
-        }
-
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .title {
-            font-size: 28px !important;
-            font-weight: 900 !important;
-            color: #0f2446 !important;
-        }
-
-        .back-icon {
-            position: absolute;
-            left: 0;
-            font-size: 32px !important;
-            font-weight: 900 !important;
-            color: #0f2446 !important;
-        }
-
-        div.stButton > button {
-            width: 100% !important;
-            padding: 15px 18px !important;
-            margin-bottom: 10px !important;
-            background-color: white !important;
-            border-radius: 100px !important;
-            color: #0f2446 !important;
-            font-size: 15px !important;
-            font-weight: 700 !important;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
-            transition: 0.3s !important;
-        }
-
-        div.stButton > button:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 9px 20px rgba(0,0,0,0.16) !important;
-        }
-        </style>
-
-        <div class="header-container">
-            <div class="back-icon">&lt;</div>
-            <h2 class="title">Settings</h2>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.button("🔒 Change Password" + " " * 20 + "›"):
-            nav_settings('change_password_page')
-
-        if st.button("🌐 Change Language" + " " * 20 + "›"):
-            nav_settings('language_page')
-
-        if st.button("⭐ Rate App" + " " * 35 + "›"):
-            nav_settings('rate_page')
-
-        if st.button("🚪 Log Out" + " " * 35 + "›"):
-            nav_settings('logout_page')
-
-        st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
-
+        st.markdown('<div class="settings-card">', unsafe_allow_html=True)
+        st.markdown('<h2 style="text-align:center; color:#0f2446; margin-bottom:25px;">Settings</h2>', unsafe_allow_html=True)
+        
+        if st.button("🔒 Change Password                                 ›"): nav_settings('change_password_page')
+        if st.button("🌐 Change Language                                 ›"): nav_settings('language_page')
+        if st.button("⭐ Rate App                                         ›"): nav_settings('rate_page')
+        if st.button("🚪 Log Out                                         ›"): nav_settings('logout_page')
+        
+        st.markdown("<div style='margin: 15px 0;'></div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("⚠️ Report\nProblem ›"):
-                nav_settings('report_page')
+            if st.button("⚠️ Report\nProblem   ›"): nav_settings('report_page')
         with col2:
-            if st.button("✉️ Contact\nUs      ›"):
-                nav_settings('contact_page')
+            if st.button("✉️ Contact\nUs             ›"): nav_settings('contact_page')
+        st.markdown('</div>', unsafe_allow_html=True)
+
     # ب. صفحة تغيير كلمة المرور
     elif st.session_state.settings_sub_page == 'change_password_page':
         if st.button("Back", key="back_pass", help="hidden"): nav_settings('main_menu')
@@ -161,9 +88,6 @@ if selection == "setting":
                 .input-capsule { background: white; border-radius: 100px; padding: 12px 18px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; }
                 .input-capsule:focus-within { transform: scale(1.02); }
                 .input-capsule i.field-icon { color: #0f2446; margin-right: 12px; font-size: 16px; }
-                .input-capsule i.field-icon{transition:0.3s;} .input-capsule:focus-within i.field-icon{transform:translateX(5px) scale(1.2);color:#2f80ed;}
-.
-                
                 .input-capsule input { border: none; outline: none; flex-grow: 1; font-size: 14px; color: #0f2446; background: transparent; }
                 .toggle-eye { color: #ccc; cursor: pointer; margin-left: 10px; transition: 0.2s; }
                 .toggle-eye:active { transform: scale(0.7); color: #0f2446; }
