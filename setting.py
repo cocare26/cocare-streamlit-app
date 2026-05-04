@@ -1,10 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة الأساسية
+# إعداد الصفحة
 st.set_page_config(page_title="Smart App Settings", layout="centered")
 
-# 2. إدارة الحالة للتنقل الداخلي (Navigation Logic)
+# حالة التنقل
 if 'settings_sub_page' not in st.session_state:
     st.session_state.settings_sub_page = 'main_menu'
 
@@ -12,13 +12,27 @@ def nav_settings(target):
     st.session_state.settings_sub_page = target
     st.rerun()
 
-# 3. التنسيق الجمالي العام لستريمليت
+# 🔥 CSS (كودك + إضافة اللون + الكبسولة فقط)
 st.markdown("""
 <style>
 :root { --navy: #0f2446; }
+
 [data-testid="stAppViewContainer"] { background: #f0f2f6; }
 [data-testid="stHeader"] {display: none !important;}
 
+/* 🎨 توحيد اللون */
+.title,
+.back-icon,
+div.stButton > button {
+    color: #0f2446 !important;
+}
+
+/* 💊 كبسولة */
+div.stButton > button {
+    border-radius: 100px !important;
+}
+
+/* كودك الأصلي */
 .settings-card {
     background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%);
     border-radius: 42px;
@@ -29,10 +43,8 @@ st.markdown("""
 div.stButton > button {
     width: 100% !important;
     height: 55px !important;
-    border-radius: 100px !important;
     border: none !important;
     background: white !important;
-    color: var(--navy) !important;
     font-weight: 700 !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     margin-bottom: 10px;
@@ -40,103 +52,93 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-# 4. القائمة الجانبية (Sidebar)
+# Sidebar
 with st.sidebar:
     st.title("Navigation")
     selection = st.radio("Go to:", ["setting", "Create Account", "Forgot Password", "To Do"])
 
-# --- منطق عرض الصفحات ---
-
-# السطر 50 يبدأ هنا
+# الصفحات
 if selection == "setting":
-    
-    #ا. القائمة الرئيسية للإعدادات
-    # ا. القائمة الرئيسية للإعدادات
+
     if st.session_state.settings_sub_page == 'main_menu':
+
         st.markdown("""
-            <style>
-                /* إعدادات الحاوية الرئيسية والألوان */
-                [data-testid="stAppViewBlockContainer"] {
-                    max-width: 350px !important;
-                    margin: auto !important;
-                    padding: 30px !important;
-                    background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%) !important;
-                    border-radius: 42px !important;
-                }
+        <style>
+        [data-testid="stAppViewBlockContainer"] {
+            max-width: 350px !important;
+            margin: auto !important;
+            padding: 30px !important;
+            background: linear-gradient(160deg, #d6ecff 0%, #bfe3ff 45%, #eaf6ff 100%) !important;
+            border-radius: 42px !important;
+        }
 
-                /* تنسيق العنوان وسهم العودة (900 weight) */
-                .header-container {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin-bottom: 25px;
-                    position: relative;
-                    width: 100%;
-                }
-                .title {
-                    font-size: 28px !important;
-                    font-weight: 900 !important;
-                    color: #0f2446 !important;
-                    margin: 0;
-                }
-                .back-icon {
-                    position: absolute;
-                    left: 0;
-                    font-size: 32px !important;
-                    font-weight: 900 !important;
-                    color: #0f2446 !important;
-                    cursor: pointer;
-                }
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
 
-                /* تنسيق العناصر (الأزرار) وتأثير الـ Hover */
-                div.stButton > button {
-                    width: 100% !important;
-                    padding: 15px 18px !important;
-                    margin-bottom: 10px !important; /* مسافة 10px حسب طلبك */
-                    background-color: white !important;
-                    border: none !important;
-                    border-radius: 100px !important;
-                    color: #0f2446 !important;
-                    font-size: 15px !important; /* حجم الخط لـ setting-text-right */
-                    font-weight: 700 !important;
-                    box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
-                    transition: 0.3s !important;
-                }
+        .title {
+            font-size: 28px !important;
+            font-weight: 900 !important;
+            color: #0f2446 !important;
+        }
 
-                div.stButton > button:hover {
-                    transform: translateY(-3px) !important;
-                    box-shadow: 0 9px 20px rgba(0,0,0,0.16) !important;
-                }
-            </style>
-            
-            <div class="header-container">
-                <div class="back-icon">&lt;</div>
-                <h2 class="title">Settings</h2>
-            </div>
+        .back-icon {
+            position: absolute;
+            left: 0;
+            font-size: 32px !important;
+            font-weight: 900 !important;
+            color: #0f2446 !important;
+        }
+
+        div.stButton > button {
+            width: 100% !important;
+            padding: 15px 18px !important;
+            margin-bottom: 10px !important;
+            background-color: white !important;
+            border-radius: 100px !important;
+            color: #0f2446 !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
+            transition: 0.3s !important;
+        }
+
+        div.stButton > button:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 9px 20px rgba(0,0,0,0.16) !important;
+        }
+        </style>
+
+        <div class="header-container">
+            <div class="back-icon">&lt;</div>
+            <h2 class="title">Settings</h2>
+        </div>
         """, unsafe_allow_html=True)
-        
-        # الأزرار الرئيسية
-        if st.button("🔒 Change Password" + " " * 20 + "›"): 
+
+        if st.button("🔒 Change Password" + " " * 20 + "›"):
             nav_settings('change_password_page')
-            
-        if st.button("🌐 Change Language" + " " * 20 + "›"): 
+
+        if st.button("🌐 Change Language" + " " * 20 + "›"):
             nav_settings('language_page')
-            
-        if st.button("⭐ Rate App" + " " * 35 + "›"): 
+
+        if st.button("⭐ Rate App" + " " * 35 + "›"):
             nav_settings('rate_page')
-            
-        if st.button("🚪 Log Out" + " " * 35 + "›"): 
+
+        if st.button("🚪 Log Out" + " " * 35 + "›"):
             nav_settings('logout_page')
-        
+
         st.markdown("<div style='margin: 10px 0;'></div>", unsafe_allow_html=True)
-        
-        # أزرار الـ Report و Contact Us
+
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("⚠️ Report\nProblem ›"): 
+            if st.button("⚠️ Report\nProblem ›"):
                 nav_settings('report_page')
         with col2:
-            if st.button("✉️ Contact\nUs      ›"): 
+            if st.button("✉️ Contact\nUs      ›"):
                 nav_settings('contact_page')
     # ب. صفحة تغيير كلمة المرور
     elif st.session_state.settings_sub_page == 'change_password_page':
