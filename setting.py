@@ -6,41 +6,18 @@ st.set_page_config(page_title="Settings", layout="centered")
 if "page" not in st.session_state:
     st.session_state.page = "main"
 
-if "lang" not in st.session_state:
-    st.session_state.lang = "en"
-
 def go(page):
     st.session_state.page = page
     st.rerun()
 
-def set_lang(lang):
-    st.session_state.lang = lang
-    st.rerun()
-
-is_ar = st.session_state.lang == "ar"
-
-# ---------------- TEXT ----------------
-T = {
-    "settings": "الإعدادات" if is_ar else "Settings",
-    "pass": "Change Password" if not is_ar else "تغيير كلمة المرور",
-    "lang": "Change Language" if not is_ar else "تغيير اللغة",
-    "rate": "Rate App" if not is_ar else "تقييم التطبيق",
-    "logout": "Log Out" if not is_ar else "تسجيل الخروج",
-    "report": "Report a Problem" if not is_ar else "الإبلاغ عن مشكلة",
-    "contact": "Contact Us" if not is_ar else "تواصل معنا",
-    "save": "Save" if not is_ar else "حفظ",
+# ---------------- STYLE ----------------
+st.markdown("""
+<style>
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
 }
 
-arrow = "→" if not is_ar else "←"
-
-# ---------------- STYLE ----------------
-st.markdown(f"""
-<style>
-[data-testid="stAppViewContainer"] {{
-    background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
-}}
-
-.block-container {{
+.block-container {
     max-width:370px;
     margin:auto;
     padding:30px 20px;
@@ -49,121 +26,67 @@ st.markdown(f"""
     border-radius:40px;
     min-height:600px;
     position:relative;
-}}
+}
 
-body {{
-    direction: {"rtl" if is_ar else "ltr"};
-}}
-
-.header {{
+/* header */
+.header {
     text-align:center;
     font-size:20px;
     font-weight:700;
     margin-bottom:25px;
     color:#0f2446;
-}}
+}
 
-.stButton > button {{
-    width:100%;
-    border:none;
-    background:#ffffff;
-    border-radius:50px;
-    padding:16px;
-    margin-bottom:12px;
-    font-size:14px;
-    color:#0f2446;
-    box-shadow:0 6px 15px rgba(0,0,0,0.08);
-}}
-
-.stButton > button:hover {{
-    transform:translateY(-2px);
-}}
-
-.card {{
-    background:white;
-    padding:15px;
-    border-radius:25px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08);
-    margin-bottom:15px;
-}}
-
-/* ===== INPUT STYLE ===== */
-.stTextInput > div > div > input {{
-    background:#f1f1f1 !important;
+/* input style */
+.stTextInput > div > div > input {
+    background:#e9e9e9 !important;
     border-radius:40px !important;
-    padding:14px 45px !important;
-    color:#000 !important;
+    padding:14px !important;
     border:none !important;
-    box-shadow:0 4px 8px rgba(0,0,0,0.1);
-}}
+    color:#000 !important;
+    box-shadow:0 6px 0px #2c2f36;
+}
 
-/* ===== ICON WRAPPER ===== */
-.input-wrap {{
-    position:relative;
-    margin-bottom:15px;
-}}
+/* row for icon + input + eye */
+.input-row {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
 
-.left-icon {{
-    position:absolute;
-    left:15px;
-    top:50%;
-    transform:translateY(-50%);
+/* icons */
+.icon {
+    font-size:16px;
     opacity:0.6;
-}}
+}
 
-.right-icon {{
-    position:absolute;
-    right:15px;
-    top:50%;
-    transform:translateY(-50%);
-    opacity:0.6;
-}}
-
-/* زر Save تحت */
-.save-btn {{
+/* save button */
+.save-btn {
     position:absolute;
     bottom:30px;
-    left:20px;
-    right:20px;
-}}
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+}
 
-.save-btn button {{
-    width:100%;
-    background:#e6e6e6;
+.save-btn button {
+    width:70%;
     border:none;
+    background:#e6e6e6;
     border-radius:50px;
     padding:16px;
-}}
+    font-size:15px;
+}
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- BUTTON ----------------
-def menu_button(label, icon, page_key):
-    btn_label = f"{icon}   {label}   {arrow}"
-    if st.button(btn_label, key=f"btn_{page_key}"):
-        go(page_key)
+# ================= PAGE =================
 
-# ================= MAIN =================
-if st.session_state.page == "main":
+if st.session_state.page == "pass":
 
-    st.markdown(f"<div class='header'>{T['settings']}</div>", unsafe_allow_html=True)
-
-    menu_button(T["pass"], "🔒", "pass")
-    menu_button(T["lang"], "🌐", "lang")
-    menu_button(T["rate"], "⭐", "rate")
-    menu_button(T["logout"], "🚪", "logout")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        menu_button(T["report"], "⚠️", "report")
-
-    with col2:
-        menu_button(T["contact"], "✉️", "contact")
-
-# ================= SUB =================
-else:
-
+    # header + back
     col1, col2 = st.columns([1,4])
 
     with col1:
@@ -171,58 +94,43 @@ else:
             go("main")
 
     with col2:
-        st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
+        st.markdown('<div class="header">Change Password</div>', unsafe_allow_html=True)
 
-    # -------- PASSWORD --------
-    if st.session_state.page == "pass":
+    # ---------- INPUT 1 ----------
+    col1, col2, col3 = st.columns([1,6,1])
+    with col1:
+        st.markdown('<div class="icon">🔒</div>', unsafe_allow_html=True)
+    with col2:
+        st.text_input("", placeholder="Current Password", key="p1", type="password")
+    with col3:
+        st.markdown('<div class="icon">👁️</div>', unsafe_allow_html=True)
 
-        # input 1
-        st.markdown('<div class="input-wrap"><div class="left-icon">🔒</div><div class="right-icon">👁️</div>', unsafe_allow_html=True)
-        st.text_input("", placeholder="Current Password", key="p1")
-        st.markdown('</div>', unsafe_allow_html=True)
+    # ---------- INPUT 2 ----------
+    col1, col2, col3 = st.columns([1,6,1])
+    with col1:
+        st.markdown('<div class="icon">🔒</div>', unsafe_allow_html=True)
+    with col2:
+        st.text_input("", placeholder="New Password", key="p2", type="password")
+    with col3:
+        st.markdown('<div class="icon">👁️</div>', unsafe_allow_html=True)
 
-        # input 2
-        st.markdown('<div class="input-wrap"><div class="left-icon">🔒</div><div class="right-icon">👁️</div>', unsafe_allow_html=True)
-        st.text_input("", placeholder="New Password", key="p2")
-        st.markdown('</div>', unsafe_allow_html=True)
+    # ---------- INPUT 3 ----------
+    col1, col2, col3 = st.columns([1,6,1])
+    with col1:
+        st.markdown('<div class="icon">🔒</div>', unsafe_allow_html=True)
+    with col2:
+        st.text_input("", placeholder="Re-write New Password", key="p3", type="password")
+    with col3:
+        st.markdown('<div class="icon">👁️</div>', unsafe_allow_html=True)
 
-        # input 3
-        st.markdown('<div class="input-wrap"><div class="left-icon">🔒</div><div class="right-icon">👁️</div>', unsafe_allow_html=True)
-        st.text_input("", placeholder="Re-write New Password", key="p3")
-        st.markdown('</div>', unsafe_allow_html=True)
+    # save button
+    st.markdown('<div class="save-btn">', unsafe_allow_html=True)
+    st.button("Save")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown("<div class='save-btn'>", unsafe_allow_html=True)
-        st.button(T["save"])
-        st.markdown("</div>", unsafe_allow_html=True)
+# ================= MAIN =================
+else:
+    st.markdown('<div class="header">Settings</div>', unsafe_allow_html=True)
 
-    # -------- LANGUAGE --------
-    elif st.session_state.page == "lang":
-        if st.button("🌐 English"):
-            set_lang("en")
-        if st.button("🌐 العربية"):
-            set_lang("ar")
-
-    # -------- RATE --------
-    elif st.session_state.page == "rate":
-        st.button("▶ Google Play Store")
-        st.button("🍎 Apple App Store")
-        st.button("📱 Huawei AppGallery")
-
-    # -------- LOGOUT --------
-    elif st.session_state.page == "logout":
-        st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
-        st.button(T["logout"])
-
-    # -------- REPORT --------
-    elif st.session_state.page == "report":
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
-        st.text_area("", placeholder="I need help")
-        st.markdown("</div>", unsafe_allow_html=True)
-        st.button("Send Report")
-
-    # -------- CONTACT --------
-    elif st.session_state.page == "contact":
-        st.markdown("<div class='card'>", unsafe_allow_html=True)
-        st.write("📧 CoCare26@gmail.com")
-        st.write("📞 +962 79 123 4567")
-        st.markdown("</div>", unsafe_allow_html=True)
+    if st.button("Change Password"):
+        go("pass")
