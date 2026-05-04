@@ -20,22 +20,25 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور (تأكدي من وجود الملفات في مستودع GitHub الخاص بك)
-robot_full = get_base64("robot_full.png.jpeg")
+# تحميل الصور (تأكدي من وجود الملفات في GitHub بنفس الأسماء)
+robot_full = get_base64("robot_full.png")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (دعم العربية والواجهة المودرن)
+# CSS المطور (دعم العربية والدمج والاحتواء)
 # =====================================
 st.markdown(f"""
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; direction: rtl; }}
+
 html, body, [data-testid="stAppViewContainer"] {{
     background:#f0f7ff;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }}
+
 section.main > div {{ padding-top:8px; }}
 div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
+
 #MainMenu, header, footer {{ visibility:hidden; }}
 
 .block-container {{
@@ -63,14 +66,18 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
     text-align: right;
 }}
 
+.clickable {{ cursor: pointer; transition: transform 0.2s ease; }}
+.clickable:active {{ transform: scale(0.95); }}
+
+/* الروبوت المدمج وتكبير الحجم */
 .robot-img-welcome {{
-    width: 140px;
+    width: 130px;
     height: auto;
     background: transparent !important;
-    margin-left: 5px;
+    margin-left: 10px;
     object-fit: contain;
     mix-blend-mode: multiply; 
-    filter: contrast(110%);
+    filter: contrast(105%);
 }}
 
 .welcome-text-container {{
@@ -80,6 +87,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
     text-align: right;
 }}
 
+/* العداد والمؤشر */
 .needle {{
     position: absolute;
     bottom: 0;
@@ -91,6 +99,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
     z-index: 5;
 }}
 
+/* الشريط السفلي */
 .nav {{
     margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
     text-align:center; color:#6b6b6b; align-items: end;
@@ -107,19 +116,14 @@ div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
 .grid4 {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin: 20px 0 12px; }}
 .mini {{ background:white; border-radius:20px; min-height:105px; padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08); }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
-
-.star-rating {{ display: flex; flex-direction: row; justify-content: center; gap: 4px; }}
-.star-rating input {{ display: none; }}
-.star-rating label {{ font-size: 35px; color: #ddd; cursor: pointer; }}
-.star-rating input:checked ~ label {{ color: #ffcc00; }}
 </style>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الترحيب (Welcome)
+# 1. قسم الملف الشخصي (الترحيب)
 # =====================================
 st.markdown(f"""
-<div class="card">
+<div class="card clickable">
 <div style="display:flex; align-items:center;">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
@@ -135,57 +139,75 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد (Number Info)
+# 2. معلومات الرصيد والإنترنت
 # =====================================
 st.markdown(f"""
 <div class="title">معلومات رقمك</div>
-<div class="card">
+<div class="card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
-<div style="flex: 2; text-align: right;">
-<div style="font-size:13px; font-weight:700; color:#666;">الإنترنت المتبقي</div>
-<div style="font-size:40px; font-weight:900; color:#102646;">4.7 <span style="font-size:18px;">جيجابايت</span></div>
-</div>
-<div style="flex: 1; text-align: left;">
-<div style="position: relative; width: 70px; height: 35px; margin-right: auto;">
-    <div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
-        <div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
-        <div class="needle" style="transform: rotate(45deg);"></div>
+    <div style="flex: 2; text-align: right;">
+        <div style="font-size:13px; font-weight:700; color:#666;">الإنترنت المتبقي</div>
+        <div style="font-size:40px; font-weight:900; color:#102646;">4.7 <span style="font-size:18px;">جيجابايت</span></div>
+    </div>
+    <div style="flex: 1; text-align: left;">
+        <div style="position: relative; width: 70px; height: 35px; margin-right: auto;">
+            <div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
+                <div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
+                <div class="needle" style="transform: rotate(45deg);"></div>
+            </div>
+        </div>
+        <div style="font-size:14px; font-weight:900; color:#102646; margin-top:2px; text-align:center;">6 جيجابايت</div>
     </div>
 </div>
-<div style="font-size:14px; font-weight:900; color:#102646; margin-top:2px; text-align:center;">6 جيجابايت</div>
-</div>
-</div>
-<div style="margin-top:10px; height:8px; border-radius:20px; background:#dce8f7; overflow:hidden;">
-<div style="width:78%; height:100%; background:linear-gradient(90deg,#083d8c,#1567e0); float: right;"></div>
+<div style="margin-top:10px; height:8px; border-radius:20px; background:#dce8f7; overflow:hidden; position: relative;">
+    <div style="width:78%; height:100%; background:linear-gradient(90deg,#083d8c,#1567e0); position: absolute; right: 0;"></div>
 </div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (Grid)
+# 3. أيقونات الخدمات السريعة
 # =====================================
 st.markdown("""
 <div class="grid4">
-<div class="mini"><div style="font-size:28px;">📡</div><div class="mini-text">حزم<br>الإنترنت</div></div>
-<div class="mini"><div style="font-size:28px;">🌍</div><div class="mini-text">تجديد +<br>تغيير</div></div>
-<div class="mini"><div style="font-size:28px;">💰</div><div class="mini-text">اتصالات<br>دولية</div></div>
-<div class="mini"><div style="font-size:28px;">🔔</div><div class="mini-text">تنبيهات<br>الشبكة</div></div>
+<div class="mini clickable"><div style="font-size:28px;">📡</div><div class="mini-text">حزم<br>الإنترنت</div></div>
+<div class="mini clickable"><div style="font-size:28px;">🌍</div><div class="mini-text">تجديد +<br>تغيير</div></div>
+<div class="mini clickable"><div style="font-size:28px;">💰</div><div class="mini-text">اتصالات<br>دولية</div></div>
+<div class="mini clickable"><div style="font-size:28px;">🔔</div><div class="mini-text">تنبيهات<br>الشبكة</div></div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. التقييم وقوة الشبكة
+# 4. قوة الشبكة والتقييم
 # =====================================
 st.markdown("""
-<div class="title">تقييم الخدمة وقوة الشبكة</div>
-<div class="card">
-    <div style="font-weight:900; font-size:14px; color:#102646; text-align: right;">⭐ مستوى الأمان</div>
-    <div style="margin-top:10px; height:15px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
-    <div style="display: flex; justify-content: space-around; margin-top:15px; border-top: 1px solid #eee; padding-top:10px;">
-        <div style="text-align:center;"><div style="font-size:10px; color:#666;">فقدان البيانات</div><div style="font-weight:900;">0%</div></div>
-        <div style="text-align:center;"><div style="font-size:10px; color:#666;">التذبذب</div><div style="font-weight:900;">19ms</div></div>
-        <div style="text-align:center;"><div style="font-size:10px; color:#666;">الإشارة</div><div style="font-weight:900; color:#28a745;">ممتازة</div></div>
+<div class="title">قوة الشبكة في منطقتك</div>
+<div class="card clickable">
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="flex: 1.2; text-align: right;">
+        <div style="font-size:16px; font-weight:900; color:#102646;">📍 عمان</div>
+        <div style="font-size:13px; font-weight:700; color:#003366; margin-bottom:8px;">إشارة قوية جداً</div>
+        <div style="display: flex; gap: 6px; direction: ltr;">
+            <div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
+                <div style="font-size: 8px; font-weight: 700; color: #666;">فقدان البيانات</div>
+                <div style="font-size: 18px; font-weight: 900;">0</div>
+            </div>
+            <div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
+                <div style="font-size: 8px; font-weight: 700; color: #666;">التذبذب (ms)</div>
+                <div style="font-size: 18px; font-weight: 900;">19</div>
+            </div>
+        </div>
     </div>
+    <div style="flex: 1; text-align: center;">
+        <div style="position: relative; width: 100px; margin: 0 auto;">
+            <div style="width: 100px; height: 50px; border-radius: 100px 100px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
+                <div style="position: absolute; bottom: 0; left: 10px; width: 80px; height: 40px; background: white; border-radius: 80px 80px 0 0;"></div>
+                <div class="needle" style="height: 40px; transform: rotate(-60deg);"></div>
+            </div>
+        <div style="font-size: 10px; font-weight: 900; color:#102646; margin-top: 5px;">ممتاز (-68dBm)</div>
+        </div>
+    </div>
+</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -194,13 +216,13 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item">⚙️<span class="nav-text">الإعدادات</span></div>
-<div class="nav-item">🎡<span class="nav-text">اربح</span></div>
-<div class="nav-item">
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:38px;"></div>
-<span class="nav-text">المساعد</span>
-</div>
-<div class="nav-item active">🏠<span class="nav-text">الرئيسية</span></div>
-<div class="nav-item">🎁<span class="nav-text">ألعاب</span></div>
+    <div class="nav-item clickable">⚙️<span class="nav-text">الإعدادات</span></div>
+    <div class="nav-item clickable">🎡<span class="nav-text">اربح</span></div>
+    <div class="nav-item clickable">
+        <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:38px;"></div>
+        <span class="nav-text">المساعد</span>
+    </div>
+    <div class="nav-item active clickable">🏠<span class="nav-text">الرئيسية</span></div>
+    <div class="nav-item clickable">🎁<span class="nav-text">ألعاب</span></div>
 </div>
 """, unsafe_allow_html=True)
