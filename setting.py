@@ -161,6 +161,9 @@ if selection == "setting":
                 .input-capsule { background: white; border-radius: 100px; padding: 12px 18px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); transition: transform 0.2s; }
                 .input-capsule:focus-within { transform: scale(1.02); }
                 .input-capsule i.field-icon { color: #0f2446; margin-right: 12px; font-size: 16px; }
+                .input-capsule i.field-icon{transition:0.3s;} .input-capsule:focus-within i.field-icon{transform:translateX(5px) scale(1.2);color:#2f80ed;}
+.
+                
                 .input-capsule input { border: none; outline: none; flex-grow: 1; font-size: 14px; color: #0f2446; background: transparent; }
                 .toggle-eye { color: #ccc; cursor: pointer; margin-left: 10px; transition: 0.2s; }
                 .toggle-eye:active { transform: scale(0.7); color: #0f2446; }
