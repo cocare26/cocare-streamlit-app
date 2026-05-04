@@ -18,7 +18,7 @@ st.markdown("""
 }
 
 .block-container{
-    max-width:350px !important;
+    max-width:340px !important;
     margin:auto !important;
     padding:25px !important;
     background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
@@ -26,41 +26,68 @@ st.markdown("""
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* Buttons as cards */
+/* Button reset */
 .stButton > button{
     width:100%;
     border:none;
     background:white;
     border-radius:100px;
-    padding:16px 18px;
+    padding:0px;
     margin-bottom:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-weight:600;
-    color:#0f2446;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     transition:0.25s;
-    font-size:14px;
 }
 
+/* Hover */
 .stButton > button:hover{
     transform:translateY(-2px);
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
+/* Inner content */
+.btn-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 18px;
+    font-family:'Segoe UI';
+    font-weight:600;
+    color:#0f2446;
+}
+
+/* left side */
+.left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+/* icon */
+.icon{
+    font-size:16px;
+}
+
+/* arrow */
+.arrow{
+    font-size:18px;
+}
+
+/* header */
 .header{
     text-align:center;
     font-weight:900;
     font-size:20px;
-    margin-bottom:25px;
+    margin-bottom:30px;
     color:#0f2446;
 }
 
-.back-btn button{
-    font-size:20px !important;
-    padding:8px !important;
-    border-radius:50% !important;
+/* bottom row */
+.bottom-row{
+    display:flex;
+    gap:10px;
+}
+.bottom-row .stButton > button{
+    margin-bottom:0px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -70,26 +97,41 @@ if st.session_state.page == "main":
 
     st.markdown("<div class='header'>Settings</div>", unsafe_allow_html=True)
 
-    if st.button("🔒  Change Password        ›"):
-        go("pass")
+    def item(icon, text, key, page):
+        if st.button(f"""
+        <div class="btn-row">
+            <div class="left">
+                <div class="icon">{icon}</div>
+                <div>{text}</div>
+            </div>
+            <div class="arrow">›</div>
+        </div>
+        """, key=key):
+            go(page)
 
-    if st.button("🌍  Change Language       ›"):
-        go("lang")
-
-    if st.button("⭐  Rate App              ›"):
-        go("rate")
-
-    if st.button("🚪  Log Out               ›"):
-        go("logout")
+    item("🔒", "Change Password", "pass", "pass")
+    item("🌍", "Change Language", "lang", "lang")
+    item("⭐", "Rate App", "rate", "rate")
+    item("🚪", "Log Out", "logout", "logout")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        if st.button("⚠️ Report ›"):
+        if st.button("""
+        <div class="btn-row">
+            <div>⚠️ Report</div>
+            <div class="arrow">›</div>
+        </div>
+        """, key="report"):
             go("report")
 
     with col2:
-        if st.button("✉️ Contact ›"):
+        if st.button("""
+        <div class="btn-row">
+            <div>✉️ Contact</div>
+            <div class="arrow">›</div>
+        </div>
+        """, key="contact"):
             go("contact")
 
 # ================= SUB PAGES =================
@@ -100,7 +142,7 @@ else:
         "lang":"Language",
         "rate":"Rate App",
         "logout":"Log Out",
-        "report":"Report a Problem",
+        "report":"Report",
         "contact":"Contact Us"
     }
 
@@ -115,38 +157,32 @@ else:
     with col2:
         st.markdown(f"<div class='header'>{title}</div>", unsafe_allow_html=True)
 
-    # ---------- PAGE CONTENT ----------
+    # -------- CONTENT DESIGN --------
 
     if st.session_state.page == "pass":
         st.text_input("Current Password", type="password")
         st.text_input("New Password", type="password")
         st.text_input("Confirm Password", type="password")
-        if st.button("Save Password"):
-            st.success("Password updated!")
+        st.button("Save")
 
     elif st.session_state.page == "lang":
-        lang = st.selectbox("Choose Language", ["English", "Arabic"])
-        if st.button("Save Language"):
-            st.success(f"Language set to {lang}")
+        st.radio("Select Language", ["English", "Arabic"])
+        st.button("Apply")
 
     elif st.session_state.page == "rate":
-        rating = st.slider("Rate the app", 1, 5)
-        feedback = st.text_area("Feedback (optional)")
-        if st.button("Submit Rating"):
-            st.success("Thanks for your feedback!")
+        st.slider("Your Rating", 1, 5)
+        st.text_area("Feedback")
+        st.button("Submit")
 
     elif st.session_state.page == "logout":
-        st.warning("Are you sure you want to log out?")
-        if st.button("Confirm Logout"):
-            st.success("Logged out!")
+        st.warning("Are you sure?")
+        st.button("Confirm Logout")
 
     elif st.session_state.page == "report":
-        issue = st.text_area("Describe the issue")
-        if st.button("Submit Report"):
-            st.success("Report sent!")
+        st.text_area("Describe problem")
+        st.button("Send Report")
 
     elif st.session_state.page == "contact":
-        st.text_input("Your Email")
-        msg = st.text_area("Your Message")
-        if st.button("Send Message"):
-            st.success("Message sent!")
+        st.text_input("Email")
+        st.text_area("Message")
+        st.button("Send")
