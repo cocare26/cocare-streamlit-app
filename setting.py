@@ -34,23 +34,26 @@ T = {
 # ---------------- STYLE ----------------
 st.markdown(f"""
 <style>
+
+/* BACKGROUND */
 [data-testid="stAppViewContainer"] {{
     background: linear-gradient(180deg,#dcefff,#cfe9ff,#eaf6ff);
 }}
 
+/* MAIN CONTAINER */
 .block-container {{
-    max-width:370px;
+    max-width:360px;
     margin:auto;
-    padding:30px 20px;
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(10px);
+    padding:30px 10px;
     border-radius:40px;
 }}
 
+/* RTL */
 body {{
     direction: {"rtl" if is_ar else "ltr"};
 }}
 
+/* HEADER */
 .header {{
     text-align:center;
     font-size:20px;
@@ -59,12 +62,19 @@ body {{
     color:#0f2446;
 }}
 
+/* BUTTON STYLE */
+.stButton {{
+    display:flex;
+    justify-content:center;
+}}
+
 .stButton > button {{
-    width:100%;
+    width:92%;
+    max-width:320px;
     border:none;
     background:#ffffff;
     border-radius:50px;
-    padding:16px;
+    padding:14px 18px;
     margin-bottom:12px;
     display:flex;
     justify-content:space-between;
@@ -78,24 +88,46 @@ body {{
     transform:translateY(-2px);
 }}
 
+/* INPUT STYLE (iOS-like) */
 input {{
+    width:92% !important;
+    max-width:320px;
+    margin:auto !important;
+    display:block !important;
+    background:#ffffff !important;
+    color:#000000 !important;
+    border:none !important;
     border-radius:30px !important;
-    padding:12px !important;
+    padding:14px !important;
+    margin-bottom:10px !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
 textarea {{
+    width:92% !important;
+    max-width:320px;
+    margin:auto !important;
+    display:block !important;
+    background:#ffffff !important;
+    color:#000000 !important;
+    border:none !important;
     border-radius:20px !important;
+    padding:12px !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }}
 
+/* CARD (فقط لبعض الصفحات) */
 .card {{
+    width:92%;
+    max-width:320px;
+    margin:auto;
     background:white;
     padding:15px;
     border-radius:25px;
     box-shadow:0 4px 10px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -138,7 +170,7 @@ else:
     with col2:
         st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
 
-    # -------- PASSWORD -------- (بدون card)
+    # -------- PASSWORD --------
     if st.session_state.page == "pass":
 
         st.text_input("", placeholder="Current Password")
@@ -147,7 +179,7 @@ else:
 
         st.button(T["save"])
 
-    # -------- LANGUAGE -------- (بدون card)
+    # -------- LANGUAGE --------
     elif st.session_state.page == "lang":
 
         if st.button("🌐 English"):
@@ -156,7 +188,7 @@ else:
         if st.button("🌐 العربية"):
             set_lang("ar")
 
-    # -------- RATE -------- (بدون card)
+    # -------- RATE --------
     elif st.session_state.page == "rate":
 
         st.button("▶ Google Play Store")
@@ -169,7 +201,7 @@ else:
         st.warning("Are you sure?" if not is_ar else "هل أنت متأكد؟")
         st.button(T["logout"])
 
-    # -------- REPORT -------- (مع card)
+    # -------- REPORT --------
     elif st.session_state.page == "report":
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
@@ -178,7 +210,7 @@ else:
 
         st.button("Send Report")
 
-    # -------- CONTACT -------- (مع card)
+    # -------- CONTACT --------
     elif st.session_state.page == "contact":
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
