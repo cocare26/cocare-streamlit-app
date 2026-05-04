@@ -287,10 +287,13 @@ st.markdown(f"""
         <span class="nav-text">_Chatbot</span>
     </div>
 </a>
-<div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
-<div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
-</div>
-
+<a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item clickable">
+        <div class="bot-bg">🎁</div>
+        <span class="nav-text">Game</span>
+    </div>
+</a>
+</a>
 <script>
 function goPage(page){{
     window.top.location.href = "/~/" + page;
