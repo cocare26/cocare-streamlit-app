@@ -3,84 +3,124 @@ import streamlit as st
 # 1. إعداد الصفحة
 st.set_page_config(page_title="الإعدادات", layout="centered")
 
-# 2. CSS السحري لتحويل أزرار ستريمليت لكبسولات فخمة
+# 2. التنسيق العام (CSS) ليتناسب مع ديزاين المشروع ويجعل أزرار Streamlit تبدو ككبسولات
 st.markdown("""
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-/* إخفاء عناصر ستريمليت */
-#MainMenu, header, footer { visibility:hidden; }
-[data-testid="stAppViewContainer"] { background:#f0f7ff; }
+* { margin:0; padding:0; box-sizing:border-box; direction: rtl; }
+html, body, [data-testid="stAppViewContainer"] {
+    background:#f0f7ff;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+section.main > div { padding-top:8px; }
+div[data-testid="stVerticalBlock"] { gap:0rem; }
 
-/* حاوية الصفحة */
+#MainMenu, header, footer { visibility:hidden; }
+
 .block-container {
-    max-width:430px; margin:auto; padding:18px 16px;
-    background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100% );
-    border-radius:42px; box-shadow:0 14px 35px rgba(0,0,0,.15);
-    min-height: 620px; direction: rtl;
+    max-width:430px;
+    margin:auto;
+    padding:18px 16px;
+    background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
+    border-radius:42px;
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    min-height: 600px;
 }
 
-/* تحويل أزرار ستريمليت لكبسولات */
+/* تنسيق الهيدر */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    position: relative;
+    padding-top: 10px;
+}
+
+.title {
+    margin: 0;
+    font-weight: 900;
+    font-size: 20px;
+    color: #102646;
+    text-align: center;
+    width: 100%;
+}
+
+/* تنسيق أزرار Streamlit لتصبح كبسولات */
 div.stButton > button {
     width: 100% !important;
     background-color: white !important;
     color: #102646 !important;
     border-radius: 100px !important;
     padding: 25px 22px !important;
-    margin-bottom: 12px !important;
+    margin-bottom: 15px !important;
     border: none !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+    transition: 0.3s !important;
     text-align: right !important;
     font-weight: 800 !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    transition: 0.3s !important;
 }
 
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
     box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
+    background-color: #f9f9f9 !important;
 }
 
-/* زر الرجوع */
-.back-container { display: flex; align-items: center; justify-content: center; margin-bottom: 30px; position: relative; }
-.back-btn-wrapper { position: absolute; right: 0; top: 0; }
-.back-btn-wrapper div.stButton > button {
+/* تنسيق زر الرجوع الصغير */
+.back-style div.stButton > button {
     background: transparent !important;
     box-shadow: none !important;
-    font-size: 30px !important;
     padding: 0 !important;
-    width: auto !important;
     margin: 0 !important;
+    width: auto !important;
+    font-size: 28px !important;
+    color: #102646 !important;
 }
 
-/* الصف السفلي */
-.bottom-btns { display: flex; gap: 10px; margin-top: 30px; }
-.bottom-btns div.stButton > button {
-    padding: 15px !important;
-    font-size: 13px !important;
-    justify-content: center !important;
-    text-align: center !important;
+/* تنسيق الصف السفلي */
+.bottom-btns-container {
+    margin-top: 50px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة بأزرار ستريمليت الحقيقية
-st.markdown('<div class="back-container">', unsafe_allow_html=True)
-col_back, col_title = st.columns([1, 10])
+# 3. محتوى الصفحة باستخدام Streamlit Buttons
+col_back, _ = st.columns([1, 10])
+
 with col_back:
-    st.markdown('<div class="back-btn-wrapper">', unsafe_allow_html=True)
-    if st.button("›", key="back"):
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("›", key="back_main"):
         st.switch_page("pages/userdash_arabic.py")
     st.markdown('</div>', unsafe_allow_html=True)
-st.markdown('<h2 style="color:#102646; font-weight:900; margin:0; text-align:center;">الإعدادات</h2></div>', unsafe_allow_html=True)
 
-# الأزرار الرئيسية مع الأيقونات
-if st.button("🔒 تغيير كلمة المرور                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ‹", key="pass"):
+st.markdown('<div class="header-container"><h2 class="title">الإعدادات</h2></div>', unsafe_allow_html=True)
+
+# الأزرار الرئيسية
+if st.button("🔒 تغيير كلمة المرور                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ‹", key="btn_pass"):
     st.switch_page("pages/6_Change_Password.py")
 
-if st.button("🌐 تغيير اللغة                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         صفحات السيتنغ بدنا نفصلهم 
+if st.button("🌐 تغيير اللغة                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ‹", key="btn_lang"):
+    st.switch_page("pages/7_Change_Language.py")
 
+if st.button("⭐ تقييم التطبيق                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ‹", key="btn_rate"):
+    st.switch_page("pages/8_Rate_App.py")
 
-أي خدمة ثانية أنا موجود يا قلبي!
+if st.button("🚪 تسجيل الخروج                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ‹", key="btn_logout"):
+    st.session_state.clear()
+    st.switch_page("app.py")
+
+# الصف السفلي
+st.markdown('<div class="bottom-btns-container"></div>', unsafe_allow_html=True)
+col1, col2 = st.columns(2)
+
+with col1:
+    if st.button("⚠️ الإبلاغ عن مشكلة", key="btn_report"):
+        st.switch_page("pages/9_Report_Problem.py")
+
+with col2:
+    if st.button("✉️ تواصل معنا", key="btn_contact"):
+        st.switch_page("pages/10_Contact_Us.py")
