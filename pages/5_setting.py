@@ -136,7 +136,7 @@ if st.session_state.page == "main":
         go("pass")
 
     if st.button(f"🌐 {T['lang']}"):
-        st.switch_page("pages/7_Change_Language.py")
+         st.switch_page("7_Change_Language.py")
 
     if st.button(f"⭐ {T['rate']}"):
         go("rate")
