@@ -157,7 +157,7 @@ body{margin:0;background:transparent}
  z-index:999;
 }
 
-.nav a{
+.nav button{
  flex:1;
  height:58px;
  border-radius:18px;
@@ -169,9 +169,21 @@ body{margin:0;background:transparent}
  box-shadow:0 4px 10px rgba(0,0,0,.1);
  transition:.25s;
  text-align:center;
- text-decoration:none;
  color:#111;
  padding-top:7px;
+}
+
+.nav button:hover{
+ background:#eef6ff;
+ color:#2f80ed;
+ transform:translateY(-3px);
+}
+
+.nav button span{
+ display:block;
+ font-size:22px;
+ margin-bottom:3px;
+ color:#376f91;
 }
 
 .nav a:hover{
@@ -338,6 +350,36 @@ body{margin:0;background:transparent}
     </div>
 </div>
 
+<div class="nav">
+
+    <button type="button" onclick="goPage('employee')">
+        <span>⌂</span>Home
+    </button>
+
+    <button type="button" onclick="goPage('logout')">
+        <span>⇥</span>Logout
+    </button>
+
+    <button type="button" onclick="goPage('todo')">
+        <span>☑</span>To Do
+    </button>
+
+</div>
+
+<script>
+function goPage(p){
+    window.top.location.href = window.top.location.origin + "/?page=" + p;
+}
+</script>
+
+<script>
+function go(page){
+    window.parent.postMessage(
+        {type: "streamlit:setComponentValue", value: page},
+        "*"
+    );
+}
+</script>
 
 </div>
 
@@ -356,21 +398,7 @@ function updateRegion(){
 </html>
 """, height=820)
 
-col1, col2, col3 = st.columns(3)
 
-with col1:
-    if st.button("⌂ Home", use_container_width=True):
-        st.switch_page("pages/3_Employee.py")
-
-with col2:
-    if st.button("⇥ Logout", use_container_width=True):
-        st.switch_page("app.py")
-
-with col3:
-    if st.button("☑ To Do", use_container_width=True):
-        st.switch_page("pages/4_To_Do.py")
-        
-# =========================
 # CoCare Engine Integration
 # =========================
 st.markdown("---")
