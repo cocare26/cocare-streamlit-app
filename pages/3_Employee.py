@@ -324,19 +324,13 @@ body{margin:0;background:transparent}
 
 <div class="nav">
 
-    <button type="button" class="active-nav" onclick="window.top.location.href='/?page=employee'">
-        <span>⌂</span>Home
-    </button>
-
- <div class="nav">
-
     <button type="button"
         onclick="window.parent.location.href='/?page=employee'">
         <span>⌂</span>Home
     </button>
 
     <button type="button"
-        onclick="window.parent.location.href='/'">
+        onclick="window.parent.location.href='/?page=logout'">
         <span>⇥</span>Logout
     </button>
 
@@ -346,9 +340,6 @@ body{margin:0;background:transparent}
     </button>
 
 </div>
-
-</div>
-
 
 </div>
 
