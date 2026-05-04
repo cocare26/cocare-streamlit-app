@@ -25,7 +25,7 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (مع إضافة تأثيرات الحركة عند Hover)
+# CSS المطور (التنسيق مع حركات الأيقونات)
 # =====================================
 st.markdown(f"""
 <style>
@@ -57,11 +57,6 @@ box-shadow:0 6px 18px rgba(0,0,0,.08);
 transition: transform 0.3s ease;
 }}
 
-/* تحريك الكروت عند التأشير */
-.card:hover {{
-    transform: translateY(-5px);
-}}
-
 .title {{
 font-size:17px;
 font-weight:900;
@@ -74,36 +69,33 @@ margin: 8px 0 8px 4px;
     transition: all 0.3s ease; 
 }}
 
-/* تأثير الحركة للأيقونات والخدمات */
+/* حركة الأيقونات الأربعة عند التأشير */
 .mini {{
 background:white; border-radius:20px; min-height:105px;
 padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
 transition: all 0.3s ease;
 }}
 .mini:hover {{
-    transform: scale(1.1); /* تكبير الأيقونة */
-    background-color: #f0f8ff;
+    transform: scale(1.1);
     box-shadow: 0 10px 20px rgba(0,0,0,0.12);
 }}
 
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
-/* نظام النجوم التفاعلي */
-.star-rating {{
+/* تصميم النجوم كما في الصورة تماماً */
+.star-rating-static {{
     display: flex;
-    flex-direction: row-reverse;
     justify-content: center;
-    gap: 4px;
+    gap: 2px;
+    font-size: 30px;
+    margin-top: 5px;
+    transition: transform 0.3s ease;
 }}
-.star-rating label {{
-    font-size: 35px;
-    color: #ddd;
-    cursor: pointer;
-    transition: transform 0.2s, color 0.2s;
+.star-rating-static:hover {{
+    transform: scale(1.05);
 }}
-.star-rating label:hover {{
-    transform: scale(1.3);
-}}
+.star-yellow {{ color: #ffcc00; }}
+.star-grey {{ color: #d1d1d1; }}
 
 .grid4 {{ 
     display:grid; 
@@ -112,7 +104,6 @@ transition: all 0.3s ease;
     margin: 20px 0 12px; 
 }}
 
-/* تحريك الروبوت عند التأشير عليه */
 .robot-img-welcome {{
     width: 130px;
     height: auto;
@@ -122,15 +113,7 @@ transition: all 0.3s ease;
     object-fit: contain;
     transition: transform 0.4s ease;
 }}
-.robot-img-welcome:hover {{
-    transform: rotate(-5px) scale(1.05);
-}}
-
-.welcome-text-container {{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}}
+.robot-img-welcome:hover {{ transform: scale(1.05); }}
 
 .needle {{
     position: absolute;
@@ -141,10 +124,9 @@ transition: all 0.3s ease;
     background: #333;
     transform-origin: bottom center;
     z-index: 5;
-    transition: transform 1s ease-in-out;
 }}
 
-/* تأثير الشريط السفلي */
+/* حركة الشريط السفلي */
 .nav {{
 margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
@@ -152,24 +134,20 @@ text-align:center; color:#6b6b6b; align-items: end;
 .nav-item {{ 
     font-size: 24px; 
     font-weight: 800; 
-    transition: transform 0.3s ease, color 0.3s ease;
+    transition: transform 0.3s ease;
 }}
 .nav-item:hover {{
-    transform: translateY(-8px); /* رفع الأيقونة للأعلى */
+    transform: translateY(-5px);
     color: #0d69dd;
 }}
 
-.nav-text {{ font-size: 11px; display: block; margin-top: 2px; }}
 .bot-bg {{
 width:55px; height:55px; background:white; border-radius:14px;
 margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 transition: all 0.3s ease;
 }}
-.bot-bg:hover {{
-    transform: scale(1.2) rotate(10deg);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-}}
+.bot-bg:hover {{ transform: scale(1.15); }}
 
 .active {{ color:#0d69dd; }}
 </style>
@@ -222,7 +200,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (تتحرك عند Hover)
+# 3. أيقونات الخدمات
 # =====================================
 st.markdown("""
 <div class="grid4">
@@ -234,7 +212,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم
+# 4. قسم التقييم (تم تعديله ليتطابق مع الصورة)
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -242,12 +220,12 @@ st.markdown("""
 <div style="font-weight:900; font-size:14px; color:#102646;">⭐ Service Security Rate</div>
 <div style="margin-top:10px; height:20px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
 <div style="text-align:center; margin-top:12px; font-weight:700; font-size:14px; color:#102646; margin-bottom:5px;">Rate our service</div>
-<div class="star-rating">
-    <input type="radio" id="5" name="rate"><label for="5">★</label>
-    <input type="radio" id="4" name="rate"><label for="4">★</label>
-    <input type="radio" id="3" name="rate"><label for="3">★</label>
-    <input type="radio" id="2" name="rate"><label for="2">★</label>
-    <input type="radio" id="1" name="rate"><label for="1">★</label>
+<div class="star-rating-static">
+    <span class="star-yellow">★</span>
+    <span class="star-yellow">★</span>
+    <span class="star-yellow">★</span>
+    <span class="star-yellow">★</span>
+    <span class="star-grey">★</span>
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -287,7 +265,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي (تتحرك عند Hover)
+# 6. الشريط السفلي
 # =====================================
 st.markdown(f"""
 <div class="nav">
