@@ -9,25 +9,26 @@ if page:
 else:
     page = ""
 
-# ========= ROUTER =========
 if page == "customer":
     st.switch_page("pages/0_arabic_app.py")
 
-elif page == "Change_password-ar":
+elif page == "change_password":
     st.switch_page("pages/ChangePassword.py")
 
-elif page == "Change_language-ar":
+elif page == "change_language":
     st.switch_page("pages/ChangeLanguage.py")
 
-elif page == "Contact_Us-ar":
+elif page == "rate_app":
+    st.switch_page("pages/RateApp.py")
+
+elif page == "contact":
     st.switch_page("pages/ContactUs.py")
 
-elif page == "Report_Problem-ar":
+elif page == "report":
     st.switch_page("pages/ReportProblem.py")
 
 elif page == "logout":
     st.switch_page("main_app.py")
 
-# default
 else:
     st.switch_page("pages/Settings.py")
