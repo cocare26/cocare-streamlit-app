@@ -73,9 +73,6 @@ body {{
     font-size:14px;
     color:#0f2446;
     box-shadow:0 6px 15px rgba(0,0,0,0.08);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
 }}
 
 .stButton > button:hover {{
@@ -90,23 +87,39 @@ body {{
     margin-bottom:15px;
 }}
 
-/* ===== PASSWORD PAGE DESIGN ===== */
-.pass-input {{
-    background:#f1f1f1;
-    border-radius:40px;
-    padding:12px 18px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:15px;
+/* ===== INPUT STYLE ===== */
+.stTextInput > div > div > input {{
+    background:#f1f1f1 !important;
+    border-radius:40px !important;
+    padding:14px 45px !important;
+    color:#000 !important;
+    border:none !important;
     box-shadow:0 4px 8px rgba(0,0,0,0.1);
 }}
 
-.pass-input span {{
-    color:#444;
-    font-size:14px;
+/* ===== ICON WRAPPER ===== */
+.input-wrap {{
+    position:relative;
+    margin-bottom:15px;
 }}
 
+.left-icon {{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    opacity:0.6;
+}}
+
+.right-icon {{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    opacity:0.6;
+}}
+
+/* زر Save تحت */
 .save-btn {{
     position:absolute;
     bottom:30px;
@@ -120,9 +133,7 @@ body {{
     border:none;
     border-radius:50px;
     padding:16px;
-    font-size:15px;
 }}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -162,25 +173,23 @@ else:
     with col2:
         st.markdown(f"<div class='header'>{T[st.session_state.page]}</div>", unsafe_allow_html=True)
 
-    # -------- PASSWORD (FIXED) --------
+    # -------- PASSWORD --------
     if st.session_state.page == "pass":
 
-        st.markdown("""
-        <div class="pass-input">
-            <span>🔒 Current Password</span>
-            <span>👁️</span>
-        </div>
+        # input 1
+        st.markdown('<div class="input-wrap"><div class="left-icon">🔒</div><div class="right-icon">👁️</div>', unsafe_allow_html=True)
+        st.text_input("", placeholder="Current Password", key="p1")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        <div class="pass-input">
-            <span>🔒 New Password</span>
-            <span>👁️</span>
-        </div>
+        # input 2
+        st.markdown('<div class="input-wrap"><div class="left-icon">🔒</div><div class="right-icon">👁️</div>', unsafe_allow_html=True)
+        st.text_input("", placeholder="New Password", key="p2")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        <div class="pass-input">
-            <span>🔒 Re-write New Password</span>
-            <span>👁️</span>
-        </div>
-        """, unsafe_allow_html=True)
+        # input 3
+        st.markdown('<div class="input-wrap"><div class="left-icon">🔒</div><div class="right-icon">👁️</div>', unsafe_allow_html=True)
+        st.text_input("", placeholder="Re-write New Password", key="p3")
+        st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown("<div class='save-btn'>", unsafe_allow_html=True)
         st.button(T["save"])
