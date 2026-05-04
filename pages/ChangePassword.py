@@ -189,9 +189,6 @@ body {
     <input type="password" id="new2" placeholder="Confirm Password">
 </div>
 
-<div class="report">
-    <span onclick="goReport()">Report Password</span>
-</div>
 
 <div class="save">
     <button onclick="save()">Save</button>
