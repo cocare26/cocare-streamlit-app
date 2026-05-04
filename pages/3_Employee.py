@@ -284,19 +284,18 @@ body{margin:0;background:transparent}
 </div>
 
 <div class="nav">
-    <form action="/" method="get" target="_top">
-        <input type="hidden" name="page" value="employee">
-        <button type="submit" class="active-nav"><span>⌂</span>Home</button>
-    </form>
+<button type="button" onclick="window.top.location.href='/?page=employee'">
+    <span>⌂</span>Home
+</button>
 
-    <form action="/" method="get" target="_top">
-        <button type="submit"><span>⇥</span>Logout</button>
-    </form>
+<button type="button" onclick="window.top.location.href='/'">
+    <span>⇥</span>Logout
+</button>
 
-    <form action="/" method="get" target="_top">
-        <input type="hidden" name="page" value="todo">
-        <button type="submit"><span>☑</span>To Do</button>
-    </form>
+   <button type="button" onclick="window.top.location.href='/?page=todo'">
+    <span>☑</span>To Do
+</button>
+
 </div>
 
 
