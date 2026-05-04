@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ======= CSS + HTML =======
+# ======= CSS =======
 st.markdown("""
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -21,11 +21,15 @@ st.markdown("""
     min-height:600px;
 }
 
+.card {
+    position:relative;
+    margin-bottom:15px;
+}
+
 .setting-item { 
     background:white;
     border-radius:100px;
     padding:14px 22px;
-    margin-bottom:15px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -49,6 +53,18 @@ st.markdown("""
     font-weight:bold;
     font-size:18px;
 }
+
+/* 🔥 الزر يغطي كل العنصر */
+div.stButton > button {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    opacity:0;
+    z-index:10;
+    cursor:pointer;
+}
 </style>
 
 <div style="text-align:center; margin-bottom:30px;">
@@ -56,21 +72,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ======= BUTTON STYLE (نخفيه) =======
-st.markdown("""
-<style>
-div.stButton > button {
-    width:100%;
-    height:55px;
-    opacity:0;
-    position:relative;
-    top:-60px;
-    z-index:2;
-}
-</style>
-""", unsafe_allow_html=True)
-
 # ======= ITEM 1 =======
+st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown("""
 <div class="setting-item">
     <div class="item-left">
@@ -84,7 +87,10 @@ st.markdown("""
 if st.button("cp"):
     st.switch_page("pages/ChangePassword.py")
 
+st.markdown('</div>', unsafe_allow_html=True)
+
 # ======= ITEM 2 =======
+st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown("""
 <div class="setting-item">
     <div class="item-left">
@@ -98,7 +104,10 @@ st.markdown("""
 if st.button("cl"):
     st.switch_page("pages/ChangeLanguage.py")
 
+st.markdown('</div>', unsafe_allow_html=True)
+
 # ======= ITEM 3 =======
+st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown("""
 <div class="setting-item">
     <div class="item-left">
@@ -112,7 +121,10 @@ st.markdown("""
 if st.button("cu"):
     st.switch_page("pages/ContactUs.py")
 
+st.markdown('</div>', unsafe_allow_html=True)
+
 # ======= ITEM 4 =======
+st.markdown('<div class="card">', unsafe_allow_html=True)
 st.markdown("""
 <div class="setting-item">
     <div class="item-left">
@@ -125,3 +137,5 @@ st.markdown("""
 
 if st.button("rp"):
     st.switch_page("pages/ReportProblem.py")
+
+st.markdown('</div>', unsafe_allow_html=True)
