@@ -26,35 +26,41 @@ st.markdown("""
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* ===== BUTTON CARD ===== */
+/* ===== Buttons (Settings Items) ===== */
 .stButton > button{
     width:100%;
     border:none;
     background:white;
     border-radius:100px;
-    padding:14px 18px;
+    padding:14px 55px 14px 18px;
     margin-bottom:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    text-align:left;
     font-weight:600;
     color:#0f2446;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     transition:0.25s;
+    font-size:14px;
+    position:relative;
+}
+
+/* icon right */
+.stButton > button span:first-child{
+    position:absolute;
+    right:35px;
+}
+
+/* arrow */
+.stButton > button::after{
+    content:"›";
+    position:absolute;
+    right:15px;
+    font-size:18px;
 }
 
 /* hover */
 .stButton > button:hover{
     transform:translateY(-2px);
     box-shadow:0 6px 15px rgba(0,0,0,0.12);
-}
-
-/* نص يسار */
-.stButton > button span{
-    display:flex;
-    width:100%;
-    justify-content:space-between;
-    align-items:center;
 }
 
 /* header */
@@ -66,7 +72,7 @@ st.markdown("""
     color:#0f2446;
 }
 
-/* sub pages card */
+/* section card (pages) */
 .card{
     background:white;
     padding:18px;
@@ -74,31 +80,19 @@ st.markdown("""
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     margin-bottom:15px;
 }
+
+/* input styling */
+input, textarea{
+    border-radius:10px !important;
+}
+
+/* save button */
+.primary-btn button{
+    background:#0f2446 !important;
+    color:white !important;
+    border-radius:20px !important;
+}
 </style>
-""", unsafe_allow_html=True)
-
-# -------- helper ----------
-def item(label, icon, page):
-    text = f"{label}|||{icon}›"  # separator trick
-    if st.button(text):
-        go(page)
-
-# CSS trick to split text
-st.markdown("""
-<script>
-const buttons = window.parent.document.querySelectorAll('button');
-buttons.forEach(btn=>{
-    if(btn.innerText.includes('|||')){
-        let parts = btn.innerText.split('|||');
-        btn.innerHTML = `
-            <div style="display:flex; width:100%; justify-content:space-between;">
-                <div>${parts[0]}</div>
-                <div>${parts[1]}</div>
-            </div>
-        `;
-    }
-});
-</script>
 """, unsafe_allow_html=True)
 
 # ================= MAIN =================
@@ -106,20 +100,29 @@ if st.session_state.page == "main":
 
     st.markdown("<div class='header'>Settings</div>", unsafe_allow_html=True)
 
-    item("Change Password", "🔒", "pass")
-    item("Change Language", "🌍", "lang")
-    item("Rate App", "⭐", "rate")
-    item("Log Out", "🚪", "logout")
+    if st.button("🔒   Change Password"):
+        go("pass")
+
+    if st.button("🌍   Change Language"):
+        go("lang")
+
+    if st.button("⭐   Rate App"):
+        go("rate")
+
+    if st.button("🚪   Log Out"):
+        go("logout")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        item("Report", "⚠️", "report")
+        if st.button("⚠️ Report"):
+            go("report")
 
     with col2:
-        item("Contact", "✉️", "contact")
+        if st.button("✉️ Contact"):
+            go("contact")
 
-# ================= SUB =================
+# ================= SUB PAGES =================
 else:
 
     titles = {
@@ -136,44 +139,69 @@ else:
     col1, col2 = st.columns([1,4])
 
     with col1:
-        if st.button("← Back"):
+        if st.button("←"):
             go("main")
 
     with col2:
         st.markdown(f"<div class='header'>{title}</div>", unsafe_allow_html=True)
 
-    # ===== content =====
+    # ========= CONTENT =========
 
     if st.session_state.page == "pass":
+
         st.markdown("<div class='card'>", unsafe_allow_html=True)
         st.text_input("Current Password", type="password")
         st.text_input("New Password", type="password")
         st.text_input("Confirm Password", type="password")
         st.markdown("</div>", unsafe_allow_html=True)
-        st.button("Save")
+
+        with st.container():
+            if st.button("Save Password"):
+                st.success("Password updated!")
 
     elif st.session_state.page == "lang":
+
         st.markdown("<div class='card'>", unsafe_allow_html=True)
-        st.radio("Language", ["English", "Arabic"])
+        lang = st.radio("Select Language", ["English", "Arabic"])
         st.markdown("</div>", unsafe_allow_html=True)
-        st.button("Apply")
+
+        if st.button("Apply Language"):
+            st.success(f"Language set to {lang}")
 
     elif st.session_state.page == "rate":
+
         st.markdown("<div class='card'>", unsafe_allow_html=True)
-        st.slider("Rating", 1, 5)
-        st.text_area("Feedback")
+        rating = st.slider("Your Rating", 1, 5)
+        feedback = st.text_area("Feedback")
         st.markdown("</div>", unsafe_allow_html=True)
-        st.button("Submit")
+
+        if st.button("Submit"):
+            st.success("Thanks for your feedback!")
 
     elif st.session_state.page == "logout":
-        st.warning("Are you sure?")
-        st.button("Confirm Logout")
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.warning("Are you sure you want to log out?")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        if st.button("Confirm Logout"):
+            st.success("Logged out!")
 
     elif st.session_state.page == "report":
-        st.text_area("Describe issue")
-        st.button("Send")
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        issue = st.text_area("Describe the issue")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        if st.button("Send Report"):
+            st.success("Report sent!")
 
     elif st.session_state.page == "contact":
-        st.text_input("Email")
-        st.text_area("Message")
-        st.button("Send")
+
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.text_input("Your Email")
+        msg = st.text_area("Your Message")
+        st.markdown("</div>", unsafe_allow_html=True)
+
+        if st.button("Send Message"):
+            st.success("Message sent!")
