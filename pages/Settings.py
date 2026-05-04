@@ -13,85 +13,84 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* container */
 .block-container {
     max-width:430px;
     margin:auto;
-    padding:20px 16px;
+    padding:18px 16px;
     background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
 
-/* title */
-.title {
+/* HEADER */
+.header {
     text-align:center;
-    font-weight:900;
-    color:#102646;
-    margin-bottom:25px;
-    font-size:20px;
+    position:relative;
+    margin-bottom:30px;
 }
 
-/* card */
+.title {
+    font-weight:900;
+    font-size:20px;
+    color:#102646;
+}
+
+/* CARD */
 .card {
     position:relative;
     background:white;
     border-radius:100px;
-    padding:16px 20px;
-    margin-bottom:14px;
+    padding:14px 22px;
+    margin-bottom:15px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    transition:0.25s;
+    transition:0.3s;
 }
 
 .card:hover {
     transform:translateY(-2px);
-    box-shadow:0 6px 16px rgba(0,0,0,0.12);
+    box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 
-/* left side */
 .left {
     display:flex;
     align-items:center;
     gap:12px;
 }
 
-/* icon */
 .left i {
     color:#102646;
-    font-size:15px;
+    font-size:16px;
     width:20px;
     text-align:center;
 }
 
-/* text */
 .left span {
     color:#102646;
     font-weight:800;
     font-size:14px;
 }
 
-/* arrow */
 .arrow {
-    font-size:18px;
     color:#102646;
+    font-size:18px;
     font-weight:bold;
 }
 
-/* button overlay */
+/* الزر الشفاف */
 div.stButton > button {
     position:absolute;
     left:0;
     width:100%;
     height:60px;
     opacity:0;
-    z-index:10;
     cursor:pointer;
+    z-index:10;
 }
 
-/* bottom row */
+/* BOTTOM */
 .bottom {
     display:flex;
     gap:10px;
@@ -100,24 +99,23 @@ div.stButton > button {
 
 .bottom button {
     width:100%;
+    background:white;
     border-radius:100px;
     padding:12px;
-    background:white;
-    color:#102646;
     font-weight:800;
     border:none;
+    color:#102646;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    cursor:pointer;
-    transition:0.25s;
 }
 
 .bottom button:hover {
     transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,0.12);
 }
 </style>
 
-<div class="title">Settings</div>
+<div class="header">
+    <h2 class="title">Settings</h2>
+</div>
 """, unsafe_allow_html=True)
 
 # ===== عنصر =====
@@ -135,7 +133,7 @@ def item(label, icon, page):
     if st.button(label):
         st.switch_page(page)
 
-# ===== items =====
+# ===== 6 BUTTONS =====
 item("Change Password", "fas fa-lock", "pages/ChangePassword.py")
 item("Change Language", "fas fa-globe", "pages/ChangeLanguage.py")
 item("Rate App", "fas fa-star", "pages/RateApp.py")
