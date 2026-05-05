@@ -1,63 +1,74 @@
 import streamlit as st
+import os
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
+# ===== DEBUG (عشان نتأكد من أسماء الملفات) =====
+
 # ===== CSS =====
-==== CSS =====
 st.markdown("""
 <style>
-* { margin:0; padding:0; box-sizing:border-box; direction:ltr; }
 
-html, body, [data-testid="stAppViewContainer"] {
+* { direction:rtl; }
+
+[data-testid="stAppViewContainer"] {
     background:#f0f7ff;
-    font-family:'Segoe UI';
 }
-
-#MainMenu, header, footer { visibility:hidden; }
 
 .block-container {
     max-width:430px;
     margin:auto;
-    padding:18px 16px;
+    padding:20px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius:42px;
+    border-radius:40px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
-    min-height:600px;
-}
-
-/* ===== HEADER ===== */
-.header {
-    position:relative;
-    text-align:center;
-    margin-bottom:30px;
-}
-
-/* السهم */
-.back-style {
-    position:absolute;
-    left:0;
-    top:0;
-}
-
-.back-style .stButton > button {
-    background:transparent !important;
-    box-shadow:none !important;
-    color:black !important;
-    font-size:26px !important;
-    width:auto !important;
-    padding:0 !important;
 }
 
 /* العنوان */
-.title-text {
-    font-size:20px;
+.title {
+    text-align:center;
+    font-size:22px;
     font-weight:900;
     color:#102646;
-}
-.item {
-    cursor: pointer;
+    margin-bottom:30px;
 }
 
+/* الأزرار */
+div.stButton > button {
+    width:100%;
+    height:65px;
+    border-radius:100px;
+    background:white;
+    border:none;
+    color:#102646;
+    font-weight:800;
+    font-size:18px;
+    margin-bottom:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    text-align:right;
+}
+
+
+.back-style {
+    position: fixed;
+    top: 58px;
+    right: 25px;
+    z-index:999;
+}
+
+.back-style .stButton > button {
+    background:#111827 !important;
+    color:white !important;
+    width:45px !important;
+    height:60px !important;
+    border-radius:10px !important;
+    font-size:28px !important;
+    padding:0 !important;
+}
+
+div.stButton > button:hover {
+    transform:translateY(-2px);
+}
 </style>
 
 <div class="title">تغيير اللغة</div>
@@ -71,10 +82,12 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== الأزرار =====
 
+# عربي
 if st.button("🌐 العربية ✔️"):
     st.session_state.lang = "ar"
     st.switch_page("pages/settingar.py")
 
+# إنجليزي
 if st.button("🌐 English ‹"):
     st.session_state.lang = "en"
     st.switch_page("pages/Settings.py")
