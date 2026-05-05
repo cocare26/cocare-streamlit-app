@@ -80,6 +80,9 @@ st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== UI =====
 result = components.html("""
+if result == "go_en":
+    st.session_state.lang = "en"   # 👈 تغيير اللغة
+    st.switch_page("pages/Settings.py")  # 👈 فتح Settings الإنجليزي
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
