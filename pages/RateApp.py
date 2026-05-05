@@ -27,20 +27,7 @@ st.markdown("""
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* ===== HEADER ===== */
-.header {
-    position:relative;
-    height:40px;
-    margin-bottom:40px;
-}
-
 /* زر الرجوع */
-.back-style {
-    position:absolute;
-    left:0;
-    top:0;
-}
-
 .back-style .stButton > button {
     background:transparent !important;
     box-shadow:none !important;
@@ -50,29 +37,29 @@ st.markdown("""
     padding:0 !important;
 }
 
-/* العنوان بالنص الحقيقي */
+/* العنوان */
 .title-text {
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
+    text-align:center;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER =====
-st.markdown('<div class="header">', unsafe_allow_html=True)
+# ===== HEADER (نفس السطر) =====
+col1, col2, col3 = st.columns([1,6,1])
 
-st.markdown('<div class="back-style">', unsafe_allow_html=True)
-if st.button("‹"):
-    st.switch_page("pages/Settings.py")
-st.markdown('</div>', unsafe_allow_html=True)
+with col1:
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("‹"):
+        st.switch_page("pages/Settings.py")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="title-text">Rate App</div>', unsafe_allow_html=True)
+with col2:
+    st.markdown('<div class="title-text">Rate App</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+# col3 فاضي للتوازن
 
 # ===== CONTENT =====
 components.html("""
