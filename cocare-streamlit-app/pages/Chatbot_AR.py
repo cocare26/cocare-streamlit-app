@@ -17,12 +17,14 @@ def img_to_base64(path):
         return ""
 
 robot = img_to_base64("robot_head.png")
+if not robot:
+    robot = img_to_base64("robot.png")
 
 # =========================
 # SESSION
 # =========================
-if "chat_messages" not in st.session_state:
-    st.session_state.chat_messages = [
+if "chat_messages_ar_v2" not in st.session_state:
+    st.session_state.chat_messages_ar_v2 = [
         ("bot", "مرحبًا، كيف أقدر أساعدك؟")
     ]
 
@@ -30,39 +32,34 @@ if "chat_messages" not in st.session_state:
 # BOT RESPONSE
 # =========================
 def get_bot_reply(text):
-    text_clean = str(text).strip().lower()
+    original_text = str(text).strip()
+    text_clean = original_text.lower()
 
     if text_clean in ["هاي", "هلا", "مرحبا", "hi", "hello"]:
         return "هلا وغلا 👋 كيف فيني أساعدك؟"
 
     if text_clean == "فحص الشبكة":
-        text = "افحص حالة الشبكة عندي"
-
+        original_text = "افحص حالة الشبكة عندي"
     elif text_clean == "استهلاك الإنترنت":
-        text = "بدي أعرف استهلاك الإنترنت"
-
+        original_text = "بدي أعرف استهلاك الإنترنت"
     elif text_clean == "تجديد الباقة":
-        text = "بدي أجدد الباقة"
-
+        original_text = "بدي أجدد الباقة"
     elif text_clean == "المكالمات الدولية":
-        text = "بدي أعرف عن المكالمات الدولية"
-
+        original_text = "بدي أعرف عن المكالمات الدولية"
     elif text_clean == "العروض":
-        text = "شو العروض المتاحة؟"
-
+        original_text = "شو العروض المتاحة؟"
     elif text_clean == "الدعم":
-        text = "بدي أتواصل مع الدعم الفني"
+        original_text = "بدي أتواصل مع الدعم الفني"
 
     try:
         result = process_message(
-            text,
+            original_text,
             user_id="customer_1",
             region="Amman"
         )
 
         response = str(result.get("response", "")).strip()
         followup = str(result.get("followup_response", "")).strip()
-
         reply = f"{response}\n\n{followup}".strip()
 
         if not reply or "تم استلام طلبك" in reply:
@@ -79,10 +76,9 @@ def send_message(text):
     if not text:
         return
 
-    st.session_state.chat_messages.append(("user", text))
+    st.session_state.chat_messages_ar_v2.append(("user", text))
     bot_reply = get_bot_reply(text)
-    st.session_state.chat_messages.append(("bot", bot_reply))
-
+    st.session_state.chat_messages_ar_v2.append(("bot", bot_reply))
 
 # =========================
 # CSS
@@ -127,6 +123,7 @@ st.markdown("""
     width:42px;
     height:42px;
     border-radius:50%;
+    object-fit:cover;
 }
 
 .avatar-fallback {
@@ -221,9 +218,10 @@ div[data-testid="stFormSubmitButton"] button {
 # =========================
 messages_html = ""
 
-for role, msg in st.session_state.chat_messages:
+for role, msg in st.session_state.chat_messages_ar_v2:
     cls = "user" if role == "user" else "bot"
-    messages_html += f'<div class="msg {cls}">{html.escape(str(msg))}</div>'
+    safe_msg = html.escape(str(msg))
+    messages_html += f'<div class="msg {cls}">{safe_msg}</div>'
 
 if robot:
     avatar_html = f'<img class="avatar" src="data:image/png;base64,{robot}">'
@@ -289,11 +287,9 @@ if submitted and user_input.strip():
     st.rerun()
 
 if st.button("مسح الشات"):
-    st.session_state.chat_messages = [
+    st.session_state.chat_messages_ar_v2 = [
         ("bot", "مرحبًا، كيف أقدر أساعدك؟")
     ]
     st.rerun()
 
 st.markdown("</div>", unsafe_allow_html=True)
-
-
