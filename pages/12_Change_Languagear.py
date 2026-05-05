@@ -138,7 +138,7 @@ body{
     </div>
 
     <!-- الإنجليزية -->
-   <div class="language-capsule" onclick="window.parent.history.back();">
+  <div class="language-capsule" onclick="window.parent.location.href='/Change_Language';">
         <div class="left-content">
             <div class="icon"><i class="fas fa-globe"></i></div>
             <div class="label">English</div>
