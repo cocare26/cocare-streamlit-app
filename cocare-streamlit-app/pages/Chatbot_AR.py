@@ -84,7 +84,6 @@ if msg:
     st.session_state[CHAT_KEY].append(("bot", get_bot_reply(msg)))
     st.query_params.clear()
     st.rerun()
-
 messages_html = ""
 for role, msg in st.session_state[CHAT_KEY]:
     cls = "user" if role == "user" else "bot"
@@ -300,12 +299,17 @@ function sendToPython(text){{
     window.parent.location.href = url.toString();
 }}
 
-function sendMessage(){{
+function sendMessage(){
     const input = document.getElementById("chatInput");
     const text = input.value.trim();
     if(text === "") return;
     sendToPython(text);
-}}
+}
+
+function quickMsg(text){
+    document.getElementById("menu").style.display = "none";
+    sendToPython(text);
+}
 
 function quickMsg(text){{
     document.getElementById("menu").style.display = "none";
