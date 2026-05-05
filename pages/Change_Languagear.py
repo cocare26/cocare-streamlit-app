@@ -81,8 +81,8 @@ if st.button("‹"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== الأزرار =====
-col_gap_ar = "&nbsp;" * 5
-col_gap_en = "&nbsp;" * 8
+col_gap_ar = "&nbsp;" * 20
+col_gap_en = "&nbsp;" * 28
 # عربي
 if st.button(f"🌐  العربية  {col_gap_ar} {col_gap_ar}✔️"):
     st.session_state.lang = "ar"
