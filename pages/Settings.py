@@ -139,7 +139,7 @@ col_back, col_title, col_empty = st.columns([1, 6, 1])
 
 with col_back:
     if st.button("›", key="top_right_back"):
-        st.switch_page("app.py")
+        st.switch_page("pages/2_Customer.py")
 
 with col_title:
     st.markdown('<div class="header-title">Settings</div>', unsafe_allow_html=True)
