@@ -59,19 +59,16 @@ html, body, [data-testid="stAppViewContainer"] {
 
 # ---------------- HEADER ----------------
 # ---------------- HEADER ----------------
+# ---------------- HEADER ----------------
 col_back, col_title, col_empty = st.columns([1, 4, 1])
 
 with col_back:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
-    # عند الضغط على الزر، سيتم تنفيذ أمر جافاسكريبت للرجوع للخلف
+    # استخدام زر واحد مع أمر جافاسكريبت بسيط جداً ومباشر
     if st.button("›", key="back_arrow"):
-        st.components.v1.html(
-            """
-            <script>
-                window.parent.history.back();
-            </script>
-            """,
-            height=0, width=0
+        components.html(
+            "<script>window.parent.history.back();</script>",
+            height=0,
         )
     st.markdown('</div>', unsafe_allow_html=True)
 
