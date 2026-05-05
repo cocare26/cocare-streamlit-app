@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS المحدث: عرض أقل ومسافة أكبر =====
+# ===== CSS المحدث: سماكة أقل (أنحف) ومسافة كبيرة =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,56 +11,58 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* 1. تقليل عرض الكونتينر ليصبح أنحف */
+/* الكونتينر النحيف */
 .block-container {
-    max-width: 380px; /* صغرنا العرض من 500 لـ 380 */
+    max-width: 380px; 
     margin: auto;
-    padding: 40px 20px;
+    padding: 35px 20px;
     background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* 2. تنسيق البوكسات */
+/* تنسيق البوكسات (الأزرار) */
 div.stButton > button {
     width: 100% !important;
-    min-height: 95px !important; 
-    border-radius: 45px !important;
-    margin-bottom: 20px !important;
+    
+    /* 👇 تخفيف السماكة: قللنا الارتفاع من 95 لـ 60 👇 */
+    min-height: 60px !important; 
+    
+    border-radius: 30px !important; /* تقليل الانحناء ليناسب السماكة الجديدة */
+    margin-bottom: 18px !important;
     background: white !important;
     border: none !important;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.08) !important;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
     
-    font-weight: 800 !important;
+    font-weight: 700 !important;
     color: #102646 !important;
-    font-size: 18px !important;
+    font-size: 16px !important;
     
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
     
-    /* 3. زيادة المسافة بين الإيموجي والنص أكثر (زدناها لـ 90) */
-    gap: 90px !important; 
+    /* المسافة بين الإيموجي والنص */
+    gap: 75px !important; 
     
-    padding: 0px 30px !important;
-    transition: 0.3s;
+    padding: 0px 25px !important;
 }
 
-/* السهم في النهاية */
+/* السهم الصغير */
 div.stButton > button::after {
     content: "›";
-    font-size: 28px;
+    font-size: 24px;
     color: #102646;
     margin-left: auto;
 }
 
 div.stButton > button:hover {
-    transform: scale(1.02);
-    background-color: #fff !important;
+    transform: translateY(-2px);
+    background-color: #fcfcfc !important;
 }
 
 </style>
-<div style="text-align:center; font-weight:900; color:#102646; font-size:24px; margin-bottom:30px;">Settings</div>
+<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
 # ===== الأزرار =====
