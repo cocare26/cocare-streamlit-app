@@ -80,7 +80,10 @@ div.stButton > button {
 .block-container {
     max-width: 390px; 
     margin: auto;
-    padding-top: 0px !important; /* إلغاء المسافة العلوية تماماً */
+    padding-top: 80px !important;  /* نزّل المحتوى */
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-bottom: 35px !important;
     background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius: 40px;
 }
@@ -116,7 +119,7 @@ div.stButton > button::after {
 </style>
 
 <!-- تم إضافة margin-top:40px هنا لنزول الكلمة -->
-<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-top:180px; margin-bottom:25px;">Settings</div>
+<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="back-btn-container">', unsafe_allow_html=True)
