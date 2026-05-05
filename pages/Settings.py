@@ -11,6 +11,12 @@ st.markdown("""
     background:#f0f7ff;
 }
 
+.back-btn-container {
+    position: absolute;
+    right: 15px; /* المسافة عن اليمين */
+    top: 25px;   /* المسافة عن فوق */
+    z-index: 1000; /* عشان يضل فوق كل اشي */
+}
 /* الكونتينر النحيف */
 .block-container {
     max-width: 390px; 
