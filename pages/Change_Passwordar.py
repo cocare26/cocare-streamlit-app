@@ -204,4 +204,4 @@ document.querySelectorAll(".input").forEach(box => {
 
 # ---------------- NAVIGATION ----------------
 if value == "go_settings":
-    st.switch_page("pages/11_settingar.py")
+    st.switch_page("pages/Settingar.py")
