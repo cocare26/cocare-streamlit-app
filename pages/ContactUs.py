@@ -21,39 +21,35 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height: 600px;
 }
 
-/* الأزرار - زيادة الطول فقط مع الحفاظ على الترتيب */
+/* الأزرار - "طويلللل" عمودياً */
 .stButton > button {
     width:100% !important;
     background:white !important;
     color:#102646 !important;
     border-radius:50px !important; 
     
-    /* 👇 تحكم بالطول من هون (60px فوق وتحت) 👇 */
-    padding: 60px 25px !important; 
-    min-height: 140px !important; 
+    /* زيادة الطول العمودي */
+    padding: 55px 20px !important; 
+    min-height: 130px !important; 
     
     border:none !important;
     box-shadow:0 6px 15px rgba(0,0,0,0.08) !important;
     font-weight:800 !important;
-    font-size: 17px !important; 
+    font-size: 15px !important; /* صغرنا الخط شوي عشان يتحمل الفراغات العرضية */
     
     display: flex !important;
     align-items: center !important;
-    
-    /* 👇 الحكي يلزق بالرسمة بالبداية 👇 */
-    justify-content: flex-start !important; 
-    gap: 8px; /* مسافة بسيطة جداً ورا الرسمة */
+    justify-content: space-between !important; /* دفع السهم لآخر اليمين */
 }
 
-/* السهم في نهاية البوكس الطويل */
+/* السهم في نهاية البوكس */
 .stButton > button::after {
     content: "›";
-    margin-left: auto; /* يدفعه لآخر اليمين */
-    font-size: 35px;
+    font-size: 30px;
     color: #102646;
 }
 
-/* زر الرجوع - يضل صغير */
+/* زر الرجوع */
 .back-style .stButton > button {
     background:transparent !important;
     box-shadow:none !important;
@@ -68,7 +64,6 @@ html, body, [data-testid="stAppViewContainer"] {
 
 div.stButton > button:hover {
     background-color: #fcfcfc !important;
-    transform: translateY(-2px);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -84,7 +79,11 @@ with col_back:
 # Title
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:40px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# Buttons
-# الحكي ورا الرسمة مباشرة والبوكس "طويللللل"
-st.button("✉️ Email: Co.Care26@gmail.com")
-st.button("📞 Phone: +962 79 123 4567")
+# ===== الأزرار (طول عمودي + فراغ عرضي كبير) =====
+
+# الفراغات العرضية اللي بتدفع الحكي لليمين
+# جرب 55 أو 60 حسب شو بيناسب شاشتك
+long_gap = "&nbsp;" * 55 
+
+st.button(f"✉️{long_gap}Email: Co.Care26@gmail.com")
+st.button(f"📞{long_gap}Phone: +962 79 123 4567")
