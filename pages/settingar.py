@@ -51,29 +51,27 @@ div.stButton > button {
     align-items: center !important;
     justify-content: space-between !important; 
     padding: 0px 25px !important;
+
+    position: relative !important;
 }
 
-/* السهم داخل البوكس */
-div.stButton > button::after {
-    content: "‹";
-    font-size: 26px;
-    color: #102646;
-    font-weight: bold;
+/* السهم المضمون داخل البوكس */
+div.stButton > button::before {
+    content: "‹" !important;
+    position: absolute !important;
+    left: 18px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 30px !important;
+    color: #102646 !important;
+    font-weight: 900 !important;
+    z-index: 10 !important;
 }
 
 /* hover */
 div.stButton > button:hover {
     transform: translateY(-2px);
     background-color: #fcfcfc !important;
-}
-
-/* السهم داخل البوكس */
-div.stButton > button::after {
-    content: "‹";
-    font-size: 28px;
-    color: #102646;
-    font-weight: bold;
-    margin-left: 10px; /* يخليه بعيد شوي عن الحافة */
 }
 
 </style>
