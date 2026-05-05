@@ -53,7 +53,7 @@ st.markdown("""
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -80%);
+    transform: translate(-50%, -70%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
@@ -117,13 +117,12 @@ body {
     align-items: center; 
     justify-content: space-between; 
     border: none; 
-    margin-top: auto; 
     cursor: pointer; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: all 0.3s ease;
 }
 
-/* Hover effect */
+/* hover */
 .send-btn:hover {
     transform: translateY(-6px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
@@ -141,6 +140,11 @@ body {
     font-size: 18px;
     margin-left: 10px;
 }
+
+/* 👇 رفع الزر لفوق */
+.btn-container {
+    margin-top: 40px;
+}
 </style>
 </head>
 
@@ -149,10 +153,12 @@ body {
 
     <textarea class="report-textarea" placeholder="أنا بحاجة للمساعدة..."></textarea>
 
-    <button class="send-btn" onclick="showPopup()">
-        <span>إرسال التقرير</span>
-        <i class="fas fa-paper-plane main-icon"></i>
-    </button>
+    <div class="btn-container">
+        <button class="send-btn" onclick="showPopup()">
+            <span>إرسال التقرير</span>
+            <i class="fas fa-paper-plane main-icon"></i>
+        </button>
+    </div>
 
 </div>
 
