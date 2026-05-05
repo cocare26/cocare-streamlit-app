@@ -87,7 +87,7 @@ st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margi
 
 # ===== الأزرار (نفس المسافات اللي حطيتها إنت بالظبط) =====
 
-gap1 = "&nbsp;" * 27
+gap1 = "&nbsp;" * 25
 if st.button(f"✉️ البريد الإلكتروني: Co.Care26@gmail.com {gap1}"):
     pass
 
