@@ -1,14 +1,10 @@
 import streamlit as st
-import os
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ===== DEBUG (عشان نتأكد من أسماء الملفات) =====
-
-# ===== CSS =====
+# ===== CSS المحدث =====
 st.markdown("""
 <style>
-
 * { direction:rtl; }
 
 [data-testid="stAppViewContainer"] {
@@ -24,7 +20,6 @@ st.markdown("""
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
 
-/* العنوان */
 .title {
     text-align:center;
     font-size:22px;
@@ -33,7 +28,7 @@ st.markdown("""
     margin-bottom:30px;
 }
 
-/* الأزرار */
+/* تنسيق الأزرار العامة */
 div.stButton > button {
     width:100%;
     height:65px;
@@ -45,10 +40,9 @@ div.stButton > button {
     font-size:18px;
     margin-bottom:15px;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    text-align:right;
 }
 
-
+/* ===== تنسيق زر الرجوع (الأسود المربع) ===== */
 .back-style {
     position: fixed;
     top: 58px;
@@ -57,27 +51,22 @@ div.stButton > button {
 }
 
 .back-style .stButton > button {
-    background:#111827 !important;   /* لون أسود */
-    color:white !important;          /* سهم أبيض */
-    
-    width:50px !important;           /* عرض مربع */
-    height:50px !important;          /* طول مربع */
-
-    border-radius:12px !important;   /* زوايا ناعمة زي الصورة */
-
-    font-size:26px !important;       /* حجم السهم */
-    font-weight:900 !important;
-
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-
-    padding:0 !important;
-    border:none !important;
+    background-color: #000000 !important;  /* بوكس أسود سادة */
+    color: #ffffff !important;           /* رمز أبيض */
+    width: 50px !important;              /* عرض ثابت */
+    height: 50px !important;             /* طول ثابت */
+    border-radius: 0px !important;       /* شكل مربع تماماً (بدون حواف دائرية) */
+    font-size: 30px !important;          /* حجم الرمز */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    padding-bottom: 8px !important;      /* لوزن مكان السهم بالمنتصف */
 }
 
 div.stButton > button:hover {
     transform:translateY(-2px);
+    opacity: 0.9;
 }
 </style>
 
@@ -91,13 +80,10 @@ if st.button("‹"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== الأزرار =====
-
-# عربي
 if st.button("🌐 العربية ✔️"):
     st.session_state.lang = "ar"
     st.switch_page("pages/settingar.py")
 
-# إنجليزي
 if st.button("🌐 English ‹"):
     st.session_state.lang = "en"
     st.switch_page("pages/Settings.py")
