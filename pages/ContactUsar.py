@@ -1,151 +1,96 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="تواصل معنا", layout="centered")
+st.set_page_config(page_title="اتصل بنا", layout="centered")
 
-# 2. التنسيق العام (CSS) 
+# ===== CSS الموحد (مبدأ الإعدادات) =====
 st.markdown("""
 <style>
-/* 🎯 ألوان أساسية */
-:root {
-    --navy: #0f2446;
-    --bg1: #d6ecff;
-    --bg2: #bfe3ff;
-    --bg3: #eaf6ff;
-}
+#MainMenu, header, footer {visibility:hidden;}
 
-/* 📱 خلفية الصفحة */
 [data-testid="stAppViewContainer"] {
-    background: #eef2f7;
+    background:#f0f7ff;
+    direction: rtl; /* إضافة اتجاه اليمين للعربية */
 }
 
-/* 📦 الكارد الرئيسي - المقاس الموحد (350px) */
+/* الكونتينر النحيف */
 .block-container {
-    max-width: 350px !important;
-    margin: auto !important;
-    padding: 30px !important;
-    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
-    border-radius: 42px;
+    max-width: 430px; 
+    margin: auto;
+    padding: 20px 16px;
+    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius: 40px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    min-height: 600px;
+}
+
+/* تنسيق البوكسات الموحد */
+div.stButton > button {
+    width: 100% !important;
+    min-height: 65px !important; 
+    border-radius: 35px !important;
+    margin-bottom: 20px !important;
+    background: white !important;
+    border: none !important;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
+    
+    font-weight: 700 !important;
+    color: #102646 !important;
+    font-size: 15px !important; 
+    
+    display: flex !important;
+    align-items: center !important;
+    /* التعديل السحري: النص يلزق باليمين والسهم يروح يسار */
+    justify-content: flex-start !important; 
+    
+    padding: 0px 25px !important;
+    transition: 0.3s;
+}
+
+/* السهم الصغير في النهاية - نخليه يندفع لآخر اليسار (في الواجهة العربية) */
+div.stButton > button::after {
+    content: "‹"; /* تغيير اتجاه السهم للعربي */
+    font-size: 26px;
+    color: #102646;
+    margin-right: auto; /* دفع السهم للجهة المقابلة */
+}
+
+/* ستايل زر الرجوع */
+.back-style .stButton > button {
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 35px !important;
+    width: auto !important;
+    min-height: unset !important;
+    padding: 0 !important;
+}
+.back-style .stButton > button::after {
+    content: "" !important;
+}
+
+div.stButton > button:hover {
+    transform: translateY(-2px);
+    background-color: #fcfcfc !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة (HTML/JS) مع دعم العربية
-components.html("""
-<!DOCTYPE html>
-<html dir="rtl"> <!-- تفعيل الاتجاه من اليمين لليسار -->
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: transparent;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .main-wrapper {
-            width: 100%;
-            max-width: 290px;
-            display: flex;
-            flex-direction: column;
-            height: 480px;
-        }
+# 🔙 زر الرجوع
+col_back, _ = st.columns([1, 10])
+with col_back:
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("›"): # سهم الرجوع لليمين في العربي
+        st.switch_page("pages/Settings.py")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-        /* الرأس */
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
+# العنوان
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>', unsafe_allow_html=True)
 
-        /* 🔙 رمز الرجوع الموحد > (عكسته ليناسب العربية) */
-        .back-icon {
-            position: absolute;
-            right: 0; /* أصبح على اليمين في العربية */
-            font-size: 28px;
-            font-weight: bold;
-            color: #0f2446;
-            text-decoration: none;
-            line-height: 1;
-            cursor: pointer;
-        }
+# ===== الأزرار (نفس المسافات اللي حطيتها إنت بالظبط) =====
 
-        .title {
-            margin: 0;
-            font-weight: 900;
-            font-size: 20px;
-            color: #0f2446;
-        }
+gap1 = "&nbsp;" * 29
+if st.button(f"✉️ البريد الإلكتروني: Co.Care26@gmail.com {gap1}"):
+    pass
 
-        /* 💊 كبسولة الخيارات */
-        .capsule {
-            background: white;
-            border-radius: 100px;
-            padding: 14px 22px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .capsule:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-        }
-
-        .icon {
-            margin-left: 12px; /* المسافة أصبحت لليسار لأن الأيقونة يمين النص */
-            color: #0f2446;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            width: 20px;
-            justify-content: center;
-        }
-
-        .text {
-            color: #0f2446;
-            font-weight: 700;
-            font-size: 14px;
-            direction: ltr; /* لضمان بقاء الأرقام والإيميل بشكل صحيح من اليسار لليمين */
-            display: inline-block;
-        }
-    </style>
-</head>
-<body>
-    <div class="main-wrapper">
-        <!-- الهيدر -->
-        <div class="header-container">
-            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
-            <h2 class="title">تواصل معنا</h2>
-        </div>
-
-        <!-- كبسولة البريد الإلكتروني -->
-        <div class="capsule" onclick="window.location.href='mailto:CoCare26@gmail.com'">
-            <div class="icon"><i class="fas fa-envelope"></i></div>
-            <div class="text">CoCare26@gmail.com</div>
-        </div>
-
-        <!-- كبسولة الهاتف -->
-        <div class="capsule" onclick="window.location.href='tel:+962791234567'">
-            <div class="icon"><i class="fas fa-phone"></i></div>
-            <div class="text">+962 79 123 4567</div>
-        </div>
-    </div>
-
-    <script>
-    function goPage(p){
-        window.top.location.href = "/?page=" + p;
-    }
-    </script>
-</body>
-</html>
-""", height=500)
+gap2 = "&nbsp;" * 20 
+if st.button(f"📞 الهاتف: +962 79 123 4567 {gap2}{gap2}"):
+    pass
