@@ -11,9 +11,8 @@ html, body, [data-testid="stAppViewContainer"] {
     font-family:'Segoe UI', sans-serif;
 }
 
-/* تصغير عرض الكونتينر عشان يصير نحيف */
 .block-container {
-    max-width:350px; /* قللنا العرض من 430 لـ 350 عشان يصير نحيف */
+    max-width:430px;
     margin:auto;
     padding:18px 16px;
     background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
@@ -22,35 +21,39 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height: 600px;
 }
 
-/* الأزرار - طويلة ونحيفة */
+/* الأزرار - زيادة الطول فقط مع الحفاظ على الترتيب */
 .stButton > button {
     width:100% !important;
     background:white !important;
     color:#102646 !important;
     border-radius:50px !important; 
     
-    /* 👇 تحكم بالطول العمودي (زدناه لـ 70) 👇 */
-    padding: 70px 15px !important; 
-    min-height: 150px !important; 
+    /* 👇 تحكم بالطول من هون (60px فوق وتحت) 👇 */
+    padding: 60px 25px !important; 
+    min-height: 140px !important; 
     
     border:none !important;
     box-shadow:0 6px 15px rgba(0,0,0,0.08) !important;
     font-weight:800 !important;
-    font-size: 14px !important; /* صغرنا الخط شوي عشان العرض النحيف */
+    font-size: 17px !important; 
     
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
+    
+    /* 👇 الحكي يلزق بالرسمة بالبداية 👇 */
+    justify-content: flex-start !important; 
+    gap: 8px; /* مسافة بسيطة جداً ورا الرسمة */
 }
 
-/* السهم في نهاية البوكس */
+/* السهم في نهاية البوكس الطويل */
 .stButton > button::after {
     content: "›";
-    font-size: 28px;
+    margin-left: auto; /* يدفعه لآخر اليمين */
+    font-size: 35px;
     color: #102646;
 }
 
-/* زر الرجوع */
+/* زر الرجوع - يضل صغير */
 .back-style .stButton > button {
     background:transparent !important;
     box-shadow:none !important;
@@ -61,6 +64,11 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 .back-style .stButton > button::after {
     content: "" !important;
+}
+
+div.stButton > button:hover {
+    background-color: #fcfcfc !important;
+    transform: translateY(-2px);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -76,10 +84,7 @@ with col_back:
 # Title
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:40px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار (طول جبار وعرض نحيف) =====
-
-# قللنا الفراغات العرضية لأن البوكس صار أنحف
-short_gap = "&nbsp;" * 25 
-
-st.button(f"✉️{short_gap}Email: Co.Care26@gmail.com")
-st.button(f"📞{short_gap}Phone: +962 79 123 4567")
+# Buttons
+# الحكي ورا الرسمة مباشرة والبوكس "طويللللل"
+st.button("✉️ Email: Co.Care26@gmail.com")
+st.button("📞 Phone: +962 79 123 4567")
