@@ -2,6 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
 
+# ===== CSS الموحد (مبدأ الإعدادات) =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -10,60 +11,64 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* 1. تكبير عرض الحاوية الزرقاء عشان البوكس الأبيض يفرش لليمين */
+/* الكونتينر النحيف */
 .block-container {
-    max-width: 650px; /* وسعنا العرض هون عشان البوكس يطول */
+    max-width: 430px; 
     margin: auto;
-    padding: 20px 10px;
+    padding: 20px 16px;
     background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius: 40px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     min-height: 600px;
 }
 
-/* 2. تنسيق البوكس الأبيض - ممتد وباللون الأبيض */
+/* تنسيق البوكسات الموحد */
 div.stButton > button {
-    width: 100% !important; /* بياخد كامل العرض المتاح */
-    min-height: 75px !important; 
-    background-color: #FFFFFF !important; /* لون أبيض ناصع */
-    border-radius: 30px !important;
+    width: 100% !important;
+    min-height: 65px !important; 
+    border-radius: 35px !important;
     margin-bottom: 20px !important;
+    background: white !important;
     border: none !important;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.07) !important;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
     
     font-weight: 700 !important;
     color: #102646 !important;
-    font-size: 16px !important; 
+    font-size: 15px !important; 
     
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important; /* النص بيبدأ من اليسار */
+    /* 👇 التعديل السحري هون: النص يلزق باليسار والسهم يروح يمين 👇 */
+    justify-content: flex-start !important; 
     
     padding: 0px 25px !important;
     transition: 0.3s;
 }
 
-/* 3. السهم - اندفاع لآخر اليمين لخلق مسافة بعد الحكي */
+/* السهم الصغير في النهاية - نخليه يندفع لآخر اليمين */
 div.stButton > button::after {
     content: "›";
-    font-size: 32px;
+    font-size: 26px;
     color: #102646;
-    margin-left: auto !important; /* هاد اللي بيعمل المسافة الكبيرة بعد الحكي */
+    margin-left: auto; /* هاد السطر هو اللي بيطرد السهم لليمين */
 }
 
-/* زر الرجوع */
+/* ستايل زر الرجوع */
 .back-style .stButton > button {
     background: transparent !important;
     box-shadow: none !important;
     font-size: 35px !important;
     width: auto !important;
     min-height: unset !important;
+    padding: 0 !important;
 }
-.back-style .stButton > button::after { content: "" !important; }
+.back-style .stButton > button::after {
+    content: "" !important;
+}
 
 div.stButton > button:hover {
     transform: translateY(-2px);
-    background-color: #ffffff !important;
+    background-color: #fcfcfc !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -76,9 +81,12 @@ with col_back:
         st.switch_page("pages/Settings.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:40px;">Contact Us</h2>', unsafe_allow_html=True)
+# العنوان
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# الأزرار (البوكس الأول والثاني صاروا طوال وبالعرض اللي بدك إياه)
+# ===== الأزرار (الكلام وراء الأيقونة مباشرة مع مسافة بسيطة) =====
+
+# مسافة صغيرة جداً (4 فراغات) بس عشان ما يلزق الكلام بالأيقونة زيادة عن اللزوم
 gap = "&nbsp;" * 4 
 
 if st.button(f"✉️{gap}Email: Co.Care26@gmail.com"):
