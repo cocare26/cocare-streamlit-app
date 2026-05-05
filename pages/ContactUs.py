@@ -72,6 +72,6 @@ spaces = " " * 35
 
 if st.button(f"✉️ Email: Co.Care26@gmail.com{spacesspaces}"):
     pass
-spaces = " " * 40 
-if st.button(f"📞 Phone: +962 79 123 4567{spacesspacesspacesspaces}"):
+spaces = " " * 60
+if st.button(f"📞 Phone: +962 79 123 4567{spacesspacesspacesspacesspacesspacesspacesspaces}"):
     pass
