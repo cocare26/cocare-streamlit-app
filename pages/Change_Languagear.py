@@ -57,13 +57,23 @@ div.stButton > button {
 }
 
 .back-style .stButton > button {
-    background:#111827 !important;
-    color:white !important;
-    width:45px !important;
-    height:60px !important;
-    border-radius:10px !important;
-    font-size:28px !important;
+    background:#111827 !important;   /* لون أسود */
+    color:white !important;          /* سهم أبيض */
+    
+    width:50px !important;           /* عرض مربع */
+    height:50px !important;          /* طول مربع */
+
+    border-radius:12px !important;   /* زوايا ناعمة زي الصورة */
+
+    font-size:26px !important;       /* حجم السهم */
+    font-weight:900 !important;
+
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
     padding:0 !important;
+    border:none !important;
 }
 
 div.stButton > button:hover {
