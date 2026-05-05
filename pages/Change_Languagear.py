@@ -31,6 +31,7 @@ st.markdown("""
     font-weight:900;
     color:#102646;
     margin-bottom:30px;
+    margin-top:70px;   /* هاي اللي تنزل العنوان تحت السهم */
 }
 
 /* الأزرار */
