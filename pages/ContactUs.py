@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
 
-# ===== CSS الموحد (تركيز على العرض الطويل) =====
+# ===== CSS المدمج (ستايل البطاقة مع عرض المسطرة) =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -22,36 +22,35 @@ st.markdown("""
     min-height: 600px;
 }
 
-/* تنسيق البوكسات */
+/* تنسيق البوكسات بنمط الـ Card */
 div.stButton > button {
     width: 100% !important;
-    min-height: 65px !important; /* السماكة زي ما طلبت */
-    border-radius: 35px !important;
-    margin-bottom: 20px !important;
-    background: white !important;
-    border: none !important;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
+    min-height: 65px !important; 
     
+    /* ستايل الـ Card اللي طلبته 👇 */
+    background: white !important;
+    padding: 15px 25px !important; /* دمجت الـ 15px اللي طلبتها مع تباعد جانبي */
+    border-radius: 25px !important; /* الـ Radius الخاص بالبطاقة */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important; /* الظل الخاص بالبطاقة */
+    margin-bottom: 15px !important; /* المسافة بين البطاقات */
+    
+    border: none !important;
     font-weight: 700 !important;
     color: #102646 !important;
     font-size: 15px !important; 
     
     display: flex !important;
     align-items: center !important;
+    justify-content: space-between !important; /* المسافة الطويلة بالعرض */
     
-    /* 👇 التعديل الجوهري: توزيع المحتوى على أطراف البوكس بالعرض 👇 */
-    justify-content: space-between !important; 
-    
-    padding: 0px 25px !important;
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
-/* السهم الصغير في النهاية */
+/* السهم الصغير في نهاية البطاقة */
 div.stButton > button::after {
     content: "›";
     font-size: 26px;
     color: #102646;
-    /* شلنا الـ margin-left عشان الـ space-between هي اللي تتحكم */
 }
 
 /* ستايل زر الرجوع */
@@ -62,7 +61,6 @@ div.stButton > button::after {
     width: auto !important;
     min-height: unset !important;
     padding: 0 !important;
-    justify-content: center !important; /* للرجوع فقط */
 }
 .back-style .stButton > button::after {
     content: "" !important;
@@ -70,7 +68,7 @@ div.stButton > button::after {
 
 div.stButton > button:hover {
     transform: translateY(-2px);
-    background-color: #fcfcfc !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -86,10 +84,7 @@ with col_back:
 # العنوان
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار (طويلة بالعرض أوتوماتيكياً) =====
-
-# هون ما في داعي لفراغات كتير، الـ CSS رح يرمي النص لليسار والسهم لليمين
-# وبطلع بينهم مسافة "طويلة بالعرض" زي المسطرة
+# ===== الأزرار بنمط البطاقات الطويلة عرضياً =====
 
 if st.button("✉️ Email: Co.Care26@gmail.com"):
     pass
