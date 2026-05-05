@@ -13,9 +13,12 @@ st.markdown("""
 
 .back-btn-container {
     position: absolute;
-    right: 15px; /* المسافة عن اليمين */
-    top: 25px;   /* المسافة عن فوق */
-    z-index: 1000; /* عشان يضل فوق كل اشي */
+    right: 5px;   /* تقليل المسافة لأقصى حد جهة اليمين */
+    top: 15px;    /* رفعه قليلاً للأعلى */
+    z-index: 1001;
+}
+.back-btn-container .stButton > button::after {
+    content: "" !important;
 }
 /* الكونتينر النحيف */
 .block-container {
