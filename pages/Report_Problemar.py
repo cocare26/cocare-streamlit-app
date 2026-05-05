@@ -72,7 +72,6 @@ footer {visibility: hidden;}
 st.markdown('<div class="header-wrapper">', unsafe_allow_html=True)
 
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
-# التعديل هنا: السهم "›" للرجوع في الواجهة العربية والتحويل لصفحة settingar.py
 if st.button("›"): 
     st.switch_page("pages/settingar.py")
 st.markdown('</div>', unsafe_allow_html=True)
@@ -118,8 +117,8 @@ body { font-family: 'Segoe UI'; background: transparent; margin: 0; display: fle
 <script>
 function showPopup(){
     alert("تم إرسال التقرير بنجاح ✅");
-    // هذا سيعيد المستخدم للصفحة السابقة في المتصفح
-    window.parent.location.reload(); 
+    // التوجيه الإجباري لصفحة الإعدادات العربية بعد الضغط على OK
+    window.parent.location.assign('settingar');
 }
 </script>
 </body>
