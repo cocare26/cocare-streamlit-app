@@ -1,12 +1,14 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import pandas as pd
+import os
 
 st.set_page_config(page_title="لوحة الموظف", layout="centered")
 
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] { background:#eef2f7; }
-.block-container { padding-top:10px; max-width:520px; }
+.block-container { padding-top:10px; max-width:520px; direction: rtl; }
 header, footer { visibility:hidden; }
 </style>
 """, unsafe_allow_html=True)
@@ -220,24 +222,24 @@ body{margin:0;background:transparent}
     <div class="section">سجل التنبيهات والمشاكل</div>
 
     <div class="alerts">
-        <div class="alert" onclick="alert('🚨 تم اختيار المشكلة')">
+        <div class="alert">
             <div class="alert-head red">❗ مشكلة</div>
             <div class="alert-body">
-                <b>المنطقة:</b> <span class="region-name">عمّان</span>: عدة بلاغات من المستخدمين الساعة 09:30 صباحًا عن بطء الإنترنت.
+                <b>المنطقة:</b> <span class="region-name">عمّان</span>: يتم عرض مشاكل العملاء من سجل الشات بالأسفل.
             </div>
         </div>
 
-        <div class="alert" onclick="alert('⚠️ مشكلة داخلية')">
+        <div class="alert">
             <div class="alert-head yellow">⚠️ داخلي</div>
             <div class="alert-body">
-                <b>المنطقة:</b> <span class="region-name">عمّان</span>: عدة بلاغات من المستخدمين الساعة 09:30 صباحًا عن بطء الإنترنت.
+                تنبيهات الموظف تظهر حسب تحليل رسالة العميل.
             </div>
         </div>
 
-        <div class="alert" onclick="alert('🌐 مشكلة خارجية')">
+        <div class="alert">
             <div class="alert-head blue">↗ خارجي</div>
             <div class="alert-body">
-                <b>المنطقة:</b> <span class="region-name">عمّان</span> مشكلة الإنترنت خارجية، وتم الإبلاغ أن السبب من مزود الخدمة.
+                إشعارات العميل تظهر عند الحاجة حسب التصعيد.
             </div>
         </div>
     </div>
@@ -245,7 +247,7 @@ body{margin:0;background:transparent}
     <div class="section">مؤشرات أداء الشبكة</div>
 
     <div class="metrics">
-        <div class="chart" onclick="alert('تفاصيل زمن الاستجابة 📊')">
+        <div class="chart">
             <svg class="line" viewBox="0 0 140 70">
                 <polygon points="0,65 0,55 45,40 95,25 135,5 135,65" fill="#dbeafe"/>
                 <polyline points="0,55 45,40 95,25 135,5" fill="none" stroke="#2f80ed" stroke-width="4"/>
@@ -256,7 +258,7 @@ body{margin:0;background:transparent}
             <div class="chart-title">متوسط زمن الاستجابة (ms)</div>
         </div>
 
-        <div class="chart" onclick="alert('تفاصيل فقدان الحزم 📊')">
+        <div class="chart">
             <div class="bar" style="left:45px;height:43px;"></div>
             <div class="bar" style="left:76px;height:28px;"></div>
             <div class="bar" style="left:107px;height:70px;"></div>
@@ -271,7 +273,7 @@ body{margin:0;background:transparent}
 
     <div class="section">إعلان موظف الشهر</div>
 
-    <div class="employee" onclick="alert('👨‍💼 تفاصيل الموظف: أحمد علي')">
+    <div class="employee">
         <div class="avatar">👨‍💼</div>
         <div>
             <div class="emp-name">أحمد علي</div>
@@ -290,6 +292,7 @@ body{margin:0;background:transparent}
     </form>
 
     <form action="/" method="get" target="_top">
+        <input type="hidden" name="page" value="logout">
         <button type="submit"><span>⇥</span>خروج</button>
     </form>
 
@@ -315,3 +318,56 @@ function updateRegion(){
 </body>
 </html>
 """, height=820)
+
+
+# =========================
+# قراءة تحليلات رسائل العميل
+# =========================
+st.markdown("---")
+st.subheader("📊 تحليل رسائل العملاء")
+
+CHAT_LOG_PATH = os.path.join("data", "chat_logs.csv")
+
+if os.path.exists(CHAT_LOG_PATH):
+    logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
+
+    if logs.empty:
+        st.info("لا توجد رسائل عملاء حتى الآن.")
+    else:
+        latest = logs.tail(1).iloc[0]
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.metric("النية Intent", latest.get("intent", ""))
+            st.metric("المشاعر Sentiment", latest.get("sentiment", ""))
+            st.metric("نوع المشكلة", latest.get("issue_type", ""))
+
+        with col2:
+            st.metric("التنبؤ", latest.get("prediction", ""))
+            st.metric("التصعيد", str(latest.get("escalation", "")))
+            st.metric("نوع الإشعار", latest.get("notification_type", ""))
+
+        st.subheader("آخر رسالة من العميل")
+        st.write("رسالة العميل:", latest.get("message", ""))
+        st.write("رقم العميل:", latest.get("user_id", ""))
+        st.write("المنطقة:", latest.get("region", ""))
+        st.write("اللغة:", latest.get("language", ""))
+        st.write("مشكلة شبكة:", latest.get("network_problem", ""))
+        st.write("القناة:", latest.get("display_channel", ""))
+        st.write("سبب التصعيد:", latest.get("reason", ""))
+        st.write("عدد تكرار المشكلة للعميل:", latest.get("repeat_count", ""))
+        st.write("عدد مشاكل المنطقة:", latest.get("area_issue_count", ""))
+
+        st.subheader("رسائل الموظف الداخلية")
+        st.write("عربي:", latest.get("internal_message_ar", ""))
+        st.write("إنجليزي:", latest.get("internal_message_en", ""))
+
+        st.subheader("رسائل العميل الخارجية")
+        st.write("عربي:", latest.get("external_message_ar", ""))
+        st.write("إنجليزي:", latest.get("external_message_en", ""))
+
+        st.subheader("كل سجلات العملاء")
+        st.dataframe(logs.tail(20), use_container_width=True)
+else:
+    st.info("لا يوجد ملف سجلات بعد. أرسلي رسالة من شات العميل أولاً.")
