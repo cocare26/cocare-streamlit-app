@@ -1,55 +1,64 @@
 import streamlit as st
 
 # 1. إعداد الصفحة
-st.set_page_config(page_title="تغيير اللغة", layout="centered")
+st.set_page_config(page_title="اتصل بنا", layout="centered")
 
-# 2. التنسيق لجعل الزر يشبه الصورة تماماً (السهم على اليسار والنص على اليمين)
+# 2. التنسيق (CSS) لضبط الواجهة العربية
 st.markdown("""
 <style>
-    /* إخفاء القوائم الافتراضية */
     #MainMenu, header, footer {visibility:hidden;}
     
-    /* ضبط الخلفية والاتجاه للعربية */
     [data-testid="stAppViewContainer"] {
         background:#f0f7ff;
-        direction: rtl;
+        direction: rtl; /* اتجاه عربي */
     }
 
-    /* تنسيق أزرار Streamlit لتشبه التصميم المطلوب */
+    .block-container {
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    /* تنسيق الأزرار */
     div.stButton > button {
         width: 100% !important;
-        height: 70px !important;
-        background-color: white !important;
+        min-height: 60px !important;
+        border-radius: 20px !important;
+        background-color: #ffffff !important;
         color: #102646 !important;
-        border-radius: 35px !important;
-        border: none !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-        display: flex !important;
-        flex-direction: row !important; /* ترتيب العناصر */
-        justify-content: space-between !important; /* توزيع النص والسهم */
-        align-items: center !important;
-        padding: 0 25px !important;
         font-weight: 700 !important;
-        font-size: 18px !important;
+        border: 1px solid #e0e0e0 !important;
+        margin-bottom: 15px !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        padding: 0 20px !important;
     }
 
-    /* وضع سهم جهة اليسار للغة الإنجليزية */
-    .eng-btn > div.stButton > button::before {
-        content: "‹";
-        font-size: 25px;
+    /* زر الرجوع الخاص */
+    .back-btn > div.stButton > button {
+        background: transparent !important;
+        border: none !important;
+        font-size: 30px !important;
+        width: auto !important;
+        box-shadow: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<h2 style='text-align:center; color:#102646;'>تغيير اللغة</h2>", unsafe_allow_html=True)
-
-# 3. زر اللغة العربية (الحالية)
-st.button("🌐 العربية ✅")
-
-# 4. زر اللغة الإنجليزية (المعدل للانتقال وتغيير الواجهة)
-st.markdown('<div class="eng-btn">', unsafe_allow_html=True)
-if st.button("🌐 الإنجليزية"):
-    # هذا الأمر سيفتح صفحة الإعدادات الإنجليزية
-    # صفحة Settings.py يجب أن تحتوي في الـ CSS الخاص بها على direction: ltr
-    st.switch_page("pages/Settings.py")
+# 3. زر الرجوع (يرجعك لصفحة الإعدادات العربية)
+st.markdown('<div class="back-btn">', unsafe_allow_html=True)
+if st.button("›"):
+    st.switch_page("pages/settingar.py")
 st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown("<h2 style='text-align:center; color:#102646;'>اتصل بنا</h2>", unsafe_allow_html=True)
+
+# 4. أزرار التواصل
+if st.button("✉️ البريد: Co.Care26@gmail.com"):
+    pass
+
+if st.button("📞 الهاتف: 962791234567+"):
+    pass
