@@ -130,9 +130,8 @@ body {
 
 <div class="wrapper">
 
-<div class="item" onclick="window.parent.location.href='/ChangeLanguagear';">
+<div class="item" onclick="window.top.location.href='/settingar';">
     <span>🌐 Arabic</span>
-    st.switch_page("pages/settingar.py")
     ›
 </div>
 
