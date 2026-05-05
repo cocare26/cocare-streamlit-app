@@ -21,11 +21,17 @@ robot = img_to_base64("robot_head.png")
 # =========================
 # SESSION
 # =========================
-if "messages" not in st.session_state:
+if "app_version" not in st.session_state:
+    st.session_state.app_version = "v2_ar_fixed"
     st.session_state.messages = [
         ("bot", "مرحباً، كيف أقدر أساعدك؟")
     ]
 
+if st.sidebar.button("مسح الشات"):
+    st.session_state.messages = [
+        ("bot", "مرحباً، كيف أقدر أساعدك؟")
+    ]
+    st.rerun()
 # =========================
 # BOT LOGIC
 # =========================
