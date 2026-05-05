@@ -138,7 +138,14 @@ body {
 .main-icon {
     color: #808080;
     font-size: 18px;
+    transition: transform 0.3s ease; /* حركة ناعمة */
 }
+
+/* 👇 التعديل اللي طلبته هون 👇 */
+.send-btn:hover .main-icon {
+    transform: translateY(-5px); /* بتتحرك لفوق 5 بكسل */
+}
+
 </style>
 </head>
 
