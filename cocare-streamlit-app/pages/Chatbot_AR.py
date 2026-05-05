@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 import base64
 
-st.set_page_config(page_title="AI Agent", layout="centered")
+st.set_page_config(page_title="المساعد الذكي", layout="centered")
 
 with open("robot_head.png", "rb") as f:
     robot = base64.b64encode(f.read()).decode()
@@ -15,6 +15,7 @@ body {{
     margin:0;
     background:#eef2f7;
     font-family:Arial;
+    direction:rtl;
 }}
 
 .phone {{
@@ -51,7 +52,6 @@ body {{
     width:42px;
     height:42px;
     border-radius:50%;
-    object-fit:cover;
 }}
 
 .dot {{
@@ -64,7 +64,6 @@ body {{
 .status {{
     font-size:15px;
     font-weight:700;
-    color:#222;
 }}
 
 .chat-box {{
@@ -83,38 +82,33 @@ body {{
     border-radius:16px;
     margin-bottom:8px;
     font-size:13px;
-    line-height:1.4;
 }}
 
 .bot {{
     background:white;
     color:#222;
-    margin-right:auto;
+    margin-left:auto;
 }}
 
 .user {{
     background:#1c6fa4;
     color:white;
-    margin-left:auto;
+    margin-right:auto;
 }}
 
 .menu {{
     display:none;
     position:absolute;
-    left:38px;
+    right:38px;
     bottom:90px;
-    width:150px;
+    width:160px;
     background:white;
     border-radius:8px;
     box-shadow:0 4px 12px rgba(0,0,0,.18);
-    padding:8px 0;
-    z-index:5;
 }}
 
 .menu div {{
-    font-size:13px;
-    padding:7px 13px;
-    color:#222;
+    padding:8px 12px;
     cursor:pointer;
 }}
 
@@ -140,32 +134,26 @@ body {{
     background:white;
     text-align:center;
     line-height:32px;
-    font-size:22px;
-    color:#50768a;
+    font-size:20px;
     cursor:pointer;
 }}
 
 .chat-input {{
     flex:1;
     height:34px;
-    background:white;
     border-radius:22px;
-    color:#444;
-    font-size:12px;
-    padding-left:14px;
     border:none;
-    outline:none;
+    padding-right:10px;
 }}
 
 .send {{
     width:40px;
     height:40px;
     border-radius:50%;
-    background:linear-gradient(135deg,#6ec6ff,#1c6fa4);
+    background:#1c6fa4;
     color:white;
     text-align:center;
     line-height:40px;
-    font-size:20px;
     cursor:pointer;
 }}
 </style>
@@ -175,30 +163,30 @@ body {{
 <div class="phone">
 
     <div class="topbar">
-       <a href="/Customer" target="_self" style="text-decoration:none;">
-    <div class="back">‹</div>
-</a>
+        <a href="/Customer" target="_self" style="text-decoration:none;">
+            <div class="back">›</div>
+        </a>
         <img class="avatar" src="data:image/png;base64,{robot}">
         <div class="dot"></div>
-        <div class="status">Ready to assist</div>
+        <div class="status">جاهز للمساعدة</div>
     </div>
 
     <div id="chatBox" class="chat-box">
-        <div class="msg bot">Hi, how can I help you?</div>
+        <div class="msg bot">مرحبًا 👋 كيف أقدر أساعدك؟</div>
     </div>
 
     <div id="menu" class="menu">
-        <div onclick="quickMsg('Network Test')">Network Test</div>
-        <div onclick="quickMsg('Internet Usage')">Internet Usage</div>
-        <div onclick="quickMsg('Renew Package')">Renew Package</div>
-        <div onclick="quickMsg('International Calls')">International Calls</div>
-        <div onclick="quickMsg('Offers & Games')">Offers & Games</div>
-        <div onclick="quickMsg('Contact Support')">Contact Support</div>
+        <div onclick="quickMsg('فحص الشبكة')">فحص الشبكة</div>
+        <div onclick="quickMsg('استهلاك الإنترنت')">استهلاك الإنترنت</div>
+        <div onclick="quickMsg('تجديد الباقة')">تجديد الباقة</div>
+        <div onclick="quickMsg('المكالمات الدولية')">المكالمات الدولية</div>
+        <div onclick="quickMsg('العروض')">العروض</div>
+        <div onclick="quickMsg('الدعم')">الدعم</div>
     </div>
 
     <div class="bottom">
         <div class="hamburger" onclick="toggleMenu()">≡</div>
-        <input id="chatInput" class="chat-input" placeholder="Type your question here..." onkeydown="checkEnter(event)">
+        <input id="chatInput" class="chat-input" placeholder="اكتب سؤالك..." onkeydown="checkEnter(event)">
         <div class="send" onclick="sendMessage()">➤</div>
     </div>
 
@@ -206,65 +194,50 @@ body {{
 
 <script>
 function toggleMenu(){{
-    const menu = document.getElementById("menu");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
+    let m = document.getElementById("menu");
+    m.style.display = m.style.display === "block" ? "none" : "block";
 }}
 
-function addMessage(text, type){{
-    const chatBox = document.getElementById("chatBox");
-    const msg = document.createElement("div");
+function addMessage(text,type){{
+    let box = document.getElementById("chatBox");
+    let msg = document.createElement("div");
     msg.className = "msg " + type;
     msg.innerText = text;
-    chatBox.appendChild(msg);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    box.appendChild(msg);
+    box.scrollTop = box.scrollHeight;
 }}
 
 function botReply(text){{
-    let reply = "I received your request.";
+    let r = "تم استلام طلبك";
 
-    if(text === "Network Test"){{
-        reply = "Your network signal is strong.";
-    }}
-    else if(text === "Internet Usage"){{
-        reply = "Your current internet usage is available in your dashboard.";
-    }}
-    else if(text === "Renew Package"){{
-        reply = "You can renew your package from the packages section.";
-    }}
-    else if(text === "International Calls"){{
-        reply = "International call options are available for your line.";
-    }}
-    else if(text === "Offers & Games"){{
-        reply = "Current offers and games are available in the offers section.";
-    }}
-    else if(text === "Contact Support"){{
-        reply = "Support team will contact you soon.";
-    }}
+    if(text=="فحص الشبكة") r="الشبكة عندك ممتازة 👍";
+    else if(text=="استهلاك الإنترنت") r="تقدر تشوف استهلاكك من التطبيق";
+    else if(text=="تجديد الباقة") r="تقدر تجدد الباقة من قسم الباقات";
+    else if(text=="المكالمات الدولية") r="الخدمة متاحة عندك";
+    else if(text=="العروض") r="في عروض جديدة حالياً 🎁";
+    else if(text=="الدعم") r="تم تحويلك للدعم الفني 👨‍💻";
 
-    setTimeout(function(){{
-        addMessage(reply, "bot");
-    }}, 500);
+    setTimeout(()=>addMessage(r,"bot"),500);
 }}
 
 function sendMessage(){{
-    const input = document.getElementById("chatInput");
-    const text = input.value.trim();
+    let input=document.getElementById("chatInput");
+    let text=input.value.trim();
+    if(!text) return;
 
-    if(text === "") return;
-
-    addMessage(text, "user");
-    input.value = "";
+    addMessage(text,"user");
+    input.value="";
     botReply(text);
 }}
 
 function quickMsg(text){{
-    document.getElementById("menu").style.display = "none";
-    addMessage(text, "user");
+    document.getElementById("menu").style.display="none";
+    addMessage(text,"user");
     botReply(text);
 }}
 
 function checkEnter(event){{
-    if(event.key === "Enter"){{
+    if(event.key==="Enter"){{
         sendMessage();
     }}
 }}
