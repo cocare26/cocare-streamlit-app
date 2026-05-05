@@ -11,9 +11,7 @@ query = st.query_params
 if "lang" in query:
     st.session_state.lang = query["lang"]
 
-# ✅ تحديد الصح
-arabic_check = "✔" if st.session_state.lang == "ar" else "›"
-english_check = "✔" if st.session_state.lang == "en" else "›
+
 
 # ===== CSS =====
 st.markdown("""
