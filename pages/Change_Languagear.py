@@ -1,10 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-
-
-الانتقال الرسمي
-
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
 # ✅ تخزين اللغة
@@ -138,10 +134,11 @@ body {
     </div>
 
     <!-- الخيار الإنجليزي -->
- <div class="item" onclick="window.parent.location.assign('/Settings');">
-    <span>🌐 English</span>
-    <span>‹</span>
-</div>
+    <div class="item" onclick="window.open('/Settings', '_top');">
+        <span>🌐 English</span>
+        <span>‹</span>
+    </div>
+
 </div>
 
 <script>
