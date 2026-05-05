@@ -1,190 +1,207 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# 1. إعدادات الصفحة
 st.set_page_config(page_title="تغيير كلمة المرور", layout="centered")
 
-# 2. التنسيق العام (CSS)
 st.markdown("""
 <style>
-/* 🎯 ألوان أساسية */
-:root{
-    --navy:#0f2446;
-    --accent:#2f80ed;
-    --bg1:#d6ecff;
-    --bg2:#bfe3ff;
-    --bg3:#eaf6ff;
+* { margin:0; padding:0; box-sizing:border-box; direction:rtl; }
+
+html, body, [data-testid="stAppViewContainer"] {
+    background:#f0f7ff;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* 📱 خلفية الصفحة */
-[data-testid="stAppViewContainer"]{
-    background:#eef2f7;
-}
+#MainMenu, header, footer { visibility:hidden; }
 
-/* 📦 الكارد الرئيسي - مقاس موحد (350px) */
-.block-container{
-    max-width:350px !important;
-    margin:auto !important;
-    padding:30px !important;
-    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+.block-container {
+    max-width:430px;
+    margin:auto;
+    padding:18px 16px;
+    background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
     border-radius:42px;
-    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    min-height:600px;
+}
+
+.back-style .stButton > button {
+    background:white !important;
+    color:black !important;
+    border-radius:50% !important;
+    width:40px !important;
+    height:40px !important;
+    padding:0 !important;
+    font-size:20px !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08) !important;
+}
+
+.title-text {
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
+    text-align:center;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. محتوى الصفحة (HTML/JS) باللغة العربية
+col1, col2 = st.columns([1, 8])
+
+with col1:
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("›"):
+        st.switch_page("pages/Settings.py")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with col2:
+    st.markdown('<div class="title-text">تغيير كلمة المرور</div>', unsafe_allow_html=True)
+
 components.html("""
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: transparent;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .main-wrapper {
-            width: 100%;
-            max-width: 290px;
-            display: flex;
-            flex-direction: column;
-            height: 480px;
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 35px;
-            position: relative;
-        }
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI';
+    background:transparent;
+    display:flex;
+    justify-content:center;
+}
 
-        /* 🔙 سهم الرجوع الموحد > للعربية */
-        .back-icon {
-            position: absolute;
-            right: 0;
-            font-size: 28px;
-            font-weight: bold;
-            color: #0f2446;
-            text-decoration: none;
-            line-height: 1;
-            cursor: pointer;
-        }
+.main-wrapper {
+    width:100%;
+    max-width:380px;
+    display:flex;
+    flex-direction:column;
+}
 
-        .title {
-            margin: 0;
-            font-weight: 900;
-            font-size: 20px;
-            color: #0f2446;
-        }
+.input {
+    background:white;
+    border-radius:100px;
+    padding:12px 18px;
+    margin-bottom:15px;
+    display:flex;
+    align-items:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease;
+}
 
-        /* ⚪ بوكس الإدخال */
-        .input-capsule {
-            background: white;
-            border-radius: 100px;
-            padding: 10px 18px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
+.input:hover {
+    transform: translateY(-5px);
+}
 
-        .input-capsule i.field-icon {
-            color: #0f2446;
-            margin-left: 12px;
-            font-size: 16px;
-        }
+.input i {
+    color:#102646;
+}
 
-        .input-capsule input {
-            border: none;
-            outline: none;
-            flex-grow: 1;
-            font-size: 14px;
-            color: #0f2446;
-            background: transparent;
-            text-align: right;
-        }
+.input input {
+    border:none;
+    outline:none;
+    flex:1;
+    margin-right:10px;
+    font-family:'Segoe UI';
+    direction:rtl;
+}
 
-        .input-capsule i.toggle-eye {
-            color: #ccc;
-            cursor: pointer;
-            margin-right: 10px;
-        }
+.eye {
+    cursor:pointer;
+    margin-right:10px;
+}
 
-        /* 🔘 زر الحفظ الأبيض */
-        .save-btn-container {
-            margin-top: auto;
-            display: flex;
-            justify-content: center;
-            padding-bottom: 10px;
-        }
+.save {
+    margin-top:20px;
+}
 
-        .save-box {
-            background: white;
-            border-radius: 100px;
-            width: 100%;
-            padding: 12px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-        }
+.save button {
+    width:100%;
+    border-radius:100px;
+    padding:16px;
+    border:none;
+    background:white;
+    font-weight:900;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease;
+    font-family:'Segoe UI';
+}
 
-        .save-box span {
-            color: #0f2446;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .save-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-        }
-    </style>
+.save button:hover {
+    transform: translateY(-5px);
+}
+</style>
 </head>
+
 <body>
-    <div class="main-wrapper">
-        <div class="header-container">
-            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
-            <h2 class="title">تغيير كلمة المرور</h2>
-        </div>
 
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="كلمة المرور الحالية">
-            <i class="fas fa-eye-slash toggle-eye"></i>
-        </div>
+<div class="main-wrapper">
 
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="كلمة المرور الجديدة">
-            <i class="fas fa-eye-slash toggle-eye"></i>
-        </div>
+<div class="input">
+    <i class="fas fa-lock"></i>
+    <input type="password" id="old" placeholder="كلمة المرور الحالية">
+    <i class="fas fa-eye-slash eye"></i>
+</div>
 
-        <div class="input-capsule">
-            <i class="fas fa-lock field-icon"></i>
-            <input type="password" placeholder="تأكيد كلمة المرور">
-            <i class="fas fa-eye-slash toggle-eye"></i>
-        </div>
+<div class="input">
+    <i class="fas fa-lock"></i>
+    <input type="password" id="new1" placeholder="كلمة المرور الجديدة">
+    <i class="fas fa-eye-slash eye"></i>
+</div>
 
-        <div class="save-btn-container">
-            <button class="save-box" onclick="alert('تم حفظ كلمة المرور!')">
-                <span>حفظ</span>
-            </button>
-        </div>
-    </div>
+<div class="input">
+    <i class="fas fa-lock"></i>
+    <input type="password" id="new2" placeholder="إعادة كتابة كلمة المرور الجديدة">
+    <i class="fas fa-eye-slash eye"></i>
+</div>
 
-    <script>
-    function goPage(p){
-        window.top.location.href = "/?page=" + p;
+<div class="save">
+    <button onclick="save()">حفظ</button>
+</div>
+
+</div>
+
+<script>
+function save(){
+    let oldPass = document.getElementById("old").value;
+    let p1 = document.getElementById("new1").value;
+    let p2 = document.getElementById("new2").value;
+
+    if(oldPass === ""){
+        alert("أدخلي كلمة المرور الحالية");
+        return;
     }
-    </script>
+
+    if(p1 === "" || p2 === ""){
+        alert("أدخلي كلمة المرور الجديدة");
+        return;
+    }
+
+    if(p1 !== p2){
+        alert("كلمتا المرور غير متطابقتين");
+        return;
+    }
+
+    alert("تم تغيير كلمة المرور بنجاح ✅");
+    window.parent.history.back();
+}
+
+document.querySelectorAll(".input").forEach(box => {
+    const input = box.querySelector("input");
+    const eye = box.querySelector(".eye");
+
+    box.addEventListener("mouseenter", () => {
+        input.type = "text";
+        eye.classList.replace("fa-eye-slash", "fa-eye");
+    });
+
+    box.addEventListener("mouseleave", () => {
+        input.type = "password";
+        eye.classList.replace("fa-eye", "fa-eye-slash");
+    });
+});
+</script>
+
 </body>
 </html>
-""", height=500)
+""", height=420)
