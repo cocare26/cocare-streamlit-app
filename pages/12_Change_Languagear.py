@@ -138,7 +138,7 @@ body{
     </div>
 
     <!-- الإنجليزية -->
-    <div class="language-capsule" onclick="goPage('settings')">
+    <div class="language-capsule" onclick="goPage('Settings')">
         <div class="left-content">
             <div class="icon"><i class="fas fa-globe"></i></div>
             <div class="label">English</div>
@@ -149,7 +149,7 @@ body{
     </div>
 
     <!-- العربية -->
-    <div class="language-capsule" onclick="goPage('settings-ar')">
+    <div class="language-capsule">
         <div class="left-content">
             <div class="icon"><i class="fas fa-globe"></i></div>
             <div class="label">العربية</div>
@@ -163,7 +163,7 @@ body{
 
 <script>
 function goPage(p){
-    window.top.location.href = "/?page=" + p;
+     window.parent.location.href = "/" + p;
 }
 </script>
 
