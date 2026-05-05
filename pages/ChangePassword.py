@@ -168,7 +168,9 @@ function save(){
     }
 
     alert("Password changed successfully ✅");
+    window.parent.location.href = "/Settings";
 }
+      
 </script>
 
 </body>
