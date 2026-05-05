@@ -71,7 +71,7 @@ st.markdown('<div class="header-wrapper">', unsafe_allow_html=True)
 
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
 if st.button("›"): 
-    st.switch_page("pages/Settings.py")
+    st.switch_page("pages/settingar.py")
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
@@ -100,7 +100,7 @@ body { margin:0; font-family:'Segoe UI'; display:flex; justify-content:center; b
     <span class="check-mark">✔</span>
 </div>
 
-<div class="item" onclick="window.open('Settings', '_parent');">
+<div class="item" onclick="window.parent.location.assign('Settings');">
     <span>🌐 English</span>
 </div>
 </div>
