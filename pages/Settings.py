@@ -2,128 +2,109 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS =====
+# ===== CSS المعدل لزيادة طول البوكسات =====
 st.markdown("""
 <style>
-
-
-
 #MainMenu, header, footer {visibility:hidden;}
 
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
 }
 
-/* الكونتينر */
 .block-container {
-    max-width:420px;
+    max-width:450px;
     margin:auto;
-    padding:30px 20px;
+    padding:40px 25px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius:40px;
-    box-shadow:0 20px 40px rgba(0,0,0,.15);
+    box-shadow:0 20px 40px rgba(0,0,0,0.15);
 }
 
-/* العنوان */
 .title {
     text-align:center;
-    font-size:22px;
+    font-size:26px;
     font-weight:900;
     color:#102646;
-    margin-bottom:30px;
+    margin-bottom:40px;
 }
 
-/* الأزرار الرئيسية */
+/* التعديل الجذري على حجم البوكس (الزر) */
 div.stButton > button {
-      width: 100%;
+    width: 100% !important;
     
-    /* 👇 مهم: بدل height ثابت */
-    min-height: 70px !important;  
+    /* 1. زيادة الطول من هنا */
+    min-height: 90px !important; 
     
-    border-radius: 100px;
-    margin-bottom: 18px;
-    background: white;
-    border: none;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    font-weight: 800;
-    color: #102646;
-    font-size: 16px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 10px 30px !important;
-
-    /* 👇 يمنع القص */
-    white-space: normal !important;
-    overflow: visible !important; 
-}
+    border-radius: 45px !important; 
+    margin-bottom: 20px;
+    background: white !important;
+    border: none !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
     
+    /* 2. تكبير الخط وتغيير الوزن */
+    font-weight: 800 !important;
+    color: #102646 !important;
+    font-size: 18px !important;
+    
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    
+    /* 3. زيادة المسافة الداخلية */
+    padding: 15px 35px !important;
+    transition: all 0.4s ease;
 }
 
-div.stButton:nth-of-type(-n+4) > button {
-    padding-left: 50px !important;
-}
-
-/* hover */
+/* تأثير الحركة عند التمرير */
 div.stButton > button:hover {
-    transform:translateY(-4px);
-    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+    transform: scale(1.02);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.15) !important;
 }
 
-/* السهم */
+/* السهم الجانبي */
 div.stButton > button::after {
     content: "›";
-    float:right;
-    font-size:18px;
+    font-size: 30px; /* تكبير السهم */
+    color: #102646;
+    font-weight: 200;
 }
 
-/* الصف السفلي */
-.bottom-row {
-    display:flex;
-    gap:15px;
-    margin-top:30px;
-}
-
-/* أزرار تحت */
-.bottom-row div.stButton > button {
-    width:100%;
-    text-align:center;
+/* تعديل الأزرار الصغيرة في الأسفل */
+[data-testid="stHorizontalBlock"] div.stButton > button {
+    min-height: 80px !important; /* طول أقل قليلاً للأزرار المزدوجة */
+    font-size: 15px !important;
+    padding: 10px 20px !important;
 }
 
 </style>
-
 <div class="title">Settings</div>
 """, unsafe_allow_html=True)
-# ===== buttons =====
-# ===== buttons ====
-if st.button("🔒  Change Password"):
+
+# ===== الأزرار (البوكسات) =====
+
+# كل زر رح يطلع طويل وبمساحة كبيرة
+if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
 
-if st.button("🌐  Change Language"):
+if st.button("🌐 Change Language"):
     st.switch_page("pages/ChangeLanguage.py")
 
-if st.button("⭐  Rate App"):
+if st.button("⭐ Rate App"):
     st.switch_page("pages/RateApp.py")
 
-if st.button("🚪  Log Out"):
+if st.button("🛡️ Privacy Policy"):
+    st.switch_page("pages/Privacy.py")
+
+if st.button("🚪 Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
 
-# ===== bottom =====
+st.markdown("---") # خط فاصل بسيط
 
-st.markdown('<div class="bottom-row">', unsafe_allow_html=True) 
-
+# الأزرار السفلية
 col1, col2 = st.columns(2)
-
 with col1:
-    if st.button(" ⚠️ Report a Problem"):
-        st.switch_page("pages/ReportProblem.py")
+    st.button("⚠️ Report Problem")
 
 with col2:
-    if st.button(" ✉️ Contact Us"):
-        st.switch_page("pages/ContactUs.py")
-        
-        
-st.markdown('</div>', unsafe_allow_html=True)
+    st.button("✉️ Contact Us")
