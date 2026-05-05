@@ -58,34 +58,18 @@ html, body, [data-testid="stAppViewContainer"] {
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
-# ---------------- HEADER ----------------
+st.markdown('<div class="title-wrapper">', unsafe_allow_html=True)
 
-# استبدل قسم الـ HEADER بهذا الكود
-col_back, col_title, col_empty = st.columns([1, 4, 1])
+with st.container():
+    st.markdown('<div class="back-container"><div class="back-style">', unsafe_allow_html=True)
+    if st.button("›"):
+        st.switch_page("pages/11_settingar.py")
+    st.markdown('</div></div>', unsafe_allow_html=True)
 
-with col_back:
-    st.markdown(f"""
-        <a href="/11_settingar" target="_self" style="text-decoration: none;">
-            <div style="
-                background: white;
-                color: black;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 20px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-                cursor: pointer;
-            ">
-                ›
-            </div>
-        </a>
-    """, unsafe_allow_html=True)
+st.markdown('<div class="title-text">تغيير كلمة المرور</div>', unsafe_allow_html=True)
 
-with col_title:
-    st.markdown('<div class="title-text" style="text-align:center; margin-top:5px;">تغيير كلمة المرور</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
+
 # ---------------- HTML UI ----------------
 value = components.html("""
 <!DOCTYPE html>
@@ -194,7 +178,10 @@ function save(){
     alert("تم تغيير كلمة المرور بنجاح ✅");
 
     // ✅ هذا هو الحل الصحيح
-    window.top.location.href = window.top.location.origin + "settingar";
+    window.parent.postMessage(
+        {type: "streamlit:setComponentValue", value: "go_settings"},
+        "*"
+    );
 }
 
 // 👁️ إظهار/إخفاء
