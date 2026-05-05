@@ -130,7 +130,7 @@ body {
 
 <div class="wrapper">
 
-<div class="item" onclick="window.top.location.href='/settingar';">
+<div class="item" onclick="goArabic()">
     <span>🌐 Arabic</span>
     ›
 </div>
@@ -144,12 +144,12 @@ body {
 
 
 <script>
-function goSettings(){
+function goArabic(){
     window.parent.postMessage(
-        {type: "streamlit:setComponentValue", value: "go_settings"},
+        {type: "streamlit:setComponentValue", value: "go_ar"},
         "*"
     );
-  }
+}
 </script>
 
 
