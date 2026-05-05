@@ -178,10 +178,7 @@ function save(){
     alert("تم تغيير كلمة المرور بنجاح ✅");
 
     // ✅ هذا هو الحل الصحيح
-    window.parent.postMessage(
-        {type: "streamlit:setComponentValue", value: "go_settings"},
-        "*"
-    );
+   window.top.location.href = window.top.location.origin + "/Settingar";
 }
 
 // 👁️ إظهار/إخفاء
