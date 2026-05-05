@@ -91,8 +91,8 @@ col1, col2 = st.columns(2)
 
 with col1:
     if st.button(f"⚠️{col_gap}تبليغ عن مشكلة"):
-        st.switch_page("pages/ReportProblem.py")
+        st.switch_page("pages/ReportProblemar.py")
 
 with col2:
     if st.button(f"✉️{col_gap}اتصل بنا"):
-        st.switch_page("pages/ContactUs.py")
+        st.switch_page("pages/ContactUsar.py")
