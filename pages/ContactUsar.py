@@ -2,17 +2,17 @@ import streamlit as st
 
 st.set_page_config(page_title="اتصل بنا", layout="centered")
 
-# ===== CSS الموحد (تم إضافة اتجاه اليمين للعربية) =====
+# ===== CSS =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
 
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
-    direction: rtl; /* تفعيل الاتجاه من اليمين لليسار */
+    direction: rtl;
 }
 
-/* الكونتينر النحيف */
+/* الكونتينر */
 .block-container {
     max-width: 430px; 
     margin: auto;
@@ -23,7 +23,7 @@ st.markdown("""
     min-height: 600px;
 }
 
-/* تنسيق البوكسات الموحد */
+/* الأزرار */
 div.stButton > button {
     width: 100% !important;
     min-height: 65px !important; 
@@ -39,21 +39,23 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important; 
+    justify-content: center !important; /* 👈 النص بالنص */
     
     padding: 0px 25px !important;
     transition: 0.3s;
+    position: relative !important;
 }
 
-/* السهم الصغير - يندفع لليسار في النسخة العربية */
+/* السهم */
 div.stButton > button::after {
     content: "‹";
+    position: absolute;
+    left: 15px;  /* 👈 السهم على الطرف */
     font-size: 26px;
     color: #102646;
-    margin-right: auto; /* دفع السهم للجهة المقابلة */
 }
 
-/* ستايل زر الرجوع */
+/* زر الرجوع */
 .back-style .stButton > button {
     background: transparent !important;
     box-shadow: none !important;
@@ -62,10 +64,12 @@ div.stButton > button::after {
     min-height: unset !important;
     padding: 0 !important;
 }
+
 .back-style .stButton > button::after {
     content: "" !important;
 }
 
+/* hover */
 div.stButton > button:hover {
     transform: translateY(-2px);
     background-color: #fcfcfc !important;
@@ -73,24 +77,23 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# 🔙 زر الرجوع (معدل ليرجع لصفحة الإعدادات العربية)
+# ===== زر الرجوع =====
 col_back, _ = st.columns([1, 10])
 with col_back:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
-    if st.button("›"): # تغيير اتجاه السهم للرجوع
+    if st.button("›"):
         st.switch_page("pages/settingar.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
-# العنوان
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>', unsafe_allow_html=True)
+# ===== العنوان =====
+st.markdown(
+    '<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>',
+    unsafe_allow_html=True
+)
 
-# ===== الأزرار بالعربي مع الحفاظ على المسافات =====
-
-gap_email = "&nbsp;" * 25
-if st.button(f"✉️ البريد: Co.Care26@gmail.com {gap_email}"):
+# ===== الأزرار =====
+if st.button("✉️ البريد: Co.Care26@gmail.com"):
     pass
 
-gap_phone = "&nbsp;" * 30
-gap_phone = "&nbsp;" * 35
-if st.button(f"📞 الهاتف: +962 79 123 4567 {gap_phone}"):
+if st.button("📞 الهاتف: +962 79 123 4567"):
     pass
