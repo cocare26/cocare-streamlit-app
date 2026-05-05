@@ -4,77 +4,79 @@ st.set_page_config(page_title="Settings", layout="centered")
 
 # ===== CSS =====
 st.markdown("""
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
-#MainMenu, header, footer { visibility:hidden; }
+
+#MainMenu, header, footer {visibility:hidden;}
 
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
 }
 
-/* container */
+/* الكونتينر */
 .block-container {
-    max-width:430px;
+    max-width:420px;
     margin:auto;
-    padding:20px 16px;
+    padding:30px 20px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius:42px;
-    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    border-radius:40px;
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
 }
 
-/* TITLE */
+/* العنوان */
 .title {
     text-align:center;
+    font-size:22px;
     font-weight:900;
-    font-size:20px;
     color:#102646;
-    margin-bottom:25px;
+    margin-bottom:30px;
 }
 
-/* زر = كارد */
+/* الأزرار الرئيسية */
 div.stButton > button {
     width:100%;
     border-radius:100px;
-    padding:16px;
-    margin-bottom:15px;
+    padding:18px;
+    margin-bottom:18px;
     background:white;
     border:none;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
     font-weight:800;
     color:#102646;
     text-align:left;
-    transition:0.2s;
+    font-size:15px;
+    transition:0.25s;
 }
 
 /* hover */
 div.stButton > button:hover {
-    transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,0.12);
+    transform:translateY(-4px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
 }
 
-/* arrow */
+/* السهم */
 div.stButton > button::after {
     content: "›";
     float:right;
     font-size:18px;
 }
 
-/* bottom */
+/* الصف السفلي */
 .bottom-row {
     display:flex;
-    gap:10px;
-    margin-top:40px;
+    gap:15px;
+    margin-top:30px;
 }
 
+/* أزرار تحت */
 .bottom-row div.stButton > button {
+    width:100%;
     text-align:center;
 }
+
 </style>
 
 <div class="title">Settings</div>
 """, unsafe_allow_html=True)
-
 # ===== buttons =====
 if st.button("🔒  Change Password"):
     st.switch_page("pages/ChangePassword.py")
@@ -90,6 +92,9 @@ if st.button("🚪  Log Out"):
      st.switch_page("app.py")
 
 # ===== bottom =====
+
+st.markdown('<div class="bottom-row">', unsafe_allow_html=True) 
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -99,3 +104,6 @@ with col1:
 with col2:
     if st.button("Contact Us"):
         st.switch_page("pages/ContactUs.py")
+        
+        
+st.markdown('</div>', unsafe_allow_html=True)
