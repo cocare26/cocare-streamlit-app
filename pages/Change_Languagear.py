@@ -1,111 +1,91 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ✅ تخزين اللغة
-if "lang" not in st.session_state:
-    st.session_state.lang = "ar"
-
-# ===== CSS =====
+# 1. التنسيق (CSS) - جعل أزرار بايثون تبدو كأنها الـ Items التي صممتها
 st.markdown("""
 <style>
-/* ضبط الاتجاه للعربية */
-* { margin:0; padding:0; box-sizing:border-box; direction:rtl; }
+    /* إخفاء الهيدر */
+    [data-testid="stHeader"] {display: none !important;}
+    
+    /* ضبط الخلفية والاتجاه */
+    [data-testid="stAppViewContainer"] {
+        background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+        direction: rtl;
+    }
 
-html, body, [data-testid="stAppViewContainer"] {
-    background:#f0f7ff;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+    .block-container {
+        max-width: 400px;
+        margin: auto;
+        padding-top: 30px;
+    }
 
-#MainMenu, header, footer { visibility:hidden; }
+    /* العنوان */
+    .title-text {
+        font-size: 22px;
+        font-weight: 900;
+        color: #102646;
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-.block-container {
-    max-width:430px;
-    margin:auto;
-    padding:18px 16px;
-    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius:42px;
-    box-shadow:0 14px 35px rgba(0,0,0,.15);
-    min-height:600px;
-}
+    /* تحويل أزرار ستريمليت إلى تصميم الـ Item */
+    div.stButton > button {
+        width: 100% !important;
+        background-color: white !important;
+        color: #102646 !important;
+        border-radius: 100px !important;
+        height: 60px !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+        font-size: 18px !important;
+        font-weight: 800 !important;
+        margin-bottom: 15px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        padding: 0 25px !important;
+        transition: 0.3s !important;
+    }
 
-/* ===== HEADER ===== */
-.header-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    margin-bottom: 30px;
-    min-height: 40px;
-}
+    div.stButton > button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
+    }
 
-/* السهم جهة اليمين */
-.back-style {
-    position:absolute;
-    right:0;
-    top:0;
-}
-
-.back-style .stButton > button {
-    background:transparent !important;
-    box-shadow:none !important;
-    color:black !important;
-    font-size:26px !important;
-    width:auto !important;
-    padding:0 !important;
-}
-
-/* العنوان في المنتصف */
-.title-text {
-    font-size:20px;
-    font-weight:900;
-    color:#102646;
-    text-align: center;
-}
+    /* تنسيق زر السهم الأسود للرجوع */
+    .back-btn-box {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 10px;
+    }
+    
+    /* استهداف زر السهم تحديداً ليكون صغير وأسود */
+    .back-btn-box .stButton > button {
+        width: 45px !important;
+        height: 45px !important;
+        min-width: 45px !important;
+        background-color: transparent !important; /* أو #1a1c22 إذا أردته أسود كما في الصورة */
+        color: black !important;
+        font-size: 30px !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        justify-content: center !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER =====
-st.markdown('<div class="header-wrapper">', unsafe_allow_html=True)
-
-st.markdown('<div class="back-style">', unsafe_allow_html=True)
+# 2. الهيدر وزر الرجوع
+st.markdown('<div class="back-btn-box">', unsafe_allow_html=True)
+# هذا هو الزر الذي طلبت تعديله ليرجعك لصفحة الإعدادات العربية
 if st.button("›"): 
-    st.switch_page("pages/settingar.py")
+    st.switch_page("pages/settingar.py") 
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+# 3. خيارات اللغة (باستخدام أزرار بايثون لضمان العمل)
+if st.button("🌐 العربية \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ✔"):
+    st.switch_page("pages/settingar.py")
 
-# ===== UI =====
-result = components.html("""
-<!DOCTYPE html>
-<html dir="rtl">
-<head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
-body { margin:0; font-family:'Segoe UI'; display:flex; justify-content:center; background: transparent; }
-.wrapper { width:100%; max-width:380px; }
-.item { display:flex; justify-content:space-between; align-items:center; background:white; border-radius:100px; padding:14px 22px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); text-decoration:none; color:#102646; font-weight:800; transition:0.2s; cursor: pointer; }
-.item:hover { transform:translateY(-2px); }
-.check-mark { color: #102646; font-size: 18px; }
-</style>
-</head>
-<body>
-<div class="wrapper">
-
-<div class="item" onclick="window.parent.history.back();">
-    <span>🌐 العربية</span>
-    <span class="check-mark">✔</span>
-</div>
-
-<div class="item" onclick="window.parent.location.assign('Settings');">
-    <span>🌐 English</span>
-</div>
-</div>
-
-</div>
-</body>
-</html>
-""", height=300)
+if st.button("🌐 English \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ›"):
+    st.switch_page("pages/Settings.py")
