@@ -11,7 +11,7 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر */
+/* الكونتينر النحيف */
 .block-container {
     max-width: 430px; 
     margin: auto;
@@ -22,7 +22,7 @@ st.markdown("""
     min-height: 600px;
 }
 
-/* تنسيق البوكسات الموحد */
+/* تنسيق البوكسات (نفس الإعدادات: نحيفة ومسطرة) */
 div.stButton > button {
     width: 100% !important;
     min-height: 65px !important; 
@@ -38,7 +38,7 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important; /* لدفع السهم لآخر اليمين */
+    justify-content: space-between !important; /* السهم لآخر اليمين */
     
     padding: 0px 25px !important;
     transition: 0.3s;
@@ -51,7 +51,7 @@ div.stButton > button::after {
     color: #102646;
 }
 
-/* ستايل زر الرجوع */
+/* زر الرجوع (بدون سهم إضافي وبدون خلفية بيضاء) */
 .back-style .stButton > button {
     background: transparent !important;
     box-shadow: none !important;
@@ -59,19 +59,21 @@ div.stButton > button::after {
     width: auto !important;
     min-height: unset !important;
     padding: 0 !important;
+    margin-bottom: 0 !important;
 }
 .back-style .stButton > button::after {
-    content: "" !important;
+    content: "" !important; /* إخفاء السهم في زر الرجوع */
 }
 
 div.stButton > button:hover {
     transform: translateY(-2px);
     background-color: #fcfcfc !important;
 }
+
 </style>
 """, unsafe_allow_html=True)
 
-# 🔙 Back
+# 🔙 Back Button
 col_back, _ = st.columns([1, 10])
 with col_back:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
@@ -82,13 +84,13 @@ with col_back:
 # Title
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار مع زيادة المسافات يدوياً بنفس مبدأ الـ gap =====
+# ===== الأزرار بنفس المسافات العملاقة =====
 
-# تعريف المسافات (تقدر تزيد الرقم إذا بدك دفع أكثر لليمين)
-contact_gap = "&nbsp;" * 45 
+# مسافة كبيرة جداً عشان تندفع النصوص لليمين وتصير "مسطرة"
+contact_gap = "&nbsp;" * 35
 
-if st.button(f"✉️{contact_gap}Email: Co.Care26@gmail.com"):
-    pass # ضيف الأكشن هون
+st.button(f"✉️{contact_gap}Email: Co.Care26@gmail.com")
 
-if st.button(f"📞{contact_gap}Phone: +962 79 123 4567"):
-    pass # ضيف الأكشن هون
+# هون زدنا المسافة أكثر شوي لأن النص أقصر
+phone_gap = "&nbsp;" * 45
+st.button(f"📞{phone_gap}Phone: +962 79 123 4567")
