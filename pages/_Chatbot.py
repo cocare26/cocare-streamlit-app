@@ -21,21 +21,6 @@ EN_RESPONSES = {
     "other": "Could you please provide more details?"
 }
 
-EN_FOLLOWUPS = {
-    "greeting": "What would you like to know?",
-    "slow_internet": "Do you want me to continue troubleshooting?",
-    "no_signal": "Can you tell me your location?",
-    "offer_inquiry": "Do you want internet offers or call offers?",
-    "renew_package": "Do you want the renewal steps?",
-    "check_data_usage": "Do you want me to explain how to check it?",
-    "payment_issue": "Do you want help solving it step by step?",
-    "network_status": "Which area are you in?",
-    "network_complaint": "Has this happened more than once?",
-    "technical_support": "Can you describe the issue?",
-    "feedback": "Anything else I can help with?",
-    "other": "Can you explain your request more clearly?"
-}
-
 def manual_intent_fix(text, detected_intent):
     t = text.lower()
 
@@ -59,9 +44,6 @@ if "messages" not in st.session_state:
         {"role": "assistant", "content": "Hi, how can I help you?"}
     ]
 
-if "pending_followup" not in st.session_state:
-    st.session_state.pending_followup = None
-
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
@@ -71,13 +53,6 @@ prompt = st.chat_input("Type your question here...")
 if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    if st.session_state.pending_followup:
-        st.session_state.messages.append({
-            "role": "assistant",
-            "content": st.session_state.pending_followup
-        })
-        st.session_state.pending_followup = None
-
     try:
         result = process_message(
             user_message=prompt,
@@ -86,16 +61,12 @@ if prompt:
         )
 
         intent = manual_intent_fix(prompt, result.get("intent", "other"))
-
         reply = EN_RESPONSES.get(intent, EN_RESPONSES["other"])
-        followup = EN_FOLLOWUPS.get(intent)
 
         st.session_state.messages.append({
             "role": "assistant",
             "content": reply
         })
-
-        st.session_state.pending_followup = followup
 
     except Exception as e:
         st.session_state.messages.append({
