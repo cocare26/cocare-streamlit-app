@@ -98,10 +98,13 @@ st.markdown('<div class="title-right">تغيير اللغة</div>', unsafe_allow
 
 # 3. أزرار اللغات (مع محاكاة التصميم الداخلي بالمسافات)
 # ملاحظة: في ستريم ليت نستخدم المسافات الشفافة لضبط المواقع داخل الزر
-if st.button("✔️                               العربية 🌐"):
+if st.button("🌐  العربية                              ✔️"):
+    st.session_state.lang = "ar"
     st.switch_page("pages/settingar.py")
 
-if st.button("›                               English 🌐"):
+if st.button("🌐  English                             ‹"):
+    st.session_state.lang = "en"
+
     st.switch_page("pages/Settings.py")
 
 # 4. الفراغ السفلي
