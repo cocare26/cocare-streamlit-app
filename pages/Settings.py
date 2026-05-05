@@ -5,6 +5,14 @@ st.set_page_config(page_title="Settings", layout="centered")
 # ===== CSS الموحد والنحيف =====
 st.markdown("""
 <style>
+
+
+.title {
+    text-align: center;
+    font-weight: 900;
+    color: #102646;
+    font-size: 22px;
+}
 div.stButton > button {
     width: 100% !important;
     min-height: 65px !important;
@@ -30,6 +38,19 @@ div.stButton > button {
 
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
+}
+/* شكل زر السهم */
+.back-style .stButton > button {
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 28px !important;
+    padding: 0 !important;
+}
+
+.back-style {
+    position: absolute;
+    top: 0px;   /* 👈 بنفس سطر العنوان */
+    right: 0px;
 }
 
 /* حاوية السهم */
