@@ -2,31 +2,23 @@ import streamlit as st
 import base64
 import os
 
-# =====================================
-# إعداد الصفحة
-# =====================================
 st.set_page_config(
     page_title="Telecom Dashboard",
     page_icon="📱",
     layout="centered"
 )
 
-# =====================================
-# دالة معالجة الصور (Base64)
-# =====================================
 def get_base64(path):
     if os.path.exists(path):
         with open(path, "rb") as f:
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
+if not robot_head:
+    robot_head = get_base64("robot.png")
 
-# =====================================
-# CSS المطور (تعديل المساحات وتكبير الروبوت)
-# =====================================
 st.markdown(f"""
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; }}
@@ -36,7 +28,6 @@ font-family:'Segoe UI', sans-serif;
 }}
 section.main > div {{ padding-top:4px; }}
 div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
-
 #MainMenu, header, footer {{ visibility:hidden; }}
 
 .block-container {{
@@ -57,13 +48,11 @@ box-shadow:0 6px 15px rgba(0,0,0,.06);
 transition: all 0.3s ease;
 }}
 
-/* --- تصغير مساحة كرت الرصيد --- */
 .balance-card {{
     padding: 6px 14px !important;
     margin-bottom: 4px !important;
 }}
 
-/* --- تصغير مساحة كرت التقييم --- */
 .rating-card {{
     padding: 4px 14px 6px !important;
     margin-bottom: 4px !important;
@@ -95,7 +84,7 @@ margin: 4px 0 4px 4px;
 }}
 .star-rating input {{ display: none; }}
 .star-rating label {{
-    font-size: 24px; /* تصغير النجوم أكثر */
+    font-size: 24px;
     color: #ddd;
     cursor: pointer;
     transition: color 0.2s, transform 0.2s;
@@ -116,11 +105,10 @@ margin: 4px 0 4px 4px;
     display: flex;
     align-items: center;
     position: relative;
-    height: 100px; /* زيادة الارتفاع قليلاً لاستيعاب الروبوت الأكبر */
+    height: 100px;
     transition: all 0.3s ease;
 }}
 
-/* --- تكبير الروبوت وجعله متداخلاً --- */
 .robot-img-welcome {{
     width: 95px; 
     height: 95px;
@@ -178,12 +166,27 @@ box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 transition: all 0.3s ease;
 }}
 .active {{ color:#0d69dd; }}
+
+.chatbot-btn-wrap {{
+    display:flex;
+    justify-content:center;
+    margin-top:-78px;
+    margin-bottom:22px;
+    position:relative;
+    z-index:999;
+}}
+
+div[data-testid="stButton"] button {{
+    width:70px !important;
+    height:72px !important;
+    background:transparent !important;
+    border:none !important;
+    color:transparent !important;
+    box-shadow:none !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 1. قسم الملف الشخصي
-# =====================================
 st.markdown(f"""
 <div class="welcome-card clickable">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
@@ -196,10 +199,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 2. معلومات الرصيد (تم تصغير المساحة)
-# =====================================
-st.markdown(f"""
+st.markdown("""
 <div class="title">Your Number Info</div>
 <div class="card balance-card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -223,9 +223,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 3. أيقونات الخدمات
-# =====================================
 st.markdown("""
 <div class="grid4">
 <div class="mini clickable"><div style="font-size:24px;">📡</div><div class="mini-text">Internet<br>Packages</div></div>
@@ -235,9 +232,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 4. قسم التقييم (تم تصغير المساحة)
-# =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
 <div class="card rating-card">
@@ -254,9 +248,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 5. قوة الشبكة
-# =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
 <div class="card clickable">
@@ -288,9 +279,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 6. الشريط السفلي
-# =====================================
 st.markdown(f"""
 <div class="nav">
 <div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
@@ -303,3 +291,9 @@ st.markdown(f"""
 <div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
 </div>
 """, unsafe_allow_html=True)
+
+# الزر الحقيقي المخفي فوق أيقونة Chatbot
+st.markdown("<div class='chatbot-btn-wrap'>", unsafe_allow_html=True)
+if st.button("open_chatbot", key="open_chatbot"):
+    st.switch_page("pages/Chatbot_AR.py")
+st.markdown("</div>", unsafe_allow_html=True)
