@@ -167,9 +167,12 @@ function save(){
         return;
     }
 
-    alert("Password changed successfully ✅");
+    document.body.innerHTML += "<p style='text-align:center;font-weight:bold;'>Saved ✅</p>";
+    setTimeout(() => {
     window.parent.location.href = "/Settings";
-}
+    }, 100);
+   
+    }
       
 </script>
 
