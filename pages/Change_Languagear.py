@@ -18,13 +18,16 @@ st.markdown("""
 
 /* الكبسولة (الحاوية) */
 .block-container {
-    max-width: 450px !important;
-    margin: auto !important;
-    padding: 20px !important;
-    background-color: #c7e7ff !important; /* درجة أغمق قليلاً زي الصورة */
-    border-radius: 0px; /* إذا بدك إياها ممتدة */
-    min-height: 100vh;
+    max-width:430px;
+    margin:auto;
+    padding:20px;
+    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius:40px;
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    position: relative; /* ضروري لضبط موقع السهم داخلياً */
+    margin-top: 50px;
 }
+
 
 /* زر الرجوع (البوكس الأسود) */
 .back-container {
