@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS المحدث: سماكة أقل (أنحف) ومسافة كبيرة =====
+# ===== CSS الموحد لكل البوكسات =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,7 +11,6 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر النحيف */
 .block-container {
     max-width: 380px; 
     margin: auto;
@@ -21,15 +20,12 @@ st.markdown("""
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* تنسيق البوكسات (الأزرار) */
+/* تطبيق نفس التنسيق على جميع الأزرار بدون استثناء */
 div.stButton > button {
     width: 100% !important;
-    
-    /* 👇 تخفيف السماكة: قللنا الارتفاع من 95 لـ 60 👇 */
-    min-height: 60px !important; 
-    
-    border-radius: 30px !important; /* تقليل الانحناء ليناسب السماكة الجديدة */
-    margin-bottom: 18px !important;
+    min-height: 60px !important; /* السماكة النحيفة الموحدة */
+    border-radius: 30px !important;
+    margin-bottom: 20px !important;
     background: white !important;
     border: none !important;
     box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
@@ -42,13 +38,13 @@ div.stButton > button {
     align-items: center !important;
     justify-content: flex-start !important;
     
-    /* المسافة بين الإيموجي والنص */
+    /* توحيد المسافة (Gap) بين الإيموجي والنص للجميع */
     gap: 75px !important; 
     
     padding: 0px 25px !important;
 }
 
-/* السهم الصغير */
+/* السهم الصغير موحد للكل */
 div.stButton > button::after {
     content: "›";
     font-size: 24px;
@@ -65,7 +61,7 @@ div.stButton > button:hover {
 <div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== الأزرار =====
+# ===== قائمة الأزرار (كلها رح تطلع بنفس الحجم والمسافة) =====
 
 if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
@@ -79,3 +75,7 @@ if st.button("⭐ Rate App"):
 if st.button("🚪 Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
+
+# إذا بدك تضيف Report و Contact بنفس الحجم، حطهم هون مباشرة بدون كولومز:
+# if st.button("⚠️ Report a Problem"):
+#     st.switch_page("pages/Report.py")
