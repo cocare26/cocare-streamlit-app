@@ -64,15 +64,17 @@ html, body, [data-testid="stAppViewContainer"] {
 
 # ---------------- HEADER ----------------
 # تم استبدال زر st.button برابط HTML مباشر لتجنب أخطاء السيرفر
+# ---------------- HEADER ----------------
+# هذا الجزء يوضع بعد الـ Style وقبل الـ HTML UI
 st.markdown(f"""
 <div class="title-wrapper">
+    <!-- هنا نضع الكود الذي سألت عنه ليعمل كزر رجوع -->
     <a href="/Settingar" target="_self" class="back-link">
         <div class="back-circle">›</div>
     </a>
     <div class="title-text">تغيير كلمة المرور</div>
 </div>
 """, unsafe_allow_html=True)
-
 # ---------------- HTML UI ----------------
 value = components.html("""
 <!DOCTYPE html>
