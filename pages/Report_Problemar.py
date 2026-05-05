@@ -7,7 +7,6 @@ st.markdown("""
 <style>
 :root{
     --navy:#0f2446;
-    --accent:#2f80ed;
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
@@ -21,14 +20,12 @@ st.markdown("""
     max-width:350px !important;    
     margin:auto !important;
     padding:30px !important;            
-    background:linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 45%, var(--bg3) 100%);
+    background:linear-gradient(160deg, var(--bg1), var(--bg2), var(--bg3));
     border-radius:42px;            
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
-    margin-top: 20px !important;
 }
 
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
-footer {visibility: hidden;}
 
 /* ===== HEADER ===== */
 .header-wrapper {
@@ -49,25 +46,23 @@ footer {visibility: hidden;}
     box-shadow:none !important;
     color:#0f2446 !important;
     font-size:28px !important;
-    width:auto !important;
-    padding:0 !important;
-    border: none !important;
+    border:none !important;
 }
 
-/* رفع العنوان */
+/* العنوان */
 .title-text {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -200%); /* 👈 رفعناها */
+    transform: translate(-50%, -80%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
-    white-space: nowrap;
 }
 </style>
 """, unsafe_allow_html=True)
 
+# ===== HEADER =====
 st.markdown('<div class="header-wrapper">', unsafe_allow_html=True)
 
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
@@ -79,26 +74,89 @@ st.markdown('<div class="title-text">تبليغ عن مشكلة</div>', unsafe_a
 
 st.markdown('</div>', unsafe_allow_html=True)
 
+# ===== UI =====
 components.html("""
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-body { font-family: 'Segoe UI'; background: transparent; margin: 0; display: flex; justify-content: center; }
-.main-wrapper { width: 100%; max-width: 290px; height: 480px; display: flex; flex-direction: column; }
-.report-textarea { width: 100%; height: 220px; border-radius: 25px; border: none; padding: 18px; background: white; font-size: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-.send-btn { background: white; border-radius: 100px; width: 100%; padding: 14px 22px; display: flex; justify-content: space-between; border: none; margin-top: auto; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-.send-btn span { font-weight: 700; }
+body { 
+    font-family: 'Segoe UI'; 
+    background: transparent; 
+    margin: 0; 
+    display: flex; 
+    justify-content: center; 
+}
+
+.main-wrapper { 
+    width: 100%; 
+    max-width: 290px; 
+    height: 480px; 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.report-textarea { 
+    width: 100%; 
+    height: 220px; 
+    border-radius: 25px; 
+    border: none; 
+    padding: 18px; 
+    background: white; 
+    font-size: 16px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+}
+
+/* زر الإرسال */
+.send-btn { 
+    background: white; 
+    border-radius: 100px; 
+    width: 100%; 
+    padding: 14px 22px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    border: none; 
+    margin-top: auto; 
+    cursor: pointer; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+}
+
+/* النص */
+.send-btn span { 
+    color: #0f2446; 
+    font-weight: 700; 
+}
+
+/* الأيقونة على اليسار */
+.main-icon { 
+    color: #808080; 
+    font-size: 18px;
+    margin-left: 10px;
+}
 </style>
 </head>
+
 <body>
 <div class="main-wrapper">
+
     <textarea class="report-textarea" placeholder="أنا بحاجة للمساعدة..."></textarea>
-    <button class="send-btn" onclick="alert('تم الإرسال')">
+
+    <button class="send-btn" onclick="showPopup()">
         <span>إرسال التقرير</span>
+        <i class="fas fa-paper-plane main-icon"></i>
     </button>
+
 </div>
+
+<script>
+function showPopup(){
+    alert("تم إرسال التقرير بنجاح ✅");
+    window.parent.history.back();
+}
+</script>
+
 </body>
 </html>
 """, height=500)
