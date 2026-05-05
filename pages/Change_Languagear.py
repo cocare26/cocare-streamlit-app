@@ -1,106 +1,136 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-st.set_page_config(page_title="تغيير اللغة", layout="centered")
+st.set_page_config(page_title="Change Language", layout="centered")
 
-# 1. التنسيق (CSS) - جعل أزرار بايثون تبدو كأنها الـ Items التي صممتها
+# ===== CSS =====
 st.markdown("""
 <style>
-    /* إخفاء الهيدر */
-    [data-testid="stHeader"] {display: none !important;}
-    
-    /* ضبط الخلفية والاتجاه */
-    [data-testid="stAppViewContainer"] {
-        background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-        direction: rtl;
-    }
+* { margin:0; padding:0; box-sizing:border-box; direction:ltr; }
 
-   .block-container {
-    max-width: 430px;            /* العرض المثالي */
-    border-radius: 42px;         /* زوايا الكبسولة */
-    box-shadow: 0 14px 35px rgba(0,0,0,0.15); /* الظل العميق */
-    padding: 18px 16px;          /* المسافات الداخلية */
+html, body, [data-testid="stAppViewContainer"] {
+    background:#f0f7ff;
+    font-family:'Segoe UI';
 }
 
-/* تنسيق العناصر الداخلية (الأزرار) */
-.item {
-    border-radius: 100px;        /* جعل الزر كبسولة صغيرة */
-    padding: 14px 22px;          /* مسافة مريحة للنص */
-    margin-bottom: 15px;         /* مسافة بين كل خيار والثاني */
+#MainMenu, header, footer { visibility:hidden; }
+
+.block-container {
+    max-width:430px;
+    margin:auto;
+    padding:18px 16px;
+    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius:42px;
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    min-height:600px;
 }
 
-    /* العنوان */
-    .title-text {
-    font-size: 20px;
-    font-weight: 900;            /* وزن عريض جداً */
-    color: #102646;
-    font-family: 'Segoe UI';     /* الخط المعتمد */
+/* ===== HEADER ===== */
+.header {
+    position:relative;
+    text-align:center;
+    margin-bottom:30px;
 }
 
-    /* تحويل أزرار ستريمليت إلى تصميم الـ Item */
-    div.stButton > button {
-        width: 100% !important;
-        background-color: white !important;
-        color: #102646 !important;
-        border-radius: 100px !important;
-        height: 60px !important;
-        border: none !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
-        font-size: 18px !important;
-        font-weight: 800 !important;
-        margin-bottom: 15px !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        padding: 0 25px !important;
-        transition: 0.3s !important;
-    }
+/* السهم */
+.back-style {
+    position:absolute;
+    left:0;
+    top:0;
+}
 
-    div.stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
-    }
+.back-style .stButton > button {
+    background:transparent !important;
+    box-shadow:none !important;
+    color:black !important;
+    font-size:26px !important;
+    width:auto !important;
+    padding:0 !important;
+}
 
-    /* تنسيق زر السهم الأسود للرجوع */
-    .back-btn-box {
-        display: flex;
-        justify-content: flex-start;
-        margin-bottom: 10px;
-    }
-    
-    /* استهداف زر السهم تحديداً ليكون صغير وأسود */
-    .back-btn-box .stButton > button {
-        width: 45px !important;
-        height: 45px !important;
-        min-width: 45px !important;
-        background-color: transparent !important; /* أو #1a1c22 إذا أردته أسود كما في الصورة */
-        color: black !important;
-        font-size: 30px !important;
-        box-shadow: none !important;
-        padding: 0 !important;
-        justify-content: center !important;
-    }
-
-    .item span {
-    font-weight: 800;
-    font-size: 16px;
-    color: #102646;
+/* العنوان */
+.title-text {
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
 }
 </style>
-""",unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-# 2. الهيدر وزر الرجوع
-st.markdown('<div class="back-btn-box">', unsafe_allow_html=True)
-# هذا هو الزر الذي طلبت تعديله ليرجعك لصفحة الإعدادات العربية
-if st.button("›"): 
-    st.switch_page("pages/settingar.py") 
+# ===== HEADER =====
+st.markdown('<div class="header">', unsafe_allow_html=True)
+
+# السهم
+st.markdown('<div class="back-style">', unsafe_allow_html=True)
+if st.button("‹"):
+    st.switch_page("pages/Settings.py")
 st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
+# العنوان بالنص
+st.markdown('<div class="title-text">Change Language</div>', unsafe_allow_html=True)
 
-# 3. خيارات اللغة (باستخدام أزرار بايثون لضمان العمل)
-if st.button("🌐 العربية \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ✔"):
-    st.switch_page("pages/settingar.py")
+st.markdown('</div>', unsafe_allow_html=True)
 
-if st.button("🌐 English \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ›"):
-    st.switch_page("pages/Settings.py")
+# ===== UI =====
+components.html("""
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI';
+    display:flex;
+    justify-content:center;
+}
 
+.wrapper {
+    width:100%;
+    max-width:380px;
+}
+
+/* ITEM */
+.item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    border-radius:100px;
+    padding:14px 22px;
+    margin-bottom:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    text-decoration:none;
+    color:#102646;
+    font-weight:800;
+    transition:0.2s;
+}
+
+.item:hover {
+    transform:translateY(-2px);
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<!-- Arabic -->
+<a href="/?page=settings-ar" target="_top" class="item">
+    <span>🌐 Arabic</span>
+    ✔
+</a>
+
+<!-- English -->
+<a href="/?page=settings" target="_top" class="item">
+    <span>🌐 English</span>
+    ›
+</a>
+
+</div>
+
+</body>
+</html>
+""", height=600)
