@@ -63,13 +63,10 @@ html, body, [data-testid="stAppViewContainer"] {
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
-# تم استبدال زر st.button برابط HTML مباشر لتجنب أخطاء السيرفر
-# ---------------- HEADER ----------------
-# هذا الجزء يوضع بعد الـ Style وقبل الـ HTML UI
+# ---------------- HEADER (مع s صغيرة) ----------------
 st.markdown(f"""
 <div class="title-wrapper">
-    <!-- هنا نضع الكود الذي سألت عنه ليعمل كزر رجوع -->
-    <a href="/Settingar" target="_self" class="back-link">
+    <a href="/settingar" target="_self" class="back-link">
         <div class="back-circle">›</div>
     </a>
     <div class="title-text">تغيير كلمة المرور</div>
@@ -157,7 +154,7 @@ function save(){
     alert("تم تغيير كلمة المرور بنجاح ✅");
     
     // الانتقال المباشر عبر المتصفح
-    window.top.location.href = window.top.location.origin + "/Settingar";
+    window.top.history.back();
 }
 
 document.querySelectorAll(".input").forEach(box => {
