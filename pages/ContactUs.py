@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
 
-# ===== CSS الموحد (مبدأ الإعدادات) =====
+# ===== CSS الموحد (نفس مبدأ الإعدادات) =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,7 +11,7 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر النحيف */
+/* الكونتينر */
 .block-container {
     max-width: 430px; 
     margin: auto;
@@ -34,13 +34,13 @@ div.stButton > button {
     
     font-weight: 700 !important;
     color: #102646 !important;
-    font-size: 14px !important; 
+    font-size: 15px !important;
     
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important; 
+    justify-content: space-between !important; /* لدفع السهم لآخر اليمين */
     
-    padding: 0px 20px !important;
+    padding: 0px 25px !important;
     transition: 0.3s;
 }
 
@@ -71,7 +71,7 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# 🔙 زر الرجوع
+# 🔙 Back
 col_back, _ = st.columns([1, 10])
 with col_back:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
@@ -79,16 +79,16 @@ with col_back:
         st.switch_page("pages/Settings.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
-# العنوان
+# Title
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار بمسافة 50 فراغ =====
+# ===== الأزرار مع زيادة المسافات يدوياً بنفس مبدأ الـ gap =====
 
-# المتغير بـ 50 فراغ كما طلبت
-final_gap = "&nbsp;" * 50 
+# تعريف المسافات (تقدر تزيد الرقم إذا بدك دفع أكثر لليمين)
+contact_gap = "&nbsp;" * 45 
 
-if st.button(f"✉️{final_gap}Email: Co.Care26@gmail.com"):
-    pass
+if st.button(f"✉️{contact_gap}Email: Co.Care26@gmail.com"):
+    pass # ضيف الأكشن هون
 
-if st.button(f"📞{final_gap}Phone: +962 79 123 4567"):
-    pass
+if st.button(f"📞{contact_gap}Phone: +962 79 123 4567"):
+    pass # ضيف الأكشن هون
