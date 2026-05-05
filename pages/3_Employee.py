@@ -1,8 +1,9 @@
 import streamlit as st
 import streamlit.components.v1 as components
+import pandas as pd
+import os
 
 st.set_page_config(page_title="Employee Dashboard", layout="centered")
-
 
 st.markdown("""
 <style>
@@ -133,17 +134,6 @@ body{margin:0;background:transparent}
  display:flex;
  justify-content:space-between;
  gap:10px;
-}
-
-
-.nav{
- position:absolute;
- bottom:10px;
- left:15px;
- right:15px;
- display:flex;
- justify-content:space-between;
- gap:10px;
  z-index:999;
 }
 
@@ -170,49 +160,6 @@ body{margin:0;background:transparent}
 }
 
 .nav button span{
- display:block;
- font-size:22px;
- margin-bottom:3px;
- color:#376f91;
-}
-
-.nav a:hover{
- background:#eef6ff;
- color:#2f80ed;
- transform:translateY(-3px);
-}
-
-.nav a span{
- display:block;
- font-size:22px;
- margin-bottom:3px;
- color:#376f91;
-}
-.nav button:hover{
- background:#eef6ff;
- color:#2f80ed;
- transform:translateY(-3px);
-}
-
-.nav span{
- display:block;
- font-size:22px;
- margin-bottom:3px;
- color:#376f91;
-}
-
-.nav .active-nav{
- background:#eef6ff;
- color:#2f80ed;
-}
-
-.nav button:hover{
- background:#eef6ff;
- color:#2f80ed;
- transform:translateY(-3px);
-}
-
-.nav span{
  display:block;
  font-size:22px;
  margin-bottom:3px;
@@ -277,24 +224,24 @@ body{margin:0;background:transparent}
     <div class="section">Alert History & Problems</div>
 
     <div class="alerts">
-        <div class="alert" onclick="alert('🚨 Problem selected')">
+        <div class="alert">
             <div class="alert-head red">❗ Problem</div>
             <div class="alert-body">
-                <b>Region:</b> <span class="region-name">Amman</span>: Multiple User Reports 09:30 AM of Slow Internet.
+                <b>Region:</b> <span class="region-name">Amman</span>: Multiple User Reports of Slow Internet.
             </div>
         </div>
 
-        <div class="alert" onclick="alert('⚠️ Internal issue')">
+        <div class="alert">
             <div class="alert-head yellow">⚠️ Internal</div>
             <div class="alert-body">
-                <b>Region:</b> <span class="region-name">Amman</span>: Multiple User Reports 09:30 AM of Slow Internet.
+                <b>Region:</b> <span class="region-name">Amman</span>: Internal technical review required.
             </div>
         </div>
 
-        <div class="alert" onclick="alert('🌐 External issue')">
+        <div class="alert">
             <div class="alert-head blue">↗ External</div>
             <div class="alert-body">
-                <b>Region:</b> <span class="region-name">Amman</span> This Internet issue is external. The problem is reported by the ISP.
+                <b>Region:</b> <span class="region-name">Amman</span>: Customer-facing notification may be required.
             </div>
         </div>
     </div>
@@ -302,7 +249,7 @@ body{margin:0;background:transparent}
     <div class="section">Network Performance Metrics</div>
 
     <div class="metrics">
-        <div class="chart" onclick="alert('Latency details 📊')">
+        <div class="chart">
             <svg class="line" viewBox="0 0 140 70">
                 <polygon points="0,65 0,55 45,40 95,25 135,5 135,65" fill="#dbeafe"/>
                 <polyline points="0,55 45,40 95,25 135,5" fill="none" stroke="#2f80ed" stroke-width="4"/>
@@ -313,7 +260,7 @@ body{margin:0;background:transparent}
             <div class="chart-title">Avg Latency (ms)</div>
         </div>
 
-        <div class="chart" onclick="alert('Packet Loss details 📊')">
+        <div class="chart">
             <div class="bar" style="left:45px;height:43px;"></div>
             <div class="bar" style="left:76px;height:28px;"></div>
             <div class="bar" style="left:107px;height:70px;"></div>
@@ -328,7 +275,7 @@ body{margin:0;background:transparent}
 
     <div class="section">Employee of the Month Announcement</div>
 
-    <div class="employee" onclick="alert('👨‍💼 Employee Details: Ahmed Ali')">
+    <div class="employee">
         <div class="avatar">👨‍💼</div>
         <div>
             <div class="emp-name">Ahmed Ali</div>
@@ -341,7 +288,6 @@ body{margin:0;background:transparent}
 </div>
 
 <div class="nav">
-
     <button type="button" onclick="goPage('employee')">
         <span>⌂</span>Home
     </button>
@@ -353,6 +299,7 @@ body{margin:0;background:transparent}
     <button type="button" onclick="goPage('todo')">
         <span>☑</span>To Do
     </button>
+</div>
 
 </div>
 
@@ -360,15 +307,7 @@ body{margin:0;background:transparent}
 function goPage(p){
     window.top.location.href = window.top.location.origin + "/?page=" + p;
 }
-</script>
 
-function goPage(p){
-    window.top.location.href = "/?page=" + p;
-}
-
-</div>
-
-<script>
 function updateRegion(){
     const selected = document.getElementById("region").value;
     const regions = document.getElementsByClassName("region-name");
@@ -383,53 +322,54 @@ function updateRegion(){
 </html>
 """, height=820)
 
-
-# CoCare Engine Integration
+# =========================
+# Employee reads customer chatbot logs
 # =========================
 st.markdown("---")
-st.subheader("🤖 CoCare Message Analysis")
+st.subheader("📊 Customer Messages Analysis")
 
-user_message = st.text_input("رسالة العميل")
-user_id = st.text_input("Customer ID", "customer_1")
-region = st.selectbox(
-    "Region",
-    ["Amman", "Zarqa", "Irbid", "Balqa", "Mafraq", "Jerash", "Ajloun", "Madaba", "Karak", "Tafilah", "Ma'an", "Aqaba"]
-)
+CHAT_LOG_PATH = os.path.join("data", "chat_logs.csv")
 
-if st.button("Analyze"):
-    if not user_message.strip():
-        st.warning("اكتبي رسالة العميل أولاً")
+if os.path.exists(CHAT_LOG_PATH):
+    logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
+
+    if logs.empty:
+        st.info("No customer messages yet.")
     else:
-        result = process_message(
-            user_message=user_message,
-            user_id=user_id,
-            region=region
-        )
+        latest = logs.tail(1).iloc[0]
 
-        st.subheader("Message Analysis")
-        st.write("Language:", result.get("language"))
-        st.write("Intent:", result.get("intent"))
-        st.write("Intent Confidence:", result.get("intent_confidence"))
-        st.write("Sentiment:", result.get("sentiment"))
-        st.write("Sentiment Score:", result.get("sentiment_score"))
-        st.write("Prediction:", result.get("prediction"))
+        col1, col2 = st.columns(2)
 
-        st.subheader("Network / Notification")
-        st.write("Issue Type:", result.get("issue_type"))
-        st.write("Network Problem:", result.get("network_problem"))
-        st.write("Notification:", result.get("notification_type"))
-        st.write("Channel:", result.get("display_channel"))
-        st.write("Escalation:", result.get("escalation"))
-        st.write("Reason:", result.get("reason"))
-        st.write("Repeat Count:", result.get("repeat_count"))
-        st.write("Area Issue Count:", result.get("area_issue_count"))
-        st.write("Show To Customer:", result.get("show_to_customer"))
-        st.write("Suggested Action:", result.get("suggested_action"))
+        with col1:
+            st.metric("Intent", latest.get("intent", ""))
+            st.metric("Sentiment", latest.get("sentiment", ""))
+            st.metric("Issue Type", latest.get("issue_type", ""))
+
+        with col2:
+            st.metric("Prediction", latest.get("prediction", ""))
+            st.metric("Escalation", str(latest.get("escalation", "")))
+            st.metric("Notification", latest.get("notification_type", ""))
+
+        st.subheader("Latest Customer Message")
+        st.write("Message:", latest.get("message", ""))
+        st.write("User ID:", latest.get("user_id", ""))
+        st.write("Region:", latest.get("region", ""))
+        st.write("Language:", latest.get("language", ""))
+        st.write("Network Problem:", latest.get("network_problem", ""))
+        st.write("Channel:", latest.get("display_channel", ""))
+        st.write("Reason:", latest.get("reason", ""))
+        st.write("Repeat Count:", latest.get("repeat_count", ""))
+        st.write("Area Issue Count:", latest.get("area_issue_count", ""))
 
         st.subheader("Internal Messages")
-        st.write("AR:", result.get("internal_message_ar"))
-        st.write("EN:", result.get("internal_message_en"))
+        st.write("AR:", latest.get("internal_message_ar", ""))
+        st.write("EN:", latest.get("internal_message_en", ""))
 
         st.subheader("External Messages")
-        st.write("AR:", result.get("external_message_ar"))
-        st.write("EN:", result.get("external_message_en"))
+        st.write("AR:", latest.get("external_message_ar", ""))
+        st.write("EN:", latest.get("external_message_en", ""))
+
+        st.subheader("All Customer Logs")
+        st.dataframe(logs.tail(20), use_container_width=True)
+else:
+    st.info("No chat logs found yet. Send a message from the customer chatbot first.")
