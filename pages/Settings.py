@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS المعدل لزيادة طول البوكسات =====
+# ===== CSS المعدل لزيادة التباعد بين البوكسات =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,6 +11,7 @@ st.markdown("""
     background:#f0f7ff;
 }
 
+/* الكونتينر الأساسي */
 .block-container {
     max-width:450px;
     margin:auto;
@@ -20,6 +21,7 @@ st.markdown("""
     box-shadow:0 20px 40px rgba(0,0,0,0.15);
 }
 
+/* العنوان */
 .title {
     text-align:center;
     font-size:26px;
@@ -28,20 +30,19 @@ st.markdown("""
     margin-bottom:40px;
 }
 
-/* التعديل الجذري على حجم البوكس (الزر) */
+/* أزرار Streamlit */
 div.stButton > button {
     width: 100% !important;
+    min-height: 90px !important; /* طول البوكس */
+    border-radius: 45px !important;
     
-    /* 1. زيادة الطول من هنا */
-    min-height: 90px !important; 
+    /* 👇 التعديل الرئيسي: زيادة التباعد العمودي من هنا 👇 */
+    margin-bottom: 35px !important; /* زدنا المسافة إلى 35px لتكون مثل الرسمة */
     
-    border-radius: 45px !important; 
-    margin-bottom: 20px;
     background: white !important;
     border: none !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
     
-    /* 2. تكبير الخط وتغيير الوزن */
     font-weight: 800 !important;
     color: #102646 !important;
     font-size: 18px !important;
@@ -49,13 +50,11 @@ div.stButton > button {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    
-    /* 3. زيادة المسافة الداخلية */
     padding: 15px 35px !important;
     transition: all 0.4s ease;
 }
 
-/* تأثير الحركة عند التمرير */
+/* تأثير الـ Hover */
 div.stButton > button:hover {
     transform: scale(1.02);
     box-shadow: 0 15px 25px rgba(0,0,0,0.15) !important;
@@ -64,25 +63,31 @@ div.stButton > button:hover {
 /* السهم الجانبي */
 div.stButton > button::after {
     content: "›";
-    font-size: 30px; /* تكبير السهم */
+    font-size: 30px;
     color: #102646;
     font-weight: 200;
 }
 
-/* تعديل الأزرار الصغيرة في الأسفل */
+/* تعديل الأزرار المزدوجة في الأسفل */
+[data-testid="stHorizontalBlock"] {
+    gap: 15px !important;
+    margin-top: 10px; /* تباعد قبل المجموعة السفلية */
+}
+
+/* تعديل حجم أزرار الأعمدة لتناسب التباعد الجديد */
 [data-testid="stHorizontalBlock"] div.stButton > button {
-    min-height: 80px !important; /* طول أقل قليلاً للأزرار المزدوجة */
+    min-height: 80px !important;
     font-size: 15px !important;
     padding: 10px 20px !important;
+    margin-bottom: 0px !important; /* نلغي المارجن السفلي للأزرار اللي جنب بعض */
 }
 
 </style>
 <div class="title">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== الأزرار (البوكسات) =====
+# ===== الأزرار (البوكسات) المتباعدة =====
 
-# كل زر رح يطلع طويل وبمساحة كبيرة
 if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
 
@@ -99,7 +104,8 @@ if st.button("🚪 Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
 
-st.markdown("---") # خط فاصل بسيط
+# خط فاصل بسيط يعطي تباعد إضافي
+st.markdown("<br>", unsafe_allow_html=True)
 
 # الأزرار السفلية
 col1, col2 = st.columns(2)
