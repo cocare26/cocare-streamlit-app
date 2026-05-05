@@ -1,16 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-navigate_to = st_javascript("""
-    window.addEventListener('message', function(e) {
-        if (e.data.type === 'navigate') {
-            window.parent.location.href = window.parent.location.origin + '/' + e.data.page;
-        }
-    });
-""")
-
-
-
 
 
 الانتقال الرسمي
@@ -148,7 +138,7 @@ body {
     </div>
 
     <!-- الخيار الإنجليزي -->
-  <div class="item" onclick="window.top.location.href = window.top.location.origin + '/Settings';">
+ <div class="item" onclick="window.parent.location.assign('/Settings');">
     <span>🌐 English</span>
     <span>‹</span>
 </div>
