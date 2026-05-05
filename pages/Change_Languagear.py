@@ -57,7 +57,7 @@ div.stButton > button {
 }
 
 /* كسر ستايل Streamlit */
-.back-style button {
+.back-style .stButton button {
     all: unset !important;
 
     background:#111827 !important;
