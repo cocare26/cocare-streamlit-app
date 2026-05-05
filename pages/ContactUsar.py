@@ -47,7 +47,7 @@ div.stButton > button {
 
 div.stButton > button span {
     display: inline-block;
-    transform: translateY(-6px);  /* 👈 هون تتحكم بالرفع */
+    transform: translate(-0px, -6px);  /* 👈 هون التحكم */
 }
 
 /* السهم الصغير - يندفع لليسار في النسخة العربية */
