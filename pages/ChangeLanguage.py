@@ -132,6 +132,7 @@ body {
 
 <div class="item" onclick="window.parent.location.href='/ChangeLanguagear';">
     <span>🌐 Arabic</span>
+    st.switch_page("pages/settingar.py")
     ›
 </div>
 
