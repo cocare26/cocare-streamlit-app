@@ -6,13 +6,13 @@ st.set_page_config(page_title="Settings", layout="centered")
 st.markdown("""
 <style>
 
-
 .title {
     text-align: center;
     font-weight: 900;
     color: #102646;
     font-size: 22px;
 }
+
 div.stButton > button {
     width: 100% !important;
     min-height: 65px !important;
@@ -30,15 +30,17 @@ div.stButton > button {
     display: flex !important;
     align-items: center !important;
 
-    justify-content: space-between !important;  /* 👈 السر */
+    justify-content: space-between !important;
 
     padding: 0px 25px !important;
 }
+
 #MainMenu, header, footer {visibility:hidden;}
 
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
 }
+
 /* شكل زر السهم */
 .back-style .stButton > button {
     background: transparent !important;
@@ -49,7 +51,7 @@ div.stButton > button {
 
 .back-style {
     position: absolute;
-    top: 0px;   /* 👈 بنفس سطر العنوان */
+    top: 0px;
     right: 0px;
 }
 
@@ -76,11 +78,11 @@ div.stButton > button {
     padding: 0 !important;
 }
 
-/* الكونتينر النحيف - تم تقليل البادينج العلوي */
+/* الكونتينر النحيف */
 .block-container {
     max-width: 390px; 
     margin: auto;
-    padding-top: 80px !important;  /* نزّل المحتوى */
+    padding-top: 80px !important;
     padding-left: 20px !important;
     padding-right: 20px !important;
     padding-bottom: 35px !important;
@@ -89,7 +91,6 @@ div.stButton > button {
 }
 
 /* تنسيق البوكسات */
-
 div.stButton > button {
     width: 100% !important;
     min-height: 65px !important;
@@ -107,29 +108,44 @@ div.stButton > button {
     display: flex !important;
     align-items: center !important;
 
-    justify-content: space-between !important;  /* 👈 أهم سطر */
+    justify-content: space-between !important;
 
     padding: 0px 25px !important;
 }
+
 div.stButton > button::after {
     content: "›";
     font-size: 26px;
     color: #102646;
 }
+
+/* الهيدر الجديد */
+.header-title {
+    text-align:center;
+    font-weight:900;
+    color:#102646;
+    font-size:22px;
+    margin-top:8px;
+    margin-bottom:25px;
+}
+
 </style>
 
-<!-- تم إضافة margin-top:40px هنا لنزول الكلمة -->
-<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
+<div style="display:none;">Settings</div>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="back-btn-container">', unsafe_allow_html=True)
-if st.button("›", key="top_right_back"):
-    st.switch_page("app.py") 
-st.markdown('</div>', unsafe_allow_html=True)
+# ===== الهيدر: السهم مع Settings بنفس السطر =====
+col_back, col_title, col_empty = st.columns([1, 6, 1])
+
+with col_back:
+    if st.button("›", key="top_right_back"):
+        st.switch_page("app.py")
+
+with col_title:
+    st.markdown('<div class="header-title">Settings</div>', unsafe_allow_html=True)
 
 # ===== الأزرار مع زيادة المسافات لضبط الاستقامة مية بالمية =====
 
-# 1. مسافة للأزرار اللي نصها طويل أصلاً
 normal_gap1 = "&nbsp;" * 45
 
 if st.button(f"🔒{normal_gap1}Change Password"):
@@ -139,17 +155,15 @@ normal_gap2 = "&nbsp;" * 43
 if st.button(f"🌐{normal_gap2}Change Language"):
     st.switch_page("pages/ChangeLanguage.py")
 
-# 2. مسافة "إضافية وجبارة" للكلمات القصيرة (Rate و Log) عشان يلحقوا اللي فوقهم
-# زدنا الفراغات لـ 55 عشان تندفع الكلمة لأقصى اليمين
 extreme_gap1 = "&nbsp;" * 63
 
 if st.button(f"⭐{extreme_gap1}Rate App"):
     st.switch_page("pages/RateApp.py")
+
 extreme_gap2 = "&nbsp;" * 64
 if st.button(f"🚪{extreme_gap2}Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
-
 
 col_gap = "&nbsp;" * 5
 
