@@ -109,7 +109,7 @@ function save(){
     if(p1 === "" || p2 === ""){ alert("يرجى إدخال كلمة المرور الجديدة"); return; }
     if(p1 !== p2){ alert("كلمات المرور غير متطابقة"); return; }
     alert("تم تغيير كلمة المرور بنجاح ✅");
-    st.switch_page("settingar.py")
+    window.parent.location.href = "/settingar";
 }
 document.querySelectorAll(".input").forEach(box => {
     const input = box.querySelector("input");
