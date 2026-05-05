@@ -86,7 +86,7 @@ with col2:
         font-size:26px;
         font-weight:800;
         color:#102646;
-        margin-top:10px;
+        margin-top:25px; /* 👈 نزلنا الكلمة */
     ">
     تغيير اللغة
     </div>
