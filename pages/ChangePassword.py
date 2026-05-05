@@ -99,6 +99,10 @@ body {
     outline:none;
     flex:1;
 }
+.eye {
+    cursor: pointer;
+    margin-left: 10px;
+}
 
 .save {
     margin-top:20px;
@@ -128,16 +132,19 @@ body {
 <div class="input">
     <i class="fas fa-lock"></i>
     <input type="password" id="old" placeholder="Current Password">
+    <i class="fas fa-eye-slash eye"></i>
 </div>
 
 <div class="input">
     <i class="fas fa-lock"></i>
-    <input type="password" id="new1" placeholder="New Password">
+     <input type="password" id="new1" placeholder="New Password">
+    <i class="fas fa-eye-slash eye"></i>
 </div>
 
 <div class="input">
     <i class="fas fa-lock"></i>
-    <input type="password" id="new2" placeholder="Rewrite New Password">
+   <input type="password" id="new2" placeholder="Rewrite New Password">
+    <i class="fas fa-eye-slash eye"></i>
 </div>
 
 <div class="save">
@@ -172,6 +179,21 @@ function save(){
    window.parent.history.back();
    
     }
+    /* 👇 هون تحطه */
+document.querySelectorAll(".input").forEach(box => {
+    const input = box.querySelector("input");
+    const eye = box.querySelector(".eye");
+
+    box.addEventListener("mouseenter", () => {
+        input.type = "text";
+        eye.classList.replace("fa-eye-slash", "fa-eye");
+    });
+
+    box.addEventListener("mouseleave", () => {
+        input.type = "password";
+        eye.classList.replace("fa-eye", "fa-eye-slash");
+    });
+});
       
 </script>
 
