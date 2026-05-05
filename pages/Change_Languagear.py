@@ -85,7 +85,7 @@ st.markdown("""
     color: #102646;
 }
 </style>
-""", unsafe_allow_html=True)
+""",unsafe_allow_html=True)
 
 # 2. الهيدر وزر الرجوع
 st.markdown('<div class="back-btn-box">', unsafe_allow_html=True)
@@ -102,3 +102,5 @@ if st.button("🌐 العربية \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00
 
 if st.button("🌐 English \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ›"):
     st.switch_page("pages/Settings.py")
+
+
