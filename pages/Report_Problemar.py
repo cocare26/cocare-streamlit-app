@@ -1,8 +1,9 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-st.set_page_config(page_title="الإبلاغ عن مشكلة", layout="centered")
+st.set_page_config(page_title="تبليغ عن مشكلة", layout="centered")
 
+# ===== CSS =====
 st.markdown("""
 <style>
 :root{
@@ -11,10 +12,12 @@ st.markdown("""
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
-    --gray-color: #808080;
 }
 
 [data-testid="stHeader"] {display: none !important;}
+
+/* ضبط الاتجاه للعربية */
+* { direction: rtl; }
 
 .block-container{
     max-width:350px !important;    
@@ -28,136 +31,148 @@ st.markdown("""
 
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
+
+/* ===== HEADER ===== */
+.header {
+    position:relative;
+    text-align:center;
+    margin-bottom:40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-style {
+    position:absolute;
+    right:0; /* زر الرجوع على اليمين في الواجهة العربية */
+    top:0;
+}
+
+.back-style .stButton > button {
+    background:transparent !important;
+    box-shadow:none !important;
+    color:#0f2446 !important;
+    font-size:28px !important;
+    width:auto !important;
+    padding:0 !important;
+}
+
+.title-text {
+    font-size:20px;
+    font-weight:900;
+    color:#0f2446;
+}
 </style>
 """, unsafe_allow_html=True)
 
+# ===== HEADER =====
+st.markdown('<div class="header">', unsafe_allow_html=True)
+
+st.markdown('<div class="back-style">', unsafe_allow_html=True)
+if st.button("›"): # تغيير السهم ليتناسب مع الرجوع بالعربي
+    st.switch_page("pages/Settings.py")
+st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="title-text">تبليغ عن مشكلة</div>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# ===== UI =====
 components.html("""
 <!DOCTYPE html>
-<html dir="rtl"> <!-- تفعيل الاتجاه من اليمين لليسار -->
+<html dir="rtl">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: transparent; 
-            margin: 0; 
-            display: flex; 
-            justify-content: center; 
-        }
-        
-        .main-wrapper {
-            width: 100%;
-            max-width: 290px;      
-            height: 480px;         
-            display: flex;
-            flex-direction: column;
-        }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
+<style>
+body {
+    font-family: 'Segoe UI';
+    background: transparent;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
 
-        /* سهم الرجوع الموحد > للعربية على اليمين */
-        .back-icon {
-            position: absolute; 
-            right: 0;
-            font-size: 28px;
-            font-weight: bold; 
-            color: #0f2446;
-            cursor: pointer;
-        }
+.main-wrapper {
+    width: 100%;
+    max-width: 290px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+}
 
-        .title {
-            margin: 0;
-            font-weight: 900;
-            font-size: 20px;
-            color: #0f2446;
-        }
+/* TEXTAREA */
+.report-textarea {
+    width: 100%;
+    height: 220px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    padding: 18px;
+    background: white;
+    font-size: 16px;
+    color: #0f2446;
+    resize: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI';
+}
 
-        /* 📝 صندوق النص */
-        .report-textarea {
-            width: 100%;
-            height: 220px;
-            border-radius: 25px;
-            border: none;
-            outline: none;
-            padding: 18px;
-            background: white;
-            font-size: 16px;
-            color: #0f2446;
-            resize: none;
-            box-sizing: border-box;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            font-family: inherit;
-        }
+.report-textarea::placeholder {
+    color: #808080;
+}
 
-        .report-textarea::placeholder {
-            color: #808080;
-        }
+/* BUTTON */
+.send-btn {
+    background: white;
+    border-radius: 100px;
+    width: 100%;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    margin-top: auto;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-family: 'Segoe UI';
+}
 
-        /* 🔘 زر الإرسال */
-        .send-btn {
-            background: white;
-            border-radius: 100px;
-            width: 100%;
-            padding: 14px 22px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between; 
-            border: none;
-            margin-top: auto;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            box-sizing: border-box;
-            transition: 0.3s;
-        }
+.send-btn span {
+    color: #0f2446;
+    font-weight: 700;
+    font-size: 14px;
+}
 
-        .send-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-        }
-
-        /* نص الإرسال - جهة اليمين */
-        .send-btn span { 
-            color: #0f2446; 
-            font-weight: 700; 
-            font-size: 14px; 
-        }
-
-        /* أيقونة الطيارة - جهة اليسار */
-        .main-icon { 
-            color: #808080; 
-            font-size: 18px; 
-            transform: scaleX(-1); /* عكس اتجاه الطيارة لتناسب العربي */
-        }
-    </style>
+.main-icon {
+    color: #808080;
+    font-size: 18px;
+    transform: scaleX(-1); /* لقلب أيقونة الإرسال لتناسب الـ RTL */
+}
+</style>
 </head>
+
 <body>
-    <div class="main-wrapper">
-        <div class="header-container">
-            <div class="back-icon" onclick="goPage('settings-ar')">&gt;</div>
-            <h2 class="title">الإبلاغ عن مشكلة</h2>
-        </div>
 
-        <textarea class="report-textarea" placeholder="أنا بحاجة للمساعدة..."></textarea>
+<div class="main-wrapper">
 
-        <div style="margin-top: auto; padding-bottom: 10px;">
-            <button class="send-btn" onclick="alert('تم الإرسال!')">
-                <span>إرسال البلاغ</span>
-                <i class="fas fa-paper-plane main-icon"></i>
-            </button>
-        </div>
-    </div>
+<textarea class="report-textarea" placeholder="أنا بحاجة للمساعدة..."></textarea>
 
-    <script>
-    function goPage(p){
-        window.top.location.href = "/?page=" + p;
-    }
-    </script>
+<div style="margin-top:auto;">
+    <button class="send-btn" onclick="showPopup()">
+        <i class="fas fa-paper-plane main-icon"></i>
+        <span>إرسال التقرير</span>
+    </button>
+</div>
+
+</div>
+
+<script>
+function showPopup(){
+    alert("تم إرسال التقرير بنجاح ✅");
+    window.parent.history.back();
+}
+</script>
+
 </body>
 </html>
 """, height=500)
