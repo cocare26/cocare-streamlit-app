@@ -2,10 +2,11 @@ import streamlit as st
 import base64
 import html
 import sys
-from cocare import process_message
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-st.set_page_config(page_title="المساعد الذكي", layout="centered")
+import os
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from cocare import process_message
 CHAT_KEY = "chat_messages_ar_final_clean"
 
 def img_to_base64(path):
