@@ -169,9 +169,7 @@ function save(){
 
     alert("Password changed successfully ✅");
 
-    window.parent.postMessage(
-    {type: "streamlit:setComponentValue", value: "go_settings"},
-    "*");
+   window.parent.location.href = window.parent.location.origin + "/Settings";
    
     }
       
