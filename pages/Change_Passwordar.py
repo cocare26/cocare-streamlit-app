@@ -203,5 +203,4 @@ document.querySelectorAll(".input").forEach(box => {
 """, height=420)
 
 # ---------------- NAVIGATION ----------------
-if value == "go_settings":
-    st.switch_page("pages/Settingar.py")
+
