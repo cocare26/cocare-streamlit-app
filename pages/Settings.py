@@ -103,7 +103,7 @@ st.markdown('<div class="bottom-row">', unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 
 with col1:
-    if st.button(" ⚠️ Report Problem"):
+    if st.button(" ⚠️ Report a Problem"):
         st.switch_page("pages/ReportProblem.py")
 
 with col2:
