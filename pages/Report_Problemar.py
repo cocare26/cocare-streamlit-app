@@ -32,20 +32,21 @@ st.markdown("""
 [data-testid="stAppViewContainer"]{ background:#eef2f7; }
 footer {visibility: hidden;}
 
-/* ===== HEADER ===== */
-.header {
-    position:relative;
-    text-align:center;
-    margin-bottom:40px;
+/* ===== HEADER (تعديل لتوسيط العنوان) ===== */
+.header-wrapper {
+    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center; /* توسيط العنوان */
+    margin-bottom: 40px;
+    min-height: 40px;
 }
 
 .back-style {
-    position:absolute;
-    right:0; /* زر الرجوع على اليمين في الواجهة العربية */
-    top:0;
+    position: absolute;
+    right: 0; /* تثبيت زر الرجوع في أقصى اليمين */
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .back-style .stButton > button {
@@ -61,18 +62,21 @@ footer {visibility: hidden;}
     font-size:20px;
     font-weight:900;
     color:#0f2446;
+    text-align: center;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ===== HEADER =====
-st.markdown('<div class="header">', unsafe_allow_html=True)
+st.markdown('<div class="header-wrapper">', unsafe_allow_html=True)
 
+# زر الرجوع (يمين)
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
-if st.button("›"): # تغيير السهم ليتناسب مع الرجوع بالعربي
+if st.button("›"): 
     st.switch_page("pages/Settings.py")
 st.markdown('</div>', unsafe_allow_html=True)
 
+# العنوان (في المنتصف)
 st.markdown('<div class="title-text">تبليغ عن مشكلة</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
@@ -83,96 +87,32 @@ components.html("""
 <html dir="rtl">
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
-body {
-    font-family: 'Segoe UI';
-    background: transparent;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.main-wrapper {
-    width: 100%;
-    max-width: 290px;
-    height: 480px;
-    display: flex;
-    flex-direction: column;
-}
-
-/* TEXTAREA */
-.report-textarea {
-    width: 100%;
-    height: 220px;
-    border-radius: 25px;
-    border: none;
-    outline: none;
-    padding: 18px;
-    background: white;
-    font-size: 16px;
-    color: #0f2446;
-    resize: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    font-family: 'Segoe UI';
-}
-
-.report-textarea::placeholder {
-    color: #808080;
-}
-
-/* BUTTON */
-.send-btn {
-    background: white;
-    border-radius: 100px;
-    width: 100%;
-    padding: 14px 22px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: none;
-    margin-top: auto;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    font-family: 'Segoe UI';
-}
-
-.send-btn span {
-    color: #0f2446;
-    font-weight: 700;
-    font-size: 14px;
-}
-
-.main-icon {
-    color: #808080;
-    font-size: 18px;
-    transform: scaleX(-1); /* لقلب أيقونة الإرسال لتناسب الـ RTL */
-}
+body { font-family: 'Segoe UI'; background: transparent; margin: 0; display: flex; justify-content: center; }
+.main-wrapper { width: 100%; max-width: 290px; height: 480px; display: flex; flex-direction: column; }
+.report-textarea { width: 100%; height: 220px; border-radius: 25px; border: none; outline: none; padding: 18px; background: white; font-size: 16px; color: #0f2446; resize: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: 'Segoe UI'; }
+.report-textarea::placeholder { color: #808080; }
+.send-btn { background: white; border-radius: 100px; width: 100%; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; border: none; margin-top: auto; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: 'Segoe UI'; }
+.send-btn span { color: #0f2446; font-weight: 700; font-size: 14px; }
+.main-icon { color: #808080; font-size: 18px; transform: scaleX(-1); }
 </style>
 </head>
-
 <body>
-
 <div class="main-wrapper">
-
 <textarea class="report-textarea" placeholder="أنا بحاجة للمساعدة..."></textarea>
-
 <div style="margin-top:auto;">
     <button class="send-btn" onclick="showPopup()">
         <i class="fas fa-paper-plane main-icon"></i>
         <span>إرسال التقرير</span>
     </button>
 </div>
-
 </div>
-
 <script>
 function showPopup(){
     alert("تم إرسال التقرير بنجاح ✅");
     window.parent.history.back();
 }
 </script>
-
 </body>
 </html>
 """, height=500)
