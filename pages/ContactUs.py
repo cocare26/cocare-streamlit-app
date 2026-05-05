@@ -87,7 +87,7 @@ st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margi
 # ===== الأزرار (الكلام وراء الأيقونة مباشرة مع مسافة بسيطة) =====
 
 # مسافة صغيرة جداً (4 فراغات) بس عشان ما يلزق الكلام بالأيقونة زيادة عن اللزوم
-gap = "&nbsp;" * 25 
+gap = "&nbsp;" * 26
 
 if st.button(f"✉️Email: Co.Care26@gmail.com {gap}"):
     pass
