@@ -52,7 +52,7 @@ div.stButton > button::after {
     color: #102646;
     margin-right: auto; /* دفع السهم للجهة المقابلة */
      position: relative;
-    top:10px;
+    top:6px;
 }
 
 /* ستايل زر الرجوع */
