@@ -35,22 +35,29 @@ st.markdown("""
 
 /* الأزرار الرئيسية */
 div.stButton > button {
-      width:100%;
-    height: 70px !important;   /* نفس الطول للجميع */
-    border-radius:100px;
-    margin-bottom:18px;
-    background:white;
-    border:none;
-    box-shadow:0 6px 15px rgba(0,0,0,0.1);
-    font-weight:800;
-    color:#102646;
-    font-size:16px;
+      width: 100%;
+    
+    /* 👇 مهم: بدل height ثابت */
+    min-height: 70px !important;  
+    
+    border-radius: 100px;
+    margin-bottom: 18px;
+    background: white;
+    border: none;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    font-weight: 800;
+    color: #102646;
+    font-size: 16px;
 
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    padding: 0 35px !important; 
+    padding: 10px 30px !important;
+
+    /* 👇 يمنع القص */
+    white-space: normal !important;
+    overflow: visible !important; 
 }
     
 }
