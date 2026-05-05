@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
@@ -22,25 +21,46 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height: 600px;
 }
 
-/* buttons */
+/* تعديل الطول فقط للأزرار */
 .stButton > button {
     width:100% !important;
     background:white !important;
     color:#102646 !important;
     border-radius:100px !important;
-    padding:20px !important;
+    
+    /* زيادة الطول من هون */
+    padding: 45px 25px !important; /* الـ 45 هي اللي بتعطيك الطول العمودي */
+    min-height: 110px !important; /* لضمان إن البوكس يضل طويل */
+    
     border:none !important;
     box-shadow:0 4px 12px rgba(0,0,0,0.08) !important;
     font-weight:800 !important;
-    text-align:left !important;
+    
+    /* توزيع المحتوى: الرسمة والحكي بالبداية والسهم بالنهاية */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px; /* مسافة بسيطة بين الرسمة والحكي */
 }
 
-/* back arrow */
+/* السهم في نهاية البوكس الطويل */
+.stButton > button::after {
+    content: "›";
+    margin-left: auto; /* لدفعه لآخر اليمين */
+    font-size: 30px;
+}
+
+/* ستايل زر الرجوع - عشان ما يتأثر بالطول */
 .back-style .stButton > button {
     background:transparent !important;
     box-shadow:none !important;
     font-size:28px !important;
     width:auto !important;
+    min-height: unset !important;
+    padding: 10px !important;
+}
+.back-style .stButton > button::after {
+    content: "" !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -54,9 +74,9 @@ with col_back:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Title
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900;">Contact Us</h2>', unsafe_allow_html=True)
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:30px;">Contact Us</h2>', unsafe_allow_html=True)
 
 # Buttons
-contact_gap = "&nbsp;" * 60
+# لاحظ هون ما استخدمنا فراغات كبيرة عشان يضل الحكي ورا الرسمة مباشرة
 st.button("✉️ Email: Co.Care26@gmail.com")
 st.button("📞 Phone: +962 79 123 4567")
