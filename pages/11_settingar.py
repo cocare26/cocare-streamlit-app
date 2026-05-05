@@ -72,7 +72,7 @@ if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
     st.switch_page("pages/ChangePassword.py")
 normal_gap = "&nbsp;" * 55
 if st.button(f"🌐{normal_gap}تغيير اللغة"):
-    st.switch_page("pages/ChangeLanguage.py")
+    st.switch_page("pages/Change_Passwordar.py")
 
 # 2. مسافة "إضافية وجبارة" للكلمات القصيرة
 extreme_gap = "&nbsp;" * 55
