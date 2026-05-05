@@ -63,22 +63,23 @@ div.stButton > button:hover {
 # ===== الأزرار مع زيادة المسافات لضبط الاستقامة مية بالمية =====
 
 # 1. مسافة للأزرار اللي نصها طويل أصلاً
-normal_gap = "&nbsp;" * 45
+normal_gap1 = "&nbsp;" * 45
 
-if st.button(f"🔒{normal_gap}Change Password"):
+if st.button(f"🔒{normal_gap1}Change Password"):
     st.switch_page("pages/ChangePassword.py")
 
-if st.button(f"🌐{normal_gap}Change Language"):
+normal_gap2 = "&nbsp;" * 43
+if st.button(f"🌐{normal_gap2}Change Language"):
     st.switch_page("pages/ChangeLanguage.py")
 
 # 2. مسافة "إضافية وجبارة" للكلمات القصيرة (Rate و Log) عشان يلحقوا اللي فوقهم
 # زدنا الفراغات لـ 55 عشان تندفع الكلمة لأقصى اليمين
-extreme_gap = "&nbsp;" * 65
+extreme_gap1 = "&nbsp;" * 65
 
-if st.button(f"⭐{extreme_gap}Rate App"):
+if st.button(f"⭐{extreme_gap1}Rate App"):
     st.switch_page("pages/RateApp.py")
-
-if st.button(f"🚪{extreme_gap}Log Out"):
+extreme_gap2 = "&nbsp;" * 64
+if st.button(f"🚪{extreme_gap2}Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
 
