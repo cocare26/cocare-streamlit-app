@@ -31,7 +31,7 @@ footer {visibility: hidden;}
 /* ===== HEADER ===== */
 .header {
     position: relative;
-    height: 110px;  /* 👈 كبرناه */
+    height: 110px;
     margin-bottom: 40px;
 }
 
@@ -50,7 +50,6 @@ footer {visibility: hidden;}
     border: none !important;
 }
 
-/* 🔥 العنوان مرفوع أكثر */
 .title-text {
     position: absolute;
     left: 50%;
@@ -80,39 +79,98 @@ st.markdown('</div>', unsafe_allow_html=True)
 components.html("""
 <!DOCTYPE html>
 <html>
-<body style="font-family:Segoe UI; display:flex; justify-content:center;">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+body {
+    font-family: 'Segoe UI';
+    background: transparent;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
 
-<div style="width:290px; display:flex; flex-direction:column; height:480px;">
+.main-wrapper {
+    width: 100%;
+    max-width: 290px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+}
 
-<textarea style="
-width:100%;
-height:220px;
-border-radius:25px;
-border:none;
-padding:18px;
-font-size:16px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-" placeholder="I need help"></textarea>
+.report-textarea {
+    width: 100%;
+    height: 220px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    padding: 18px;
+    background: white;
+    font-size: 16px;
+    color: #0f2446;
+    resize: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 
-<div style="margin-top:auto;">
-<button onclick="alert('Report sent successfully ✅')" style="
-width:100%;
-padding:14px 22px;
-border:none;
-border-radius:100px;
-background:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-cursor:pointer;
-">
-<i>✈️</i>
-<span style="font-weight:700;">Send Report</span>
-</button>
+.report-textarea::placeholder {
+    color: #808080;
+}
+
+.send-btn {
+    background: white;
+    border-radius: 100px;
+    width: 100%;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.send-btn span {
+    color: #0f2446;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.main-icon {
+    color: #808080;
+    font-size: 18px;
+}
+
+/* hover */
+.send-btn:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+<textarea class="report-textarea" placeholder="I need help"></textarea>
+
+<!-- 👇 رفع الزر -->
+<div style="margin-top:auto; margin-bottom:40px;">
+    <button class="send-btn" onclick="showPopup()">
+        <i class="fas fa-paper-plane main-icon"></i>
+        <span>Send Report</span>
+    </button>
 </div>
 
 </div>
+
+<script>
+function showPopup(){
+    alert("Report sent successfully ✅");
+    window.parent.history.back();
+}
+</script>
 
 </body>
 </html>
