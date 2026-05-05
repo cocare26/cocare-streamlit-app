@@ -36,7 +36,7 @@ st.markdown("""
 /* الأزرار */
 div.stButton > button {
     width:100%;
-    height:65px;
+    height:85px !important; 
     border-radius:100px;
     background:white;
     border:none;
