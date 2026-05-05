@@ -31,17 +31,15 @@ footer {visibility: hidden;}
 
 /* ===== HEADER ===== */
 .header {
-    position: relative;
-    height: 50px;
-    margin-bottom: 40px;
+    position:relative;
+    text-align:center;
+    margin-bottom:40px;
 }
 
-/* السهم */
 .back-style {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    position:absolute;
+    left:0;
+    top:0;
 }
 
 .back-style .stButton > button {
@@ -51,15 +49,9 @@ footer {visibility: hidden;}
     font-size:28px !important;
     width:auto !important;
     padding:0 !important;
-    border: none !important;
 }
 
-/* 👇 العنوان مرفوع */
 .title-text {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -70%);  /* 🔥 رفع */
     font-size:20px;
     font-weight:900;
     color:#0f2446;
@@ -135,6 +127,7 @@ body {
     margin-top: auto;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    /* 👇 إضافة حركة انسيابية للبوكس كامل 👇 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -149,11 +142,12 @@ body {
     font-size: 18px;
 }
 
-/* hover */
+/* 👇 التعديل المطلوب: البوكس كامل يطلع لفوق 👇 */
 .send-btn:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transform: translateY(-8px); /* البوكس يرتفع 8 بكسل */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* زيادة الظل لإعطاء إيحاء بالارتفاع */
 }
+
 </style>
 </head>
 
@@ -163,7 +157,7 @@ body {
 
 <textarea class="report-textarea" placeholder="I need help"></textarea>
 
-<div style="margin-top:auto;">
+<div style="margin-top:auto;">ش
     <button class="send-btn" onclick="showPopup()">
         <i class="fas fa-paper-plane main-icon"></i>
         <span>Send Report</span>
