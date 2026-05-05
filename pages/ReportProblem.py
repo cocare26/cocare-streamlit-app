@@ -51,10 +51,13 @@ footer {visibility: hidden;}
     padding:0 !important;
 }
 
+/* 👇 رفع الكلمة + منع سطرين */
 .title-text {
     font-size:20px;
     font-weight:900;
     color:#0f2446;
+    margin-top: -15px;     /* 🔥 رفع */
+    white-space: nowrap;   /* 🔥 سطر واحد */
 }
 </style>
 """, unsafe_allow_html=True)
@@ -95,7 +98,6 @@ body {
     flex-direction: column;
 }
 
-/* TEXTAREA */
 .report-textarea {
     width: 100%;
     height: 220px;
@@ -114,7 +116,6 @@ body {
     color: #808080;
 }
 
-/* BUTTON */
 .send-btn {
     background: white;
     border-radius: 100px;
@@ -127,7 +128,6 @@ body {
     margin-top: auto;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    /* 👇 إضافة حركة انسيابية للبوكس كامل 👇 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -142,12 +142,10 @@ body {
     font-size: 18px;
 }
 
-/* 👇 التعديل المطلوب: البوكس كامل يطلع لفوق 👇 */
 .send-btn:hover {
-    transform: translateY(-8px); /* البوكس يرتفع 8 بكسل */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* زيادة الظل لإعطاء إيحاء بالارتفاع */
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
-
 </style>
 </head>
 
@@ -157,7 +155,7 @@ body {
 
 <textarea class="report-textarea" placeholder="I need help"></textarea>
 
-<div style="margin-top:auto;">ش
+<div style="margin-top:auto;">
     <button class="send-btn" onclick="showPopup()">
         <i class="fas fa-paper-plane main-icon"></i>
         <span>Send Report</span>
