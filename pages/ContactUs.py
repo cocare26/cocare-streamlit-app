@@ -87,9 +87,10 @@ st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margi
 # ===== الأزرار بنفس المسافات العملاقة =====
 
 # مسافة كبيرة جداً عشان تندفع النصوص لليمين وتصير "مسطرة"
-gap = "&nbsp;" * 4
+gap = "&nbsp;" * 4 
 
-st.button(f"✉️{contact_gap}Email: Co.Care26@gmail.com")
+if st.button(f"✉️{gap}Email: Co.Care26@gmail.com"):
+    pass
 
 # هون زدنا المسافة أكثر شوي لأن النص أقصر
 phone_gap = "&nbsp;" * 45
