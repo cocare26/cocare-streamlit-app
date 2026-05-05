@@ -38,8 +38,9 @@ st.markdown("""
 .block-container {
     max-width: 390px; 
     margin: auto;
-    /* الرقم الأول (0px) هو المسؤول عن المسافة فوق */
-    padding: 0px 20px 35px 20px !important; 
+    padding-top: 0px !important; /* إلغاء المسافة العلوية تماماً */
+    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius: 40px;
 }
 
 /* تنسيق البوكسات */
