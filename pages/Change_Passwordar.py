@@ -25,17 +25,6 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height:600px;
 }
 
-.back-style .stButton > button {
-    background:white !important;
-    color:black !important;
-    border-radius:50% !important;
-    width:40px !important;
-    height:40px !important;
-    padding:0 !important;
-    font-size:20px !important;
-    box-shadow:0 4px 10px rgba(0,0,0,0.08) !important;
-}
-
 .title-wrapper {
     display:flex;
     align-items:center;
@@ -44,9 +33,25 @@ html, body, [data-testid="stAppViewContainer"] {
     margin-bottom:25px;
 }
 
-.back-container {
+.back-link {
     position:absolute;
     right:0;
+    text-decoration: none;
+}
+
+.back-circle {
+    background: white;
+    color: black;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    cursor: pointer;
 }
 
 .title-text {
@@ -58,17 +63,15 @@ html, body, [data-testid="stAppViewContainer"] {
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
-st.markdown('<div class="title-wrapper">', unsafe_allow_html=True)
-
-with st.container():
-    st.markdown('<div class="back-container"><div class="back-style">', unsafe_allow_html=True)
-    if st.button("›"):
-        st.switch_page("pages/11_settingar.py")
-    st.markdown('</div></div>', unsafe_allow_html=True)
-
-st.markdown('<div class="title-text">تغيير كلمة المرور</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
+# تم استبدال زر st.button برابط HTML مباشر لتجنب أخطاء السيرفر
+st.markdown(f"""
+<div class="title-wrapper">
+    <a href="/Settingar" target="_self" class="back-link">
+        <div class="back-circle">›</div>
+    </a>
+    <div class="title-text">تغيير كلمة المرور</div>
+</div>
+""", unsafe_allow_html=True)
 
 # ---------------- HTML UI ----------------
 value = components.html("""
@@ -92,24 +95,10 @@ body { margin:0; font-family:'Segoe UI'; background:transparent; display:flex; j
 }
 
 .input:hover { transform: translateY(-5px); }
-
 .input i { margin-left:10px; color:#102646; }
-
-.input input {
-    border:none;
-    outline:none;
-    flex:1;
-    font-family:'Segoe UI';
-    text-align:right;
-}
-
-.eye {
-    cursor:pointer;
-    margin-right:10px;
-}
-
+.input input { border:none; outline:none; flex:1; font-family:'Segoe UI'; text-align:right; }
+.eye { cursor:pointer; margin-right:10px; }
 .save { margin-top:20px; }
-
 .save button {
     width:100%;
     border-radius:100px;
@@ -121,37 +110,30 @@ body { margin:0; font-family:'Segoe UI'; background:transparent; display:flex; j
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.25s ease;
 }
-
 .save button:hover { transform: translateY(-5px); }
 </style>
 </head>
 
 <body>
-
 <div class="main-wrapper">
-
-<div class="input">
-    <i class="fas fa-lock"></i>
-    <input type="password" id="old" placeholder="كلمة المرور الحالية">
-    <i class="fas fa-eye-slash eye"></i>
-</div>
-
-<div class="input">
-    <i class="fas fa-lock"></i>
-    <input type="password" id="new1" placeholder="كلمة المرور الجديدة">
-    <i class="fas fa-eye-slash eye"></i>
-</div>
-
-<div class="input">
-    <i class="fas fa-lock"></i>
-    <input type="password" id="new2" placeholder="تأكيد كلمة المرور الجديدة">
-    <i class="fas fa-eye-slash eye"></i>
-</div>
-
-<div class="save">
-    <button onclick="save()">حفظ التغييرات</button>
-</div>
-
+    <div class="input">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="old" placeholder="كلمة المرور الحالية">
+        <i class="fas fa-eye-slash eye"></i>
+    </div>
+    <div class="input">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="new1" placeholder="كلمة المرور الجديدة">
+        <i class="fas fa-eye-slash eye"></i>
+    </div>
+    <div class="input">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="new2" placeholder="تأكيد كلمة المرور الجديدة">
+        <i class="fas fa-eye-slash eye"></i>
+    </div>
+    <div class="save">
+        <button onclick="save()">حفظ التغييرات</button>
+    </div>
 </div>
 
 <script>
@@ -160,13 +142,8 @@ function save(){
     let p1 = document.getElementById("new1").value;
     let p2 = document.getElementById("new2").value;
 
-    if(oldPass === ""){
-        alert("يرجى إدخال كلمة المرور الحالية");
-        return;
-    }
-
-    if(p1 === "" || p2 === ""){
-        alert("يرجى إدخال كلمة المرور الجديدة");
+    if(oldPass === "" || p1 === "" || p2 === ""){
+        alert("يرجى ملء جميع الحقول");
         return;
     }
 
@@ -176,31 +153,27 @@ function save(){
     }
 
     alert("تم تغيير كلمة المرور بنجاح ✅");
-
-    // ✅ هذا هو الحل الصحيح
-   window.top.location.href = window.top.location.origin + "/Settingar";
+    
+    // الانتقال المباشر عبر المتصفح
+    window.top.location.href = window.top.location.origin + "/Settingar";
 }
 
-// 👁️ إظهار/إخفاء
 document.querySelectorAll(".input").forEach(box => {
     const input = box.querySelector("input");
     const eye = box.querySelector(".eye");
-
     box.addEventListener("mouseenter", () => {
         input.type = "text";
         eye.classList.replace("fa-eye-slash", "fa-eye");
     });
-
     box.addEventListener("mouseleave", () => {
         input.type = "password";
         eye.classList.replace("fa-eye", "fa-eye-slash");
     });
 });
 </script>
-
 </body>
 </html>
 """, height=420)
 
 # ---------------- NAVIGATION ----------------
-
+# تم حذف سطر st.switch_page نهائياً لأنه يسبب الخطأ الأحمر
