@@ -169,7 +169,7 @@ function save(){
 
     alert("Password changed successfully ✅");
 
-     window.parent.location.href = window.parent.location.origin + "/Settings";
+     window.parent.location.href = window.parent.location.origin + "/Settings.py";
    
     }
       
