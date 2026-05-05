@@ -170,7 +170,7 @@ st.markdown(f"""
 <div style="display:flex; align-items:center;">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
-        <div style="font-size:26px; font-weight:900; color:#102646; line-height:1.2;">أهلاً بك</div>
+        <div style="font-size:26px; font-weight:900; color:#102646; line-height:1.2;">أهلاً بك: فرح</div>
         <div style="font-size:14px; color:#555; margin-top:4px;">+962 79 123 4567</div>
         <div style="font-size:14px; color:#555;">صالح لغاية: 25 مايو، 2026</div>
     </div>
