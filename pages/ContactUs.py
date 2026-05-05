@@ -82,13 +82,13 @@ with col_back:
 # العنوان
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار بمسافة 56 فراغ =====
+# ===== الأزرار بمسافة 50 فراغ =====
 
-# المتغير بـ 56 فراغ كما طلبت
-perfect_gap = "&nbsp;" * 56 
+# المتغير بـ 50 فراغ كما طلبت
+final_gap = "&nbsp;" * 50 
 
-if st.button(f"✉️{perfect_gap}Email: Co.Care26@gmail.com"):
+if st.button(f"✉️{final_gap}Email: Co.Care26@gmail.com"):
     pass
 
-if st.button(f"📞{perfect_gap}Phone: +962 79 123 4567"):
+if st.button(f"📞{final_gap}Phone: +962 79 123 4567"):
     pass
