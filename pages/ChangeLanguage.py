@@ -130,7 +130,7 @@ body {
 
 <div class="wrapper">
 
-<div class="item" onclick="goArabic()">
+<div class="item" onclick="window.open('/settingar', '_top');">
     <span>🌐 Arabic</span>
     ›
 </div>
