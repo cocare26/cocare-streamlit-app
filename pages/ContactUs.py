@@ -10,8 +10,9 @@ st.markdown("""
     background:#f0f7ff;
 }
 
+/* 1. وسعنا العرض الكلي هون عشان البوكس يوصل للنهاية اللي طلبتها بالرسم */
 .block-container {
-    max-width: 430px; 
+    max-width: 550px; /* زدنا العرض من 430 لـ 550 */
     margin: auto;
     padding: 20px 16px;
     background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
@@ -20,17 +21,18 @@ st.markdown("""
     min-height: 600px;
 }
 
+/* 2. الأزرار - "طويلة بالعرض" زي ما طلبت */
 div.stButton > button {
-    width: 100% !important;
+    width: 100% !important; /* بتمد البوكس لآخر عرض الـ container */
     min-height: 65px !important; 
     background: white !important;
     
-    /* 👇 قللنا الرقم الثاني (10px) عشان السهم يوصل لآخر الحافة قدام 👇 */
-    padding: 15px 10px 15px 25px !important; 
+    /* تباعد داخلي: 25 من اليسار و 15 من اليمين (عشان السهم يوصل للآخر) */
+    padding: 15px 15px 15px 25px !important; 
     
     border-radius: 25px !important; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
-    margin-bottom: 15px !important; 
+    margin-bottom: 20px !important; 
     border: none !important;
     font-weight: 700 !important;
     color: #102646 !important;
@@ -38,19 +40,15 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    
-    /* هاد السطر هو اللي بيفتح المسافة العرضية كاملة */
-    justify-content: space-between !important; 
+    justify-content: space-between !important; /* هذا بيدفع السهم لآخر اليمين */
     
     transition: 0.3s ease;
 }
 
 div.stButton > button::after {
     content: "›";
-    font-size: 30px; /* كبّرنا السهم شوي عشان يبين أوضح بالنهاية */
+    font-size: 28px;
     color: #102646;
-    /* تأكد إنه ما في margin مضايقه */
-    margin: 0 !important; 
 }
 
 /* ستايل زر الرجوع */
@@ -80,6 +78,6 @@ with col_back:
 
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# الأزرار
+# الأزرار - الآن ممتدة بالعرض للنهاية
 if st.button("✉️ Email: Co.Care26@gmail.com"): pass
 if st.button("📞 Phone: +962 79 123 4567"): pass
