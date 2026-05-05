@@ -128,7 +128,7 @@ body {
 <div class="wrapper">
 
 <!-- Arabic -->
-<a href="/?lang=ar" target="_top" class="item">
+<a href="Change_Languagear" target="_top" class="item">
     <span>🌐 Arabic</span>
     ›
 </a>
