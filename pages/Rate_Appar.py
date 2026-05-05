@@ -50,12 +50,13 @@ st.markdown("""
     border: none !important;
 }
 
+/* العنوان نزلناه */
 .title-text {
     font-size:20px;
     font-weight:900;
     color:#0f2446;
     text-align: center;
-    margin-top: 8px;
+    margin-top: 20px;  /* 👈 نزلناه أكثر */
 }
 </style>
 """, unsafe_allow_html=True)
