@@ -146,13 +146,18 @@ st.markdown("""
     background:white;
     color:#222;
     margin-right:auto;
+    margin-left:0;
+    text-align:right;
+    direction:rtl;
 }
 
 .user {
     background:#1c6fa4;
     color:white;
     margin-left:auto;
-    text-align:left;
+    margin-right:0;
+    text-align:right;
+    direction:rtl;
 }
 
 .quick-box {
