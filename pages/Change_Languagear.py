@@ -2,10 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 
-
-if st.query_params.get("nav") == "en":
-    st.query_params.clear() # تنظيف الرابط
-    st.switch_page("pages/Settings.py") # الانتقال الرسمي
+الانتقال الرسمي
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
@@ -140,7 +137,7 @@ body {
     </div>
 
     <!-- الخيار الإنجليزي -->
-   <div class="item" onclick="window.parent.location.assign('/Settings');">
+  <div class="item" onclick="window.top.location.href = window.top.location.origin + '/Settings';">
     <span>🌐 English</span>
     <span>‹</span>
 </div>
