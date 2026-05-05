@@ -1,9 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
+# 1. إعداد الصفحة
 st.set_page_config(page_title="تقييم التطبيق", layout="centered")
 
-# ===== CSS =====
+# 2. التنسيق (CSS)
 st.markdown("""
 <style>
 :root{
@@ -20,7 +21,9 @@ st.markdown("""
 /* ضبط الاتجاه للعربية */
 * { direction: rtl; }
 
-[data-testid="stAppViewContainer"]{ background:#eef2f7; }
+[data-testid="stAppViewContainer"]{
+    background:#eef2f7;
+}
 
 .block-container{
     max-width:350px !important;
@@ -56,7 +59,7 @@ st.markdown("""
     font-size:28px !important;
     width:auto !important;
     padding:0 !important;
-    border: none !important; /* إزالة الحدود الافتراضية */
+    border: none !important;
 }
 
 .title-text {
@@ -68,11 +71,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER =====
+# 3. الجزء العلوي (Header)
 st.markdown('<div class="header-wrapper">', unsafe_allow_html=True)
 
+# زر الرجوع يوجه لصفحة الإعدادات العربية
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
-# التعديل الرئيسي هنا
 if st.button("›"): 
     st.switch_page("pages/settingar.py")
 st.markdown('</div>', unsafe_allow_html=True)
@@ -80,4 +83,67 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('<div class="title-text">تقييم التطبيق</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ... (باقي كود components.html يظل كما هو)
+# 4. محتوى المتاجر (HTML & JS)
+components.html("""
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: transparent;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+.main-wrapper { width: 100%; max-width: 290px; }
+.store-item {
+    background: white;
+    border-radius: 100px;
+    padding: 14px 22px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.store-item:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+.store-item-right { display: flex; align-items: center; gap: 12px; }
+.store-item-icon { font-size: 16px; color: #0f2446; width: 20px; text-align: center; }
+.store-item-text { font-weight: 700; color: #0f2446; font-size: 14px; }
+.store-item-arrow { font-size: 18px; font-weight: bold; color: #0f2446; }
+</style>
+</head>
+<body>
+<div class="main-wrapper">
+    <!-- Google Play -->
+    <div class="store-item" onclick="window.open('https://play.google.com/store/apps', '_blank')">
+        <div class="store-item-right">
+            <span class="store-item-icon"><i class="fab fa-google-play"></i></span>
+            <span class="store-item-text">متجر جوجل بلاي</span>
+        </div>
+        <span class="store-item-arrow">‹</span>
+    </div>
+    <!-- Apple Store -->
+    <div class="store-item" onclick="window.open('https://apps.apple.com', '_blank')">
+        <div class="store-item-right">
+            <span class="store-item-icon"><i class="fab fa-apple"></i></span>
+            <span class="store-item-text">متجر آبل</span>
+        </div>
+        <span class="store-item-arrow">‹</span>
+    </div>
+    <!-- Huawei AppGallery -->
+    <div class="store-item" onclick="window.open('https://appgallery.huawei.com', '_blank')">
+        <div class="store-item-right">
+            <span class="store-item-icon"><i class="fas fa-mobile-alt"></i></span>
+            <span class="store-item-text">متجر هواوي</span>
+        </div>
+        <span class="store-item-arrow">‹</span>
+    </div>
+</div>
+</body>
+</html>
+""", height=350)
