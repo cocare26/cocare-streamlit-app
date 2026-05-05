@@ -160,6 +160,7 @@ body {
 <script>
 function showPopup(){
     alert("Report sent successfully ✅");
+    window.parent.history.back();
 }
 </script>
 
