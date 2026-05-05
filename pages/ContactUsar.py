@@ -1,95 +1,111 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-st.set_page_config(page_title="اتصل بنا", layout="centered")
+st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ===== CSS الموحد (تم إضافة اتجاه اليمين للعربية) =====
+# ✅ تخزين اللغة
+if "lang" not in st.session_state:
+    st.session_state.lang = "ar"
+
+# ===== CSS =====
 st.markdown("""
 <style>
-#MainMenu, header, footer {visibility:hidden;}
+/* ضبط الاتجاه للعربية */
+* { margin:0; padding:0; box-sizing:border-box; direction:rtl; }
 
-[data-testid="stAppViewContainer"] {
+html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
-    direction: rtl; /* تفعيل الاتجاه من اليمين لليسار */
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* الكونتينر النحيف */
+#MainMenu, header, footer { visibility:hidden; }
+
 .block-container {
-    max-width: 430px; 
-    margin: auto;
-    padding: 20px 16px;
-    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius: 40px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    min-height: 600px;
+    max-width:430px;
+    margin:auto;
+    padding:18px 16px;
+    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius:42px;
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    min-height:600px;
 }
 
-/* تنسيق البوكسات الموحد */
-div.stButton > button {
-    width: 100% !important;
-    min-height: 65px !important; 
-    border-radius: 35px !important;
-    margin-bottom: 20px !important;
-    background: white !important;
-    border: none !important;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
-    
-    font-weight: 700 !important;
-    color: #102646 !important;
-    font-size: 15px !important; 
-    
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important; 
-    
-    padding: 0px 25px !important;
-    transition: 0.3s;
+/* ===== HEADER ===== */
+.header-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    margin-bottom: 30px;
+    min-height: 40px;
 }
 
-/* السهم الصغير - يندفع لليسار في النسخة العربية */
-div.stButton > button::after {
-    content: "‹";
-    font-size: 26px;
-    color: #102646;
-    margin-right: auto; /* دفع السهم للجهة المقابلة */
+/* السهم جهة اليمين */
+.back-style {
+    position:absolute;
+    right:0;
+    top:0;
 }
 
-/* ستايل زر الرجوع */
 .back-style .stButton > button {
-    background: transparent !important;
-    box-shadow: none !important;
-    font-size: 35px !important;
-    width: auto !important;
-    min-height: unset !important;
-    padding: 0 !important;
-}
-.back-style .stButton > button::after {
-    content: "" !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    color:black !important;
+    font-size:26px !important;
+    width:auto !important;
+    padding:0 !important;
 }
 
-div.stButton > button:hover {
-    transform: translateY(-2px);
-    background-color: #fcfcfc !important;
+/* العنوان في المنتصف */
+.title-text {
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
+    text-align: center;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 🔙 زر الرجوع (معدل ليرجع لصفحة الإعدادات العربية)
-col_back, _ = st.columns([1, 10])
-with col_back:
-    st.markdown('<div class="back-style">', unsafe_allow_html=True)
-    if st.button("›"): # تغيير اتجاه السهم للرجوع
-        st.switch_page("pages/settingar.py")
-    st.markdown('</div>', unsafe_allow_html=True)
+# ===== HEADER =====
+st.markdown('<div class="header-wrapper">', unsafe_allow_html=True)
 
-# العنوان
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>', unsafe_allow_html=True)
+st.markdown('<div class="back-style">', unsafe_allow_html=True)
+if st.button("›"): 
+    st.switch_page("pages/Settings.py")
+st.markdown('</div>', unsafe_allow_html=True)
 
-# ===== الأزرار بالعربي مع الحفاظ على المسافات =====
+st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
 
-gap_email = "&nbsp;" * 25
-if st.button(f"✉️ البريد: Co.Care26@gmail.com {gap_email}"):
-    pass
+st.markdown('</div>', unsafe_allow_html=True)
 
-gap_phone = "&nbsp;" * 35
-if st.button(f"📞 الهاتف: +962 79 123 4567 {gap_phone}"):
-    pass
+# ===== UI =====
+result = components.html("""
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+body { margin:0; font-family:'Segoe UI'; display:flex; justify-content:center; background: transparent; }
+.wrapper { width:100%; max-width:380px; }
+.item { display:flex; justify-content:space-between; align-items:center; background:white; border-radius:100px; padding:14px 22px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); text-decoration:none; color:#102646; font-weight:800; transition:0.2s; cursor: pointer; }
+.item:hover { transform:translateY(-2px); }
+.check-mark { color: #102646; font-size: 18px; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+<div class="item" onclick="window.parent.history.back();">
+    <span>🌐 العربية</span>
+    <span class="check-mark">✔</span>
+</div>
+
+<div class="item" onclick="window.open('Settings', '_parent');">
+    <span>🌐 English</span>
+</div>
+</div>
+
+</div>
+</body>
+</html>
+""", height=300)
