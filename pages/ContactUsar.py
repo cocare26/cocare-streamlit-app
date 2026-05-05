@@ -45,6 +45,11 @@ div.stButton > button {
     transition: 0.3s;
 }
 
+div.stButton > button span {
+    display: inline-block;
+    transform: translateY(-6px);  /* 👈 هون تتحكم بالرفع */
+}
+
 /* السهم الصغير - يندفع لليسار في النسخة العربية */
 div.stButton > button::after {
     content: "‹";
