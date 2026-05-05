@@ -297,4 +297,4 @@ col1, col2, col3, col4, col5 = st.columns(5)
 
 with col3:
     if st.button("🤖", key="chatbot_btn"):
-        st.switch_page("pages/Chatbot_AR.py")
+        st.switch_page("Chatbot_AR")
