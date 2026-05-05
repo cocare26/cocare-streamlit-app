@@ -2,14 +2,14 @@ import streamlit as st
 
 st.set_page_config(page_title="اتصل بنا", layout="centered")
 
-# ===== CSS الموحد (مبدأ الإعدادات) =====
+# ===== CSS الموحد (تم إضافة اتجاه اليمين للعربية) =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
 
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
-    direction: rtl; /* إضافة اتجاه اليمين للعربية */
+    direction: rtl; /* تفعيل الاتجاه من اليمين لليسار */
 }
 
 /* الكونتينر النحيف */
@@ -39,16 +39,15 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    /* التعديل السحري: النص يلزق باليمين والسهم يروح يسار */
     justify-content: flex-start !important; 
     
     padding: 0px 25px !important;
     transition: 0.3s;
 }
 
-/* السهم الصغير في النهاية - نخليه يندفع لآخر اليسار (في الواجهة العربية) */
+/* السهم الصغير - يندفع لليسار في النسخة العربية */
 div.stButton > button::after {
-    content: "‹"; /* تغيير اتجاه السهم للعربي */
+    content: "‹";
     font-size: 26px;
     color: #102646;
     margin-right: auto; /* دفع السهم للجهة المقابلة */
@@ -74,23 +73,24 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# 🔙 زر الرجوع
+# 🔙 زر الرجوع (معدل ليرجع لصفحة الإعدادات العربية)
 col_back, _ = st.columns([1, 10])
 with col_back:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
-    if st.button("›"): # سهم الرجوع لليمين في العربي
-        st.switch_page(""pages/settingar.py"")
+    if st.button("›"): # تغيير اتجاه السهم للرجوع
+        st.switch_page("pages/settingar.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
 # العنوان
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار (نفس المسافات اللي حطيتها إنت بالظبط) =====
+# ===== الأزرار بالعربي مع الحفاظ على المسافات =====
 
-gap1 = "&nbsp;" * 17
-if st.button(f"✉️ البريد الإلكتروني: Co.Care26@gmail.com {gap1}"):
+gap_email = "&nbsp;" * 25
+if st.button(f"✉️ البريد: Co.Care26@gmail.com {gap_email}"):
     pass
 
-gap2 = "&nbsp;" * 23
-if st.button(f"📞 الهاتف: +962 79 123 4567 {gap2}{gap2}"):
+gap_phone = "&nbsp;" * 30
+gap_phone = "&nbsp;" * 35
+if st.button(f"📞 الهاتف: +962 79 123 4567 {gap_phone}"):
     pass
