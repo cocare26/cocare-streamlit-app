@@ -111,12 +111,12 @@ if st.button(f"🌐{normal_gap1}تغيير اللغة"):
     st.switch_page("pages/Change_Languagear.py")
 
 extreme_gap = "&nbsp;" * 61
-extreme_gap1 = "&nbsp;" * 55
+extreme_gap1 = "&nbsp;" * 56
 
-if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
+if st.button(f"⭐{extreme_gap}تقييم التطبيق "):
     st.switch_page("pages/Rate_Appar.py")
 
-if st.button(f"🚪{extreme_gap1}تسجيل الخروج"):
+if st.button(f"🚪{extreme_gap1} تسجيل الخروج"):
     st.session_state.clear()
     st.switch_page("arabic-app.py")
 
