@@ -3,86 +3,59 @@ import streamlit as st
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
 # ===== CSS =====
+==== CSS =====
 st.markdown("""
 <style>
+* { margin:0; padding:0; box-sizing:border-box; direction:ltr; }
 
-/* اتجاه عربي */
-* { direction:rtl; }
-
-/* الخلفية */
-[data-testid="stAppViewContainer"] {
+html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
+    font-family:'Segoe UI';
 }
 
-/* الكونتينر */
+#MainMenu, header, footer { visibility:hidden; }
+
 .block-container {
     max-width:430px;
     margin:auto;
-    padding:20px;
+    padding:18px 16px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius:40px;
+    border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
+    min-height:600px;
 }
 
-/* العنوان */
-.title {
+/* ===== HEADER ===== */
+.header {
+    position:relative;
     text-align:center;
-    font-size:22px;
-    font-weight:900;
-    color:#102646;
     margin-bottom:30px;
 }
 
-/* الأزرار */
-div.stButton > button {
-    width:100%;
-    height:85px !important; 
-    border-radius:100px;
-    background:white;
-    border:none;
-    color:#102646;
-    font-weight:800;
-    font-size:18px;
-    margin-bottom:15px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    text-align:right;
-}
-
-/* ===== زر السهم ===== */
+/* السهم */
 .back-style {
-    position: fixed;
-    top: 60px;
-    right: 25px;
-    z-index:999;
+    position:absolute;
+    left:0;
+    top:0;
 }
 
-/* كسر ستايل Streamlit */
-.back-style .stButton button {
-    all: unset !important;
-
-    background:#111827 !important;
-    color:white !important;
-
-    width:50px !important;
-    height:50px !important;
-
-    border-radius:12px !important;
-
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-
-    font-size:28px !important;
-    font-weight:900 !important;
-
-    cursor:pointer !important;
-
-    box-shadow:0 6px 15px rgba(0,0,0,0.25);
+.back-style .stButton > button {
+    background:transparent !important;
+    box-shadow:none !important;
+    color:black !important;
+    font-size:26px !important;
+    width:auto !important;
+    padding:0 !important;
 }
 
-/* Hover */
-.back-style button:hover {
-    transform:scale(1.05);
+/* العنوان */
+.title-text {
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
+}
+.item {
+    cursor: pointer;
 }
 
 </style>
