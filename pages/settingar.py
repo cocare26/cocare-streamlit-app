@@ -67,6 +67,15 @@ div.stButton > button:hover {
     background-color: #fcfcfc !important;
 }
 
+/* السهم داخل البوكس */
+div.stButton > button::after {
+    content: "‹";
+    font-size: 28px;
+    color: #102646;
+    font-weight: bold;
+    margin-left: 10px; /* يخليه بعيد شوي عن الحافة */
+}
+
 </style>
 
 <div class="title">الإعدادات</div>
