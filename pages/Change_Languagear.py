@@ -1,147 +1,88 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Change Language", layout="centered")
-# ✅ تخزين اللغة
-if "lang" not in st.session_state:
-    st.session_state.lang = "en"
+st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ✅ قراءة اللغة من الرابط
-query = st.query_params
-if "lang" in query:
-    st.session_state.lang = query["lang"]
-
-
-
-# ===== CSS =====
+# ===== الـ CSS (نفس الديزاين تبعك مع تعديلات بسيطة للأزرار) =====
 st.markdown("""
 <style>
-* { margin:0; padding:0; box-sizing:border-box; direction:ltr; }
-
-html, body, [data-testid="stAppViewContainer"] {
-    background:#f0f7ff;
-    font-family:'Segoe UI';
+/* ضبط الاتجاه والخلفية */
+* { direction: rtl; }
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
 }
-
-#MainMenu, header, footer { visibility:hidden; }
+[data-testid="stHeader"] {display: none !important;}
 
 .block-container {
     max-width:430px;
     margin:auto;
     padding:18px 16px;
-    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    background: white; /* البوكس الأساسي */
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
-    min-height:600px;
+    margin-top: 20px;
 }
 
-/* ===== HEADER ===== */
-.header {
-    position:relative;
-    text-align:center;
-    margin-bottom:30px;
-}
-
-/* السهم */
-.back-style {
-    position:absolute;
-    left:0;
-    top:0;
-}
-
-.back-style .stButton > button {
-    background:transparent !important;
-    box-shadow:none !important;
-    color:black !important;
-    font-size:26px !important;
-    width:auto !important;
-    padding:0 !important;
-}
-
-/* العنوان */
+/* تنسيق العنوان */
 .title-text {
     font-size:20px;
     font-weight:900;
     color:#102646;
+    text-align: center;
+    margin-bottom: 30px;
 }
-.item {
-    cursor: pointer;
+
+/* تعديل أزرار ستريمليت لتبدو مثل الـ Items في تصميمك */
+div.stButton > button {
+    width: 100% !important;
+    background-color: white !important;
+    color: #102646 !important;
+    border: 1px solid #f0f0f0 !important;
+    border-radius: 100px !important;
+    padding: 14px 22px !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+    transition: 0.2s !important;
+}
+
+div.stButton > button:hover {
+    transform: translateY(-2px);
+    border-color: #2f80ed !important;
+}
+
+/* تنسيق السهم الصغير للرجوع */
+.back-container {
+    display: flex;
+    justify-content: flex-start;
+}
+.back-container .stButton > button {
+    width: auto !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 30px !important;
+    color: black !important;
+    padding: 0 !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ===== HEADER =====
-st.markdown('<div class="header">', unsafe_allow_html=True)
+st.markdown('<div class="back-container">', unsafe_allow_html=True)
+# السهم يرجعك لصفحة الإعدادات العربية
+if st.button("›"): 
+    st.switch_page("pages/settingar.py")
+st.markdown('</div>', unsafe_allow_html=True)
 
-# السهم
-st.markdown('<div class="back-style">', unsafe_allow_html=True)
-if st.button("‹"):
+st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
+
+# ===== الأزرار (نفس ديزاين الـ Item) =====
+
+# زر العربية
+if st.button("🌐 العربية                        ✔"):
+    st.switch_page("pages/settingar.py")
+
+# زر الإنجليزية
+if st.button("🌐 English                             ›"):
     st.switch_page("pages/Settings.py")
-st.markdown('</div>', unsafe_allow_html=True)
-
-# العنوان بالنص
-st.markdown('<div class="title-text">Change Language</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-# ===== UI =====
-components.html("""
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-<style>
-body {
-    margin:0;
-    font-family:'Segoe UI';
-    display:flex;
-    justify-content:center;
-}
-
-.wrapper {
-    width:100%;
-    max-width:380px;
-}
-
-/* ITEM */
-.item {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:white;
-    border-radius:100px;
-    padding:14px 22px;
-    margin-bottom:15px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    text-decoration:none;
-    color:#102646;
-    font-weight:800;
-    transition:0.2s;
-}
-
-.item:hover {
-    transform:translateY(-2px);
-}
-</style>
-</head>
-
-<body>
-
-<div class="wrapper">
-
-<div class="item" onclick="window.parent.location.href='/ChangeLanguagear';">
-    <span>🌐 Arabic</span>
-    ›
-</div>
-
-<div class="item" onclick="window.top.history.back();">
-    <span>🌐 English</span>
-    ✔
-</div>
-
-</div>
-
-</body>
-</html>
-""", height=600)
