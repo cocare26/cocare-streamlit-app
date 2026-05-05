@@ -94,9 +94,9 @@ if st.button("🚪  تسجيل الخروج"):
 col1, col2 = st.columns(2)
 
 with col1:
-    if st.button("الإبلاغ عن مشكلة"):
+    if st.button(" الإبلاغ عن مشكلة "):
         st.switch_page("pages/ReportProblem_ar.py")
 
 with col2:
-    if st.button("اتصل بنا"):
+    if st.button(" ✉️ اتصل بنا"):
         st.switch_page("pages/ContactUs_ar.py")
