@@ -79,7 +79,7 @@ col_back, _ = st.columns([1, 10])
 with col_back:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
     if st.button("›"): # سهم الرجوع لليمين في العربي
-        st.switch_page("pages/Settings.py")
+        st.switch_page(""pages/settingar.py"")
     st.markdown('</div>', unsafe_allow_html=True)
 
 # العنوان
