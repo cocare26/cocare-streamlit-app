@@ -88,9 +88,9 @@ col_gap = "&nbsp;" * 5
 col1, col2 = st.columns(2)
 
 with col1:
-    if st.button(f"⚠️{col_gap}Report"):
+    if st.button(f"⚠️{col_gap}Report a problem"):
         st.switch_page("pages/ReportProblem.py")
 
 with col2:
-    if st.button(f"✉️{col_gap}Contact"):
+    if st.button(f"✉️{col_gap}Contact us"):
         st.switch_page("pages/ContactUs.py")
