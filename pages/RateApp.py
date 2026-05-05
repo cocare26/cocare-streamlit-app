@@ -37,12 +37,13 @@ st.markdown("""
     padding:0 !important;
 }
 
-/* العنوان */
+/* العنوان (معدل) */
 .title-text {
     font-size:20px;
     font-weight:900;
     color:#0f2446;
     text-align:center;
+    margin-top: 15px;  /* 👈 نزلناه شوي */
 }
 </style>
 """, unsafe_allow_html=True)
