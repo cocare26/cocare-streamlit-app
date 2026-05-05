@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ===== CSS المحدث (زيادة العرض ليطابق الصورة) =====
+# ===== CSS التصميم المماثل للصورة =====
 st.markdown("""
 <style>
 /* ضبط الاتجاه للعربية */
@@ -15,70 +15,84 @@ st.markdown("""
 
 [data-testid="stHeader"] {display: none !important;}
 
-/* الكبسولة السماوية - جعلناها أعرض هنا */
+/* الكبسولة السماوية */
 .block-container {
-    max-width: 420px !important; /* زدنا العرض من 360 إلى 420 */
+    max-width: 360px !important;
     margin: auto !important;
-    padding: 30px 25px !important;
-    background-color: #e1f1ff !important; 
-    border-radius: 50px; /* زوايا دائرية ناعمة */
-    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-    margin-top: 40px !important;
-    min-height: 600px !important;
+    padding: 30px 20px !important;
+    background-color: #e1f1ff !important; /* لون سماوي فاتح صلب مثل الصورة */
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-top: 50px !important;
+    min-height: 650px !important;
 }
 
-/* العنوان */
+/* العنوان (تغيير اللغة) */
 .title-text {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 900;
     color: #102646;
     text-align: center;
-    margin-bottom: 45px;
-    margin-top: 10px;
+    margin-bottom: 40px;
+    margin-top: 20px;
 }
 
-/* الأزرار الطويلة */
+/* تصميم الأزرار الطويلة */
 div.stButton > button {
     width: 100% !important;
     background-color: white !important;
     color: #102646 !important;
     border: none !important;
     border-radius: 100px !important;
-    height: 60px !important; /* زيادة الارتفاع قليلاً للفخامة */
-    margin-bottom: 18px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important;
+    height: 55px !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
     font-weight: 800 !important;
-    font-size: 18px !important;
+    font-size: 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 0 20px !important;
 }
 
-/* الأزرار السفلية الصغيرة بجانب بعضها */
+/* الأزرار الصغيرة في الأسفل (بجانب بعضها) */
 .footer-buttons {
     display: flex;
-    gap: 15px;
-    margin-top: 25px;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-/* زر الرجوع الدائري العلوي */
+.footer-buttons div {
+    flex: 1;
+}
+
+/* تنسيق خاص للأزرار السفلية لضمان الشكل البيضاوي */
+.footer-buttons div.stButton > button {
+    height: 50px !important;
+    font-size: 14px !important;
+}
+
+/* زر الرجوع العلوي */
 .back-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end; /* لجعله في الزاوية مثل الصورة */
 }
 .back-container .stButton > button {
-    width: 45px !important;
-    height: 45px !important;
+    width: 40px !important;
+    height: 40px !important;
     background: white !important;
     border-radius: 50% !important;
-    font-size: 22px !important;
+    font-size: 20px !important;
     color: #102646 !important;
-    min-width: 45px !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+    min-width: 40px !important;
+    padding: 0 !important;
+    justify-content: center !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ===== محتوى الكبسولة العريضة =====
+# ===== محتوى الكبسولة =====
 
-# 1. زر الرجوع
+# 1. زر الرجوع (أعلى اليسار/اليمين حسب الاتجاه)
 st.markdown('<div class="back-container">', unsafe_allow_html=True)
 if st.button("›", key="back"): 
     st.switch_page("pages/settingar.py")
@@ -87,19 +101,22 @@ st.markdown('</div>', unsafe_allow_html=True)
 # 2. العنوان
 st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
 
-# 3. الأزرار الأساسية
-if st.button("🌐 العربية                       ✔", key="lang_ar"):
+# 3. خيارات اللغة (الأزرار الطويلة)
+if st.button("🌐 العربية \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ✔", key="lang_ar"):
     st.switch_page("pages/settingar.py")
 
-if st.button("🌐 English                          ›", key="lang_en"):
+if st.button("🌐 English \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ›", key="lang_en"):
     st.switch_page("pages/Settings.py")
 
-# 4. الأزرار السفلية الصغيرة
+# 4. الأزرار السفلية (مثل اتصل بنا وتبليغ عن مشكلة)
+st.markdown('<div class="footer-buttons">', unsafe_allow_html=True)
 col1, col2 = st.columns(2)
+
 with col1:
-    if st.button("📧 اتصل بنا"):
-        pass
+    if st.button("📧 اتصل بنا", key="contact"):
+        pass # أضف الأكشن هنا
 
 with col2:
-    if st.button("⚠️ مشكلة"):
-        pass
+    if st.button("⚠️ مشكلة", key="report"):
+        pass # أضف الأكشن هنا
+st.markdown('</div>', unsafe_allow_html=True)
