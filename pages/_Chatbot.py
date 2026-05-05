@@ -1,23 +1,76 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import base64
 
-st.set_page_config(page_title="AI Agent", layout="centered")
+# عدلي الاسم حسب ملفك
+from cocare import process_message
 
-with open("robot_head.png", "rb") as f:
-    robot = base64.b64encode(f.read()).decode()
+st.set_page_config(page_title="CoCare AI Agent", layout="centered")
 
-html = f"""
-<html>
-<head>
+# =========================
+# IMAGE
+# =========================
+def img_to_base64(path):
+    try:
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except:
+        return ""
+
+robot = img_to_base64("robot_head.png")
+
+# =========================
+# SESSION
+# =========================
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        ("bot", "أهلاً 👋 كيف أقدر أساعدك؟")
+    ]
+
+# =========================
+# CHATBOT RESPONSE
+# =========================
+def get_bot_reply(user_text):
+    result = process_message(
+        user_text,
+        user_id="customer_1",
+        region="Amman"
+    )
+
+    reply = result.get("response", "")
+    followup = result.get("followup_response", "")
+
+    final_reply = f"{reply}\n\n{followup}".strip()
+    return final_reply
+
+
+def send_message(text):
+    if not text:
+        return
+
+    st.session_state.messages.append(("user", text))
+
+    try:
+        bot_reply = get_bot_reply(text)
+    except Exception as e:
+        bot_reply = "صار خطأ أثناء معالجة الرسالة، حاول مرة ثانية."
+
+    st.session_state.messages.append(("bot", bot_reply))
+
+
+# =========================
+# CSS
+# =========================
+st.markdown("""
 <style>
-body {{
-    margin:0;
+.stApp {
     background:#eef2f7;
-    font-family:Arial;
-}}
+}
 
-.phone {{
+.block-container {
+    padding-top: 20px;
+}
+
+.phone {
     width:420px;
     height:700px;
     margin:auto;
@@ -25,9 +78,10 @@ body {{
     overflow:hidden;
     position:relative;
     background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
-}}
+    box-shadow:0 10px 35px rgba(0,0,0,.18);
+}
 
-.topbar {{
+.topbar {
     position:absolute;
     top:14px;
     left:18px;
@@ -40,238 +94,194 @@ body {{
     gap:10px;
     padding:0 14px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
-}}
+}
 
-.back {{
+.back {
     font-size:28px;
     color:#436577;
-}}
+}
 
-.avatar {{
+.avatar {
     width:42px;
     height:42px;
     border-radius:50%;
     object-fit:cover;
-}}
+}
 
-.dot {{
+.dot {
     width:8px;
     height:8px;
     background:#36c06a;
     border-radius:50%;
-}}
+}
 
-.status {{
+.status {
     font-size:15px;
     font-weight:700;
     color:#222;
-}}
+}
 
-.chat-box {{
+.chat-box {
     position:absolute;
     top:90px;
     left:18px;
     right:18px;
-    bottom:75px;
+    bottom:145px;
     overflow-y:auto;
     padding:10px;
-}}
+}
 
-.msg {{
+.msg {
     max-width:75%;
     padding:9px 12px;
     border-radius:16px;
     margin-bottom:8px;
     font-size:13px;
-    line-height:1.4;
-}}
+    line-height:1.5;
+    white-space:pre-wrap;
+    font-family:Arial;
+}
 
-.bot {{
+.bot {
     background:white;
     color:#222;
     margin-right:auto;
-}}
+}
 
-.user {{
+.user {
     background:#1c6fa4;
     color:white;
     margin-left:auto;
-}}
+    text-align:left;
+}
 
-.menu {{
-    display:none;
+.quick-box {
     position:absolute;
-    left:38px;
-    bottom:90px;
-    width:150px;
-    background:white;
-    border-radius:8px;
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
-    padding:8px 0;
-    z-index:5;
-}}
-
-.menu div {{
-    font-size:13px;
-    padding:7px 13px;
-    color:#222;
-    cursor:pointer;
-}}
-
-.menu div:hover {{
-    background:#eef3f6;
-}}
-
-.bottom {{
-    position:absolute;
-    bottom:18px;
     left:18px;
     right:18px;
-    height:42px;
+    bottom:70px;
     display:flex;
-    align-items:center;
-    gap:8px;
-}}
+    flex-wrap:wrap;
+    gap:6px;
+}
 
-.hamburger {{
-    width:32px;
-    height:32px;
-    border-radius:50%;
+.quick-btn {
     background:white;
-    text-align:center;
-    line-height:32px;
-    font-size:22px;
-    color:#50768a;
-    cursor:pointer;
-}}
-
-.chat-input {{
-    flex:1;
-    height:34px;
-    background:white;
-    border-radius:22px;
-    color:#444;
+    border-radius:14px;
+    padding:6px 10px;
     font-size:12px;
-    padding-left:14px;
-    border:none;
-    outline:none;
-}}
+    color:#1c6fa4;
+    border:1px solid #d7e8f4;
+    display:inline-block;
+}
 
-.send {{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#6ec6ff,#1c6fa4);
-    color:white;
-    text-align:center;
-    line-height:40px;
-    font-size:20px;
-    cursor:pointer;
-}}
+.bottom-space {
+    height: 700px;
+}
+
+div[data-testid="stTextInput"] {
+    width:420px;
+    margin:auto;
+}
+
+div[data-testid="stTextInput"] input {
+    border-radius:22px;
+    height:42px;
+    font-size:13px;
+}
+
+div[data-testid="stButton"] button {
+    border-radius:20px;
+    font-size:12px;
+    padding:5px 10px;
+    background:white;
+    color:#1c6fa4;
+    border:1px solid #d7e8f4;
+}
 </style>
-</head>
+""", unsafe_allow_html=True)
 
-<body>
+# =========================
+# HTML PHONE
+# =========================
+messages_html = ""
+
+for role, msg in st.session_state.messages:
+    cls = "user" if role == "user" else "bot"
+    messages_html += f'<div class="msg {cls}">{msg}</div>'
+
+avatar_html = (
+    f'<img class="avatar" src="data:image/png;base64,{robot}">'
+    if robot else
+    '<div class="avatar"></div>'
+)
+
+st.markdown(f"""
 <div class="phone">
-
     <div class="topbar">
-       <a href="/Customer" target="_self" style="text-decoration:none;">
-    <div class="back">‹</div>
-</a>
-        <img class="avatar" src="data:image/png;base64,{robot}">
+        <div class="back">‹</div>
+        {avatar_html}
         <div class="dot"></div>
-        <div class="status">Ready to assist</div>
+        <div class="status">جاهز للمساعدة</div>
     </div>
 
-    <div id="chatBox" class="chat-box">
-        <div class="msg bot">Hi, how can I help you?</div>
+    <div class="chat-box">
+        {messages_html}
     </div>
 
-    <div id="menu" class="menu">
-        <div onclick="quickMsg('Network Test')">Network Test</div>
-        <div onclick="quickMsg('Internet Usage')">Internet Usage</div>
-        <div onclick="quickMsg('Renew Package')">Renew Package</div>
-        <div onclick="quickMsg('International Calls')">International Calls</div>
-        <div onclick="quickMsg('Offers & Games')">Offers & Games</div>
-        <div onclick="quickMsg('Contact Support')">Contact Support</div>
+    <div class="quick-box">
+        <span class="quick-btn">فحص الشبكة</span>
+        <span class="quick-btn">استهلاك الإنترنت</span>
+        <span class="quick-btn">تجديد الباقة</span>
+        <span class="quick-btn">المكالمات الدولية</span>
+        <span class="quick-btn">العروض والألعاب</span>
+        <span class="quick-btn">الدعم الفني</span>
     </div>
-
-    <div class="bottom">
-        <div class="hamburger" onclick="toggleMenu()">≡</div>
-        <input id="chatInput" class="chat-input" placeholder="Type your question here..." onkeydown="checkEnter(event)">
-        <div class="send" onclick="sendMessage()">➤</div>
-    </div>
-
 </div>
+""", unsafe_allow_html=True)
 
-<script>
-function toggleMenu(){{
-    const menu = document.getElementById("menu");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
-}}
+# =========================
+# QUICK SERVICES
+# =========================
+col1, col2, col3 = st.columns(3)
 
-function addMessage(text, type){{
-    const chatBox = document.getElementById("chatBox");
-    const msg = document.createElement("div");
-    msg.className = "msg " + type;
-    msg.innerText = text;
-    chatBox.appendChild(msg);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}}
+with col1:
+    if st.button("فحص الشبكة"):
+        send_message("افحص حالة الشبكة عندي")
+        st.rerun()
 
-function botReply(text){{
-    let reply = "I received your request.";
+    if st.button("تجديد الباقة"):
+        send_message("بدي أجدد الباقة")
+        st.rerun()
 
-    if(text === "Network Test"){{
-        reply = "Your network signal is strong.";
-    }}
-    else if(text === "Internet Usage"){{
-        reply = "Your current internet usage is available in your dashboard.";
-    }}
-    else if(text === "Renew Package"){{
-        reply = "You can renew your package from the packages section.";
-    }}
-    else if(text === "International Calls"){{
-        reply = "International call options are available for your line.";
-    }}
-    else if(text === "Offers & Games"){{
-        reply = "Current offers and games are available in the offers section.";
-    }}
-    else if(text === "Contact Support"){{
-        reply = "Support team will contact you soon.";
-    }}
+with col2:
+    if st.button("استهلاك الإنترنت"):
+        send_message("بدي أعرف استهلاك الإنترنت")
+        st.rerun()
 
-    setTimeout(function(){{
-        addMessage(reply, "bot");
-    }}, 500);
-}}
+    if st.button("العروض والألعاب"):
+        send_message("شو العروض المتاحة؟")
+        st.rerun()
 
-function sendMessage(){{
-    const input = document.getElementById("chatInput");
-    const text = input.value.trim();
+with col3:
+    if st.button("المكالمات الدولية"):
+        send_message("بدي أعرف عن المكالمات الدولية")
+        st.rerun()
 
-    if(text === "") return;
+    if st.button("الدعم الفني"):
+        send_message("بدي أتواصل مع الدعم الفني")
+        st.rerun()
 
-    addMessage(text, "user");
-    input.value = "";
-    botReply(text);
-}}
+# =========================
+# INPUT
+# =========================
+with st.form("chat_form", clear_on_submit=True):
+    user_input = st.text_input(
+        "",
+        placeholder="اكتب سؤالك هون..."
+    )
+    submitted = st.form_submit_button("إرسال")
 
-function quickMsg(text){{
-    document.getElementById("menu").style.display = "none";
-    addMessage(text, "user");
-    botReply(text);
-}}
-
-function checkEnter(event){{
-    if(event.key === "Enter"){{
-        sendMessage();
-    }}
-}}
-</script>
-
-</body>
-</html>
-"""
-
-components.html(html, height=730)
+if submitted and user_input.strip():
+    send_message(user_input.strip())
+    st.rerun()
