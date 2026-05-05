@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
@@ -22,25 +21,54 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height: 600px;
 }
 
-/* buttons */
+/* الأزرار - زيادة الطول فقط مع الحفاظ على الترتيب */
 .stButton > button {
     width:100% !important;
     background:white !important;
     color:#102646 !important;
-    border-radius:100px !important;
-    padding:20px !important;
+    border-radius:50px !important; 
+    
+    /* 👇 تحكم بالطول من هون (60px فوق وتحت) 👇 */
+    padding: 60px 25px !important; 
+    min-height: 140px !important; 
+    
     border:none !important;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08) !important;
+    box-shadow:0 6px 15px rgba(0,0,0,0.08) !important;
     font-weight:800 !important;
-    text-align:left !important;
+    font-size: 17px !important; 
+    
+    display: flex !important;
+    align-items: center !important;
+    
+    /* 👇 الحكي يلزق بالرسمة بالبداية 👇 */
+    justify-content: flex-start !important; 
+    gap: 8px; /* مسافة بسيطة جداً ورا الرسمة */
 }
 
-/* back arrow */
+/* السهم في نهاية البوكس الطويل */
+.stButton > button::after {
+    content: "›";
+    margin-left: auto; /* يدفعه لآخر اليمين */
+    font-size: 35px;
+    color: #102646;
+}
+
+/* زر الرجوع - يضل صغير */
 .back-style .stButton > button {
     background:transparent !important;
     box-shadow:none !important;
-    font-size:28px !important;
+    font-size:30px !important;
     width:auto !important;
+    min-height: unset !important;
+    padding: 10px !important;
+}
+.back-style .stButton > button::after {
+    content: "" !important;
+}
+
+div.stButton > button:hover {
+    background-color: #fcfcfc !important;
+    transform: translateY(-2px);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -54,9 +82,9 @@ with col_back:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Title
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900;">Contact Us</h2>', unsafe_allow_html=True)
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:40px;">Contact Us</h2>', unsafe_allow_html=True)
 
 # Buttons
-contact_gap = "&nbsp;" * 80
+# الحكي ورا الرسمة مباشرة والبوكس "طويللللل"
 st.button("✉️ Email: Co.Care26@gmail.com")
 st.button("📞 Phone: +962 79 123 4567")
