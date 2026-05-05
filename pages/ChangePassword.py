@@ -167,10 +167,10 @@ function save(){
         return;
     }
 
-    document.body.innerHTML += "<p style='text-align:center;font-weight:bold;'>Saved ✅</p>";
-    setTimeout(() => {
-    window.parent.location.href = "/Settings";
-    }, 100);
+    alert("Password changed successfully ✅");
+
+// بعد ما تضغط OK بيروح على Settings
+    window.parent.location.href = "/Settings.py";
    
     }
       
