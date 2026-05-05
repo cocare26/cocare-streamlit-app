@@ -4,7 +4,6 @@ import os
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
 # ===== DEBUG (عشان نتأكد من أسماء الملفات) =====
-st.write("Pages:", os.listdir("pages"))
 
 # ===== CSS =====
 st.markdown("""
