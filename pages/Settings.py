@@ -35,12 +35,17 @@ st.markdown("""
 
 /* الأزرار الرئيسية */
 div.stButton > button {
-     width:100% !important;
-    height:80px !important;
-    border-radius:100px !important;
-    font-size:16px !important;
-    margin-bottom:20px !important;
+     width:100%;
+    border-radius:100px;
+    padding:18px;
+    margin-bottom:18px;
+    background:white;
+    border:none;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+    font-weight:800;
+    color:#102646;
     text-align:left;
+    font-size:15px;
 }
 
 div.stButton:nth-of-type(-n+4) > button {
