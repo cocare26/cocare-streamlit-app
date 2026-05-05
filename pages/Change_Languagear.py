@@ -100,8 +100,10 @@ body { margin:0; font-family:'Segoe UI'; display:flex; justify-content:center; b
     <span class="check-mark">✔</span>
 </div>
 
-if st.button("🌐 الإنجليزية"):
-    st.switch_page("pages/Settings.py")
+<div class="item" onclick="window.open('./Settings', '_top');">
+    <span>🌐 الإنجليزية</span>
+    <span>‹</span>
+</div>
 </div>
 
 </div>
