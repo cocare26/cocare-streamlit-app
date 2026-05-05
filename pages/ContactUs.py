@@ -12,7 +12,7 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 
 .block-container {
-    max-width:430px;
+    max-width:430px; /* العرض ثابت ما لمسناه */
     margin:auto;
     padding:18px 16px;
     background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
@@ -21,46 +21,51 @@ html, body, [data-testid="stAppViewContainer"] {
     min-height: 600px;
 }
 
-/* تعديل الطول فقط للأزرار */
+/* الأزرار - زيادة الطول فقط */
 .stButton > button {
     width:100% !important;
     background:white !important;
     color:#102646 !important;
-    border-radius:100px !important;
+    border-radius:50px !important; /* استدارة مناسبة للطول */
     
-    /* زيادة الطول من هون */
-    padding: 45px 25px !important; /* الـ 45 هي اللي بتعطيك الطول العمودي */
-    min-height: 110px !important; /* لضمان إن البوكس يضل طويل */
+    /* 👇 السر هون: زدنا الرقم الأول (الطول) لـ 60 عشان يطلع طويلللل جداً 👇 */
+    padding: 60px 25px !important; 
+    min-height: 140px !important; /* هاد اللي بيخليه طويل غصب عنه */
     
     border:none !important;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08) !important;
+    box-shadow:0 6px 15px rgba(0,0,0,0.08) !important;
     font-weight:800 !important;
+    font-size: 18px !important; /* كبرنا الخط شوي عشان يتناسب مع الطول */
     
-    /* توزيع المحتوى: الرسمة والحكي بالبداية والسهم بالنهاية */
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    gap: 10px; /* مسافة بسيطة بين الرسمة والحكي */
+    justify-content: flex-start !important; /* الحكي ورا الرسمة فوراً */
 }
 
-/* السهم في نهاية البوكس الطويل */
+/* السهم في الزاوية */
 .stButton > button::after {
     content: "›";
-    margin-left: auto; /* لدفعه لآخر اليمين */
-    font-size: 30px;
+    margin-left: auto; 
+    font-size: 35px;
+    color: #102646;
 }
 
-/* ستايل زر الرجوع - عشان ما يتأثر بالطول */
+/* زر الرجوع - يضل صغير وما يتأثر بطول البوكسات */
 .back-style .stButton > button {
     background:transparent !important;
     box-shadow:none !important;
-    font-size:28px !important;
+    font-size:30px !important;
     width:auto !important;
     min-height: unset !important;
     padding: 10px !important;
 }
 .back-style .stButton > button::after {
     content: "" !important;
+}
+
+div.stButton > button:hover {
+    background-color: #fcfcfc !important;
+    transform: translateY(-2px);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -74,9 +79,9 @@ with col_back:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # Title
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:30px;">Contact Us</h2>', unsafe_allow_html=True)
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:40px;">Contact Us</h2>', unsafe_allow_html=True)
 
 # Buttons
-# لاحظ هون ما استخدمنا فراغات كبيرة عشان يضل الحكي ورا الرسمة مباشرة
+# الحكي ورا الرسمة مباشرة بدون فراغات كبيرة
 st.button("✉️ Email: Co.Care26@gmail.com")
 st.button("📞 Phone: +962 79 123 4567")
