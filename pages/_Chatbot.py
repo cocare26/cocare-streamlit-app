@@ -1,104 +1,277 @@
 import streamlit as st
-from engine import process_message
+import streamlit.components.v1 as components
+import base64
 
-st.set_page_config(page_title="CoCare Chatbot", layout="centered")
+st.set_page_config(page_title="AI Agent", layout="centered")
 
-st.title("🤖 CoCare Chatbot")
+with open("robot_head.png", "rb") as f:
+    robot = base64.b64encode(f.read()).decode()
 
-EN_RESPONSES = {
-    "greeting": "Hello 👋 How can I help you?",
-    "slow_internet": "It looks like your internet is slow. I’ll check the issue for you.",
-    "no_signal": "It seems there may be a signal issue. I’ll report it for review.",
-    "offer_inquiry": "Sure. You can check the available internet offers from the offers section.",
-    "renew_package": "You can renew your package from the packages section.",
-    "check_data_usage": "You can check your remaining internet usage from your dashboard.",
-    "payment_issue": "It looks like there is a payment issue. Please check your payment details and try again.",
-    "network_status": "I’ll check the current network status for your area.",
-    "network_complaint": "Sorry for the inconvenience. Your network complaint will be reviewed.",
-    "technical_support": "I’ll help you with the technical issue.",
-    "feedback": "Thank you for your feedback.",
-    "goodbye": "Goodbye 👋 We’re here whenever you need us.",
-    "other": "Could you please provide more details?"
-}
+html = f"""
+<html>
+<head>
+<style>
+body {{
+    margin:0;
+    background:#eef2f7;
+    font-family:Arial;
+}}
 
-QUICK_REPLIES = {
-    "Network Test": "Your network signal is strong.",
-    "Internet Usage": "Your current internet usage is available in your dashboard.",
-    "Renew Package": "You can renew your package from the packages section.",
-    "International Calls": "International call options are available for your line.",
-    "Offers & Games": "Current offers and games are available in the offers section.",
-    "Contact Support": "Support team will contact you soon."
-}
+.phone {{
+    width:420px;
+    height:700px;
+    margin:auto;
+    border-radius:42px;
+    overflow:hidden;
+    position:relative;
+    background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
+}}
 
-def fix_english_intent(text, detected_intent):
-    t = text.lower().strip()
+.topbar {{
+    position:absolute;
+    top:14px;
+    left:18px;
+    right:18px;
+    height:58px;
+    background:white;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 14px;
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
+}}
 
-    if "hello" in t or "hi" == t or "hey" in t:
-        return "greeting"
+.back {{
+    font-size:28px;
+    color:#436577;
+}}
 
-    if "bye" in t or "goodbye" in t or "see you" in t:
-        return "goodbye"
+.avatar {{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+}}
 
-    if "thank" in t or "thanks" in t:
-        return "feedback"
+.dot {{
+    width:8px;
+    height:8px;
+    background:#36c06a;
+    border-radius:50%;
+}}
 
-    if "offer" in t or "offers" in t:
-        return "offer_inquiry"
+.status {{
+    font-size:15px;
+    font-weight:700;
+    color:#222;
+}}
 
-    if "how much internet" in t or "internet i have" in t or "internet left" in t or "data usage" in t or "usage" in t:
-        return "check_data_usage"
+.chat-box {{
+    position:absolute;
+    top:90px;
+    left:18px;
+    right:18px;
+    bottom:75px;
+    overflow-y:auto;
+    padding:10px;
+}}
 
-    if "renew" in t or "package" in t:
-        return "renew_package"
+.msg {{
+    max-width:75%;
+    padding:9px 12px;
+    border-radius:16px;
+    margin-bottom:8px;
+    font-size:13px;
+    line-height:1.4;
+}}
 
-    if "slow" in t or "bad internet" in t or "weak internet" in t:
-        return "slow_internet"
+.bot {{
+    background:white;
+    color:#222;
+    margin-right:auto;
+}}
 
-    if "no signal" in t or "signal" in t:
-        return "no_signal"
+.user {{
+    background:#1c6fa4;
+    color:white;
+    margin-left:auto;
+}}
 
-    if "payment" in t or "paid" in t or "pay" in t:
-        return "payment_issue"
+.menu {{
+    display:none;
+    position:absolute;
+    left:38px;
+    bottom:90px;
+    width:150px;
+    background:white;
+    border-radius:8px;
+    box-shadow:0 4px 12px rgba(0,0,0,.18);
+    padding:8px 0;
+    z-index:5;
+}}
 
-    return detected_intent or "other"
+.menu div {{
+    font-size:13px;
+    padding:7px 13px;
+    color:#222;
+    cursor:pointer;
+}}
 
+.menu div:hover {{
+    background:#eef3f6;
+}}
 
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {"role": "assistant", "content": "Hi, how can I help you?"}
-    ]
+.bottom {{
+    position:absolute;
+    bottom:18px;
+    left:18px;
+    right:18px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}}
 
-for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
-        st.write(msg["content"])
+.hamburger {{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:white;
+    text-align:center;
+    line-height:32px;
+    font-size:22px;
+    color:#50768a;
+    cursor:pointer;
+}}
 
-st.subheader("Quick Services")
-cols = st.columns(2)
+.chat-input {{
+    flex:1;
+    height:34px;
+    background:white;
+    border-radius:22px;
+    color:#444;
+    font-size:12px;
+    padding-left:14px;
+    border:none;
+    outline:none;
+}}
 
-for i, key in enumerate(QUICK_REPLIES.keys()):
-    with cols[i % 2]:
-        if st.button(key):
-            st.session_state.messages.append({"role": "user", "content": key})
-            st.session_state.messages.append({"role": "assistant", "content": QUICK_REPLIES[key]})
-            st.rerun()
+.send {{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#6ec6ff,#1c6fa4);
+    color:white;
+    text-align:center;
+    line-height:40px;
+    font-size:20px;
+    cursor:pointer;
+}}
+</style>
+</head>
 
-prompt = st.chat_input("Type your question here...")
+<body>
+<div class="phone">
 
-if prompt:
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    <div class="topbar">
+       <a href="/Customer" target="_self" style="text-decoration:none;">
+    <div class="back">‹</div>
+</a>
+        <img class="avatar" src="data:image/png;base64,{robot}">
+        <div class="dot"></div>
+        <div class="status">Ready to assist</div>
+    </div>
 
-    try:
-        result = process_message(
-            user_message=prompt,
-            user_id="customer_1",
-            region="Amman"
-        )
+    <div id="chatBox" class="chat-box">
+        <div class="msg bot">Hi, how can I help you?</div>
+    </div>
 
-        intent = fix_english_intent(prompt, result.get("intent", "other"))
-        reply = EN_RESPONSES.get(intent, EN_RESPONSES["other"])
+    <div id="menu" class="menu">
+        <div onclick="quickMsg('Network Test')">Network Test</div>
+        <div onclick="quickMsg('Internet Usage')">Internet Usage</div>
+        <div onclick="quickMsg('Renew Package')">Renew Package</div>
+        <div onclick="quickMsg('International Calls')">International Calls</div>
+        <div onclick="quickMsg('Offers & Games')">Offers & Games</div>
+        <div onclick="quickMsg('Contact Support')">Contact Support</div>
+    </div>
 
-    except Exception as e:
-        reply = "Sorry, something went wrong while analyzing your message."
+    <div class="bottom">
+        <div class="hamburger" onclick="toggleMenu()">≡</div>
+        <input id="chatInput" class="chat-input" placeholder="Type your question here..." onkeydown="checkEnter(event)">
+        <div class="send" onclick="sendMessage()">➤</div>
+    </div>
 
-    st.session_state.messages.append({"role": "assistant", "content": reply})
-    st.rerun()
+</div>
+
+<script>
+function toggleMenu(){{
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}}
+
+function addMessage(text, type){{
+    const chatBox = document.getElementById("chatBox");
+    const msg = document.createElement("div");
+    msg.className = "msg " + type;
+    msg.innerText = text;
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}}
+
+function botReply(text){{
+    let reply = "I received your request.";
+
+    if(text === "Network Test"){{
+        reply = "Your network signal is strong.";
+    }}
+    else if(text === "Internet Usage"){{
+        reply = "Your current internet usage is available in your dashboard.";
+    }}
+    else if(text === "Renew Package"){{
+        reply = "You can renew your package from the packages section.";
+    }}
+    else if(text === "International Calls"){{
+        reply = "International call options are available for your line.";
+    }}
+    else if(text === "Offers & Games"){{
+        reply = "Current offers and games are available in the offers section.";
+    }}
+    else if(text === "Contact Support"){{
+        reply = "Support team will contact you soon.";
+    }}
+
+    setTimeout(function(){{
+        addMessage(reply, "bot");
+    }}, 500);
+}}
+
+function sendMessage(){{
+    const input = document.getElementById("chatInput");
+    const text = input.value.trim();
+
+    if(text === "") return;
+
+    addMessage(text, "user");
+    input.value = "";
+    botReply(text);
+}}
+
+function quickMsg(text){{
+    document.getElementById("menu").style.display = "none";
+    addMessage(text, "user");
+    botReply(text);
+}}
+
+function checkEnter(event){{
+    if(event.key === "Enter"){{
+        sendMessage();
+    }}
+}}
+</script>
+
+</body>
+</html>
+"""
+
+components.html(html, height=730)
