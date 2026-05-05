@@ -3,10 +3,6 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="تغيير كلمة المرور", layout="centered")
 
-# ---------------- NAV ----------------
-if st.query_params.get("page") == "11_settingar":
-    st.switch_page("pages/11_settingar.py")
-
 # ---------------- STYLE ----------------
 st.markdown("""
 <style>
@@ -75,7 +71,7 @@ st.markdown('<div class="title-text">تغيير كلمة المرور</div>', un
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------- HTML UI ----------------
-components.html("""
+value = components.html("""
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
@@ -158,14 +154,6 @@ body { margin:0; font-family:'Segoe UI'; background:transparent; display:flex; j
 
 </div>
 
-
-
-
-
-
-
-
-value = components.html("""
 <script>
 function save(){
     let oldPass = document.getElementById("old").value;
@@ -189,20 +177,14 @@ function save(){
 
     alert("تم تغيير كلمة المرور بنجاح ✅");
 
+    // ✅ هذا هو الحل الصحيح
     window.parent.postMessage(
         {type: "streamlit:setComponentValue", value: "go_settings"},
         "*"
     );
 }
-</script>
-""", height=420)
 
-if value == "go_settings":
-    st.switch_page("pages/11_settingar.py")
-
-
-
-// 👁️ hover
+// 👁️ إظهار/إخفاء
 document.querySelectorAll(".input").forEach(box => {
     const input = box.querySelector("input");
     const eye = box.querySelector(".eye");
@@ -222,3 +204,7 @@ document.querySelectorAll(".input").forEach(box => {
 </body>
 </html>
 """, height=420)
+
+# ---------------- NAVIGATION ----------------
+if value == "go_settings":
+    st.switch_page("pages/11_settingar.py")
