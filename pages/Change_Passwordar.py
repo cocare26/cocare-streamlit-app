@@ -3,21 +3,8 @@ import streamlit.components.v1 as components
 
 st.set_page_config(page_title="تغيير كلمة المرور", layout="centered")
 
-# ---------------- NAV LISTENER ----------------
-components.html("""
-<script>
-window.addEventListener("message", (event) => {
-    if (event.data.type === "nav") {
-        const url = new URL(window.parent.location);
-        url.searchParams.set("page", event.data.page);
-        window.parent.location.href = url.toString();
-    }
-});
-</script>
-""", height=0)
-
-page = st.query_params.get("page")
-if page == "settingar":
+# ---------------- NAV ----------------
+if st.query_params.get("page") == "11_settingar":
     st.switch_page("pages/11_settingar.py")
 
 # ---------------- STYLE ----------------
@@ -54,16 +41,16 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 
 .title-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin-bottom: 25px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    margin-bottom:25px;
 }
 
 .back-container {
-    position: absolute;
-    right: 0;
+    position:absolute;
+    right:0;
 }
 
 .title-text {
@@ -116,13 +103,13 @@ body { margin:0; font-family:'Segoe UI'; background:transparent; display:flex; j
     border:none;
     outline:none;
     flex:1;
-    font-family: 'Segoe UI';
-    text-align: right;
+    font-family:'Segoe UI';
+    text-align:right;
 }
 
 .eye {
-    cursor: pointer;
-    margin-right: 10px;
+    cursor:pointer;
+    margin-right:10px;
 }
 
 .save { margin-top:20px; }
@@ -137,7 +124,6 @@ body { margin:0; font-family:'Segoe UI'; background:transparent; display:flex; j
     cursor:pointer;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.25s ease;
-    font-family: 'Segoe UI';
 }
 
 .save button:hover { transform: translateY(-5px); }
@@ -195,11 +181,11 @@ function save(){
 
     alert("تم تغيير كلمة المرور بنجاح ✅");
 
-    // ✅ الرجوع الصحيح
-    window.parent.postMessage({type:"nav", page:"settingar"}, "*");
+    // ✅ التحويل الصحيح
+    window.parent.location.href = "/?page=11_settingar";
 }
 
-// 👁️ hover show password
+// 👁️ hover
 document.querySelectorAll(".input").forEach(box => {
     const input = box.querySelector("input");
     const eye = box.querySelector(".eye");
