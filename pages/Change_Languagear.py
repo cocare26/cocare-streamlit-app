@@ -2,23 +2,28 @@ import streamlit as st
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ===== الـ CSS (نفس الديزاين تبعك مع تعديلات بسيطة للأزرار) =====
+# ===== CSS المحدث بالألوان المعكوسة =====
 st.markdown("""
 <style>
-/* ضبط الاتجاه والخلفية */
+/* ضبط الاتجاه */
 * { direction: rtl; }
+
+/* 1. الخلفية الخارجية (أصبحت بيضاء صافية) */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    background-color: white !important;
 }
+
 [data-testid="stHeader"] {display: none !important;}
 
+/* 2. الكبسولة (أصبحت هي التي تحمل التدرج السماوي) */
 .block-container {
     max-width:430px;
     margin:auto;
     padding:18px 16px;
-    background: white; /* البوكس الأساسي */
+    /* التدرج اللوني انتقل إلى هنا */
+    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff) !important;
     border-radius:42px;
-    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    box-shadow: 0 14px 35px rgba(0,0,0,0.1);
     margin-top: 20px;
 }
 
@@ -31,12 +36,12 @@ st.markdown("""
     margin-bottom: 30px;
 }
 
-/* تعديل أزرار ستريمليت لتبدو مثل الـ Items في تصميمك */
+/* تعديل أزرار ستريمليت (بقيت بيضاء لتبرز فوق التدرج السماوي) */
 div.stButton > button {
     width: 100% !important;
     background-color: white !important;
     color: #102646 !important;
-    border: 1px solid #f0f0f0 !important;
+    border: none !important;
     border-radius: 100px !important;
     padding: 14px 22px !important;
     margin-bottom: 15px !important;
@@ -48,7 +53,7 @@ div.stButton > button {
 
 div.stButton > button:hover {
     transform: translateY(-2px);
-    border-color: #2f80ed !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.12) !important;
 }
 
 /* تنسيق السهم الصغير للرجوع */
@@ -70,14 +75,13 @@ div.stButton > button:hover {
 
 # ===== HEADER =====
 st.markdown('<div class="back-container">', unsafe_allow_html=True)
-# السهم يرجعك لصفحة الإعدادات العربية
 if st.button("›"): 
     st.switch_page("pages/settingar.py")
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
 
-# ===== الأزرار (نفس ديزاين الـ Item) =====
+# ===== الأزرار =====
 
 # زر العربية
 if st.button("🌐 العربية                        ✔"):
