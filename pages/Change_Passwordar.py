@@ -158,6 +158,14 @@ body { margin:0; font-family:'Segoe UI'; background:transparent; display:flex; j
 
 </div>
 
+
+
+
+
+
+
+
+value = components.html("""
 <script>
 function save(){
     let oldPass = document.getElementById("old").value;
@@ -181,9 +189,18 @@ function save(){
 
     alert("تم تغيير كلمة المرور بنجاح ✅");
 
-    // ✅ التحويل الصحيح
-    window.parent.location.href = "/?page=11_settingar.py";
+    window.parent.postMessage(
+        {type: "streamlit:setComponentValue", value: "go_settings"},
+        "*"
+    );
 }
+</script>
+""", height=420)
+
+if value == "go_settings":
+    st.switch_page("pages/11_settingar.py")
+
+
 
 // 👁️ hover
 document.querySelectorAll(".input").forEach(box => {
