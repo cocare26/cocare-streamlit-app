@@ -31,15 +31,17 @@ footer {visibility: hidden;}
 
 /* ===== HEADER ===== */
 .header {
-    position:relative;
-    text-align:center;
-    margin-bottom:40px;
+    position: relative;
+    height: 50px;
+    margin-bottom: 40px;
 }
 
+/* السهم */
 .back-style {
-    position:absolute;
-    left:0;
-    top:0;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .back-style .stButton > button {
@@ -49,9 +51,15 @@ footer {visibility: hidden;}
     font-size:28px !important;
     width:auto !important;
     padding:0 !important;
+    border: none !important;
 }
 
+/* العنوان بالنص وعلى نفس السطر */
 .title-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
@@ -110,10 +118,6 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-.report-textarea::placeholder {
-    color: #808080;
-}
-
 /* BUTTON */
 .send-btn {
     background: white;
@@ -127,7 +131,6 @@ body {
     margin-top: auto;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    /* 👇 إضافة حركة انسيابية للبوكس كامل 👇 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -142,12 +145,11 @@ body {
     font-size: 18px;
 }
 
-/* 👇 التعديل المطلوب: البوكس كامل يطلع لفوق 👇 */
+/* Hover */
 .send-btn:hover {
-    transform: translateY(-8px); /* البوكس يرتفع 8 بكسل */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* زيادة الظل لإعطاء إيحاء بالارتفاع */
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
-
 </style>
 </head>
 
