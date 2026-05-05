@@ -6,10 +6,7 @@ st.set_page_config(page_title="Settings", layout="centered")
 st.markdown("""
 <style>
 
-div.stButton > button {
-    width:100%;
-    border-radius:100px;
-    padding:18px;
+
 
 #MainMenu, header, footer {visibility:hidden;}
 
