@@ -56,15 +56,16 @@ footer {visibility: hidden;}
     border: none !important;
 }
 
-/* العنوان بالنص الحقيقي */
+/* العنوان بالنص وعلى نفس سطر السهم */
 .title-text {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -60%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
+    white-space: nowrap;
 }
 </style>
 """, unsafe_allow_html=True)
