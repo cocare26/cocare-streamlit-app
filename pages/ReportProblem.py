@@ -54,12 +54,12 @@ footer {visibility: hidden;}
     border: none !important;
 }
 
-/* 👇 العنوان بالنص + مرفوع */
+/* 👇 العنوان مرفوع */
 .title-text {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -65%);  /* 🔥 رفعناه */
+    transform: translate(-50%, -70%);  /* 🔥 رفع */
     font-size:20px;
     font-weight:900;
     color:#0f2446;
@@ -118,6 +118,10 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+.report-textarea::placeholder {
+    color: #808080;
+}
+
 /* BUTTON */
 .send-btn {
     background: white;
@@ -145,7 +149,7 @@ body {
     font-size: 18px;
 }
 
-/* Hover */
+/* hover */
 .send-btn:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.15);
