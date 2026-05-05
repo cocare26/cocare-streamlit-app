@@ -25,7 +25,7 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تعديل المساحات المطلوبة)
+# CSS المطور (تعديل المساحات وتكبير الروبوت)
 # =====================================
 st.markdown(f"""
 <style>
@@ -57,16 +57,16 @@ box-shadow:0 6px 15px rgba(0,0,0,.06);
 transition: all 0.3s ease;
 }}
 
-/* تصغير مساحة كرت الرصيد */
+/* --- تصغير مساحة كرت الرصيد --- */
 .balance-card {{
-    padding: 8px 14px !important;
-    margin-bottom: 6px !important;
+    padding: 6px 14px !important;
+    margin-bottom: 4px !important;
 }}
 
-/* تصغير مساحة كرت التقييم */
+/* --- تصغير مساحة كرت التقييم --- */
 .rating-card {{
-    padding: 6px 14px 10px !important;
-    margin-bottom: 6px !important;
+    padding: 4px 14px 6px !important;
+    margin-bottom: 4px !important;
 }}
 
 .card:hover, .mini:hover, .nav-item:hover, .bot-bg:hover {{
@@ -95,7 +95,7 @@ margin: 4px 0 4px 4px;
 }}
 .star-rating input {{ display: none; }}
 .star-rating label {{
-    font-size: 28px; /* تصغير النجوم قليلاً للمساحة */
+    font-size: 24px; /* تصغير النجوم أكثر */
     color: #ddd;
     cursor: pointer;
     transition: color 0.2s, transform 0.2s;
@@ -116,22 +116,23 @@ margin: 4px 0 4px 4px;
     display: flex;
     align-items: center;
     position: relative;
-    height: 95px;
+    height: 100px; /* زيادة الارتفاع قليلاً لاستيعاب الروبوت الأكبر */
     transition: all 0.3s ease;
 }}
 
+/* --- تكبير الروبوت وجعله متداخلاً --- */
 .robot-img-welcome {{
-    width: 85px; 
-    height: 85px;
+    width: 95px; 
+    height: 95px;
     background: #f8fbff !important;
     border-radius: 14px;
     margin-right: 12px;
     object-fit: contain;
-    padding: 2px;
+    padding: 4px;
     border: 1px solid #eef5ff;
     transition: transform 0.4s ease;
 }}
-.robot-img-welcome:hover {{ transform: scale(1.1) rotate(-3deg); }}
+.robot-img-welcome:hover {{ transform: scale(1.05); }}
 
 .welcome-text-container {{
     display: flex;
@@ -203,20 +204,20 @@ st.markdown(f"""
 <div class="card balance-card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 2;">
-<div style="font-size:11px; font-weight:700; color:#666;">Remaining GB</div>
-<div style="font-size:34px; font-weight:900; color:#102646; line-height:1;">4.7 <span style="font-size:16px;">GB</span></div>
+<div style="font-size:10px; font-weight:700; color:#666;">Remaining GB</div>
+<div style="font-size:32px; font-weight:900; color:#102646; line-height:0.9;">4.7 <span style="font-size:14px;">GB</span></div>
 </div>
 <div style="flex: 1; text-align: right;">
 <div style="position: relative; width: 60px; height: 30px; margin-left: auto;">
-    <div style="width: 60px; height: 30px; border-radius: 60px 60px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
-        <div style="position: absolute; bottom: 0; left: 6px; width: 48px; height: 24px; background: white; border-radius: 48px 48px 0 0;"></div>
-        <div class="needle" style="height:25px; transform: rotate(45deg);"></div>
+    <div style="width: 50px; height: 25px; border-radius: 50px 50px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 5px; width: 40px; height: 20px; background: white; border-radius: 40px 40px 0 0;"></div>
+        <div class="needle" style="height:20px; transform: rotate(45deg);"></div>
     </div>
 </div>
-<div style="font-size:11px; font-weight:900; color:#102646; margin-top:2px;">6 GB</div>
+<div style="font-size:10px; font-weight:900; color:#102646;">6 GB</div>
 </div>
 </div>
-<div style="margin-top:6px; height:5px; border-radius:10px; background:#dce8f7; overflow:hidden;">
+<div style="margin-top:4px; height:4px; border-radius:10px; background:#dce8f7; overflow:hidden;">
 <div style="width:78%; height:100%; background:linear-gradient(90deg,#083d8c,#1567e0);"></div>
 </div>
 </div>
@@ -240,9 +241,9 @@ st.markdown("""
 st.markdown("""
 <div class="title">Service Ratings</div>
 <div class="card rating-card">
-<div style="font-weight:900; font-size:13px; color:#102646;">⭐ Service Security Rate</div>
-<div style="margin-top:6px; height:14px; border-radius:15px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
-<div style="text-align:center; margin-top:6px; font-weight:700; font-size:12px; color:#102646; margin-bottom:2px;">Rate our service</div>
+<div style="font-weight:900; font-size:12px; color:#102646;">⭐ Service Security Rate</div>
+<div style="margin-top:4px; height:10px; border-radius:15px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
+<div style="text-align:center; margin-top:4px; font-weight:700; font-size:11px; color:#102646; margin-bottom:2px;">Rate our service</div>
 <div class="star-rating">
     <input type="radio" id="5" name="rate"><label for="5">★</label>
     <input type="radio" id="4" name="rate"><label for="4">★</label>
