@@ -65,11 +65,11 @@ div.stButton > button {
     position: relative !important;
 }
 
-/* الأسهم على طرف كل بوكس */
+/* الأسهم على طرف البوكس (بعيدة عن النص) */
 div.stButton > button::before {
     content: "‹" !important;
     position: absolute !important;
-    left: 22px !important;
+    left: 10px !important;   /* 👈 صار بعيد عن الكلام */
     top: 50% !important;
     transform: translateY(-50%) !important;
     font-size: 28px !important;
@@ -77,7 +77,7 @@ div.stButton > button::before {
     font-weight: 900 !important;
 }
 
-/* لا نحط سهم على زر الرجوع */
+/* لا نضيف سهم لزر الرجوع */
 .back-btn div.stButton > button::before {
     content: "" !important;
 }
@@ -90,6 +90,7 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
+# ===== الهيدر =====
 col1, col2, col3 = st.columns([1,6,1])
 
 with col1:
@@ -101,6 +102,8 @@ with col1:
 with col2:
     st.markdown('<div class="title">الإعدادات</div>', unsafe_allow_html=True)
 
+# ===== الأزرار =====
+
 normal_gap = "&nbsp;" * 55
 normal_gap1 = "&nbsp;" * 63
 
@@ -111,15 +114,16 @@ if st.button(f"🌐{normal_gap1}تغيير اللغة"):
     st.switch_page("pages/Change_Languagear.py")
 
 extreme_gap = "&nbsp;" * 61
-extreme_gap1 = "&nbsp;" * 56
+extreme_gap1 = "&nbsp;" * 55
 
-if st.button(f"⭐{extreme_gap}تقييم التطبيق "):
+if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
     st.switch_page("pages/Rate_Appar.py")
 
-if st.button(f"🚪{extreme_gap1} تسجيل الخروج"):
+if st.button(f"🚪{extreme_gap1}تسجيل الخروج"):
     st.session_state.clear()
     st.switch_page("arabic-app.py")
 
+# ===== الصف الأخير =====
 col_gap = "&nbsp;" * 2
 
 col1, col2 = st.columns(2)
