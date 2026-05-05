@@ -1,96 +1,55 @@
 import streamlit as st
 
-st.set_page_config(page_title="اتصل بنا", layout="centered")
+# 1. إعداد الصفحة
+st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ===== CSS الموحد (مبدأ الإعدادات) =====
+# 2. التنسيق لجعل الزر يشبه الصورة تماماً (السهم على اليسار والنص على اليمين)
 st.markdown("""
 <style>
-#MainMenu, header, footer {visibility:hidden;}
-
-[data-testid="stAppViewContainer"] {
-    background:#f0f7ff;
-    direction: rtl; /* إضافة اتجاه اليمين للعربية */
-}
-
-/* الكونتينر النحيف */
-.block-container {
-    max-width: 430px; 
-    margin: auto;
-    padding: 20px 16px;
-    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius: 40px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    min-height: 600px;
-}
-
-/* تنسيق البوكسات الموحد */
-div.stButton > button {
-    width: 100% !important;
-    min-height: 65px !important; 
-    border-radius: 35px !important;
-    margin-bottom: 20px !important;
-    background: white !important;
-    border: none !important;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
+    /* إخفاء القوائم الافتراضية */
+    #MainMenu, header, footer {visibility:hidden;}
     
-    font-weight: 700 !important;
-    color: #102646 !important;
-    font-size: 15px !important; 
-    
-    display: flex !important;
-    align-items: center !important;
-    /* التعديل السحري: النص يلزق باليمين والسهم يروح يسار */
-    justify-content: flex-start !important; 
-    
-    padding: 0px 25px !important;
-    transition: 0.3s;
-}
+    /* ضبط الخلفية والاتجاه للعربية */
+    [data-testid="stAppViewContainer"] {
+        background:#f0f7ff;
+        direction: rtl;
+    }
 
-/* السهم الصغير في النهاية - نخليه يندفع لآخر اليسار (في الواجهة العربية) */
-div.stButton > button::after {
-    content: "‹"; /* تغيير اتجاه السهم للعربي */
-    font-size: 26px;
-    color: #102646;
-    margin-right: auto; /* دفع السهم للجهة المقابلة */
-}
+    /* تنسيق أزرار Streamlit لتشبه التصميم المطلوب */
+    div.stButton > button {
+        width: 100% !important;
+        height: 70px !important;
+        background-color: white !important;
+        color: #102646 !important;
+        border-radius: 35px !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+        display: flex !important;
+        flex-direction: row !important; /* ترتيب العناصر */
+        justify-content: space-between !important; /* توزيع النص والسهم */
+        align-items: center !important;
+        padding: 0 25px !important;
+        font-weight: 700 !important;
+        font-size: 18px !important;
+    }
 
-/* ستايل زر الرجوع */
-.back-style .stButton > button {
-    background: transparent !important;
-    box-shadow: none !important;
-    font-size: 35px !important;
-    width: auto !important;
-    min-height: unset !important;
-    padding: 0 !important;
-}
-.back-style .stButton > button::after {
-    content: "" !important;
-}
-
-div.stButton > button:hover {
-    transform: translateY(-2px);
-    background-color: #fcfcfc !important;
-}
+    /* وضع سهم جهة اليسار للغة الإنجليزية */
+    .eng-btn > div.stButton > button::before {
+        content: "‹";
+        font-size: 25px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# 🔙 زر الرجوع
-col_back, _ = st.columns([1, 10])
-with col_back:
-    st.markdown('<div class="back-style">', unsafe_allow_html=True)
-    if st.button("›"): # سهم الرجوع لليمين في العربي
-        st.switch_page(""pages/settingar.py"")
-    st.markdown('</div>', unsafe_allow_html=True)
+st.markdown("<h2 style='text-align:center; color:#102646;'>تغيير اللغة</h2>", unsafe_allow_html=True)
 
-# العنوان
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>', unsafe_allow_html=True)
+# 3. زر اللغة العربية (الحالية)
+st.button("🌐 العربية ✅")
 
-# ===== الأزرار (نفس المسافات اللي حطيتها إنت بالظبط) =====
-
-gap1 = "&nbsp;" * 17
-if st.button(f"✉️ البريد الإلكتروني: Co.Care26@gmail.com {gap1}"):
-    pass
-
-gap2 = "&nbsp;" * 23
-if st.button(f"📞 الهاتف: +962 79 123 4567 {gap2}{gap2}"):
-    pass
+# 4. زر اللغة الإنجليزية (المعدل للانتقال وتغيير الواجهة)
+st.markdown('<div class="eng-btn">', unsafe_allow_html=True)
+if st.button("🌐 الإنجليزية"):
+    # هذا الأمر سيفتح صفحة الإعدادات الإنجليزية
+    # صفحة Settings.py يجب أن تحتوي في الـ CSS الخاص بها على direction: ltr
+    st.switch_page("pages/Settings.py")
+st.markdown('</div>', unsafe_allow_html=True)
