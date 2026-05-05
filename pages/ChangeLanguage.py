@@ -128,12 +128,12 @@ body {
 <div class="wrapper">
 
 <!-- Arabic -->
-<a href="Change_Languagear" target="_top" class="item">
+<a href="javascript:window.parent.history.back()" target="_top" class="item">
     <span>🌐 Arabic</span>
     ›
 </a>
 
-<a href="/?lang=en" target="_top" class="item">
+<a href="javascript:window.parent.history.back()" target="_top" class="item">
     <span>🌐 English</span>
     ✔
 </a>
