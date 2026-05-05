@@ -13,7 +13,6 @@ st.markdown("""
 }
 
 [data-testid="stHeader"] {display: none !important;}
-
 * { direction: rtl; }
 
 .block-container{
@@ -120,7 +119,14 @@ body {
     border: none; 
     margin-top: auto; 
     cursor: pointer; 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.send-btn:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 /* النص */
@@ -129,7 +135,7 @@ body {
     font-weight: 700; 
 }
 
-/* الأيقونة على اليسار */
+/* الأيقونة */
 .main-icon { 
     color: #808080; 
     font-size: 18px;
