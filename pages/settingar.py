@@ -35,20 +35,17 @@ st.markdown("""
 
 /* زر الكبسولة */
 .back-btn div.stButton > button {
-    width:60px !important;
-    height:60px !important;
+    width:55px !important;
+    height:55px !important;
     border-radius:30px !important;
     background:#e9eef3 !important;
     border:none !important;
     box-shadow:0 4px 10px rgba(0,0,0,0.08) !important;
-    font-size:28px !important;
+    font-size:26px !important;
     color:#102646 !important;
     display:flex !important;
     align-items:center !important;
     justify-content:center !important;
-
-    margin-top: 25px !important;   /* 👈 نزلناه شوي */
-    margin-bottom:10px !important;
 }
 
 /* الأزرار */
@@ -80,14 +77,17 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== زر الرجوع =====
-st.markdown('<div class="back-btn">', unsafe_allow_html=True)
-if st.button("›"):
-    st.switch_page("pages/2_Customer.py")
-st.markdown('</div>', unsafe_allow_html=True)
+# ===== الهيدر (السهم + العنوان بنفس السطر) =====
+col1, col2 = st.columns([1, 6])
 
-# ===== العنوان =====
-st.markdown('<div class="title">الإعدادات</div>', unsafe_allow_html=True)
+with col1:
+    st.markdown('<div class="back-btn">', unsafe_allow_html=True)
+    if st.button("›"):
+        st.switch_page("pages/2_Customer.py")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with col2:
+    st.markdown('<div class="title">الإعدادات</div>', unsafe_allow_html=True)
 
 # ===== الأزرار =====
 
