@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS الموحد لكل البوكسات =====
+# ===== CSS الموحد بمسافات أكبر =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,6 +11,7 @@ st.markdown("""
     background:#f0f7ff;
 }
 
+/* الكونتينر النحيف */
 .block-container {
     max-width: 380px; 
     margin: auto;
@@ -20,10 +21,10 @@ st.markdown("""
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* تطبيق نفس التنسيق على جميع الأزرار بدون استثناء */
+/* تنسيق البوكسات - تطبيق المسافة الكبيرة على الجميع */
 div.stButton > button {
     width: 100% !important;
-    min-height: 60px !important; /* السماكة النحيفة الموحدة */
+    min-height: 60px !important; /* السماكة النحيفة اللي اعتمدناها */
     border-radius: 30px !important;
     margin-bottom: 20px !important;
     background: white !important;
@@ -38,13 +39,13 @@ div.stButton > button {
     align-items: center !important;
     justify-content: flex-start !important;
     
-    /* توحيد المسافة (Gap) بين الإيموجي والنص للجميع */
-    gap: 75px !important; 
+    /* 👇 زدنا المسافة (Gap) أكثر للجميع 👇 */
+    gap: 100px !important; 
     
     padding: 0px 25px !important;
 }
 
-/* السهم الصغير موحد للكل */
+/* السهم الصغير جهة اليمين */
 div.stButton > button::after {
     content: "›";
     font-size: 24px;
@@ -61,7 +62,7 @@ div.stButton > button:hover {
 <div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== قائمة الأزرار (كلها رح تطلع بنفس الحجم والمسافة) =====
+# ===== الأزرار الموحدة بمسافات كبيرة =====
 
 if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
@@ -75,7 +76,3 @@ if st.button("⭐ Rate App"):
 if st.button("🚪 Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
-
-# إذا بدك تضيف Report و Contact بنفس الحجم، حطهم هون مباشرة بدون كولومز:
-# if st.button("⚠️ Report a Problem"):
-#     st.switch_page("pages/Report.py")
