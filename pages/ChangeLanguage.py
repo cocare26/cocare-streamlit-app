@@ -135,7 +135,7 @@ body {
     ›
 </div>
 
-<div class="item" onclick="window.open('/Settings','_top');">
+<div class="item" onclick="window.top.history.back();">
     <span>🌐 English</span>
     ✔
 </div>
