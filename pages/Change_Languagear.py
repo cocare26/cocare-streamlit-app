@@ -31,7 +31,7 @@ st.markdown("""
     font-weight:900;
     color:#102646;
     margin-bottom:30px;
-    margin-top:70px;   /* هاي اللي تنزل العنوان تحت السهم */
+    margin-top:120px;   /* 👈 نزّلناها كثير */
 }
 
 /* الأزرار */
@@ -52,7 +52,7 @@ div.stButton > button {
 
 .back-style {
     position: fixed;
-    top: 58px;
+    top: 20px;   /* 👈 كان 58، هسا ارتفع */
     right: 25px;
     z-index:999;
 }
