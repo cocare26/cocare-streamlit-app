@@ -277,7 +277,7 @@ st.markdown("""
 st.markdown(f"""
 <div class="nav">
 
-<a href="/settingnew" target="_self" style="text-decoration:none; color:inherit;">
+<a href="/Settings" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         ⚙️
         <span class="nav-text">Settings</span>
