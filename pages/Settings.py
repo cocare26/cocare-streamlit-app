@@ -35,21 +35,22 @@ st.markdown("""
 
 /* الأزرار الرئيسية */
 div.stButton > button {
-     width:100%;
-    height: 70px !important;   /* 👈 طول أكبر */
+      width:100%;
+    height: 70px !important;   /* نفس الطول للجميع */
     border-radius:100px;
-    padding:0 35px !important; /* 👈 بدل padding القديم */
     margin-bottom:18px;
     background:white;
     border:none;
     box-shadow:0 6px 15px rgba(0,0,0,0.1);
     font-weight:800;
     color:#102646;
-    text-align:left;
     font-size:16px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
+
+    padding: 0 35px !important; 
 }
     
 }
