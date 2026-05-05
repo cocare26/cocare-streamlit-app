@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS الموحد والنحيف =====
+# ===== CSS الموحد والنحيف بلمسات نهائية =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -21,7 +21,7 @@ st.markdown("""
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* تنسيق البوكسات الموحد */
+/* تنسيق البوكسات الموحد لضمان المسافات */
 div.stButton > button {
     width: 100% !important;
     min-height: 60px !important; 
@@ -37,13 +37,13 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important; 
+    justify-content: space-between !important; /* لدفع السهم لآخر اليمين */
     
     padding: 0px 25px !important;
     transition: 0.3s;
 }
 
-/* السهم الصغير في النهاية */
+/* السهم الصغير في النهاية الموحدة */
 div.stButton > button::after {
     content: "›";
     font-size: 26px;
@@ -60,20 +60,20 @@ div.stButton > button:hover {
 <div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== الأزرار مع زيادة المسافات لضبط الاستقامة =====
+# ===== الأزرار بمسافات "أكبر وأكبر" وموحدة للجميع =====
 
-# 1. مسافة متوسطة للكلمات الطويلة
-if st.button("🔒&nbsp;&nbsp;&nbsp;&nbsp;Change Password"):
+# قمنا بتوحيد عدد الفراغات (حوالي 35 فراغ) لكل البوكسات لضمان الاستقامة
+big_gap = "&nbsp;" * 35
+
+if st.button(f"🔒{big_gap}Change Password"):
     st.switch_page("pages/ChangePassword.py")
 
-if st.button("🌐&nbsp;&nbsp;&nbsp;&nbsp;Change Language"):
+if st.button(f"🌐{big_gap}Change Language"):
     st.switch_page("pages/ChangeLanguage.py")
 
-# 2. مسافة "عملاقة" للكلمات القصيرة عشان تندفع لليمين وتصير موازية للي فوق
-# زدنا الفراغات هون بزيادة (حوالي 30 فراغ)
-if st.button("⭐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rate App"):
+if st.button(f"⭐{big_gap}Rate App"):
     st.switch_page("pages/RateApp.py")
 
-if st.button("🚪&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log Out"):
+if st.button(f"🚪{big_gap}Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
