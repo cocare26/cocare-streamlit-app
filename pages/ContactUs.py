@@ -2,7 +2,6 @@ import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
 
-# ===== CSS المدمج (ستايل البطاقة مع عرض المسطرة) =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,7 +10,6 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر النحيف */
 .block-container {
     max-width: 430px; 
     margin: auto;
@@ -22,18 +20,17 @@ st.markdown("""
     min-height: 600px;
 }
 
-/* تنسيق البوكسات بنمط الـ Card */
 div.stButton > button {
     width: 100% !important;
     min-height: 65px !important; 
-    
-    /* ستايل الـ Card اللي طلبته 👇 */
     background: white !important;
-    padding: 15px 25px !important; /* دمجت الـ 15px اللي طلبتها مع تباعد جانبي */
-    border-radius: 25px !important; /* الـ Radius الخاص بالبطاقة */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important; /* الظل الخاص بالبطاقة */
-    margin-bottom: 15px !important; /* المسافة بين البطاقات */
     
+    /* 👇 قللنا الرقم الثاني (10px) عشان السهم يوصل لآخر الحافة قدام 👇 */
+    padding: 15px 10px 15px 25px !important; 
+    
+    border-radius: 25px !important; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+    margin-bottom: 15px !important; 
     border: none !important;
     font-weight: 700 !important;
     color: #102646 !important;
@@ -41,16 +38,19 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important; /* المسافة الطويلة بالعرض */
+    
+    /* هاد السطر هو اللي بيفتح المسافة العرضية كاملة */
+    justify-content: space-between !important; 
     
     transition: 0.3s ease;
 }
 
-/* السهم الصغير في نهاية البطاقة */
 div.stButton > button::after {
     content: "›";
-    font-size: 26px;
+    font-size: 30px; /* كبّرنا السهم شوي عشان يبين أوضح بالنهاية */
     color: #102646;
+    /* تأكد إنه ما في margin مضايقه */
+    margin: 0 !important; 
 }
 
 /* ستايل زر الرجوع */
@@ -62,13 +62,10 @@ div.stButton > button::after {
     min-height: unset !important;
     padding: 0 !important;
 }
-.back-style .stButton > button::after {
-    content: "" !important;
-}
+.back-style .stButton > button::after { content: "" !important; }
 
 div.stButton > button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1) !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -81,13 +78,8 @@ with col_back:
         st.switch_page("pages/Settings.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
-# العنوان
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار بنمط البطاقات الطويلة عرضياً =====
-
-if st.button("✉️ Email: Co.Care26@gmail.com"):
-    pass
-
-if st.button("📞 Phone: +962 79 123 4567"):
-    pass
+# الأزرار
+if st.button("✉️ Email: Co.Care26@gmail.com"): pass
+if st.button("📞 Phone: +962 79 123 4567"): pass
