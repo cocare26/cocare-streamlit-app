@@ -66,7 +66,7 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== HEADER (arrow + centered title) =====
+# ===== HEADER =====
 col1, col2, col3 = st.columns([1,6,1])
 
 with col1:
@@ -82,7 +82,7 @@ with col2:
         font-size:26px;
         font-weight:800;
         color:#102646;
-        margin-top:10px;
+        margin-top:25px; /* 👈 نزلنا العنوان */
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     ">
     Change Language
