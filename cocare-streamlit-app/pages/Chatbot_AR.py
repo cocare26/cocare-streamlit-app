@@ -7,7 +7,7 @@ from cocare import process_message
 
 st.set_page_config(page_title="المساعد الذكي", layout="centered")
 
-CHAT_KEY = "chat_ar_original_design"
+CHAT_KEY = "chat_ar_original_design_v2"
 
 def img_to_base64(path):
     try:
@@ -67,8 +67,7 @@ def get_bot_reply(user_text):
         followup = str(result.get("followup_response", "")).strip()
         reply = f"{response}\n\n{followup}".strip()
 
-        bad = ["", "تم استلام طلبك", "ممكن توضح أكثر؟", "احكيلي تفاصيل أكثر"]
-        if reply in bad or "ممكن توضح" in reply:
+        if not reply or "ممكن توضح" in reply or "احكيلي تفاصيل أكثر" in reply:
             return fallback_reply(user_text)
 
         return reply
@@ -76,7 +75,6 @@ def get_bot_reply(user_text):
     except Exception:
         return fallback_reply(user_text)
 
-# استلام الرسالة من JavaScript
 msg = st.query_params.get("msg", "")
 if msg:
     msg = str(msg).strip()
@@ -84,10 +82,11 @@ if msg:
     st.session_state[CHAT_KEY].append(("bot", get_bot_reply(msg)))
     st.query_params.clear()
     st.rerun()
+
 messages_html = ""
-for role, msg in st.session_state[CHAT_KEY]:
+for role, m in st.session_state[CHAT_KEY]:
     cls = "user" if role == "user" else "bot"
-    messages_html += f'<div class="msg {cls}">{html_lib.escape(str(msg))}</div>'
+    messages_html += f'<div class="msg {cls}">{html_lib.escape(str(m))}</div>'
 
 html = f"""
 <html>
@@ -296,20 +295,20 @@ function toggleMenu(){{
 function sendToPython(text){{
     const url = new URL(window.parent.location.href);
     url.searchParams.set("msg", text);
-    window.parent.location.href = url.toString();
+
+    const a = document.createElement("a");
+    a.href = url.toString();
+    a.target = "_parent";
+    document.body.appendChild(a);
+    a.click();
 }}
 
-function sendMessage(){
+function sendMessage(){{
     const input = document.getElementById("chatInput");
     const text = input.value.trim();
     if(text === "") return;
     sendToPython(text);
-}
-
-function quickMsg(text){
-    document.getElementById("menu").style.display = "none";
-    sendToPython(text);
-}
+}}
 
 function quickMsg(text){{
     document.getElementById("menu").style.display = "none";
