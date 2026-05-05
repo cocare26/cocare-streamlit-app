@@ -118,7 +118,7 @@ body { font-family: 'Segoe UI'; background: transparent; margin: 0; display: fle
 function showPopup(){
     alert("تم إرسال التقرير بنجاح ✅");
     // التوجيه الإجباري لصفحة الإعدادات العربية بعد الضغط على OK
-    window.parent.location.assign('settingar');
+    window.parent.history.back();
 }
 </script>
 </body>
