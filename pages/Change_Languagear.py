@@ -2,29 +2,29 @@ import streamlit as st
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ===== CSS المحدث (تعديل الطول والعرض) =====
+# ===== CSS المحدث (الخلفية سماوية والبوكس أبيض) =====
 st.markdown("""
 <style>
 /* ضبط الاتجاه */
 * { direction: rtl; }
 
-/* الخلفية الخارجية بيضاء */
+/* 1. الخلفية الخارجية - جعلتها سماوية متدرجة */
 [data-testid="stAppViewContainer"] {
-    background-color: white !important;
+    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff) !important;
 }
 
 [data-testid="stHeader"] {display: none !important;}
 
-/* الكبسولة - تعديل الطول والعرض هنا */
+/* 2. الكبسولة (البوكس) - جعلتها بيضاء */
 .block-container {
-    max-width: 360px !important; /* تقليل العرض لتصبح أنحف */
+    max-width: 360px !important;
     margin: auto !important;
-    padding: 40px 25px !important; /* زيادة المسافات الداخلية */
-    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff) !important;
-    border-radius: 55px; /* زيادة الدوران ليناسب الطول */
+    padding: 40px 25px !important;
+    background-color: white !important; /* البوكس صار أبيض */
+    border-radius: 55px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.1);
     margin-top: 30px !important;
-    min-height: 700px !important; /* زيادة الطول لتصبح أطول */
+    min-height: 700px !important;
     display: flex;
     flex-direction: column;
 }
@@ -38,16 +38,16 @@ st.markdown("""
     margin-bottom: 40px;
 }
 
-/* تنسيق الأزرار (Items) */
+/* تنسيق الأزرار (Items) - جعلتها بلون سماوي فاتح جداً لتتناسب مع الخلفية */
 div.stButton > button {
     width: 100% !important;
-    background-color: white !important;
+    background-color: #f0f7ff !important; 
     color: #102646 !important;
     border: none !important;
     border-radius: 100px !important;
-    height: 60px !important; /* طول الزر نفسه */
+    height: 60px !important;
     margin-bottom: 20px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
     font-weight: 800 !important;
     font-size: 17px !important;
     transition: 0.3s !important;
@@ -55,7 +55,8 @@ div.stButton > button {
 
 div.stButton > button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+    background-color: #e1f0ff !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
 }
 
 /* زر الرجوع */
@@ -76,7 +77,7 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== محتوى الكبسولة الطويلة =====
+# ===== محتوى الكبسولة =====
 st.markdown('<div class="back-container">', unsafe_allow_html=True)
 if st.button("›"): 
     st.switch_page("pages/settingar.py")
