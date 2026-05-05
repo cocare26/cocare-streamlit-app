@@ -36,8 +36,9 @@ st.markdown("""
 /* الأزرار الرئيسية */
 div.stButton > button {
      width:100%;
+    height: 70px !important;   /* 👈 طول أكبر */
     border-radius:100px;
-    padding:18px;
+    padding:0 35px !important; /* 👈 بدل padding القديم */
     margin-bottom:18px;
     background:white;
     border:none;
@@ -45,7 +46,12 @@ div.stButton > button {
     font-weight:800;
     color:#102646;
     text-align:left;
-    font-size:15px;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+    
 }
 
 div.stButton:nth-of-type(-n+4) > button {
