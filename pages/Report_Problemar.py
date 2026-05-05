@@ -56,12 +56,12 @@ footer {visibility: hidden;}
     border: none !important;
 }
 
-/* العنوان بالنص وعلى نفس سطر السهم */
+/* العنوان (مرفوع أكثر) */
 .title-text {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -75%); /* 👈 رفعناها */
     font-size:20px;
     font-weight:900;
     color:#0f2446;
