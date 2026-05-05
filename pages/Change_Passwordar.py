@@ -182,7 +182,7 @@ function save(){
     alert("تم تغيير كلمة المرور بنجاح ✅");
 
     // ✅ التحويل الصحيح
-    window.parent.location.href = "/?page=11_settingar";
+    window.parent.location.href = "/?page=11_settingar.py";
 }
 
 // 👁️ hover
