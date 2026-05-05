@@ -7,6 +7,10 @@ st.markdown("""
 <style>
 /* ضبط الاتجاه العام */
 * { direction: rtl; }
+[data-testid="stAppViewContainer"] {
+    background:#f0f7ff;
+}
+
 
 /* الخلفية السماوية الفاتحة */
 [data-testid="stAppViewContainer"] {
