@@ -48,12 +48,10 @@ div.stButton > button {
 /* السهم الصغير - يندفع لليسار في النسخة العربية */
 div.stButton > button::after {
     content: "‹";
-    position: absolute;   /* 👈 يخليه ثابت */
-    left: 15px;           /* 👈 مكانه من اليسار */
-    top: 50%;             /* 👈 منتصف البوكس */
-    transform: translateY(-50%);  /* 👈 محاذاة عمودية ممتازة */
     font-size: 26px;
     color: #102646;
+    margin-right: auto;
+     /* 👈 هون تنزّليه */
 }
 
 /* ستايل زر الرجوع */
