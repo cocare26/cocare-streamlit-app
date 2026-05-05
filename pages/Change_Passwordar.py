@@ -182,7 +182,7 @@ function save(){
     alert("تم تغيير كلمة المرور بنجاح ✅");
 
     // ✅ هذا هو الحل الصحيح
-    window.parent.history.back();
+    window.top.location.href = window.top.location.origin + "settingar";
 }
 
 // 👁️ إظهار/إخفاء
