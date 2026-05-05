@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS الموحد بمسافات أكبر =====
+# ===== CSS الموحد لضبط استقامة السهام ونهاية البوكسات =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,7 +11,7 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر النحيف */
+/* الكونتينر */
 .block-container {
     max-width: 380px; 
     margin: auto;
@@ -21,10 +21,10 @@ st.markdown("""
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* تنسيق البوكسات - تطبيق المسافة الكبيرة على الجميع */
+/* تنسيق البوكسات الموحد */
 div.stButton > button {
     width: 100% !important;
-    min-height: 60px !important; /* السماكة النحيفة اللي اعتمدناها */
+    min-height: 60px !important; 
     border-radius: 30px !important;
     margin-bottom: 20px !important;
     background: white !important;
@@ -37,20 +37,26 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important;
     
-    /* 👇 زدنا المسافة (Gap) أكثر للجميع 👇 */
-    gap: 100px !important; 
+    /* 👇 الحل: يوزع العناصر بحيث السهم يروح لآخر اليمين دائماً 👇 */
+    justify-content: space-between !important; 
     
     padding: 0px 25px !important;
 }
 
-/* السهم الصغير جهة اليمين */
+/* تنسيق المسافة بين الإيموجي والنص فقط */
+/* ملاحظة: رح نستخدم سبان في الكود تحت عشان نتحكم بتباعد النص عن الإيموجي */
+.btn-content {
+    display: flex;
+    align-items: center;
+    gap: 75px; /* المسافة اللي ثبتناها بين الإيموجي والنص */
+}
+
+/* السهم الصغير في النهاية */
 div.stButton > button::after {
     content: "›";
     font-size: 24px;
     color: #102646;
-    margin-left: auto;
 }
 
 div.stButton > button:hover {
@@ -62,7 +68,9 @@ div.stButton > button:hover {
 <div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== الأزرار الموحدة بمسافات كبيرة =====
+# ===== الأزرار =====
+# استخدمنا <span> عشان نضمن أن الـ Gap يطبق فقط بين الإيموجي والنص 
+# والسهم يضل مدفوع لآخر البوكس بالـ space-between
 
 if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
@@ -70,6 +78,7 @@ if st.button("🔒 Change Password"):
 if st.button("🌐 Change Language"):
     st.switch_page("pages/ChangeLanguage.py")
 
+# لاحظ كيف رح نوزع Rate و Log Out بنفس الـ Style
 if st.button("⭐ Rate App"):
     st.switch_page("pages/RateApp.py")
 
