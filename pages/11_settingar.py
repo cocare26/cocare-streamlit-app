@@ -66,11 +66,11 @@ div.stButton > button:hover {
 # ===== الأزرار مع الحفاظ على نفس المسافات بالظبط =====
 
 # 1. مسافة للأزرار اللي نصها طويل
-normal_gap = "&nbsp;" * 40
+normal_gap = "&nbsp;" * 55
 
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
     st.switch_page("pages/ChangePassword.py")
-
+normal_gap = "&nbsp;" * 55
 if st.button(f"🌐{normal_gap}تغيير اللغة"):
     st.switch_page("pages/ChangeLanguage.py")
 
