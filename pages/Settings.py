@@ -95,7 +95,7 @@ div.stButton > button::after {
 </style>
 
 <!-- تم إضافة margin-top:40px هنا لنزول الكلمة -->
-<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-top:200px; margin-bottom:25px;">Settings</div>
+<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-top:80px; margin-bottom:25px;">الإعدادات</div>
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="back-btn-container">', unsafe_allow_html=True)
