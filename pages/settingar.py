@@ -76,20 +76,20 @@ div.stButton > button:hover {
 
 # 1. مسافة للنص الطويل
 normal_gap = "&nbsp;" * 55
-
+normal_gap1 = "&nbsp;" * 59
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
     st.switch_page("pages/Change_Passwordar.py")
 
-if st.button(f"🌐{normal_gap}تغيير اللغة"):
+if st.button(f"🌐{normal_gap1}تغيير اللغة"):
     st.switch_page("pages/Change_Languagear.py")
 
 # 2. مسافة للنص القصير
-extreme_gap = "&nbsp;" * 55
-
+extreme_gap = "&nbsp;" * 57
+extreme_gap1 = "&nbsp;" * 55
 if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
     st.switch_page("pages/Rate_Appar.py")
 
-if st.button(f"🚪{extreme_gap}تسجيل الخروج"):
+if st.button(f"🚪{extreme_gap1}تسجيل الخروج"):
     st.session_state.clear()
     st.switch_page("arabic-app.py")
 
