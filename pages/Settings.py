@@ -16,7 +16,7 @@ st.markdown("""
 .back-btn-container {
     position: absolute;
     right: 10px; /* المسافة من الحافة اليمنى */
-    top: 10px;   /* المسافة من الأعلى */
+    top: 5px;   /* المسافة من الأعلى */
     z-index: 1001;
 }
 
