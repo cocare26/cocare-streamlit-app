@@ -30,10 +30,11 @@ st.markdown("""
 /* ===== HEADER ===== */
 .header {
     position:relative;
-    text-align:center;
+    height:40px;
     margin-bottom:40px;
 }
 
+/* زر الرجوع */
 .back-style {
     position:absolute;
     left:0;
@@ -49,7 +50,11 @@ st.markdown("""
     padding:0 !important;
 }
 
+/* العنوان بالنص الحقيقي */
 .title-text {
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
