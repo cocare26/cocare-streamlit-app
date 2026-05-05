@@ -38,10 +38,8 @@ st.markdown("""
 .block-container {
     max-width: 390px; 
     margin: auto;
-    padding: 10px 20px 35px 20px !important;
-    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius: 40px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    /* الرقم الأول (0px) هو المسؤول عن المسافة فوق */
+    padding: 0px 20px 35px 20px !important; 
 }
 
 /* تنسيق البوكسات */
