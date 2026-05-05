@@ -42,9 +42,10 @@ html, body, [data-testid="stAppViewContainer"] {
 
 /* السهم جهة اليمين */
 .back-style {
-    position:absolute;
-    right:0;
-    top:0;
+    position: fixed;
+    top: 20px;   /* 👈 كان 58، هسا ارتفع */
+    right: 25px;
+    z-index:999;
 }
 
 .back-style .stButton > button {
@@ -57,11 +58,13 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 
 /* العنوان في المنتصف */
-.title-text {
-    font-size:20px;
+.title {
+    text-align:center;
+    font-size:22px;
     font-weight:900;
     color:#102646;
-    text-align: center;
+    margin-bottom:30px;
+    margin-top:50px;   /* هاي اللي تنزل العنوان تحت السهم */
 }
 </style>
 """, unsafe_allow_html=True)
