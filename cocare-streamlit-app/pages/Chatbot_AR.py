@@ -1,14 +1,12 @@
 import streamlit as st
 import base64
 import html
-
 from cocare import process_message
 
 st.set_page_config(page_title="المساعد الذكي", layout="centered")
 
-# =========================
-# IMAGE
-# =========================
+CHAT_KEY = "chat_messages_ar_final_clean"
+
 def img_to_base64(path):
     try:
         with open(path, "rb") as f:
@@ -16,40 +14,30 @@ def img_to_base64(path):
     except:
         return ""
 
-robot = img_to_base64("robot_head.png")
-if not robot:
-    robot = img_to_base64("robot.png")
+robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 
-# =========================
-# SESSION
-# =========================
-if "chat_messages_ar_v2" not in st.session_state:
-    st.session_state.chat_messages_ar_v2 = [
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = [
         ("bot", "مرحبًا، كيف أقدر أساعدك؟")
     ]
 
-# =========================
-# BOT RESPONSE
-# =========================
 def get_bot_reply(text):
     original_text = str(text).strip()
     text_clean = original_text.lower()
 
     if text_clean in ["هاي", "هلا", "مرحبا", "hi", "hello"]:
-        return "هلا وغلا 👋 كيف فيني أساعدك؟"
+        return "هلا وغلا 👋 كيف فيني أساعدك؟\n\nشو حاب تعرف؟"
 
-    if text_clean == "فحص الشبكة":
-        original_text = "افحص حالة الشبكة عندي"
-    elif text_clean == "استهلاك الإنترنت":
-        original_text = "بدي أعرف استهلاك الإنترنت"
-    elif text_clean == "تجديد الباقة":
-        original_text = "بدي أجدد الباقة"
-    elif text_clean == "المكالمات الدولية":
-        original_text = "بدي أعرف عن المكالمات الدولية"
-    elif text_clean == "العروض":
-        original_text = "شو العروض المتاحة؟"
-    elif text_clean == "الدعم":
-        original_text = "بدي أتواصل مع الدعم الفني"
+    quick_map = {
+        "فحص الشبكة": "افحص حالة الشبكة عندي",
+        "استهلاك الإنترنت": "بدي أعرف استهلاك الإنترنت",
+        "تجديد الباقة": "بدي أجدد الباقة",
+        "المكالمات الدولية": "بدي أعرف عن المكالمات الدولية",
+        "العروض": "شو العروض المتاحة؟",
+        "الدعم": "بدي أتواصل مع الدعم الفني",
+    }
+
+    original_text = quick_map.get(text_clean, original_text)
 
     try:
         result = process_message(
@@ -63,35 +51,25 @@ def get_bot_reply(text):
         reply = f"{response}\n\n{followup}".strip()
 
         if not reply or "تم استلام طلبك" in reply:
-            return "ممكن توضحيلي أكثر؟"
+            return "ممكن توضحيلي أكثر؟\n\nاحكيلي تفاصيل أكثر"
 
         return reply
 
     except Exception as e:
         return f"صار خطأ بالربط:\n{e}"
 
-
 def send_message(text):
     text = str(text).strip()
     if not text:
         return
 
-    st.session_state.chat_messages_ar_v2.append(("user", text))
-    bot_reply = get_bot_reply(text)
-    st.session_state.chat_messages_ar_v2.append(("bot", bot_reply))
+    st.session_state[CHAT_KEY].append(("user", text))
+    st.session_state[CHAT_KEY].append(("bot", get_bot_reply(text)))
 
-# =========================
-# CSS
-# =========================
 st.markdown("""
 <style>
-.stApp {
-    background:#eef2f7;
-}
-
-.block-container {
-    padding-top:20px;
-}
+.stApp { background:#eef2f7; }
+.block-container { padding-top:20px; max-width:460px; }
 
 .phone {
     width:420px;
@@ -213,24 +191,20 @@ div[data-testid="stFormSubmitButton"] button {
 </style>
 """, unsafe_allow_html=True)
 
-# =========================
-# HTML PHONE
-# =========================
 messages_html = ""
-
-for role, msg in st.session_state.chat_messages_ar_v2:
+for role, msg in st.session_state[CHAT_KEY]:
     cls = "user" if role == "user" else "bot"
     safe_msg = html.escape(str(msg))
     messages_html += f'<div class="msg {cls}">{safe_msg}</div>'
 
-if robot:
-    avatar_html = f'<img class="avatar" src="data:image/png;base64,{robot}">'
-else:
-    avatar_html = '<div class="avatar-fallback"></div>'
+avatar_html = (
+    f'<img class="avatar" src="data:image/png;base64,{robot}">'
+    if robot else
+    '<div class="avatar-fallback"></div>'
+)
 
 st.markdown(f"""
 <div class="phone">
-
     <div class="topbar">
         {avatar_html}
         <div class="dot"></div>
@@ -240,13 +214,9 @@ st.markdown(f"""
     <div class="chat-box">
         {messages_html}
     </div>
-
 </div>
 """, unsafe_allow_html=True)
 
-# =========================
-# BUTTONS + INPUT
-# =========================
 st.markdown("<div class='input-area'>", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
@@ -287,7 +257,7 @@ if submitted and user_input.strip():
     st.rerun()
 
 if st.button("مسح الشات"):
-    st.session_state.chat_messages_ar_v2 = [
+    st.session_state[CHAT_KEY] = [
         ("bot", "مرحبًا، كيف أقدر أساعدك؟")
     ]
     st.rerun()
