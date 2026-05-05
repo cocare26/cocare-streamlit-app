@@ -24,13 +24,16 @@ st.markdown("""
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* العنوان */
+/* العنوان الجديد */
 .title {
-    text-align:center;
-    font-weight:900;
-    color:#102646;
-    font-size:22px;
-    margin-bottom:25px;
+    text-align: center;
+    font-weight: 900;
+    color: #102646;
+    font-size: 28px;
+    margin-bottom: 25px;
+    width: 100%;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 /* زر الكبسولة */
@@ -77,8 +80,8 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== الهيدر (السهم + العنوان بنفس السطر) =====
-col1, col2 = st.columns([1, 6])
+# ===== الهيدر =====
+col1, col2, col3 = st.columns([1,6,1])
 
 with col1:
     st.markdown('<div class="back-btn">', unsafe_allow_html=True)
@@ -88,6 +91,8 @@ with col1:
 
 with col2:
     st.markdown('<div class="title">الإعدادات</div>', unsafe_allow_html=True)
+
+# col3 فاضي عشان التوسيط يكون مضبوط
 
 # ===== الأزرار =====
 
