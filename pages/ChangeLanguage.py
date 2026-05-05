@@ -2,6 +2,18 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(page_title="Change Language", layout="centered")
+# ✅ تخزين اللغة
+if "lang" not in st.session_state:
+    st.session_state.lang = "en"
+
+# ✅ قراءة اللغة من الرابط
+query = st.query_params
+if "lang" in query:
+    st.session_state.lang = query["lang"]
+
+# ✅ تحديد الصح
+arabic_check = "✔" if st.session_state.lang == "ar" else "›"
+english_check = "✔" if st.session_state.lang == "en" else "›
 
 # ===== CSS =====
 st.markdown("""
@@ -72,7 +84,7 @@ st.markdown('<div class="title-text">Change Language</div>', unsafe_allow_html=T
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== UI =====
-components.html("""
+components.html(f"""
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,15 +130,14 @@ body {
 <div class="wrapper">
 
 <!-- Arabic -->
-<a href="/?page=settings-ar" target="_top" class="item">
+<a href="/?lang=ar" target="_top" class="item">
     <span>🌐 Arabic</span>
-    ✔
+    {arabic_check}
 </a>
 
-<!-- English -->
-<a href="/?page=settings" target="_top" class="item">
+<a href="/?lang=en" target="_top" class="item">
     <span>🌐 English</span>
-    ›
+    {english_check}
 </a>
 
 </div>
