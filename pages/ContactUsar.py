@@ -91,6 +91,6 @@ gap1 = "&nbsp;" * 17
 if st.button(f"✉️ البريد الإلكتروني: Co.Care26@gmail.com {gap1}"):
     pass
 
-gap2 = "&nbsp;" * 20 
+gap2 = "&nbsp;" * 23
 if st.button(f"📞 الهاتف: +962 79 123 4567 {gap2}{gap2}"):
     pass
