@@ -84,7 +84,7 @@ st.markdown('<div class="title-text">Change Language</div>', unsafe_allow_html=T
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== UI =====
-components.html(f"""
+components.html("""
 <!DOCTYPE html>
 <html>
 <head>
@@ -132,12 +132,13 @@ body {
 <!-- Arabic -->
 <a href="/?lang=ar" target="_top" class="item">
     <span>🌐 Arabic</span>
-    {arabic_check}
+    ›
 </a>
 
 <a href="/?lang=en" target="_top" class="item">
     <span>🌐 English</span>
-    {english_check}
+    ✔
+</a>
 </a>
 
 </div>
