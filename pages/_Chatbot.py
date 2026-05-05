@@ -69,6 +69,18 @@ def get_bot_reply(user_text):
 
     except Exception as e:
         return f"صار خطأ بالربط:\n{e}"
+
+def send_message(text):
+    text = str(text).strip()
+
+    if not text:
+        return
+
+    st.session_state.messages.append(("user", text))
+
+    bot_reply = get_bot_reply(text)
+
+    st.session_state.messages.append(("bot", bot_reply))
 # =========================
 # CSS
 # =========================
