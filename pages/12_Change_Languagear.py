@@ -35,12 +35,12 @@ html, body, [data-testid="stAppViewContainer"] {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center; /* توسيط العنوان */
+    justify-content: center; 
     margin-bottom: 30px;
     min-height: 40px;
 }
 
-/* السهم جهة اليمين في العربي */
+/* السهم جهة اليمين */
 .back-style {
     position:absolute;
     right:0;
@@ -69,13 +69,11 @@ html, body, [data-testid="stAppViewContainer"] {
 # ===== HEADER =====
 st.markdown('<div class="header-wrapper">', unsafe_allow_html=True)
 
-# السهم (جهة اليمين)
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
-if st.button("›"): # سهم يشير لليمين للرجوع في الواجهة العربية
+if st.button("›"): 
     st.switch_page("pages/Settings.py")
 st.markdown('</div>', unsafe_allow_html=True)
 
-# العنوان بالنص تماماً
 st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
@@ -86,51 +84,15 @@ result = components.html("""
 <html dir="rtl">
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
-body {
-    margin:0;
-    font-family:'Segoe UI';
-    display:flex;
-    justify-content:center;
-    background: transparent;
-}
-
-.wrapper {
-    width:100%;
-    max-width:380px;
-}
-
-/* ITEM */
-.item {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:white;
-    border-radius:100px;
-    padding:14px 22px;
-    margin-bottom:15px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    text-decoration:none;
-    color:#102646;
-    font-weight:800;
-    transition:0.2s;
-    cursor: pointer;
-}
-
-.item:hover {
-    transform:translateY(-2px);
-}
-
-.check-mark {
-    color: #102646;
-    font-size: 18px;
-}
+body { margin:0; font-family:'Segoe UI'; display:flex; justify-content:center; background: transparent; }
+.wrapper { width:100%; max-width:380px; }
+.item { display:flex; justify-content:space-between; align-items:center; background:white; border-radius:100px; padding:14px 22px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,0,0,0.08); text-decoration:none; color:#102646; font-weight:800; transition:0.2s; cursor: pointer; }
+.item:hover { transform:translateY(-2px); }
+.check-mark { color: #102646; font-size: 18px; }
 </style>
 </head>
-
 <body>
-
 <div class="wrapper">
 
 <div class="item" onclick="window.parent.history.back();">
@@ -139,12 +101,11 @@ body {
 </div>
 
 <div class="item" onclick="window.open('/SettingsEN', '_top');">
-    <span>🌐 الإنجليزية (English)</span>
+    <span>🌐 الإنجليزية</span>
     <span>‹</span>
 </div>
 
 </div>
-
 </body>
 </html>
 """, height=300)
