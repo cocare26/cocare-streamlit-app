@@ -100,12 +100,8 @@ body { margin:0; font-family:'Segoe UI'; display:flex; justify-content:center; b
     <span class="check-mark">✔</span>
 </div>
 
-st.markdown('<div class="eng-btn">', unsafe_allow_html=True)
-if st.button("🌐 الإنجليزية"):
-    # هذا الأمر سيوجه المستخدم فوراً لملف الإعدادات الإنجليزي
-    # تأكد أن الملف موجود في مجلد pages واسمه Settings.py
-    st.switch_page("pages/Settings.py") 
-st.markdown('</div>', unsafe_allow_html=True)
+<div class="item" onclick="window.parent.location.assign('Settings');">
+    <span>🌐 English</span>
 </div>
 </div>
 
