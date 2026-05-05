@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS لتوسيع المسافة بين الإيموجي والنص =====
+# ===== CSS المحدث: عرض أقل ومسافة أكبر =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,24 +11,25 @@ st.markdown("""
     background:#f0f7ff;
 }
 
+/* 1. تقليل عرض الكونتينر ليصبح أنحف */
 .block-container {
-    max-width:450px;
-    margin:auto;
-    padding:40px 25px;
-    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius:40px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.15);
+    max-width: 380px; /* صغرنا العرض من 500 لـ 380 */
+    margin: auto;
+    padding: 40px 20px;
+    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
-/* تنسيق الزر ليسمح بمسافات كبيرة */
+/* 2. تنسيق البوكسات */
 div.stButton > button {
     width: 100% !important;
-    min-height: 90px !important;
+    min-height: 95px !important; 
     border-radius: 45px !important;
-    margin-bottom: 25px !important;
+    margin-bottom: 20px !important;
     background: white !important;
     border: none !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.08) !important;
     
     font-weight: 800 !important;
     color: #102646 !important;
@@ -36,33 +37,33 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-start !important; 
+    justify-content: flex-start !important;
     
-    /* 👇 زدنا المسافة (gap) بشكل كبير كما طلبت 👇 */
-    gap: 60px !important; 
+    /* 3. زيادة المسافة بين الإيموجي والنص أكثر (زدناها لـ 90) */
+    gap: 90px !important; 
     
-    padding: 0px 40px !important;
+    padding: 0px 30px !important;
     transition: 0.3s;
 }
 
-/* السهم الصغير في نهاية البوكس */
+/* السهم في النهاية */
 div.stButton > button::after {
     content: "›";
     font-size: 28px;
-    color: #ccc; /* لون خفيف للسهم عشان يبرز النص */
-    margin-left: auto; 
+    color: #102646;
+    margin-left: auto;
 }
 
 div.stButton > button:hover {
-    background-color: #fcfcfc !important;
-    transform: translateY(-2px);
+    transform: scale(1.02);
+    background-color: #fff !important;
 }
 
 </style>
-<div class="title" style="text-align:center; font-weight:900; color:#102646; font-size:26px; margin-bottom:30px;">Settings</div>
+<div style="text-align:center; font-weight:900; color:#102646; font-size:24px; margin-bottom:30px;">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== البوكسات بالمسافات المطلوبة =====
+# ===== الأزرار =====
 
 if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
