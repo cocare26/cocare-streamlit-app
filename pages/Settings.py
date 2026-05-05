@@ -5,6 +5,27 @@ st.set_page_config(page_title="Settings", layout="centered")
 # ===== CSS الموحد والنحيف =====
 st.markdown("""
 <style>
+div.stButton > button {
+    width: 100% !important;
+    min-height: 65px !important;
+
+    border-radius: 35px !important;
+    background: white !important;
+    border: none !important;
+
+    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
+
+    font-weight: 700 !important;
+    color: #102646 !important;
+    font-size: 16px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    justify-content: space-between !important;  /* 👈 السر */
+
+    padding: 0px 25px !important;
+}
 #MainMenu, header, footer {visibility:hidden;}
 
 [data-testid="stAppViewContainer"] {
