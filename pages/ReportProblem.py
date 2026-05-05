@@ -31,7 +31,7 @@ footer {visibility: hidden;}
 /* ===== HEADER ===== */
 .header {
     position: relative;
-    height: 80px;  /* 👈 كبرناه */
+    height: 110px;  /* 👈 كبرناه */
     margin-bottom: 40px;
 }
 
@@ -55,7 +55,7 @@ footer {visibility: hidden;}
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -135%);  /* 👈 رفع قوي */
+    transform: translate(-50%, -160%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
