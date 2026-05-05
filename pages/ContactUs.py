@@ -57,6 +57,6 @@ with col_back:
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900;">Contact Us</h2>', unsafe_allow_html=True)
 
 # Buttons
-contact_gap = "&nbsp;" * 45
+contact_gap = "&nbsp;" * 60
 st.button("✉️ Email: Co.Care26@gmail.com")
 st.button("📞 Phone: +962 79 123 4567")
