@@ -134,12 +134,10 @@ body {
     </div>
 
     <!-- الخيار الإنجليزي -->
-    <a href="/Settings" target="_top" style="text-decoration: none;">
-    <div class="item">
-        <span>🌐 English</span>
-        <span>‹</span>
-    </div>
-</a>
+    <div class="item" onclick="goEnglish()">
+    <span>🌐 English</span>
+    <span>‹</span>
+</div>
 
 
 <script>
