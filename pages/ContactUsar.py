@@ -78,12 +78,6 @@ st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-if st.button("🌐 العربية \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ✔"):
-    st.switch_page("pages/settingar.py")
-
-if st.button("🌐 English \u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0 ›"):
-    st.switch_page("pages/Settings.py")
-
 # ===== UI =====
 result = components.html("""
 <!DOCTYPE html>
