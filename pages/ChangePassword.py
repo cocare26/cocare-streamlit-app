@@ -169,8 +169,7 @@ function save(){
 
     alert("Password changed successfully ✅");
 
-// بعد ما تضغط OK بيروح على Settings
-    window.parent.location.href = "/Settings.py";
+     window.parent.location.href = window.parent.location.origin + "/Settings";
    
     }
       
