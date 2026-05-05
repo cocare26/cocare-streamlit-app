@@ -81,7 +81,7 @@ if st.button("‹"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== الأزرار =====
-col_gap_ar = "&nbsp;" * 45
+col_gap_ar = "&nbsp;" * 40
 col_gap_en = "&nbsp;" * 40
 # عربي
 if st.button(f"🌐  العربية  {col_gap_ar} {col_gap_ar}✔️"):
