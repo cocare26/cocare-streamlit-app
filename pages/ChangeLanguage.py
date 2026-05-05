@@ -64,6 +64,9 @@ html, body, [data-testid="stAppViewContainer"] {
     font-weight:900;
     color:#102646;
 }
+.item {
+    cursor: pointer;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -127,17 +130,15 @@ body {
 
 <div class="wrapper">
 
-<!-- Arabic -->
-<a href="javascript:window.parent.history.back()" target="_top" class="item">
+<div class="item" onclick="window.parent.history.back();">
     <span>🌐 Arabic</span>
     ›
-</a>
+</div>
 
-<a href="javascript:window.parent.history.back()" target="_top" class="item">
+<div class="item" onclick="window.parent.history.back();">
     <span>🌐 English</span>
     ✔
-</a>
-</a>
+</div>
 
 </div>
 
