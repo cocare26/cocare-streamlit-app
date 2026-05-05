@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
 
-# ===== CSS الموحد (مبدأ الإعدادات) =====
+# ===== CSS الموحد (تم تعديل العرض ليصبح أطول) =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,21 +11,21 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر النحيف */
+/* 1. تكبير العرض الكلي (تطويل العرض) */
 .block-container {
-    max-width: 430px; 
+    max-width: 600px; /* زدنا العرض من 430 لـ 600 عشان يفرش أكتر */
     margin: auto;
-    padding: 20px 16px;
+    padding: 20px 25px;
     background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius: 40px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     min-height: 600px;
 }
 
-/* تنسيق البوكسات الموحد */
+/* 2. تنسيق البوكسات الموحد - يمتد مع العرض الجديد */
 div.stButton > button {
-    width: 100% !important;
-    min-height: 65px !important; 
+    width: 100% !important; /* بيضمن إن البوكس يوصل لآخر عرض الكونتينر */
+    min-height: 70px !important; 
     border-radius: 35px !important;
     margin-bottom: 20px !important;
     background: white !important;
@@ -34,23 +34,22 @@ div.stButton > button {
     
     font-weight: 700 !important;
     color: #102646 !important;
-    font-size: 15px !important; 
+    font-size: 16px !important; 
     
     display: flex !important;
     align-items: center !important;
-    /* 👇 التعديل السحري هون: النص يلزق باليسار والسهم يروح يمين 👇 */
     justify-content: flex-start !important; 
     
-    padding: 0px 25px !important;
+    padding: 0px 30px !important; /* زيادة التباعد الجانبي شوي */
     transition: 0.3s;
 }
 
-/* السهم الصغير في النهاية - نخليه يندفع لآخر اليمين */
+/* السهم الصغير في النهاية - يندفع لآخر اليمين مهما كان العرض */
 div.stButton > button::after {
     content: "›";
-    font-size: 26px;
+    font-size: 30px;
     color: #102646;
-    margin-left: auto; /* هاد السطر هو اللي بيطرد السهم لليمين */
+    margin-left: auto; /* هاد السطر السحري اللي بيطرد السهم لليمين مهما كان العرض طويل */
 }
 
 /* ستايل زر الرجوع */
@@ -68,7 +67,7 @@ div.stButton > button::after {
 
 div.stButton > button:hover {
     transform: translateY(-2px);
-    background-color: #fcfcfc !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -82,11 +81,10 @@ with col_back:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # العنوان
-st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:40px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار (الكلام وراء الأيقونة مباشرة مع مسافة بسيطة) =====
+# ===== الأزرار (أصبحت الآن ممتدة بالعرض الجديد) =====
 
-# مسافة صغيرة جداً (4 فراغات) بس عشان ما يلزق الكلام بالأيقونة زيادة عن اللزوم
 gap = "&nbsp;" * 4 
 
 if st.button(f"✉️{gap}Email: Co.Care26@gmail.com"):
