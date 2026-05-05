@@ -11,7 +11,7 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر */
+/* الكونتينر النحيف */
 .block-container {
     max-width: 380px; 
     margin: auto;
@@ -21,7 +21,7 @@ st.markdown("""
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* تنسيق البوكسات الموحد */
+/* تنسيق البوكسات الموحد لضمان استقامة السهم */
 div.stButton > button {
     width: 100% !important;
     min-height: 60px !important; 
@@ -38,25 +38,18 @@ div.stButton > button {
     display: flex !important;
     align-items: center !important;
     
-    /* 👇 الحل: يوزع العناصر بحيث السهم يروح لآخر اليمين دائماً 👇 */
+    /* 👇 السر هنا: يوزع العناصر بحيث السهم يندفع لأقصى اليمين دائماً 👇 */
     justify-content: space-between !important; 
     
     padding: 0px 25px !important;
 }
 
-/* تنسيق المسافة بين الإيموجي والنص فقط */
-/* ملاحظة: رح نستخدم سبان في الكود تحت عشان نتحكم بتباعد النص عن الإيموجي */
-.btn-content {
-    display: flex;
-    align-items: center;
-    gap: 75px; /* المسافة اللي ثبتناها بين الإيموجي والنص */
-}
-
-/* السهم الصغير في النهاية */
+/* السهم الصغير في النهاية الموحدة */
 div.stButton > button::after {
     content: "›";
     font-size: 24px;
     color: #102646;
+    /* نلغي المارجن اليدوي عشان يلتزم بالـ space-between */
 }
 
 div.stButton > button:hover {
@@ -64,24 +57,26 @@ div.stButton > button:hover {
     background-color: #fcfcfc !important;
 }
 
+/* تنسيق المسافة بين الإيموجي والنص */
+/* ملاحظة: استخدمت فراغات HTML (&nbsp;) في الأزرار تحت للتحكم بالمسافة */
 </style>
+
 <div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
 # ===== الأزرار =====
-# استخدمنا <span> عشان نضمن أن الـ Gap يطبق فقط بين الإيموجي والنص 
-# والسهم يضل مدفوع لآخر البوكس بالـ space-between
+# استخدمنا &nbsp; لعمل المسافة المطلوبة بين الإيموجي والنص
+# مع الحفاظ على أن السهم سيندفع لليمين تلقائياً بفضل الـ CSS
 
-if st.button("🔒 Change Password"):
+if st.button("🔒&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Change Password"):
     st.switch_page("pages/ChangePassword.py")
 
-if st.button("🌐 Change Language"):
+if st.button("🌐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Change Language"):
     st.switch_page("pages/ChangeLanguage.py")
 
-# لاحظ كيف رح نوزع Rate و Log Out بنفس الـ Style
-if st.button("⭐ Rate App"):
+if st.button("⭐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rate App"):
     st.switch_page("pages/RateApp.py")
 
-if st.button("🚪 Log Out"):
+if st.button("🚪&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
