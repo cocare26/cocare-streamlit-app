@@ -127,6 +127,8 @@ body {
     margin-top: auto;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    /* 👇 إضافة حركة انسيابية للبوكس كامل 👇 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .send-btn span {
@@ -138,12 +140,12 @@ body {
 .main-icon {
     color: #808080;
     font-size: 18px;
-    transition: transform 0.3s ease; /* حركة ناعمة */
 }
 
-/* 👇 التعديل اللي طلبته هون 👇 */
-.send-btn:hover .main-icon {
-    transform: translateY(-5px); /* بتتحرك لفوق 5 بكسل */
+/* 👇 التعديل المطلوب: البوكس كامل يطلع لفوق 👇 */
+.send-btn:hover {
+    transform: translateY(-8px); /* البوكس يرتفع 8 بكسل */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* زيادة الظل لإعطاء إيحاء بالارتفاع */
 }
 
 </style>
