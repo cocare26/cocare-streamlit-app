@@ -97,8 +97,12 @@ div.stButton > button::after {
 <div class="title">Settings</div>
 """, unsafe_allow_html=True)
 # ===== buttons =====
+st.markdown('<div class="big-btn">', unsafe_allow_html=True)
+
 if st.button("🔒  Change Password"):
     st.switch_page("pages/ChangePassword.py")
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 if st.button("🌐  Change Language"):
     st.switch_page("pages/ChangeLanguage.py")
