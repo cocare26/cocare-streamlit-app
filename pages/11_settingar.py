@@ -69,16 +69,16 @@ div.stButton > button:hover {
 normal_gap = "&nbsp;" * 55
 
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
-    st.switch_page("pages/ChangePassword.py")
+    st.switch_page("pages/Change_Passwordar.py")
 normal_gap = "&nbsp;" * 55
 if st.button(f"🌐{normal_gap}تغيير اللغة"):
-    st.switch_page("pages/Change_Passwordar.py")
+    st.switch_page("pages/Change_Languagear.py")
 
 # 2. مسافة "إضافية وجبارة" للكلمات القصيرة
 extreme_gap = "&nbsp;" * 55
 
 if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
-    st.switch_page("pages/RateApp.py")
+    st.switch_page("pages/Rate_Appar.py")
 
 if st.button(f"🚪{extreme_gap}تسجيل الخروج"):
      st.session_state.clear()
