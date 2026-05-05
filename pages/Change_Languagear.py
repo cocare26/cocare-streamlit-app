@@ -1,94 +1,154 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ===== CSS المحدث (الخلفية سماوية والبوكس أبيض) =====
+# ✅ تخزين اللغة
+if "lang" not in st.session_state:
+    st.session_state.lang = "ar"
+
+# ✅ قراءة اللغة من الرابط
+query = st.query_params
+if "lang" in query:
+    st.session_state.lang = query["lang"]
+
+# ===== CSS =====
 st.markdown("""
 <style>
-/* ضبط الاتجاه */
-* { direction: rtl; }
+/* ضبط الاتجاه للعربية */
+* { margin:0; padding:0; box-sizing:border-box; direction:rtl; }
 
-/* 1. الخلفية الخارجية - جعلتها سماوية متدرجة */
-[data-testid="stAppViewContainer"] {
-    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff) !important;
+html, body, [data-testid="stAppViewContainer"] {
+    background:#f0f7ff;
+    font-family:'Segoe UI';
 }
 
-[data-testid="stHeader"] {display: none !important;}
+#MainMenu, header, footer { visibility:hidden; }
 
-/* 2. الكبسولة (البوكس) - جعلتها بيضاء */
 .block-container {
-    max-width: 360px !important;
-    margin: auto !important;
-    padding: 40px 25px !important;
-    background-color: white !important; /* البوكس صار أبيض */
-    border-radius: 55px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-    margin-top: 30px !important;
-    min-height: 700px !important;
-    display: flex;
-    flex-direction: column;
+    max-width:430px;
+    margin:auto;
+    padding:18px 16px;
+    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius:42px;
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    min-height:600px;
 }
 
-/* تنسيق العنوان */
+/* ===== HEADER ===== */
+.header {
+    position:relative;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+/* السهم (جهة اليمين في العربي) */
+.back-style {
+    position:absolute;
+    right:0;
+    top:0;
+}
+
+.back-style .stButton > button {
+    background:transparent !important;
+    box-shadow:none !important;
+    color:black !important;
+    font-size:26px !important;
+    width:auto !important;
+    padding:0 !important;
+}
+
+/* العنوان */
 .title-text {
-    font-size: 22px;
-    font-weight: 900;
-    color: #102646;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-/* تنسيق الأزرار (Items) - جعلتها بلون سماوي فاتح جداً لتتناسب مع الخلفية */
-div.stButton > button {
-    width: 100% !important;
-    background-color: #f0f7ff !important; 
-    color: #102646 !important;
-    border: none !important;
-    border-radius: 100px !important;
-    height: 60px !important;
-    margin-bottom: 20px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
-    font-weight: 800 !important;
-    font-size: 17px !important;
-    transition: 0.3s !important;
-}
-
-div.stButton > button:hover {
-    transform: translateY(-3px);
-    background-color: #e1f0ff !important;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
-}
-
-/* زر الرجوع */
-.back-container {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 20px;
-}
-.back-container .stButton > button {
-    width: auto !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    font-size: 35px !important;
-    color: black !important;
-    padding: 0 !important;
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ===== محتوى الكبسولة =====
-st.markdown('<div class="back-container">', unsafe_allow_html=True)
-if st.button("›"): 
+# ===== HEADER =====
+st.markdown('<div class="header">', unsafe_allow_html=True)
+
+# السهم
+st.markdown('<div class="back-style">', unsafe_allow_html=True)
+if st.button("›"):
     st.switch_page("pages/settingar.py")
 st.markdown('</div>', unsafe_allow_html=True)
 
+# العنوان
 st.markdown('<div class="title-text">تغيير اللغة</div>', unsafe_allow_html=True)
 
-# زر العربية
-if st.button("🌐 العربية                       ✔"):
-    st.switch_page("pages/settingar.py")
+st.markdown('</div>', unsafe_allow_html=True)
 
-# زر الإنجليزية
-if st.button("🌐 English                         ›"):
-    st.switch_page("pages/Settings.py")
+# ===== UI (HTML Component) =====
+result = components.html("""
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+body {
+    margin:0;
+    font-family:'Segoe UI';
+    display:flex;
+    justify-content:center;
+    background: transparent;
+}
+
+.wrapper {
+    width:100%;
+    max-width:380px;
+}
+
+/* ITEM */
+.item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    border-radius:100px;
+    padding:14px 22px;
+    margin-bottom:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    text-decoration:none;
+    color:#102646;
+    font-weight:800;
+    transition:0.2s;
+    cursor: pointer;
+}
+
+.item:hover {
+    transform:translateY(-2px);
+}
+</style>
+</head>
+
+<body>
+<div class="wrapper">
+
+    <!-- الخيار العربي (محدد حالياً) -->
+    <div class="item" onclick="window.parent.history.back();">
+        <span>🌐 العربية</span>
+        <span>✔</span>
+    </div>
+
+    <!-- الخيار الإنجليزي -->
+    <div class="item" onclick="window.open('/Settings', '_top');">
+        <span>🌐 English</span>
+        <span>‹</span>
+    </div>
+
+</div>
+
+<script>
+function goArabic(){
+    window.parent.postMessage(
+        {type: "streamlit:setComponentValue", value: "go_ar"},
+        "*"
+    );
+}
+</script>
+</body>
+</html>
+""", height=600)
