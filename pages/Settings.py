@@ -47,6 +47,10 @@ div.stButton > button {
     transition:0.25s;
 }
 
+div.stButton:nth-of-type(-n+4) > button {
+    padding-left: 50px !important;
+}
+
 /* hover */
 div.stButton > button:hover {
     transform:translateY(-4px);
