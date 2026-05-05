@@ -130,7 +130,7 @@ body {
 
 <div class="wrapper">
 
-<div class="item" onclick="window.parent.history.back();">
+<div class="item" onclick="window.parent.location.href='/ChangeLanguagear';">
     <span>🌐 Arabic</span>
     ›
 </div>
