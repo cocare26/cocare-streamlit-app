@@ -297,4 +297,6 @@ col1, col2, col3, col4, col5 = st.columns(5)
 
 with col3:
     if st.button("🤖", key="chatbot_btn"):
-        st.switch_page("Chatbot_AR")
+        st.session_state["go_chat"] = True
+if st.session_state.get("go_chat"):
+    st.switch_page("Chatbot_AR")
