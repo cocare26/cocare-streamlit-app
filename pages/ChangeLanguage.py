@@ -135,7 +135,7 @@ body {
     ›
 </div>
 
-<div class="item" onclick="window.parent.history.back();">
+<div class="item" onclick="window.parent.location.href='/Settings';">
     <span>🌐 English</span>
     ✔
 </div>
