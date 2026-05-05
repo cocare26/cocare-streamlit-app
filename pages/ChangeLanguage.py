@@ -90,7 +90,7 @@ with col2:
     """, unsafe_allow_html=True)
 
 # ===== Language Selection =====
-col_gap = "&nbsp;" * 40
+col_gap = "&nbsp;" * 50
 
 if st.button(f"🌐 Arabic {col_gap} ›", key="lang_ar"):
     st.session_state.lang = "ar"
