@@ -67,7 +67,7 @@ st.markdown('<div class="title-wrapper">', unsafe_allow_html=True)
 with st.container():
     st.markdown('<div class="back-container"><div class="back-style">', unsafe_allow_html=True)
     if st.button("›"): 
-        st.switch_page("pages/Settings.py")
+        st.switch_page("pages/settingar.py")
     st.markdown('</div></div>', unsafe_allow_html=True)
 
 # نص العنوان
