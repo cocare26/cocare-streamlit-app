@@ -183,7 +183,7 @@ function save(){
     }
 
     alert("تم تغيير كلمة المرور بنجاح ✅");
-    window.parent.location.href = "/Settings_ar";
+    window.parent.location.href = "/Settingsar";
 }
 
 document.querySelectorAll(".input").forEach(box => {
