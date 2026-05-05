@@ -46,6 +46,8 @@ st.markdown("""
     display:flex !important;
     align-items:center !important;
     justify-content:center !important;
+
+    margin-top: 25px !important;   /* 👈 نزلناه شوي */
     margin-bottom:10px !important;
 }
 
@@ -78,7 +80,7 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== زر الرجوع (الكبسولة) =====
+# ===== زر الرجوع =====
 st.markdown('<div class="back-btn">', unsafe_allow_html=True)
 if st.button("›"):
     st.switch_page("pages/2_Customer.py")
