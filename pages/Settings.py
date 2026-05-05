@@ -11,30 +11,32 @@ st.markdown("""
     background:#f0f7ff;
 }
 
+
 /* حاوية السهم في أقصى اليمين */
 .back-btn-container {
     position: absolute;
-    right: 10px;
-    top: 25px;
+    right: 10px; /* المسافة من الحافة اليمنى */
+    top: 20px;   /* المسافة من الأعلى */
     z-index: 1001;
 }
 
-/* تنسيق السهم */
+/* تصميم الدائرة البيضاء والسهم */
 .back-btn-container .stButton > button {
     background-color: white !important;
     color: #102646 !important;
-    width: 35px !important;
-    height: 35px !important;
-    border-radius: 50% !important;
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 50% !important; /* شكل دائري تماماً */
     border: none !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 20px !important;
+    font-size: 24px !important;
+    padding: 0 !important;
 }
 
-/* لمنع تكرار السهم */
+/* إخفاء أي سهم إضافي تلقائي */
 .back-btn-container .stButton > button::after {
     content: "" !important;
 }
