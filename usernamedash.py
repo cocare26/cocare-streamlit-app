@@ -70,12 +70,10 @@ margin: 8px 0 8px 4px;
 }}
 .clickable:active {{ transform: scale(0.95); }}
 
-/* --- تعديل: حركة الأيقونات عند مرور الماوس --- */
 .mini:hover, .nav-item:hover, .bot-bg:hover {{
     transform: translateY(-5px) scale(1.05);
 }}
 
-/* نظام النجوم التفاعلي */
 .star-rating {{
     display: flex;
     flex-direction: row-reverse;
@@ -110,16 +108,29 @@ transition: all 0.3s ease;
 }}
 .mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
+/* تعديل قسم الترحيب ليكون أصغر والصورة بداخله */
+.welcome-card {{
+    background: white;
+    border-radius: 24px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    display: flex;
+    align-items: center;
+    height: 90px; 
+    overflow: hidden;
+}}
+
 .robot-img-welcome {{
-    width: 130px; 
+    width: 75px; 
     height: auto;
     background: transparent !important;
-    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
-    margin-right: 10px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    margin-right: 12px;
     object-fit: contain;
     transition: transform 0.4s ease;
 }}
-.robot-img-welcome:hover {{ transform: rotate(-3deg) scale(1.05); }}
+.robot-img-welcome:hover {{ transform: scale(1.1); }}
 
 .welcome-text-container {{
     display: flex;
@@ -138,7 +149,6 @@ transition: all 0.3s ease;
     z-index: 5;
 }}
 
-/* الشريط السفلي */
 .nav {{
 margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
@@ -160,21 +170,17 @@ transition: all 0.3s ease;
 """, unsafe_allow_html=True)
 
 # =====================================
-# 1. قسم الملف الشخصي
+# 1. قسم الملف الشخصي (المعدل)
 # =====================================
 st.markdown(f"""
-<div class="card clickable">
-<div style="display:flex; align-items:center;">
+<div class="welcome-card clickable">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
-        <div style="font-size:26px; font-weight:900; color:#102646; line-height:1.2;">Welcome</div>
-        <div style="font-size:14px; color:#555; margin-top:4px;">+962 79 123 4567</div>
-        <div style="font-size:14px; color:#555;">Valid until: May 25, 2026</div>
+        <div style="font-size:20px; font-weight:900; color:#102646; line-height:1.1;">Welcome</div>
+        <div style="font-size:13px; color:#555; margin-top:2px;">+962 79 123 4567</div>
+        <div style="font-size:11px; color:#777;">Valid until: May 25, 2026</div>
+        <div style="font-size:11px; color:#102646; font-weight:700; margin-top:2px;">📍 Amman</div>
     </div>
-</div>
-<div style="margin-top:15px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
-📍 Location: Amman
-</div>
 </div>
 """, unsafe_allow_html=True)
 
