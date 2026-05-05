@@ -1,8 +1,8 @@
 import streamlit as st
 import base64
+import html
 
-# عدلي الاسم حسب ملفك
-from cocare import process_message
+from cocare import process_message   # إذا اسم ملفك غير cocare عدليه هون
 
 st.set_page_config(page_title="CoCare AI Agent", layout="centered")
 
@@ -23,11 +23,11 @@ robot = img_to_base64("robot_head.png")
 # =========================
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        ("bot", "أهلاً 👋 كيف أقدر أساعدك؟")
+        ("bot", "مرحباً، كيف أقدر أساعدك؟")
     ]
 
 # =========================
-# CHATBOT RESPONSE
+# BOT LOGIC
 # =========================
 def get_bot_reply(user_text):
     result = process_message(
@@ -36,14 +36,20 @@ def get_bot_reply(user_text):
         region="Amman"
     )
 
-    reply = result.get("response", "")
+    response = result.get("response", "")
     followup = result.get("followup_response", "")
 
-    final_reply = f"{reply}\n\n{followup}".strip()
-    return final_reply
+    reply = f"{response}\n\n{followup}".strip()
+
+    if not reply:
+        reply = "تم استلام طلبك، كيف أقدر أساعدك؟"
+
+    return reply
 
 
 def send_message(text):
+    text = str(text).strip()
+
     if not text:
         return
 
@@ -52,7 +58,7 @@ def send_message(text):
     try:
         bot_reply = get_bot_reply(text)
     except Exception as e:
-        bot_reply = "صار خطأ أثناء معالجة الرسالة، حاول مرة ثانية."
+        bot_reply = f"صار خطأ أثناء معالجة الرسالة:\n{e}"
 
     st.session_state.messages.append(("bot", bot_reply))
 
@@ -108,6 +114,13 @@ st.markdown("""
     object-fit:cover;
 }
 
+.avatar-fallback {
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#d9eefc;
+}
+
 .dot {
     width:8px;
     height:8px;
@@ -126,20 +139,22 @@ st.markdown("""
     top:90px;
     left:18px;
     right:18px;
-    bottom:145px;
+    bottom:125px;
     overflow-y:auto;
     padding:10px;
 }
 
 .msg {
-    max-width:75%;
-    padding:9px 12px;
-    border-radius:16px;
-    margin-bottom:8px;
+    max-width:76%;
+    padding:10px 14px;
+    border-radius:18px;
+    margin-bottom:10px;
     font-size:13px;
-    line-height:1.5;
+    line-height:1.6;
     white-space:pre-wrap;
     font-family:Arial;
+    direction:rtl;
+    text-align:right;
 }
 
 .bot {
@@ -147,8 +162,6 @@ st.markdown("""
     color:#222;
     margin-right:auto;
     margin-left:0;
-    text-align:right;
-    direction:rtl;
 }
 
 .user {
@@ -156,8 +169,6 @@ st.markdown("""
     color:white;
     margin-left:auto;
     margin-right:0;
-    text-align:right;
-    direction:rtl;
 }
 
 .quick-box {
@@ -168,6 +179,7 @@ st.markdown("""
     display:flex;
     flex-wrap:wrap;
     gap:6px;
+    justify-content:center;
 }
 
 .quick-btn {
@@ -180,25 +192,31 @@ st.markdown("""
     display:inline-block;
 }
 
-.bottom-space {
-    height: 700px;
-}
-
-div[data-testid="stTextInput"] {
+.input-area {
     width:420px;
-    margin:auto;
+    margin:12px auto 0 auto;
 }
 
 div[data-testid="stTextInput"] input {
     border-radius:22px;
     height:42px;
     font-size:13px;
+    direction:rtl;
+    text-align:right;
+}
+
+div[data-testid="stFormSubmitButton"] button {
+    width:100%;
+    border-radius:22px;
+    background:#1c6fa4;
+    color:white;
+    border:none;
 }
 
 div[data-testid="stButton"] button {
     border-radius:20px;
     font-size:12px;
-    padding:5px 10px;
+    padding:6px 10px;
     background:white;
     color:#1c6fa4;
     border:1px solid #d7e8f4;
@@ -207,19 +225,19 @@ div[data-testid="stButton"] button {
 """, unsafe_allow_html=True)
 
 # =========================
-# HTML PHONE
+# PHONE HTML
 # =========================
 messages_html = ""
 
 for role, msg in st.session_state.messages:
     cls = "user" if role == "user" else "bot"
-    messages_html += f'<div class="msg {cls}">{msg}</div>'
+    safe_msg = html.escape(str(msg))
+    messages_html += f'<div class="msg {cls}">{safe_msg}</div>'
 
-avatar_html = (
-    f'<img class="avatar" src="data:image/png;base64,{robot}">'
-    if robot else
-    '<div class="avatar"></div>'
-)
+if robot:
+    avatar_html = f'<img class="avatar" src="data:image/png;base64,{robot}">'
+else:
+    avatar_html = '<div class="avatar-fallback"></div>'
 
 st.markdown(f"""
 <div class="phone">
@@ -246,34 +264,36 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =========================
-# QUICK SERVICES
+# REAL QUICK BUTTONS
 # =========================
+st.markdown("<div class='input-area'>", unsafe_allow_html=True)
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    if st.button("فحص الشبكة"):
+    if st.button("فحص الشبكة", key="q_network"):
         send_message("افحص حالة الشبكة عندي")
         st.rerun()
 
-    if st.button("تجديد الباقة"):
+    if st.button("تجديد الباقة", key="q_renew"):
         send_message("بدي أجدد الباقة")
         st.rerun()
 
 with col2:
-    if st.button("استهلاك الإنترنت"):
+    if st.button("استهلاك الإنترنت", key="q_usage"):
         send_message("بدي أعرف استهلاك الإنترنت")
         st.rerun()
 
-    if st.button("العروض والألعاب"):
+    if st.button("العروض والألعاب", key="q_offers"):
         send_message("شو العروض المتاحة؟")
         st.rerun()
 
 with col3:
-    if st.button("المكالمات الدولية"):
+    if st.button("المكالمات الدولية", key="q_calls"):
         send_message("بدي أعرف عن المكالمات الدولية")
         st.rerun()
 
-    if st.button("الدعم الفني"):
+    if st.button("الدعم الفني", key="q_support"):
         send_message("بدي أتواصل مع الدعم الفني")
         st.rerun()
 
@@ -290,3 +310,5 @@ with st.form("chat_form", clear_on_submit=True):
 if submitted and user_input.strip():
     send_message(user_input.strip())
     st.rerun()
+
+st.markdown("</div>", unsafe_allow_html=True)
