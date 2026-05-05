@@ -31,15 +31,16 @@ footer {visibility: hidden;}
 
 /* ===== HEADER ===== */
 .header {
-    position:relative;
-    text-align:center;
-    margin-bottom:40px;
+    position: relative;
+    height: 50px;
+    margin-bottom: 40px;
 }
 
 .back-style {
-    position:absolute;
-    left:0;
-    top:0;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .back-style .stButton > button {
@@ -51,13 +52,16 @@ footer {visibility: hidden;}
     padding:0 !important;
 }
 
-/* 👇 رفع الكلمة + منع سطرين */
+/* العنوان بالنص الحقيقي */
 .title-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
-    margin-top: -15px;     /* 🔥 رفع */
-    white-space: nowrap;   /* 🔥 سطر واحد */
+    white-space: nowrap;
 }
 </style>
 """, unsafe_allow_html=True)
