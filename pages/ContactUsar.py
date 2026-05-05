@@ -1,64 +1,95 @@
 import streamlit as st
 
-# 1. إعداد الصفحة
 st.set_page_config(page_title="اتصل بنا", layout="centered")
 
-# 2. التنسيق (CSS) لضبط الواجهة العربية
+# ===== CSS الموحد (تم إضافة اتجاه اليمين للعربية) =====
 st.markdown("""
 <style>
-    #MainMenu, header, footer {visibility:hidden;}
+#MainMenu, header, footer {visibility:hidden;}
+
+[data-testid="stAppViewContainer"] {
+    background:#f0f7ff;
+    direction: rtl; /* تفعيل الاتجاه من اليمين لليسار */
+}
+
+/* الكونتينر النحيف */
+.block-container {
+    max-width: 430px; 
+    margin: auto;
+    padding: 20px 16px;
+    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius: 40px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    min-height: 600px;
+}
+
+/* تنسيق البوكسات الموحد */
+div.stButton > button {
+    width: 100% !important;
+    min-height: 65px !important; 
+    border-radius: 35px !important;
+    margin-bottom: 20px !important;
+    background: white !important;
+    border: none !important;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
     
-    [data-testid="stAppViewContainer"] {
-        background:#f0f7ff;
-        direction: rtl; /* اتجاه عربي */
-    }
+    font-weight: 700 !important;
+    color: #102646 !important;
+    font-size: 15px !important; 
+    
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important; 
+    
+    padding: 0px 25px !important;
+    transition: 0.3s;
+}
 
-    .block-container {
-        max-width: 400px;
-        margin: auto;
-        padding: 20px;
-        background: white;
-        border-radius: 30px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    }
+/* السهم الصغير - يندفع لليسار في النسخة العربية */
+div.stButton > button::after {
+    content: "‹";
+    font-size: 26px;
+    color: #102646;
+    margin-right: auto; /* دفع السهم للجهة المقابلة */
+}
 
-    /* تنسيق الأزرار */
-    div.stButton > button {
-        width: 100% !important;
-        min-height: 60px !important;
-        border-radius: 20px !important;
-        background-color: #ffffff !important;
-        color: #102646 !important;
-        font-weight: 700 !important;
-        border: 1px solid #e0e0e0 !important;
-        margin-bottom: 15px !important;
-        display: flex !important;
-        justify-content: flex-start !important;
-        padding: 0 20px !important;
-    }
+/* ستايل زر الرجوع */
+.back-style .stButton > button {
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 35px !important;
+    width: auto !important;
+    min-height: unset !important;
+    padding: 0 !important;
+}
+.back-style .stButton > button::after {
+    content: "" !important;
+}
 
-    /* زر الرجوع الخاص */
-    .back-btn > div.stButton > button {
-        background: transparent !important;
-        border: none !important;
-        font-size: 30px !important;
-        width: auto !important;
-        box-shadow: none !important;
-    }
+div.stButton > button:hover {
+    transform: translateY(-2px);
+    background-color: #fcfcfc !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
-# 3. زر الرجوع (يرجعك لصفحة الإعدادات العربية)
-st.markdown('<div class="back-btn">', unsafe_allow_html=True)
-if st.button("›"):
-    st.switch_page("pages/settingar.py")
-st.markdown('</div>', unsafe_allow_html=True)
+# 🔙 زر الرجوع (معدل ليرجع لصفحة الإعدادات العربية)
+col_back, _ = st.columns([1, 10])
+with col_back:
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("›"): # تغيير اتجاه السهم للرجوع
+        st.switch_page("pages/settingar.py")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown("<h2 style='text-align:center; color:#102646;'>اتصل بنا</h2>", unsafe_allow_html=True)
+# العنوان
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>', unsafe_allow_html=True)
 
-# 4. أزرار التواصل
-if st.button("✉️ البريد: Co.Care26@gmail.com"):
+# ===== الأزرار بالعربي مع الحفاظ على المسافات =====
+
+gap_email = "&nbsp;" * 25
+if st.button(f"✉️ البريد: Co.Care26@gmail.com {gap_email}"):
     pass
 
-if st.button("📞 الهاتف: 962791234567+"):
+gap_phone = "&nbsp;" * 20
+if st.button(f"📞 الهاتف: +962 79 123 4567 {gap_phone}"):
     pass
