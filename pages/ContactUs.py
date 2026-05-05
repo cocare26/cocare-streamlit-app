@@ -89,7 +89,7 @@ st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margi
 # مسافة صغيرة جداً (4 فراغات) بس عشان ما يلزق الكلام بالأيقونة زيادة عن اللزوم
 gap = "&nbsp;" * 20 
 
-if st.button(f"✉️Email: Co.Care26@gmail.com {gap}{gap}"):
+if st.button(f"✉️Email: Co.Care26@gmail.com {gap}"):
     pass
 
 if st.button(f"📞Phone: +962 79 123 4567 {gap}{gap}"):
