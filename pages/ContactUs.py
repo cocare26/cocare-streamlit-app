@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Contact Us", layout="centered")
 
-# ===== CSS الموحد (مبدأ الإعدادات) =====
+# ===== CSS الموحد (تركيز على العرض الطويل) =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -22,10 +22,10 @@ st.markdown("""
     min-height: 600px;
 }
 
-/* تنسيق البوكسات الموحد */
+/* تنسيق البوكسات */
 div.stButton > button {
     width: 100% !important;
-    min-height: 65px !important; 
+    min-height: 65px !important; /* السماكة زي ما طلبت */
     border-radius: 35px !important;
     margin-bottom: 20px !important;
     background: white !important;
@@ -38,19 +38,20 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    /* 👇 التعديل السحري هون: النص يلزق باليسار والسهم يروح يمين 👇 */
-    justify-content: flex-start !important; 
+    
+    /* 👇 التعديل الجوهري: توزيع المحتوى على أطراف البوكس بالعرض 👇 */
+    justify-content: space-between !important; 
     
     padding: 0px 25px !important;
     transition: 0.3s;
 }
 
-/* السهم الصغير في النهاية - نخليه يندفع لآخر اليمين */
+/* السهم الصغير في النهاية */
 div.stButton > button::after {
     content: "›";
     font-size: 26px;
     color: #102646;
-    margin-left: auto; /* هاد السطر هو اللي بيطرد السهم لليمين */
+    /* شلنا الـ margin-left عشان الـ space-between هي اللي تتحكم */
 }
 
 /* ستايل زر الرجوع */
@@ -61,6 +62,7 @@ div.stButton > button::after {
     width: auto !important;
     min-height: unset !important;
     padding: 0 !important;
+    justify-content: center !important; /* للرجوع فقط */
 }
 .back-style .stButton > button::after {
     content: "" !important;
@@ -84,13 +86,13 @@ with col_back:
 # العنوان
 st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">Contact Us</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار (الكلام وراء الأيقونة مباشرة مع مسافة بسيطة) =====
+# ===== الأزرار (طويلة بالعرض أوتوماتيكياً) =====
 
-# مسافة صغيرة جداً (4 فراغات) بس عشان ما يلزق الكلام بالأيقونة زيادة عن اللزوم
-gap = "&nbsp;" * 4 
+# هون ما في داعي لفراغات كتير، الـ CSS رح يرمي النص لليسار والسهم لليمين
+# وبطلع بينهم مسافة "طويلة بالعرض" زي المسطرة
 
-if st.button(f"✉️{gap}Email: Co.Care26@gmail.com"):
+if st.button("✉️ Email: Co.Care26@gmail.com"):
     pass
 
-if st.button(f"📞{gap}Phone: +962 79 123 4567"):
+if st.button("📞 Phone: +962 79 123 4567"):
     pass
