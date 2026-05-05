@@ -1,6 +1,12 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
+
+
+if st.query_params.get("nav") == "en":
+    st.query_params.clear() # تنظيف الرابط
+    st.switch_page("pages/Settings.py") # الانتقال الرسمي
+
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
 # ✅ تخزين اللغة
