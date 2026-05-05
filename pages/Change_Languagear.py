@@ -1,15 +1,13 @@
 import streamlit as st
-import os
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
-
-# ===== DEBUG (عشان نتأكد من أسماء الملفات) =====
 
 # ===== CSS =====
 st.markdown("""
 <style>
-
 * { direction:rtl; }
+
+#MainMenu, header, footer { visibility:hidden; }
 
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
@@ -22,9 +20,9 @@ st.markdown("""
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius:40px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
+    min-height:600px;
 }
 
-/* العنوان */
 .title {
     text-align:center;
     font-size:22px;
@@ -33,7 +31,6 @@ st.markdown("""
     margin-bottom:30px;
 }
 
-/* الأزرار */
 div.stButton > button {
     width:100%;
     height:65px;
@@ -46,6 +43,7 @@ div.stButton > button {
     margin-bottom:15px;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     text-align:right;
+    padding:0 25px;
 }
 
 div.stButton > button:hover {
@@ -56,18 +54,15 @@ div.stButton > button:hover {
 <div class="title">تغيير اللغة</div>
 """, unsafe_allow_html=True)
 
-# ===== زر رجوع =====
+# ===== رجوع للإعدادات العربية =====
 if st.button("› رجوع"):
     st.switch_page("pages/settingar.py")
 
-# ===== الأزرار =====
-
-# عربي
-if st.button("🌐 العربية ✔"):
+# ===== اختيار اللغة =====
+if st.button("🌐 العربية        ✔"):
     st.session_state.lang = "ar"
     st.switch_page("pages/settingar.py")
 
-# إنجليزي
-if st.button("🌐 English ‹"):
+if st.button("🌐 English        ‹"):
     st.session_state.lang = "en"
     st.switch_page("pages/Settings.py")
