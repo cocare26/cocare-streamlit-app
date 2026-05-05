@@ -68,10 +68,10 @@ st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margi
 # ===== استخدام الفراغات اليدوية كما طلبت =====
 
 # زد الفراغات (المسطرة) في نهاية النص لتوصل السهم للنهاية
-spaces = " " * 35 
+spaces = " " * 50
 
-if st.button(f"✉️ Email: Co.Care26@gmail.com{spacesspaces}"):
+if st.button(f"✉️ Email: Co.Care26@gmail.com{spaces}"):
     pass
 spaces = " " * 60
-if st.button(f"📞 Phone: +962 79 123 4567{spacesspacesspacesspacesspacesspacesspacesspaces}"):
+if st.button(f"📞 Phone: +962 79 123 4567{spaces}"):
     pass
