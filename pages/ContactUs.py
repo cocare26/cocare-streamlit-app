@@ -70,8 +70,8 @@ st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margi
 # زد الفراغات (المسطرة) في نهاية النص لتوصل السهم للنهاية
 spaces = " " * 35 
 
-if st.button(f"✉️ Email: Co.Care26@gmail.com{spaces}"):
+if st.button(f"✉️ Email: Co.Care26@gmail.com{spacesspaces}"):
     pass
 
-if st.button(f"📞 Phone: +962 79 123 4567{spaces}"):
+if st.button(f"📞 Phone: +962 79 123 4567{spacesspacesspaces}"):
     pass
