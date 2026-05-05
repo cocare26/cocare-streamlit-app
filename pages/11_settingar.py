@@ -1,16 +1,15 @@
 import streamlit as st
 
-st.set_page_config(page_title="الإعدادات", layout="centered")
+st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS الموحد والنحيف (دعم اللغة العربية RTL) =====
+# ===== CSS الموحد والنحيف =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
 
-/* ضبط اتجاه الصفحة بالكامل للعربية */
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
-    direction: rtl; /* من اليمين لليسار */
+    direction: rtl; /* قلبنا الاتجاه للعربي */
 }
 
 /* الكونتينر النحيف */
@@ -36,7 +35,6 @@ div.stButton > button {
     font-weight: 700 !important;
     color: #102646 !important;
     font-size: 16px !important;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     
     display: flex !important;
     align-items: center !important;
@@ -46,7 +44,7 @@ div.stButton > button {
     transition: 0.3s;
 }
 
-/* السهم الصغير في النهاية (تم عكسه ليكون لليسار في الواجهة العربية) */
+/* السهم الصغير في النهاية - صار يشير لليسار */
 div.stButton > button::after {
     content: "‹";
     font-size: 26px;
@@ -63,10 +61,10 @@ div.stButton > button:hover {
 <div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">الإعدادات</div>
 """, unsafe_allow_html=True)
 
-# ===== الأزرار مع ضبط المسافات للغة العربية =====
+# ===== الأزرار مع الحفاظ على نفس عدد المسافات اللي طلبتها =====
 
-# 1. مسافة للأزرار اللي نصها طويل
-normal_gap = "&nbsp;" * 40
+# المسافات اللي كانت عندك (45)
+normal_gap = "&nbsp;" * 45
 
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
     st.switch_page("pages/ChangePassword.py")
@@ -74,8 +72,8 @@ if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
 if st.button(f"🌐{normal_gap}تغيير اللغة"):
     st.switch_page("pages/ChangeLanguage.py")
 
-# 2. مسافة "إضافية وجبارة" للكلمات القصيرة
-extreme_gap = "&nbsp;" * 55
+# المسافات الجبارة اللي كانت عندك (60)
+extreme_gap = "&nbsp;" * 60
 
 if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
     st.switch_page("pages/RateApp.py")
@@ -85,7 +83,8 @@ if st.button(f"🚪{extreme_gap}تسجيل الخروج"):
      st.switch_page("app.py")
 
 
-col_gap = "&nbsp;" * 2
+# مسافة الـ Columns (5)
+col_gap = "&nbsp;" * 5
 
 col1, col2 = st.columns(2)
 
