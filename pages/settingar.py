@@ -33,6 +33,22 @@ st.markdown("""
     margin-bottom:25px;
 }
 
+/* زر الكبسولة */
+.back-btn div.stButton > button {
+    width:60px !important;
+    height:60px !important;
+    border-radius:30px !important;
+    background:#e9eef3 !important;
+    border:none !important;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08) !important;
+    font-size:28px !important;
+    color:#102646 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    margin-bottom:10px !important;
+}
+
 /* الأزرار */
 div.stButton > button {
     width: 100% !important;
@@ -53,48 +69,38 @@ div.stButton > button {
     padding: 0px 25px !important;
 }
 
-/* السهم داخل البوكس */
-div.stButton > button::after {
-    content: "‹";
-    font-size: 26px;
-    color: #102646;
-    font-weight: bold;
-}
-
 /* hover */
 div.stButton > button:hover {
     transform: translateY(-2px);
     background-color: #fcfcfc !important;
 }
 
-/* السهم داخل البوكس */
-div.stButton > button::after {
-    content: "‹";
-    font-size: 28px;
-    color: #102646;
-    font-weight: bold;
-    margin-left: 10px; /* يخليه بعيد شوي عن الحافة */
-}
-
 </style>
-
-<div class="title">الإعدادات</div>
 """, unsafe_allow_html=True)
+
+# ===== زر الرجوع (الكبسولة) =====
+st.markdown('<div class="back-btn">', unsafe_allow_html=True)
+if st.button("›"):
+    st.switch_page("pages/2_Customer.py")
+st.markdown('</div>', unsafe_allow_html=True)
+
+# ===== العنوان =====
+st.markdown('<div class="title">الإعدادات</div>', unsafe_allow_html=True)
 
 # ===== الأزرار =====
 
-# 1. مسافة للنص الطويل
 normal_gap = "&nbsp;" * 55
 normal_gap1 = "&nbsp;" * 63
+
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
     st.switch_page("pages/Change_Passwordar.py")
 
 if st.button(f"🌐{normal_gap1}تغيير اللغة"):
     st.switch_page("pages/Change_Languagear.py")
 
-# 2. مسافة للنص القصير
 extreme_gap = "&nbsp;" * 61
 extreme_gap1 = "&nbsp;" * 55
+
 if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
     st.switch_page("pages/Rate_Appar.py")
 
