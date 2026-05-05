@@ -141,6 +141,12 @@ body {
 
 
 <script>
+function goEnglish(){
+    window.parent.postMessage(
+        {type: "streamlit:setComponentValue", value: "go_en"},
+        "*"
+    );
+}
 function goArabic(){
     window.parent.postMessage(
         {type: "streamlit:setComponentValue", value: "go_ar"},
