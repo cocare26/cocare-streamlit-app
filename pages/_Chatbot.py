@@ -33,13 +33,14 @@ st.markdown("""
     background:#eef2f7;
 }
 .block-container {
-    max-width:430px;
-    min-height:700px;
+    max-width:420px;
+    height:700px;
     margin:auto;
-    padding:20px 18px;
+    padding:14px 18px 18px;
     border-radius:42px;
     background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
     box-shadow:0 8px 25px rgba(0,0,0,.25);
+    overflow:hidden;
 }
 header, footer { visibility:hidden; }
 
@@ -54,11 +55,33 @@ header, footer { visibility:hidden; }
     box-shadow:0 3px 10px rgba(0,0,0,.12);
     margin-bottom:14px;
 }
-.back { font-size:28px; color:#436577; text-decoration:none; }
-.avatar { width:42px; height:42px; border-radius:50%; object-fit:cover; }
-.dot { width:8px; height:8px; background:#36c06a; border-radius:50%; }
-.status { font-size:15px; font-weight:700; color:#222; }
-
+.back {
+    font-size:28px;
+    color:#436577;
+    text-decoration:none;
+}
+.avatar {
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+}
+.dot {
+    width:8px;
+    height:8px;
+    background:#36c06a;
+    border-radius:50%;
+}
+.status {
+    font-size:15px;
+    font-weight:700;
+    color:#222;
+}
+.chat-box {
+    height:390px;
+    overflow-y:auto;
+    padding:10px;
+}
 .msg {
     max-width:75%;
     padding:9px 12px;
@@ -78,19 +101,32 @@ header, footer { visibility:hidden; }
     color:white;
     margin-left:auto;
 }
-
-.chat-box {
-    height:360px;
-    overflow-y:auto;
-    padding:10px;
+.quick-title {
+    font-size:13px;
+    font-weight:700;
+    color:#244b63;
+    margin-bottom:6px;
 }
 div.stButton > button {
     width:100%;
-    border-radius:20px;
+    border-radius:12px;
     border:none;
     background:white;
-    color:#1c6fa4;
+    color:#222;
     font-size:12px;
+    padding:6px;
+    box-shadow:0 2px 8px rgba(0,0,0,.10);
+}
+div.stButton > button:hover {
+    background:#eef6ff;
+    color:#1c6fa4;
+}
+div[data-testid="stForm"] {
+    border:0;
+    padding:0;
+}
+input {
+    border-radius:22px !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -115,13 +151,11 @@ for msg in st.session_state.chat_messages:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown("**Quick Services**")
+st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
-qcols = st.columns(2)
-quick_keys = list(quick_replies.keys())
-
-for i, key in enumerate(quick_keys):
-    with qcols[i % 2]:
+cols = st.columns(2)
+for i, key in enumerate(quick_replies.keys()):
+    with cols[i % 2]:
         if st.button(key):
             st.session_state.chat_messages.append({"type": "user", "text": key})
             st.session_state.chat_messages.append({"type": "bot", "text": quick_replies[key]})
