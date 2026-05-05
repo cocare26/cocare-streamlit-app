@@ -134,11 +134,10 @@ body {
     </div>
 
     <!-- الخيار الإنجليزي -->
-    <div class="item" onclick="window.open('/Settings', '_top');">
-        <span>🌐 English</span>
-        <span>‹</span>
-    </div>
-
+   <div class="item" onclick="window.parent.location.assign('/Settings');">
+    <span>🌐 English</span>
+    <span>‹</span>
+</div>
 </div>
 
 <script>
