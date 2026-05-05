@@ -14,26 +14,27 @@ st.markdown("""
         direction: rtl;
     }
 
-    .block-container {
-    max-width: 380px !important;
-    margin: auto !important;
-    padding: 30px 20px !important;
-    background: linear-gradient(180deg, #dff2ff 0%, #ffffff 100%);
-    border-radius: 50px; /* هذا ما يجعلها كبسولة */
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    margin-top: 40px !important;
-    direction: rtl;
-    min-height: 550px;
+   .block-container {
+    max-width: 430px;            /* العرض المثالي */
+    border-radius: 42px;         /* زوايا الكبسولة */
+    box-shadow: 0 14px 35px rgba(0,0,0,0.15); /* الظل العميق */
+    padding: 18px 16px;          /* المسافات الداخلية */
+}
+
+/* تنسيق العناصر الداخلية (الأزرار) */
+.item {
+    border-radius: 100px;        /* جعل الزر كبسولة صغيرة */
+    padding: 14px 22px;          /* مسافة مريحة للنص */
+    margin-bottom: 15px;         /* مسافة بين كل خيار والثاني */
 }
 
     /* العنوان */
     .title-text {
-        font-size: 22px;
-        font-weight: 900;
-        color: #102646;
-        text-align: center;
-        margin-bottom: 30px;
-    }
+    font-size: 20px;
+    font-weight: 900;            /* وزن عريض جداً */
+    color: #102646;
+    font-family: 'Segoe UI';     /* الخط المعتمد */
+}
 
     /* تحويل أزرار ستريمليت إلى تصميم الـ Item */
     div.stButton > button {
@@ -77,6 +78,12 @@ st.markdown("""
         padding: 0 !important;
         justify-content: center !important;
     }
+
+    .item span {
+    font-weight: 800;
+    font-size: 16px;
+    color: #102646;
+}
 </style>
 """, unsafe_allow_html=True)
 
