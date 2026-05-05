@@ -135,7 +135,7 @@ body {
     ›
 </div>
 
-<div class="item" onclick="window.top.location.href=window.location.origin + '/Settings';">
+<div class="item" onclick="window.open('/Settings','_top');">
     <span>🌐 English</span>
     ✔
 </div>
