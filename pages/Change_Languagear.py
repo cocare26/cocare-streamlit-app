@@ -100,7 +100,7 @@ body { margin:0; font-family:'Segoe UI'; display:flex; justify-content:center; b
     <span class="check-mark">✔</span>
 </div>
 
-<div class="item" onclick="window.parent.location.assign('Settings');">
+<div class="item" onclick="window.open('Settings', '_parent');">
     <span>🌐 English</span>
 </div>
 </div>
