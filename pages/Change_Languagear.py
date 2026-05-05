@@ -81,13 +81,21 @@ if st.button("‹"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== الأزرار =====
-
+col_gap_ar = "&nbsp;" * 5
+col_gap_en = "&nbsp;" * 8
 # عربي
-if st.button("🌐 العربية ✔️"):
+if st.button(f"🌐  العربية  {col_gap_ar} {col_gap_ar}✔️"):
     st.session_state.lang = "ar"
     st.switch_page("pages/settingar.py")
 
 # إنجليزي
-if st.button("🌐 English ‹"):
+if st.button(f"🌐  English {col_gap_en} {col_gap_en} ‹"):
     st.session_state.lang = "en"
     st.switch_page("pages/Settings.py")
+
+
+
+
+
+
+
