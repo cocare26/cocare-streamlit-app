@@ -76,7 +76,7 @@ div.stButton > button:hover {
 
 # 1. مسافة للنص الطويل
 normal_gap = "&nbsp;" * 55
-normal_gap1 = "&nbsp;" * 59
+normal_gap1 = "&nbsp;" * 62
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
     st.switch_page("pages/Change_Passwordar.py")
 
