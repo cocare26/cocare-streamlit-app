@@ -11,12 +11,30 @@ st.markdown("""
     background:#f0f7ff;
 }
 
+/* حاوية السهم في أقصى اليمين */
 .back-btn-container {
     position: absolute;
-    right: 5px;   /* تقليل المسافة لأقصى حد جهة اليمين */
-    top: 15px;    /* رفعه قليلاً للأعلى */
+    right: 10px;
+    top: 25px;
     z-index: 1001;
 }
+
+/* تنسيق السهم */
+.back-btn-container .stButton > button {
+    background-color: white !important;
+    color: #102646 !important;
+    width: 35px !important;
+    height: 35px !important;
+    border-radius: 50% !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+}
+
+/* لمنع تكرار السهم */
 .back-btn-container .stButton > button::after {
     content: "" !important;
 }
