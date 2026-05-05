@@ -25,7 +25,7 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تعديل المساحات وتكبير الروبوت)
+# CSS المطور
 # =====================================
 st.markdown(f"""
 <style>
@@ -57,13 +57,11 @@ box-shadow:0 6px 15px rgba(0,0,0,.06);
 transition: all 0.3s ease;
 }}
 
-/* --- تصغير مساحة كرت الرصيد --- */
 .balance-card {{
     padding: 6px 14px !important;
     margin-bottom: 4px !important;
 }}
 
-/* --- تصغير مساحة كرت التقييم --- */
 .rating-card {{
     padding: 4px 14px 6px !important;
     margin-bottom: 4px !important;
@@ -95,7 +93,7 @@ margin: 4px 0 4px 4px;
 }}
 .star-rating input {{ display: none; }}
 .star-rating label {{
-    font-size: 24px; /* تصغير النجوم أكثر */
+    font-size: 24px;
     color: #ddd;
     cursor: pointer;
     transition: color 0.2s, transform 0.2s;
@@ -116,11 +114,10 @@ margin: 4px 0 4px 4px;
     display: flex;
     align-items: center;
     position: relative;
-    height: 100px; /* زيادة الارتفاع قليلاً لاستيعاب الروبوت الأكبر */
+    height: 100px;
     transition: all 0.3s ease;
 }}
 
-/* --- تكبير الروبوت وجعله متداخلاً --- */
 .robot-img-welcome {{
     width: 95px; 
     height: 95px;
@@ -177,7 +174,8 @@ margin: 0 auto 4px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 transition: all 0.3s ease;
 }}
-.active {{ color:#0d69dd; }}
+/* إزالة اللون الأزرق عن العنصر النشط ليتوحد مع البقية */
+.active {{ color:inherit; }} 
 </style>
 """, unsafe_allow_html=True)
 
@@ -197,7 +195,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 2. معلومات الرصيد (تم تصغير المساحة)
+# 2. معلومات الرصيد
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
@@ -236,7 +234,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم (تم تصغير المساحة)
+# 4. قسم التقييم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
