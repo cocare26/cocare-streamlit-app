@@ -66,6 +66,11 @@ div.stButton > button:hover {
 <div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
+st.markdown('<div class="back-btn-container">', unsafe_allow_html=True)
+if st.button("›", key="top_right_back"):
+    st.switch_page("app.py") 
+st.markdown('</div>', unsafe_allow_html=True)
+
 # ===== الأزرار مع زيادة المسافات لضبط الاستقامة مية بالمية =====
 
 # 1. مسافة للأزرار اللي نصها طويل أصلاً
