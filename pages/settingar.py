@@ -24,16 +24,19 @@ st.markdown("""
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* العنوان الجديد */
+/* العنوان (معدل) */
 .title {
     text-align: center;
     font-weight: 900;
     color: #102646;
     font-size: 28px;
     margin-bottom: 25px;
+
     width: 100%;
     letter-spacing: 0.5px;
     text-shadow: 0 2px 6px rgba(0,0,0,0.08);
+
+    margin-top: 18px; /* 👈 نزلناه ليصير بمستوى السهم */
 }
 
 /* زر الكبسولة */
@@ -92,12 +95,12 @@ with col1:
 with col2:
     st.markdown('<div class="title">الإعدادات</div>', unsafe_allow_html=True)
 
-# col3 فاضي عشان التوسيط يكون مضبوط
+# col3 فاضي للتوازن
 
 # ===== الأزرار =====
 
 normal_gap = "&nbsp;" * 55
-normal_gap1 = "&nbsp;" * 63
+normal_gap1 = "&nbsp;" * 62
 
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
     st.switch_page("pages/Change_Passwordar.py")
