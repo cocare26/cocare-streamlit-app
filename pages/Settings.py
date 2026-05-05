@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS الموحد والنحيف =====
+# ===== CSS الاحترافي لتوحيد المسافات للأبد =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,7 +11,7 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر النحيف */
+/* الكونتينر */
 .block-container {
     max-width: 390px; 
     margin: auto;
@@ -21,10 +21,10 @@ st.markdown("""
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* تنسيق البوكسات الموحد */
+/* تنسيق البوكسات */
 div.stButton > button {
     width: 100% !important;
-    min-height: 60px !important; /* السماكة النحيفة */
+    min-height: 60px !important; 
     border-radius: 35px !important;
     margin-bottom: 20px !important;
     background: white !important;
@@ -37,17 +37,26 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important; /* السهم يروح لآخر اليمين */
+    justify-content: flex-start !important; /* البداية من اليسار */
     
     padding: 0px 25px !important;
     transition: 0.3s;
 }
 
-/* السهم الصغير في النهاية */
+/* السهم في أقصى اليمين */
 div.stButton > button::after {
     content: "›";
     font-size: 26px;
     color: #102646;
+    margin-left: auto; 
+}
+
+/* 👇 الحركة السحرية: نكبر مساحة الأيقونة عشان تدفع النص لليمين 👇 */
+div.stButton > button p::first-letter {
+    display: inline-block;
+    /* زد هذا الرقم إذا بدك مسافة أكبر كمان */
+    width: 120px; 
+    text-align: left;
 }
 
 div.stButton > button:hover {
@@ -60,20 +69,17 @@ div.stButton > button:hover {
 <div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== الأزرار مع موازنة المسافات يدوياً =====
+# ===== الأزرار (لاحظ ما في داعي للفراغات اليدوية هسا) =====
 
-# 1. مسافة عادية للأزرار اللي نصها طويل
-if st.button("🔒&nbsp;&nbsp;&nbsp;&nbsp;Change Password"):
+if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
 
-if st.button("🌐&nbsp;&nbsp;&nbsp;&nbsp;Change Language"):
+if st.button("🌐 Change Language"):
     st.switch_page("pages/ChangeLanguage.py")
 
-# 2. مسافة أكبر بكثير للأزرار اللي نصها قصير عشان يوصلوا لنفس المستوى
-if st.button("⭐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rate App"):
+if st.button("⭐ Rate App"):
     st.switch_page("pages/RateApp.py")
 
-if st.button("🚪&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log Out"):
+if st.button("🚪 Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
-    
