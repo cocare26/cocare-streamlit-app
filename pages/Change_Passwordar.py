@@ -59,18 +59,30 @@ html, body, [data-testid="stAppViewContainer"] {
 
 # ---------------- HEADER ----------------
 # ---------------- HEADER ----------------
-# ---------------- HEADER ----------------
+
+# استبدل قسم الـ HEADER بهذا الكود
 col_back, col_title, col_empty = st.columns([1, 4, 1])
 
 with col_back:
-    st.markdown('<div class="back-style">', unsafe_allow_html=True)
-    # استخدام زر واحد مع أمر جافاسكريبت بسيط جداً ومباشر
-    if st.button("›", key="back_arrow"):
-        components.html(
-            "<script>window.parent.history.back();</script>",
-            height=0,
-        )
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown(f"""
+        <a href="/11_settingar" target="_self" style="text-decoration: none;">
+            <div style="
+                background: white;
+                color: black;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                cursor: pointer;
+            ">
+                ›
+            </div>
+        </a>
+    """, unsafe_allow_html=True)
 
 with col_title:
     st.markdown('<div class="title-text" style="text-align:center; margin-top:5px;">تغيير كلمة المرور</div>', unsafe_allow_html=True)
