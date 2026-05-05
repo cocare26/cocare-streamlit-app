@@ -110,17 +110,11 @@ function save(){
     if(p1 !== p2){ alert("كلمات المرور غير متطابقة"); return; }
 
     
-    function save(){
-    // ... كود التحقق من المدخلات ...
-    
-    alert("تم تغيير كلمة المرور بنجاح ✅");
-    
-    /* 
-       استخدم هذا السطر للربط. 
-       ملاحظة: الرابط في المتصفح لصفحة settingar يكون غالباً "/settingar" 
-    */
-    window.parent.location.assign("/settingar");
-}
+   
+alert("تم تغيير كلمة المرور بنجاح ✅");
+
+// هذا هو البديل الصحيح والوحيد داخل الجافاسكريبت للربط
+window.parent.location.assign("/settingar");
    
 }
 document.querySelectorAll(".input").forEach(box => {
