@@ -1,20 +1,17 @@
 import streamlit as st
-import os
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
 
-# ===== DEBUG (عشان نتأكد من أسماء الملفات) =====
-
-# ===== CSS =====
+# ===== CSS المحدث =====
 st.markdown("""
 <style>
-
 * { direction:rtl; }
 
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
 }
 
+/* الكبسولة */
 .block-container {
     max-width:430px;
     margin:auto;
@@ -22,6 +19,8 @@ st.markdown("""
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius:40px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
+    position: relative; /* ضروري لضبط موقع السهم داخلياً */
+    margin-top: 50px;
 }
 
 /* العنوان */
@@ -30,11 +29,34 @@ st.markdown("""
     font-size:22px;
     font-weight:900;
     color:#102646;
+    margin-top: 20px; /* مسافة بسيطة من الأعلى */
     margin-bottom:30px;
-    margin-top:350px;   /* 👈 نزّلناها كثير */
 }
 
-/* الأزرار */
+/* ===== تنسيق زر الرجوع (المربع الأسود في أول الصفحة) ===== */
+.back-style {
+    position: absolute; /* يجعله مرتبطاً بأعلى الكبسولة */
+    top: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.back-style .stButton > button {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 0px !important; /* مربع حاد */
+    font-size: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+}
+
+/* الأزرار العامة */
 div.stButton > button {
     width:100%;
     height:65px;
@@ -46,57 +68,27 @@ div.stButton > button {
     font-size:18px;
     margin-bottom:15px;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    text-align:right;
-}
-
-
-.back-style {
-    position: fixed;
-    top: 5px;   /* 👈 كان 58، هسا ارتفع */
-    right: 25px;
-    z-index:999;
-}
-
-.back-style .stButton > button {
-    background:#111827 !important;
-    color:white !important;
-    width:45px !important;
-    height:60px !important;
-    border-radius:10px !important;
-    font-size:28px !important;
-    padding:0 !important;
 }
 
 div.stButton > button:hover {
     transform:translateY(-2px);
 }
 </style>
-
-<div class="title">تغيير اللغة</div>
 """, unsafe_allow_html=True)
 
-# ===== زر رجوع =====
+# ===== محتوى الصفحة =====
+
+# زر الرجوع في أول الكبسولة
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
 if st.button("‹"):
     st.switch_page("pages/settingar.py")
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ===== الأزرار =====
-col_gap_ar = "&nbsp;" * 40
-col_gap_en = "&nbsp;" * 40
-# عربي
-if st.button(f"🌐  العربية  {col_gap_ar} {col_gap_ar}✔️"):
-    st.session_state.lang = "ar"
+st.markdown('<div class="title">تغيير اللغة</div>', unsafe_allow_html=True)
+
+# الأزرار
+if st.button("🌐 العربية ✔️"):
     st.switch_page("pages/settingar.py")
 
-# إنجليزي
-if st.button(f"🌐  English {col_gap_en} {col_gap_en} ‹"):
-    st.session_state.lang = "en"
+if st.button("🌐 English ‹"):
     st.switch_page("pages/Settings.py")
-
-
-
-
-
-
-
