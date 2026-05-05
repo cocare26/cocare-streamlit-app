@@ -74,7 +74,7 @@ if st.button(f"🌐{normal_gap2}Change Language"):
 
 # 2. مسافة "إضافية وجبارة" للكلمات القصيرة (Rate و Log) عشان يلحقوا اللي فوقهم
 # زدنا الفراغات لـ 55 عشان تندفع الكلمة لأقصى اليمين
-extreme_gap1 = "&nbsp;" * 65
+extreme_gap1 = "&nbsp;" * 63
 
 if st.button(f"⭐{extreme_gap1}Rate App"):
     st.switch_page("pages/RateApp.py")
