@@ -59,7 +59,7 @@ footer {visibility: hidden;}
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -65%); /* 👈 رفعناها */
+    transform: translate(-50%, -100%); /* 👈 رفعناها */
     font-size:20px;
     font-weight:900;
     color:#0f2446;
