@@ -29,7 +29,7 @@ st.markdown("""
     font-size:22px;
     font-weight:900;
     color:#102646;
-    margin-top: 20px; /* مسافة بسيطة من الأعلى */
+    margin-top: 40px; /* مسافة بسيطة من الأعلى */
     margin-bottom:30px;
 }
 
@@ -87,8 +87,14 @@ st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('<div class="title">تغيير اللغة</div>', unsafe_allow_html=True)
 
 # الأزرار
-if st.button("🌐 العربية ✔️"):
+col_gap_ar = "&nbsp;" * 40
+col_gap_en = "&nbsp;" * 40
+# عربي
+if st.button(f"🌐  العربية  {col_gap_ar} {col_gap_ar}✔️"):
+    st.session_state.lang = "ar"
     st.switch_page("pages/settingar.py")
 
-if st.button("🌐 English ‹"):
+# إنجليزي
+if st.button(f"🌐  English {col_gap_en} {col_gap_en} ‹"):
+    st.session_state.lang = "en"
     st.switch_page("pages/Settings.py")
