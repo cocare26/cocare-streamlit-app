@@ -2,101 +2,97 @@ import streamlit as st
 
 st.set_page_config(page_title="الإعدادات", layout="centered")
 
-# ===== CSS =====
+# ===== CSS الموحد والنحيف (دعم اللغة العربية RTL) =====
 st.markdown("""
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
-* { direction: rtl; }
+#MainMenu, header, footer {visibility:hidden;}
 
-#MainMenu, header, footer { visibility:hidden; }
-
+/* ضبط اتجاه الصفحة بالكامل للعربية */
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
+    direction: rtl; /* من اليمين لليسار */
 }
 
-/* container */
+/* الكونتينر النحيف */
 .block-container {
-    max-width:430px;
-    margin:auto;
-    padding:20px 16px;
-    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius:42px;
-    box-shadow:0 14px 35px rgba(0,0,0,.15);
+    max-width: 390px; 
+    margin: auto;
+    padding: 35px 20px;
+    background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
+    border-radius: 40px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* TITLE */
-.title {
-    text-align:center;
-    font-weight:900;
-    font-size:20px;
-    color:#102646;
-    margin-bottom:25px;
-}
-
-/* زر = كارد */
+/* تنسيق البوكسات الموحد */
 div.stButton > button {
-    width:100%;
-    border-radius:100px;
-    padding:16px;
-    margin-bottom:15px;
-    background:white;
-    border:none;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    font-weight:800;
-    color:#102646;
-    text-align:right;
-    transition:0.2s;
+    width: 100% !important;
+    min-height: 60px !important; 
+    border-radius: 35px !important;
+    margin-bottom: 20px !important;
+    background: white !important;
+    border: none !important;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
+    
+    font-weight: 700 !important;
+    color: #102646 !important;
+    font-size: 16px !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important; 
+    
+    padding: 0px 25px !important;
+    transition: 0.3s;
 }
 
-/* hover */
-div.stButton > button:hover {
-    transform:translateY(-2px);
-    box-shadow:0 6px 15px rgba(0,0,0,0.12);
-}
-
-/* arrow */
+/* السهم الصغير في النهاية (تم عكسه ليكون لليسار في الواجهة العربية) */
 div.stButton > button::after {
     content: "‹";
-    float:left;
-    font-size:18px;
+    font-size: 26px;
+    color: #102646;
 }
 
-/* bottom */
-.bottom-row {
-    display:flex;
-    gap:10px;
-    margin-top:40px;
+div.stButton > button:hover {
+    transform: translateY(-2px);
+    background-color: #fcfcfc !important;
 }
 
-.bottom-row div.stButton > button {
-    text-align:center;
-}
 </style>
 
-<div class="title">الإعدادات</div>
+<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">الإعدادات</div>
 """, unsafe_allow_html=True)
 
-# ===== buttons =====
-if st.button("🔒  تغيير كلمة المرور"):
-    st.switch_page("pages/ChangePassword_ar.py")
+# ===== الأزرار مع ضبط المسافات للغة العربية =====
 
-if st.button("🌐  تغيير اللغة"):
-    st.switch_page("pages/ChangeLanguage_ar.py")
+# 1. مسافة للأزرار اللي نصها طويل
+normal_gap = "&nbsp;" * 40
 
-if st.button("⭐  تقييم التطبيق"):
-    st.switch_page("pages/RateApp_ar.py")
+if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
+    st.switch_page("pages/ChangePassword.py")
 
-if st.button("🚪  تسجيل الخروج"):
-    st.switch_page("main_app.py")
+if st.button(f"🌐{normal_gap}تغيير اللغة"):
+    st.switch_page("pages/ChangeLanguage.py")
 
-# ===== bottom =====
+# 2. مسافة "إضافية وجبارة" للكلمات القصيرة
+extreme_gap = "&nbsp;" * 55
+
+if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
+    st.switch_page("pages/RateApp.py")
+
+if st.button(f"🚪{extreme_gap}تسجيل الخروج"):
+     st.session_state.clear()
+     st.switch_page("app.py")
+
+
+col_gap = "&nbsp;" * 2
+
 col1, col2 = st.columns(2)
 
 with col1:
-    if st.button(" ⚠️ الإبلاغ عن مشكلة "):
-        st.switch_page("pages/ReportProblem_ar.py")
+    if st.button(f"⚠️{col_gap}تبليغ عن مشكلة"):
+        st.switch_page("pages/ReportProblem.py")
 
 with col2:
-    if st.button(" ✉️ اتصل بنا"):
-        st.switch_page("pages/ContactUs_ar.py")
+    if st.button(f"✉️{col_gap}اتصل بنا"):
+        st.switch_page("pages/ContactUs.py")
