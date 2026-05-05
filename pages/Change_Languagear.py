@@ -15,10 +15,16 @@ st.markdown("""
     }
 
     .block-container {
-        max-width: 400px;
-        margin: auto;
-        padding-top: 30px;
-    }
+    max-width: 380px !important;
+    margin: auto !important;
+    padding: 30px 20px !important;
+    background: linear-gradient(180deg, #dff2ff 0%, #ffffff 100%);
+    border-radius: 50px; /* هذا ما يجعلها كبسولة */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    margin-top: 40px !important;
+    direction: rtl;
+    min-height: 550px;
+}
 
     /* العنوان */
     .title-text {
