@@ -65,24 +65,28 @@ div.stButton > button {
 }
 
 /* تنسيق البوكسات */
+
 div.stButton > button {
     width: 100% !important;
-    min-height: 60px !important; 
+    min-height: 65px !important;
+
     border-radius: 35px !important;
-    margin-bottom: 20px !important;
     background: white !important;
     border: none !important;
+
     box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
+
     font-weight: 700 !important;
     color: #102646 !important;
     font-size: 16px !important;
+
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important; 
-    padding: 0px 25px !important;
-    transition: 0.3s;
-}
 
+    justify-content: space-between !important;  /* 👈 أهم سطر */
+
+    padding: 0px 25px !important;
+}
 div.stButton > button::after {
     content: "›";
     font-size: 26px;
