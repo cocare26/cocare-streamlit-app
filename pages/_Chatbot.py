@@ -1,41 +1,39 @@
 import streamlit as st
 from engine import process_message
 
-st.set_page_config(page_title="Chatbot", layout="centered")
+st.set_page_config(page_title="CoCare Chatbot", layout="centered")
 
 st.title("🤖 CoCare Chatbot")
 
-# حفظ المحادثة
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_state.messages = [
+        {"role": "assistant", "content": "Hi, how can I help you?"}
+    ]
 
-# عرض الرسائل
 for msg in st.session_state.messages:
-    if msg["role"] == "user":
-        st.chat_message("user").write(msg["text"])
-    else:
-        st.chat_message("assistant").write(msg["text"])
+    with st.chat_message(msg["role"]):
+        st.write(msg["content"])
 
-# إدخال المستخدم
-user_input = st.chat_input("اكتب رسالتك هنا...")
+prompt = st.chat_input("Type your question here...")
 
-if user_input:
-    # عرض رسالة المستخدم
-    st.session_state.messages.append({"role": "user", "text": user_input})
-    st.chat_message("user").write(user_input)
+if prompt:
+    st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # تحليل الرسالة
-    result = process_message(
-        user_message=user_input,
-        user_id="customer_1",
-        region="Amman"
-    )
+    try:
+        result = process_message(
+            user_message=prompt,
+            user_id="customer_1",
+            region="Amman"
+        )
 
-    bot_reply = result.get("response", "")
-    follow = result.get("followup_response", "")
+        reply = result.get("response", "I received your request.")
+        followup = result.get("followup_response")
 
-    full_reply = bot_reply + ("\n\n" + follow if follow else "")
+        if followup:
+            reply = reply + "\n\n" + followup
 
-    # عرض رد البوت
-    st.session_state.messages.append({"role": "bot", "text": full_reply})
-    st.chat_message("assistant").write(full_reply)
+    except Exception as e:
+        reply = "Sorry, something went wrong."
+
+    st.session_state.messages.append({"role": "assistant", "content": reply})
+    st.rerun()
