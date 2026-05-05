@@ -48,6 +48,24 @@ div.stButton > button {
     text-align:right;
 }
 
+
+.back-style {
+    position: fixed;
+    top: 58px;
+    right: 25px;
+    z-index:999;
+}
+
+.back-style .stButton > button {
+    background:#111827 !important;
+    color:white !important;
+    width:45px !important;
+    height:60px !important;
+    border-radius:10px !important;
+    font-size:28px !important;
+    padding:0 !important;
+}
+
 div.stButton > button:hover {
     transform:translateY(-2px);
 }
@@ -57,8 +75,10 @@ div.stButton > button:hover {
 """, unsafe_allow_html=True)
 
 # ===== زر رجوع =====
-if st.button("› رجوع"):
+st.markdown('<div class="back-style">', unsafe_allow_html=True)
+if st.button("‹"):
     st.switch_page("pages/settingar.py")
+st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== الأزرار =====
 
