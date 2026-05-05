@@ -86,7 +86,8 @@ if st.button("⭐  Rate App"):
     st.switch_page("pages/RateApp.py")
 
 if st.button("🚪  Log Out"):
-    st.switch_page("main_app.py")
+     st.session_state.clear()
+     st.switch_page("app.py")
 
 # ===== bottom =====
 col1, col2 = st.columns(2)
