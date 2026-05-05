@@ -16,7 +16,6 @@ st.markdown("""
 
 [data-testid="stHeader"] {display: none !important;}
 
-/* ضبط الاتجاه للعربية */
 * { direction: rtl; }
 
 .block-container{
@@ -35,16 +34,14 @@ footer {visibility: hidden;}
 /* ===== HEADER ===== */
 .header-wrapper {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center; 
+    height: 50px;
     margin-bottom: 40px;
-    min-height: 40px;
 }
 
+/* السهم */
 .back-style {
     position: absolute;
-    right: 0; 
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
 }
@@ -59,11 +56,15 @@ footer {visibility: hidden;}
     border: none !important;
 }
 
+/* العنوان بالنص الحقيقي */
 .title-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     font-size:20px;
     font-weight:900;
     color:#0f2446;
-    text-align: center;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -77,36 +78,86 @@ if st.button("›"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('<div class="title-text">تبليغ عن مشكلة</div>', unsafe_allow_html=True)
+
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ===== UI (HTML Component) =====
+# ===== UI =====
 components.html("""
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-body { font-family: 'Segoe UI'; background: transparent; margin: 0; display: flex; justify-content: center; }
-.main-wrapper { width: 100%; max-width: 290px; height: 480px; display: flex; flex-direction: column; }
+body { 
+    font-family: 'Segoe UI'; 
+    background: transparent; 
+    margin: 0; 
+    display: flex; 
+    justify-content: center; 
+}
+
+.main-wrapper { 
+    width: 100%; 
+    max-width: 290px; 
+    height: 480px; 
+    display: flex; 
+    flex-direction: column; 
+}
+
 .report-textarea { 
-    width: 100%; height: 220px; border-radius: 25px; border: none; outline: none; 
-    padding: 18px; background: white; font-size: 16px; color: #0f2446; 
-    resize: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-family: 'Segoe UI'; 
+    width: 100%; 
+    height: 220px; 
+    border-radius: 25px; 
+    border: none; 
+    outline: none; 
+    padding: 18px; 
+    background: white; 
+    font-size: 16px; 
+    color: #0f2446; 
+    resize: none; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    font-family: 'Segoe UI'; 
 }
+
 .send-btn { 
-    background: white; border-radius: 100px; width: 100%; padding: 14px 22px; 
-    display: flex; align-items: center; justify-content: space-between; 
-    border: none; margin-top: auto; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
-    transition: 0.3s; font-family: 'Segoe UI'; 
+    background: white; 
+    border-radius: 100px; 
+    width: 100%; 
+    padding: 14px 22px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    border: none; 
+    margin-top: auto; 
+    cursor: pointer; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    transition: 0.3s; 
+    font-family: 'Segoe UI'; 
 }
-.send-btn span { color: #0f2446; font-weight: 700; font-size: 14px; }
-.main-icon { color: #808080; font-size: 18px; transform: scaleX(-1); }
-.send-btn:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+.send-btn span { 
+    color: #0f2446; 
+    font-weight: 700; 
+    font-size: 14px; 
+}
+
+.main-icon { 
+    color: #808080; 
+    font-size: 18px; 
+    transform: scaleX(-1); 
+}
+
+.send-btn:hover { 
+    transform: translateY(-8px); 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+}
 </style>
 </head>
+
 <body>
 <div class="main-wrapper">
     <textarea class="report-textarea" placeholder="أنا بحاجة للمساعدة..."></textarea>
+    
     <div style="margin-top:auto;">
         <button class="send-btn" onclick="showPopup()">
             <i class="fas fa-paper-plane main-icon"></i>
@@ -114,13 +165,14 @@ body { font-family: 'Segoe UI'; background: transparent; margin: 0; display: fle
         </button>
     </div>
 </div>
+
 <script>
 function showPopup(){
     alert("تم إرسال التقرير بنجاح ✅");
-    // التوجيه الإجباري لصفحة الإعدادات العربية بعد الضغط على OK
     window.parent.history.back();
 }
 </script>
+
 </body>
 </html>
 """, height=500)
