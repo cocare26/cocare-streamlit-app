@@ -134,12 +134,13 @@ body {
     </div>
 
     <!-- الخيار الإنجليزي -->
-    <div class="item" onclick="window.open('/Settings', '_top');">
+    <a href="/Settings" target="_top" style="text-decoration: none;">
+    <div class="item">
         <span>🌐 English</span>
         <span>‹</span>
     </div>
+</a>
 
-</div>
 
 <script>
 function goArabic(){
