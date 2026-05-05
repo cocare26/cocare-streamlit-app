@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS المعدل لزيادة المسافة بين الإيموجي والنص =====
+# ===== CSS لتوسيع المسافة بين الإيموجي والنص =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -20,23 +20,15 @@ st.markdown("""
     box-shadow:0 20px 40px rgba(0,0,0,0.15);
 }
 
-.title {
-    text-align:center;
-    font-size:26px;
-    font-weight:900;
-    color:#102646;
-    margin-bottom:40px;
-}
-
-/* تنسيق الزر الرئيسي */
+/* تنسيق الزر ليسمح بمسافات كبيرة */
 div.stButton > button {
     width: 100% !important;
     min-height: 90px !important;
     border-radius: 45px !important;
-    margin-bottom: 30px !important;
+    margin-bottom: 25px !important;
     background: white !important;
     border: none !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
     
     font-weight: 800 !important;
     color: #102646 !important;
@@ -44,35 +36,34 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    
-    /* 👇 هذا السطر يضمن توزيع العناصر (النص والسهم) 👇 */
     justify-content: flex-start !important; 
     
-    /* 👇 المسافة بين الإيموجي والنص - غير الرقم ليزيد الفراغ 👇 */
-    gap: 25px !important; 
+    /* 👇 زدنا المسافة (gap) بشكل كبير كما طلبت 👇 */
+    gap: 60px !important; 
     
-    padding: 0px 35px !important;
+    padding: 0px 40px !important;
+    transition: 0.3s;
 }
 
-/* السهم الجانبي (منفصل عن النص) */
+/* السهم الصغير في نهاية البوكس */
 div.stButton > button::after {
     content: "›";
-    font-size: 30px;
-    color: #102646;
-    margin-left: auto; /* ليدفع السهم لآخر اليمين ويترك النص مكانه */
+    font-size: 28px;
+    color: #ccc; /* لون خفيف للسهم عشان يبرز النص */
+    margin-left: auto; 
 }
 
 div.stButton > button:hover {
-    transform: scale(1.02);
+    background-color: #fcfcfc !important;
+    transform: translateY(-2px);
 }
 
 </style>
-<div class="title">Settings</div>
+<div class="title" style="text-align:center; font-weight:900; color:#102646; font-size:26px; margin-bottom:30px;">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== الأزرار =====
+# ===== البوكسات بالمسافات المطلوبة =====
 
-# لاحظ أننا نضع الإيموجي داخل النص، والـ CSS سيتكفل بالباقي
 if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
 
@@ -85,11 +76,3 @@ if st.button("⭐ Rate App"):
 if st.button("🚪 Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
-
-# الأزرار السفلية
-st.markdown("<br>", unsafe_allow_html=True)
-col1, col2 = st.columns(2)
-with col1:
-    st.button("⚠️ Report")
-with col2:
-    st.button("✉️ Contact")
