@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(page_title="Settings", layout="centered")
 
-# ===== CSS المعدل لزيادة التباعد بين البوكسات =====
+# ===== CSS المعدل لزيادة المسافة بين الإيموجي والنص =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -11,7 +11,6 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-/* الكونتينر الأساسي */
 .block-container {
     max-width:450px;
     margin:auto;
@@ -21,7 +20,6 @@ st.markdown("""
     box-shadow:0 20px 40px rgba(0,0,0,0.15);
 }
 
-/* العنوان */
 .title {
     text-align:center;
     font-size:26px;
@@ -30,15 +28,12 @@ st.markdown("""
     margin-bottom:40px;
 }
 
-/* أزرار Streamlit */
+/* تنسيق الزر الرئيسي */
 div.stButton > button {
     width: 100% !important;
-    min-height: 90px !important; /* طول البوكس */
+    min-height: 90px !important;
     border-radius: 45px !important;
-    
-    /* 👇 التعديل الرئيسي: زيادة التباعد العمودي من هنا 👇 */
-    margin-bottom: 35px !important; /* زدنا المسافة إلى 35px لتكون مثل الرسمة */
-    
+    margin-bottom: 30px !important;
     background: white !important;
     border: none !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
@@ -49,45 +44,35 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
-    padding: 15px 35px !important;
-    transition: all 0.4s ease;
+    
+    /* 👇 هذا السطر يضمن توزيع العناصر (النص والسهم) 👇 */
+    justify-content: flex-start !important; 
+    
+    /* 👇 المسافة بين الإيموجي والنص - غير الرقم ليزيد الفراغ 👇 */
+    gap: 25px !important; 
+    
+    padding: 0px 35px !important;
 }
 
-/* تأثير الـ Hover */
-div.stButton > button:hover {
-    transform: scale(1.02);
-    box-shadow: 0 15px 25px rgba(0,0,0,0.15) !important;
-}
-
-/* السهم الجانبي */
+/* السهم الجانبي (منفصل عن النص) */
 div.stButton > button::after {
     content: "›";
     font-size: 30px;
     color: #102646;
-    font-weight: 200;
+    margin-left: auto; /* ليدفع السهم لآخر اليمين ويترك النص مكانه */
 }
 
-/* تعديل الأزرار المزدوجة في الأسفل */
-[data-testid="stHorizontalBlock"] {
-    gap: 15px !important;
-    margin-top: 10px; /* تباعد قبل المجموعة السفلية */
-}
-
-/* تعديل حجم أزرار الأعمدة لتناسب التباعد الجديد */
-[data-testid="stHorizontalBlock"] div.stButton > button {
-    min-height: 80px !important;
-    font-size: 15px !important;
-    padding: 10px 20px !important;
-    margin-bottom: 0px !important; /* نلغي المارجن السفلي للأزرار اللي جنب بعض */
+div.stButton > button:hover {
+    transform: scale(1.02);
 }
 
 </style>
 <div class="title">Settings</div>
 """, unsafe_allow_html=True)
 
-# ===== الأزرار (البوكسات) المتباعدة =====
+# ===== الأزرار =====
 
+# لاحظ أننا نضع الإيموجي داخل النص، والـ CSS سيتكفل بالباقي
 if st.button("🔒 Change Password"):
     st.switch_page("pages/ChangePassword.py")
 
@@ -97,20 +82,14 @@ if st.button("🌐 Change Language"):
 if st.button("⭐ Rate App"):
     st.switch_page("pages/RateApp.py")
 
-if st.button("🛡️ Privacy Policy"):
-    st.switch_page("pages/Privacy.py")
-
 if st.button("🚪 Log Out"):
      st.session_state.clear()
      st.switch_page("app.py")
 
-# خط فاصل بسيط يعطي تباعد إضافي
-st.markdown("<br>", unsafe_allow_html=True)
-
 # الأزرار السفلية
+st.markdown("<br>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 with col1:
-    st.button("⚠️ Report Problem")
-
+    st.button("⚠️ Report")
 with col2:
-    st.button("✉️ Contact Us")
+    st.button("✉️ Contact")
