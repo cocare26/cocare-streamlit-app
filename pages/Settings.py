@@ -11,22 +11,20 @@ st.markdown("""
     background:#f0f7ff;
 }
 
-
-/* حاوية السهم في أقصى اليمين */
+/* حاوية السهم */
 .back-btn-container {
     position: absolute;
-    right: 10px; /* المسافة من الحافة اليمنى */
-    top: 5px;   /* المسافة من الأعلى */
+    right: 10px; 
+    top: 5px;   
     z-index: 1001;
 }
 
-/* تصميم الدائرة البيضاء والسهم */
 .back-btn-container .stButton > button {
     background-color: white !important;
     color: #102646 !important;
     width: 45px !important;
     height: 45px !important;
-    border-radius: 50% !important; /* شكل دائري تماماً */
+    border-radius: 50% !important;
     border: none !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
     display: flex !important;
@@ -36,21 +34,17 @@ st.markdown("""
     padding: 0 !important;
 }
 
-/* إخفاء أي سهم إضافي تلقائي */
-.back-btn-container .stButton > button::after {
-    content: "" !important;
-}
-/* الكونتينر النحيف */
+/* الكونتينر النحيف - تم تقليل البادينج العلوي */
 .block-container {
     max-width: 390px; 
     margin: auto;
-    padding: 35px 20px;
+    padding: 10px 20px 35px 20px !important;
     background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius: 40px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
 }
 
-/* تنسيق البوكسات الموحد */
+/* تنسيق البوكسات */
 div.stButton > button {
     width: 100% !important;
     min-height: 60px !important; 
@@ -59,34 +53,25 @@ div.stButton > button {
     background: white !important;
     border: none !important;
     box-shadow: 0 5px 12px rgba(0,0,0,0.06) !important;
-    
     font-weight: 700 !important;
     color: #102646 !important;
     font-size: 16px !important;
-    
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important; 
-    
     padding: 0px 25px !important;
     transition: 0.3s;
 }
 
-/* السهم الصغير في النهاية */
 div.stButton > button::after {
     content: "›";
     font-size: 26px;
     color: #102646;
 }
-
-div.stButton > button:hover {
-    transform: translateY(-2px);
-    background-color: #fcfcfc !important;
-}
-
 </style>
 
-<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-bottom:25px;">Settings</div>
+<!-- تم إضافة margin-top:40px هنا لنزول الكلمة -->
+<div style="text-align:center; font-weight:900; color:#102646; font-size:22px; margin-top:40px; margin-bottom:25px;">Settings</div>
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="back-btn-container">', unsafe_allow_html=True)
