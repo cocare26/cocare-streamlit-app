@@ -2,7 +2,6 @@ import streamlit as st
 
 st.set_page_config(page_title="اتصل بنا", layout="centered")
 
-# ===== CSS =====
 st.markdown("""
 <style>
 #MainMenu, header, footer {visibility:hidden;}
@@ -23,7 +22,7 @@ st.markdown("""
     min-height: 600px;
 }
 
-/* الأزرار */
+/* الزر */
 div.stButton > button {
     width: 100% !important;
     min-height: 65px !important; 
@@ -39,18 +38,26 @@ div.stButton > button {
     
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important; /* 👈 النص بالنص */
-    
+    justify-content: center !important;
+
     padding: 0px 25px !important;
     transition: 0.3s;
     position: relative !important;
+}
+
+/* 👇 التحكم بمكان النص */
+div.stButton > button span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);  /* 🔥 غير الرقم هون */
 }
 
 /* السهم */
 div.stButton > button::after {
     content: "‹";
     position: absolute;
-    left: 15px;  /* 👈 السهم على الطرف */
+    left: 18px;
     font-size: 26px;
     color: #102646;
 }
@@ -77,7 +84,7 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# ===== زر الرجوع =====
+# زر الرجوع
 col_back, _ = st.columns([1, 10])
 with col_back:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
@@ -85,13 +92,10 @@ with col_back:
         st.switch_page("pages/settingar.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
-# ===== العنوان =====
-st.markdown(
-    '<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>',
-    unsafe_allow_html=True
-)
+# العنوان
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>', unsafe_allow_html=True)
 
-# ===== الأزرار =====
+# الأزرار
 if st.button("✉️ البريد: Co.Care26@gmail.com"):
     pass
 
