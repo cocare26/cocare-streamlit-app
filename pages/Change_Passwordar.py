@@ -58,18 +58,22 @@ html, body, [data-testid="stAppViewContainer"] {
 """, unsafe_allow_html=True)
 
 # ---------------- HEADER ----------------
-st.markdown('<div class="title-wrapper">', unsafe_allow_html=True)
+# ---------------- HEADER ----------------
+# إنشاء ثلاث أعمدة لضبط مكان السهم في أقصى اليمين والعنوان في الوسط
+col_back, col_title, col_empty = st.columns([1, 4, 1])
 
-with st.container():
-    st.markdown('<div class="back-container"><div class="back-style">', unsafe_allow_html=True)
-    if st.button("›"):
-        st.switch_page("pages/11_settingar.py")
-    st.markdown('</div></div>', unsafe_allow_html=True)
+with col_back:
+    st.markdown('<div class="back-style">', unsafe_allow_html=True)
+    if st.button("›", key="back_arrow"):
+        # جرب هذا المسار، إذا ما ضبط امسح كلمة "pages/" وخليها "11_settingar.py" فقط
+        try:
+            st.switch_page("pages/settingar.py")
+        except:
+            st.switch_page("settingar.py")
+    st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="title-text">تغيير كلمة المرور</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
-
+with col_title:
+    st.markdown('<div class="title-text" style="text-align:center; margin-top:5px;">تغيير كلمة المرور</div>', unsafe_allow_html=True)
 # ---------------- HTML UI ----------------
 value = components.html("""
 <!DOCTYPE html>
