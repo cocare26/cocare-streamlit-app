@@ -5,6 +5,7 @@ st.set_page_config(page_title="تغيير كلمة المرور", layout="center
 
 st.markdown("""
 <style>
+/* تم تعديل الاتجاه للعربية rtl */
 * { margin:0; padding:0; box-sizing:border-box; direction:rtl; }
 
 html, body, [data-testid="stAppViewContainer"] {
@@ -39,7 +40,7 @@ html, body, [data-testid="stAppViewContainer"] {
     font-size:20px;
     font-weight:900;
     color:#102646;
-    text-align:center;
+    margin-right: 10px; /* مسافة بسيطة بعد زر الرجوع */
 }
 </style>
 """, unsafe_allow_html=True)
@@ -48,7 +49,7 @@ col1, col2 = st.columns([1, 8])
 
 with col1:
     st.markdown('<div class="back-style">', unsafe_allow_html=True)
-    if st.button("›"):
+    if st.button("›"): # تغيير السهم لليناسب الاتجاه العربي
         st.switch_page("pages/Settings.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -93,6 +94,7 @@ body {
 }
 
 .input i {
+    margin-left:10px; /* تغيير الهامش لليسار ليناسب الأيقونة يمين النص */
     color:#102646;
 }
 
@@ -100,14 +102,13 @@ body {
     border:none;
     outline:none;
     flex:1;
-    margin-right:10px;
-    font-family:'Segoe UI';
-    direction:rtl;
+    font-family: 'Segoe UI';
+    text-align: right;
 }
 
 .eye {
-    cursor:pointer;
-    margin-right:10px;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
 .save {
@@ -124,9 +125,8 @@ body {
     cursor:pointer;
     box-shadow:0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.25s ease;
-    font-family:'Segoe UI';
+    font-family: 'Segoe UI';
 }
-
 .save button:hover {
     transform: translateY(-5px);
 }
@@ -145,18 +145,18 @@ body {
 
 <div class="input">
     <i class="fas fa-lock"></i>
-    <input type="password" id="new1" placeholder="كلمة المرور الجديدة">
+     <input type="password" id="new1" placeholder="كلمة المرور الجديدة">
     <i class="fas fa-eye-slash eye"></i>
 </div>
 
 <div class="input">
     <i class="fas fa-lock"></i>
-    <input type="password" id="new2" placeholder="إعادة كتابة كلمة المرور الجديدة">
+   <input type="password" id="new2" placeholder="تأكيد كلمة المرور الجديدة">
     <i class="fas fa-eye-slash eye"></i>
 </div>
 
 <div class="save">
-    <button onclick="save()">حفظ</button>
+    <button onclick="save()">حفظ التغييرات</button>
 </div>
 
 </div>
@@ -168,23 +168,25 @@ function save(){
     let p2 = document.getElementById("new2").value;
 
     if(oldPass === ""){
-        alert("أدخلي كلمة المرور الحالية");
+        alert("يرجى إدخال كلمة المرور الحالية");
         return;
     }
 
     if(p1 === "" || p2 === ""){
-        alert("أدخلي كلمة المرور الجديدة");
+        alert("يرجى إدخال كلمة المرور الجديدة");
         return;
     }
 
     if(p1 !== p2){
-        alert("كلمتا المرور غير متطابقتين");
+        alert("كلمات المرور غير متطابقة");
         return;
     }
 
     alert("تم تغيير كلمة المرور بنجاح ✅");
-    window.parent.location.href = "/Settingsar";
-}
+
+    window.parent.history.back();
+   
+    }
 
 document.querySelectorAll(".input").forEach(box => {
     const input = box.querySelector("input");
@@ -200,8 +202,12 @@ document.querySelectorAll(".input").forEach(box => {
         eye.classList.replace("fa-eye", "fa-eye-slash");
     });
 });
+      
 </script>
 
 </body>
 </html>
 """, height=420)
+
+if "go_settings" in st.session_state:
+    st.switch_page("pages/Settings.py")
