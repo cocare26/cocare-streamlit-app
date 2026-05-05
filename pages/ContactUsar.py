@@ -45,7 +45,6 @@ div.stButton > button {
     transition: 0.3s;
 }
 
-
 /* السهم الصغير - يندفع لليسار في النسخة العربية */
 div.stButton > button::after {
     content: "‹";
@@ -82,7 +81,8 @@ with col_back:
         st.switch_page("pages/settingar.py")
     st.markdown('</div>', unsafe_allow_html=True)
 
- st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px; margin-top:-20px;">اتصل بنا</h2>', unsafe_allow_html=True)العنوان
+# العنوان
+st.markdown('<h2 style="text-align:center; color:#102646; font-weight:900; margin-bottom:35px;">اتصل بنا</h2>', unsafe_allow_html=True)
 
 # ===== الأزرار بالعربي مع الحفاظ على المسافات =====
 
