@@ -85,7 +85,7 @@ st.markdown('<div class="title-text">Change Language</div>', unsafe_allow_html=T
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ===== UI =====
-components.html("""
+result = components.html("""
 <!DOCTYPE html>
 <html>
 <head>
@@ -141,6 +141,21 @@ body {
 </div>
 
 </div>
+
+
+<script>
+function goSettings(){
+    window.parent.postMessage(
+        {type: "streamlit:setComponentValue", value: "go_settings"},
+        "*"
+    );
+  }
+</script>
+
+
+
+
+
 
 </body>
 </html>
