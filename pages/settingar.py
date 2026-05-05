@@ -84,7 +84,7 @@ if st.button(f"🌐{normal_gap1}تغيير اللغة"):
     st.switch_page("pages/Change_Languagear.py")
 
 # 2. مسافة للنص القصير
-extreme_gap = "&nbsp;" * 59
+extreme_gap = "&nbsp;" * 62
 extreme_gap1 = "&nbsp;" * 55
 if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
     st.switch_page("pages/Rate_Appar.py")
