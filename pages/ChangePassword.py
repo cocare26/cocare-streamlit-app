@@ -169,7 +169,9 @@ function save(){
 
     alert("Password changed successfully ✅");
 
-    window.parent.location.assign("/Settings");
+    window.parent.postMessage(
+    {type: "streamlit:setComponentValue", value: "go_settings"},
+    "*");
    
     }
       
@@ -178,3 +180,6 @@ function save(){
 </body>
 </html>
 """, height=420)
+
+if "go_settings" in st.session_state:
+    st.switch_page("pages/Settings.py")
