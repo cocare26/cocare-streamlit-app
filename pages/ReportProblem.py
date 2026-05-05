@@ -50,14 +50,15 @@ footer {visibility: hidden;}
     font-size:28px !important;
     width:auto !important;
     padding:0 !important;
+    border: none !important;
 }
 
-/* العنوان بالنص الحقيقي */
+/* 👇 العنوان بالنص ومرفوع أكثر */
 .title-text {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -85%);  /* 🔥 رفع أعلى */
     font-size:20px;
     font-weight:900;
     color:#0f2446;
