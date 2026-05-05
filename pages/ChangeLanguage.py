@@ -135,9 +135,10 @@ body {
     ›
 </div>
 
-<div class="item" onclick="window.parent.history.back();">
+<div class="item">
     <span>🌐 English</span>
     ✔
+
 </div>
 
 </div>
