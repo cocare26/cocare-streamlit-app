@@ -54,12 +54,12 @@ footer {visibility: hidden;}
     border: none !important;
 }
 
-/* العنوان بالنص وعلى نفس السطر */
+/* 👇 العنوان بالنص + مرفوع */
 .title-text {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -65%);  /* 🔥 رفعناه */
     font-size:20px;
     font-weight:900;
     color:#0f2446;
