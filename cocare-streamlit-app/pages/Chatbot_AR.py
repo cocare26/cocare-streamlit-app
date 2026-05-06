@@ -415,7 +415,7 @@ function toggleMenu(){
 
 function sendToPython(text){
     const encoded = encodeURIComponent(text);
-    window.parent.location.href = "?msg=" + encoded;
+    window.top.location.href = "?msg=" + encoded;
 }
 
 function sendMessage(){
@@ -437,7 +437,7 @@ function checkEnter(event){
 }
 
 function goBack(){
-    window.parent.location.href = "../";
+    window.top.location.href = "../";
 }
 
 const chatBox = document.getElementById("chatBox");
