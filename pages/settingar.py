@@ -113,7 +113,11 @@ normal_gap = "&nbsp;" * 55
 normal_gap1 = "&nbsp;" * 63
 
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
-    st.switch_page("pages/Change_Passwordar.py")
+   if st.session_state.get("lang") == "ar":
+        st.switch_page("pages/Change_Languagear.py")
+        
+    else:
+        st.switch_page("pages/ChangeLanguage.py")
 
 if st.button(f"🌐{normal_gap1}تغيير اللغة"):
     st.switch_page("pages/Change_Languagear.py")
