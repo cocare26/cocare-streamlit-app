@@ -42,15 +42,129 @@ def img_to_base64(path):
 robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 
 
-def prepare_context_message(user_text):
+def human_fallback_reply(text):
+    t = str(text).strip().lower()
+
+    if any(w in t for w in ["مين انت", "انت مين", "شو بتعمل", "what are you", "who are you"]):
+        return (
+            "أنا مساعد CoCare الذكي 🤖\n\n"
+            "بقدر أساعدك بالشبكة، الباقات، استهلاك الإنترنت، العروض، المكالمات الدولية، والدعم الفني."
+        )
+
+    if any(w in t for w in ["مساعدة", "ساعدني", "help", "بدي مساعدة"]):
+        return (
+            "أكيد، أنا معك خطوة بخطوة.\n\n"
+            "احكيلي سؤالك عن شو: الشبكة، الباقة، الاستهلاك، العروض، المكالمات الدولية، أو الدعم الفني؟"
+        )
+
+    if any(w in t for w in ["كيف", "طريقة", "كيف اعمل", "كيف أعمل"]):
+        return (
+            "أكيد بساعدك. بس حدديلي الخدمة اللي بدك طريقتها:\n\n"
+            "تجديد الباقة، معرفة الاستهلاك، فحص الشبكة، العروض، أو التواصل مع الدعم؟"
+        )
+
+    if any(w in t for w in ["وين", "أين", "مكان"]):
+        return (
+            "ممكن توضحيلي عن أي مكان بتحكي؟\n\n"
+            "مكان الباقات، الاستهلاك، الدعم، العروض، أو إعدادات التطبيق؟"
+        )
+
+    if any(w in t for w in ["ليش", "لماذا"]):
+        return (
+            "خليني أفهم منك أكثر: بتحكي عن مشكلة بالشبكة، الباقة، الدفع، التطبيق، ولا خدمة ثانية؟"
+        )
+
+    if any(w in t for w in ["بدي", "اريد", "أريد", "حاب", "حابة"]):
+        return (
+            "تمام، احكيلي شو بدك بالضبط وأنا بمشي معك خطوة خطوة."
+        )
+
+    if any(w in t for w in ["شكرا", "شكراً", "يسلمو", "thanks", "thank you"]):
+        return "على الرحب والسعة 🌷 في أي شي ثاني أقدر أساعدك فيه؟"
+
+    if any(w in t for w in ["باي", "مع السلامة", "سلام", "bye"]):
+        return "مع السلامة 👋 أي وقت تحتاجني أنا موجود."
+
+    return (
+        "فهمت عليك، بس بدي تفاصيل أكثر شوي حتى أساعدك صح.\n\n"
+        "هل سؤالك عن الشبكة، الباقة، الاستهلاك، العروض، المكالمات الدولية، أو الدعم الفني؟"
+    )
+
+
+def is_short_followup(text):
+    return len(str(text).strip().split()) <= 8
+
+
+def looks_like_time_answer(text):
+    t = str(text).lower()
+    return any(w in t for w in [
+        "ساعة", "الساعه", "الصبح", "المسا", "المساء",
+        "اليوم", "امبارح", "من شوي", "دقيقة", "دقايق",
+        "من 8", "من ٩", "من 9"
+    ])
+
+
+def looks_like_yes(text):
+    return str(text).strip().lower() in [
+        "اه", "آه", "نعم", "ايوه", "أيوه", "yes", "ok", "تمام", "مزبوط"
+    ]
+
+
+def looks_like_no(text):
+    return str(text).strip().lower() in ["لا", "لأ", "no", "مش"]
+
+
+def looks_like_location(text):
+    t = str(text).strip().lower()
+    locations = [
+        "عمان", "عمّان", "الزرقاء", "اربد", "إربد", "البلقاء",
+        "مادبا", "الكرك", "الطفيلة", "معان", "العقبة",
+        "جرش", "عجلون", "المفرق"
+    ]
+    return any(loc in t for loc in locations)
+
+
+def handle_context_followup(text):
     context = st.session_state[CONTEXT_KEY]
-    text = str(user_text).strip()
+    msg = str(text).strip()
 
-    if context.get("awaiting_details") and len(text.split()) <= 6:
-        last_intent = context.get("last_intent") or "network_complaint"
-        return f"{last_intent}: {text}"
+    if not context.get("awaiting_details"):
+        return None
 
-    return text
+    if not is_short_followup(msg):
+        return None
+
+    context["awaiting_details"] = False
+
+    if looks_like_time_answer(msg):
+        return (
+            "تمام، هيك وضحت الصورة ✅\n\n"
+            "سجلت وقت بداية المشكلة، ورح نتابع حالة الشبكة مع الفريق المختص."
+        )
+
+    if looks_like_location(msg):
+        return (
+            "تمام، وصلتني المنطقة ✅\n\n"
+            "رح أضيفها على تفاصيل المشكلة وأتابعها مع الفريق المختص."
+        )
+
+    if looks_like_yes(msg):
+        return (
+            "تمام، خلينا نكمل خطوة خطوة.\n\n"
+            "جرّب/ي إعادة تشغيل الراوتر أو تفعيل وضع الطيران لمدة 10 ثواني، "
+            "وبعدها احكيلي إذا تحسّن الوضع."
+        )
+
+    if looks_like_no(msg):
+        return (
+            "تمام ولا يهمك.\n\n"
+            "رح أسجل المشكلة بدون خطوات إضافية، وإذا استمرت رح يتم متابعتها من الفريق المختص."
+        )
+
+    return (
+        "تمام، وصلتني التفاصيل ✅\n\n"
+        "رح أضيفها على المشكلة المسجلة وأتابعها مع الفريق المختص."
+    )
 
 
 def get_bot_reply(user_text):
@@ -63,26 +177,37 @@ def get_bot_reply(user_text):
         "الدعم": "بدي أتواصل مع الدعم الفني",
     }
 
-    original_msg = quick_map.get(user_text, user_text)
-    msg_for_engine = prepare_context_message(original_msg)
+    msg = quick_map.get(user_text, user_text)
+    msg = str(msg).strip()
+
+    context_reply = handle_context_followup(msg)
+    if context_reply:
+        return context_reply
 
     user_id = st.session_state.get("user_id", "customer_1")
     region = st.session_state.get("region", "عمان")
 
     try:
         result = process_message(
-            msg_for_engine,
+            msg,
             user_id=user_id,
             region=region
         )
 
-        st.session_state[CONTEXT_KEY]["last_intent"] = result.get("intent")
-        st.session_state[CONTEXT_KEY]["last_network_problem"] = result.get("network_problem", False)
+        intent = result.get("intent", "")
+        network_problem = result.get("network_problem", False)
 
-        if result.get("network_problem", False):
+        st.session_state[CONTEXT_KEY]["last_intent"] = intent
+        st.session_state[CONTEXT_KEY]["last_network_problem"] = network_problem
+
+        if network_problem:
             st.session_state[CONTEXT_KEY]["awaiting_details"] = True
         else:
             st.session_state[CONTEXT_KEY]["awaiting_details"] = False
+
+        if intent in ["clarification", "unknown", "other", "fallback"]:
+            st.session_state[CONTEXT_KEY]["awaiting_details"] = False
+            return human_fallback_reply(msg)
 
         response = str(result.get("response", "")).strip()
         followup = str(result.get("followup_response", "")).strip()
@@ -90,7 +215,7 @@ def get_bot_reply(user_text):
         reply = f"{response}\n\n{followup}".strip()
 
         if not reply:
-            return "ممكن توضحي أكثر؟"
+            return human_fallback_reply(msg)
 
         return reply
 
