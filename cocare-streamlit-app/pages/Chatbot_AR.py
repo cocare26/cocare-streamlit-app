@@ -408,43 +408,37 @@ body {{
 </div>
 
 <script>
-function toggleMenu(){{
+function toggleMenu(){
     const menu = document.getElementById("menu");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
-}}
+}
 
-function sendToPython(text){{
-    const url = new URL(window.parent.location.href);
-    url.searchParams.set("msg", text);
+function sendToPython(text){
+    const encoded = encodeURIComponent(text);
+    window.parent.location.href = "?msg=" + encoded;
+}
 
-    const a = document.createElement("a");
-    a.href = url.toString();
-    a.target = "_parent";
-    document.body.appendChild(a);
-    a.click();
-}}
-
-function sendMessage(){{
+function sendMessage(){
     const input = document.getElementById("chatInput");
     const text = input.value.trim();
     if(text === "") return;
     sendToPython(text);
-}}
+}
 
-function quickMsg(text){{
+function quickMsg(text){
     document.getElementById("menu").style.display = "none";
     sendToPython(text);
-}}
+}
 
-function checkEnter(event){{
-    if(event.key === "Enter"){{
+function checkEnter(event){
+    if(event.key === "Enter"){
         sendMessage();
-    }}
-}}
+    }
+}
 
-function goBack(){{
+function goBack(){
     window.parent.location.href = "../";
-}}
+}
 
 const chatBox = document.getElementById("chatBox");
 chatBox.scrollTop = chatBox.scrollHeight;
