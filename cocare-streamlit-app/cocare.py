@@ -92,48 +92,38 @@ def normalize_region(region):
 # =========================
 # NORMALIZERS
 # =========================
-def normalize_model_output(result, default_label="unknown"):
-    try:
-        if isinstance(result, tuple):
-            label = result[0] if len(result) > 0 else default_label
-            score = result[1] if len(result) > 1 else 1.0
-            return str(label).strip().lower(), float(score)
-
-        if isinstance(result, list):
-            if result and isinstance(result[0], dict):
-                label = result[0].get("label", default_label)
-                score = result[0].get("score", 1.0)
-                return str(label).strip().lower(), float(score)
-
-        if isinstance(result, dict):
-            label = result.get("label", result.get("intent", result.get("sentiment", default_label)))
-            score = result.get("score", result.get("confidence", 1.0))
-            return str(label).strip().lower(), float(score)
-
-        return str(result).strip().lower(), 1.0
-
-    except Exception:
-        return default_label, 1.0
-
-
 def normalize_intent(intent):
     intent = str(intent).strip().lower()
 
     mapping = {
         "slow internet": "slow_internet",
         "slow-internet": "slow_internet",
+        "internet_slow": "slow_internet",
+        "ضعف الانترنت": "slow_internet",
+
         "no signal": "no_signal",
         "no-signal": "no_signal",
+        "weak_signal": "no_signal",
+
         "network complaint": "network_complaint",
         "network status": "network_status",
-        "network-status": "network_status",
+
         "data usage": "check_data_usage",
         "check usage": "check_data_usage",
+        "usage": "check_data_usage",
+
         "offers": "offer_inquiry",
         "offer": "offer_inquiry",
+
         "renew": "renew_package",
+        "recharge": "renew_package",
+
         "support": "technical_support",
-        "feedback": "thanks",
+        "technical": "technical_support",
+
+        "unknown": "clarification",
+        "other": "clarification",
+        "fallback": "clarification",
     }
 
     return mapping.get(intent, intent)
@@ -292,22 +282,20 @@ def predict_network_problem(intent, sentiment, repeat_count, area_issue_count):
 # =========================
 # DECISION
 # =========================
-def build_decision(intent, sentiment, prediction, network_problem, repeat_count, area_issue_count):
+def build_decision(intent, sentiment, prediction, network_problem, repeat_count, area_issue_count, intent_conf):
+    if intent == "clarification" or intent_conf < 0.65:
+        return {"rule_used": "clarification"}
+
     if network_problem and area_issue_count >= 3:
         return {"rule_used": "critical"}
 
     if network_problem and prediction == 1:
         return {"rule_used": "technical_high_risk"}
 
-    if sentiment == "negative":
+    if sentiment == "negative" and intent in ["technical_support", "network_complaint", "slow_internet", "no_signal"]:
         return {"rule_used": "negative_escalation"}
 
-    if intent in ["unknown", "other", "fallback"]:
-        return {"rule_used": "clarification"}
-
     return {"rule_used": None}
-
-
 # =========================
 # NOTIFICATION
 # =========================
@@ -454,14 +442,15 @@ def process_message(user_message, metrics=None, user_id="customer_1", region="Un
         repeat_count = 0
         area_issue_count = 0
 
-    decision = build_decision(
-        intent=intent,
-        sentiment=sentiment,
-        prediction=prediction,
-        network_problem=network_problem,
-        repeat_count=repeat_count,
-        area_issue_count=area_issue_count
-    )
+  decision = build_decision(
+    intent=intent,
+    sentiment=sentiment,
+    prediction=prediction,
+    network_problem=network_problem,
+    repeat_count=repeat_count,
+    area_issue_count=area_issue_count,
+    intent_conf=intent_conf
+)
 
     response, followup = get_smart_response(
         intent=intent,
