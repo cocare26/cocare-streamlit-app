@@ -1,11 +1,54 @@
 # =========================
-# CoCare CLEAN VERSION (GitHub Ready)
+# CoCare CLEAN VERSION (Jordan Regions Enabled)
 # =========================
 
 from datetime import datetime
 
 # =========================
-# SIMPLE LANGUAGE DETECTION
+# JORDAN REGIONS
+# =========================
+JORDAN_GOVERNORATES = [
+    "Amman", "Zarqa", "Irbid", "Balqa", "Madaba", "Karak",
+    "Tafilah", "Maan", "Aqaba", "Jerash", "Ajloun", "Mafraq"
+]
+
+AR_TO_EN_REGION = {
+    "عمان": "Amman",
+    "الزرقاء": "Zarqa",
+    "إربد": "Irbid",
+    "اربد": "Irbid",
+    "البلقاء": "Balqa",
+    "السلط": "Balqa",
+    "مادبا": "Madaba",
+    "الكرك": "Karak",
+    "الطفيلة": "Tafilah",
+    "معان": "Maan",
+    "العقبة": "Aqaba",
+    "جرش": "Jerash",
+    "عجلون": "Ajloun",
+    "المفرق": "Mafraq"
+}
+
+def normalize_region(region):
+    if not region:
+        return "Unknown"
+
+    region = str(region).strip()
+
+    # عربي → إنجليزي
+    if region in AR_TO_EN_REGION:
+        return AR_TO_EN_REGION[region]
+
+    # إنجليزي (case insensitive)
+    for gov in JORDAN_GOVERNORATES:
+        if region.lower() == gov.lower():
+            return gov
+
+    return region
+
+
+# =========================
+# LANGUAGE DETECTION
 # =========================
 def detect_language(text):
     if any("\u0600" <= c <= "\u06FF" for c in text):
@@ -14,7 +57,7 @@ def detect_language(text):
 
 
 # =========================
-# SIMPLE INTENT
+# INTENT
 # =========================
 def predict_intent(text, lang):
     t = text.lower()
@@ -35,7 +78,7 @@ def predict_intent(text, lang):
 
 
 # =========================
-# SIMPLE SENTIMENT
+# SENTIMENT
 # =========================
 def predict_sentiment(text, lang):
     t = text.lower()
@@ -50,18 +93,18 @@ def predict_sentiment(text, lang):
 
 
 # =========================
-# RESPONSE LOGIC
+# RESPONSE
 # =========================
-def get_response(intent, lang):
+def get_response(intent, lang, region):
 
     if intent == "greeting":
         return "هلا وغلا 👋 كيف فيني أساعدك؟", "شو حاب تعرف؟"
 
     if intent == "slow_internet":
-        return "واضح النت عندك بطيء 😅", "بدك نحلها مع بعض؟"
+        return f"واضح النت عندك بطيء 😅 في منطقة {region}", "بدك نحلها مع بعض؟"
 
     if intent == "no_signal":
-        return "واضح في مشكلة بالإشارة 📶", "وين موقعك تقريباً؟"
+        return f"واضح في مشكلة بالإشارة 📶 في {region}", "متى بلشت المشكلة؟"
 
     if intent == "technical_support":
         return "رح يتم تحويلك للدعم الفني 👨‍💻", "احكيلي شو المشكلة؟"
@@ -72,17 +115,23 @@ def get_response(intent, lang):
 # =========================
 # MAIN FUNCTION
 # =========================
-def process_message(user_message, metrics=None, user_id="user_1", region="Amman"):
+def process_message(user_message, metrics=None, user_id="user_1", region="Unknown"):
 
+    # تنظيف المنطقة
+    region = normalize_region(region)
+
+    # تحليل
     lang = detect_language(user_message)
-
     intent, intent_conf = predict_intent(user_message, lang)
-
     sentiment, sentiment_score = predict_sentiment(user_message, lang)
 
-    response, followup = get_response(intent, lang)
+    # الرد
+    response, followup = get_response(intent, lang, region)
 
     return {
+        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "user_id": user_id,
+        "region": region,
         "language": lang,
         "intent": intent,
         "intent_confidence": intent_conf,
