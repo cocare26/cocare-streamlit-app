@@ -30,10 +30,11 @@ icon_renewals = get_base64("renewals.png")
 icon_calls = get_base64("calls.png")
 icon_notifications = get_base64("notifications.png")
 
-# تحميل صور الشريط السفلي الجديدة
-icon_Home = get_base64("home.png.jpeg")
-icon_Game = get_base64("game.png.jpeg")
-icon_Spin = get_base64("spin.png.jpeg")
+# --- التعديل الجديد: تحميل صور الشريط السفلي ---
+icon_sitting = get_base64("sitting.png")
+icon_spin = get_base64("spin.png")
+icon_home = get_base64("home.png")
+icon_game = get_base64("game.png")
 
 # =====================================
 # CSS المطور
@@ -202,16 +203,16 @@ margin: 4px 0 4px 4px;
     justify-content: center;
 }}
 
-.mini-img-large {{
+.mini-img_large {{
     width: 85px; 
     height: 85px;
     object-fit: contain;
 }}
 
-/* تنسيق صور الشريط السفلي */
-.nav-icon-img {{
-    width: 32px;
-    height: 32px;
+/* تعديل حجم صور الشريط السفلي */
+.nav-img {{
+    width: 35px;
+    height: 35px;
     object-fit: contain;
 }}
 
@@ -220,13 +221,14 @@ margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: center;
 }}
 .nav-item {{ transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; }}
+
 .bot-bg {{
 width:50px; height:50px; background:white; border-radius:12px;
 margin: 0 auto; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 transition: all 0.3s ease;
 }}
-.active {{ filter: drop-shadow(0 0 5px rgba(26, 79, 160, 0.4)); }} 
+.active {{ color:inherit; }} 
 </style>
 """, unsafe_allow_html=True)
 
@@ -274,21 +276,21 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (الوسط)
+# 3. أيقونات الخدمات (صور فقط)
 # =====================================
 st.markdown(f"""
 <div class="grid4">
 <div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_internet}" class="mini-img-large">
+    <img src="data:image/png;base64,{icon_internet}" class="mini-img_large">
 </div>
 <div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_renewals}" class="mini-img-large">
+    <img src="data:image/png;base64,{icon_renewals}" class="mini-img_large">
 </div>
 <div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_calls}" class="mini-img-large">
+    <img src="data:image/png;base64,{icon_calls}" class="mini-img_large">
 </div>
 <div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_notifications}" class="mini-img-large">
+    <img src="data:image/png;base64,{icon_notifications}" class="mini-img_large">
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -360,22 +362,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي (المعدل لاستخدام الصور)
+# 6. الشريط السفلي (معدل لاستخدام الصور فقط)
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable">⚙️</div>
 <div class="nav-item clickable">
-    <img src="data:image/png;base64,{icon_spin}" class="nav-icon-img">
+    <img src="data:image/png;base64,{icon_sitting}" class="nav-img">
+</div>
+<div class="nav-item clickable">
+    <img src="data:image/png;base64,{icon_spin}" class="nav-img">
 </div>
 <div class="nav-item clickable">
     <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
 </div>
 <div class="nav-item active clickable">
-    <img src="data:image/png;base64,{icon_home}" class="nav-icon-img">
+    <img src="data:image/png;base64,{icon_home}" class="nav-img">
 </div>
 <div class="nav-item clickable">
-    <img src="data:image/png;base64,{icon_game}" class="nav-icon-img">
+    <img src="data:image/png;base64,{icon_game}" class="nav-img">
 </div>
 </div>
 """, unsafe_allow_html=True)
