@@ -28,6 +28,14 @@ if CONTEXT_KEY not in st.session_state:
     }
 
 
+def reset_context():
+    st.session_state[CONTEXT_KEY] = {
+        "last_intent": None,
+        "awaiting_details": False,
+        "last_network_problem": False
+    }
+
+
 def img_to_base64(path):
     try:
         full_path = os.path.join(os.path.dirname(__file__), "..", path)
@@ -75,12 +83,10 @@ def human_fallback_reply(text):
         )
 
     if any(w in t for w in ["بدي", "اريد", "أريد", "حاب", "حابة"]):
-        return (
-            "تمام، احكيلي شو بدك بالضبط وأنا بمشي معك خطوة خطوة."
-        )
+        return "تمام، احكيلي شو بدك بالضبط وأنا بمشي معك خطوة خطوة."
 
-    if any(w in t for w in ["شكرا", "شكراً", "يسلمو", "thanks", "thank you"]):
-        return "على الرحب والسعة 🌷 في أي شي ثاني أقدر أساعدك فيه؟"
+    if is_thanks_or_close(t):
+        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
 
     if any(w in t for w in ["باي", "مع السلامة", "سلام", "bye"]):
         return "مع السلامة 👋 أي وقت تحتاجني أنا موجود."
@@ -89,6 +95,14 @@ def human_fallback_reply(text):
         "فهمت عليك، بس بدي تفاصيل أكثر شوي حتى أساعدك صح.\n\n"
         "هل سؤالك عن الشبكة، الباقة، الاستهلاك، العروض، المكالمات الدولية، أو الدعم الفني؟"
     )
+
+
+def is_thanks_or_close(text):
+    t = str(text).strip().lower()
+    return t in [
+        "شكرا", "شكراً", "يسلمو", "مشكور", "يعطيك العافية",
+        "تمام", "ماشي", "اوكي", "ok", "okay", "thanks", "thank you"
+    ]
 
 
 def is_short_followup(text):
@@ -100,7 +114,7 @@ def looks_like_time_answer(text):
     return any(w in t for w in [
         "ساعة", "الساعه", "الصبح", "المسا", "المساء",
         "اليوم", "امبارح", "من شوي", "دقيقة", "دقايق",
-        "من 8", "من ٩", "من 9"
+        "يوم", "يومين", "اسبوع", "أسبوع", "من 8", "من ٩", "من 9"
     ])
 
 
@@ -134,12 +148,15 @@ def handle_context_followup(text):
     if not is_short_followup(msg):
         return None
 
-    context["awaiting_details"] = False
+    reset_context()
+
+    if is_thanks_or_close(msg):
+        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
 
     if looks_like_time_answer(msg):
         return (
             "تمام، هيك وضحت الصورة ✅\n\n"
-            "سجلت وقت بداية المشكلة، ورح نتابع حالة الشبكة مع الفريق المختص."
+            "سجلت مدة/وقت بداية المشكلة، ورح نتابع حالة الشبكة مع الفريق المختص."
         )
 
     if looks_like_location(msg):
@@ -180,6 +197,10 @@ def get_bot_reply(user_text):
     msg = quick_map.get(user_text, user_text)
     msg = str(msg).strip()
 
+    if is_thanks_or_close(msg):
+        reset_context()
+        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
+
     context_reply = handle_context_followup(msg)
     if context_reply:
         return context_reply
@@ -206,7 +227,7 @@ def get_bot_reply(user_text):
             st.session_state[CONTEXT_KEY]["awaiting_details"] = False
 
         if intent in ["clarification", "unknown", "other", "fallback"]:
-            st.session_state[CONTEXT_KEY]["awaiting_details"] = False
+            reset_context()
             return human_fallback_reply(msg)
 
         response = str(result.get("response", "")).strip()
