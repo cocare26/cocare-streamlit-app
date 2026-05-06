@@ -113,9 +113,11 @@ header, footer, #MainMenu {
 }
 
 .chat-area {
-    height:455px;
+    height:300px;
     overflow-y:auto;
     padding:10px 4px;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 .msg {
@@ -292,14 +294,16 @@ with c6:
 # =========================
 # CHAT MESSAGES
 # =========================
-st.markdown('<div class="chat-area">', unsafe_allow_html=True)
+chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
     cls = "user" if role == "user" else "bot"
     safe_msg = html_lib.escape(str(message))
-    st.markdown(f'<div class="msg {cls}">{safe_msg}</div>', unsafe_allow_html=True)
+    chat_html += f'<div class="msg {cls}">{safe_msg}</div>'
 
-st.markdown('</div>', unsafe_allow_html=True)
+chat_html += '</div>'
+
+st.markdown(chat_html, unsafe_allow_html=True)
 
 # =========================
 # CHAT INPUT
