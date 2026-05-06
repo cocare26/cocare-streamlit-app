@@ -1,25 +1,93 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import base64
+import pandas as pd
+from datetime import datetime
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
-with open("robot_head.png", "rb") as f:
-    robot = base64.b64encode(f.read()).decode()
-    
+
+# =========================
+# SIMPLE ENGLISH CHATBOT ENGINE
+# =========================
+def process_message(user_message, user_id="customer_1", region="Amman"):
+    text = user_message.lower()
+
+    if any(w in text for w in ["hello", "hi", "hey"]):
+        intent = "greeting"
+        intent_confidence = 0.90
+    elif any(w in text for w in ["slow", "internet", "lag"]):
+        intent = "slow_internet"
+        intent_confidence = 0.90
+    elif any(w in text for w in ["signal", "coverage"]):
+        intent = "no_signal"
+        intent_confidence = 0.90
+    elif any(w in text for w in ["support", "help"]):
+        intent = "technical_support"
+        intent_confidence = 0.90
+    else:
+        intent = "unknown"
+        intent_confidence = 0.50
+
+    if any(w in text for w in ["bad", "slow", "problem", "angry", "terrible", "poor", "not working"]):
+        sentiment = "negative"
+        sentiment_score = 0.90
+    elif any(w in text for w in ["good", "great", "thanks", "excellent"]):
+        sentiment = "positive"
+        sentiment_score = 0.90
+    else:
+        sentiment = "neutral"
+        sentiment_score = 0.50
+
+    responses = {
+        "greeting": ("Hello 👋 How can I help you?", "What would you like to know?"),
+        "slow_internet": (f"It looks like your internet is slow in {region}.", "Do you want me to help troubleshoot it?"),
+        "no_signal": (f"There seems to be a signal issue in {region}.", "When did the issue start?"),
+        "technical_support": ("You will be transferred to technical support 👨‍💻.", "Please describe the problem."),
+        "unknown": ("Could you clarify more?", "Please provide more details.")
+    }
+
+    response, followup = responses.get(intent, responses["unknown"])
+
+    prediction = 1 if intent in ["slow_internet", "no_signal"] else 0
+    network_problem = prediction == 1
+    escalation_alert = sentiment == "negative" or prediction == 1 or intent_confidence < 0.6
+
+    return {
+        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "user_id": user_id,
+        "region": region,
+        "language": "en",
+        "intent": intent,
+        "intent_confidence": intent_confidence,
+        "sentiment": sentiment,
+        "sentiment_score": sentiment_score,
+        "response": response,
+        "followup_response": followup,
+        "prediction": prediction,
+        "issue_type": intent if network_problem else "normal",
+        "network_problem": network_problem,
+        "escalation_alert": escalation_alert
+    }
+
+
 if "chat_logs" not in st.session_state:
     st.session_state.chat_logs = []
 
-def handle_chat_message(text):
-    result = process_message(
-        user_message=text,
-        user_id="customer_1",
-        region="Amman"
-    )
 
-    st.session_state.chat_logs.append(result)
-    return result["response"], result["followup_response"]
-    
+# =========================
+# IMAGE
+# =========================
+try:
+    with open("robot_head.png", "rb") as f:
+        robot = base64.b64encode(f.read()).decode()
+except FileNotFoundError:
+    robot = ""
+
+
+# =========================
+# CHATBOT UI
+# =========================
 html = f"""
 <html>
 <head>
@@ -188,9 +256,9 @@ body {{
 <div class="phone">
 
     <div class="topbar">
-       <a href="/Customer" target="_self" style="text-decoration:none;">
-    <div class="back">‹</div>
-</a>
+        <a href="/Customer" target="_self" style="text-decoration:none;">
+            <div class="back">‹</div>
+        </a>
         <img class="avatar" src="data:image/png;base64,{robot}">
         <div class="dot"></div>
         <div class="status">Ready to assist</div>
@@ -233,25 +301,25 @@ function addMessage(text, type){{
 }}
 
 function botReply(text){{
-    let reply = "I received your request.";
+    let reply = "Use the backend input below to connect this message with the AI model.";
 
     if(text === "Network Test"){{
-        reply = "Your network signal is strong.";
+        reply = "Network Test selected. Analyze it from the backend input below.";
     }}
     else if(text === "Internet Usage"){{
-        reply = "Your current internet usage is available in your dashboard.";
+        reply = "Internet Usage selected. Analyze it from the backend input below.";
     }}
     else if(text === "Renew Package"){{
-        reply = "You can renew your package from the packages section.";
+        reply = "Renew Package selected. Analyze it from the backend input below.";
     }}
     else if(text === "International Calls"){{
-        reply = "International call options are available for your line.";
+        reply = "International Calls selected. Analyze it from the backend input below.";
     }}
     else if(text === "Offers & Games"){{
-        reply = "Current offers and games are available in the offers section.";
+        reply = "Offers & Games selected. Analyze it from the backend input below.";
     }}
     else if(text === "Contact Support"){{
-        reply = "Support team will contact you soon.";
+        reply = "Contact Support selected. Analyze it from the backend input below.";
     }}
 
     setTimeout(function(){{
@@ -289,6 +357,10 @@ function checkEnter(event){{
 
 components.html(html, height=730)
 
+
+# =========================
+# REAL BACKEND CONNECTION
+# =========================
 st.divider()
 st.subheader("English Chatbot Backend Test")
 
@@ -296,16 +368,29 @@ user_msg = st.text_input("Type English message:")
 
 if st.button("Send to Model"):
     if user_msg.strip():
-        response, followup = handle_chat_message(user_msg)
+        result = process_message(
+            user_message=user_msg,
+            user_id="customer_1",
+            region="Amman"
+        )
 
-        st.success(response)
-        st.info(followup)
+        st.session_state.chat_logs.append(result)
 
+        st.success(result["response"])
+        st.info(result["followup_response"])
+
+        if result["escalation_alert"]:
+            st.warning("Escalation Alert: This case needs attention.")
+
+        st.write(result)
+
+
+# =========================
+# DASHBOARD
+# =========================
 st.subheader("Chatbot Dashboard")
 
 if st.session_state.chat_logs:
-    import pandas as pd
-
     df = pd.DataFrame(st.session_state.chat_logs)
 
     st.metric("Total Messages", len(df))
@@ -314,7 +399,11 @@ if st.session_state.chat_logs:
 
     st.dataframe(df)
 
+    st.write("Intent Distribution")
     st.bar_chart(df["intent"].value_counts())
+
+    st.write("Sentiment Distribution")
     st.bar_chart(df["sentiment"].value_counts())
+
 else:
     st.info("No messages yet.")
