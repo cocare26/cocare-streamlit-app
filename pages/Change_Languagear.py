@@ -76,7 +76,10 @@ col1, col2, col3 = st.columns([1,6,1])
 with col1:
     st.markdown('<div class="back-style-btn">', unsafe_allow_html=True)
     if st.button("‹", key="back_btn"):
-        st.switch_page("pages/settingar.py")
+         st.session_state.page = "settings_ar"
+
+         st.switch_page("pages/arabic-app.py")
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
