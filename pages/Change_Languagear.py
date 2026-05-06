@@ -1,10 +1,6 @@
 import streamlit as st
-import os
-from language_guard import check_language
 
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
-
-check_language(os.path.basename(__file__))
 
 # ===== CSS المطابق للصورة =====
 st.markdown("""
@@ -102,19 +98,11 @@ col_gap_en = "&nbsp;" * 35
 
 if st.button(f"🌐  العربية  {col_gap_ar}{col_gap_ar}✔️"):
     st.session_state.lang = "ar"
-    if st.session_state.get("lang") == "ar":
-        st.switch_page("pages/settingar.py")
-
-    else:
-        st.switch_page("pages/Settings.py")
+    st.switch_page("pages/settingar.py")
 
 if st.button(f"🌐  English {col_gap_en}{col_gap_en} ‹"):
     st.session_state.lang = "en"
-    if st.session_state.get("lang") == "ar":
-        st.switch_page("pages/settingar.py")
-
-    else:
-        st.switch_page("pages/Settings.py")
+    st.switch_page("pages/Settings.py")
 
 # ===== فراغ =====
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
