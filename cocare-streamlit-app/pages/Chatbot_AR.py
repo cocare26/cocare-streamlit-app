@@ -50,59 +50,36 @@ def img_to_base64(path):
 robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 
 
-def human_fallback_reply(text):
-    t = str(text).strip().lower()
-
-    if any(w in t for w in ["مين انت", "انت مين", "شو بتعمل", "what are you", "who are you"]):
-        return (
-            "أنا مساعد CoCare الذكي 🤖\n\n"
-            "بقدر أساعدك بالشبكة، الباقات، استهلاك الإنترنت، العروض، المكالمات الدولية، والدعم الفني."
-        )
-
-    if any(w in t for w in ["مساعدة", "ساعدني", "help", "بدي مساعدة"]):
-        return (
-            "أكيد، أنا معك خطوة بخطوة.\n\n"
-            "احكيلي سؤالك عن شو: الشبكة، الباقة، الاستهلاك، العروض، المكالمات الدولية، أو الدعم الفني؟"
-        )
-
-    if any(w in t for w in ["كيف", "طريقة", "كيف اعمل", "كيف أعمل"]):
-        return (
-            "أكيد بساعدك. بس حدديلي الخدمة اللي بدك طريقتها:\n\n"
-            "تجديد الباقة، معرفة الاستهلاك، فحص الشبكة، العروض، أو التواصل مع الدعم؟"
-        )
-
-    if any(w in t for w in ["وين", "أين", "مكان"]):
-        return (
-            "ممكن توضحيلي عن أي مكان بتحكي؟\n\n"
-            "مكان الباقات، الاستهلاك، الدعم، العروض، أو إعدادات التطبيق؟"
-        )
-
-    if any(w in t for w in ["ليش", "لماذا"]):
-        return (
-            "خليني أفهم منك أكثر: بتحكي عن مشكلة بالشبكة، الباقة، الدفع، التطبيق، ولا خدمة ثانية؟"
-        )
-
-    if any(w in t for w in ["بدي", "اريد", "أريد", "حاب", "حابة"]):
-        return "تمام، احكيلي شو بدك بالضبط وأنا بمشي معك خطوة خطوة."
-
-    if is_thanks_or_close(t):
-        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
-
-    if any(w in t for w in ["باي", "مع السلامة", "سلام", "bye"]):
-        return "مع السلامة 👋 أي وقت تحتاجني أنا موجود."
-
-    return (
-        "فهمت عليك، بس بدي تفاصيل أكثر شوي حتى أساعدك صح.\n\n"
-        "هل سؤالك عن الشبكة، الباقة، الاستهلاك، العروض، المكالمات الدولية، أو الدعم الفني؟"
-    )
-
-
 def is_thanks_or_close(text):
     t = str(text).strip().lower()
-    return t in [
+    return any(p in t for p in [
         "شكرا", "شكراً", "يسلمو", "مشكور", "يعطيك العافية",
         "تمام", "ماشي", "اوكي", "ok", "okay", "thanks", "thank you"
-    ]
+    ])
+
+
+def is_goodbye(text):
+    t = str(text).strip().lower()
+    return any(p in t for p in ["باي", "مع السلامة", "سلام", "bye", "goodbye"])
+
+
+def is_no_problem(text):
+    t = str(text).strip().lower()
+    return any(p in t for p in [
+        "ما عندي مشكلة", "ما عندي مشكله",
+        "لا ما عندي مشكلة", "لا ما عندي مشكله",
+        "خلص ما عندي مشكلة", "خلص ما عندي مشكله",
+        "ما في مشكلة", "مافي مشكلة",
+        "ما عندي اشي", "ولا اشي"
+    ])
+
+
+def is_social_positive(text):
+    t = str(text).strip().lower()
+    return any(p in t for p in [
+        "كفو", "غالي", "يا غالي", "حبيبي", "تسلم",
+        "يسعدك", "يعطيك العافية", "نورت", "مشكور"
+    ])
 
 
 def is_short_followup(text):
@@ -138,6 +115,67 @@ def looks_like_location(text):
     return any(loc in t for loc in locations)
 
 
+def human_fallback_reply(text):
+    t = str(text).strip().lower()
+
+    if is_no_problem(t):
+        reset_context()
+        return "تمام، ولا يهمك 🌷 إذا احتجت أي مساعدة أنا موجود."
+
+    if is_thanks_or_close(t):
+        reset_context()
+        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
+
+    if is_goodbye(t):
+        reset_context()
+        return "مع السلامة 👋 أي وقت تحتاجني أنا موجود."
+
+    if is_social_positive(t):
+        reset_context()
+        return "الله يسعدك 🌷 أنا موجود بأي وقت تحتاج مساعدة."
+
+    if "المكالمات الدولية" in t or "دولي" in t or "مكالمات" in t:
+        return "خدمة المكالمات الدولية متاحة حسب نوع خطك. بدك تعرف الأسعار ولا طريقة التفعيل؟"
+
+    if "استهلاك" in t or "جيجا" in t or "النت المتبقي" in t:
+        return "بتقدر تعرف استهلاك الإنترنت من التطبيق من قسم الحساب أو الاستهلاك."
+
+    if "تجديد" in t or "باقة" in t:
+        return "أكيد، بتقدر تجدد الباقة من قسم الباقات داخل التطبيق."
+
+    if "عرض" in t or "عروض" in t:
+        return "العروض الحالية متاحة من قسم العروض 🎁 بدك عروض إنترنت ولا مكالمات؟"
+
+    if any(w in t for w in ["مين انت", "انت مين", "شو بتعمل", "what are you", "who are you"]):
+        return (
+            "أنا مساعد CoCare الذكي 🤖\n\n"
+            "بقدر أساعدك بالشبكة، الباقات، استهلاك الإنترنت، العروض، المكالمات الدولية، والدعم الفني."
+        )
+
+    if any(w in t for w in ["مساعدة", "ساعدني", "help", "بدي مساعدة"]):
+        return (
+            "أكيد، أنا معك خطوة بخطوة.\n\n"
+            "احكيلي سؤالك عن شو: الشبكة، الباقة، الاستهلاك، العروض، المكالمات الدولية، أو الدعم الفني؟"
+        )
+
+    if any(w in t for w in ["كيف", "طريقة", "كيف اعمل", "كيف أعمل"]):
+        return (
+            "أكيد بساعدك. بس حدديلي الخدمة اللي بدك طريقتها:\n\n"
+            "تجديد الباقة، معرفة الاستهلاك، فحص الشبكة، العروض، أو التواصل مع الدعم؟"
+        )
+
+    if any(w in t for w in ["وين", "أين", "مكان"]):
+        return (
+            "ممكن توضحيلي عن أي مكان بتحكي؟\n\n"
+            "مكان الباقات، الاستهلاك، الدعم، العروض، أو إعدادات التطبيق؟"
+        )
+
+    return (
+        "فهمت عليك، بس بدي تفاصيل أكثر شوي حتى أساعدك صح.\n\n"
+        "هل سؤالك عن الشبكة، الباقة، الاستهلاك، العروض، المكالمات الدولية، أو الدعم الفني؟"
+    )
+
+
 def handle_context_followup(text):
     context = st.session_state[CONTEXT_KEY]
     msg = str(text).strip()
@@ -145,13 +183,18 @@ def handle_context_followup(text):
     if not context.get("awaiting_details"):
         return None
 
+    if is_no_problem(msg):
+        reset_context()
+        return "تمام، ولا يهمك 🌷 ما رح أسجل مشكلة. إذا احتجت أي مساعدة أنا موجود."
+
+    if is_thanks_or_close(msg):
+        reset_context()
+        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
+
     if not is_short_followup(msg):
         return None
 
     reset_context()
-
-    if is_thanks_or_close(msg):
-        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
 
     if looks_like_time_answer(msg):
         return (
@@ -168,8 +211,7 @@ def handle_context_followup(text):
     if looks_like_yes(msg):
         return (
             "تمام، خلينا نكمل خطوة خطوة.\n\n"
-            "جرّب/ي إعادة تشغيل الراوتر أو تفعيل وضع الطيران لمدة 10 ثواني، "
-            "وبعدها احكيلي إذا تحسّن الوضع."
+            "جرّب/ي إعادة تشغيل الراوتر أو تفعيل وضع الطيران لمدة 10 ثواني، وبعدها احكيلي إذا تحسّن الوضع."
         )
 
     if looks_like_no(msg):
@@ -184,22 +226,62 @@ def handle_context_followup(text):
     )
 
 
-def get_bot_reply(user_text):
-    quick_map = {
-        "فحص الشبكة": "افحص حالة الشبكة عندي",
-        "استهلاك الإنترنت": "بدي أعرف استهلاك الإنترنت",
-        "تجديد الباقة": "بدي أجدد الباقة",
-        "المكالمات الدولية": "بدي أعرف عن المكالمات الدولية",
-        "العروض": "شو العروض المتاحة؟",
-        "الدعم": "بدي أتواصل مع الدعم الفني",
-    }
+def direct_service_reply(text):
+    t = str(text).strip().lower()
+    region = st.session_state.get("region", "عمان")
 
-    msg = quick_map.get(user_text, user_text)
-    msg = str(msg).strip()
+    if t == "فحص الشبكة":
+        reset_context()
+        return (
+            f"أكيد، أقدر أساعدك بفحص حالة الشبكة في منطقة {region}.\n\n"
+            "هل عندك مشكلة فعلية مثل بطء، تقطيع، أو ضعف إشارة؟"
+        )
+
+    if t == "استهلاك الإنترنت":
+        reset_context()
+        return "بتقدر تعرف استهلاك الإنترنت من التطبيق من قسم الحساب أو الاستهلاك."
+
+    if t == "تجديد الباقة":
+        reset_context()
+        return "أكيد، بتقدر تجدد الباقة من قسم الباقات داخل التطبيق. بدك خطوات التجديد؟"
+
+    if t == "المكالمات الدولية":
+        reset_context()
+        return "خدمة المكالمات الدولية متاحة حسب نوع خطك. بدك تعرف الأسعار ولا طريقة التفعيل؟"
+
+    if t == "العروض":
+        reset_context()
+        return "العروض الحالية متاحة من قسم العروض 🎁 بدك عروض إنترنت ولا مكالمات؟"
+
+    if t == "الدعم":
+        reset_context()
+        return "أكيد، احكيلي تفاصيل المشكلة الفنية وسأساعدك خطوة بخطوة."
+
+    return None
+
+
+def get_bot_reply(user_text):
+    msg = str(user_text).strip()
+
+    if is_no_problem(msg):
+        reset_context()
+        return "تمام، ولا يهمك 🌷 إذا احتجت أي مساعدة أنا موجود."
 
     if is_thanks_or_close(msg):
         reset_context()
         return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
+
+    if is_goodbye(msg):
+        reset_context()
+        return "مع السلامة 👋 أي وقت تحتاجني أنا موجود."
+
+    if is_social_positive(msg):
+        reset_context()
+        return "الله يسعدك 🌷 أنا موجود بأي وقت تحتاج مساعدة."
+
+    service_reply = direct_service_reply(msg)
+    if service_reply:
+        return service_reply
 
     context_reply = handle_context_followup(msg)
     if context_reply:
@@ -220,11 +302,7 @@ def get_bot_reply(user_text):
 
         st.session_state[CONTEXT_KEY]["last_intent"] = intent
         st.session_state[CONTEXT_KEY]["last_network_problem"] = network_problem
-
-        if network_problem:
-            st.session_state[CONTEXT_KEY]["awaiting_details"] = True
-        else:
-            st.session_state[CONTEXT_KEY]["awaiting_details"] = False
+        st.session_state[CONTEXT_KEY]["awaiting_details"] = bool(network_problem)
 
         if intent in ["clarification", "unknown", "other", "fallback"]:
             reset_context()
@@ -232,7 +310,6 @@ def get_bot_reply(user_text):
 
         response = str(result.get("response", "")).strip()
         followup = str(result.get("followup_response", "")).strip()
-
         reply = f"{response}\n\n{followup}".strip()
 
         if not reply:
@@ -259,11 +336,9 @@ html, body, [data-testid="stAppViewContainer"] {
     background:#eef2f7;
     direction:rtl;
 }
-
 header, footer, #MainMenu {
     visibility:hidden;
 }
-
 .block-container {
     max-width:430px;
     height:730px;
@@ -274,7 +349,6 @@ header, footer, #MainMenu {
     box-shadow:0 12px 30px rgba(0,0,0,.15);
     overflow:hidden;
 }
-
 .topbar {
     height:58px;
     background:white;
@@ -286,41 +360,35 @@ header, footer, #MainMenu {
     box-shadow:0 3px 10px rgba(0,0,0,.12);
     margin-bottom:10px;
 }
-
 .avatar {
     width:42px;
     height:42px;
     border-radius:50%;
     object-fit:cover;
 }
-
 .dot {
     width:8px;
     height:8px;
     background:#36c06a;
     border-radius:50%;
 }
-
 .status {
     font-size:15px;
     font-weight:700;
     color:#222;
 }
-
 .region-label {
     margin-right:auto;
     font-size:11px;
     color:#436577;
     font-weight:700;
 }
-
 .quick-title {
     font-size:13px;
     font-weight:800;
     color:#102646;
     margin:4px 0 6px;
 }
-
 div[data-testid="stButton"] button {
     border-radius:18px;
     border:none;
@@ -331,12 +399,10 @@ div[data-testid="stButton"] button {
     box-shadow:0 3px 8px rgba(0,0,0,.10);
     height:36px;
 }
-
 div[data-testid="stButton"] button:hover {
     background:#eef6ff;
     color:#1c6fa4;
 }
-
 .chat-area {
     height:350px;
     overflow-y:auto;
@@ -344,7 +410,6 @@ div[data-testid="stButton"] button:hover {
     margin-top:10px;
     margin-bottom:8px;
 }
-
 .msg {
     max-width:75%;
     padding:9px 12px;
@@ -355,26 +420,22 @@ div[data-testid="stButton"] button:hover {
     white-space:pre-wrap;
     text-align:right;
 }
-
 .bot {
     background:white;
     color:#222;
     margin-left:auto;
 }
-
 .user {
     background:#1c6fa4;
     color:white;
     margin-right:auto;
 }
-
 div[data-testid="stChatInput"] {
     position:relative !important;
     bottom:auto !important;
     background:transparent !important;
     padding:0 !important;
 }
-
 div[data-testid="stChatInput"] textarea {
     direction:rtl;
     border-radius:22px;
@@ -444,7 +505,6 @@ for role, message in st.session_state[CHAT_KEY]:
 chat_html += '</div>'
 
 st.markdown(chat_html, unsafe_allow_html=True)
-
 
 user_input = st.chat_input("اكتب سؤالك...")
 
