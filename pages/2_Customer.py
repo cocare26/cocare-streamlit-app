@@ -25,7 +25,7 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور
+# CSS المطور (تعديل الألوان والخطوط)
 # =====================================
 st.markdown(f"""
 <style>
@@ -48,7 +48,16 @@ border-radius:42px;
 box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
-/* تنسيق الـ Popover ليعود لحجم الـ mini الأصلي */
+.card {{
+background: white;
+border-radius: 20px;
+padding: 10px 14px;
+margin-bottom: 8px;
+box-shadow: 0 4px 15px rgba(0,0,0,.05);
+transition: all 0.3s ease;
+}}
+
+/* تعديل حجم الأيقونات Popover لتكون متناسقة */
 div[data-testid="stPopover"] {{
     width: 100%;
 }}
@@ -58,7 +67,7 @@ div[data-testid="stPopover"] > button {{
     border: none !important;
     padding: 8px 2px !important;
     width: 100% !important;
-    min-height: 90px !important; /* الحجم الأصلي */
+    min-height: 90px !important; /* الحجم المتناسق الأصلي */
     border-radius: 18px !important;
     box-shadow: 0 6px 15px rgba(0,0,0,.06) !important;
     transition: all 0.3s ease !important;
@@ -66,9 +75,10 @@ div[data-testid="stPopover"] > button {{
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
+    white-space: pre-wrap !important;
 }}
 
-/* تنسيق النص داخل زر البوب أوفر ليطابق mini-text */
+/* تنسيق النص داخل زر البوب أوفر */
 div[data-testid="stPopover"] p {{
     font-size: 10px !important;
     font-weight: 800 !important;
@@ -83,17 +93,20 @@ div[data-testid="stPopover"] > button:hover {{
     box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
 }}
 
-.card {{
-background: white;
-border-radius: 20px;
-padding: 10px 14px;
-margin-bottom: 8px;
-box-shadow: 0 4px 15px rgba(0,0,0,.05);
-transition: all 0.3s ease;
+.balance-card {{
+    padding: 6px 14px !important;
+    margin-bottom: 4px !important;
 }}
 
-.balance-card {{ padding: 6px 14px !important; margin-bottom: 4px !important; }}
-.rating-card {{ padding: 4px 14px 6px !important; margin-bottom: 4px !important; }}
+.rating-card {{
+    padding: 4px 14px 6px !important;
+    margin-bottom: 4px !important;
+}}
+
+.card:hover, .nav-item:hover, .bot-bg:hover {{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}}
 
 .title {{
 font-size:15px;
@@ -102,8 +115,31 @@ color:#102646;
 margin: 4px 0 4px 4px;
 }}
 
-.clickable {{ cursor: pointer; transition: all 0.3s ease; }}
+.clickable {{ 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+}}
 .clickable:active {{ transform: scale(0.95); }}
+
+.star-rating {{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 4px;
+}}
+.star-rating input {{ display: none; }}
+.star-rating label {{
+    font-size: 24px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}}
+.star-rating label:hover {{ transform: scale(1.2); }}
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {{
+    color: #ffcc00;
+}}
 
 .rating-bar-container {{
     display: flex;
@@ -129,12 +165,24 @@ margin: 4px 0 4px 4px;
     align-items: center;
     position: relative;
     height: 100px;
+    transition: all 0.3s ease;
 }}
 
 .robot-img-welcome {{
-    width: 95px; height: 95px;
-    object-fit: contain;
+    width: 95px; 
+    height: 95px;
+    background: transparent !important;
+    border-radius: 14px;
     margin-right: 12px;
+    object-fit: contain;
+    padding: 4px;
+    transition: transform 0.4s ease;
+}}
+
+.welcome-text-container {{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }}
 
 .needle {{
@@ -145,19 +193,34 @@ margin: 4px 0 4px 4px;
     height: 30px;
     background: #333;
     transform-origin: bottom center;
+    z-index: 5;
+}}
+
+.signal-icon {{
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    justify-content: center;
+    margin-top: 5px;
+}}
+.signal-bar {{
+    width: 4px;
+    border-radius: 1px;
 }}
 
 .nav {{
 margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
 }}
-.nav-item {{ font-size: 22px; font-weight: 800; }}
+.nav-item {{ font-size: 22px; font-weight: 800; transition: all 0.3s ease; }}
 .nav-text {{ font-size: 10px; display: block; }}
 .bot-bg {{
 width:50px; height:50px; background:white; border-radius:12px;
 margin: 0 auto 4px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+transition: all 0.3s ease;
 }}
+.active {{ color:inherit; }} 
 </style>
 """, unsafe_allow_html=True)
 
@@ -170,7 +233,7 @@ st.markdown(f"""
     <div class="welcome-text-container">
         <div style="font-size:20px; font-weight:900; color:#102646; line-height:1.1;">Welcome: User Name</div>
         <div style="font-size:12px; color:#555; margin-top:2px;">+962 79 123 4567</div>
-        <div style="font-size:10px; color:#777;">Valid until: May 25, 2026</div>
+        <div style="font-size:10px; color:#777;">Valid until: May 25, 2024</div>
         <div style="font-size:11px; background:#F0F7FF; border-radius:20px; padding:2px 10px; color:#102646; font-weight:700; margin-top:5px; border:1px solid #D0E0F0;">
         📍 Location: Amman</div>
     </div>
@@ -205,25 +268,29 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (Popovers)
+# 3. أيقونات الخدمات مع الـ Popover
 # =====================================
 cols = st.columns(4)
 
 with cols[0]:
     pop1 = st.popover("📡\nInternet\nPackages")
-    pop1.info("Internet bundles available for your plan.")
+    pop1.write("### 📡 Internet")
+    pop1.info("Select your next data bundle here.")
 
 with cols[1]:
     pop2 = st.popover("🌍\nRenewals +\nChanges")
-    pop2.success("Switch to a new monthly plan.")
+    pop2.write("### 🌍 Subscriptions")
+    pop2.success("You can change your plan from here.")
 
 with cols[2]:
     pop3 = st.popover("💰\nInternational\nCalls")
-    pop3.warning("Global calling rates.")
+    pop3.write("### 💰 Credit")
+    pop3.warning("Check international rates.")
 
 with cols[3]:
     pop4 = st.popover("🔔\nNetwork\nNotifications")
-    pop4.error("Check network status.")
+    pop4.write("### 🔔 Alerts")
+    pop4.error("No current issues in Amman.")
 
 # =====================================
 # 4. قسم التقييم
@@ -237,6 +304,14 @@ st.markdown("""
     <span>4.5%</span>
     <span style="background:rgba(255,255,255,0.3); padding:0 5px; border-radius:2px;">24%</span>
 </div>
+<div style="text-align:center; margin-top:8px; font-weight:700; font-size:11px; color:#666; margin-bottom:2px;">Rate our service</div>
+<div class="star-rating">
+    <input type="radio" id="5" name="rate"><label for="5">★</label>
+    <input type="radio" id="4" name="rate"><label for="4">★</label>
+    <input type="radio" id="3" name="rate"><label for="3">★</label>
+    <input type="radio" id="2" name="rate"><label for="2">★</label>
+    <input type="radio" id="1" name="rate"><label for="1">★</label>
+</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -249,20 +324,34 @@ st.markdown("""
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 1.2;">
 <div style="font-size:14px; font-weight:900; color:#102646;">📍 Amman</div>
-<div style="font-size:12px; font-weight:700; color:#1A4FA0;">Very Strong Signal</div>
-<div style="display: flex; gap: 4px; margin-top:5px;">
-<div style="background: #F1F7FF; border: 1px solid #E0E0E0; border-radius: 8px; flex: 1; text-align: center; padding: 4px;">
-<div style="font-size: 7px; font-weight:bold;">Packet Loss</div><div style="font-size: 14px; font-weight:900;">0</div></div>
-<div style="background: #F1F7FF; border: 1px solid #E0E0E0; border-radius: 8px; flex: 1; text-align: center; padding: 4px;">
-<div style="font-size: 7px; font-weight:bold;">Avg Jitter</div><div style="font-size: 14px; font-weight:900;">19</div></div>
+<div style="font-size:12px; font-weight:700; color:#1A4FA0; margin-bottom:6px;">Very Strong Signal</div>
+<div style="display: flex; gap: 4px;">
+<div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
+<div style="font-size: 7px; color: #666; font-weight:bold;">Packet Loss (%)</div>
+<div style="font-size: 14px; font-weight: 900; color: #000;">0</div>
+</div>
+<div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
+<div style="font-size: 7px; color: #666; font-weight:bold;">Avg Jitter (ms)</div>
+<div style="font-size: 14px; font-weight: 900; color: #000;">19</div>
+</div>
 </div>
 </div>
 <div style="flex: 1; text-align: center;">
-<div style="position: relative; width: 70px; margin: 0 auto;">
-    <div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #4caf50, #ffeb3b, #f44336); position: relative; overflow: hidden;">
-        <div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
-        <div class="needle" style="height: 30px; transform: rotate(-60deg); left:48%;"></div>
+<div style="position: relative; width: 80px; margin: 0 auto;">
+    <div style="width: 80px; height: 40px; border-radius: 80px 80px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 8px; width: 64px; height: 32px; background: white; border-radius: 64px 64px 0 0;"></div>
+        <div class="needle" style="height: 35px; transform: rotate(-60deg);"></div>
     </div>
+<div style="font-size: 9px; font-weight: 900; color: #102646; margin-top: 4px;">-68dBm (Excellent)</div>
+<div class="signal-icon">
+    <div class="signal-bar" style="height:4px; background:#1A4FA0;"></div>
+    <div class="signal-bar" style="height:7px; background:#1A4FA0;"></div>
+    <div class="signal-bar" style="height:10px; background:#1A4FA0;"></div>
+    <div style="width:1px; height:12px; background:#DDD; margin:0 2px;"></div>
+    <div class="signal-bar" style="height:4px; background:#4CAF50;"></div>
+    <div class="signal-bar" style="height:7px; background:#4CAF50;"></div>
+    <div class="signal-bar" style="height:10px; background:#4CAF50;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -280,7 +369,7 @@ st.markdown(f"""
 <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
 <span class="nav-text">Chatbot</span>
 </div>
-<div class="nav-item clickable">🏠<span class="nav-text">Home</span></div>
+<div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
 <div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
 </div>
 """, unsafe_allow_html=True)
