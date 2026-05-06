@@ -6,7 +6,20 @@ st.set_page_config(page_title="AI Agent", layout="centered")
 
 with open("robot_head.png", "rb") as f:
     robot = base64.b64encode(f.read()).decode()
+    
+if "chat_logs" not in st.session_state:
+    st.session_state.chat_logs = []
 
+def handle_chat_message(text):
+    result = process_message(
+        user_message=text,
+        user_id="customer_1",
+        region="Amman"
+    )
+
+    st.session_state.chat_logs.append(result)
+    return result["response"], result["followup_response"]
+    
 html = f"""
 <html>
 <head>
@@ -275,3 +288,33 @@ function checkEnter(event){{
 """
 
 components.html(html, height=730)
+
+st.divider()
+st.subheader("English Chatbot Backend Test")
+
+user_msg = st.text_input("Type English message:")
+
+if st.button("Send to Model"):
+    if user_msg.strip():
+        response, followup = handle_chat_message(user_msg)
+
+        st.success(response)
+        st.info(followup)
+
+st.subheader("Chatbot Dashboard")
+
+if st.session_state.chat_logs:
+    import pandas as pd
+
+    df = pd.DataFrame(st.session_state.chat_logs)
+
+    st.metric("Total Messages", len(df))
+    st.metric("Negative Sentiment", len(df[df["sentiment"] == "negative"]))
+    st.metric("Network Problems", len(df[df["network_problem"] == True]))
+
+    st.dataframe(df)
+
+    st.bar_chart(df["intent"].value_counts())
+    st.bar_chart(df["sentiment"].value_counts())
+else:
+    st.info("No messages yet.")
