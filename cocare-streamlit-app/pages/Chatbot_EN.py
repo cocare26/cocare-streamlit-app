@@ -69,7 +69,7 @@ st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"] {
     background:#eef2f7;
-    font-family:Arial;
+    direction:ltr;
 }
 
 header, footer, #MainMenu {
@@ -77,27 +77,17 @@ header, footer, #MainMenu {
 }
 
 .block-container {
-    width:420px;
+    max-width:420px;
     height:700px;
     margin:auto;
-    padding:0;
+    padding:14px 18px 10px;
     border-radius:42px;
-    overflow:hidden;
-    position:relative;
     background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
-}
-
-.phone {
-    width:420px;
-    height:700px;
-    position:relative;
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    overflow:hidden;
 }
 
 .topbar {
-    position:absolute;
-    top:14px;
-    left:18px;
-    right:18px;
     height:58px;
     background:white;
     border-radius:18px;
@@ -106,12 +96,12 @@ header, footer, #MainMenu {
     gap:10px;
     padding:0 14px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
+    margin-bottom:10px;
 }
 
 .back {
     font-size:28px;
     color:#436577;
-    text-decoration:none;
 }
 
 .avatar {
@@ -134,14 +124,30 @@ header, footer, #MainMenu {
     color:#222;
 }
 
-.chat-box {
-    position:absolute;
-    top:90px;
-    left:18px;
-    right:18px;
-    bottom:75px;
+.quick-title {
+    font-size:13px;
+    font-weight:800;
+    color:#102646;
+    margin:4px 0 6px;
+}
+
+div[data-testid="stButton"] button {
+    border-radius:18px;
+    border:none;
+    background:white;
+    color:#102646;
+    font-weight:800;
+    font-size:11px;
+    box-shadow:0 3px 8px rgba(0,0,0,.10);
+    height:36px;
+}
+
+.chat-area {
+    height:390px;
     overflow-y:auto;
-    padding:10px;
+    padding:10px 4px;
+    margin-top:10px;
+    margin-bottom:8px;
 }
 
 .msg {
@@ -150,8 +156,9 @@ header, footer, #MainMenu {
     border-radius:16px;
     margin-bottom:8px;
     font-size:13px;
-    line-height:1.4;
+    line-height:1.5;
     white-space:pre-wrap;
+    text-align:left;
 }
 
 .bot {
@@ -166,95 +173,29 @@ header, footer, #MainMenu {
     margin-left:auto;
 }
 
-.quick-menu {
-    position:absolute;
-    left:38px;
-    bottom:90px;
-    width:150px;
-    background:white;
-    border-radius:8px;
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
-    padding:8px 0;
-    z-index:5;
-}
-
-div[data-testid="stButton"] button {
-    width:150px;
-    height:auto;
-    background:white;
-    color:#222;
-    border:none;
-    border-radius:0;
-    padding:7px 13px;
-    font-size:13px;
-    text-align:left;
-    box-shadow:none;
-}
-
-div[data-testid="stButton"] button:hover {
-    background:#eef3f6;
-    color:#222;
-}
-
-.bottom {
-    position:absolute;
-    bottom:18px;
-    left:18px;
-    right:18px;
-    height:42px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.fake-menu {
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    background:white;
-    text-align:center;
-    line-height:32px;
-    font-size:22px;
-    color:#50768a;
-}
-
-.input-area {
-    position:absolute;
-    bottom:18px;
-    left:58px;
-    right:66px;
-}
-
-.input-area input {
-    height:34px;
-    background:white;
+.input-wrap {
+    background:rgba(255,255,255,.65);
     border-radius:22px;
-    color:#444;
-    font-size:12px;
-    padding-left:14px;
-    border:none;
+    padding:8px;
+    margin-top:4px;
 }
 
-.send-area {
-    position:absolute;
-    bottom:18px;
-    right:18px;
-}
-
-.send-area button {
-    width:40px !important;
-    height:40px !important;
-    border-radius:50% !important;
-    background:linear-gradient(135deg,#6ec6ff,#1c6fa4) !important;
-    color:white !important;
-    text-align:center !important;
-    font-size:20px !important;
+div[data-testid="stChatInput"] {
+    position:relative !important;
+    bottom:auto !important;
+    background:transparent !important;
     padding:0 !important;
+}
+
+div[data-testid="stChatInput"] textarea {
+    direction:ltr;
+    border-radius:22px;
+    border:none;
+    background:white;
+    font-size:13px;
 }
 </style>
 """, unsafe_allow_html=True)
-
-st.markdown('<div class="phone">', unsafe_allow_html=True)
 
 st.markdown(f"""
 <div class="topbar">
@@ -267,56 +208,58 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-chat_html = '<div class="chat-box">'
-for role, msg in st.session_state[CHAT_KEY]:
-    cls = "user" if role == "user" else "bot"
-    chat_html += f'<div class="msg {cls}">{html_lib.escape(str(msg))}</div>'
-chat_html += '</div>'
-st.markdown(chat_html, unsafe_allow_html=True)
+st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
-with st.container():
-    st.markdown('<div class="quick-menu">', unsafe_allow_html=True)
+c1, c2, c3 = st.columns(3)
+c4, c5, c6 = st.columns(3)
 
+with c1:
     if st.button("Network Test"):
         send_message("Network Test")
         st.rerun()
 
+with c2:
     if st.button("Internet Usage"):
         send_message("Internet Usage")
         st.rerun()
 
+with c3:
     if st.button("Renew Package"):
         send_message("Renew Package")
         st.rerun()
 
+with c4:
     if st.button("International Calls"):
         send_message("International Calls")
         st.rerun()
 
+with c5:
     if st.button("Offers & Games"):
         send_message("Offers & Games")
         st.rerun()
 
+with c6:
     if st.button("Contact Support"):
         send_message("Contact Support")
         st.rerun()
 
-    st.markdown('</div>', unsafe_allow_html=True)
+chat_html = '<div class="chat-area">'
 
-st.markdown('<div class="bottom"><div class="fake-menu">≡</div></div>', unsafe_allow_html=True)
+for role, message in st.session_state[CHAT_KEY]:
+    cls = "user" if role == "user" else "bot"
+    safe_msg = html_lib.escape(str(message))
+    chat_html += f'<div class="msg {cls}">{safe_msg}</div>'
 
-st.markdown('<div class="input-area">', unsafe_allow_html=True)
-user_text = st.text_input(
-    "chat_input_hidden",
-    placeholder="Type your question here...",
-    label_visibility="collapsed"
-)
+chat_html += '</div>'
+
+st.markdown(chat_html, unsafe_allow_html=True)
+
+st.markdown('<div class="input-wrap">', unsafe_allow_html=True)
+
+user_input = st.chat_input("Type your question here...")
+
 st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="send-area">', unsafe_allow_html=True)
-if st.button("➤"):
-    send_message(user_text)
+if user_input:
+    send_message(user_input)
     st.rerun()
-st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
