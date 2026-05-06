@@ -1,20 +1,51 @@
 # =========================
-# CoCare CLEAN VERSION
-# Jordan Regions + Smart Prediction + Chat Logs
+# CoCare Engine
+# Model Intent + Sentiment + Smart Response + Logs
 # =========================
 
 from datetime import datetime
 import os
+import sys
 import pandas as pd
 
 # =========================
 # PATHS
 # =========================
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+UTILS_PATH = os.path.join(PROJECT_PATH, "utils")
 DATA_PATH = os.path.join(PROJECT_PATH, "data")
 CHAT_LOG_PATH = os.path.join(DATA_PATH, "chat_logs.csv")
 
 os.makedirs(DATA_PATH, exist_ok=True)
+
+sys.path.insert(0, PROJECT_PATH)
+sys.path.insert(0, UTILS_PATH)
+
+# =========================
+# IMPORT YOUR MODELS / UTILS
+# =========================
+try:
+    from utils.language_utils import detect_language
+except Exception:
+    def detect_language(text):
+        return "ar" if any("\u0600" <= c <= "\u06FF" for c in str(text)) else "en"
+
+try:
+    from utils.intent_utils import predict_intent as model_predict_intent
+except Exception:
+    model_predict_intent = None
+
+try:
+    from utils.sentiment_utils import predict_sentiment as model_predict_sentiment
+except Exception:
+    model_predict_sentiment = None
+
+try:
+    from utils.response_utils import build_final_response, get_follow_up
+except Exception:
+    build_final_response = None
+    get_follow_up = None
+
 
 # =========================
 # JORDAN REGIONS
@@ -57,88 +88,163 @@ def normalize_region(region):
 
     return region
 
-# =========================
-# LANGUAGE DETECTION
-# =========================
-def detect_language(text):
-    text = str(text)
-    if any("\u0600" <= c <= "\u06FF" for c in text):
-        return "ar"
-    return "en"
 
 # =========================
-# INTENT
+# NORMALIZERS
 # =========================
-def predict_intent(text, lang):
+def normalize_model_output(result, default_label="unknown"):
+    try:
+        if isinstance(result, tuple):
+            label = result[0] if len(result) > 0 else default_label
+            score = result[1] if len(result) > 1 else 1.0
+            return str(label).strip().lower(), float(score)
+
+        if isinstance(result, list):
+            if result and isinstance(result[0], dict):
+                label = result[0].get("label", default_label)
+                score = result[0].get("score", 1.0)
+                return str(label).strip().lower(), float(score)
+
+        if isinstance(result, dict):
+            label = result.get("label", result.get("intent", result.get("sentiment", default_label)))
+            score = result.get("score", result.get("confidence", 1.0))
+            return str(label).strip().lower(), float(score)
+
+        return str(result).strip().lower(), 1.0
+
+    except Exception:
+        return default_label, 1.0
+
+
+def normalize_intent(intent):
+    intent = str(intent).strip().lower()
+
+    mapping = {
+        "slow internet": "slow_internet",
+        "slow-internet": "slow_internet",
+        "no signal": "no_signal",
+        "no-signal": "no_signal",
+        "network complaint": "network_complaint",
+        "network status": "network_status",
+        "network-status": "network_status",
+        "data usage": "check_data_usage",
+        "check usage": "check_data_usage",
+        "offers": "offer_inquiry",
+        "offer": "offer_inquiry",
+        "renew": "renew_package",
+        "support": "technical_support",
+        "feedback": "thanks",
+    }
+
+    return mapping.get(intent, intent)
+
+
+def normalize_sentiment(sentiment):
+    s = str(sentiment).strip().lower()
+
+    if s in ["negative", "neg", "label_0", "0", "سلبي"]:
+        return "negative"
+
+    if s in ["positive", "pos", "label_2", "2", "ايجابي", "إيجابي"]:
+        return "positive"
+
+    return "neutral"
+
+
+# =========================
+# MODEL-FIRST INTENT
+# =========================
+def predict_intent_safe(text, lang):
+    if model_predict_intent is not None:
+        try:
+            raw = model_predict_intent(text, lang)
+            intent, conf = normalize_model_output(raw, "unknown")
+            return normalize_intent(intent), conf
+        except Exception as e:
+            print("INTENT MODEL ERROR:", e)
+
+    # fallback فقط إذا الموديل وقع
     t = str(text).lower()
 
-    if any(w in t for w in ["هاي", "هلا", "مرحبا", "hello", "hi", "كيفك", "كيفو"]):
-        return "greeting", 0.9
+    if t.strip() in ["هاي", "هلا", "مرحبا", "hi", "hello", "كيفك", "كيفو"]:
+        return "greeting", 0.7
 
-    if any(w in t for w in [
-        "بطيء", "بطئ", "ضعيف", "ضعيفة", "slow", "سرعة", "النت",
-        "انترنت", "إنترنت", "تقطيع", "علق", "بفصل", "يفصل"
-    ]):
-        return "slow_internet", 0.9
+    if any(w in t for w in ["بطيء", "بطئ", "ضعيف", "ضعيفة", "النت", "انترنت", "إنترنت", "تقطيع"]):
+        return "slow_internet", 0.7
 
-    if any(w in t for w in [
-        "اشارة", "إشارة", "signal", "شبكة ضعيفة", "ما في شبكة",
-        "فاصل", "لا يوجد شبكة", "no signal"
-    ]):
-        return "no_signal", 0.9
+    if any(w in t for w in ["اشارة", "إشارة", "signal", "ما في شبكة", "no signal"]):
+        return "no_signal", 0.7
 
-    if any(w in t for w in ["مشكلة شبكة", "الشبكة", "network problem", "network issue"]):
-        return "network_complaint", 0.85
+    if any(w in t for w in ["استهلاك", "جيجا", "usage", "gb"]):
+        return "check_data_usage", 0.7
 
-    if any(w in t for w in ["دعم", "support", "فني", "مساعدة"]):
-        return "technical_support", 0.9
-
-    if any(w in t for w in ["باقة", "تجديد", "bundle", "renew"]):
-        return "renew_package", 0.85
-
-    if any(w in t for w in ["استهلاك", "usage", "جيجا", "gb"]):
-        return "check_data_usage", 0.85
+    if any(w in t for w in ["باقة", "تجديد", "renew"]):
+        return "renew_package", 0.7
 
     if any(w in t for w in ["عروض", "عرض", "offers"]):
-        return "offer_inquiry", 0.85
+        return "offer_inquiry", 0.7
 
-    return "unknown", 0.5
+    if any(w in t for w in ["دعم", "فني", "support"]):
+        return "technical_support", 0.7
+
+    return "other", 0.5
+
 
 # =========================
-# SENTIMENT
+# MODEL-FIRST SENTIMENT
 # =========================
-def predict_sentiment(text, lang):
+def predict_sentiment_safe(text, lang):
+    if model_predict_sentiment is not None:
+        try:
+            raw = model_predict_sentiment(text, lang)
+            sentiment, score = normalize_model_output(raw, "neutral")
+            return normalize_sentiment(sentiment), score
+        except Exception as e:
+            print("SENTIMENT MODEL ERROR:", e)
+
+    # fallback فقط إذا الموديل وقع
     t = str(text).lower()
 
-    if any(w in t for w in [
-        "خرا", "زفت", "سيء", "سيئة", "مشكلة", "تعبت", "غلط",
-        "مش شغال", "ما بشتغل", "بطيء", "ضعيف", "تقطيع", "سيئ"
-    ]):
-        return "negative", 0.9
+    if any(w in t for w in ["خرا", "زفت", "سيء", "سيئة", "مشكلة", "ضعيف", "بطيء", "تقطيع"]):
+        return "negative", 0.8
 
-    if any(w in t for w in ["ممتاز", "تمام", "شكرا", "يسلمو", "رائع", "good", "great"]):
-        return "positive", 0.9
+    if any(w in t for w in ["ممتاز", "تمام", "شكرا", "يسلمو", "رائع"]):
+        return "positive", 0.8
 
     return "neutral", 0.5
 
+
 # =========================
-# ISSUE TYPE
+# NETWORK / ISSUE LOGIC
 # =========================
-def get_issue_type(intent):
+def is_network_intent(intent):
+    intent = normalize_intent(intent)
+    return intent in [
+        "slow_internet",
+        "no_signal",
+        "network_status",
+        "network_complaint"
+    ]
+
+
+def map_intent_to_issue_type(intent):
+    intent = normalize_intent(intent)
+
     if intent == "slow_internet":
         return "high_latency"
 
     if intent == "no_signal":
         return "weak_signal"
 
+    if intent == "network_status":
+        return "service_degradation"
+
     if intent == "network_complaint":
         return "unstable_connection"
 
     return "normal"
 
-# =========================
-# DYNAMIC METRICS
-# =========================
+
 def get_dynamic_metrics(user_id, region):
     try:
         logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
@@ -166,13 +272,9 @@ def get_dynamic_metrics(user_id, region):
 
     return repeat_count, area_issue_count
 
-# =========================
-# SMART PREDICTION
-# =========================
-def predict_network_problem(intent, sentiment, repeat_count, area_issue_count):
-    network_intents = ["slow_internet", "no_signal", "network_complaint"]
 
-    if intent not in network_intents:
+def predict_network_problem(intent, sentiment, repeat_count, area_issue_count):
+    if not is_network_intent(intent):
         return 0
 
     if sentiment == "negative":
@@ -184,55 +286,32 @@ def predict_network_problem(intent, sentiment, repeat_count, area_issue_count):
     if area_issue_count >= 3:
         return 1
 
-    if intent in network_intents:
-        return 1
+    return 1
 
-    return 0
 
 # =========================
-# RESPONSE
+# DECISION
 # =========================
-def get_response(intent, lang, region, network_problem=False, issue_type="normal"):
+def build_decision(intent, sentiment, prediction, network_problem, repeat_count, area_issue_count):
+    if network_problem and area_issue_count >= 3:
+        return {"rule_used": "critical"}
 
-    if intent == "greeting":
-        return "هلا وغلا 👋 كيف فيني أساعدك؟", "شو حاب تعرف؟"
+    if network_problem and prediction == 1:
+        return {"rule_used": "technical_high_risk"}
 
-    if intent == "slow_internet":
-        return (
-            f"واضح إن في بطء بالإنترنت عندك في منطقة {region} 😅",
-            "رح نسجل المشكلة ونشيك حالة الشبكة."
-        )
+    if sentiment == "negative":
+        return {"rule_used": "negative_escalation"}
 
-    if intent == "no_signal":
-        return (
-            f"واضح في مشكلة بالإشارة في منطقة {region} 📶",
-            "تم تسجيل المشكلة، ممكن تحكيلي من متى بلشت؟"
-        )
+    if intent in ["unknown", "other", "fallback"]:
+        return {"rule_used": "clarification"}
 
-    if intent == "network_complaint":
-        return (
-            f"آسفين على الإزعاج، تم تسجيل مشكلة شبكة في منطقة {region}.",
-            "رح يتم متابعة الحالة من فريق الدعم."
-        )
+    return {"rule_used": None}
 
-    if intent == "technical_support":
-        return "رح يتم تحويلك للدعم الفني 👨‍💻", "احكيلي شو المشكلة بالتفصيل؟"
-
-    if intent == "renew_package":
-        return "أكيد، بتقدر تجددي الباقة من قسم الباقات.", "بدك أساعدك بخطوات التجديد؟"
-
-    if intent == "check_data_usage":
-        return "بتقدري تشوفي استهلاك الإنترنت من لوحة الحساب.", "بدك أعرفك وين مكانها؟"
-
-    if intent == "offer_inquiry":
-        return "العروض الحالية متاحة من قسم العروض 🎁", "بدك عروض إنترنت ولا مكالمات؟"
-
-    return "ممكن توضحي أكثر؟", "احكيلي تفاصيل أكثر"
 
 # =========================
 # NOTIFICATION
 # =========================
-def build_notification(intent, issue_type, network_problem, repeat_count, area_issue_count):
+def build_notification(issue_type, network_problem, repeat_count, area_issue_count):
     if not network_problem:
         return {
             "notification_type": "none",
@@ -254,14 +333,56 @@ def build_notification(intent, issue_type, network_problem, repeat_count, area_i
         reason = "Network problem detected"
 
     return {
-        "notification_type": "internal_noti" if not escalation else "external_noti",
-        "display_channel": "employee_dashboard" if not escalation else "customer_app",
+        "notification_type": "external_noti" if escalation else "internal_noti",
+        "display_channel": "customer_app" if escalation else "employee_dashboard",
         "escalation": escalation,
         "reason": reason,
         "show_to_customer": 1 if escalation else 0,
         "priority": 2 if escalation else 1,
         "suggested_action": issue_type
     }
+
+
+# =========================
+# SMART RESPONSE
+# =========================
+def get_smart_response(intent, sentiment, decision, lang):
+    if build_final_response is not None:
+        try:
+            final = build_final_response(
+                intent=intent,
+                sentiment=sentiment,
+                decision=decision,
+                lang=lang
+            )
+            return final, ""
+        except Exception as e:
+            print("RESPONSE UTILS ERROR:", e)
+
+    # fallback فقط إذا response_utils وقع
+    if intent == "greeting":
+        return "هلا وغلا 👋 كيف فيني أساعدك؟", "شو حاب تعرف؟"
+
+    if intent == "slow_internet":
+        return "واضح إن الإنترنت بطيء. خلينا نتحقق من المشكلة.", "بدك نجرب خطوات الحل؟"
+
+    if intent == "no_signal":
+        return "واضح في مشكلة بالإشارة.", "ممكن تحكيلي من متى بلشت؟"
+
+    if intent == "check_data_usage":
+        return "بتقدر تشوف استهلاك الإنترنت من التطبيق.", ""
+
+    if intent == "renew_package":
+        return "أكيد، بقدر أساعدك بتجديد الباقة.", ""
+
+    if intent == "offer_inquiry":
+        return "أكيد، بقدر أوضح لك العروض الحالية.", ""
+
+    if intent == "technical_support":
+        return "تمام، احكيلي المشكلة بالتفصيل.", ""
+
+    return "ممكن توضحي أكثر؟", ""
+
 
 # =========================
 # LOG CHAT
@@ -290,7 +411,8 @@ def log_chat(user_message, result):
         "area_issue_count": result.get("area_issue_count"),
         "show_to_customer": result.get("show_to_customer"),
         "priority": result.get("priority"),
-        "suggested_action": result.get("suggested_action")
+        "suggested_action": result.get("suggested_action"),
+        "decision_rule": result.get("decision_rule")
     }
 
     df = pd.DataFrame([row])
@@ -300,20 +422,21 @@ def log_chat(user_message, result):
     else:
         df.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
 
+
 # =========================
 # MAIN FUNCTION
 # =========================
-def process_message(user_message, metrics=None, user_id="user_1", region="Unknown"):
+def process_message(user_message, metrics=None, user_id="customer_1", region="Unknown"):
 
     region = normalize_region(region)
 
     lang = detect_language(user_message)
 
-    intent, intent_conf = predict_intent(user_message, lang)
+    intent, intent_conf = predict_intent_safe(user_message, lang)
 
-    sentiment, sentiment_score = predict_sentiment(user_message, lang)
+    sentiment, sentiment_score = predict_sentiment_safe(user_message, lang)
 
-    issue_type = get_issue_type(intent)
+    issue_type = map_intent_to_issue_type(intent)
 
     repeat_count, area_issue_count = get_dynamic_metrics(user_id, region)
 
@@ -331,16 +454,23 @@ def process_message(user_message, metrics=None, user_id="user_1", region="Unknow
         repeat_count = 0
         area_issue_count = 0
 
-    response, followup = get_response(
+    decision = build_decision(
         intent=intent,
-        lang=lang,
-        region=region,
+        sentiment=sentiment,
+        prediction=prediction,
         network_problem=network_problem,
-        issue_type=issue_type
+        repeat_count=repeat_count,
+        area_issue_count=area_issue_count
+    )
+
+    response, followup = get_smart_response(
+        intent=intent,
+        sentiment=sentiment,
+        decision=decision,
+        lang=lang
     )
 
     notification = build_notification(
-        intent=intent,
         issue_type=issue_type,
         network_problem=network_problem,
         repeat_count=repeat_count,
@@ -363,6 +493,7 @@ def process_message(user_message, metrics=None, user_id="user_1", region="Unknow
         "network_problem": network_problem,
         "repeat_count": repeat_count,
         "area_issue_count": area_issue_count,
+        "decision_rule": decision.get("rule_used"),
         **notification
     }
 
