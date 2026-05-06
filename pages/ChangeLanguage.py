@@ -1,11 +1,6 @@
 import streamlit as st
-import os
-
-from language_guard import check_language
 
 st.set_page_config(page_title="Change Language", layout="centered")
-
-check_language(os.path.basename(__file__))
 
 # ===== CSS Updated for English (LTR) =====
 st.markdown("""
@@ -99,19 +94,11 @@ col_gap = "&nbsp;" * 55
 
 if st.button(f"🌐 Arabic {col_gap} ›", key="lang_ar"):
     st.session_state.lang = "ar"
-   if st.session_state.get("lang") == "ar":
-        st.switch_page("pages/settingar.py")
-
-    else:
-        st.switch_page("pages/Settings.py")
+    st.switch_page("pages/settingar.py")
 
 if st.button(f"🌐 English {col_gap} ✔", key="lang_en"):
     st.session_state.lang = "en"
-    if st.session_state.get("lang") == "ar":
-        st.switch_page("pages/settingar.py")
-
-    else:
-        st.switch_page("pages/Settings.py")
+    st.switch_page("pages/Settings.py")
 
 # ===== Bottom Spacer =====
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
