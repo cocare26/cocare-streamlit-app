@@ -25,7 +25,7 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تعديل تفاعل وحجم الأيقونات فقط)
+# CSS المطور (تثبيت الحجم وتفعيل الحركة)
 # =====================================
 st.markdown(f"""
 <style>
@@ -48,7 +48,7 @@ border-radius:42px;
 box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
-/* توحيد أحجام الأيقونات الأربعة في المنتصف وضمان تفاعلها */
+/* إجبار الأيقونات الأربعة على نفس الحجم تماماً */
 div[data-testid="stPopover"] {{
     width: 100% !important;
 }}
@@ -57,24 +57,23 @@ div[data-testid="stPopover"] > button {{
     border-radius: 18px !important;
     border: none !important;
     box-shadow: 0 6px 15px rgba(0,0,0,.06) !important;
-    padding: 10px 2px !important;
-    height: 110px !important; /* طول موحد وثابت */
+    padding: 5px !important;
+    height: 105px !important; /* ارتفاع ثابت وموحد للكل */
     width: 100% !important;
-    transition: all 0.3s ease-in-out !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    white-space: pre-wrap !important;
-    line-height: 1.2 !important;
-    font-size: 11px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    overflow: hidden !important; /* لمنع خروج النص عن الحجم */
+    text-overflow: ellipsis !important;
 }}
 
-/* تأثير الحركة عند مرور المؤشر (Hover) */
+/* تأثير الحركة عند مرور الماوس */
 div[data-testid="stPopover"] > button:hover {{
-    transform: translateY(-8px) !important; /* رفع الأيقونة للأعلى */
-    box-shadow: 0 12px 20px rgba(0,0,0,0.12) !important;
-    background-color: #f8fbff !important;
+    transform: translateY(-10px) !important; /* حركة واضحة للأعلى */
+    box-shadow: 0 15px 25px rgba(0,0,0,0.1) !important;
+    background-color: #ffffff !important;
 }}
 
 .card {{
@@ -107,7 +106,7 @@ box-shadow: 0 4px 15px rgba(0,0,0,.05);
 margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
 }}
-.nav-item {{ font-size: 22px; font-weight: 800; transition: all 0.3s ease; cursor: pointer; }}
+.nav-item {{ font-size: 22px; font-weight: 800; cursor: pointer; }}
 .nav-text {{ font-size: 10px; display: block; }}
 .bot-bg {{
 width:50px; height:50px; background:white; border-radius:12px;
@@ -162,28 +161,24 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (Popovers)
+# 3. أيقونات الخدمات (Popovers) - الآن بأحجام ثابتة وحركة
 # =====================================
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     with st.popover("📡\nInternet\nPackages"):
-        st.markdown("<p style='color:#102646; font-weight:bold;'>Available Bundles</p>", unsafe_allow_html=True)
         st.button("Buy 1GB", key="b1")
 
 with col2:
     with st.popover("🌍\nRenewals +\nChanges"):
-        st.markdown("<p style='color:#102646; font-weight:bold;'>Subscription</p>", unsafe_allow_html=True)
         st.button("Renew Now", key="b3")
 
 with col3:
     with st.popover("💰\nInternational\nCalls"):
-        st.markdown("<p style='color:#102646; font-weight:bold;'>Intl Calls</p>", unsafe_allow_html=True)
         st.button("Activate", key="b4")
 
 with col4:
     with st.popover("🔔\nNetwork\nNotifications"):
-        st.markdown("<p style='color:#102646; font-weight:bold;'>Notifications</p>", unsafe_allow_html=True)
         st.write("• Network update at 12AM")
 
 # =====================================
@@ -256,10 +251,4 @@ st.markdown(f"""
 <div class="nav-item">⚙️<span class="nav-text">Settings</span></div>
 <div class="nav-item">🎡<span class="nav-text">Spin</span></div>
 <div class="nav-item">
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
-<span class="nav-text">Chatbot</span>
-</div>
-<div class="nav-item active" style="color:#1A4FA0;">🏠<span class="nav-text">Home</span></div>
-<div class="nav-item">🎁<span class="nav-text">Game</span></div>
-</div>
-""", unsafe_allow_html=True)
+<div class="bot-bg
