@@ -102,10 +102,11 @@ col_gap_en = "&nbsp;" * 35
 if st.button(f"🌐  العربية  {col_gap_ar}{col_gap_ar}✔️"):
     st.session_state.lang = "ar"
     st.switch_page("pages/settingar.py")
-
+    st.switch_page("arabic-app.py")
 if st.button(f"🌐  English {col_gap_en}{col_gap_en} ‹"):
     st.session_state.lang = "en"
     st.switch_page("pages/Settings.py")
+    st.switch_page("app.py")
 
 # ===== فراغ =====
 st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
