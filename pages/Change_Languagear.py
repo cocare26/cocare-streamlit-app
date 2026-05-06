@@ -1,10 +1,10 @@
 import streamlit as st
+import os
 from language_guard import check_language
 
-check_language(__file__.split("\\")[-1])
-
-
 st.set_page_config(page_title="تغيير اللغة", layout="centered")
+
+check_language(os.path.basename(__file__))
 
 # ===== CSS المطابق للصورة =====
 st.markdown("""
