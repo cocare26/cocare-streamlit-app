@@ -4,8 +4,6 @@ import base64
 import html as html_lib
 import os
 import sys
-from datetime import datetime
-import pandas as pd
 
 # =========================
 # IMPORT COCARE ENGINE
@@ -19,7 +17,6 @@ from cocare import process_message
 st.set_page_config(page_title="المساعد الذكي", layout="centered")
 
 CHAT_KEY = "chat_ar_original_design_v2"
-CHAT_LOG_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "chat_logs.csv")
 
 # =========================
 # REGION SETUP
@@ -32,7 +29,6 @@ REGIONS = [
 if "region" not in st.session_state:
     st.session_state["region"] = "عمان"
 
-# اختيار المحافظة فوق الشات
 selected_region = st.selectbox(
     "اختر المحافظة",
     REGIONS,
@@ -47,6 +43,7 @@ st.session_state["region"] = selected_region
 def img_to_base64(path):
     try:
         full_path = os.path.join(os.path.dirname(__file__), "..", path)
+
         if os.path.exists(full_path):
             with open(full_path, "rb") as f:
                 return base64.b64encode(f.read()).decode()
@@ -61,45 +58,6 @@ def img_to_base64(path):
     return ""
 
 robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
-
-# =========================
-# SAVE CHAT ANALYSIS
-# =========================
-os.makedirs(os.path.dirname(CHAT_LOG_PATH), exist_ok=True)
-def save_chat_analysis(user_message, result, user_id="customer_1", region="عمان"):
-    row = {
-        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "user_id": user_id,
-        "region": result.get("region", region),
-        "message": user_message,
-        "bot_response": result.get("response", ""),
-        "followup_response": result.get("followup_response", ""),
-        "language": result.get("language", ""),
-        "intent": result.get("intent", ""),
-        "intent_confidence": result.get("intent_confidence", ""),
-        "sentiment": result.get("sentiment", ""),
-        "sentiment_score": result.get("sentiment_score", ""),
-        "prediction": result.get("prediction", 0),
-        "issue_type": result.get("issue_type", "normal"),
-        "network_problem": result.get("network_problem", False),
-    }
-
-    df = pd.DataFrame([row])
-
-    if os.path.exists(CHAT_LOG_PATH):
-        df.to_csv(
-            CHAT_LOG_PATH,
-            mode="a",
-            header=False,
-            index=False,
-            encoding="utf-8-sig"
-        )
-    else:
-        df.to_csv(
-            CHAT_LOG_PATH,
-            index=False,
-            encoding="utf-8-sig"
-        )
 
 # =========================
 # INITIAL CHAT
@@ -177,7 +135,7 @@ def get_bot_reply(user_text):
         return f"صار خطأ بالربط: {e}"
 
 # =========================
-# RECEIVE MESSAGE FROM HTML
+# RECEIVE MESSAGE FROM URL
 # =========================
 msg = st.query_params.get("msg", "")
 
@@ -199,6 +157,8 @@ messages_html = ""
 for role, m in st.session_state[CHAT_KEY]:
     cls = "user" if role == "user" else "bot"
     messages_html += f'<div class="msg {cls}">{html_lib.escape(str(m))}</div>'
+
+current_region = html_lib.escape(st.session_state.get("region", "عمان"))
 
 html = f"""
 <html>
@@ -315,14 +275,16 @@ body {{
     z-index:5;
 }}
 
-.menu div {{
+.menu a {{
+    display:block;
     font-size:13px;
     padding:7px 13px;
     color:#222;
     cursor:pointer;
+    text-decoration:none;
 }}
 
-.menu div:hover {{
+.menu a:hover {{
     background:#eef3f6;
 }}
 
@@ -335,6 +297,7 @@ body {{
     display:flex;
     align-items:center;
     gap:8px;
+    margin:0;
 }}
 
 .hamburger {{
@@ -347,6 +310,7 @@ body {{
     font-size:22px;
     color:#50768a;
     cursor:pointer;
+    flex-shrink:0;
 }}
 
 .chat-input {{
@@ -365,12 +329,14 @@ body {{
     width:40px;
     height:40px;
     border-radius:50%;
+    border:none;
     background:linear-gradient(135deg,#6ec6ff,#1c6fa4);
     color:white;
     text-align:center;
     line-height:40px;
     font-size:20px;
     cursor:pointer;
+    flex-shrink:0;
 }}
 </style>
 </head>
@@ -383,7 +349,7 @@ body {{
         <img class="avatar" src="data:image/png;base64,{robot}">
         <div class="dot"></div>
         <div class="status">جاهز للمساعدة</div>
-        <div class="region">📍 {html_lib.escape(st.session_state.get("region", "عمان"))}</div>
+        <div class="region">📍 {current_region}</div>
     </div>
 
     <div id="chatBox" class="chat-box">
@@ -391,54 +357,31 @@ body {{
     </div>
 
     <div id="menu" class="menu">
-        <div onclick="quickMsg('فحص الشبكة')">فحص الشبكة</div>
-        <div onclick="quickMsg('استهلاك الإنترنت')">استهلاك الإنترنت</div>
-        <div onclick="quickMsg('تجديد الباقة')">تجديد الباقة</div>
-        <div onclick="quickMsg('المكالمات الدولية')">المكالمات الدولية</div>
-        <div onclick="quickMsg('العروض')">العروض</div>
-        <div onclick="quickMsg('الدعم')">الدعم</div>
+        <a href="?msg=فحص الشبكة" target="_top">فحص الشبكة</a>
+        <a href="?msg=استهلاك الإنترنت" target="_top">استهلاك الإنترنت</a>
+        <a href="?msg=تجديد الباقة" target="_top">تجديد الباقة</a>
+        <a href="?msg=المكالمات الدولية" target="_top">المكالمات الدولية</a>
+        <a href="?msg=العروض" target="_top">العروض</a>
+        <a href="?msg=الدعم" target="_top">الدعم</a>
     </div>
 
-    <div class="bottom">
+    <form class="bottom" method="get" target="_top">
         <div class="hamburger" onclick="toggleMenu()">≡</div>
-        <input id="chatInput" class="chat-input" placeholder="اكتب سؤالك..." onkeydown="checkEnter(event)">
-        <div class="send" onclick="sendMessage()">➤</div>
-    </div>
+        <input name="msg" id="chatInput" class="chat-input" placeholder="اكتب سؤالك..." autocomplete="off">
+        <button class="send" type="submit">➤</button>
+    </form>
 
 </div>
 
 <script>
-function toggleMenu(){
+function toggleMenu(){{
     const menu = document.getElementById("menu");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
-}
+}}
 
-function sendToPython(text){
-    const encoded = encodeURIComponent(text);
-    window.top.location.href = "?msg=" + encoded;
-}
-
-function sendMessage(){
-    const input = document.getElementById("chatInput");
-    const text = input.value.trim();
-    if(text === "") return;
-    sendToPython(text);
-}
-
-function quickMsg(text){
-    document.getElementById("menu").style.display = "none";
-    sendToPython(text);
-}
-
-function checkEnter(event){
-    if(event.key === "Enter"){
-        sendMessage();
-    }
-}
-
-function goBack(){
+function goBack(){{
     window.top.location.href = "../";
-}
+}}
 
 const chatBox = document.getElementById("chatBox");
 chatBox.scrollTop = chatBox.scrollHeight;
