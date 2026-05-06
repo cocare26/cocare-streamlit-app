@@ -4,30 +4,30 @@ import os
 import sys
 import html as html_lib
 
-# =========================
-# IMPORT COCARE ENGINE
-# =========================
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
 
-# =========================
-# PAGE CONFIG
-# =========================
 st.set_page_config(page_title="المساعد الذكي", layout="centered")
 
 CHAT_KEY = "chat_ar_messages"
+CONTEXT_KEY = "chat_context"
 
-# =========================
-# REGION FROM USER INTERFACE ONLY
-# =========================
 if "region" not in st.session_state:
     st.session_state["region"] = "عمان"
 
-region = st.session_state["region"]
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = [
+        ("bot", "مرحبًا 👋 كيف أقدر أساعدك؟")
+    ]
 
-# =========================
-# IMAGE
-# =========================
+if CONTEXT_KEY not in st.session_state:
+    st.session_state[CONTEXT_KEY] = {
+        "last_intent": None,
+        "awaiting_details": False,
+        "last_network_problem": False
+    }
+
+
 def img_to_base64(path):
     try:
         full_path = os.path.join(os.path.dirname(__file__), "..", path)
@@ -38,19 +38,21 @@ def img_to_base64(path):
         pass
     return ""
 
+
 robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 
-# =========================
-# INIT CHAT
-# =========================
-if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = [
-        ("bot", "مرحبًا 👋 كيف أقدر أساعدك؟")
-    ]
 
-# =========================
-# BOT REPLY
-# =========================
+def prepare_context_message(user_text):
+    context = st.session_state[CONTEXT_KEY]
+    text = str(user_text).strip()
+
+    if context.get("awaiting_details") and len(text.split()) <= 6:
+        last_intent = context.get("last_intent") or "network_complaint"
+        return f"{last_intent}: {text}"
+
+    return text
+
+
 def get_bot_reply(user_text):
     quick_map = {
         "فحص الشبكة": "افحص حالة الشبكة عندي",
@@ -61,17 +63,26 @@ def get_bot_reply(user_text):
         "الدعم": "بدي أتواصل مع الدعم الفني",
     }
 
-    msg = quick_map.get(user_text, user_text)
+    original_msg = quick_map.get(user_text, user_text)
+    msg_for_engine = prepare_context_message(original_msg)
 
     user_id = st.session_state.get("user_id", "customer_1")
     region = st.session_state.get("region", "عمان")
 
     try:
         result = process_message(
-            msg,
+            msg_for_engine,
             user_id=user_id,
             region=region
         )
+
+        st.session_state[CONTEXT_KEY]["last_intent"] = result.get("intent")
+        st.session_state[CONTEXT_KEY]["last_network_problem"] = result.get("network_problem", False)
+
+        if result.get("network_problem", False):
+            st.session_state[CONTEXT_KEY]["awaiting_details"] = True
+        else:
+            st.session_state[CONTEXT_KEY]["awaiting_details"] = False
 
         response = str(result.get("response", "")).strip()
         followup = str(result.get("followup_response", "")).strip()
@@ -86,6 +97,7 @@ def get_bot_reply(user_text):
     except Exception as e:
         return f"صار خطأ بالربط: {e}"
 
+
 def send_message(text):
     if not text:
         return
@@ -94,9 +106,7 @@ def send_message(text):
     bot_reply = get_bot_reply(text)
     st.session_state[CHAT_KEY].append(("bot", bot_reply))
 
-# =========================
-# STYLE
-# =========================
+
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"] {
@@ -212,13 +222,6 @@ div[data-testid="stButton"] button:hover {
     margin-right:auto;
 }
 
-.input-wrap {
-    background:rgba(255,255,255,.65);
-    border-radius:22px;
-    padding:8px;
-    margin-top:4px;
-}
-
 div[data-testid="stChatInput"] {
     position:relative !important;
     bottom:auto !important;
@@ -236,9 +239,9 @@ div[data-testid="stChatInput"] textarea {
 </style>
 """, unsafe_allow_html=True)
 
-# =========================
-# TOP BAR
-# =========================
+
+region = st.session_state.get("region", "عمان")
+
 st.markdown(f"""
 <div class="topbar">
     <img class="avatar" src="data:image/png;base64,{robot}">
@@ -248,9 +251,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# =========================
-# QUICK SERVICES
-# =========================
+
 st.markdown('<div class="quick-title">الخدمات السريعة</div>', unsafe_allow_html=True)
 
 c1, c2, c3 = st.columns(3)
@@ -286,9 +287,7 @@ with c6:
         send_message("الدعم")
         st.rerun()
 
-# =========================
-# CHAT DISPLAY
-# =========================
+
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
@@ -300,14 +299,8 @@ chat_html += '</div>'
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# =========================
-# INPUT INSIDE CHAT SCREEN
-# =========================
-st.markdown('<div class="input-wrap">', unsafe_allow_html=True)
 
 user_input = st.chat_input("اكتب سؤالك...")
-
-st.markdown('</div>', unsafe_allow_html=True)
 
 if user_input:
     send_message(user_input)
