@@ -1,5 +1,10 @@
 import streamlit as st
 
+from language_guard import check_language
+
+check_language(__file__.split("\\")[-1])
+
+
 st.set_page_config(page_title="Change Language", layout="centered")
 
 # ===== CSS Updated for English (LTR) =====
