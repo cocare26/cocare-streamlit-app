@@ -26,10 +26,21 @@ EN_TO_AR = {
 
 def check_language(current_file):
 
-    lang = st.session_state.get("lang", "en")
+    if "lang" not in st.session_state:
+        st.session_state.lang = "en"
 
-    if lang == "ar" and current_file in EN_TO_AR:
-        st.switch_page(EN_TO_AR[current_file])
+    lang = st.session_state.lang
 
-    elif lang == "en" and current_file in AR_TO_EN:
-        st.switch_page(AR_TO_EN[current_file])
+    # DEBUG
+    st.write("FILE =", current_file)
+    st.write("LANG =", lang)
+
+    if lang == "ar":
+
+        if current_file in EN_TO_AR:
+            st.switch_page(EN_TO_AR[current_file])
+
+    elif lang == "en":
+
+        if current_file in AR_TO_EN:
+            st.switch_page(AR_TO_EN[current_file])
