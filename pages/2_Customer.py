@@ -57,6 +57,28 @@ box-shadow: 0 4px 15px rgba(0,0,0,.05);
 transition: all 0.3s ease;
 }}
 
+/* تنسيق مخصص للـ Popover ليختفي الزر الافتراضي ويظهر كأيقونة */
+div[data-testid="stPopover"] > button {{
+    background: white !important;
+    border: none !important;
+    padding: 8px 4px !important;
+    width: 100% !important;
+    min-height: 90px !important;
+    border-radius: 18px !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,.06) !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1.1 !important;
+}}
+
+div[data-testid="stPopover"] > button:hover {{
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}}
+
 .balance-card {{
     padding: 6px 14px !important;
     margin-bottom: 4px !important;
@@ -67,7 +89,7 @@ transition: all 0.3s ease;
     margin-bottom: 4px !important;
 }}
 
-.card:hover, .mini:hover, .nav-item:hover, .bot-bg:hover {{
+.card:hover, .nav-item:hover, .bot-bg:hover {{
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }}
@@ -105,7 +127,6 @@ margin: 4px 0 4px 4px;
     color: #ffcc00;
 }}
 
-/* تعديل خط التقييم */
 .rating-bar-container {{
     display: flex;
     align-items: center;
@@ -161,7 +182,6 @@ margin: 4px 0 4px 4px;
     z-index: 5;
 }}
 
-/* أيقونة قوة الإشارة */
 .signal-icon {{
     display: flex;
     align-items: flex-end;
@@ -181,12 +201,7 @@ margin: 4px 0 4px 4px;
     margin: 8px 0 6px; 
 }}
 
-.mini {{
-background:white; border-radius:18px; min-height:90px;
-padding:8px 4px; text-align:center; box-shadow:0 6px 15px rgba(0,0,0,.06);
-transition: all 0.3s ease;
-}}
-.mini-text {{ font-size:10px; font-weight:800; line-height:1.1; color:#102646; }}
+.mini-text {{ font-size:10px; font-weight:800; color:#102646; text-align:center; }}
 
 .nav {{
 margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
@@ -248,19 +263,32 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات
+# 3. أيقونات الخدمات مع الـ Popover
 # =====================================
-st.markdown("""
-<div class="grid4">
-<div class="mini clickable"><div style="font-size:24px;">📡</div><div class="mini-text">Internet<br>Packages</div></div>
-<div class="mini clickable"><div style="font-size:24px;">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
-<div class="mini clickable"><div style="font-size:24px;">💰</div><div class="mini-text">International<br>Calls</div></div>
-<div class="mini clickable"><div style="font-size:24px;">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
-</div>
-""", unsafe_allow_html=True)
+cols = st.columns(4)
+
+with cols[0]:
+    pop1 = st.popover("📡\nInternet\nPackages")
+    pop1.write("### 📡 Internet")
+    pop1.info("Select your next data bundle here.")
+
+with cols[1]:
+    pop2 = st.popover("🌍\nRenewals +\nChanges")
+    pop2.write("### 🌍 Subscriptions")
+    pop2.success("You can change your plan from here.")
+
+with cols[2]:
+    pop3 = st.popover("💰\nInternational\nCalls")
+    pop3.write("### 💰 Credit")
+    pop3.warning("Check international rates.")
+
+with cols[3]:
+    pop4 = st.popover("🔔\nNetwork\nNotifications")
+    pop4.write("### 🔔 Alerts")
+    pop4.error("No current issues in Amman.")
 
 # =====================================
-# 4. قسم التقييم (تعديل شريط التقييم)
+# 4. قسم التقييم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -283,7 +311,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (إضافة الوحدات والرسمة)
+# 5. قوة الشبكة
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -306,7 +334,7 @@ st.markdown("""
 <div style="flex: 1; text-align: center;">
 <div style="position: relative; width: 80px; margin: 0 auto;">
     <div style="width: 80px; height: 40px; border-radius: 80px 80px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
-        <div style="position: absolute; bottom: 0; left: 8px; width: 64px; height: 32px; background: white; border-radius: 64px 64px 0 0;"></div>
+        <div style="absolute; bottom: 0; left: 8px; width: 64px; height: 32px; background: white; border-radius: 64px 64px 0 0;"></div>
         <div class="needle" style="height: 35px; transform: rotate(-60deg);"></div>
     </div>
 <div style="font-size: 9px; font-weight: 900; color: #102646; margin-top: 4px;">-68dBm (Excellent)</div>
