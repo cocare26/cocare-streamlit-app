@@ -6,7 +6,33 @@ import pandas as pd
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
+CHAT_LOG_PATH = os.path.join(os.path.dirname(__file__), "..", "chat_logs.csv")
 
+def save_chat_analysis(user_message, result, user_id="customer_1", region="Amman"):
+    row = {
+        "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "user_id": user_id,
+        "region": region,
+        "message": user_message,
+        "bot_response": result.get("response", ""),
+        "followup_response": result.get("followup_response", ""),
+        "language": result.get("language", ""),
+        "intent": result.get("intent", ""),
+        "intent_confidence": result.get("intent_confidence", ""),
+        "sentiment": result.get("sentiment", ""),
+        "sentiment_score": result.get("sentiment_score", ""),
+        "prediction": result.get("prediction", 0),
+        "issue_type": result.get("issue_type", "normal"),
+        "network_problem": result.get("network_problem", False),
+    }
+
+    df = pd.DataFrame([row])
+
+    if os.path.exists(CHAT_LOG_PATH):
+        df.to_csv(CHAT_LOG_PATH, mode="a", header=False, index=False, encoding="utf-8-sig")
+    else:
+        df.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
+        
 st.set_page_config(page_title="المساعد الذكي", layout="centered")
 
 CHAT_KEY = "chat_ar_original_design_v2"
@@ -64,18 +90,31 @@ def get_bot_reply(user_text):
     msg = quick_map.get(user_text, user_text)
 
     try:
-        result = process_message(msg, user_id="customer_1", region="Amman")
+        result = process_message(
+            msg,
+            user_id=st.session_state.get("user_id", "customer_1"),
+            region=st.session_state.get("region", "Amman")
+        )
+
+        save_chat_analysis(
+            msg,
+            result,
+            user_id=st.session_state.get("user_id", "customer_1"),
+            region=st.session_state.get("region", "Amman")
+        )
+
         response = str(result.get("response", "")).strip()
         followup = str(result.get("followup_response", "")).strip()
+
         reply = f"{response}\n\n{followup}".strip()
 
-        if not reply or "ممكن توضح" in reply or "احكيلي تفاصيل أكثر" in reply:
-            return fallback_reply(user_text)
+        if not reply:
+            return "ممكن توضحي أكثر؟"
 
         return reply
 
-    except Exception:
-        return fallback_reply(user_text)
+    except Exception as e:
+        return f"صار خطأ بالربط: {e}"
 
 msg = st.query_params.get("msg", "")
 if msg:
