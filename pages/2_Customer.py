@@ -25,7 +25,7 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تعديل الألوان والخطوط)
+# CSS المطور (تعديل الأيقونات والنجوم فقط)
 # =====================================
 st.markdown(f"""
 <style>
@@ -48,159 +48,67 @@ border-radius:42px;
 box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
+/* تعديل الأيقونات بالمنتصف لتكون متناسقة */
+div[data-testid="stPopover"] {{
+    width: 100% !important;
+}}
+div[data-testid="stPopover"] > button {{
+    background: white !important;
+    border-radius: 18px !important;
+    border: none !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,.06) !important;
+    padding: 10px 2px !important;
+    min-height: 100px !important; /* طول موحد */
+    width: 100% !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}}
+/* حركة الأيقونات عند التأشير */
+div[data-testid="stPopover"] > button:hover {{
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}}
+
 .card {{
 background: white;
 border-radius: 20px;
 padding: 10px 14px;
 margin-bottom: 8px;
 box-shadow: 0 4px 15px rgba(0,0,0,.05);
-transition: all 0.3s ease;
 }}
 
-.balance-card {{
-    padding: 6px 14px !important;
-    margin-bottom: 4px !important;
-}}
+.title {{ font-size:15px; font-weight:900; color:#102646; margin: 4px 0 4px 4px; }}
+.clickable {{ cursor: pointer; }}
 
-.rating-card {{
-    padding: 4px 14px 6px !important;
-    margin-bottom: 4px !important;
-}}
+/* نجوم التقييم التفاعلية */
+.star-rating {{ display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }}
+.star-rating label {{ font-size: 24px; color: #ddd; cursor: pointer; transition: 0.2s; }}
+.star-rating label:hover, .star-rating label:hover ~ label {{ color: #FFD700; }}
 
-.card:hover, .mini:hover, .nav-item:hover, .bot-bg:hover {{
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}}
-
-.title {{
-font-size:15px;
-font-weight:900;
-color:#102646;
-margin: 4px 0 4px 4px;
-}}
-
-.clickable {{ 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-}}
-.clickable:active {{ transform: scale(0.95); }}
-
-.star-rating {{
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-    gap: 4px;
-}}
-.star-rating input {{ display: none; }}
-.star-rating label {{
-    font-size: 24px;
-    color: #ddd;
-    cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
-}}
-.star-rating label:hover {{ transform: scale(1.2); }}
-.star-rating input:checked ~ label,
-.star-rating label:hover,
-.star-rating label:hover ~ label {{
-    color: #ffcc00;
-}}
-
-/* تعديل خط التقييم */
 .rating-bar-container {{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
     background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
-    height: 22px;
-    border-radius: 4px;
-    margin-top: 6px;
-    padding: 0 10px;
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
+    height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px;
+    color: white; font-size: 11px; font-weight: bold;
 }}
-
-.welcome-card {{
-    background: white;
-    border-radius: 20px;
-    padding: 8px 12px;
-    margin-bottom: 8px;
-    box-shadow: 0 6px 15px rgba(0,0,0,.06);
-    display: flex;
-    align-items: center;
-    position: relative;
-    height: 100px;
-    transition: all 0.3s ease;
-}}
-
-.robot-img-welcome {{
-    width: 95px; 
-    height: 95px;
-    background: transparent !important;
-    border-radius: 14px;
-    margin-right: 12px;
-    object-fit: contain;
-    padding: 4px;
-    transition: transform 0.4s ease;
-}}
-
-.welcome-text-container {{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}}
-
-.needle {{
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    height: 30px;
-    background: #333;
-    transform-origin: bottom center;
-    z-index: 5;
-}}
-
-/* أيقونة قوة الإشارة */
-.signal-icon {{
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    justify-content: center;
-    margin-top: 5px;
-}}
-.signal-bar {{
-    width: 4px;
-    border-radius: 1px;
-}}
-
-.grid4 {{ 
-    display:grid; 
-    grid-template-columns:repeat(4,1fr); 
-    gap:6px; 
-    margin: 8px 0 6px; 
-}}
-
-.mini {{
-background:white; border-radius:18px; min-height:90px;
-padding:8px 4px; text-align:center; box-shadow:0 6px 15px rgba(0,0,0,.06);
-transition: all 0.3s ease;
-}}
-.mini-text {{ font-size:10px; font-weight:800; line-height:1.1; color:#102646; }}
+.needle {{ position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px; background: #333; transform-origin: bottom center; z-index: 5; }}
+.signal-icon {{ display: flex; align-items: flex-end; gap: 2px; justify-content: center; margin-top: 5px; }}
+.signal-bar {{ width: 4px; border-radius: 1px; }}
 
 .nav {{
 margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
 }}
-.nav-item {{ font-size: 22px; font-weight: 800; transition: all 0.3s ease; }}
+.nav-item {{ font-size: 22px; font-weight: 800; transition: all 0.3s ease; cursor: pointer; }}
 .nav-text {{ font-size: 10px; display: block; }}
 .bot-bg {{
 width:50px; height:50px; background:white; border-radius:12px;
 margin: 0 auto 4px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-transition: all 0.3s ease;
 }}
-.active {{ color:inherit; }} 
 </style>
 """, unsafe_allow_html=True)
 
@@ -209,13 +117,14 @@ transition: all 0.3s ease;
 # =====================================
 st.markdown(f"""
 <div class="welcome-card clickable">
-    <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
+    <div style="background: white; border-radius: 20px; padding: 8px 12px; margin-bottom: 8px; box-shadow: 0 6px 15px rgba(0,0,0,.06); display: flex; align-items: center; height: 100px;">
+    <img src="data:image/png;base64,{robot_full}" style="width: 95px; height: 95px; border-radius: 14px; margin-right: 12px; object-fit: contain;">
     <div class="welcome-text-container">
         <div style="font-size:20px; font-weight:900; color:#102646; line-height:1.1;">Welcome: User Name</div>
         <div style="font-size:12px; color:#555; margin-top:2px;">+962 79 123 4567</div>
         <div style="font-size:10px; color:#777;">Valid until: May 25, 2024</div>
-        <div style="font-size:11px; background:#F0F7FF; border-radius:20px; padding:2px 10px; color:#102646; font-weight:700; margin-top:5px; border:1px solid #D0E0F0;">
-        📍 Location: Amman</div>
+        <div style="font-size:11px; background:#F0F7FF; border-radius:20px; padding:2px 10px; color:#102646; font-weight:700; margin-top:5px; border:1px solid #D0E0F0; width: fit-content;">📍 Amman</div>
+    </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -225,7 +134,7 @@ st.markdown(f"""
 # =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
-<div class="card balance-card clickable">
+<div class="card clickable" style="padding: 6px 14px !important; margin-bottom: 4px !important;">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 2;">
 <div style="font-size:10px; font-weight:700; color:#666;">Remaining GB</div>
@@ -235,7 +144,7 @@ st.markdown(f"""
 <div style="position: relative; width: 60px; height: 30px; margin-left: auto;">
     <div style="width: 50px; height: 25px; border-radius: 50px 50px 0 0; background: linear-gradient(90deg, #1A4FA0 60%, #E0E0E0 60%); position: relative; overflow: hidden;">
         <div style="position: absolute; bottom: 0; left: 5px; width: 40px; height: 20px; background: white; border-radius: 40px 40px 0 0;"></div>
-        <div class="needle" style="height:20px; transform: rotate(45deg);"></div>
+        <div class="needle" style="height:20px; transform: rotate(45deg); left:48%;"></div>
     </div>
 </div>
 <div style="font-size:10px; font-weight:900; color:#102646;">6 GB</div>
@@ -248,23 +157,36 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات
+# 3. أيقونات الخدمات (Popovers) - حجم متناسق
 # =====================================
-st.markdown("""
-<div class="grid4">
-<div class="mini clickable"><div style="font-size:24px;">📡</div><div class="mini-text">Internet<br>Packages</div></div>
-<div class="mini clickable"><div style="font-size:24px;">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
-<div class="mini clickable"><div style="font-size:24px;">💰</div><div class="mini-text">International<br>Calls</div></div>
-<div class="mini clickable"><div style="font-size:24px;">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
-</div>
-""", unsafe_allow_html=True)
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    with st.popover("📡\nInternet\nPackages"):
+        st.markdown("<p style='color:#102646; font-weight:bold;'>Available Bundles</p>", unsafe_allow_html=True)
+        st.button("Buy 1GB", key="b1")
+
+with col2:
+    with st.popover("🌍\nRenewals +\nChanges"):
+        st.markdown("<p style='color:#102646; font-weight:bold;'>Subscription</p>", unsafe_allow_html=True)
+        st.button("Renew Now", key="b3")
+
+with col3:
+    with st.popover("💰\nInternational\nCalls"):
+        st.markdown("<p style='color:#102646; font-weight:bold;'>Intl Calls</p>", unsafe_allow_html=True)
+        st.button("Activate", key="b4")
+
+with col4:
+    with st.popover("🔔\nNetwork\nNotifications"):
+        st.markdown("<p style='color:#102646; font-weight:bold;'>Notifications</p>", unsafe_allow_html=True)
+        st.write("• Network update at 12AM")
 
 # =====================================
-# 4. قسم التقييم (تعديل شريط التقييم)
+# 4. قسم التقييم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
-<div class="card rating-card">
+<div class="card" style="padding: 4px 14px 6px !important; margin-bottom: 4px !important;">
 <div style="font-weight:900; font-size:12px; color:#102646;">⭐ Service Security Rate</div>
 <div class="rating-bar-container">
     <span>★ 4.5</span>
@@ -273,17 +195,13 @@ st.markdown("""
 </div>
 <div style="text-align:center; margin-top:8px; font-weight:700; font-size:11px; color:#666; margin-bottom:2px;">Rate our service</div>
 <div class="star-rating">
-    <input type="radio" id="5" name="rate"><label for="5">★</label>
-    <input type="radio" id="4" name="rate"><label for="4">★</label>
-    <input type="radio" id="3" name="rate"><label for="3">★</label>
-    <input type="radio" id="2" name="rate"><label for="2">★</label>
-    <input type="radio" id="1" name="rate"><label for="1">★</label>
+    <label>★</label><label>★</label><label>★</label><label>★</label><label>★</label>
 </div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (إضافة الوحدات والرسمة)
+# 5. قوة الشبكة (تم استعادة الشكل الأصلي بالكامل)
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -307,7 +225,7 @@ st.markdown("""
 <div style="position: relative; width: 80px; margin: 0 auto;">
     <div style="width: 80px; height: 40px; border-radius: 80px 80px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
         <div style="position: absolute; bottom: 0; left: 8px; width: 64px; height: 32px; background: white; border-radius: 64px 64px 0 0;"></div>
-        <div class="needle" style="height: 35px; transform: rotate(-60deg);"></div>
+        <div class="needle" style="height: 35px; transform: rotate(-60deg); left:48%;"></div>
     </div>
 <div style="font-size: 9px; font-weight: 900; color: #102646; margin-top: 4px;">-68dBm (Excellent)</div>
 <div class="signal-icon">
@@ -326,17 +244,17 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي
+# 6. الشريط السفلي (تم استعادة الشكل الأصلي بالكامل)
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
-<div class="nav-item clickable">🎡<span class="nav-text">Spin</span></div>
-<div class="nav-item clickable">
+<div class="nav-item">⚙️<span class="nav-text">Settings</span></div>
+<div class="nav-item">🎡<span class="nav-text">Spin</span></div>
+<div class="nav-item">
 <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
 <span class="nav-text">Chatbot</span>
 </div>
-<div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
-<div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
+<div class="nav-item active" style="color:#1A4FA0;">🏠<span class="nav-text">Home</span></div>
+<div class="nav-item">🎁<span class="nav-text">Game</span></div>
 </div>
 """, unsafe_allow_html=True)
