@@ -25,7 +25,7 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # =====================================
-# CSS المطور (تعديل الأيقونات والنجوم فقط)
+# CSS المطور (تعديل تفاعل وحجم الأيقونات فقط)
 # =====================================
 st.markdown(f"""
 <style>
@@ -48,7 +48,7 @@ border-radius:42px;
 box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
-/* تعديل الأيقونات بالمنتصف لتكون متناسقة */
+/* توحيد أحجام الأيقونات الأربعة في المنتصف وضمان تفاعلها */
 div[data-testid="stPopover"] {{
     width: 100% !important;
 }}
@@ -58,18 +58,23 @@ div[data-testid="stPopover"] > button {{
     border: none !important;
     box-shadow: 0 6px 15px rgba(0,0,0,.06) !important;
     padding: 10px 2px !important;
-    min-height: 100px !important; /* طول موحد */
+    height: 110px !important; /* طول موحد وثابت */
     width: 100% !important;
-    transition: all 0.3s ease !important;
+    transition: all 0.3s ease-in-out !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
+    white-space: pre-wrap !important;
+    line-height: 1.2 !important;
+    font-size: 11px !important;
 }}
-/* حركة الأيقونات عند التأشير */
+
+/* تأثير الحركة عند مرور المؤشر (Hover) */
 div[data-testid="stPopover"] > button:hover {{
-    transform: translateY(-5px) scale(1.02) !important;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    transform: translateY(-8px) !important; /* رفع الأيقونة للأعلى */
+    box-shadow: 0 12px 20px rgba(0,0,0,0.12) !important;
+    background-color: #f8fbff !important;
 }}
 
 .card {{
@@ -157,7 +162,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (Popovers) - حجم متناسق
+# 3. أيقونات الخدمات (Popovers)
 # =====================================
 col1, col2, col3, col4 = st.columns(4)
 
@@ -201,7 +206,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (تم استعادة الشكل الأصلي بالكامل)
+# 5. قوة الشبكة
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -244,7 +249,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي (تم استعادة الشكل الأصلي بالكامل)
+# 6. الشريط السفلي
 # =====================================
 st.markdown(f"""
 <div class="nav">
