@@ -5,68 +5,94 @@ import os
 import sys
 from urllib.parse import unquote
 
+# =========================
+# IMPORT MODEL
+# =========================
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
 
+# =========================
+# PAGE CONFIG
+# =========================
 st.set_page_config(page_title="AI Agent", layout="centered")
 
+# =========================
+# REGION
+# =========================
 if "region" not in st.session_state:
     st.session_state["region"] = "Amman"
 
 region = st.session_state["region"]
 
+# =========================
+# IMAGE
+# =========================
 def img_to_base64(path):
     full_path = os.path.join(os.path.dirname(__file__), "..", path)
+
     if os.path.exists(full_path):
         with open(full_path, "rb") as f:
             return base64.b64encode(f.read()).decode()
+
     return ""
 
 robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 
 # =========================
-# HANDLE HTML BUTTON / INPUT
+# HANDLE MESSAGE
 # =========================
 params = st.query_params
 
 if "msg" in params:
-    msg = unquote(params["msg"])
+
+    user_msg = unquote(params["msg"])
 
     result = process_message(
-        msg,
-        user_id=st.session_state.get("user_id", "customer_1"),
+        user_msg,
+        user_id="customer_1",
         region=region
     )
 
     response = str(result.get("response", "")).strip()
     followup = str(result.get("followup_response", "")).strip()
 
-    bot_reply = f"{response}\\n\\n{followup}".strip()
+    bot_reply = f"{response}\n\n{followup}".strip()
 
-    st.session_state["last_user_msg"] = msg
+    st.session_state["last_user_msg"] = user_msg
     st.session_state["last_bot_reply"] = bot_reply
 
 else:
+
     if "last_user_msg" not in st.session_state:
         st.session_state["last_user_msg"] = ""
 
     if "last_bot_reply" not in st.session_state:
         st.session_state["last_bot_reply"] = "Hi, how can I help you?"
 
+# =========================
+# CHAT CONTENT
+# =========================
 last_user_msg = st.session_state.get("last_user_msg", "")
-last_bot_reply = st.session_state.get("last_bot_reply", "Hi, how can I help you?")
+last_bot_reply = st.session_state.get("last_bot_reply", "")
 
 user_msg_html = ""
+
 if last_user_msg:
-    user_msg_html = f'<div class="msg user">{last_user_msg}</div>'
+    user_msg_html = f'''
+    <div class="msg user">
+        {last_user_msg}
+    </div>
+    '''
 
 # =========================
-# HTML DESIGN + WORKING BUTTONS
+# HTML UI
 # =========================
 html = f"""
 <html>
 <head>
+
 <style>
+
 body {{
     margin:0;
     background:#eef2f7;
@@ -225,72 +251,137 @@ body {{
     font-size:20px;
     cursor:pointer;
 }}
+
 </style>
 </head>
 
 <body>
+
 <div class="phone">
 
     <div class="topbar">
+
         <a href="/Customer" target="_self" style="text-decoration:none;">
             <div class="back">‹</div>
         </a>
 
-        <img class="avatar" src="data:image/png;base64,{robot}">
+        <img class="avatar"
+             src="data:image/png;base64,{robot}">
+
         <div class="dot"></div>
-        <div class="status">Ready to assist</div>
+
+        <div class="status">
+            Ready to assist
+        </div>
+
     </div>
 
     <div id="chatBox" class="chat-box">
+
         {user_msg_html}
-        <div class="msg bot">{last_bot_reply}</div>
+
+        <div class="msg bot">
+            {last_bot_reply}
+        </div>
+
     </div>
 
     <div id="menu" class="menu">
-        <div onclick="sendToModel('Network Test')">Network Test</div>
-        <div onclick="sendToModel('Internet Usage')">Internet Usage</div>
-        <div onclick="sendToModel('Renew Package')">Renew Package</div>
-        <div onclick="sendToModel('International Calls')">International Calls</div>
-        <div onclick="sendToModel('Offers & Games')">Offers & Games</div>
-        <div onclick="sendToModel('Contact Support')">Contact Support</div>
+
+        <div onclick="sendToModel('Network Test')">
+            Network Test
+        </div>
+
+        <div onclick="sendToModel('Internet Usage')">
+            Internet Usage
+        </div>
+
+        <div onclick="sendToModel('Renew Package')">
+            Renew Package
+        </div>
+
+        <div onclick="sendToModel('International Calls')">
+            International Calls
+        </div>
+
+        <div onclick="sendToModel('Offers & Games')">
+            Offers & Games
+        </div>
+
+        <div onclick="sendToModel('Contact Support')">
+            Contact Support
+        </div>
+
     </div>
 
     <div class="bottom">
-        <div class="hamburger" onclick="toggleMenu()">≡</div>
-        <input id="chatInput" class="chat-input" placeholder="Type your question here..." onkeydown="checkEnter(event)">
-        <div class="send" onclick="sendInput()">➤</div>
+
+        <div class="hamburger"
+             onclick="toggleMenu()">
+             ≡
+        </div>
+
+        <input
+            id="chatInput"
+            class="chat-input"
+            placeholder="Type your question here..."
+            onkeydown="checkEnter(event)"
+        >
+
+        <div class="send"
+             onclick="sendInput()">
+             ➤
+        </div>
+
     </div>
 
 </div>
 
 <script>
+
 function toggleMenu(){{
     const menu = document.getElementById("menu");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
+
+    menu.style.display =
+        menu.style.display === "block"
+        ? "none"
+        : "block";
 }}
 
-ffunction sendToModel(text){
-    const url = new URL(window.parent.location.href);
-    url.searchParams.set("msg", text);
-    window.parent.location.href = url.toString();
-}
+function sendToModel(text){{
+    const url =
+        new URL(window.parent.location.href);
 
-function sendInput(){
-    const input = document.getElementById("chatInput");
-    const text = input.value.trim();
+    url.searchParams.set("msg", text);
+
+    window.parent.location.href =
+        url.toString();
+}}
+
+function sendInput(){{
+    const input =
+        document.getElementById("chatInput");
+
+    const text =
+        input.value.trim();
 
     if(text === "") return;
 
-    const url = new URL(window.parent.location.href);
+    const url =
+        new URL(window.parent.location.href);
+
     url.searchParams.set("msg", text);
-    window.parent.location.href = url.toString();
-}
+
+    window.parent.location.href =
+        url.toString();
+}}
 
 function checkEnter(event){{
     if(event.key === "Enter"){{
         sendInput();
     }}
 }}
+
 </script>
 
 </body>
