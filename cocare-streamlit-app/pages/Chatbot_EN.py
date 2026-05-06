@@ -3,14 +3,12 @@ import streamlit.components.v1 as components
 import base64
 import os
 import sys
-import html as html_lib
+from urllib.parse import unquote
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
-
-CHAT_KEY = "chat_en_messages"
 
 if "region" not in st.session_state:
     st.session_state["region"] = "Amman"
@@ -26,58 +24,44 @@ def img_to_base64(path):
 
 robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 
-if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi, how can I help you?")
-    ]
+# =========================
+# HANDLE HTML BUTTON / INPUT
+# =========================
+params = st.query_params
 
-def get_bot_reply(user_text):
-    quick_map = {
-        "Network Test": "Check my network status",
-        "Internet Usage": "I want to check internet usage",
-        "Renew Package": "I want to renew my package",
-        "International Calls": "Tell me about international calls",
-        "Offers & Games": "What offers are available?",
-        "Contact Support": "I need technical support",
-    }
+if "msg" in params:
+    msg = unquote(params["msg"])
 
-    msg = quick_map.get(user_text, user_text)
+    result = process_message(
+        msg,
+        user_id=st.session_state.get("user_id", "customer_1"),
+        region=region
+    )
 
-    try:
-        result = process_message(
-            msg,
-            user_id=st.session_state.get("user_id", "customer_1"),
-            region=region
-        )
+    response = str(result.get("response", "")).strip()
+    followup = str(result.get("followup_response", "")).strip()
 
-        response = str(result.get("response", "")).strip()
-        followup = str(result.get("followup_response", "")).strip()
+    bot_reply = f"{response}\\n\\n{followup}".strip()
 
-        reply = f"{response}\n\n{followup}".strip()
-        return reply if reply else "Could you clarify more?"
+    st.session_state["last_user_msg"] = msg
+    st.session_state["last_bot_reply"] = bot_reply
 
-    except Exception as e:
-        return f"Connection error: {e}"
+else:
+    if "last_user_msg" not in st.session_state:
+        st.session_state["last_user_msg"] = ""
 
-def send_message(text):
-    if not text or not text.strip():
-        return
+    if "last_bot_reply" not in st.session_state:
+        st.session_state["last_bot_reply"] = "Hi, how can I help you?"
 
-    st.session_state[CHAT_KEY].append(("user", text))
-    st.session_state[CHAT_KEY].append(("bot", get_bot_reply(text)))
+last_user_msg = st.session_state.get("last_user_msg", "")
+last_bot_reply = st.session_state.get("last_bot_reply", "Hi, how can I help you?")
+
+user_msg_html = ""
+if last_user_msg:
+    user_msg_html = f'<div class="msg user">{last_user_msg}</div>'
 
 # =========================
-# IMAGE
-# =========================
-try:
-    with open("robot_head.png", "rb") as f:
-        robot = base64.b64encode(f.read()).decode()
-except FileNotFoundError:
-    robot = ""
-
-
-# =========================
-# CHATBOT UI DESIGN
+# HTML DESIGN + WORKING BUTTONS
 # =========================
 html = f"""
 <html>
@@ -156,6 +140,7 @@ body {{
     margin-bottom:8px;
     font-size:13px;
     line-height:1.4;
+    white-space:pre-wrap;
 }}
 
 .bot {{
@@ -257,84 +242,55 @@ body {{
     </div>
 
     <div id="chatBox" class="chat-box">
-        <div class="msg bot">Hi, how can I help you?</div>
+        {user_msg_html}
+        <div class="msg bot">{last_bot_reply}</div>
     </div>
 
     <div id="menu" class="menu">
-        <div>Network Test</div>
-        <div>Internet Usage</div>
-        <div>Renew Package</div>
-        <div>International Calls</div>
-        <div>Offers & Games</div>
-        <div>Contact Support</div>
+        <div onclick="sendToModel('Network Test')">Network Test</div>
+        <div onclick="sendToModel('Internet Usage')">Internet Usage</div>
+        <div onclick="sendToModel('Renew Package')">Renew Package</div>
+        <div onclick="sendToModel('International Calls')">International Calls</div>
+        <div onclick="sendToModel('Offers & Games')">Offers & Games</div>
+        <div onclick="sendToModel('Contact Support')">Contact Support</div>
     </div>
 
     <div class="bottom">
-        <div class="hamburger">≡</div>
-        <input class="chat-input" placeholder="Type your question here...">
-        <div class="send">➤</div>
+        <div class="hamburger" onclick="toggleMenu()">≡</div>
+        <input id="chatInput" class="chat-input" placeholder="Type your question here..." onkeydown="checkEnter(event)">
+        <div class="send" onclick="sendInput()">➤</div>
     </div>
 
 </div>
+
+<script>
+function toggleMenu(){{
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}}
+
+function sendToModel(text){{
+    window.parent.location.search = "?msg=" + encodeURIComponent(text);
+}}
+
+function sendInput(){{
+    const input = document.getElementById("chatInput");
+    const text = input.value.trim();
+
+    if(text === "") return;
+
+    window.parent.location.search = "?msg=" + encodeURIComponent(text);
+}}
+
+function checkEnter(event){{
+    if(event.key === "Enter"){{
+        sendInput();
+    }}
+}}
+</script>
+
 </body>
 </html>
 """
 
 components.html(html, height=730)
-
-
-st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
-
-c1, c2, c3 = st.columns(3)
-c4, c5, c6 = st.columns(3)
-
-with c1:
-    if st.button("Network"):
-        send_message("Network Test")
-        st.rerun()
-
-with c2:
-    if st.button("Usage"):
-        send_message("Internet Usage")
-        st.rerun()
-
-with c3:
-    if st.button("Renew"):
-        send_message("Renew Package")
-        st.rerun()
-
-with c4:
-    if st.button("Calls"):
-        send_message("International Calls")
-        st.rerun()
-
-with c5:
-    if st.button("Offers"):
-        send_message("Offers & Games")
-        st.rerun()
-
-with c6:
-    if st.button("Support"):
-        send_message("Contact Support")
-        st.rerun()
-        
-chat_html = '<div class="chat-area">'
-
-for role, message in st.session_state[CHAT_KEY]:
-    cls = "user" if role == "user" else "bot"
-    safe_msg = html_lib.escape(str(message))
-    chat_html += f'<div class="msg {cls}">{safe_msg}</div>'
-
-chat_html += '</div>'
-
-st.markdown(chat_html, unsafe_allow_html=True)
-
-st.markdown('<div class="input-wrap">', unsafe_allow_html=True)
-
-user_input = st.chat_input("Type your question here...")
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-if user_input:
-    send_message(user_input)
-    st.rerun()
