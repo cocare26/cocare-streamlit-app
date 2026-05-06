@@ -24,11 +24,16 @@ def get_base64(path):
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
-# تحميل صور الأيقونات الأربعة الجديدة
+# تحميل صور الأيقونات الأربعة في الوسط
 icon_internet = get_base64("internet.png")
 icon_renewals = get_base64("renewals.png")
 icon_calls = get_base64("calls.png")
 icon_notifications = get_base64("notifications.png")
+
+# تحميل صور الشريط السفلي الجديدة
+icon_home = get_base64("home.png")
+icon_game = get_base64("game.png")
+icon_spin = get_base64("spin.png")
 
 # =====================================
 # CSS المطور
@@ -185,7 +190,6 @@ margin: 4px 0 4px 4px;
     margin: 8px 0 6px; 
 }}
 
-/* تعديل الأيقونات بالوسط: إزالة الإطار والظل والنص */
 .mini-no-border {{
     background: transparent; 
     border-radius: 0; 
@@ -199,24 +203,30 @@ margin: 4px 0 4px 4px;
 }}
 
 .mini-img-large {{
-    width: 85px; /* تكبير الصورة لتأخذ مساحة الإطار السابق */
+    width: 85px; 
     height: 85px;
+    object-fit: contain;
+}}
+
+/* تنسيق صور الشريط السفلي */
+.nav-icon-img {{
+    width: 32px;
+    height: 32px;
     object-fit: contain;
 }}
 
 .nav {{
 margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
-text-align:center; color:#6b6b6b; align-items: end;
+text-align:center; color:#6b6b6b; align-items: center;
 }}
-.nav-item {{ font-size: 22px; font-weight: 800; transition: all 0.3s ease; }}
-.nav-text {{ font-size: 10px; display: block; }}
+.nav-item {{ transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; }}
 .bot-bg {{
 width:50px; height:50px; background:white; border-radius:12px;
-margin: 0 auto 4px; display:flex; align-items:center; justify-content:center;
+margin: 0 auto; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 transition: all 0.3s ease;
 }}
-.active {{ color:inherit; }} 
+.active {{ filter: drop-shadow(0 0 5px rgba(26, 79, 160, 0.4)); }} 
 </style>
 """, unsafe_allow_html=True)
 
@@ -264,7 +274,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (معدلة: صور فقط بدون إطار أو نص)
+# 3. أيقونات الخدمات (الوسط)
 # =====================================
 st.markdown(f"""
 <div class="grid4">
@@ -350,17 +360,22 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي
+# 6. الشريط السفلي (المعدل لاستخدام الصور)
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable">⚙️<span class="nav-text">Settings</span></div>
-<div class="nav-item clickable">🎡<span class="nav-text">Spin</span></div>
+<div class="nav-item clickable">⚙️</div>
 <div class="nav-item clickable">
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
-<span class="nav-text">Chatbot</span>
+    <img src="data:image/png;base64,{icon_spin}" class="nav-icon-img">
 </div>
-<div class="nav-item active clickable">🏠<span class="nav-text">Home</span></div>
-<div class="nav-item clickable">🎁<span class="nav-text">Game</span></div>
+<div class="nav-item clickable">
+    <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
+</div>
+<div class="nav-item active clickable">
+    <img src="data:image/png;base64,{icon_home}" class="nav-icon-img">
+</div>
+<div class="nav-item clickable">
+    <img src="data:image/png;base64,{icon_game}" class="nav-icon-img">
+</div>
 </div>
 """, unsafe_allow_html=True)
