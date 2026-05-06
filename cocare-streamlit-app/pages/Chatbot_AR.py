@@ -18,20 +18,12 @@ st.set_page_config(page_title="المساعد الذكي", layout="centered")
 CHAT_KEY = "chat_ar_messages"
 
 # =========================
-# REGIONS
+# REGION FROM USER INTERFACE ONLY
 # =========================
-REGIONS = [
-    "عمان", "الزرقاء", "إربد", "البلقاء", "مادبا", "الكرك",
-    "الطفيلة", "معان", "العقبة", "جرش", "عجلون", "المفرق"
-]
-
 if "region" not in st.session_state:
     st.session_state["region"] = "عمان"
 
-if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = [
-        ("bot", "مرحبًا 👋 كيف أقدر أساعدك؟")
-    ]
+region = st.session_state["region"]
 
 # =========================
 # IMAGE
@@ -49,6 +41,60 @@ def img_to_base64(path):
 robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 
 # =========================
+# INIT CHAT
+# =========================
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = [
+        ("bot", "مرحبًا 👋 كيف أقدر أساعدك؟")
+    ]
+
+# =========================
+# BOT REPLY
+# =========================
+def get_bot_reply(user_text):
+    quick_map = {
+        "فحص الشبكة": "افحص حالة الشبكة عندي",
+        "استهلاك الإنترنت": "بدي أعرف استهلاك الإنترنت",
+        "تجديد الباقة": "بدي أجدد الباقة",
+        "المكالمات الدولية": "بدي أعرف عن المكالمات الدولية",
+        "العروض": "شو العروض المتاحة؟",
+        "الدعم": "بدي أتواصل مع الدعم الفني",
+    }
+
+    msg = quick_map.get(user_text, user_text)
+
+    user_id = st.session_state.get("user_id", "customer_1")
+    region = st.session_state.get("region", "عمان")
+
+    try:
+        result = process_message(
+            msg,
+            user_id=user_id,
+            region=region
+        )
+
+        response = str(result.get("response", "")).strip()
+        followup = str(result.get("followup_response", "")).strip()
+
+        reply = f"{response}\n\n{followup}".strip()
+
+        if not reply:
+            return "ممكن توضحي أكثر؟"
+
+        return reply
+
+    except Exception as e:
+        return f"صار خطأ بالربط: {e}"
+
+def send_message(text):
+    if not text:
+        return
+
+    st.session_state[CHAT_KEY].append(("user", text))
+    bot_reply = get_bot_reply(text)
+    st.session_state[CHAT_KEY].append(("bot", bot_reply))
+
+# =========================
 # STYLE
 # =========================
 st.markdown("""
@@ -63,8 +109,8 @@ header, footer, #MainMenu {
 }
 
 .block-container {
-    max-width:420px;
-    height:720px;
+    max-width:430px;
+    height:730px;
     margin:auto;
     padding:14px 16px 8px;
     border-radius:42px;
@@ -112,12 +158,35 @@ header, footer, #MainMenu {
     font-weight:700;
 }
 
+.quick-title {
+    font-size:13px;
+    font-weight:800;
+    color:#102646;
+    margin:4px 0 6px;
+}
+
+div[data-testid="stButton"] button {
+    border-radius:18px;
+    border:none;
+    background:white;
+    color:#102646;
+    font-weight:800;
+    font-size:12px;
+    box-shadow:0 3px 8px rgba(0,0,0,.10);
+    height:36px;
+}
+
+div[data-testid="stButton"] button:hover {
+    background:#eef6ff;
+    color:#1c6fa4;
+}
+
 .chat-area {
-    height:300px;
+    height:350px;
     overflow-y:auto;
     padding:10px 4px;
     margin-top:10px;
-    margin-bottom:10px;
+    margin-bottom:8px;
 }
 
 .msg {
@@ -143,31 +212,18 @@ header, footer, #MainMenu {
     margin-right:auto;
 }
 
-.quick-title {
-    font-size:13px;
-    font-weight:800;
-    color:#102646;
-    margin:4px 0 6px;
-}
-
-div[data-testid="stButton"] button {
-    border-radius:18px;
-    border:none;
-    background:white;
-    color:#102646;
-    font-weight:800;
-    font-size:12px;
-    box-shadow:0 3px 8px rgba(0,0,0,.10);
-    height:36px;
-}
-
-div[data-testid="stButton"] button:hover {
-    background:#eef6ff;
-    color:#1c6fa4;
+.input-wrap {
+    background:rgba(255,255,255,.65);
+    border-radius:22px;
+    padding:8px;
+    margin-top:4px;
 }
 
 div[data-testid="stChatInput"] {
-    background:transparent;
+    position:relative !important;
+    bottom:auto !important;
+    background:transparent !important;
+    padding:0 !important;
 }
 
 div[data-testid="stChatInput"] textarea {
@@ -177,23 +233,8 @@ div[data-testid="stChatInput"] textarea {
     background:white;
     font-size:13px;
 }
-
-.stSelectbox label {
-    color:#102646;
-    font-weight:800;
-}
 </style>
 """, unsafe_allow_html=True)
-
-# =========================
-# REGION SELECT
-# =========================
-selected_region = st.selectbox(
-    "اختر المحافظة",
-    REGIONS,
-    index=REGIONS.index(st.session_state["region"]) if st.session_state["region"] in REGIONS else 0
-)
-st.session_state["region"] = selected_region
 
 # =========================
 # TOP BAR
@@ -203,55 +244,9 @@ st.markdown(f"""
     <img class="avatar" src="data:image/png;base64,{robot}">
     <div class="dot"></div>
     <div class="status">جاهز للمساعدة</div>
-    <div class="region-label">📍 {html_lib.escape(st.session_state["region"])}</div>
+    <div class="region-label">📍 {html_lib.escape(region)}</div>
 </div>
 """, unsafe_allow_html=True)
-
-# =========================
-# BOT FUNCTION
-# =========================
-def get_bot_reply(user_text):
-    quick_map = {
-        "فحص الشبكة": "افحص حالة الشبكة عندي",
-        "استهلاك الإنترنت": "بدي أعرف استهلاك الإنترنت",
-        "تجديد الباقة": "بدي أجدد الباقة",
-        "المكالمات الدولية": "بدي أعرف عن المكالمات الدولية",
-        "العروض": "شو العروض المتاحة؟",
-        "الدعم": "بدي أتواصل مع الدعم الفني",
-    }
-
-    msg = quick_map.get(user_text, user_text)
-
-    user_id = st.session_state.get("user_id", "customer_1")
-    region = st.session_state.get("region", "عمان")
-
-    try:
-        result = process_message(
-            msg,
-            user_id=user_id,
-            region=region
-        )
-
-        response = str(result.get("response", "")).strip()
-        followup = str(result.get("followup_response", "")).strip()
-
-        reply = f"{response}\n\n{followup}".strip()
-
-        if not reply:
-            return "ممكن توضحي أكثر؟"
-
-        return reply
-
-    except Exception as e:
-        return f"صار خطأ بالربط: {e}"
-
-def send_message(text):
-    if not text:
-        return
-
-    st.session_state[CHAT_KEY].append(("user", text))
-    bot_reply = get_bot_reply(text)
-    st.session_state[CHAT_KEY].append(("bot", bot_reply))
 
 # =========================
 # QUICK SERVICES
@@ -292,7 +287,7 @@ with c6:
         st.rerun()
 
 # =========================
-# CHAT MESSAGES
+# CHAT DISPLAY
 # =========================
 chat_html = '<div class="chat-area">'
 
@@ -306,9 +301,13 @@ chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
 # =========================
-# CHAT INPUT
+# INPUT INSIDE CHAT SCREEN
 # =========================
+st.markdown('<div class="input-wrap">', unsafe_allow_html=True)
+
 user_input = st.chat_input("اكتب سؤالك...")
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 if user_input:
     send_message(user_input)
