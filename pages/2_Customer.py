@@ -20,18 +20,19 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور الأساسية
+# تحميل صور الروبوت الأساسية (تأكد من وجود هذه الملفات أو تعليق الأسطر)
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # تحميل صور الأيقونات الأربعة الجديدة
-icon_internet = get_base64("internet.png")
-icon_renewals = get_base64("renewals.png")
-icon_calls = get_base64("calls.png")
-icon_notifications = get_base64("notifications.png")
+# تأكد من وجود هذه الملفات في نفس المجلد
+img_internet = get_base64("icon_internet.png")
+img_renewals = get_base64("icon_renewals.png")
+img_calls = get_base64("icon_calls.png")
+img_notifications = get_base64("icon_notifications.png")
 
 # =====================================
-# CSS المطور
+# CSS المطور (تعديلات لتغطية الصورة للإطار وإخفاء النص)
 # =====================================
 st.markdown(f"""
 <style>
@@ -68,12 +69,7 @@ transition: all 0.3s ease;
     margin-bottom: 4px !important;
 }}
 
-.rating-card {{
-    padding: 4px 14px 6px !important;
-    margin-bottom: 4px !important;
-}}
-
-.card:hover, .mini:hover, .nav-item:hover, .bot-bg:hover {{
+.card:hover, .nav-item:hover, .bot-bg:hover, .mini-icon-cover:hover {{
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }}
@@ -90,40 +86,6 @@ margin: 4px 0 4px 4px;
     transition: all 0.3s ease; 
 }}
 .clickable:active {{ transform: scale(0.95); }}
-
-.star-rating {{
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-    gap: 4px;
-}}
-.star-rating input {{ display: none; }}
-.star-rating label {{
-    font-size: 24px;
-    color: #ddd;
-    cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
-}}
-.star-rating label:hover {{ transform: scale(1.2); }}
-.star-rating input:checked ~ label,
-.star-rating label:hover,
-.star-rating label:hover ~ label {{
-    color: #ffcc00;
-}}
-
-.rating-bar-container {{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
-    height: 22px;
-    border-radius: 4px;
-    margin-top: 6px;
-    padding: 0 10px;
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
-}}
 
 .welcome-card {{
     background: white;
@@ -166,6 +128,7 @@ margin: 4px 0 4px 4px;
     z-index: 5;
 }}
 
+/* تنسيقات قسم قوة الشبكة - تم الحفاظ عليها */
 .signal-icon {{
     display: flex;
     align-items: flex-end;
@@ -178,6 +141,7 @@ margin: 4px 0 4px 4px;
     border-radius: 1px;
 }}
 
+/* تنسيقات شبكة الأيقونات المحدثة */
 .grid4 {{ 
     display:grid; 
     grid-template-columns:repeat(4,1fr); 
@@ -185,25 +149,30 @@ margin: 4px 0 4px 4px;
     margin: 8px 0 6px; 
 }}
 
-.mini {{
-background:white; border-radius:18px; min-height:95px;
-padding:10px 4px; text-align:center; box-shadow:0 6px 15px rgba(0,0,0,.06);
-transition: all 0.3s ease;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
+/* تصميم مربع الأيقونة المغطاة بالكامل */
+.mini-icon-cover {{
+    background:white; /* خلفية بيضاء احتياطية */
+    border-radius:18px; /* نفس حواف الإطار الأبيض القديم */
+    min-height:90px;
+    padding: 0; /* إلغاء البادينج للسماح للصورة بالتغطية الكاملة */
+    text-align:center;
+    box-shadow:0 6px 15px rgba(0,0,0,.06);
+    transition: all 0.3s ease;
+    overflow: hidden; /* يضمن أن الصورة المربعة لا تخرج عن حواف الإطار المنحنية */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }}
 
-.mini-img {{
-    width: 45px;
-    height: 45px;
-    margin-bottom: 5px;
-    object-fit: contain;
+/* تنسيق الصورة الموحدة لتغطية الإطار */
+.mini-cover-img {{
+    width: 100%; /* تملأ كل عرض المربع */
+    height: 100%; /* تملأ كل ارتفاع المربع */
+    object-fit: cover; /* الأهم: تجعل الصورة تغطي المساحة بالكامل وتقص الزوائد */
+    object-position: center; /* تضمن توسيط الصورة المقصوصة */
 }}
 
-.mini-text {{ font-size:9px; font-weight:800; line-height:1.1; color:#102646; }}
-
+/* تنسيقات الشريط السفلي - تم الحفاظ عليها */
 .nav {{
 margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: end;
@@ -264,25 +233,22 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (معدلة لاستخدام الصور)
+# 3. أيقونات الخدمات (المعدلة للتغطية وإزالة النص)
 # =====================================
+# تم استبدال الرموز بالنصوص المرفقة كـ `src` للصور المعدلة، وتم حذف النصوص تماماً
 st.markdown(f"""
 <div class="grid4">
-<div class="mini clickable">
-    <img src="data:image/png;base64,{icon_internet}" class="mini-img">
-    <div class="mini-text">Internet<br>Packages</div>
+<div class="mini-icon-cover clickable">
+    <img src="data:image/png;base64,{img_internet}" class="mini-cover-img">
 </div>
-<div class="mini clickable">
-    <img src="data:image/png;base64,{icon_renewals}" class="mini-img">
-    <div class="mini-text">Renewals +<br>Changes</div>
+<div class="mini-icon-cover clickable">
+    <img src="data:image/png;base64,{img_renewals}" class="mini-cover-img">
 </div>
-<div class="mini clickable">
-    <img src="data:image/png;base64,{icon_calls}" class="mini-img">
-    <div class="mini-text">International<br>Calls</div>
+<div class="mini-icon-cover clickable">
+    <img src="data:image/png;base64,{img_calls}" class="mini-cover-img">
 </div>
-<div class="mini clickable">
-    <img src="data:image/png;base64,{icon_notifications}" class="mini-img">
-    <div class="mini-text">Network<br>Notifications</div>
+<div class="mini-icon-cover clickable">
+    <img src="data:image/png;base64,{img_notifications}" class="mini-cover-img">
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -292,20 +258,18 @@ st.markdown(f"""
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
-<div class="card rating-card">
-<div style="font-weight:900; font-size:12px; color:#102646;">⭐ Service Security Rate</div>
-<div class="rating-bar-container">
-    <span>★ 4.5</span>
-    <span>4.5%</span>
-    <span style="background:rgba(255,255,255,0.3); padding:0 5px; border-radius:2px;">24%</span>
+<div class="card clickable" style="padding-top: 10px;">
+<div style="font-weight:900; font-size:12px; color:#102646; margin-bottom: 5px;">⭐ Service Security Rate</div>
+<div style="display: flex; gap: 8px; margin-bottom: 8px;">
+<div style="background: linear-gradient(90deg, #4caf50 60%, #ffeb3b 60%, #ffeb3b 85%, #f44336 85%); height: 20px; border-radius: 4px; flex: 2; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; color: white; font-size: 11px; font-weight: bold;">
+<span>★ 4.5</span>
+<span>4.5%</span>
 </div>
-<div style="text-align:center; margin-top:8px; font-weight:700; font-size:11px; color:#666; margin-bottom:2px;">Rate our service</div>
-<div class="star-rating">
-    <input type="radio" id="5" name="rate"><label for="5">★</label>
-    <input type="radio" id="4" name="rate"><label for="4">★</label>
-    <input type="radio" id="3" name="rate"><label for="3">★</label>
-    <input type="radio" id="2" name="rate"><label for="2">★</label>
-    <input type="radio" id="1" name="rate"><label for="1">★</label>
+<div style="background: #E0E0E0; height: 20px; border-radius: 4px; padding: 0 10px; color: white; font-size: 11px; font-weight: bold; display: flex; align-items: center;">24%</div>
+</div>
+<div style="text-align:center; font-weight:700; font-size:11px; color:#666;">Rate our service</div>
+<div style="display: flex; justify-content: center; gap: 5px; font-size: 20px; color: #ffcc00; margin-top: 2px;">
+★ ★ ★ ★ ☆
 </div>
 </div>
 """, unsafe_allow_html=True)
