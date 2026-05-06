@@ -1,18 +1,75 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import base64, html as html_lib, os, sys
+import base64
+import html as html_lib
+import os
+import sys
 from datetime import datetime
 import pandas as pd
 
+# =========================
+# IMPORT COCARE ENGINE
+# =========================
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
+
+# =========================
+# PAGE CONFIG
+# =========================
+st.set_page_config(page_title="المساعد الذكي", layout="centered")
+
+CHAT_KEY = "chat_ar_original_design_v2"
 CHAT_LOG_PATH = os.path.join(os.path.dirname(__file__), "..", "chat_logs.csv")
 
-def save_chat_analysis(user_message, result, user_id="customer_1", region="Amman"):
+# =========================
+# REGION SETUP
+# =========================
+REGIONS = [
+    "عمان", "الزرقاء", "إربد", "البلقاء", "مادبا", "الكرك",
+    "الطفيلة", "معان", "العقبة", "جرش", "عجلون", "المفرق"
+]
+
+if "region" not in st.session_state:
+    st.session_state["region"] = "عمان"
+
+# اختيار المحافظة فوق الشات
+selected_region = st.selectbox(
+    "اختر المحافظة",
+    REGIONS,
+    index=REGIONS.index(st.session_state["region"]) if st.session_state["region"] in REGIONS else 0
+)
+
+st.session_state["region"] = selected_region
+
+# =========================
+# IMAGE TO BASE64
+# =========================
+def img_to_base64(path):
+    try:
+        full_path = os.path.join(os.path.dirname(__file__), "..", path)
+        if os.path.exists(full_path):
+            with open(full_path, "rb") as f:
+                return base64.b64encode(f.read()).decode()
+
+        if os.path.exists(path):
+            with open(path, "rb") as f:
+                return base64.b64encode(f.read()).decode()
+
+    except Exception:
+        pass
+
+    return ""
+
+robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
+
+# =========================
+# SAVE CHAT ANALYSIS
+# =========================
+def save_chat_analysis(user_message, result, user_id="customer_1", region="عمان"):
     row = {
         "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "user_id": user_id,
-        "region": region,
+        "region": result.get("region", region),
         "message": user_message,
         "bot_response": result.get("response", ""),
         "followup_response": result.get("followup_response", ""),
@@ -29,28 +86,31 @@ def save_chat_analysis(user_message, result, user_id="customer_1", region="Amman
     df = pd.DataFrame([row])
 
     if os.path.exists(CHAT_LOG_PATH):
-        df.to_csv(CHAT_LOG_PATH, mode="a", header=False, index=False, encoding="utf-8-sig")
+        df.to_csv(
+            CHAT_LOG_PATH,
+            mode="a",
+            header=False,
+            index=False,
+            encoding="utf-8-sig"
+        )
     else:
-        df.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
-        
-st.set_page_config(page_title="المساعد الذكي", layout="centered")
+        df.to_csv(
+            CHAT_LOG_PATH,
+            index=False,
+            encoding="utf-8-sig"
+        )
 
-CHAT_KEY = "chat_ar_original_design_v2"
-
-def img_to_base64(path):
-    try:
-        with open(path, "rb") as f:
-            return base64.b64encode(f.read()).decode()
-    except:
-        return ""
-
-robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
-
+# =========================
+# INITIAL CHAT
+# =========================
 if CHAT_KEY not in st.session_state:
     st.session_state[CHAT_KEY] = [
         ("bot", "مرحبًا 👋 كيف أقدر أساعدك؟")
     ]
 
+# =========================
+# FALLBACK REPLY
+# =========================
 def fallback_reply(text):
     t = str(text).strip().lower()
 
@@ -58,7 +118,7 @@ def fallback_reply(text):
         return "هلا وغلا 👋 كيف فيني أساعدك؟"
 
     if "شبكة" in t or "نت" in t or "انترنت" in t or "إنترنت" in t:
-        return "خليني أشيك حالة الشبكة عندك.\nأي منطقة موجود فيها؟"
+        return f"خليني أشيك حالة الشبكة عندك في {st.session_state.get('region', 'عمان')}."
 
     if "باقة" in t or "تجديد" in t:
         return "أكيد، بتقدر تجدد الباقة من قسم الباقات."
@@ -77,6 +137,9 @@ def fallback_reply(text):
 
     return "تم استلام طلبك 👍 كيف أقدر أساعدك أكثر؟"
 
+# =========================
+# BOT REPLY FROM COCARE
+# =========================
 def get_bot_reply(user_text):
     quick_map = {
         "فحص الشبكة": "افحص حالة الشبكة عندي",
@@ -89,18 +152,21 @@ def get_bot_reply(user_text):
 
     msg = quick_map.get(user_text, user_text)
 
+    user_id = st.session_state.get("user_id", "customer_1")
+    region = st.session_state.get("region", "عمان")
+
     try:
         result = process_message(
             msg,
-            user_id=st.session_state.get("user_id", "customer_1"),
-            region=st.session_state.get("region", "Amman")
+            user_id=user_id,
+            region=region
         )
 
         save_chat_analysis(
             msg,
             result,
-            user_id=st.session_state.get("user_id", "customer_1"),
-            region=st.session_state.get("region", "Amman")
+            user_id=user_id,
+            region=region
         )
 
         response = str(result.get("response", "")).strip()
@@ -109,22 +175,33 @@ def get_bot_reply(user_text):
         reply = f"{response}\n\n{followup}".strip()
 
         if not reply:
-            return "ممكن توضحي أكثر؟"
+            return fallback_reply(user_text)
 
         return reply
 
     except Exception as e:
         return f"صار خطأ بالربط: {e}"
 
+# =========================
+# RECEIVE MESSAGE FROM HTML
+# =========================
 msg = st.query_params.get("msg", "")
+
 if msg:
     msg = str(msg).strip()
+
     st.session_state[CHAT_KEY].append(("user", msg))
-    st.session_state[CHAT_KEY].append(("bot", get_bot_reply(msg)))
+    bot_reply = get_bot_reply(msg)
+    st.session_state[CHAT_KEY].append(("bot", bot_reply))
+
     st.query_params.clear()
     st.rerun()
 
+# =========================
+# BUILD CHAT HTML
+# =========================
 messages_html = ""
+
 for role, m in st.session_state[CHAT_KEY]:
     cls = "user" if role == "user" else "bot"
     messages_html += f'<div class="msg {cls}">{html_lib.escape(str(m))}</div>'
@@ -168,6 +245,7 @@ body {{
 .back {{
     font-size:28px;
     color:#436577;
+    cursor:pointer;
 }}
 
 .avatar {{
@@ -188,6 +266,13 @@ body {{
     font-size:15px;
     font-weight:700;
     color:#222;
+}}
+
+.region {{
+    margin-right:auto;
+    font-size:11px;
+    color:#436577;
+    font-weight:700;
 }}
 
 .chat-box {{
@@ -300,10 +385,11 @@ body {{
 <div class="phone">
 
     <div class="topbar">
-        <div class="back">›</div>
+        <div class="back" onclick="goBack()">›</div>
         <img class="avatar" src="data:image/png;base64,{robot}">
         <div class="dot"></div>
         <div class="status">جاهز للمساعدة</div>
+        <div class="region">📍 {html_lib.escape(st.session_state.get("region", "عمان"))}</div>
     </div>
 
     <div id="chatBox" class="chat-box">
@@ -360,6 +446,10 @@ function checkEnter(event){{
     if(event.key === "Enter"){{
         sendMessage();
     }}
+}}
+
+function goBack(){{
+    window.parent.location.href = "../";
 }}
 
 const chatBox = document.getElementById("chatBox");
