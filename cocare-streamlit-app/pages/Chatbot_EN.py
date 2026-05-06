@@ -2,8 +2,14 @@ import streamlit as st
 import streamlit.components.v1 as components
 import base64
 import pandas as pd
-from chatbot_engine import process_message
 from datetime import datetime
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from chatbot_engine import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
