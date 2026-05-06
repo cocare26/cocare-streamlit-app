@@ -65,29 +65,44 @@ def send_message(text):
     st.session_state[CHAT_KEY].append(("user", text))
     st.session_state[CHAT_KEY].append(("bot", get_bot_reply(text)))
 
-st.markdown("""
+# =========================
+# IMAGE
+# =========================
+try:
+    with open("robot_head.png", "rb") as f:
+        robot = base64.b64encode(f.read()).decode()
+except FileNotFoundError:
+    robot = ""
+
+
+# =========================
+# CHATBOT UI DESIGN
+# =========================
+html = f"""
+<html>
+<head>
 <style>
-html, body, [data-testid="stAppViewContainer"] {
+body {{
+    margin:0;
     background:#eef2f7;
-    direction:ltr;
-}
+    font-family:Arial;
+}}
 
-header, footer, #MainMenu {
-    visibility:hidden;
-}
-
-.block-container {
-    max-width:420px;
+.phone {{
+    width:420px;
     height:700px;
     margin:auto;
-    padding:14px 18px 10px;
     border-radius:42px;
-    background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
-    box-shadow:0 12px 30px rgba(0,0,0,.15);
     overflow:hidden;
-}
+    position:relative;
+    background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
+}}
 
-.topbar {
+.topbar {{
+    position:absolute;
+    top:14px;
+    left:18px;
+    right:18px;
     height:58px;
     background:white;
     border-radius:18px;
@@ -96,125 +111,176 @@ header, footer, #MainMenu {
     gap:10px;
     padding:0 14px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
-    margin-bottom:10px;
-}
+}}
 
-.back {
+.back {{
     font-size:28px;
     color:#436577;
-}
+}}
 
-.avatar {
+.avatar {{
     width:42px;
     height:42px;
     border-radius:50%;
     object-fit:cover;
-}
+}}
 
-.dot {
+.dot {{
     width:8px;
     height:8px;
     background:#36c06a;
     border-radius:50%;
-}
+}}
 
-.status {
+.status {{
     font-size:15px;
     font-weight:700;
     color:#222;
-}
+}}
 
-.quick-title {
-    font-size:13px;
-    font-weight:800;
-    color:#102646;
-    margin:6px 0 8px;
-}
-
-div[data-testid="stButton"] button {
-    border-radius:14px;
-    border:none;
-    background:white;
-    color:#102646;
-    font-weight:700;
-    font-size:10.5px;
-    box-shadow:0 3px 8px rgba(0,0,0,.10);
-    height:34px;
-    padding:2px 6px;
-    line-height:1.1;
-    white-space:normal;
-}
-
-div[data-testid="stButton"] button:hover {
-    background:#eef6ff;
-    color:#1c6fa4;
-}
-
-.chat-area {
-    height:390px;
+.chat-box {{
+    position:absolute;
+    top:90px;
+    left:18px;
+    right:18px;
+    bottom:75px;
     overflow-y:auto;
-    padding:10px 4px;
-    margin-top:10px;
-    margin-bottom:8px;
-}
+    padding:10px;
+}}
 
-.msg {
+.msg {{
     max-width:75%;
     padding:9px 12px;
     border-radius:16px;
     margin-bottom:8px;
     font-size:13px;
-    line-height:1.5;
-    white-space:pre-wrap;
-    text-align:left;
-}
+    line-height:1.4;
+}}
 
-.bot {
+.bot {{
     background:white;
     color:#222;
     margin-right:auto;
-}
+}}
 
-.user {
+.user {{
     background:#1c6fa4;
     color:white;
     margin-left:auto;
-}
+}}
 
-.input-wrap {
-    background:rgba(255,255,255,.65);
-    border-radius:22px;
-    padding:8px;
-    margin-top:4px;
-}
-
-div[data-testid="stChatInput"] {
-    position:relative !important;
-    bottom:auto !important;
-    background:transparent !important;
-    padding:0 !important;
-}
-
-div[data-testid="stChatInput"] textarea {
-    direction:ltr;
-    border-radius:22px;
-    border:none;
+.menu {{
+    display:none;
+    position:absolute;
+    left:38px;
+    bottom:90px;
+    width:150px;
     background:white;
-    font-size:13px;
-}
-</style>
-""", unsafe_allow_html=True)
+    border-radius:8px;
+    box-shadow:0 4px 12px rgba(0,0,0,.18);
+    padding:8px 0;
+    z-index:5;
+}}
 
-st.markdown(f"""
-<div class="topbar">
-    <a href="/Customer" target="_self" style="text-decoration:none;">
-        <div class="back">‹</div>
-    </a>
-    <img class="avatar" src="data:image/png;base64,{robot}">
-    <div class="dot"></div>
-    <div class="status">Ready to assist</div>
+.menu div {{
+    font-size:13px;
+    padding:7px 13px;
+    color:#222;
+    cursor:pointer;
+}}
+
+.menu div:hover {{
+    background:#eef3f6;
+}}
+
+.bottom {{
+    position:absolute;
+    bottom:18px;
+    left:18px;
+    right:18px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}}
+
+.hamburger {{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:white;
+    text-align:center;
+    line-height:32px;
+    font-size:22px;
+    color:#50768a;
+    cursor:pointer;
+}}
+
+.chat-input {{
+    flex:1;
+    height:34px;
+    background:white;
+    border-radius:22px;
+    color:#444;
+    font-size:12px;
+    padding-left:14px;
+    border:none;
+    outline:none;
+}}
+
+.send {{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#6ec6ff,#1c6fa4);
+    color:white;
+    text-align:center;
+    line-height:40px;
+    font-size:20px;
+    cursor:pointer;
+}}
+</style>
+</head>
+
+<body>
+<div class="phone">
+
+    <div class="topbar">
+        <a href="/Customer" target="_self" style="text-decoration:none;">
+            <div class="back">‹</div>
+        </a>
+
+        <img class="avatar" src="data:image/png;base64,{robot}">
+        <div class="dot"></div>
+        <div class="status">Ready to assist</div>
+    </div>
+
+    <div id="chatBox" class="chat-box">
+        <div class="msg bot">Hi, how can I help you?</div>
+    </div>
+
+    <div id="menu" class="menu">
+        <div>Network Test</div>
+        <div>Internet Usage</div>
+        <div>Renew Package</div>
+        <div>International Calls</div>
+        <div>Offers & Games</div>
+        <div>Contact Support</div>
+    </div>
+
+    <div class="bottom">
+        <div class="hamburger">≡</div>
+        <input class="chat-input" placeholder="Type your question here...">
+        <div class="send">➤</div>
+    </div>
+
 </div>
-""", unsafe_allow_html=True)
+</body>
+</html>
+"""
+
+components.html(html, height=730)
+
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
