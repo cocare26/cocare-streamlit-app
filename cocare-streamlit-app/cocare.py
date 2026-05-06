@@ -1,6 +1,6 @@
 # =========================
 # CoCare Engine
-# Model Intent + Sentiment + Smart Response + Angry Customer Handling + Logs
+# Model Intent + Sentiment + Context-Friendly Logic + Logs
 # =========================
 
 from datetime import datetime
@@ -8,15 +8,9 @@ import os
 import sys
 import pandas as pd
 
-# =========================
-# SETTINGS
-# =========================
 INTENT_CONFIDENCE_THRESHOLD = 0.65
 SENTIMENT_CONFIDENCE_THRESHOLD = 0.60
 
-# =========================
-# PATHS
-# =========================
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 UTILS_PATH = os.path.join(PROJECT_PATH, "utils")
 DATA_PATH = os.path.join(PROJECT_PATH, "data")
@@ -27,9 +21,6 @@ os.makedirs(DATA_PATH, exist_ok=True)
 sys.path.insert(0, PROJECT_PATH)
 sys.path.insert(0, UTILS_PATH)
 
-# =========================
-# IMPORT UTILS / MODELS
-# =========================
 try:
     from utils.language_utils import detect_language
 except Exception:
@@ -52,14 +43,6 @@ except Exception:
     build_final_response = None
 
 
-# =========================
-# REGIONS
-# =========================
-JORDAN_GOVERNORATES = [
-    "Amman", "Zarqa", "Irbid", "Balqa", "Madaba", "Karak",
-    "Tafilah", "Maan", "Aqaba", "Jerash", "Ajloun", "Mafraq"
-]
-
 AR_TO_EN_REGION = {
     "عمان": "Amman",
     "عمّان": "Amman",
@@ -78,6 +61,12 @@ AR_TO_EN_REGION = {
     "المفرق": "Mafraq"
 }
 
+JORDAN_GOVERNORATES = [
+    "Amman", "Zarqa", "Irbid", "Balqa", "Madaba", "Karak",
+    "Tafilah", "Maan", "Aqaba", "Jerash", "Ajloun", "Mafraq"
+]
+
+
 def normalize_region(region):
     if not region:
         return "Unknown"
@@ -94,9 +83,6 @@ def normalize_region(region):
     return region
 
 
-# =========================
-# NORMALIZERS
-# =========================
 def normalize_model_output(result, default_label="unknown"):
     try:
         if isinstance(result, tuple):
@@ -104,11 +90,8 @@ def normalize_model_output(result, default_label="unknown"):
             score = result[1] if len(result) > 1 else 1.0
             return str(label).strip().lower(), float(score)
 
-        if isinstance(result, list):
-            if result and isinstance(result[0], dict):
-                label = result[0].get("label", default_label)
-                score = result[0].get("score", 1.0)
-                return str(label).strip().lower(), float(score)
+        if isinstance(result, list) and result and isinstance(result[0], dict):
+            return str(result[0].get("label", default_label)).lower(), float(result[0].get("score", 1.0))
 
         if isinstance(result, dict):
             label = result.get("label", result.get("intent", result.get("sentiment", default_label)))
@@ -116,7 +99,6 @@ def normalize_model_output(result, default_label="unknown"):
             return str(label).strip().lower(), float(score)
 
         return str(result).strip().lower(), 1.0
-
     except Exception:
         return default_label, 1.0
 
@@ -128,27 +110,20 @@ def normalize_intent(intent):
         "slow internet": "slow_internet",
         "slow-internet": "slow_internet",
         "internet_slow": "slow_internet",
-
         "no signal": "no_signal",
         "no-signal": "no_signal",
         "weak_signal": "no_signal",
-
         "network complaint": "network_complaint",
         "network status": "network_status",
-
         "data usage": "check_data_usage",
         "check usage": "check_data_usage",
         "usage": "check_data_usage",
-
         "offers": "offer_inquiry",
         "offer": "offer_inquiry",
-
         "renew": "renew_package",
         "recharge": "renew_package",
-
         "support": "technical_support",
         "technical": "technical_support",
-
         "unknown": "clarification",
         "other": "clarification",
         "fallback": "clarification",
@@ -169,9 +144,6 @@ def normalize_sentiment(sentiment):
     return "neutral"
 
 
-# =========================
-# MODEL-FIRST INTENT
-# =========================
 def predict_intent_safe(text, lang):
     if model_predict_intent is not None:
         try:
@@ -184,32 +156,32 @@ def predict_intent_safe(text, lang):
     t = str(text).lower()
 
     if t.strip() in ["هاي", "هلا", "مرحبا", "hi", "hello", "كيفك", "كيفو"]:
-        return "greeting", 0.7
+        return "greeting", 0.8
 
-    if any(w in t for w in ["بطيء", "بطئ", "ضعيف", "النت", "انترنت", "إنترنت", "تقطيع"]):
-        return "slow_internet", 0.7
+    if any(w in t for w in ["بطيء", "بطئ", "ضعيف", "النت", "انترنت", "إنترنت", "تقطيع", "بقطع"]):
+        return "slow_internet", 0.8
 
     if any(w in t for w in ["اشارة", "إشارة", "signal", "ما في شبكة", "no signal"]):
-        return "no_signal", 0.7
+        return "no_signal", 0.8
+
+    if any(w in t for w in ["افحص", "فحص", "حالة الشبكة", "وضع الشبكة"]):
+        return "network_status", 0.8
 
     if any(w in t for w in ["استهلاك", "جيجا", "usage", "gb"]):
-        return "check_data_usage", 0.7
+        return "check_data_usage", 0.8
 
     if any(w in t for w in ["باقة", "تجديد", "renew"]):
-        return "renew_package", 0.7
+        return "renew_package", 0.8
 
     if any(w in t for w in ["عروض", "عرض", "offers"]):
-        return "offer_inquiry", 0.7
+        return "offer_inquiry", 0.8
 
     if any(w in t for w in ["دعم", "فني", "support"]):
-        return "technical_support", 0.7
+        return "technical_support", 0.8
 
     return "clarification", 0.5
 
 
-# =========================
-# MODEL-FIRST SENTIMENT
-# =========================
 def predict_sentiment_safe(text, lang):
     if model_predict_sentiment is not None:
         try:
@@ -223,7 +195,7 @@ def predict_sentiment_safe(text, lang):
 
     if any(w in t for w in [
         "خرا", "زفت", "سيء", "سيئة", "مشكلة", "ضعيف",
-        "بطيء", "تقطيع", "مش شغال", "ما بشتغل", "تعبت"
+        "بطيء", "تقطيع", "مش شغال", "ما بشتغل", "تعبت", "زهقت"
     ]):
         return "negative", 0.85
 
@@ -233,14 +205,10 @@ def predict_sentiment_safe(text, lang):
     return "neutral", 0.5
 
 
-# =========================
-# NETWORK LOGIC
-# =========================
-def is_network_intent(intent):
+def is_real_network_problem_intent(intent):
     return normalize_intent(intent) in [
         "slow_internet",
         "no_signal",
-        "network_status",
         "network_complaint"
     ]
 
@@ -253,9 +221,6 @@ def map_intent_to_issue_type(intent):
 
     if intent == "no_signal":
         return "weak_signal"
-
-    if intent == "network_status":
-        return "service_degradation"
 
     if intent == "network_complaint":
         return "unstable_connection"
@@ -280,19 +245,14 @@ def get_dynamic_metrics(user_id, region):
         logs["network_problem"].astype(str).str.lower().isin(["true", "1", "yes"])
     ]
 
-    repeat_count = len(
-        network_logs[network_logs["user_id"].astype(str) == str(user_id)]
-    ) + 1
-
-    area_issue_count = len(
-        network_logs[network_logs["region"].astype(str) == str(region)]
-    ) + 1
+    repeat_count = len(network_logs[network_logs["user_id"].astype(str) == str(user_id)]) + 1
+    area_issue_count = len(network_logs[network_logs["region"].astype(str) == str(region)]) + 1
 
     return repeat_count, area_issue_count
 
 
 def predict_network_problem(intent, sentiment, repeat_count, area_issue_count):
-    if not is_network_intent(intent):
+    if not is_real_network_problem_intent(intent):
         return 0
 
     if sentiment == "negative":
@@ -307,9 +267,6 @@ def predict_network_problem(intent, sentiment, repeat_count, area_issue_count):
     return 1
 
 
-# =========================
-# ANGRY CUSTOMER DETECTION
-# =========================
 def is_angry_customer(user_message, sentiment):
     t = str(user_message).lower()
 
@@ -322,19 +279,7 @@ def is_angry_customer(user_message, sentiment):
     return sentiment == "negative" or any(w in t for w in angry_words)
 
 
-# =========================
-# DECISION
-# =========================
-def build_decision(
-    intent,
-    sentiment,
-    prediction,
-    network_problem,
-    repeat_count,
-    area_issue_count,
-    intent_conf,
-    angry_customer
-):
+def build_decision(intent, sentiment, prediction, network_problem, repeat_count, area_issue_count, intent_conf, angry_customer):
     if intent == "clarification" or intent_conf < INTENT_CONFIDENCE_THRESHOLD:
         return {"rule_used": "clarification"}
 
@@ -350,15 +295,9 @@ def build_decision(
     if network_problem and prediction == 1:
         return {"rule_used": "technical_high_risk"}
 
-    if sentiment == "negative" and intent in ["technical_support", "network_complaint", "slow_internet", "no_signal"]:
-        return {"rule_used": "negative_escalation"}
-
     return {"rule_used": None}
 
 
-# =========================
-# NOTIFICATION
-# =========================
 def build_notification(issue_type, network_problem, repeat_count, area_issue_count, angry_customer):
     if not network_problem and not angry_customer:
         return {
@@ -395,9 +334,6 @@ def build_notification(issue_type, network_problem, repeat_count, area_issue_cou
     }
 
 
-# =========================
-# SMART RESPONSE
-# =========================
 def get_smart_response(intent, sentiment, decision, lang, region, issue_type, network_problem):
     rule = decision.get("rule_used")
 
@@ -411,9 +347,14 @@ def get_smart_response(intent, sentiment, decision, lang, region, issue_type, ne
 
     if rule == "calm_angry_user":
         return (
-            "آسفين على التجربة السيئة، وفاهمين انزعاجك. "
-            "خلينا نحل الموضوع بهدوء وبأسرع طريقة ممكنة.",
+            "آسفين على التجربة السيئة، وفاهمين انزعاجك. خلينا نحل الموضوع بهدوء وبأسرع طريقة ممكنة.",
             "احكيلي شو المشكلة بالتحديد؟"
+        )
+
+    if intent == "network_status":
+        return (
+            f"أكيد، أقدر أساعدك بفحص حالة الشبكة في منطقة {region}.",
+            "هل عندك مشكلة فعلية مثل بطء، تقطيع، أو ضعف إشارة؟"
         )
 
     if build_final_response is not None:
@@ -432,7 +373,7 @@ def get_smart_response(intent, sentiment, decision, lang, region, issue_type, ne
         return "هلا وغلا 👋 كيف فيني أساعدك؟", "شو حاب تعرف؟"
 
     if intent == "slow_internet":
-        return f"واضح إن الإنترنت بطيء في منطقة {region}.", "بدك نجرب خطوات الحل؟"
+        return f"واضح إن الإنترنت بطيء في منطقة {region}.", "ممكن تحكيلي من متى بلشت المشكلة؟"
 
     if intent == "no_signal":
         return f"واضح في مشكلة بالإشارة في منطقة {region}.", "ممكن تحكيلي من متى بلشت؟"
@@ -452,9 +393,6 @@ def get_smart_response(intent, sentiment, decision, lang, region, issue_type, ne
     return "ممكن توضحي أكثر؟", ""
 
 
-# =========================
-# LOG CHAT
-# =========================
 def log_chat(user_message, result):
     row = {
         "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -492,11 +430,7 @@ def log_chat(user_message, result):
         df.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
 
 
-# =========================
-# MAIN FUNCTION
-# =========================
 def process_message(user_message, metrics=None, user_id="customer_1", region="Unknown"):
-
     region = normalize_region(region)
 
     lang = detect_language(user_message)
