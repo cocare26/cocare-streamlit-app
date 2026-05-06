@@ -1,6 +1,6 @@
 # =========================
-# CoCare Engine
-# Model Intent + Sentiment + Context-Friendly Logic + Logs
+# CoCare Engine - Final Version
+# Model Intent + Sentiment + Smart Escalation + Logs
 # =========================
 
 from datetime import datetime
@@ -8,9 +8,18 @@ import os
 import sys
 import pandas as pd
 
+# =========================
+# SETTINGS
+# =========================
 INTENT_CONFIDENCE_THRESHOLD = 0.65
 SENTIMENT_CONFIDENCE_THRESHOLD = 0.60
 
+USER_REPEAT_THRESHOLD = 3
+AREA_REPEAT_THRESHOLD = 3
+
+# =========================
+# PATHS
+# =========================
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 UTILS_PATH = os.path.join(PROJECT_PATH, "utils")
 DATA_PATH = os.path.join(PROJECT_PATH, "data")
@@ -21,6 +30,9 @@ os.makedirs(DATA_PATH, exist_ok=True)
 sys.path.insert(0, PROJECT_PATH)
 sys.path.insert(0, UTILS_PATH)
 
+# =========================
+# IMPORT UTILS
+# =========================
 try:
     from utils.language_utils import detect_language
 except Exception:
@@ -42,7 +54,9 @@ try:
 except Exception:
     build_final_response = None
 
-
+# =========================
+# REGIONS
+# =========================
 AR_TO_EN_REGION = {
     "عمان": "Amman",
     "عمّان": "Amman",
@@ -83,6 +97,9 @@ def normalize_region(region):
     return region
 
 
+# =========================
+# NORMALIZATION
+# =========================
 def normalize_model_output(result, default_label="unknown"):
     try:
         if isinstance(result, tuple):
@@ -91,7 +108,9 @@ def normalize_model_output(result, default_label="unknown"):
             return str(label).strip().lower(), float(score)
 
         if isinstance(result, list) and result and isinstance(result[0], dict):
-            return str(result[0].get("label", default_label)).lower(), float(result[0].get("score", 1.0))
+            label = result[0].get("label", default_label)
+            score = result[0].get("score", 1.0)
+            return str(label).strip().lower(), float(score)
 
         if isinstance(result, dict):
             label = result.get("label", result.get("intent", result.get("sentiment", default_label)))
@@ -156,6 +175,9 @@ def normalize_sentiment(sentiment):
     return "neutral"
 
 
+# =========================
+# INTENT / SENTIMENT
+# =========================
 def predict_intent_safe(text, lang):
     if model_predict_intent is not None:
         try:
@@ -220,6 +242,9 @@ def predict_sentiment_safe(text, lang):
     return "neutral", 0.5
 
 
+# =========================
+# NETWORK LOGIC
+# =========================
 def is_real_network_problem_intent(intent):
     return normalize_intent(intent) in [
         "slow_internet",
@@ -260,18 +285,21 @@ def get_dynamic_metrics(user_id, region):
         logs["network_problem"].astype(str).str.lower().isin(["true", "1", "yes"])
     ]
 
-    repeat_count = len(network_logs[network_logs["user_id"].astype(str) == str(user_id)]) + 1
-    area_issue_count = len(network_logs[network_logs["region"].astype(str) == str(region)]) + 1
+    repeat_count = len(
+        network_logs[network_logs["user_id"].astype(str) == str(user_id)]
+    ) + 1
+
+    area_issue_count = len(
+        network_logs[network_logs["region"].astype(str) == str(region)]
+    ) + 1
 
     return repeat_count, area_issue_count
 
 
-def predict_network_problem(intent, sentiment, repeat_count, area_issue_count):
-    if not is_real_network_problem_intent(intent):
-        return 0
-
-    # أي intent شبكة حقيقي يعني مشكلة مرصودة، لكن ليست بالضرورة حرجة
-    return 1
+def predict_network_problem(intent):
+    if is_real_network_problem_intent(intent):
+        return 1
+    return 0
 
 
 def is_angry_customer(user_message, sentiment):
@@ -286,9 +314,11 @@ def is_angry_customer(user_message, sentiment):
     return sentiment == "negative" or any(w in t for w in angry_words)
 
 
+# =========================
+# DECISION LOGIC
+# =========================
 def build_decision(
     intent,
-    sentiment,
     prediction,
     network_problem,
     repeat_count,
@@ -302,87 +332,112 @@ def build_decision(
     if not network_problem:
         return {"rule_used": None}
 
-    if network_problem and area_issue_count >= 3:
-        return {"rule_used": "critical"}
+    # المرحلة 3: مشكلة منطقة / تصعيد داخلي
+    if area_issue_count >= AREA_REPEAT_THRESHOLD:
+        return {"rule_used": "internal_escalation_area"}
 
-    if network_problem and repeat_count >= 3:
-        return {"rule_used": "technical_high_risk"}
+    # المرحلة 2: نفس العميل اشتكى 3 مرات / إشعار خارجي
+    if repeat_count >= USER_REPEAT_THRESHOLD:
+        return {"rule_used": "external_customer_notice"}
 
-    if angry_customer and network_problem:
+    # المرحلة 1: أول/ثاني مرة / تسجيل فقط
+    if angry_customer:
         return {"rule_used": "calm_angry_network_user"}
 
     return {"rule_used": "normal_network_issue"}
 
 
+# =========================
+# NOTIFICATION LOGIC
+# =========================
 def build_notification(issue_type, network_problem, repeat_count, area_issue_count, angry_customer):
-    if not network_problem and not angry_customer:
+    if not network_problem:
         return {
             "notification_type": "none",
             "display_channel": "none",
             "escalation": False,
-            "reason": None,
+            "reason": "No network problem",
             "show_to_customer": 0,
             "priority": None,
             "suggested_action": None
         }
 
-    escalation = repeat_count >= 3 or area_issue_count >= 3 or (angry_customer and network_problem)
+    # المرحلة 1: تسجيل فقط
+    if repeat_count < USER_REPEAT_THRESHOLD and area_issue_count < AREA_REPEAT_THRESHOLD:
+        return {
+            "notification_type": "none",
+            "display_channel": "monitoring_log",
+            "escalation": False,
+            "reason": "Normal monitoring - first reports",
+            "show_to_customer": 0,
+            "priority": 1,
+            "suggested_action": issue_type
+        }
 
-    if area_issue_count >= 3:
-        reason = "Area-wide issue"
-    elif repeat_count >= 3:
-        reason = "Repeated user issue"
-    elif angry_customer and network_problem:
-        reason = "Angry customer with network issue"
-    elif angry_customer:
-        reason = "Angry customer"
-    else:
-        reason = "Network problem detected"
+    # المرحلة 2: إشعار خارجي للعميل
+    if repeat_count >= USER_REPEAT_THRESHOLD and area_issue_count < AREA_REPEAT_THRESHOLD:
+        return {
+            "notification_type": "external_noti",
+            "display_channel": "customer_app",
+            "escalation": False,
+            "reason": "Repeated issue from same customer",
+            "show_to_customer": 1,
+            "priority": 2,
+            "suggested_action": issue_type
+        }
+
+    # المرحلة 3: تصعيد داخلي للموظف + إظهار للعميل
+    if area_issue_count >= AREA_REPEAT_THRESHOLD:
+        return {
+            "notification_type": "internal_noti",
+            "display_channel": "employee_dashboard",
+            "escalation": True,
+            "reason": "Area-wide repeated issue",
+            "show_to_customer": 1,
+            "priority": 3,
+            "suggested_action": issue_type
+        }
 
     return {
-        "notification_type": "external_noti" if escalation else "internal_noti",
-        "display_channel": "customer_app" if escalation else "employee_dashboard",
-        "escalation": escalation,
-        "reason": reason,
-        "show_to_customer": 1 if escalation else 0,
-        "priority": 3 if escalation else 1,
-        "suggested_action": issue_type
+        "notification_type": "none",
+        "display_channel": "none",
+        "escalation": False,
+        "reason": "No rule matched",
+        "show_to_customer": 0,
+        "priority": None,
+        "suggested_action": None
     }
 
 
+# =========================
+# RESPONSE LOGIC
+# =========================
 def get_smart_response(intent, sentiment, decision, lang, region, issue_type, network_problem):
     rule = decision.get("rule_used")
 
     if rule == "normal_network_issue":
         return (
-            f"تم تسجيل ملاحظة بخصوص الشبكة في منطقة {region}، ورح نتابعها مع الفريق المختص.",
+            f"تم تسجيل ملاحظة بخصوص الشبكة في منطقة {region}، ورح نتابعها.",
             "من متى لاحظت المشكلة؟"
         )
 
     if rule == "calm_angry_network_user":
         return (
             f"آسفين جدًا على الإزعاج، وفاهمين إن المشكلة مزعجة بالنسبة إلك. "
-            f"تم تسجيل ملاحظة الشبكة في منطقة {region} وسيتم متابعتها من الفريق المختص.\n\n"
-            "رح نحاول نساعدك خطوة بخطوة بدون ما نضيع وقتك.",
+            f"تم تسجيل ملاحظة الشبكة في منطقة {region} ورح نتابعها.",
             "من متى بدأت المشكلة؟"
         )
 
-    if rule == "technical_high_risk":
+    if rule == "external_customer_notice":
         return (
-            f"واضح إن المشكلة تكررت أكثر من مرة، لذلك رح نرفعها للفريق الفني لمتابعتها بشكل أسرع.",
-            "رح يتم التعامل معها كأولوية أعلى."
+            "لاحظنا إن المشكلة تكررت أكثر من مرة عندك، وتم إرسال تنبيه لمتابعة الحالة.",
+            "رح نتابعها معك ونحاول نحلها بأسرع وقت."
         )
 
-    if rule == "critical":
+    if rule == "internal_escalation_area":
         return (
-            f"تم رصد أكثر من بلاغ مرتبط بالشبكة في منطقة {region}، وسيتم تصعيد الحالة للفريق المختص.",
+            f"تم رصد تكرار للمشكلة في منطقة {region}، وتم تصعيد الحالة للفريق المختص.",
             "نعتذر عن الإزعاج ورح تتم المتابعة بأولوية."
-        )
-
-    if rule == "calm_angry_user":
-        return (
-            "آسفين على التجربة السيئة، وفاهمين انزعاجك. خلينا نحل الموضوع بهدوء وبأسرع طريقة ممكنة.",
-            "احكيلي شو المشكلة بالتحديد؟"
         )
 
     if intent == "network_status":
@@ -430,6 +485,9 @@ def get_smart_response(intent, sentiment, decision, lang, region, issue_type, ne
     return "ممكن توضحي أكثر؟", ""
 
 
+# =========================
+# LOGGING
+# =========================
 def log_chat(user_message, result):
     row = {
         "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -467,9 +525,11 @@ def log_chat(user_message, result):
         df.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
 
 
+# =========================
+# MAIN FUNCTION
+# =========================
 def process_message(user_message, metrics=None, user_id="customer_1", region="Unknown"):
     region = normalize_region(region)
-
     lang = detect_language(user_message)
 
     intent, intent_conf = predict_intent_safe(user_message, lang)
@@ -488,12 +548,7 @@ def process_message(user_message, metrics=None, user_id="customer_1", region="Un
 
     repeat_count, area_issue_count = get_dynamic_metrics(user_id, region)
 
-    prediction = predict_network_problem(
-        intent=intent,
-        sentiment=sentiment,
-        repeat_count=repeat_count,
-        area_issue_count=area_issue_count
-    )
+    prediction = predict_network_problem(intent)
 
     network_problem = prediction != 0
 
@@ -504,7 +559,6 @@ def process_message(user_message, metrics=None, user_id="customer_1", region="Un
 
     decision = build_decision(
         intent=intent,
-        sentiment=sentiment,
         prediction=prediction,
         network_problem=network_problem,
         repeat_count=repeat_count,
