@@ -128,18 +128,26 @@ header, footer, #MainMenu {
     font-size:13px;
     font-weight:800;
     color:#102646;
-    margin:4px 0 6px;
+    margin:6px 0 8px;
 }
 
 div[data-testid="stButton"] button {
-    border-radius:18px;
+    border-radius:14px;
     border:none;
     background:white;
     color:#102646;
-    font-weight:800;
-    font-size:11px;
+    font-weight:700;
+    font-size:10.5px;
     box-shadow:0 3px 8px rgba(0,0,0,.10);
-    height:36px;
+    height:34px;
+    padding:2px 6px;
+    line-height:1.1;
+    white-space:normal;
+}
+
+div[data-testid="stButton"] button:hover {
+    background:#eef6ff;
+    color:#1c6fa4;
 }
 
 .chat-area {
@@ -214,35 +222,35 @@ c1, c2, c3 = st.columns(3)
 c4, c5, c6 = st.columns(3)
 
 with c1:
-    if st.button("Network Test"):
+    if st.button("Network"):
         send_message("Network Test")
         st.rerun()
 
 with c2:
-    if st.button("Internet Usage"):
+    if st.button("Usage"):
         send_message("Internet Usage")
         st.rerun()
 
 with c3:
-    if st.button("Renew Package"):
+    if st.button("Renew"):
         send_message("Renew Package")
         st.rerun()
 
 with c4:
-    if st.button("International Calls"):
+    if st.button("Calls"):
         send_message("International Calls")
         st.rerun()
 
 with c5:
-    if st.button("Offers & Games"):
+    if st.button("Offers"):
         send_message("Offers & Games")
         st.rerun()
 
 with c6:
-    if st.button("Contact Support"):
+    if st.button("Support"):
         send_message("Contact Support")
         st.rerun()
-
+        
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
