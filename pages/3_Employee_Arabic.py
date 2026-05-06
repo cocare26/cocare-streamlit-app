@@ -321,12 +321,14 @@ function updateRegion(){
 
 
 # =========================
-# قراءة تحليلات رسائل العميل
+# =========================
+# تحليل رسائل العملاء - بدون تغيير الواجهة
 # =========================
 st.markdown("---")
 st.subheader("📊 تحليل رسائل العملاء")
 
-CHAT_LOG_PATH = os.path.join("data", "chat_logs.csv")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CHAT_LOG_PATH = os.path.join(BASE_DIR, "..", "data", "chat_logs.csv")
 
 if os.path.exists(CHAT_LOG_PATH):
     logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
@@ -336,38 +338,47 @@ if os.path.exists(CHAT_LOG_PATH):
     else:
         latest = logs.tail(1).iloc[0]
 
-        col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
 
         with col1:
-            st.metric("النية Intent", latest.get("intent", ""))
-            st.metric("المشاعر Sentiment", latest.get("sentiment", ""))
-            st.metric("نوع المشكلة", latest.get("issue_type", ""))
+            st.metric("Intent", latest.get("intent", ""))
+            st.metric("Sentiment", latest.get("sentiment", ""))
 
         with col2:
-            st.metric("التنبؤ", latest.get("prediction", ""))
-            st.metric("التصعيد", str(latest.get("escalation", "")))
-            st.metric("نوع الإشعار", latest.get("notification_type", ""))
+            st.metric("Problem", latest.get("issue_type", ""))
+            st.metric("Network", str(latest.get("network_problem", "")))
 
-        st.subheader("آخر رسالة من العميل")
+        with col3:
+            st.metric("Notification", latest.get("notification_type", ""))
+            st.metric("Channel", latest.get("display_channel", ""))
+
+        if str(latest.get("network_problem", "")).lower() in ["true", "1", "yes"]:
+            st.error(f"🚨 مشكلة: {latest.get('issue_type', '')}")
+            st.write("السبب:", latest.get("reason", ""))
+            st.write("الإجراء:", latest.get("suggested_action", ""))
+        else:
+            st.success("لا توجد مشكلة شبكة في آخر رسالة ✅")
+
+        st.markdown("### 🏢 Internal Notification")
+        if latest.get("display_channel", "") == "employee_dashboard":
+            st.warning("تنبيه داخلي للموظف: يرجى متابعة الحالة.")
+        else:
+            st.info("لا يوجد تنبيه داخلي حاليًا.")
+
+        st.markdown("### 📱 External Notification")
+        if latest.get("display_channel", "") == "customer_app":
+            st.warning("تنبيه خارجي للعميل: سيتم إشعار العميل.")
+        else:
+            st.info("لا يوجد تنبيه خارجي حاليًا.")
+
+        st.markdown("### 👤 آخر رسالة")
         st.write("رسالة العميل:", latest.get("message", ""))
-        st.write("رقم العميل:", latest.get("user_id", ""))
+        st.write("رد البوت:", latest.get("bot_response", ""))
         st.write("المنطقة:", latest.get("region", ""))
-        st.write("اللغة:", latest.get("language", ""))
-        st.write("مشكلة شبكة:", latest.get("network_problem", ""))
-        st.write("القناة:", latest.get("display_channel", ""))
-        st.write("سبب التصعيد:", latest.get("reason", ""))
-        st.write("عدد تكرار المشكلة للعميل:", latest.get("repeat_count", ""))
-        st.write("عدد مشاكل المنطقة:", latest.get("area_issue_count", ""))
+        st.write("العميل:", latest.get("user_id", ""))
 
-        st.subheader("رسائل الموظف الداخلية")
-        st.write("عربي:", latest.get("internal_message_ar", ""))
-        st.write("إنجليزي:", latest.get("internal_message_en", ""))
-
-        st.subheader("رسائل العميل الخارجية")
-        st.write("عربي:", latest.get("external_message_ar", ""))
-        st.write("إنجليزي:", latest.get("external_message_en", ""))
-
-        st.subheader("كل سجلات العملاء")
+        st.markdown("### 📋 آخر 20 سجل")
         st.dataframe(logs.tail(20), use_container_width=True)
+
 else:
     st.info("لا يوجد ملف سجلات بعد. أرسلي رسالة من شات العميل أولاً.")
