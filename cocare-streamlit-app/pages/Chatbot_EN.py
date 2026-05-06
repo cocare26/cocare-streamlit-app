@@ -269,18 +269,22 @@ function toggleMenu(){{
     menu.style.display = menu.style.display === "block" ? "none" : "block";
 }}
 
-function sendToModel(text){{
-    window.parent.location.search = "?msg=" + encodeURIComponent(text);
-}}
+ffunction sendToModel(text){
+    const url = new URL(window.parent.location.href);
+    url.searchParams.set("msg", text);
+    window.parent.location.href = url.toString();
+}
 
-function sendInput(){{
+function sendInput(){
     const input = document.getElementById("chatInput");
     const text = input.value.trim();
 
     if(text === "") return;
 
-    window.parent.location.search = "?msg=" + encodeURIComponent(text);
-}}
+    const url = new URL(window.parent.location.href);
+    url.searchParams.set("msg", text);
+    window.parent.location.href = url.toString();
+}
 
 function checkEnter(event){{
     if(event.key === "Enter"){{
