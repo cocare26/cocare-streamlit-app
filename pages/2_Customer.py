@@ -20,12 +20,18 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور
+# تحميل الصور الأساسية
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
+# تحميل صور الأيقونات الأربعة الجديدة
+icon_internet = get_base64("internet.png")
+icon_renewals = get_base64("renewals.png")
+icon_calls = get_base64("calls.png")
+icon_notifications = get_base64("notifications.png")
+
 # =====================================
-# CSS المطور (تعديل الألوان والخطوط)
+# CSS المطور
 # =====================================
 st.markdown(f"""
 <style>
@@ -105,7 +111,6 @@ margin: 4px 0 4px 4px;
     color: #ffcc00;
 }}
 
-/* تعديل خط التقييم */
 .rating-bar-container {{
     display: flex;
     align-items: center;
@@ -161,7 +166,6 @@ margin: 4px 0 4px 4px;
     z-index: 5;
 }}
 
-/* أيقونة قوة الإشارة */
 .signal-icon {{
     display: flex;
     align-items: flex-end;
@@ -182,11 +186,23 @@ margin: 4px 0 4px 4px;
 }}
 
 .mini {{
-background:white; border-radius:18px; min-height:90px;
-padding:8px 4px; text-align:center; box-shadow:0 6px 15px rgba(0,0,0,.06);
+background:white; border-radius:18px; min-height:95px;
+padding:10px 4px; text-align:center; box-shadow:0 6px 15px rgba(0,0,0,.06);
 transition: all 0.3s ease;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 }}
-.mini-text {{ font-size:10px; font-weight:800; line-height:1.1; color:#102646; }}
+
+.mini-img {{
+    width: 45px;
+    height: 45px;
+    margin-bottom: 5px;
+    object-fit: contain;
+}}
+
+.mini-text {{ font-size:9px; font-weight:800; line-height:1.1; color:#102646; }}
 
 .nav {{
 margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
@@ -248,19 +264,31 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات
+# 3. أيقونات الخدمات (معدلة لاستخدام الصور)
 # =====================================
-st.markdown("""
+st.markdown(f"""
 <div class="grid4">
-<div class="mini clickable"><div style="font-size:24px;">📡</div><div class="mini-text">Internet<br>Packages</div></div>
-<div class="mini clickable"><div style="font-size:24px;">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
-<div class="mini clickable"><div style="font-size:24px;">💰</div><div class="mini-text">International<br>Calls</div></div>
-<div class="mini clickable"><div style="font-size:24px;">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
+<div class="mini clickable">
+    <img src="data:image/png;base64,{icon_internet}" class="mini-img">
+    <div class="mini-text">Internet<br>Packages</div>
+</div>
+<div class="mini clickable">
+    <img src="data:image/png;base64,{icon_renewals}" class="mini-img">
+    <div class="mini-text">Renewals +<br>Changes</div>
+</div>
+<div class="mini clickable">
+    <img src="data:image/png;base64,{icon_calls}" class="mini-img">
+    <div class="mini-text">International<br>Calls</div>
+</div>
+<div class="mini clickable">
+    <img src="data:image/png;base64,{icon_notifications}" class="mini-img">
+    <div class="mini-text">Network<br>Notifications</div>
+</div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم (تعديل شريط التقييم)
+# 4. قسم التقييم
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -283,7 +311,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة (إضافة الوحدات والرسمة)
+# 5. قوة الشبكة
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
