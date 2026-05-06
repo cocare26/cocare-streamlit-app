@@ -19,7 +19,7 @@ from cocare import process_message
 st.set_page_config(page_title="المساعد الذكي", layout="centered")
 
 CHAT_KEY = "chat_ar_original_design_v2"
-CHAT_LOG_PATH = os.path.join(os.path.dirname(__file__), "..", "chat_logs.csv")
+CHAT_LOG_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "chat_logs.csv")
 
 # =========================
 # REGION SETUP
@@ -65,6 +65,7 @@ robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 # =========================
 # SAVE CHAT ANALYSIS
 # =========================
+os.makedirs(os.path.dirname(CHAT_LOG_PATH), exist_ok=True)
 def save_chat_analysis(user_message, result, user_id="customer_1", region="عمان"):
     row = {
         "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -158,13 +159,6 @@ def get_bot_reply(user_text):
     try:
         result = process_message(
             msg,
-            user_id=user_id,
-            region=region
-        )
-
-        save_chat_analysis(
-            msg,
-            result,
             user_id=user_id,
             region=region
         )
