@@ -1,11 +1,6 @@
 import streamlit as st
-import os
-
-from language_guard import check_language
 
 st.set_page_config(page_title="الإعدادات", layout="centered")
-
-check_language(os.path.basename(__file__))
 
 st.markdown("""
 <style>
@@ -113,11 +108,7 @@ normal_gap = "&nbsp;" * 55
 normal_gap1 = "&nbsp;" * 63
 
 if st.button(f"🔒{normal_gap}تغيير كلمة المرور"):
-   if st.session_state.get("lang") == "ar":
-        st.switch_page("pages/Change_Languagear.py")
-        
-    else:
-        st.switch_page("pages/ChangeLanguage.py")
+    st.switch_page("pages/Change_Passwordar.py")
 
 if st.button(f"🌐{normal_gap1}تغيير اللغة"):
     st.switch_page("pages/Change_Languagear.py")
