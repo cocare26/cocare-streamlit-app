@@ -24,13 +24,13 @@ def get_base64(path):
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
-# تحميل صور الأيقونات الأربعة في الوسط
+# تحميل صور الأيقونات الأربعة الجديدة
 icon_internet = get_base64("internet.png")
 icon_renewals = get_base64("renewals.png")
 icon_calls = get_base64("calls.png")
 icon_notifications = get_base64("notifications.png")
 
-# --- التعديل الجديد: تحميل صور الشريط السفلي ---
+# --- تحميل صور الشريط السفلي ---
 icon_sitting = get_base64("sitting.png")
 icon_spin = get_base64("spin.png")
 icon_home = get_base64("home.png")
@@ -191,6 +191,7 @@ margin: 4px 0 4px 4px;
     margin: 8px 0 6px; 
 }}
 
+/* تعديل الأيقونات بالوسط: إزالة الإطار والظل والنص */
 .mini-no-border {{
     background: transparent; 
     border-radius: 0; 
@@ -203,14 +204,14 @@ margin: 4px 0 4px 4px;
     justify-content: center;
 }}
 
-.mini-img_large {{
-    width: 85px; 
+.mini-img-large {{
+    width: 85px; /* تكبير الصورة لتأخذ مساحة الإطار السابق */
     height: 85px;
     object-fit: contain;
 }}
 
-/* تعديل حجم صور الشريط السفلي */
-.nav-img {{
+/* استايل صور الشريط السفلي */
+.nav-img-footer {{
     width: 35px;
     height: 35px;
     object-fit: contain;
@@ -221,14 +222,13 @@ margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
 text-align:center; color:#6b6b6b; align-items: center;
 }}
 .nav-item {{ transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; }}
-
 .bot-bg {{
 width:50px; height:50px; background:white; border-radius:12px;
-margin: 0 auto; display:flex; align-items:center; justify-content:center;
+margin: 0 auto 4px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 transition: all 0.3s ease;
 }}
-.active {{ color:inherit; }} 
+.active {{ color:inherit; transform: scale(1.1); }} 
 </style>
 """, unsafe_allow_html=True)
 
@@ -276,21 +276,21 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (صور فقط)
+# 3. أيقونات الخدمات (معدلة: صور فقط بدون إطار أو نص)
 # =====================================
 st.markdown(f"""
 <div class="grid4">
 <div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_internet}" class="mini-img_large">
+    <img src="data:image/png;base64,{icon_internet}" class="mini-img-large">
 </div>
 <div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_renewals}" class="mini-img_large">
+    <img src="data:image/png;base64,{icon_renewals}" class="mini-img-large">
 </div>
 <div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_calls}" class="mini-img_large">
+    <img src="data:image/png;base64,{icon_calls}" class="mini-img-large">
 </div>
 <div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_notifications}" class="mini-img_large">
+    <img src="data:image/png;base64,{icon_notifications}" class="mini-img-large">
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -362,24 +362,24 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي (معدل لاستخدام الصور فقط)
+# 6. الشريط السفلي (معدل: صور فقط)
 # =====================================
 st.markdown(f"""
 <div class="nav">
 <div class="nav-item clickable">
-    <img src="data:image/png;base64,{icon_sitting}" class="nav-img">
+    <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
 </div>
 <div class="nav-item clickable">
-    <img src="data:image/png;base64,{icon_spin}" class="nav-img">
+    <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
 </div>
 <div class="nav-item clickable">
     <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
 </div>
 <div class="nav-item active clickable">
-    <img src="data:image/png;base64,{icon_home}" class="nav-img">
+    <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
 </div>
 <div class="nav-item clickable">
-    <img src="data:image/png;base64,{icon_game}" class="nav-img">
+    <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
 </div>
 </div>
 """, unsafe_allow_html=True)
