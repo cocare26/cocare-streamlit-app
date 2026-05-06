@@ -7,6 +7,11 @@ st.set_page_config(page_title="تطبيق الاتصالات", layout="centered"
 # 🔥 التنقل بين الصفحات
 page = st.query_params.get("page", "")
 
+
+if st.session_state.get("page") == "settings_ar":
+    st.switch_page("pages/settingar.py")
+
+
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
 
