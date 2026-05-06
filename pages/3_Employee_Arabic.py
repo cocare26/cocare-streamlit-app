@@ -13,6 +13,9 @@ header, footer { visibility:hidden; }
 </style>
 """, unsafe_allow_html=True)
 
+# =========================
+# الواجهة الأصلية كما هي
+# =========================
 components.html("""
 <!DOCTYPE html>
 <html dir="rtl">
@@ -321,7 +324,6 @@ function updateRegion(){
 
 
 # =========================
-# =========================
 # تحليل رسائل العملاء - بدون تغيير الواجهة
 # =========================
 st.markdown("---")
@@ -338,6 +340,11 @@ if os.path.exists(CHAT_LOG_PATH):
     else:
         latest = logs.tail(1).iloc[0]
 
+        channel = str(latest.get("display_channel", "none"))
+        notification_type = str(latest.get("notification_type", "none"))
+        escalation = str(latest.get("escalation", "False")).lower() in ["true", "1", "yes"]
+        network_problem = str(latest.get("network_problem", "False")).lower() in ["true", "1", "yes"]
+
         col1, col2, col3 = st.columns(3)
 
         with col1:
@@ -349,25 +356,47 @@ if os.path.exists(CHAT_LOG_PATH):
             st.metric("Network", str(latest.get("network_problem", "")))
 
         with col3:
-            st.metric("Notification", latest.get("notification_type", ""))
-            st.metric("Channel", latest.get("display_channel", ""))
+            st.metric("Notification", notification_type)
+            st.metric("Channel", channel)
 
-        if str(latest.get("network_problem", "")).lower() in ["true", "1", "yes"]:
-            st.error(f"🚨 مشكلة: {latest.get('issue_type', '')}")
-            st.write("السبب:", latest.get("reason", ""))
-            st.write("الإجراء:", latest.get("suggested_action", ""))
+        st.markdown("### 🚦 حالة التصعيد")
+
+        if channel == "monitoring_log":
+            st.info("🟢 متابعة عادية: تم تسجيل المشكلة بدون إرسال إشعار داخلي أو خارجي.")
+
+        elif channel == "customer_app":
+            st.warning("🟡 External Notification: تم إرسال إشعار للعميل بسبب تكرار المشكلة من نفس العميل.")
+
+        elif channel == "employee_dashboard":
+            st.error("🔴 Internal Escalation: المشكلة تكررت في نفس المنطقة وتحتاج متابعة من الموظف.")
+
+        elif not network_problem:
+            st.success("✅ لا توجد مشكلة شبكة في آخر رسالة.")
+
         else:
-            st.success("لا توجد مشكلة شبكة في آخر رسالة ✅")
+            st.info("لا توجد مرحلة تصعيد محددة حاليًا.")
+
+        st.markdown("### 🚨 Problem / Alert")
+        if network_problem:
+            st.error(f"نوع المشكلة: {latest.get('issue_type', '')}")
+            st.write("السبب:", latest.get("reason", ""))
+            st.write("الإجراء المقترح:", latest.get("suggested_action", ""))
+            st.write("عدد تكرار المشكلة للعميل:", latest.get("repeat_count", ""))
+            st.write("عدد مشاكل المنطقة:", latest.get("area_issue_count", ""))
+        else:
+            st.success("لا توجد مشكلة شبكة حالية.")
 
         st.markdown("### 🏢 Internal Notification")
-        if latest.get("display_channel", "") == "employee_dashboard":
-            st.warning("تنبيه داخلي للموظف: يرجى متابعة الحالة.")
+        if channel == "employee_dashboard":
+            st.warning("تنبيه داخلي للموظف: يرجى متابعة الحالة من لوحة الموظف.")
         else:
             st.info("لا يوجد تنبيه داخلي حاليًا.")
 
         st.markdown("### 📱 External Notification")
-        if latest.get("display_channel", "") == "customer_app":
-            st.warning("تنبيه خارجي للعميل: سيتم إشعار العميل.")
+        if channel == "customer_app":
+            st.warning("تنبيه خارجي للعميل: سيتم إشعار العميل بمتابعة المشكلة.")
+        elif channel == "employee_dashboard" and str(latest.get("show_to_customer", "0")) in ["1", "True", "true"]:
+            st.warning("تنبيه خارجي للعميل + تصعيد داخلي للموظف.")
         else:
             st.info("لا يوجد تنبيه خارجي حاليًا.")
 
@@ -376,6 +405,7 @@ if os.path.exists(CHAT_LOG_PATH):
         st.write("رد البوت:", latest.get("bot_response", ""))
         st.write("المنطقة:", latest.get("region", ""))
         st.write("العميل:", latest.get("user_id", ""))
+        st.write("Decision Rule:", latest.get("decision_rule", ""))
 
         st.markdown("### 📋 آخر 20 سجل")
         st.dataframe(logs.tail(20), use_container_width=True)
