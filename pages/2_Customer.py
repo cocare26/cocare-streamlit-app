@@ -31,9 +31,9 @@ icon_calls = get_base64("calls.png")
 icon_notifications = get_base64("notifications.png")
 
 # تحميل صور الشريط السفلي الجديدة
-icon_Home = get_base64("home.png")
-icon_Game = get_base64("game.png")
-icon_Spin = get_base64("spin.png")
+icon_Home = get_base64("home.png.jpeg")
+icon_Game = get_base64("game.png.jpeg")
+icon_Spin = get_base64("spin.png.jpeg")
 
 # =====================================
 # CSS المطور
