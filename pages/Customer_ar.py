@@ -20,49 +20,75 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور
+# تحميل الصور الأساسية
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
+# تحميل صور الأيقونات الأربعة الجديدة
+icon_internet = get_base64("internet.png")
+icon_renewals = get_base64("renewals.png")
+icon_calls = get_base64("calls.png")
+icon_notifications = get_base64("notifications.png")
+
+# --- تحميل صور الشريط السفلي ---
+icon_sitting = get_base64("sitting.png")
+icon_spin = get_base64("spin.png")
+icon_home = get_base64("home.png")
+icon_game = get_base64("game.png")
+
 # =====================================
-# CSS المطور (دعم العربية وتأثيرات الحركة)
+# CSS المطور (مع إضافة خاصية الاتجاه RTL)
 # =====================================
 st.markdown(f"""
 <style>
-/* ضبط الاتجاه للعربية */
 * {{ margin:0; padding:0; box-sizing:border-box; direction: rtl; }}
 html, body, [data-testid="stAppViewContainer"] {{
 background:#f0f7ff;
 font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }}
-section.main > div {{ padding-top:8px; }}
-div[data-testid="stVerticalBlock"] {{ gap:0rem; }}
+section.main > div {{ padding-top:4px; }}
+div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 
 #MainMenu, header, footer {{ visibility:hidden; }}
 
 .block-container {{
 max-width:430px;
 margin:auto;
-padding:18px 16px;
-background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
+padding:12px 16px;
+background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
 border-radius:42px;
 box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
 .card {{
-background:white;
-border-radius:24px;
-padding:14px;
-margin-bottom:12px;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
-transition: transform 0.3s ease;
+background: white;
+border-radius: 20px;
+padding: 10px 14px;
+margin-bottom: 8px;
+box-shadow: 0 4px 15px rgba(0,0,0,.05);
+transition: all 0.3s ease;
+}}
+
+.balance-card {{
+    padding: 6px 14px !important;
+    margin-bottom: 4px !important;
+}}
+
+.rating-card {{
+    padding: 4px 14px 6px !important;
+    margin-bottom: 4px !important;
+}}
+
+.card:hover, .nav-item:hover, .bot-bg:hover {{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }}
 
 .title {{
-font-size:17px;
+font-size:15px;
 font-weight:900;
 color:#102646;
-margin: 8px 4px 8px 0;
+margin: 4px 4px 4px 0;
 text-align: right;
 }}
 
@@ -72,21 +98,15 @@ text-align: right;
 }}
 .clickable:active {{ transform: scale(0.95); }}
 
-/* حركة الأيقونات عند مرور الماوس */
-.mini:hover, .nav-item:hover, .bot-bg:hover {{
-    transform: translateY(-5px) scale(1.05);
-}}
-
-/* نظام النجوم التفاعلي */
 .star-rating {{
     display: flex;
-    flex-direction: row; /* تم التعديل ليتناسب مع RTL */
+    flex-direction: row-reverse;
     justify-content: center;
     gap: 4px;
 }}
 .star-rating input {{ display: none; }}
 .star-rating label {{
-    font-size: 35px;
+    font-size: 24px;
     color: #ddd;
     cursor: pointer;
     transition: color 0.2s, transform 0.2s;
@@ -98,30 +118,44 @@ text-align: right;
     color: #ffcc00;
 }}
 
-.grid4 {{ 
-    display:grid; 
-    grid-template-columns:repeat(4,1fr); 
-    gap:8px; 
-    margin: 20px 0 12px; 
+.rating-bar-container {{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
+    height: 22px;
+    border-radius: 4px;
+    margin-top: 6px;
+    padding: 0 10px;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    direction: ltr; /* للحفاظ على شكل التدرج */
 }}
 
-.mini {{
-background:white; border-radius:20px; min-height:105px;
-padding:12px 5px; text-align:center; box-shadow:0 6px 18px rgba(0,0,0,.08);
-transition: all 0.3s ease;
+.welcome-card {{
+    background: white;
+    border-radius: 20px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    box-shadow: 0 6px 15px rgba(0,0,0,.06);
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 100px;
+    transition: all 0.3s ease;
 }}
-.mini-text {{ font-size:11px; font-weight:800; line-height:1.2; }}
 
 .robot-img-welcome {{
-    width: 130px; 
-    height: auto;
+    width: 95px; 
+    height: 95px;
     background: transparent !important;
-    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
-    margin-left: 10px;
+    border-radius: 14px;
+    margin-left: 12px;
     object-fit: contain;
+    padding: 4px;
     transition: transform 0.4s ease;
 }}
-.robot-img-welcome:hover {{ transform: rotate(3deg) scale(1.05); }}
 
 .welcome-text-container {{
     display: flex;
@@ -141,24 +175,61 @@ transition: all 0.3s ease;
     z-index: 5;
 }}
 
-/* الشريط السفلي */
-.nav {{
-margin-top:12px; display:grid; grid-template-columns:repeat(5,1fr);
-text-align:center; color:#6b6b6b; align-items: end;
+.signal-icon {{
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    justify-content: center;
+    margin-top: 5px;
 }}
-.nav-item {{ 
-    font-size: 24px; 
-    font-weight: 800; 
+.signal-bar {{
+    width: 4px;
+    border-radius: 1px;
+}}
+
+.grid4 {{ 
+    display:grid; 
+    grid-template-columns:repeat(4,1fr); 
+    gap:6px; 
+    margin: 8px 0 6px; 
+}}
+
+.mini-no-border {{
+    background: transparent; 
+    border-radius: 0; 
+    min-height: 85px;
+    padding: 0; 
+    text-align: center;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }}
-.nav-text {{ font-size: 11px; display: block; margin-top: 2px; }}
+
+.mini-img-large {{
+    width: 85px; 
+    height: 85px;
+    object-fit: contain;
+}}
+
+.nav-img-footer {{
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}}
+
+.nav {{
+margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
+text-align:center; color:#6b6b6b; align-items: center;
+}}
+.nav-item {{ transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; }}
 .bot-bg {{
-width:55px; height:55px; background:white; border-radius:14px;
-margin: 0 auto 5px; display:flex; align-items:center; justify-content:center;
+width:50px; height:50px; background:white; border-radius:12px;
+margin: 0 auto 4px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 transition: all 0.3s ease;
 }}
-.active {{ color:#0d69dd; }}
+.active {{ color:inherit; transform: scale(1.1); }} 
 </style>
 """, unsafe_allow_html=True)
 
@@ -166,18 +237,15 @@ transition: all 0.3s ease;
 # 1. قسم الملف الشخصي
 # =====================================
 st.markdown(f"""
-<div class="card clickable">
-<div style="display:flex; align-items:center;">
+<div class="welcome-card clickable">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
-        <div style="font-size:26px; font-weight:900; color:#102646; line-height:1.2;">أهلاً بك: فرح</div>
-        <div style="font-size:14px; color:#555; margin-top:4px;">+962 79 123 4567</div>
-        <div style="font-size:14px; color:#555;">صالح لغاية: 25 مايو، 2026</div>
+        <div style="font-size:18px; font-weight:900; color:#102646; line-height:1.1;">أهلاً بك: اسم المستخدم</div>
+        <div style="font-size:12px; color:#555; margin-top:2px; direction: ltr;">+962 79 123 4567</div>
+        <div style="font-size:10px; color:#777;">صالح لغاية: 25 مايو، 2024</div>
+        <div style="font-size:11px; background:#F0F7FF; border-radius:20px; padding:2px 10px; color:#102646; font-weight:700; margin-top:5px; border:1px solid #D0E0F0;">
+        📍 الموقع: عمان</div>
     </div>
-</div>
-<div style="margin-top:15px; background:#eef5ff; padding:10px 14px; border-radius:18px; font-size:14px; font-weight:700;">
-📍 الموقع: عمان
-</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -186,24 +254,24 @@ st.markdown(f"""
 # =====================================
 st.markdown(f"""
 <div class="title">معلومات رقمك</div>
-<div class="card clickable">
-<div style="display: flex; justify-content: space-between; align-items: center;">
+<div class="card balance-card clickable">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-direction: row-reverse;">
 <div style="flex: 2; text-align: right;">
-<div style="font-size:13px; font-weight:700; color:#666;">الرصيد المتبقي</div>
-<div style="font-size:40px; font-weight:900; color:#102646;">4.7 <span style="font-size:18px;">جيجابايت</span></div>
+<div style="font-size:10px; font-weight:700; color:#666;">الجيجابايت المتبقية</div>
+<div style="font-size:32px; font-weight:900; color:#102646; line-height:0.9; direction: ltr;">4.7 <span style="font-size:14px;">GB</span></div>
 </div>
 <div style="flex: 1; text-align: left;">
-<div style="position: relative; width: 70px; height: 35px; margin-right: auto;">
-    <div style="width: 70px; height: 35px; border-radius: 70px 70px 0 0; background: linear-gradient(90deg, #0d69dd 60%, #e0e0e0 60%); position: relative; overflow: hidden;">
-        <div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
-        <div class="needle" style="transform: rotate(45deg);"></div>
+<div style="position: relative; width: 60px; height: 30px; margin-right: auto;">
+    <div style="width: 50px; height: 25px; border-radius: 50px 50px 0 0; background: linear-gradient(90deg, #1A4FA0 60%, #E0E0E0 60%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 5px; width: 40px; height: 20px; background: white; border-radius: 40px 40px 0 0;"></div>
+        <div class="needle" style="height:20px; transform: rotate(45deg);"></div>
     </div>
 </div>
-<div style="font-size:14px; font-weight:900; color:#102646; margin-top:2px; text-align:center;">6 جيجا</div>
+<div style="font-size:10px; font-weight:900; color:#102646;">6 جيجا</div>
 </div>
 </div>
-<div style="margin-top:10px; height:8px; border-radius:20px; background:#dce8f7; overflow:hidden;">
-<div style="width:78%; height:100%; background:linear-gradient(90deg,#083d8c,#1567e0);"></div>
+<div style="margin-top:4px; height:6px; border-radius:10px; background:#E0E0E0; overflow:hidden;">
+<div style="width:78%; height:100%; background:#1A4FA0; float: right;"></div>
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -211,12 +279,20 @@ st.markdown(f"""
 # =====================================
 # 3. أيقونات الخدمات
 # =====================================
-st.markdown("""
+st.markdown(f"""
 <div class="grid4">
-<div class="mini clickable"><div style="font-size:28px;">📡</div><div class="mini-text">حزم<br>الإنترنت</div></div>
-<div class="mini clickable"><div style="font-size:28px;">🌍</div><div class="mini-text">التجديد +<br>التغيير</div></div>
-<div class="mini clickable"><div style="font-size:28px;">💰</div><div class="mini-text">اتصالات<br>دولية</div></div>
-<div class="mini clickable"><div style="font-size:28px;">🔔</div><div class="mini-text">تنبيهات<br>الشبكة</div></div>
+<div class="mini-no-border clickable">
+    <img src="data:image/png;base64,{icon_internet}" class="mini-img-large">
+</div>
+<div class="mini-no-border clickable">
+    <img src="data:image/png;base64,{icon_renewals}" class="mini-img-large">
+</div>
+<div class="mini-no-border clickable">
+    <img src="data:image/png;base64,{icon_calls}" class="mini-img-large">
+</div>
+<div class="mini-no-border clickable">
+    <img src="data:image/png;base64,{icon_notifications}" class="mini-img-large">
+</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -224,11 +300,15 @@ st.markdown("""
 # 4. قسم التقييم
 # =====================================
 st.markdown("""
-<div class="title">تقييم الخدمة</div>
-<div class="card">
-<div style="font-weight:900; font-size:14px; color:#102646;">⭐ مستوى أمان الخدمة</div>
-<div style="margin-top:10px; height:20px; border-radius:18px; background:linear-gradient(90deg,#0047ba,#27a4ff,#ff8c00,#df4126);"></div>
-<div style="text-align:center; margin-top:12px; font-weight:700; font-size:14px; color:#102646; margin-bottom:5px;">قيم خدمتنا</div>
+<div class="title">تقييم الخدمات</div>
+<div class="card rating-card">
+<div style="font-weight:900; font-size:12px; color:#102646; text-align: right;">⭐ معدل أمان الخدمة</div>
+<div class="rating-bar-container">
+    <span>★ 4.5</span>
+    <span>4.5%</span>
+    <span style="background:rgba(255,255,255,0.3); padding:0 5px; border-radius:2px;">24%</span>
+</div>
+<div style="text-align:center; margin-top:8px; font-weight:700; font-size:11px; color:#666; margin-bottom:2px;">قيم خدمتنا</div>
 <div class="star-rating">
     <input type="radio" id="5" name="rate"><label for="5">★</label>
     <input type="radio" id="4" name="rate"><label for="4">★</label>
@@ -245,28 +325,37 @@ st.markdown("""
 st.markdown("""
 <div class="title">قوة الشبكة في منطقتك</div>
 <div class="card clickable">
-<div style="display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; justify-content: space-between; align-items: center; flex-direction: row-reverse;">
 <div style="flex: 1.2; text-align: right;">
-<div style="font-size:16px; font-weight:900; color:#102646;">📍 عمان</div>
-<div style="font-size:13px; font-weight:700; color:#003366; margin-bottom:8px;">إشارة قوية جداً</div>
-<div style="display: flex; gap: 6px;">
-<div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
-<div style="font-size: 8px; font-weight: 700; color: #666; line-height:1;">فقد البيانات (%)</div>
-<div style="font-size: 18px; font-weight: 900; color: #000; margin-top: 2px;">0</div>
+<div style="font-size:14px; font-weight:900; color:#102646;">📍 عمان</div>
+<div style="font-size:12px; font-weight:700; color:#1A4FA0; margin-bottom:6px;">إشارة قوية جداً</div>
+<div style="display: flex; gap: 4px; flex-direction: row-reverse;">
+<div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
+<div style="font-size: 7px; color: #666; font-weight:bold;">فقدان البيانات (%)</div>
+<div style="font-size: 16px; font-weight: 900; color: #000;">0</div>
 </div>
-<div style="background: #f1f7ff; border-radius: 12px; padding: 8px; text-align: center; flex: 1;">
-<div style="font-size: 8px; font-weight: 700; color: #666; line-height:1;">متوسط الارتجاج (ms)</div>
-<div style="font-size: 18px; font-weight: 900; color: #000; margin-top: 2px;">19</div>
+<div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
+<div style="font-size: 7px; color: #666; font-weight:bold;">معدل التأخير (ms)</div>
+<div style="font-size: 16px; font-weight: 900; color: #000;">19</div>
 </div>
 </div>
 </div>
 <div style="flex: 1; text-align: center;">
-<div style="position: relative; width: 100px; margin: 0 auto;">
-    <div style="width: 100px; height: 50px; border-radius: 100px 100px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
-        <div style="position: absolute; bottom: 0; left: 10px; width: 80px; height: 40px; background: white; border-radius: 80px 80px 0 0;"></div>
-        <div class="needle" style="height: 40px; transform: rotate(-60deg);"></div>
+<div style="position: relative; width: 80px; margin: 0 auto;">
+    <div style="width: 80px; height: 40px; border-radius: 80px 80px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 8px; width: 64px; height: 32px; background: white; border-radius: 64px 64px 0 0;"></div>
+        <div class="needle" style="height: 35px; transform: rotate(-60deg);"></div>
     </div>
-<div style="font-size: 10px; font-weight: 900; color: #102646; margin-top: 5px;">-68dBm (ممتاز)</div>
+<div style="font-size: 9px; font-weight: 900; color: #102646; margin-top: 4px; direction: ltr;">-68dBm (ممتاز)</div>
+<div class="signal-icon">
+    <div class="signal-bar" style="height:4px; background:#1A4FA0;"></div>
+    <div class="signal-bar" style="height:7px; background:#1A4FA0;"></div>
+    <div class="signal-bar" style="height:10px; background:#1A4FA0;"></div>
+    <div style="width:1px; height:12px; background:#DDD; margin:0 2px;"></div>
+    <div class="signal-bar" style="height:4px; background:#4CAF50;"></div>
+    <div class="signal-bar" style="height:7px; background:#4CAF50;"></div>
+    <div class="signal-bar" style="height:10px; background:#4CAF50;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -278,13 +367,20 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable">⚙️<span class="nav-text">الإعدادات</span></div>
-<div class="nav-item clickable">🎡<span class="nav-text">اربح</span></div>
 <div class="nav-item clickable">
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:38px;"></div>
-<span class="nav-text">المساعد</span>
+    <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
 </div>
-<div class="nav-item active clickable">🏠<span class="nav-text">الرئيسية</span></div>
-<div class="nav-item clickable">🎁<span class="nav-text">العروض</span></div>
+<div class="nav-item clickable">
+    <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
+</div>
+<div class="nav-item clickable">
+    <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
+</div>
+<div class="nav-item active clickable">
+    <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
+</div>
+<div class="nav-item clickable">
+    <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
+</div>
 </div>
 """, unsafe_allow_html=True)
