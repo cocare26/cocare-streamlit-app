@@ -48,30 +48,6 @@ border-radius:42px;
 box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
-/* تنسيق الـ Popover ليكون بنفس حجم الأيقونة بالضبط */
-div[data-testid="stPopover"] {{
-    width: 100%;
-}}
-div[data-testid="stPopover"] > button {{
-    background: white !important;
-    border: none !important;
-    padding: 8px 4px !important;
-    width: 100% !important;
-    min-height: 90px !important;
-    border-radius: 18px !important;
-    box-shadow: 0 6px 15px rgba(0,0,0,.06) !important;
-    transition: all 0.3s ease !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-}}
-
-/* إخفاء سهم الـ Popover الافتراضي */
-div[data-testid="stPopover"] svg[data-testid="stIcon"] {{
-    display: none !important;
-}}
-
 .card {{
 background: white;
 border-radius: 20px;
@@ -91,7 +67,7 @@ transition: all 0.3s ease;
     margin-bottom: 4px !important;
 }}
 
-.card:hover, .nav-item:hover, .bot-bg:hover {{
+.card:hover, .mini:hover, .nav-item:hover, .bot-bg:hover {{
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }}
@@ -109,7 +85,40 @@ margin: 4px 0 4px 4px;
 }}
 .clickable:active {{ transform: scale(0.95); }}
 
-.mini-text {{ font-size:10px; font-weight:800; line-height:1.1; color:#102646; text-align:center; }}
+.star-rating {{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 4px;
+}}
+.star-rating input {{ display: none; }}
+.star-rating label {{
+    font-size: 24px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+}}
+.star-rating label:hover {{ transform: scale(1.2); }}
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {{
+    color: #ffcc00;
+}}
+
+/* تعديل خط التقييم */
+.rating-bar-container {{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
+    height: 22px;
+    border-radius: 4px;
+    margin-top: 6px;
+    padding: 0 10px;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+}}
 
 .welcome-card {{
     background: white;
@@ -132,7 +141,52 @@ margin: 4px 0 4px 4px;
     margin-right: 12px;
     object-fit: contain;
     padding: 4px;
+    transition: transform 0.4s ease;
 }}
+
+.welcome-text-container {{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}}
+
+.needle {{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    height: 30px;
+    background: #333;
+    transform-origin: bottom center;
+    z-index: 5;
+}}
+
+/* أيقونة قوة الإشارة */
+.signal-icon {{
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    justify-content: center;
+    margin-top: 5px;
+}}
+.signal-bar {{
+    width: 4px;
+    border-radius: 1px;
+}}
+
+.grid4 {{ 
+    display:grid; 
+    grid-template-columns:repeat(4,1fr); 
+    gap:6px; 
+    margin: 8px 0 6px; 
+}}
+
+.mini {{
+background:white; border-radius:18px; min-height:90px;
+padding:8px 4px; text-align:center; box-shadow:0 6px 15px rgba(0,0,0,.06);
+transition: all 0.3s ease;
+}}
+.mini-text {{ font-size:10px; font-weight:800; line-height:1.1; color:#102646; }}
 
 .nav {{
 margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
@@ -144,6 +198,7 @@ text-align:center; color:#6b6b6b; align-items: end;
 width:50px; height:50px; background:white; border-radius:12px;
 margin: 0 auto 4px; display:flex; align-items:center; justify-content:center;
 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+transition: all 0.3s ease;
 }}
 .active {{ color:inherit; }} 
 </style>
@@ -176,7 +231,15 @@ st.markdown(f"""
 <div style="font-size:10px; font-weight:700; color:#666;">Remaining GB</div>
 <div style="font-size:32px; font-weight:900; color:#102646; line-height:0.9;">4.7 <span style="font-size:14px;">GB</span></div>
 </div>
-<div style="flex: 1; text-align: right; font-size:10px; font-weight:900; color:#102646;">6 GB</div>
+<div style="flex: 1; text-align: right;">
+<div style="position: relative; width: 60px; height: 30px; margin-left: auto;">
+    <div style="width: 50px; height: 25px; border-radius: 50px 50px 0 0; background: linear-gradient(90deg, #1A4FA0 60%, #E0E0E0 60%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 5px; width: 40px; height: 20px; background: white; border-radius: 40px 40px 0 0;"></div>
+        <div class="needle" style="height:20px; transform: rotate(45deg);"></div>
+    </div>
+</div>
+<div style="font-size:10px; font-weight:900; color:#102646;">6 GB</div>
+</div>
 </div>
 <div style="margin-top:4px; height:6px; border-radius:10px; background:#E0E0E0; overflow:hidden;">
 <div style="width:78%; height:100%; background:#1A4FA0;"></div>
@@ -185,47 +248,42 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات مع الـ Popover
+# 3. أيقونات الخدمات
 # =====================================
-# استخدام الأعمدة لضمان بقاء الأيقونات في صف واحد بنفس الحجم
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    pop1 = st.popover("📡\nInternet\nPackages")
-    pop1.markdown("**Internet Options**")
-    pop1.button("Buy 5GB", key="b1")
-
-with col2:
-    pop2 = st.popover("🌍\nRenewals +\nChanges")
-    pop2.markdown("**Plans**")
-    pop2.button("Change Plan", key="b2")
-
-with col3:
-    pop3 = st.popover("💰\nInternational\nCalls")
-    pop3.markdown("**Rates**")
-    pop3.button("Check Rates", key="b3")
-
-with col4:
-    pop4 = st.popover("🔔\nNetwork\nNotifications")
-    pop4.markdown("**Status**")
-    pop4.write("All systems operational.")
+st.markdown("""
+<div class="grid4">
+<div class="mini clickable"><div style="font-size:24px;">📡</div><div class="mini-text">Internet<br>Packages</div></div>
+<div class="mini clickable"><div style="font-size:24px;">🌍</div><div class="mini-text">Renewals +<br>Changes</div></div>
+<div class="mini clickable"><div style="font-size:24px;">💰</div><div class="mini-text">International<br>Calls</div></div>
+<div class="mini clickable"><div style="font-size:24px;">🔔</div><div class="mini-text">Network<br>Notifications</div></div>
+</div>
+""", unsafe_allow_html=True)
 
 # =====================================
-# 4. قسم التقييم 
+# 4. قسم التقييم (تعديل شريط التقييم)
 # =====================================
 st.markdown("""
 <div class="title">Service Ratings</div>
 <div class="card rating-card">
 <div style="font-weight:900; font-size:12px; color:#102646;">⭐ Service Security Rate</div>
-<div style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E); height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px; color: white; font-size: 11px; font-weight: bold;">
+<div class="rating-bar-container">
     <span>★ 4.5</span>
-    <span>24%</span>
+    <span>4.5%</span>
+    <span style="background:rgba(255,255,255,0.3); padding:0 5px; border-radius:2px;">24%</span>
+</div>
+<div style="text-align:center; margin-top:8px; font-weight:700; font-size:11px; color:#666; margin-bottom:2px;">Rate our service</div>
+<div class="star-rating">
+    <input type="radio" id="5" name="rate"><label for="5">★</label>
+    <input type="radio" id="4" name="rate"><label for="4">★</label>
+    <input type="radio" id="3" name="rate"><label for="3">★</label>
+    <input type="radio" id="2" name="rate"><label for="2">★</label>
+    <input type="radio" id="1" name="rate"><label for="1">★</label>
 </div>
 </div>
 """, unsafe_allow_html=True)
 
 # =====================================
-# 5. قوة الشبكة
+# 5. قوة الشبكة (إضافة الوحدات والرسمة)
 # =====================================
 st.markdown("""
 <div class="title">Network Strength in your area</div>
@@ -234,8 +292,35 @@ st.markdown("""
 <div style="flex: 1.2;">
 <div style="font-size:14px; font-weight:900; color:#102646;">📍 Amman</div>
 <div style="font-size:12px; font-weight:700; color:#1A4FA0; margin-bottom:6px;">Very Strong Signal</div>
+<div style="display: flex; gap: 4px;">
+<div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
+<div style="font-size: 7px; color: #666; font-weight:bold;">Packet Loss (%)</div>
+<div style="font-size: 16px; font-weight: 900; color: #000;">0</div>
 </div>
-<div style="flex: 1; text-align: center; font-size: 9px; font-weight: 900; color: #102646;">-68dBm (Excellent)</div>
+<div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
+<div style="font-size: 7px; color: #666; font-weight:bold;">Avg Jitter (ms)</div>
+<div style="font-size: 16px; font-weight: 900; color: #000;">19</div>
+</div>
+</div>
+</div>
+<div style="flex: 1; text-align: center;">
+<div style="position: relative; width: 80px; margin: 0 auto;">
+    <div style="width: 80px; height: 40px; border-radius: 80px 80px 0 0; background: linear-gradient(90deg, #4caf50 20%, #ffeb3b 50%, #f44336 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; bottom: 0; left: 8px; width: 64px; height: 32px; background: white; border-radius: 64px 64px 0 0;"></div>
+        <div class="needle" style="height: 35px; transform: rotate(-60deg);"></div>
+    </div>
+<div style="font-size: 9px; font-weight: 900; color: #102646; margin-top: 4px;">-68dBm (Excellent)</div>
+<div class="signal-icon">
+    <div class="signal-bar" style="height:4px; background:#1A4FA0;"></div>
+    <div class="signal-bar" style="height:7px; background:#1A4FA0;"></div>
+    <div class="signal-bar" style="height:10px; background:#1A4FA0;"></div>
+    <div style="width:1px; height:12px; background:#DDD; margin:0 2px;"></div>
+    <div class="signal-bar" style="height:4px; background:#4CAF50;"></div>
+    <div class="signal-bar" style="height:7px; background:#4CAF50;"></div>
+    <div class="signal-bar" style="height:10px; background:#4CAF50;"></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 """, unsafe_allow_html=True)
