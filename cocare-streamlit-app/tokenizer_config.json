@@ -1,23 +1,14 @@
 {
+  "add_prefix_space": true,
   "backend": "tokenizers",
-  "cls_token": "[CLS]",
-  "do_basic_tokenize": true,
-  "do_lower_case": false,
-  "from_slow": true,
+  "bos_token": "<s>",
+  "cls_token": "<s>",
+  "eos_token": "</s>",
   "is_local": false,
-  "mask_token": "[MASK]",
-  "max_len": 512,
+  "mask_token": "<mask>",
   "model_max_length": 512,
-  "never_split": [
-    "[بريد]",
-    "[مستخدم]",
-    "[رابط]"
-  ],
-  "pad_token": "[PAD]",
-  "sep_token": "[SEP]",
-  "strip_accents": null,
-  "tokenize_chinese_chars": true,
-  "tokenizer_class": "BertTokenizer",
-  "unk_token": "[UNK]",
-  "use_fast": true
+  "pad_token": "<pad>",
+  "sep_token": "</s>",
+  "tokenizer_class": "XLMRobertaTokenizer",
+  "unk_token": "<unk>"
 }

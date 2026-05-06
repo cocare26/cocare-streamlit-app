@@ -1,0 +1,16 @@
+{
+  "0": "balance_transfer",
+  "1": "check_data_usage",
+  "2": "feedback",
+  "3": "goodbye",
+  "4": "greeting",
+  "5": "network_complaint",
+  "6": "network_status",
+  "7": "no_signal",
+  "8": "offer_inquiry",
+  "9": "other",
+  "10": "payment_issue",
+  "11": "renew_package",
+  "12": "slow_internet",
+  "13": "technical_support"
+}
