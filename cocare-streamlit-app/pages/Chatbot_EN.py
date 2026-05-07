@@ -4,7 +4,7 @@ import base64
 import os
 import html as html_lib
 
-from engine.chatbot_engine import process_message
+from engine.chatbot_engine import chatbot_engine
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
@@ -14,15 +14,19 @@ if "chat_messages" not in st.session_state:
     ]
 
 def handle_message(text):
+
     st.session_state.chat_messages.append({
         "role": "user",
         "text": text
     })
 
     try:
-        result = process_message(text)
+        result = chatbot_engine(text)
 
-        reply = result.get("response", "No response generated.")
+        if isinstance(result, dict):
+            reply = result.get("response", "No response generated.")
+        else:
+            reply = str(result)
 
     except Exception as e:
         reply = f"MODEL ERROR: {type(e).__name__}: {e}"
@@ -31,7 +35,6 @@ def handle_message(text):
         "role": "bot",
         "text": reply
     })
-
 robot = ""
 
 if os.path.exists("robot_head.png"):
