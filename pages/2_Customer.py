@@ -46,8 +46,8 @@ icon_notifications = get_base64("notifications.png")
 
 icon_sitting = get_base64("sitting.png")
 icon_spin = get_base64("spin.png")
-icon_home = get_base64("home.png.jpeg")
-icon_game = get_base64("game.png.jpeg")
+icon_home = get_base64("home.png")
+icon_game = get_base64("game.png")
 
 # =====================================================
 # CSS
@@ -197,7 +197,7 @@ with c1:
     """, unsafe_allow_html=True)
 
     if st.button(" ", key="internet_btn"):
-        st.switch_page("pages/internet_page.py")
+        st.switch_page("internet_page.py")
 
 # ================= Renew =================
 
@@ -213,7 +213,7 @@ with c2:
     """, unsafe_allow_html=True)
 
     if st.button(" ", key="renew_btn"):
-        st.switch_page("pages/renew_page.py")
+        st.switch_page("renew_page.py")
 
 # ================= Calls =================
 
@@ -229,7 +229,7 @@ with c3:
     """, unsafe_allow_html=True)
 
     if st.button(" ", key="calls_btn"):
-        st.switch_page("pages/calls_page.py")
+        st.switch_page("calls_page.py")
 
 # ================= Notifications =================
 
@@ -245,7 +245,7 @@ with c4:
     """, unsafe_allow_html=True)
 
     if st.button(" ", key="notif_btn"):
-        st.switch_page("pages/notif_page.py")
+        st.switch_page("notif_page.py")
 
 # =====================================================
 # Footer Navigation
