@@ -307,10 +307,27 @@ def get_bot_reply(user_text):
         st.session_state[CONTEXT_KEY]["last_network_problem"] = True
         st.session_state[CONTEXT_KEY]["awaiting_details"] = True
 
-        return (
-            "It looks like your internet is slow.\n\n"
-            "Please tell me your area or when the issue started."
-        )
+        # DISCONNECTION
+    if "disconnect" in t or "disconnection" in t:
+
+      return (
+        "It looks like your connection keeps disconnecting.\n\n"
+        "Please tell me your area and when the issue usually happens."
+    )
+
+# ROUTER ISSUE
+    if "router" in t:
+
+      return (
+        "It may be a router or home connection issue.\n\n"
+        "Please tell me when the problem started and whether all devices are affected."
+    )
+
+# SLOW INTERNET
+      return (
+           "It looks like your internet is slow.\n\n"
+           "Please tell me your area or when the issue started."
+)
 
     # SIGNAL PROBLEMS
     if (
