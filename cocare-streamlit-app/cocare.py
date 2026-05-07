@@ -13,7 +13,7 @@ import pandas as pd
 # =========================
 INTENT_CONFIDENCE_THRESHOLD = 0.65
 SENTIMENT_CONFIDENCE_THRESHOLD = 0.60
-
+LOG_RETENTION_HOURS = 48
 USER_REPEAT_THRESHOLD = 3
 AREA_REPEAT_THRESHOLD = 3
 
@@ -267,8 +267,32 @@ def map_intent_to_issue_type(intent):
 
     return "normal"
 
+def cleanup_old_logs():
+    if not os.path.exists(CHAT_LOG_PATH):
+        return
 
+    try:
+        logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
+
+        if logs.empty or "time" not in logs.columns:
+            return
+
+        logs["time"] = pd.to_datetime(logs["time"], errors="coerce")
+
+        cutoff_time = datetime.now() - pd.Timedelta(hours=LOG_RETENTION_HOURS)
+
+        logs = logs[
+            logs["time"].notna() &
+            (logs["time"] >= cutoff_time)
+        ]
+
+        logs.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
+
+    except Exception as e:
+        print("CLEANUP LOG ERROR:", e)
+        
 def get_dynamic_metrics(user_id, region):
+    cleanup_old_logs()
     try:
         logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
     except Exception:
@@ -489,6 +513,7 @@ def get_smart_response(intent, sentiment, decision, lang, region, issue_type, ne
 # LOGGING
 # =========================
 def log_chat(user_message, result):
+    cleanup_old_logs()
     row = {
         "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "user_id": result.get("user_id"),
