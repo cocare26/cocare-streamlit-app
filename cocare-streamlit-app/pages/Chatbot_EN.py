@@ -329,7 +329,7 @@ def get_bot_reply(user_text):
            "Please tell me your area or when the issue started."
 )
 
-    # SIGNAL PROBLEMS
+# SIGNAL PROBLEMS
     if (
         "no signal" in t
         or "weak signal" in t
@@ -345,10 +345,28 @@ def get_bot_reply(user_text):
             "Please tell me your area so I can follow up the issue."
         )
 
+
+      # PACKAGE RENEWAL
+      if (
+             "renew" in t
+             or "package" in t
+             or "subscription" in t
+):
+
+      reset_context()
+
+         return (
+             "You can renew your package from the packages section in the app.\n\n"
+              "Would you like the renewal steps in detail?"
+    )
+
+
+
+    
     # CONTEXT FOLLOW-UP
-    context_reply = handle_context_followup(msg)
-    if context_reply:
-        return context_reply
+      context_reply = handle_context_followup(msg)
+      if context_reply:
+         return context_reply
 
     # MODEL PROCESSING
     user_id = st.session_state.get("user_id", "customer_1")
