@@ -265,8 +265,10 @@ def direct_service_reply(text):
 
 
 def get_bot_reply(user_text):
+
     msg = str(user_text).strip()
 
+    # BASIC HUMAN RESPONSES
     if is_no_problem(msg):
         reset_context()
         return "Alright. If you need any help later, I am here."
@@ -283,13 +285,21 @@ def get_bot_reply(user_text):
         reset_context()
         return "Glad to help. I am here whenever you need support."
 
+    # QUICK SERVICES
     service_reply = direct_service_reply(msg)
     if service_reply:
         return service_reply
 
-        t = msg.lower()
+    # TEXT NORMALIZATION
+    t = msg.lower()
 
-    if ("internet" in t and "slow" in t) or "slow internet" in t:
+    # INTERNET PROBLEMS
+    if (
+        ("internet" in t and "slow" in t)
+        or ("slow internet" in t)
+        or ("my internet is slow" in t)
+    ):
+
         st.session_state[CONTEXT_KEY]["last_intent"] = "slow_internet"
         st.session_state[CONTEXT_KEY]["last_network_problem"] = True
         st.session_state[CONTEXT_KEY]["awaiting_details"] = True
@@ -299,7 +309,13 @@ def get_bot_reply(user_text):
             "Please tell me your area or when the issue started."
         )
 
-    if "no signal" in t or "weak signal" in t or "signal problem" in t:
+    # SIGNAL PROBLEMS
+    if (
+        "no signal" in t
+        or "weak signal" in t
+        or "signal problem" in t
+    ):
+
         st.session_state[CONTEXT_KEY]["last_intent"] = "no_signal"
         st.session_state[CONTEXT_KEY]["last_network_problem"] = True
         st.session_state[CONTEXT_KEY]["awaiting_details"] = True
@@ -308,15 +324,18 @@ def get_bot_reply(user_text):
             "There may be a signal problem.\n\n"
             "Please tell me your area so I can follow up the issue."
         )
-    
+
+    # CONTEXT FOLLOW-UP
     context_reply = handle_context_followup(msg)
     if context_reply:
         return context_reply
 
+    # MODEL PROCESSING
     user_id = st.session_state.get("user_id", "customer_1")
     region = st.session_state.get("region", "Amman")
 
     try:
+
         result = process_message(
             msg,
             user_id=user_id,
@@ -330,7 +349,9 @@ def get_bot_reply(user_text):
         st.session_state[CONTEXT_KEY]["last_network_problem"] = network_problem
         st.session_state[CONTEXT_KEY]["awaiting_details"] = bool(network_problem)
 
+        # FALLBACK HANDLING
         if intent in ["clarification", "unknown", "other", "fallback"]:
+
             if len(msg.split()) > 4:
                 return (
                     "I understand. To help you better, please tell me whether this is about "
@@ -340,6 +361,7 @@ def get_bot_reply(user_text):
             reset_context()
             return human_fallback_reply(msg)
 
+        # NORMAL RESPONSE
         response = str(result.get("response", "")).strip()
         followup = str(result.get("followup_response", "")).strip()
 
@@ -351,8 +373,8 @@ def get_bot_reply(user_text):
         return reply
 
     except Exception as e:
-        return f"Connection error: {e}"
 
+        return f"Connection error: {e}"
 
 def send_message(text):
     if not text:
