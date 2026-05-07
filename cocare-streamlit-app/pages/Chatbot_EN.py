@@ -739,6 +739,19 @@ if st.button("Clear Chat"):
     save_chat_history()
     st.rerun()
 
+chat_text = ""
+
+for role, message in st.session_state[CHAT_KEY]:
+    sender = "User" if role == "user" else "Bot"
+    chat_text += f"{sender}: {message}\n\n"
+
+st.download_button(
+    label="Download Chat",
+    data=chat_text,
+    file_name="chatbot_en_history.txt",
+    mime="text/plain"
+)
+
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
