@@ -444,7 +444,37 @@ def send_message(text):
 
     st.session_state[CHAT_KEY][-1] = ("bot", bot_reply)
 
+    try:
+        import pandas as pd
+        from datetime import datetime
 
+        log_path = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "data",
+            "chatbot_en_logs.csv"
+        )
+
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
+        row = {
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "user_id": st.session_state.get("user_id", "customer_1"),
+            "region": st.session_state.get("region", "Amman"),
+            "user_message": text,
+            "bot_reply": bot_reply
+        }
+
+        if os.path.exists(log_path):
+            old = pd.read_csv(log_path)
+            logs = pd.concat([old, pd.DataFrame([row])], ignore_index=True)
+        else:
+            logs = pd.DataFrame([row])
+
+        logs.to_csv(log_path, index=False)
+
+    except Exception:
+        pass
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"] {
