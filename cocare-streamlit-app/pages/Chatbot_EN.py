@@ -65,6 +65,29 @@ def send_message(text):
     st.session_state[CHAT_KEY].append(("user", text))
     st.session_state[CHAT_KEY].append(("bot", get_bot_reply(text)))
 
+params = st.query_params
+
+if "msg" in params:
+    user_msg = params.get("msg", "")
+
+    result = process_message(
+        user_msg,
+        user_id="customer_1",
+        region=region
+    )
+
+    response = str(result.get("response", "")).strip()
+    followup = str(result.get("followup_response", "")).strip()
+
+    st.session_state["last_user_msg"] = user_msg
+    st.session_state["last_bot_reply"] = f"{response}\n\n{followup}".strip()
+else:
+    st.session_state.setdefault("last_user_msg", "")
+    st.session_state.setdefault("last_bot_reply", "Hi, how can I help you?")
+
+last_user_msg = st.session_state["last_user_msg"]
+last_bot_reply = st.session_state["last_bot_reply"]
+
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"] {
