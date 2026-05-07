@@ -8,17 +8,29 @@ from engine.chatbot_engine import chatbot_engine
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
+# =========================
+# SESSION STATE
+# =========================
+
 if "chat_messages" not in st.session_state:
     st.session_state.chat_messages = [
-        {"role": "bot", "text": "Hi, how can I help you?"}
+        {
+            "role": "bot",
+            "text": "Hi, how can I help you?"
+        }
     ]
 
 if "last_msg" not in st.session_state:
     st.session_state.last_msg = ""
 
+# =========================
+# HANDLE NEW MESSAGE
+# =========================
+
 msg = st.query_params.get("msg", "")
 
 if msg and msg != st.session_state.last_msg:
+
     st.session_state.last_msg = msg
 
     st.session_state.chat_messages.append({
@@ -28,40 +40,68 @@ if msg and msg != st.session_state.last_msg:
 
     try:
         result = chatbot_engine(msg)
-        reply = result.get("response", "No response generated.")
+
+        reply = result.get(
+            "response",
+            "No response generated."
+        )
+
     except Exception as e:
-        reply = f"Error while processing message: {e}"
+        reply = f"Error: {e}"
 
     st.session_state.chat_messages.append({
         "role": "bot",
         "text": reply
     })
 
+# =========================
+# ROBOT IMAGE
+# =========================
 
 robot = ""
+
 if os.path.exists("robot_head.png"):
     with open("robot_head.png", "rb") as f:
         robot = base64.b64encode(f.read()).decode()
 
+avatar_html = ""
+
+if robot:
+    avatar_html = f'''
+    <img class="avatar"
+    src="data:image/png;base64,{robot}">
+    '''
+
+# =========================
+# BUILD CHAT HTML
+# =========================
 
 messages_html = ""
 
 for m in st.session_state.chat_messages:
+
     cls = "user" if m["role"] == "user" else "bot"
+
     safe_text = html_lib.escape(m["text"])
-    messages_html += f'<div class="msg {cls}">{safe_text}</div>'
 
+    messages_html += f'''
+    <div class="msg {cls}">
+        {safe_text}
+    </div>
+    '''
 
-avatar_html = ""
-if robot:
-    avatar_html = f'<img class="avatar" src="data:image/png;base64,{robot}">'
-
+# =========================
+# HTML PAGE
+# =========================
 
 html = f"""
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <style>
+
 body {{
     margin:0;
     background:#eef3f6;
@@ -75,7 +115,12 @@ body {{
     border-radius:42px;
     overflow:hidden;
     position:relative;
-    background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
+    background:linear-gradient(
+        160deg,
+        #d6ecff,
+        #bfe3ff,
+        #eaf6ff
+    );
 }}
 
 .topbar {{
@@ -91,7 +136,6 @@ body {{
     gap:10px;
     padding:0 14px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
-    z-index:10;
 }}
 
 .back {{
@@ -157,7 +201,7 @@ body {{
     position:absolute;
     left:38px;
     bottom:90px;
-    width:160px;
+    width:170px;
     background:white;
     border-radius:8px;
     box-shadow:0 4px 12px rgba(0,0,0,.18);
@@ -185,7 +229,6 @@ body {{
     display:flex;
     align-items:center;
     gap:8px;
-    z-index:10;
 }}
 
 .hamburger {{
@@ -198,7 +241,7 @@ body {{
     font-size:22px;
     color:#50768a;
     cursor:pointer;
-    flex-shrink:0;
+    border:none;
 }}
 
 .chat-input {{
@@ -217,70 +260,145 @@ body {{
     width:40px;
     height:40px;
     border-radius:50%;
-    background:linear-gradient(135deg,#6ec6ff,#1c6fa4);
+    background:linear-gradient(
+        135deg,
+        #6ec6ff,
+        #1c6fa4
+    );
     color:white;
     text-align:center;
     line-height:40px;
     font-size:20px;
     cursor:pointer;
     border:none;
-    flex-shrink:0;
 }}
+
 </style>
+
 </head>
 
 <body>
+
 <div class="phone">
 
     <div class="topbar">
-        <a href="/?page=customer" target="_parent" style="text-decoration:none;">
+
+        <a href="/?page=customer"
+           target="_parent"
+           style="text-decoration:none;">
+
             <div class="back">‹</div>
+
         </a>
+
         {avatar_html}
+
         <div class="dot"></div>
-        <div class="status">Ready to assist</div>
+
+        <div class="status">
+            Ready to assist
+        </div>
+
     </div>
 
     <div id="chatBox" class="chat-box">
+
         {messages_html}
+
     </div>
 
     <div id="menu" class="menu">
-        <div onclick="quickMsg('Network Test')">Network Test</div>
-        <div onclick="quickMsg('Internet Usage')">Internet Usage</div>
-        <div onclick="quickMsg('Renew Package')">Renew Package</div>
-        <div onclick="quickMsg('International Calls')">International Calls</div>
-        <div onclick="quickMsg('Offers and Games')">Offers & Games</div>
-        <div onclick="quickMsg('Contact Support')">Contact Support</div>
+
+        <div onclick="quickMsg('Network Test')">
+            Network Test
+        </div>
+
+        <div onclick="quickMsg('Internet Usage')">
+            Internet Usage
+        </div>
+
+        <div onclick="quickMsg('Renew Package')">
+            Renew Package
+        </div>
+
+        <div onclick="quickMsg('International Calls')">
+            International Calls
+        </div>
+
+        <div onclick="quickMsg('Offers and Games')">
+            Offers & Games
+        </div>
+
+        <div onclick="quickMsg('Contact Support')">
+            Contact Support
+        </div>
+
     </div>
 
-<form id="chatForm" class="bottom" method="get" target="_parent">
-    <div class="hamburger" type="button" onclick="toggleMenu()">≡</div>
+    <form id="chatForm"
+          class="bottom"
+          method="get"
+          target="_parent">
 
-    <input
-        id="chatInput"
-        name="msg"
-        class="chat-input"
-        placeholder="Type your question here..."
-    >
+        <button
+            class="hamburger"
+            type="button"
+            onclick="toggleMenu()">
 
-    <button class="send" type="submit">➤</button>
-</form>
+            ≡
+
+        </button>
+
+        <input
+            id="chatInput"
+            name="msg"
+            class="chat-input"
+            placeholder="Type your question here..."
+        >
+
+        <button
+            class="send"
+            type="submit">
+
+            ➤
+
+        </button>
+
+    </form>
+
+</div>
 
 <script>
-function toggleMenu() {
-    const menu = document.getElementById("menu");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
-}
 
-function quickMsg(text) {
-    const input = document.getElementById("chatInput");
+function toggleMenu() {{
+
+    const menu =
+        document.getElementById("menu");
+
+    menu.style.display =
+        menu.style.display === "block"
+        ? "none"
+        : "block";
+}}
+
+function quickMsg(text) {{
+
+    const input =
+        document.getElementById("chatInput");
+
     input.value = text;
-    document.getElementById("chatForm").submit();
-}
 
-const chatBox = document.getElementById("chatBox");
-chatBox.scrollTop = chatBox.scrollHeight;
+    document
+        .getElementById("chatForm")
+        .submit();
+}}
+
+const chatBox =
+    document.getElementById("chatBox");
+
+chatBox.scrollTop =
+    chatBox.scrollHeight;
+
 </script>
 
 </body>
