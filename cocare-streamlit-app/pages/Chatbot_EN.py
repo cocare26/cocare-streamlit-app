@@ -1,84 +1,353 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import base64
 import os
+import sys
 import html as html_lib
 
-from engine.chatbot_engine import chatbot_engine
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from cocare import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
-if "chat_messages" not in st.session_state:
-    st.session_state.chat_messages = [
-        {"role": "bot", "text": "Hi, how can I help you?"}
+CHAT_KEY = "chat_en_messages"
+CONTEXT_KEY = "chat_en_context"
+
+if "region" not in st.session_state:
+    st.session_state["region"] = "Amman"
+
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
     ]
 
-def handle_message(text):
+if CONTEXT_KEY not in st.session_state:
+    st.session_state[CONTEXT_KEY] = {
+        "last_intent": None,
+        "awaiting_details": False,
+        "last_network_problem": False
+    }
 
-    st.session_state.chat_messages.append({
-        "role": "user",
-        "text": text
-    })
+
+def reset_context():
+    st.session_state[CONTEXT_KEY] = {
+        "last_intent": None,
+        "awaiting_details": False,
+        "last_network_problem": False
+    }
+
+
+def img_to_base64(path):
+    try:
+        full_path = os.path.join(os.path.dirname(__file__), "..", path)
+        if os.path.exists(full_path):
+            with open(full_path, "rb") as f:
+                return base64.b64encode(f.read()).decode()
+    except Exception:
+        pass
+    return ""
+
+
+robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
+
+
+def is_thanks_or_close(text):
+    t = str(text).strip().lower()
+    return any(p in t for p in [
+        "thanks", "thank you", "ok", "okay", "fine", "great", "done",
+        "شكرا", "شكراً", "تمام"
+    ])
+
+
+def is_goodbye(text):
+    t = str(text).strip().lower()
+    return any(p in t for p in ["bye", "goodbye", "see you", "مع السلامة", "باي"])
+
+
+def is_no_problem(text):
+    t = str(text).strip().lower()
+    return any(p in t for p in [
+        "no problem", "i have no problem", "nothing", "no issue",
+        "not now", "never mind"
+    ])
+
+
+def is_social_positive(text):
+    t = str(text).strip().lower()
+    return any(p in t for p in [
+        "nice", "good", "great", "perfect", "excellent", "awesome"
+    ])
+
+
+def is_short_followup(text):
+    return len(str(text).strip().split()) <= 8
+
+
+def looks_like_time_answer(text):
+    t = str(text).lower()
+    return any(w in t for w in [
+        "hour", "hours", "minute", "minutes", "today", "yesterday",
+        "morning", "evening", "week", "since", "ago"
+    ])
+
+
+def looks_like_yes(text):
+    return str(text).strip().lower() in ["yes", "yeah", "yep", "ok", "okay", "sure"]
+
+
+def looks_like_no(text):
+    return str(text).strip().lower() in ["no", "nope", "not"]
+
+
+def looks_like_location(text):
+    t = str(text).strip().lower()
+    locations = [
+        "amman", "zarqa", "irbid", "balqa", "madaba", "karak",
+        "tafilah", "maan", "aqaba", "jerash", "ajloun", "mafraq"
+    ]
+    return any(loc in t for loc in locations)
+
+
+def human_fallback_reply(text):
+    t = str(text).strip().lower()
+
+    if is_no_problem(t):
+        reset_context()
+        return "Alright. If you need any help later, I am here."
+
+    if is_thanks_or_close(t):
+        reset_context()
+        return "You are welcome. I am here whenever you need help."
+
+    if is_goodbye(t):
+        reset_context()
+        return "Goodbye 👋 I am here whenever you need help."
+
+    if is_social_positive(t):
+        reset_context()
+        return "Glad to help. I am here whenever you need support."
+
+    if "international" in t or "calls" in t:
+        return "International calls are available depending on your line type. Do you want prices or activation steps?"
+
+    if "usage" in t or "data" in t or "remaining internet" in t:
+        return "You can check your internet usage from the account or usage section in the app."
+
+    if "renew" in t or "package" in t:
+        return "You can renew your package from the packages section in the app."
+
+    if "offer" in t or "offers" in t:
+        return "Current offers are available in the offers section. Do you want internet offers or call offers?"
+
+    if any(w in t for w in ["who are you", "what are you", "what do you do"]):
+        return (
+            "I am CoCare AI Assistant 🤖\n\n"
+            "I can help with network issues, packages, internet usage, offers, international calls, and technical support."
+        )
+
+    if any(w in t for w in ["help", "help me", "i need help"]):
+        return (
+            "Sure. Tell me your question or the problem you are facing, "
+            "and I will guide you to the right service."
+        )
+
+    if any(w in t for w in ["how", "steps", "method"]):
+        return (
+            "Tell me which service you want to use, "
+            "and I will explain the steps clearly."
+        )
+
+    if any(w in t for w in ["where", "location", "place"]):
+        return (
+            "Please clarify what location you mean. "
+            "If you mean a service inside the app, tell me its name."
+        )
+
+    return (
+        "I understand. To help you better, please clarify whether your request is about "
+        "network, packages, app services, or another service."
+    )
+
+
+def handle_context_followup(text):
+    context = st.session_state[CONTEXT_KEY]
+    msg = str(text).strip()
+
+    if not context.get("awaiting_details"):
+        return None
+
+    if is_no_problem(msg):
+        reset_context()
+        return "Alright. I will not record an issue. If you need help later, I am here."
+
+    if is_thanks_or_close(msg):
+        reset_context()
+        return "You are welcome. I am here whenever you need help."
+
+    if not is_short_followup(msg):
+        return None
+
+    reset_context()
+
+    if looks_like_time_answer(msg):
+        return (
+            "Got it. I recorded the time or duration of the issue. "
+            "The network status will be followed up by the technical team."
+        )
+
+    if looks_like_location(msg):
+        return (
+            "Got it. I received your area. "
+            "I will add it to the issue details for the technical team."
+        )
+
+    if looks_like_yes(msg):
+        return (
+            "Okay. Try restarting the router or enabling airplane mode for 10 seconds, "
+            "then tell me if the connection improves."
+        )
+
+    if looks_like_no(msg):
+        return (
+            "Okay. I will record the issue without extra steps. "
+            "If it continues, the technical team will follow up."
+        )
+
+    return (
+        "Got it. I received the details and will add them to the recorded issue."
+    )
+
+
+def direct_service_reply(text):
+    t = str(text).strip().lower()
+    region = st.session_state.get("region", "Amman")
+
+    if t == "network test":
+        reset_context()
+        return (
+            f"I can help you check the network status in {region}.\n\n"
+            "Are you facing slow internet, disconnection, or weak signal?"
+        )
+
+    if t == "internet usage":
+        reset_context()
+        return "You can check your internet usage from the account or usage section in the app."
+
+    if t == "renew package":
+        reset_context()
+        return "You can renew your package from the packages section in the app. Do you want the renewal steps?"
+
+    if t == "international calls":
+        reset_context()
+        return "International calls are available depending on your line type. Do you want prices or activation steps?"
+
+    if t == "offers & games":
+        reset_context()
+        return "Current offers are available in the offers section. Do you want internet offers or call offers?"
+
+    if t == "contact support":
+        reset_context()
+        return "Sure. Tell me the technical issue details and I will help you step by step."
+
+    return None
+
+
+def get_bot_reply(user_text):
+    msg = str(user_text).strip()
+
+    if is_no_problem(msg):
+        reset_context()
+        return "Alright. If you need any help later, I am here."
+
+    if is_thanks_or_close(msg):
+        reset_context()
+        return "You are welcome. I am here whenever you need help."
+
+    if is_goodbye(msg):
+        reset_context()
+        return "Goodbye 👋 I am here whenever you need help."
+
+    if is_social_positive(msg):
+        reset_context()
+        return "Glad to help. I am here whenever you need support."
+
+    service_reply = direct_service_reply(msg)
+    if service_reply:
+        return service_reply
+
+    context_reply = handle_context_followup(msg)
+    if context_reply:
+        return context_reply
+
+    user_id = st.session_state.get("user_id", "customer_1")
+    region = st.session_state.get("region", "Amman")
 
     try:
-        result = chatbot_engine(text)
+        result = process_message(
+            msg,
+            user_id=user_id,
+            region=region
+        )
 
-        if isinstance(result, dict):
-            reply = result.get("response", "No response generated.")
-        else:
-            reply = str(result)
+        intent = result.get("intent", "")
+        network_problem = result.get("network_problem", False)
+
+        st.session_state[CONTEXT_KEY]["last_intent"] = intent
+        st.session_state[CONTEXT_KEY]["last_network_problem"] = network_problem
+        st.session_state[CONTEXT_KEY]["awaiting_details"] = bool(network_problem)
+
+        if intent in ["clarification", "unknown", "other", "fallback"]:
+            if len(msg.split()) > 4:
+                return (
+                    "I understand. To help you better, please tell me whether this is about "
+                    "network, package, app, or another service."
+                )
+
+            reset_context()
+            return human_fallback_reply(msg)
+
+        response = str(result.get("response", "")).strip()
+        followup = str(result.get("followup_response", "")).strip()
+
+        reply = f"{response}\n\n{followup}".strip()
+
+        if not reply:
+            return human_fallback_reply(msg)
+
+        return reply
 
     except Exception as e:
-        reply = f"MODEL ERROR: {type(e).__name__}: {e}"
+        return f"Connection error: {e}"
 
-    st.session_state.chat_messages.append({
-        "role": "bot",
-        "text": reply
-    })
-robot = ""
 
-if os.path.exists("robot_head.png"):
-    with open("robot_head.png", "rb") as f:
-        robot = base64.b64encode(f.read()).decode()
+def send_message(text):
+    if not text:
+        return
 
-avatar_html = ""
+    st.session_state[CHAT_KEY].append(("user", text))
+    bot_reply = get_bot_reply(text)
+    st.session_state[CHAT_KEY].append(("bot", bot_reply))
 
-if robot:
-    avatar_html = f'<img class="avatar" src="data:image/png;base64,{robot}">'
 
-messages_html = ""
-
-for m in st.session_state.chat_messages:
-    cls = "user" if m["role"] == "user" else "bot"
-    safe_text = html_lib.escape(m["text"])
-    messages_html += f'<div class="msg {cls}">{safe_text}</div>'
-
-html = f"""
-<!DOCTYPE html>
-<html>
-<head>
+st.markdown("""
 <style>
-body {{
-    margin:0;
-    background:#eef3f6;
-    font-family:Arial;
-}}
-
-.phone {{
-    width:420px;
-    height:700px;
+html, body, [data-testid="stAppViewContainer"] {
+    background:#eef2f7;
+    direction:ltr;
+}
+header, footer, #MainMenu {
+    visibility:hidden;
+}
+.block-container {
+    max-width:430px;
+    height:730px;
     margin:auto;
+    padding:14px 16px 8px;
     border-radius:42px;
-    overflow:hidden;
-    position:relative;
     background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
-}}
-
-.topbar {{
-    position:absolute;
-    top:14px;
-    left:18px;
-    right:18px;
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    overflow:hidden;
+}
+.topbar {
     height:58px;
     background:white;
     border-radius:18px;
@@ -87,151 +356,164 @@ body {{
     gap:10px;
     padding:0 14px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
-}}
-
-.back {{
+    margin-bottom:10px;
+}
+.back {
     font-size:28px;
     color:#436577;
-}}
-
-.avatar {{
+    text-decoration:none;
+    font-weight:700;
+}
+.avatar {
     width:42px;
     height:42px;
     border-radius:50%;
     object-fit:cover;
-}}
-
-.dot {{
+}
+.dot {
     width:8px;
     height:8px;
     background:#36c06a;
     border-radius:50%;
-}}
-
-.status {{
+}
+.status {
     font-size:15px;
     font-weight:700;
     color:#222;
-}}
-
-.chat-box {{
-    position:absolute;
-    top:90px;
-    left:18px;
-    right:18px;
-    bottom:75px;
+}
+.region-label {
+    margin-left:auto;
+    font-size:11px;
+    color:#436577;
+    font-weight:700;
+}
+.quick-title {
+    font-size:13px;
+    font-weight:800;
+    color:#102646;
+    margin:4px 0 6px;
+}
+div[data-testid="stButton"] button {
+    border-radius:18px;
+    border:none;
+    background:white;
+    color:#102646;
+    font-weight:800;
+    font-size:12px;
+    box-shadow:0 3px 8px rgba(0,0,0,.10);
+    height:36px;
+}
+div[data-testid="stButton"] button:hover {
+    background:#eef6ff;
+    color:#1c6fa4;
+}
+.chat-area {
+    height:350px;
     overflow-y:auto;
-    padding:10px;
-}}
-
-.msg {{
+    padding:10px 4px;
+    margin-top:10px;
+    margin-bottom:8px;
+}
+.msg {
     max-width:75%;
     padding:9px 12px;
     border-radius:16px;
     margin-bottom:8px;
     font-size:13px;
-    line-height:1.4;
-    clear:both;
-    word-wrap:break-word;
-}}
-
-.bot {{
+    line-height:1.5;
+    white-space:pre-wrap;
+    text-align:left;
+}
+.bot {
     background:white;
     color:#222;
-    float:left;
-}}
-
-.user {{
+    margin-right:auto;
+}
+.user {
     background:#1c6fa4;
     color:white;
-    float:right;
-}}
-
-.menu {{
-    display:block;
-    position:absolute;
-    left:38px;
-    bottom:18px;
-    width:160px;
-    background:white;
-    border-radius:8px;
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
-    padding:8px 0;
-    z-index:20;
-}}
-
-.menu div {{
-    font-size:13px;
-    padding:7px 13px;
-    color:#222;
-}}
-
-</style>
-</head>
-
-<body>
-<div class="phone">
-
-    <div class="topbar">
-        <a href="/?page=customer" target="_parent" style="text-decoration:none;">
-            <div class="back">‹</div>
-        </a>
-        {avatar_html}
-        <div class="dot"></div>
-        <div class="status">Ready to assist</div>
-    </div>
-
-    <div id="chatBox" class="chat-box">
-        {messages_html}
-    </div>
-
-</div>
-
-<script>
-const chatBox = document.getElementById("chatBox");
-chatBox.scrollTop = chatBox.scrollHeight;
-</script>
-
-</body>
-</html>
-"""
-
-components.html(html, height=730)
-
-st.markdown("""
-<style>
-div[data-testid="stChatInput"] {
-    width:420px;
-    margin:auto;
-    margin-top:-78px;
+    margin-left:auto;
 }
-
+div[data-testid="stChatInput"] {
+    position:relative !important;
+    bottom:auto !important;
+    background:transparent !important;
+    padding:0 !important;
+}
 div[data-testid="stChatInput"] textarea {
+    direction:ltr;
     border-radius:22px;
-    min-height:42px;
+    border:none;
+    background:white;
     font-size:13px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-cols = st.columns(3)
 
-quick_actions = [
-    "Network Test",
-    "Internet Usage",
-    "Renew Package",
-    "International Calls",
-    "Offers & Games",
-    "Contact Support"
-]
+region = st.session_state.get("region", "Amman")
 
-for i, action in enumerate(quick_actions):
-    if cols[i % 3].button(action, key=f"quick_{i}"):
-        handle_message(action)
+st.markdown(f"""
+<div class="topbar">
+    <a class="back" href="/?page=customer">‹</a>
+    <img class="avatar" src="data:image/png;base64,{robot}">
+    <div class="dot"></div>
+    <div class="status">Ready to assist</div>
+    <div class="region-label">📍 {html_lib.escape(region)}</div>
+</div>
+""", unsafe_allow_html=True)
+
+
+st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
+
+c1, c2, c3 = st.columns(3)
+c4, c5, c6 = st.columns(3)
+
+with c1:
+    if st.button("Network Test"):
+        send_message("Network Test")
         st.rerun()
 
-user_text = st.chat_input("Type your question here...")
+with c2:
+    if st.button("Internet Usage"):
+        send_message("Internet Usage")
+        st.rerun()
 
-if user_text:
-    handle_message(user_text)
+with c3:
+    if st.button("Renew Package"):
+        send_message("Renew Package")
+        st.rerun()
+
+with c4:
+    if st.button("International Calls"):
+        send_message("International Calls")
+        st.rerun()
+
+with c5:
+    if st.button("Offers & Games"):
+        send_message("Offers & Games")
+        st.rerun()
+
+with c6:
+    if st.button("Contact Support"):
+        send_message("Contact Support")
+        st.rerun()
+
+
+chat_html = '<div class="chat-area">'
+
+for role, message in st.session_state[CHAT_KEY]:
+    cls = "user" if role == "user" else "bot"
+    safe_msg = html_lib.escape(str(message))
+    chat_html += f'<div class="msg {cls}">{safe_msg}</div>'
+
+chat_html += '</div>'
+
+st.markdown(chat_html, unsafe_allow_html=True)
+
+user_input = st.chat_input("Type your question here...")
+
+if user_input:
+    send_message(user_input)
     st.rerun()
+    
