@@ -293,43 +293,44 @@ def get_bot_reply(user_text):
     # TEXT NORMALIZATION
     t = msg.lower()
 
-    # INTERNET PROBLEMS
+    # INTERNET / CONNECTION PROBLEMS
     if (
-    ("internet" in t and "slow" in t)
-    or ("slow internet" in t)
-    or ("my internet is slow" in t)
-    or ("disconnect" in t)
-    or ("disconnection" in t)
-    or ("router" in t and "slow" in t)
-    or ("unstable" in t and "connection" in t)
-):
+        ("internet" in t and "slow" in t)
+        or ("slow internet" in t)
+        or ("my internet is slow" in t)
+        or ("disconnect" in t)
+        or ("disconnection" in t)
+        or ("router" in t and "slow" in t)
+        or ("unstable" in t and "connection" in t)
+    ):
+
         st.session_state[CONTEXT_KEY]["last_intent"] = "slow_internet"
         st.session_state[CONTEXT_KEY]["last_network_problem"] = True
         st.session_state[CONTEXT_KEY]["awaiting_details"] = True
 
         # DISCONNECTION
-    if "disconnect" in t or "disconnection" in t:
+        if "disconnect" in t or "disconnection" in t:
 
-      return (
-        "It looks like your connection keeps disconnecting.\n\n"
-        "Please tell me your area and when the issue usually happens."
-    )
+            return (
+                "It looks like your connection keeps disconnecting.\n\n"
+                "Please tell me your area and when the issue usually happens."
+            )
 
-# ROUTER ISSUE
-    if "router" in t:
+        # ROUTER ISSUE
+        if "router" in t:
 
-      return (
-        "It may be a router or home connection issue.\n\n"
-        "Please tell me when the problem started and whether all devices are affected."
-    )
+            return (
+                "It may be a router or home connection issue.\n\n"
+                "Please tell me when the problem started and whether all devices are affected."
+            )
 
-# SLOW INTERNET
-      return (
-           "It looks like your internet is slow.\n\n"
-           "Please tell me your area or when the issue started."
-)
+        # DEFAULT SLOW INTERNET
+        return (
+            "It looks like your internet is slow.\n\n"
+            "Please tell me your area or when the issue started."
+        )
 
-# SIGNAL PROBLEMS
+    # SIGNAL PROBLEMS
     if (
         "no signal" in t
         or "weak signal" in t
@@ -345,28 +346,24 @@ def get_bot_reply(user_text):
             "Please tell me your area so I can follow up the issue."
         )
 
+    # PACKAGE RENEWAL
+    if (
+        "renew" in t
+        or "package" in t
+        or "subscription" in t
+    ):
 
-      # PACKAGE RENEWAL
-      if (
-             "renew" in t
-             or "package" in t
-             or "subscription" in t
-):
+        reset_context()
 
-      reset_context()
+        return (
+            "You can renew your package from the packages section in the app.\n\n"
+            "Would you like the renewal steps in detail?"
+        )
 
-         return (
-             "You can renew your package from the packages section in the app.\n\n"
-              "Would you like the renewal steps in detail?"
-    )
-
-
-
-    
     # CONTEXT FOLLOW-UP
-      context_reply = handle_context_followup(msg)
-      if context_reply:
-         return context_reply
+    context_reply = handle_context_followup(msg)
+    if context_reply:
+        return context_reply
 
     # MODEL PROCESSING
     user_id = st.session_state.get("user_id", "customer_1")
