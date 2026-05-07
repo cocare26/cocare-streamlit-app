@@ -22,8 +22,6 @@ CHAT_HISTORY_FILE = os.path.join(
 if "region" not in st.session_state:
     st.session_state["region"] = "Amman"
 
-if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = load_chat_history()
 
 if CONTEXT_KEY not in st.session_state:
     st.session_state[CONTEXT_KEY] = {
@@ -47,7 +45,13 @@ def load_chat_history():
         if os.path.exists(CHAT_HISTORY_FILE):
 
             with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
-                return json.load(f)
+
+                data = json.load(f)
+
+                if isinstance(data, dict):
+                    return data.get("messages", [])
+
+                return data
 
     except Exception:
         pass
@@ -55,18 +59,27 @@ def load_chat_history():
     return [
         ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
     ]
-
+    
 def save_chat_history():
 
     try:
 
         os.makedirs(os.path.dirname(CHAT_HISTORY_FILE), exist_ok=True)
 
+        history_data = {
+            "messages": st.session_state[CHAT_KEY],
+            "feedback": st.session_state.get("chat_feedback", None)
+        }
+
         with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
-            json.dump(st.session_state[CHAT_KEY], f)
+            json.dump(history_data, f, ensure_ascii=False, indent=2)
 
     except Exception:
         pass
+
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = load_chat_history()
+
 def img_to_base64(path):
     try:
         full_path = os.path.join(os.path.dirname(__file__), "..", path)
@@ -739,18 +752,19 @@ if st.button("Clear Chat"):
     save_chat_history()
     st.rerun()
 
-chat_text = ""
+st.markdown("### Was this chat helpful?")
 
-for role, message in st.session_state[CHAT_KEY]:
-    sender = "User" if role == "user" else "Bot"
-    chat_text += f"{sender}: {message}\n\n"
+fb1, fb2 = st.columns(2)
 
-st.download_button(
-    label="Download Chat",
-    data=chat_text,
-    file_name="chatbot_en_history.txt",
-    mime="text/plain"
-)
+if fb1.button("👍 Helpful"):
+    st.session_state["chat_feedback"] = "helpful"
+    st.success("Feedback saved: helpful")
+
+if fb2.button("👎 Not Helpful"):
+    st.session_state["chat_feedback"] = "not_helpful"
+    st.warning("Feedback saved: not helpful")
+
+
 
 chat_html = '<div class="chat-area">'
 
