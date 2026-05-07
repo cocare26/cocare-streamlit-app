@@ -1,408 +1,169 @@
 import streamlit as st
-import streamlit.components.v1 as components
-import base64
-import os
-import html as html_lib
-
 from engine.chatbot_engine import chatbot_engine
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
-# =========================
-# SESSION STATE
-# =========================
+st.markdown("""
+<style>
+[data-testid="stAppViewContainer"] {
+    background: #eef3f6;
+}
 
-if "chat_messages" not in st.session_state:
-    st.session_state.chat_messages = [
-        {
-            "role": "bot",
-            "text": "Hi, how can I help you?"
-        }
+.phone {
+    width: 420px;
+    height: 700px;
+    margin: auto;
+    border-radius: 42px;
+    background: linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+.topbar {
+    height: 58px;
+    background: white;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.12);
+    margin-bottom: 15px;
+}
+
+.back {
+    font-size: 28px;
+    color: #436577;
+    text-decoration: none;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #36c06a;
+    border-radius: 50%;
+}
+
+.status {
+    font-size: 15px;
+    font-weight: 700;
+    color: #222;
+}
+
+.chat-area {
+    height: 455px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.bot-msg {
+    background: white;
+    color: #222;
+    padding: 9px 12px;
+    border-radius: 16px;
+    max-width: 75%;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.user-msg {
+    background: #1c6fa4;
+    color: white;
+    padding: 9px 12px;
+    border-radius: 16px;
+    max-width: 75%;
+    margin-left: auto;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+div[data-testid="stChatInput"] {
+    width: 420px;
+    margin: auto;
+}
+
+div[data-testid="stChatInput"] textarea {
+    border-radius: 22px;
+    font-size: 13px;
+}
+
+.stButton > button {
+    border-radius: 18px;
+    font-size: 12px;
+    background: white;
+    border: none;
+}
+</style>
+""", unsafe_allow_html=True)
+
+if "messages_en" not in st.session_state:
+    st.session_state.messages_en = [
+        {"role": "bot", "text": "Hi, how can I help you?"}
     ]
 
-if "last_msg" not in st.session_state:
-    st.session_state.last_msg = ""
-
-# =========================
-# HANDLE NEW MESSAGE
-# =========================
-
-msg = st.query_params.get("msg", "")
-
-if msg and msg != st.session_state.last_msg:
-
-    st.session_state.last_msg = msg
-
-    st.session_state.chat_messages.append({
+def handle_message(text):
+    st.session_state.messages_en.append({
         "role": "user",
-        "text": msg
+        "text": text
     })
 
     try:
-        result = chatbot_engine(msg)
-
-        reply = result.get(
-            "response",
-            "No response generated."
-        )
-
+        result = chatbot_engine(text)
+        reply = result.get("response", "No response generated.")
     except Exception as e:
         reply = f"Error: {e}"
 
-    st.session_state.chat_messages.append({
+    st.session_state.messages_en.append({
         "role": "bot",
         "text": reply
     })
 
-# =========================
-# ROBOT IMAGE
-# =========================
-
-robot = ""
-
-if os.path.exists("robot_head.png"):
-    with open("robot_head.png", "rb") as f:
-        robot = base64.b64encode(f.read()).decode()
-
-avatar_html = ""
-
-if robot:
-    avatar_html = f'''
-    <img class="avatar"
-    src="data:image/png;base64,{robot}">
-    '''
-
-# =========================
-# BUILD CHAT HTML
-# =========================
-
-messages_html = ""
-
-for m in st.session_state.chat_messages:
-
-    cls = "user" if m["role"] == "user" else "bot"
-
-    safe_text = html_lib.escape(m["text"])
-
-    messages_html += f'''
-    <div class="msg {cls}">
-        {safe_text}
-    </div>
-    '''
-
-# =========================
-# HTML PAGE
-# =========================
-
-html = f"""
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<style>
-
-body {{
-    margin:0;
-    background:#eef3f6;
-    font-family:Arial;
-}}
-
-.phone {{
-    width:420px;
-    height:700px;
-    margin:auto;
-    border-radius:42px;
-    overflow:hidden;
-    position:relative;
-    background:linear-gradient(
-        160deg,
-        #d6ecff,
-        #bfe3ff,
-        #eaf6ff
-    );
-}}
-
-.topbar {{
-    position:absolute;
-    top:14px;
-    left:18px;
-    right:18px;
-    height:58px;
-    background:white;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:0 14px;
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
-}}
-
-.back {{
-    font-size:28px;
-    color:#436577;
-}}
-
-.avatar {{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    object-fit:cover;
-}}
-
-.dot {{
-    width:8px;
-    height:8px;
-    background:#36c06a;
-    border-radius:50%;
-}}
-
-.status {{
-    font-size:15px;
-    font-weight:700;
-    color:#222;
-}}
-
-.chat-box {{
-    position:absolute;
-    top:90px;
-    left:18px;
-    right:18px;
-    bottom:75px;
-    overflow-y:auto;
-    padding:10px;
-}}
-
-.msg {{
-    max-width:75%;
-    padding:9px 12px;
-    border-radius:16px;
-    margin-bottom:8px;
-    font-size:13px;
-    line-height:1.4;
-    clear:both;
-    word-wrap:break-word;
-}}
-
-.bot {{
-    background:white;
-    color:#222;
-    float:left;
-}}
-
-.user {{
-    background:#1c6fa4;
-    color:white;
-    float:right;
-}}
-
-.menu {{
-    display:none;
-    position:absolute;
-    left:38px;
-    bottom:90px;
-    width:170px;
-    background:white;
-    border-radius:8px;
-    box-shadow:0 4px 12px rgba(0,0,0,.18);
-    padding:8px 0;
-    z-index:20;
-}}
-
-.menu div {{
-    font-size:13px;
-    padding:7px 13px;
-    color:#222;
-    cursor:pointer;
-}}
-
-.menu div:hover {{
-    background:#eef3f6;
-}}
-
-.bottom {{
-    position:absolute;
-    bottom:18px;
-    left:18px;
-    right:18px;
-    height:42px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-}}
-
-.hamburger {{
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    background:white;
-    text-align:center;
-    line-height:32px;
-    font-size:22px;
-    color:#50768a;
-    cursor:pointer;
-    border:none;
-}}
-
-.chat-input {{
-    flex:1;
-    height:34px;
-    background:white;
-    border-radius:22px;
-    color:#444;
-    font-size:12px;
-    padding-left:14px;
-    border:none;
-    outline:none;
-}}
-
-.send {{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:linear-gradient(
-        135deg,
-        #6ec6ff,
-        #1c6fa4
-    );
-    color:white;
-    text-align:center;
-    line-height:40px;
-    font-size:20px;
-    cursor:pointer;
-    border:none;
-}}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="phone">
-
-    <div class="topbar">
-
-        <a href="/?page=customer"
-           target="_parent"
-           style="text-decoration:none;">
-
-            <div class="back">‹</div>
-
-        </a>
-
-        {avatar_html}
-
-        <div class="dot"></div>
-
-        <div class="status">
-            Ready to assist
-        </div>
-
-    </div>
-
-    <div id="chatBox" class="chat-box">
-
-        {messages_html}
-
-    </div>
-
-    <div id="menu" class="menu">
-
-        <div onclick="quickMsg('Network Test')">
-            Network Test
-        </div>
-
-        <div onclick="quickMsg('Internet Usage')">
-            Internet Usage
-        </div>
-
-        <div onclick="quickMsg('Renew Package')">
-            Renew Package
-        </div>
-
-        <div onclick="quickMsg('International Calls')">
-            International Calls
-        </div>
-
-        <div onclick="quickMsg('Offers and Games')">
-            Offers & Games
-        </div>
-
-        <div onclick="quickMsg('Contact Support')">
-            Contact Support
-        </div>
-
-    </div>
-
-    <form id="chatForm"
-          class="bottom"
-          method="get"
-          target="_parent">
-
-        <button
-            class="hamburger"
-            type="button"
-            onclick="toggleMenu()">
-
-            ≡
-
-        </button>
-
-        <input
-            id="chatInput"
-            name="msg"
-            class="chat-input"
-            placeholder="Type your question here..."
-        >
-
-        <button
-            class="send"
-            type="submit">
-
-            ➤
-
-        </button>
-
-    </form>
-
+st.markdown('<div class="phone">', unsafe_allow_html=True)
+
+st.markdown("""
+<div class="topbar">
+    <a class="back" href="/?page=customer">‹</a>
+    <div class="dot"></div>
+    <div class="status">Ready to assist</div>
 </div>
+""", unsafe_allow_html=True)
 
-<script>
+st.markdown('<div class="chat-area">', unsafe_allow_html=True)
 
-function toggleMenu() {{
+for msg in st.session_state.messages_en:
+    if msg["role"] == "user":
+        st.markdown(
+            f'<div class="user-msg">{msg["text"]}</div>',
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            f'<div class="bot-msg">{msg["text"]}</div>',
+            unsafe_allow_html=True
+        )
 
-    const menu =
-        document.getElementById("menu");
+st.markdown('</div>', unsafe_allow_html=True)
 
-    menu.style.display =
-        menu.style.display === "block"
-        ? "none"
-        : "block";
-}}
+quick_actions = [
+    "Network Test",
+    "Internet Usage",
+    "Renew Package",
+    "International Calls",
+    "Offers & Games",
+    "Contact Support"
+]
 
-function quickMsg(text) {{
+cols = st.columns(3)
 
-    const input =
-        document.getElementById("chatInput");
+for i, action in enumerate(quick_actions):
+    if cols[i % 3].button(action, key=f"quick_{i}"):
+        handle_message(action)
+        st.rerun()
 
-    input.value = text;
+st.markdown('</div>', unsafe_allow_html=True)
 
-    document
-        .getElementById("chatForm")
-        .submit();
-}}
+user_text = st.chat_input("Type your question here...")
 
-const chatBox =
-    document.getElementById("chatBox");
-
-chatBox.scrollTop =
-    chatBox.scrollHeight;
-
-</script>
-
-</body>
-</html>
-"""
-
-components.html(html, height=730)
+if user_text:
+    handle_message(user_text)
+    st.rerun()
