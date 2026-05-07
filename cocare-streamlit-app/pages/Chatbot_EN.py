@@ -3,7 +3,6 @@ import base64
 import os
 
 from engine.chatbot_engine import process_message
-# إذا اسم الدالة عندك مختلف، غيّري process_message لاسم الدالة الموجودة عندك
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
@@ -125,7 +124,7 @@ st.markdown(f"""
 
 st.markdown('<div class="chat-box">', unsafe_allow_html=True)
 
- for_msg = st.session_state.messages
+for_msg = st.session_state.messages
 for msg in for_msg:
     css_class = "user" if msg["role"] == "user" else "bot"
     st.markdown(
