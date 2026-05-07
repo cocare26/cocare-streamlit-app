@@ -571,10 +571,53 @@ div[data-testid="stButton"] button:hover {
     white-space:pre-wrap;
     text-align:left;
 }
+.message-row {
+    display:flex;
+    align-items:flex-end;
+    gap:6px;
+    margin-bottom:8px;
+}
+
+.message-row.user-row {
+    justify-content:flex-end;
+}
+
+.message-row.bot-row {
+    justify-content:flex-start;
+}
+
+.msg-avatar {
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    object-fit:cover;
+    background:white;
+}
+
+.typing {
+    opacity:0.65;
+    font-style:italic;
+}
+
+.typing::after {
+    content:"";
+    animation:dots 1.4s infinite;
+}
+
+@keyframes dots {
+    0% { content:""; }
+    33% { content:"."; }
+    66% { content:".."; }
+    100% { content:"..."; }
+}
 .bot {
     background:white;
     color:#222;
     margin-right:auto;
+}
+.typing {
+    opacity: 0.65;
+    font-style: italic;
 }
 .user {
     background:#1c6fa4;
@@ -646,18 +689,50 @@ with c6:
         send_message("Contact Support")
         st.rerun()
 
+if st.button("Clear Chat"):
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+    reset_context()
+    st.rerun()
 
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
-    cls = "user" if role == "user" else "bot"
+    safe_msg = html_lib.escape(str(message))
+
+    if role == "user":
+        chat_html += f"""
+        <div class="message-row user-row">
+            <div class="msg user">{safe_msg}</div>
+            <div class="msg-avatar">👤</div>
+        </div>
+        """
+    else:
+        typing_class = " typing" if str(message) == "Typing..." else ""
+        chat_html += f"""
+        <div class="message-row bot-row">
+            <img class="msg-avatar" src="data:image/png;base64,{robot}">
+            <div class="msg bot{typing_class}">{safe_msg}</div>
+        </div>
+        """
+if message == "Typing...":
+    cls = "bot typing"
     safe_msg = html_lib.escape(str(message))
     chat_html += f'<div class="msg {cls}">{safe_msg}</div>'
 
-chat_html += '</div>'
+chat_html += """
+</div>
+
+<script>
+const chatArea = window.parent.document.querySelector('.chat-area');
+if (chatArea) {
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+</script>
+"""
 
 st.markdown(chat_html, unsafe_allow_html=True)
-
 user_input = st.chat_input("Type your question here...")
 
 if user_input:
