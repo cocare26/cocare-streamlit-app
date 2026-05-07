@@ -287,28 +287,27 @@ def get_bot_reply(user_text):
     if service_reply:
         return service_reply
 
-    t = msg.lower()
+        t = msg.lower()
 
     if ("internet" in t and "slow" in t) or "slow internet" in t:
-          st.session_state[CONTEXT_KEY]["last_intent"] = "slow_internet"
-         st.session_state[CONTEXT_KEY]["last_network_problem"] = True
+        st.session_state[CONTEXT_KEY]["last_intent"] = "slow_internet"
+        st.session_state[CONTEXT_KEY]["last_network_problem"] = True
         st.session_state[CONTEXT_KEY]["awaiting_details"] = True
 
-    return (
-        "It looks like your internet is slow.\n\n"
-        "Please tell me your area or when the issue started."
-    )
+        return (
+            "It looks like your internet is slow.\n\n"
+            "Please tell me your area or when the issue started."
+        )
 
-if "no signal" in t or "weak signal" in t or "signal problem" in t:
-    st.session_state[CONTEXT_KEY]["last_intent"] = "no_signal"
-    st.session_state[CONTEXT_KEY]["last_network_problem"] = True
-    st.session_state[CONTEXT_KEY]["awaiting_details"] = True
+    if "no signal" in t or "weak signal" in t or "signal problem" in t:
+        st.session_state[CONTEXT_KEY]["last_intent"] = "no_signal"
+        st.session_state[CONTEXT_KEY]["last_network_problem"] = True
+        st.session_state[CONTEXT_KEY]["awaiting_details"] = True
 
-    return (
-        "There may be a signal problem.\n\n"
-        "Please tell me your area so I can follow up the issue."
-    )
-
+        return (
+            "There may be a signal problem.\n\n"
+            "Please tell me your area so I can follow up the issue."
+        )
     
     context_reply = handle_context_followup(msg)
     if context_reply:
