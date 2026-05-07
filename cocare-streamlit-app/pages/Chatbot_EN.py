@@ -169,10 +169,24 @@ def human_fallback_reply(text):
 
 
 def handle_context_followup(text):
+
     context = st.session_state[CONTEXT_KEY]
     msg = str(text).strip()
+    t = msg.lower()
 
     if not context.get("awaiting_details"):
+        return None
+
+    # NEW SERVICE REQUEST → RESET CONTEXT
+    if any(p in t for p in [
+        "renew", "package",
+        "usage", "data",
+        "offer", "offers",
+        "international", "calls",
+        "support", "help",
+        "network test"
+    ]):
+        reset_context()
         return None
 
     if is_no_problem(msg):
@@ -215,7 +229,6 @@ def handle_context_followup(text):
     return (
         "Got it. I received the details and will add them to the recorded issue."
     )
-
 
 def direct_service_reply(text):
     t = str(text).strip().lower()
