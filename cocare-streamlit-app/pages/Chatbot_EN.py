@@ -360,6 +360,28 @@ def get_bot_reply(user_text):
             "Would you like the renewal steps in detail?"
         )
 
+        # RENEWAL STEPS
+    if (
+        "renewal steps" in t
+        or "renew steps" in t
+        or t == "yes"
+        or t == "sure"
+    ):
+
+        reset_context()
+
+        return (
+            "Package Renewal Steps:\n\n"
+            "1. Open the telecom app.\n"
+            "2. Go to Packages.\n"
+            "3. Select your current package.\n"
+            "4. Press Renew.\n"
+            "5. Confirm the payment.\n\n"
+            "Your package will be renewed immediately after payment."
+        )
+
+
+    
     # CONTEXT FOLLOW-UP
     context_reply = handle_context_followup(msg)
     if context_reply:
