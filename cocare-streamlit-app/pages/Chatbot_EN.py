@@ -2,7 +2,7 @@ import streamlit as st
 import base64
 import os
 
-from engine.chatbot_engine import process_message
+from engine.chatbot_engine import chatbot_engine
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
@@ -100,10 +100,11 @@ if "messages" not in st.session_state:
     ]
 
 def get_reply(message):
-    result = process_message(message)
+
+    result = chatbot_engine(message)
 
     if isinstance(result, dict):
-        return result.get("response") or result.get("reply") or str(result)
+        return result.get("response", "No response generated.")
 
     return str(result)
 
@@ -148,7 +149,7 @@ cols = st.columns(3)
 for i, option in enumerate(quick_options):
     if cols[i % 3].button(option):
         st.session_state.messages.append({"role": "user", "text": option})
-        reply = get_reply(option)
+        reply = get_reply(message)
         st.session_state.messages.append({"role": "bot", "text": reply})
         st.rerun()
 
