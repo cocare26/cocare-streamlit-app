@@ -438,8 +438,11 @@ def send_message(text):
         return
 
     st.session_state[CHAT_KEY].append(("user", text))
+    st.session_state[CHAT_KEY].append(("bot", "Typing..."))
+
     bot_reply = get_bot_reply(text)
-    st.session_state[CHAT_KEY].append(("bot", bot_reply))
+
+    st.session_state[CHAT_KEY][-1] = ("bot", bot_reply)
 
 
 st.markdown("""
