@@ -4,7 +4,7 @@ import base64
 import os
 import html as html_lib
 
-from engine.chatbot_engine import chatbot_engine
+from engine.chatbot_engine import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
@@ -20,20 +20,12 @@ def handle_message(text):
     })
 
     try:
-        result = chatbot_engine(text)
+        result = process_message(text)
 
-        if isinstance(result, dict):
-            reply = result.get("response", str(result))
-        else:
-            reply = str(result)
+        reply = result.get("response", "No response generated.")
 
     except Exception as e:
         reply = f"MODEL ERROR: {type(e).__name__}: {e}"
-
-    st.session_state.chat_messages.append({
-        "role": "bot",
-        "text": reply
-    })
 
     st.session_state.chat_messages.append({
         "role": "bot",
