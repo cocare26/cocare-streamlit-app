@@ -1,288 +1,170 @@
 import streamlit as st
 import base64
 import os
-import sys
-import html as html_lib
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from cocare import process_message
+from engine.chatbot_engine import process_message
+# إذا اسم الدالة عندك مختلف، غيّري process_message لاسم الدالة الموجودة عندك
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
-CHAT_KEY = "chat_en_messages"
-
-if "region" not in st.session_state:
-    st.session_state["region"] = "Amman"
-
-region = st.session_state["region"]
-
-def img_to_base64(path):
-    full_path = os.path.join(os.path.dirname(__file__), "..", path)
-    if os.path.exists(full_path):
-        with open(full_path, "rb") as f:
-            return base64.b64encode(f.read()).decode()
-    return ""
-
-robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
-
-if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi, how can I help you?")
-    ]
-
-def get_bot_reply(user_text):
-    quick_map = {
-        "Network Test": "Check my network status",
-        "Internet Usage": "I want to check internet usage",
-        "Renew Package": "I want to renew my package",
-        "International Calls": "Tell me about international calls",
-        "Offers & Games": "What offers are available?",
-        "Contact Support": "I need technical support",
-    }
-
-    msg = quick_map.get(user_text, user_text)
-
-    try:
-        result = process_message(
-            msg,
-            user_id=st.session_state.get("user_id", "customer_1"),
-            region=region
-        )
-
-        response = str(result.get("response", "")).strip()
-        followup = str(result.get("followup_response", "")).strip()
-
-        reply = f"{response}\n\n{followup}".strip()
-        return reply if reply else "Could you clarify more?"
-
-    except Exception as e:
-        return f"Connection error: {e}"
-
-def send_message(text):
-    if not text or not text.strip():
-        return
-
-    st.session_state[CHAT_KEY].append(("user", text))
-    st.session_state[CHAT_KEY].append(("bot", get_bot_reply(text)))
-
-params = st.query_params
-
-if "msg" in params:
-    user_msg = params.get("msg", "")
-
-    result = process_message(
-        user_msg,
-        user_id="customer_1",
-        region=region
-    )
-
-    response = str(result.get("response", "")).strip()
-    followup = str(result.get("followup_response", "")).strip()
-
-    st.session_state["last_user_msg"] = user_msg
-    st.session_state["last_bot_reply"] = f"{response}\n\n{followup}".strip()
-else:
-    st.session_state.setdefault("last_user_msg", "")
-    st.session_state.setdefault("last_bot_reply", "Hi, how can I help you?")
-
-last_user_msg = st.session_state["last_user_msg"]
-last_bot_reply = st.session_state["last_bot_reply"]
+robot = ""
+if os.path.exists("robot_head.png"):
+    with open("robot_head.png", "rb") as f:
+        robot = base64.b64encode(f.read()).decode()
 
 st.markdown("""
 <style>
-html, body, [data-testid="stAppViewContainer"] {
-    background:#eef2f7;
-    direction:ltr;
-}
-
-header, footer, #MainMenu {
-    visibility:hidden;
-}
-
-.block-container {
-    max-width:420px;
-    height:700px;
-    margin:auto;
-    padding:14px 18px 10px;
-    border-radius:42px;
-    background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
-    box-shadow:0 12px 30px rgba(0,0,0,.15);
-    overflow:hidden;
+.phone {
+    width: 420px;
+    height: 700px;
+    margin: auto;
+    border-radius: 42px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
+    padding: 14px 18px;
+    box-sizing: border-box;
 }
 
 .topbar {
-    height:58px;
-    background:white;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:0 14px;
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
-    margin-bottom:10px;
+    height: 58px;
+    background: white;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.12);
 }
 
 .back {
-    font-size:28px;
-    color:#436577;
+    font-size: 28px;
+    color: #436577;
 }
 
 .avatar {
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    object-fit:cover;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
 }
 
 .dot {
-    width:8px;
-    height:8px;
-    background:#36c06a;
-    border-radius:50%;
+    width: 8px;
+    height: 8px;
+    background: #36c06a;
+    border-radius: 50%;
 }
 
 .status {
-    font-size:15px;
-    font-weight:700;
-    color:#222;
+    font-size: 15px;
+    font-weight: 700;
+    color: #222;
 }
 
-.quick-title {
-    font-size:13px;
-    font-weight:800;
-    color:#102646;
-    margin:4px 0 6px;
-}
-
-div[data-testid="stButton"] button {
-    border-radius:18px;
-    border:none;
-    background:white;
-    color:#102646;
-    font-weight:800;
-    font-size:11px;
-    box-shadow:0 3px 8px rgba(0,0,0,.10);
-    height:36px;
-}
-
-.chat-area {
-    height:390px;
-    overflow-y:auto;
-    padding:10px 4px;
-    margin-top:10px;
-    margin-bottom:8px;
+.chat-box {
+    height: 465px;
+    overflow-y: auto;
+    padding: 15px 0;
 }
 
 .msg {
-    max-width:75%;
-    padding:9px 12px;
-    border-radius:16px;
-    margin-bottom:8px;
-    font-size:13px;
-    line-height:1.5;
-    white-space:pre-wrap;
-    text-align:left;
+    max-width: 75%;
+    padding: 9px 12px;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 .bot {
-    background:white;
-    color:#222;
-    margin-right:auto;
+    background: white;
+    color: #222;
+    margin-right: auto;
 }
 
 .user {
-    background:#1c6fa4;
-    color:white;
-    margin-left:auto;
+    background: #1c6fa4;
+    color: white;
+    margin-left: auto;
 }
 
-.input-wrap {
-    background:rgba(255,255,255,.65);
-    border-radius:22px;
-    padding:8px;
-    margin-top:4px;
-}
-
-div[data-testid="stChatInput"] {
-    position:relative !important;
-    bottom:auto !important;
-    background:transparent !important;
-    padding:0 !important;
-}
-
-div[data-testid="stChatInput"] textarea {
-    direction:ltr;
-    border-radius:22px;
-    border:none;
-    background:white;
-    font-size:13px;
+div[data-testid="stTextInput"] input {
+    border-radius: 22px;
+    height: 38px;
 }
 </style>
 """, unsafe_allow_html=True)
 
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "bot", "text": "Hi, how can I help you?"}
+    ]
+
+def get_reply(message):
+    result = process_message(message)
+
+    if isinstance(result, dict):
+        return result.get("response") or result.get("reply") or str(result)
+
+    return str(result)
+
+st.markdown('<div class="phone">', unsafe_allow_html=True)
+
+avatar_html = f'<img class="avatar" src="data:image/png;base64,{robot}">' if robot else ""
+
 st.markdown(f"""
 <div class="topbar">
-    <a href="/Customer" target="_self" style="text-decoration:none;">
+    <a href="/?page=customer" target="_self" style="text-decoration:none;">
         <div class="back">‹</div>
     </a>
-    <img class="avatar" src="data:image/png;base64,{robot}">
+    {avatar_html}
     <div class="dot"></div>
     <div class="status">Ready to assist</div>
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
+st.markdown('<div class="chat-box">', unsafe_allow_html=True)
 
-c1, c2, c3 = st.columns(3)
-c4, c5, c6 = st.columns(3)
+ for_msg = st.session_state.messages
+for msg in for_msg:
+    css_class = "user" if msg["role"] == "user" else "bot"
+    st.markdown(
+        f'<div class="msg {css_class}">{msg["text"]}</div>',
+        unsafe_allow_html=True
+    )
 
-with c1:
-    if st.button("Network Test"):
-        send_message("Network Test")
+st.markdown("</div>", unsafe_allow_html=True)
+
+quick_options = [
+    "Network Test",
+    "Internet Usage",
+    "Renew Package",
+    "International Calls",
+    "Offers & Games",
+    "Contact Support"
+]
+
+cols = st.columns(3)
+
+for i, option in enumerate(quick_options):
+    if cols[i % 3].button(option):
+        st.session_state.messages.append({"role": "user", "text": option})
+        reply = get_reply(option)
+        st.session_state.messages.append({"role": "bot", "text": reply})
         st.rerun()
 
-with c2:
-    if st.button("Internet Usage"):
-        send_message("Internet Usage")
-        st.rerun()
+with st.form("chat_form", clear_on_submit=True):
+    message = st.text_input(
+        "Message",
+        placeholder="Type your question here...",
+        label_visibility="collapsed"
+    )
+    send = st.form_submit_button("➤")
 
-with c3:
-    if st.button("Renew Package"):
-        send_message("Renew Package")
-        st.rerun()
-
-with c4:
-    if st.button("International Calls"):
-        send_message("International Calls")
-        st.rerun()
-
-with c5:
-    if st.button("Offers & Games"):
-        send_message("Offers & Games")
-        st.rerun()
-
-with c6:
-    if st.button("Contact Support"):
-        send_message("Contact Support")
-        st.rerun()
-
-chat_html = '<div class="chat-area">'
-
-for role, message in st.session_state[CHAT_KEY]:
-    cls = "user" if role == "user" else "bot"
-    safe_msg = html_lib.escape(str(message))
-    chat_html += f'<div class="msg {cls}">{safe_msg}</div>'
-
-chat_html += '</div>'
-
-st.markdown(chat_html, unsafe_allow_html=True)
-
-st.markdown('<div class="input-wrap">', unsafe_allow_html=True)
-
-user_input = st.chat_input("Type your question here...")
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-if user_input:
-    send_message(user_input)
+if send and message.strip():
+    st.session_state.messages.append({"role": "user", "text": message})
+    reply = get_reply(message)
+    st.session_state.messages.append({"role": "bot", "text": reply})
     st.rerun()
+
+st.markdown("</div>", unsafe_allow_html=True)
