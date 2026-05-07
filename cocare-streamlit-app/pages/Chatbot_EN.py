@@ -22,16 +22,18 @@ def handle_message(text):
     try:
         result = chatbot_engine(text)
 
-        st.session_state.chat_messages.append({
-            "role": "bot",
-            "text": f"MODEL OUTPUT: {result}"
-        })
+        if isinstance(result, dict):
+            reply = result.get("response", str(result))
+        else:
+            reply = str(result)
 
     except Exception as e:
-        st.session_state.chat_messages.append({
-            "role": "bot",
-            "text": f"MODEL ERROR: {type(e).__name__}: {e}"
-        })
+        reply = f"MODEL ERROR: {type(e).__name__}: {e}"
+
+    st.session_state.chat_messages.append({
+        "role": "bot",
+        "text": reply
+    })
 
     st.session_state.chat_messages.append({
         "role": "bot",
