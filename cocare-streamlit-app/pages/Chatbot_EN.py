@@ -591,9 +591,19 @@ div[data-testid="stButton"] button:hover {
     height:26px;
     border-radius:50%;
     object-fit:cover;
-    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    font-size:18px;
+}
+.user-avatar {
+    background:transparent;
 }
 
+.bot-avatar {
+    background:white;
+}
 .typing {
     opacity:0.65;
     font-style:italic;
@@ -707,7 +717,7 @@ for role, message in st.session_state[CHAT_KEY]:
         chat_html += f"""
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
-    <div class="msg-avatar">👤</div>
+    <div class="msg-avatar user-avatar">👤</div>
 </div>
 """
 
