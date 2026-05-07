@@ -254,50 +254,30 @@ body {{
         <div onclick="quickMsg('Contact Support')">Contact Support</div>
     </div>
 
-    <div class="bottom">
-        <div class="hamburger" onclick="toggleMenu()">≡</div>
+<form id="chatForm" class="bottom" method="get" target="_parent">
+    <div class="hamburger" type="button" onclick="toggleMenu()">≡</div>
 
-        <input
-            id="chatInput"
-            class="chat-input"
-            placeholder="Type your question here..."
-            onkeydown="checkEnter(event)"
-        >
+    <input
+        id="chatInput"
+        name="msg"
+        class="chat-input"
+        placeholder="Type your question here..."
+    >
 
-        <button class="send" onclick="sendMessage()">➤</button>
-    </div>
-
-</div>
+    <button class="send" type="submit">➤</button>
+</form>
 
 <script>
-function toggleMenu() {{
+function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
-}}
+}
 
-function sendToStreamlit(text) {{
-    const path = window.parent.location.pathname;
-    window.parent.location.href = path + "?msg=" + encodeURIComponent(text);
-}}
-
-function sendMessage() {{
+function quickMsg(text) {
     const input = document.getElementById("chatInput");
-    const text = input.value.trim();
-
-    if (text === "") return;
-
-    sendToStreamlit(text);
-}}
-
-function quickMsg(text) {{
-    sendToStreamlit(text);
-}}
-
-function checkEnter(event) {{
-    if (event.key === "Enter") {{
-        sendMessage();
-    }}
-}}
+    input.value = text;
+    document.getElementById("chatForm").submit();
+}
 
 const chatBox = document.getElementById("chatBox");
 chatBox.scrollTop = chatBox.scrollHeight;
