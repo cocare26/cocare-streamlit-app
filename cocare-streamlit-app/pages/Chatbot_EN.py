@@ -699,23 +699,29 @@ if st.button("Clear Chat"):
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
+
     safe_msg = html_lib.escape(str(message))
 
     if role == "user":
+
         chat_html += f"""
-        <div class="message-row user-row">
-            <div class="msg user">{safe_msg}</div>
-            <div class="msg-avatar">👤</div>
-        </div>
-        """
+<div class="message-row user-row">
+    <div class="msg user">{safe_msg}</div>
+    <div class="msg-avatar">👤</div>
+</div>
+"""
+
     else:
+
         typing_class = " typing" if str(message) == "Typing..." else ""
+
         chat_html += f"""
-        <div class="message-row bot-row">
-            <img class="msg-avatar" src="data:image/png;base64,{robot}">
-            <div class="msg bot{typing_class}">{safe_msg}</div>
-        </div>
-        """
+<div class="message-row bot-row">
+    <img class="msg-avatar" src="data:image/png;base64,{robot}">
+    <div class="msg bot{typing_class}">{safe_msg}</div>
+</div>
+"""
+        
 if message == "Typing...":
     cls = "bot typing"
     safe_msg = html_lib.escape(str(message))
