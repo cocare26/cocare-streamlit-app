@@ -21,9 +21,17 @@ def handle_message(text):
 
     try:
         result = chatbot_engine(text)
-        reply = result.get("response", "No response generated.")
+
+        st.session_state.chat_messages.append({
+            "role": "bot",
+            "text": f"MODEL OUTPUT: {result}"
+        })
+
     except Exception as e:
-        reply = f"Error: {e}"
+        st.session_state.chat_messages.append({
+            "role": "bot",
+            "text": f"MODEL ERROR: {type(e).__name__}: {e}"
+        })
 
     st.session_state.chat_messages.append({
         "role": "bot",
