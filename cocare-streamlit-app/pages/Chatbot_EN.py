@@ -3,6 +3,7 @@ import base64
 import os
 import sys
 import html as html_lib
+import json
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
@@ -11,14 +12,18 @@ st.set_page_config(page_title="AI Agent", layout="centered")
 
 CHAT_KEY = "chat_en_messages"
 CONTEXT_KEY = "chat_en_context"
+CHAT_HISTORY_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "..",
+    "data",
+    "chat_en_history.json"
+)
 
 if "region" not in st.session_state:
     st.session_state["region"] = "Amman"
 
 if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
+    st.session_state[CHAT_KEY] = load_chat_history()
 
 if CONTEXT_KEY not in st.session_state:
     st.session_state[CONTEXT_KEY] = {
@@ -35,7 +40,33 @@ def reset_context():
         "last_network_problem": False
     }
 
+def load_chat_history():
 
+    try:
+
+        if os.path.exists(CHAT_HISTORY_FILE):
+
+            with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
+                return json.load(f)
+
+    except Exception:
+        pass
+
+    return [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+
+def save_chat_history():
+
+    try:
+
+        os.makedirs(os.path.dirname(CHAT_HISTORY_FILE), exist_ok=True)
+
+        with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(st.session_state[CHAT_KEY], f)
+
+    except Exception:
+        pass
 def img_to_base64(path):
     try:
         full_path = os.path.join(os.path.dirname(__file__), "..", path)
@@ -443,6 +474,7 @@ def send_message(text):
     bot_reply = get_bot_reply(text)
 
     st.session_state[CHAT_KEY][-1] = ("bot", bot_reply)
+    save_chat_history()
 
     try:
         import pandas as pd
@@ -704,6 +736,7 @@ if st.button("Clear Chat"):
         ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
     ]
     reset_context()
+    save_chat_history()
     st.rerun()
 
 chat_html = '<div class="chat-area">'
