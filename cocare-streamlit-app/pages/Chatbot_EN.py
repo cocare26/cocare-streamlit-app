@@ -295,11 +295,14 @@ def get_bot_reply(user_text):
 
     # INTERNET PROBLEMS
     if (
-        ("internet" in t and "slow" in t)
-        or ("slow internet" in t)
-        or ("my internet is slow" in t)
-    ):
-
+    ("internet" in t and "slow" in t)
+    or ("slow internet" in t)
+    or ("my internet is slow" in t)
+    or ("disconnect" in t)
+    or ("disconnection" in t)
+    or ("router" in t and "slow" in t)
+    or ("unstable" in t and "connection" in t)
+):
         st.session_state[CONTEXT_KEY]["last_intent"] = "slow_internet"
         st.session_state[CONTEXT_KEY]["last_network_problem"] = True
         st.session_state[CONTEXT_KEY]["awaiting_details"] = True
