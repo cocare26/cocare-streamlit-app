@@ -1,73 +1,40 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
+import streamlit as st
 
-class InternetPackagesWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
+st.set_page_config(
+    page_title="Internet Packages",
+    layout="centered"
+) 
+st.markdown("""
+<style>
+.stApp {
+    background-color: #EAF6FF;
+}
 
-        self.setWindowTitle("Internet Packages")
-        self.setGeometry(300, 100, 500, 500)
-        self.setStyleSheet("background-color: #eaf6ff;")
+div.stButton > button {
+    width: 100%;
+    height: 55px;
+    border-radius: 15px;
+    border: 2px solid #64B5F6;
+    background-color: white;
+    color: #2196F3;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
 
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
+div.stButton > button:hover {
+    background-color: #BBDEFB;
+    color: #0D47A1;
+}
+</style>
+""", unsafe_allow_html=True)
 
-        layout = QVBoxLayout() 
-       
 # زر الرجوع
-back_btn = QPushButton("⬅ Back")
+if st.button("⬅ Back"):
+    st.switch_page("2_Customer.py")
 
-back_btn.setFixedHeight(40)
+st.markdown("## 📶 Internet Packages")
 
-back_btn.setStyleSheet('''
-    QPushButton {
-        background-color: white;
-        border-radius: 12px;
-        font-size: 14px;
-        color: #2196f3;
-        border: 2px solid #64b5f6;
-        padding-left: 10px;
-        text-align: left;
-    }
-
-    QPushButton:hover {
-        background-color: #bbdefb;
-    }
-''')
-
-back_btn.clicked.connect(self.close)
-
-layout.addWidget(back_btn)
-
-        title = QLabel("Internet Packages")
-        title.setFont(QFont("Arial", 20, QFont.Bold))
-        title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet("color: #2196f3;")
-
-        package1 = QPushButton("6 GB Package - 5 JD")
-        package2 = QPushButton("15 GB Package - 10 JD")
-        package3 = QPushButton("Unlimited Package - 25 JD")
-
-        buttons = [package1, package2, package3]
-
-        for btn in buttons:
-            btn.setFixedHeight(60)
-            btn.setStyleSheet('''
-                QPushButton {
-                    background-color: white;
-                    border-radius: 15px;
-                    font-size: 16px;
-                    color: #2196f3;
-                    border: 2px solid #64b5f6;
-                }
-                QPushButton:hover {
-                    background-color: #bbdefb;
-                }
-            ''')
-            layout.addWidget(btn)
-
-        layout.addWidget(title)
-        layout.addSpacing(20)
-
-        central_widget.setLayout(layout)
+st.button("6 GB Package - 5 JD")
+st.button("15 GB Package - 10 JD")
+st.button("Unlimited Package - 25 JD")
