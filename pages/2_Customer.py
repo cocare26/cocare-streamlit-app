@@ -2,60 +2,41 @@ import streamlit as st
 import base64
 import os
 
-# =====================================================
-# إعداد الصفحة
-# =====================================================
+# 1. إعداد حالة الصفحة للتنقل
+if 'page' not in st.session_state:
+    st.session_state.page = "home"
 
-st.set_page_config(
-    page_title="CoCare Dashboard",
-    page_icon="📱",
-    layout="centered"
-)
+def go_home():
+    st.session_state.page = "home"
+    st.rerun()
 
-# =====================================================
-# دالة تحويل الصور إلى Base64
-# =====================================================
+# استرجاع اسم المستخدم المخزن ديناميكياً
+user_name = st.session_state.get('user_name', 'User Name')
 
-def get_base64(file_name):
+# 2. إعداد الصفحة
+st.set_page_config(page_title="CoCare Dashboard", page_icon="📱", layout="centered")
 
-    paths_to_check = [
-        file_name,
-        os.path.join("pages", file_name)
-    ]
-
-    for path in paths_to_check:
-
-        if os.path.exists(path):
-
-            with open(path, "rb") as f:
-                return base64.b64encode(f.read()).decode()
-
+def get_base64(path):
+    if os.path.exists(path):
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
     return ""
 
-# =====================================================
 # تحميل الصور
-# =====================================================
-
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
-
 icon_internet = get_base64("internet.png")
 icon_renewals = get_base64("renewals.png")
 icon_calls = get_base64("calls.png")
 icon_notifications = get_base64("notifications.png")
-
 icon_sitting = get_base64("sitting.png")
 icon_spin = get_base64("spin.png")
 icon_home = get_base64("home.png")
 icon_game = get_base64("game.png")
 
-# =====================================================
-# CSS
-# =====================================================
-
+# 3. التصميم (CSS)
 st.markdown(f"""
 <style>
-
 * {{
     margin:0;
     padding:0;
@@ -75,249 +56,274 @@ html, body, [data-testid="stAppViewContainer"] {{
     max-width:430px;
     margin:auto;
     padding:12px 16px;
-    background: linear-gradient(
-        180deg,
-        #FFFFFF 0%,
-        #E3F2FD 30%,
-        #BBDEFB 100%
-    );
+    background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
 .card {{
-    background:white;
-    border-radius:20px;
-    padding:14px;
-    margin-bottom:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,.05);
+    background: white;
+    border-radius: 20px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.05);
 }}
 
 .title {{
-    font-size:18px;
+    font-size:15px;
     font-weight:900;
     color:#102646;
-    margin:10px 0;
+    margin: 4px 0 4px 4px;
 }}
 
 .hover-effect {{
-    transition:0.3s ease-in-out;
-    cursor:pointer;
-    text-align:center;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
 }}
 
 .hover-effect:hover {{
-    transform:scale(1.08);
-}}
-
-.service-img {{
-    width:70px;
+    transform: scale(1.15);
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
 }}
 
 .nav-img-footer {{
-    width:35px;
-    height:35px;
-    object-fit:contain;
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    transition: 0.3s;
+}}
+
+.nav-img-footer:hover {{
+    transform: scale(1.2);
+}}
+
+.bot-bg {{
+    width:50px;
+    height:50px;
+    background:white;
+    border-radius:12px;
+    margin: 0 auto 4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}}
+
+.bot-bg:hover {{
+    transform: rotate(10deg) scale(1.15);
 }}
 
 div.stButton > button {{
-    background:transparent !important;
-    border:none !important;
-    color:transparent !important;
-    width:100%;
-    height:90px;
-    margin-top:-90px;
-    position:relative;
-    z-index:10;
-    cursor:pointer;
+    background: transparent;
+    border: none;
+    color: transparent;
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    z-index: 10;
 }}
 
+div.stButton > button:hover {{
+    color: transparent;
+    background: transparent;
+    border: none;
+}}
 </style>
 """, unsafe_allow_html=True)
 
-# =====================================================
-# كرت الترحيب
-# =====================================================
+# =====================================
+# الصفحة الرئيسية
+# =====================================
 
-st.markdown(f"""
-<div class="card">
+if st.session_state.page == "home":
 
-    <div style="display:flex; align-items:center;">
+    # الملف الشخصي
+    st.markdown(f'''
+    <div class="card">
+        <div style="display:flex; align-items:center;">
+            <img src="data:image/png;base64,{robot_full}"
+                 style="width:95px; height:95px; object-fit:contain;">
 
-        <img src="data:image/png;base64,{robot_full}"
-             style="width:90px;">
+            <div style="margin-left:12px;">
+                <div style="font-size:20px; font-weight:900; color:#102646;">
+                    Welcome: {user_name}
+                </div>
 
-        <div style="margin-left:12px;">
-
-            <div style="
-                font-size:22px;
-                font-weight:900;
-                color:#102646;
-            ">
-                Welcome: Farah
+                <div style="font-size:12px; color:#555;">
+                    +962 79 123 4567
+                </div>
             </div>
-
-            <div style="
-                font-size:13px;
-                color:gray;
-                margin-top:4px;
-            ">
-                +962 79 123 4567
-            </div>
-
         </div>
-
     </div>
+    ''', unsafe_allow_html=True)
 
-</div>
-""", unsafe_allow_html=True)
+    # تقييم النجوم
+    st.markdown(
+        '<div class="card" style="text-align:center; padding:10px;">',
+        unsafe_allow_html=True
+    )
 
-# =====================================================
-# الخدمات
-# =====================================================
+    st.markdown(
+        '<div style="font-size:14px; margin-bottom:5px; color:#102646;">Rate your experience</div>',
+        unsafe_allow_html=True
+    )
 
-st.markdown(
-    '<div class="title">Services</div>',
-    unsafe_allow_html=True
-)
+    st.feedback("stars")
 
-c1, c2, c3, c4 = st.columns(4)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-# ================= Internet =================
+    # =====================================
+    # أيقونات الخدمات
+    # =====================================
 
-with c1:
+    st.markdown('<div class="title">Services</div>', unsafe_allow_html=True)
 
-    st.markdown(f"""
-    <div class="hover-effect">
-        <img src="data:image/png;base64,{icon_internet}"
-             class="service-img">
-        <br>
-        <small>Internet</small>
-    </div>
-    """, unsafe_allow_html=True)
+    cols = st.columns(4)
 
-    if st.button(" ", key="internet_btn"):
-        st.switch_page("internet_page.py")
+    # Internet Packages
+    with cols[0]:
 
-# ================= Renew =================
+        st.markdown(
+            f'''
+            <div class="hover-effect" style="text-align:center;">
+                <img src="data:image/png;base64,{icon_internet}" style="width:75px;">
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-with c2:
+        if st.button(" ", key="int"):
+            st.switch_page("InternetPackages.py")
 
-    st.markdown(f"""
-    <div class="hover-effect">
-        <img src="data:image/png;base64,{icon_renewals}"
-             class="service-img">
-        <br>
-        <small>Renew</small>
-    </div>
-    """, unsafe_allow_html=True)
+    # Renewals
+    with cols[1]:
 
-    if st.button(" ", key="renew_btn"):
-        st.switch_page("renew_page.py")
+        st.markdown(
+            f'''
+            <div class="hover-effect" style="text-align:center;">
+                <img src="data:image/png;base64,{icon_renewals}" style="width:75px;">
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-# ================= Calls =================
+        if st.button(" ", key="ren"):
+            st.switch_page("RenewalsTariff.py")
 
-with c3:
+    # International Calls
+    with cols[2]:
 
-    st.markdown(f"""
-    <div class="hover-effect">
-        <img src="data:image/png;base64,{icon_calls}"
-             class="service-img">
-        <br>
-        <small>Calls</small>
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown(
+            f'''
+            <div class="hover-effect" style="text-align:center;">
+                <img src="data:image/png;base64,{icon_calls}" style="width:75px;">
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-    if st.button(" ", key="calls_btn"):
-        st.switch_page("calls_page.py")
+        if st.button(" ", key="call"):
+            st.switch_page("InternationalCalls.py")
 
-# ================= Notifications =================
+    # Notifications
+    with cols[3]:
 
-with c4:
+        st.markdown(
+            f'''
+            <div class="hover-effect" style="text-align:center;">
+                <img src="data:image/png;base64,{icon_notifications}" style="width:75px;">
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-    st.markdown(f"""
-    <div class="hover-effect">
-        <img src="data:image/png;base64,{icon_notifications}"
-             class="service-img">
-        <br>
-        <small>Notif</small>
-    </div>
-    """, unsafe_allow_html=True)
+        if st.button(" ", key="not"):
+            st.switch_page("NetworkNotifications.py")
 
-    if st.button(" ", key="notif_btn"):
-        st.switch_page("notif_page.py")
+    # =====================================
+    # الشريط السفلي
+    # =====================================
 
-# =====================================================
-# Footer Navigation
-# =====================================================
+    st.write("")
 
-st.write("---")
+    nav_cols = st.columns(5)
 
-n1, n2, n3, n4, n5 = st.columns(5)
+    # Settings
+    with nav_cols[0]:
 
-# ================= Settings =================
+        st.markdown(
+            f'''
+            <div class="nav-item">
+                <img src="data:image/png;base64,{icon_sitting}"
+                     class="nav-img-footer">
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-with n1:
+        if st.button(" ", key="nav_set"):
+            st.switch_page("Settings.py")
 
-    st.markdown(f"""
-    <div style="text-align:center;">
-        <img src="data:image/png;base64,{icon_sitting}"
-             class="nav-img-footer">
-    </div>
-    """, unsafe_allow_html=True)
+    # Spin
+    with nav_cols[1]:
 
-    if st.button(" ", key="nav_settings"):
-        st.switch_page("pages/Settings.py")
+        st.markdown(
+            f'''
+            <div class="nav-item">
+                <img src="data:image/png;base64,{icon_spin}"
+                     class="nav-img-footer">
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-# ================= Spin =================
+    # Chatbot
+    with nav_cols[2]:
 
-with n2:
+        st.markdown(
+            f'''
+            <div class="nav-item">
+                <div class="bot-bg">
+                    <img src="data:image/png;base64,{robot_head}"
+                         style="width:34px;">
+                </div>
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-    st.markdown(f"""
-    <div style="text-align:center;">
-        <img src="data:image/png;base64,{icon_spin}"
-             class="nav-img-footer">
-    </div>
-    """, unsafe_allow_html=True)
+        if st.button(" ", key="nav_bot"):
+            st.switch_page("ContactUs.py")
 
-# ================= Chatbot =================
+    # Home
+    with nav_cols[3]:
 
-with n3:
+        st.markdown(
+            f'''
+            <div class="nav-item">
+                <img src="data:image/png;base64,{icon_home}"
+                     class="nav-img-footer">
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-    st.markdown(f"""
-    <div style="text-align:center;">
-        <img src="data:image/png;base64,{robot_head}"
-             class="nav-img-footer">
-    </div>
-    """, unsafe_allow_html=True)
+        if st.button(" ", key="nav_home"):
+            go_home()
 
-    if st.button(" ", key="nav_bot"):
-        st.switch_page("pages/Chatbot.py")
+    # Games
+    with nav_cols[4]:
 
-# ================= Home =================
+        st.markdown(
+            f'''
+            <div class="nav-item">
+                <img src="data:image/png;base64,{icon_game}"
+                     class="nav-img-footer">
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
 
-with n4:
-
-    st.markdown(f"""
-    <div style="text-align:center;">
-        <img src="data:image/png;base64,{icon_home}"
-             class="nav-img-footer">
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button(" ", key="nav_home"):
-        st.rerun()
-
-# ================= Game =================
-
-with n5:
-
-    st.markdown(f"""
-    <div style="text-align:center;">
-        <img src="data:image/png;base64,{icon_game}"
-             class="nav-img-footer">
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button(" ", key="nav_game"):
-        st.switch_page("pages/_Game_E.py")
+        if st.button(" ", key="nav_game"):
+            st.switch_page("_Game_E.py")
