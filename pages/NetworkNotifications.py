@@ -13,7 +13,32 @@ class NetworkNotificationsWindow(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
-        layout = QVBoxLayout()
+        layout = QVBoxLayout() 
+        
+# زر الرجوع
+back_btn = QPushButton("⬅ Back")
+
+back_btn.setFixedHeight(40)
+
+back_btn.setStyleSheet('''
+    QPushButton {
+        background-color: white;
+        border-radius: 12px;
+        font-size: 14px;
+        color: #2196f3;
+        border: 2px solid #64b5f6;
+        padding-left: 10px;
+        text-align: left;
+    }
+
+    QPushButton:hover {
+        background-color: #bbdefb;
+    }
+''')
+
+back_btn.clicked.connect(self.close)
+
+layout.addWidget(back_btn)
 
         title = QLabel("Network Notifications")
         title.setFont(QFont("Arial", 20, QFont.Bold))
