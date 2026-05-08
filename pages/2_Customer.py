@@ -307,27 +307,27 @@ st.markdown(f"""
 """, unsafe_allow_html=True) 
 
 # =====================================
-# أزرار مخفية للتنقل بين الصفحات
+# أزرار التنقل (مربوطة بشكل صحيح)
 # =====================================
 
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    if st.button(" ", key="int"):
+    if st.button("Internet", key="int", use_container_width=True):
         st.switch_page("InternetPackages.py")
 
 with col2:
-    if st.button(" ", key="ren"):
+    if st.button("Renewals", key="ren", use_container_width=True):
         st.switch_page("RenewalsTariff.py")
 
 with col3:
-    if st.button(" ", key="call"):
+    if st.button("Calls", key="call", use_container_width=True):
         st.switch_page("InternationalCalls.py")
 
 with col4:
-    if st.button(" ", key="not"):
-        st.switch_page("NetworkNotifications.py")
-
+    if st.button("Notifications", key="not", use_container_width=True):
+        st.switch_page("NetworkNotifications.py") 
+        
 # =====================================
 # 4. قسم التقييم
 # =====================================
