@@ -1,69 +1,42 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
+import streamlit as st
 
-class NetworkNotificationsWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
+st.set_page_config(
+    page_title="Network Notifications",
+    layout="centered"
+) 
+st.markdown("""
+<style>
+.stApp {
+    background-color: #EAF6FF;
+}
 
-        self.setWindowTitle("Network Notifications")
-        self.setGeometry(300, 100, 500, 500)
-        self.setStyleSheet("background-color: #eaf6ff;")
+div.stButton > button {
+    width: 100%;
+    height: 55px;
+    border-radius: 15px;
+    border: 2px solid #64B5F6;
+    background-color: white;
+    color: #2196F3;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
 
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
+div.stButton > button:hover {
+    background-color: #BBDEFB;
+    color: #0D47A1;
+}
+</style>
+""", unsafe_allow_html=True)
 
-        layout = QVBoxLayout() 
-        
 # زر الرجوع
-back_btn = QPushButton("⬅ Back")
+if st.button("⬅ Back"):
+    st.switch_page("2_Customer.py")
 
-back_btn.setFixedHeight(40)
+st.markdown("## 📡 Network Notifications")
 
-back_btn.setStyleSheet('''
-    QPushButton {
-        background-color: white;
-        border-radius: 12px;
-        font-size: 14px;
-        color: #2196f3;
-        border: 2px solid #64b5f6;
-        padding-left: 10px;
-        text-align: left;
-    }
+st.info("Network maintenance in Amman tonight.")
 
-    QPushButton:hover {
-        background-color: #bbdefb;
-    }
-''')
+st.warning("Weak signal detected in your area.")
 
-back_btn.clicked.connect(self.close)
-
-layout.addWidget(back_btn)
-
-        title = QLabel("Network Notifications")
-        title.setFont(QFont("Arial", 20, QFont.Bold))
-        title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet("color: #2196f3;")
-
-        notif1 = QLabel("• No network problems detected")
-        notif2 = QLabel("• Latest update installed")
-        notif3 = QLabel("• Signal strength is excellent")
-
-        labels = [notif1, notif2, notif3]
-
-        for lbl in labels:
-            lbl.setFixedHeight(50)
-            lbl.setStyleSheet('''
-                background-color: white;
-                border-radius: 12px;
-                padding-left: 15px;
-                font-size: 15px;
-                color: #2196f3;
-                border: 1px solid #64b5f6;
-            ''')
-            layout.addWidget(lbl)
-
-        layout.addWidget(title)
-        layout.addSpacing(20)
-
-        central_widget.setLayout(layout)
+st.success("Your internet package renewed successfully.")
