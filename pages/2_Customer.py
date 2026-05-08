@@ -189,8 +189,9 @@ margin: 4px 0 4px 4px;
     grid-template-columns:repeat(4,1fr); 
     gap:6px; 
     margin: 8px 0 6px; 
+    }}
 
-    div.stButton > button {
+    div.stButton > button {{
     width: 100%;
     height: 1px;
     opacity: 0;
@@ -198,7 +199,7 @@ margin: 4px 0 4px 4px;
     position: relative;
     z-index: 10;
     cursor: pointer;
-}
+
 }}
 
 /* تعديل الأيقونات بالوسط: إزالة الإطار والظل والنص */
