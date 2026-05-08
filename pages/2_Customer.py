@@ -312,28 +312,7 @@ with col4:
     st.image(icon_notifications, use_container_width=True)
     if st.button("Notifications", key="notif_btn"):
         st.switch_page("NetworkNotifications.py")
-# =====================================
-# أزرار التنقل (مربوطة بشكل صحيح)
-# =====================================
 
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    if st.button("Internet", key="int", use_container_width=True):
-        st.switch_page("InternetPackages.py")
-
-with col2:
-    if st.button("Renewals", key="ren", use_container_width=True):
-        st.switch_page("RenewalsTariff.py")
-
-with col3:
-    if st.button("Calls", key="call", use_container_width=True):
-        st.switch_page("InternationalCalls.py")
-
-with col4:
-    if st.button("Notifications", key="not", use_container_width=True):
-        st.switch_page("NetworkNotifications.py") 
-        
 # =====================================
 # 4. قسم التقييم
 # =====================================
