@@ -16,13 +16,14 @@ html, body, [data-testid="stAppViewContainer"] {
 #MainMenu, header, footer { visibility:hidden; }
 
 .block-container {
-    max-width:430px;
+     max-width: 430px !important;
+   height: 820px !important;
     margin:auto;
     padding:18px 16px;
     background:linear-gradient(180deg,#dff2ff 0%,#c7e7ff 55%,#f4fbff 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
-    min-height:600px;
+
 }
 
 .title-wrapper {
