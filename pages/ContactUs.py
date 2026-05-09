@@ -13,13 +13,14 @@ st.markdown("""
 
 /* الكونتينر النحيف */
 .block-container {
-    max-width: 430px; 
+ max-width: 430px !important;
+   height: 820px !important;
     margin: auto;
     padding: 20px 16px;
     background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
     border-radius: 40px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-    min-height: 600px;
+   
 }
 
 /* تنسيق البوكسات الموحد */
