@@ -409,12 +409,13 @@ div[data-testid="stHorizontalBlock"]{{
 }}
 
 div[data-testid="stButton"] button{{
-    height:40px !important;
-    border-radius:18px !important;
-    font-size:9px !important;
-    padding:0 2px !important;
-    white-space:normal !important;
-    line-height:1.1 !important;
+    height:42px !important;
+    border-radius:22px !important;
+    font-size:11px !important;
+    font-weight:700 !important;
+    padding:0 4px !important;
+    background:white !important;
+    color:black !important;
 }}
 .chat-area{{
     height:430px;
@@ -506,8 +507,6 @@ st.markdown(f"""
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
-
 with st.form("quick_services_form"):
     st.markdown("""
     <style>
@@ -518,11 +517,15 @@ with st.form("quick_services_form"):
     }
 
     div[data-testid="stForm"] > div {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    align-items: center;
+}
 
+div[data-testid="stForm"] [data-testid="stFormSubmitButton"] {
+    width: 100%;
+}
     div[data-testid="stForm"] button {
         height: 42px;
         border-radius: 22px;
@@ -563,7 +566,7 @@ elif b6:
     send_message("Contact Support")
     st.rerun()
 
-if st.button("Clear Chat", key="clear_chat_btn", use_container_width=True):
+if st.button("Clear Chat", key="clear_chat_btn"):
     st.session_state[CHAT_KEY] = [
         ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
     ]
