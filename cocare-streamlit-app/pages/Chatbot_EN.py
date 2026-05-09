@@ -506,37 +506,69 @@ st.markdown(f"""
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
-services = [
-    "Network Test",
-    "Internet Usage",
-    "Renew Package",
-    "International Calls",
-    "Offers & Games",
-    "Contact Support"
-]
+st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
-cols1 = st.columns(3)
-cols2 = st.columns(3)
+with st.form("quick_services_form"):
+    st.markdown("""
+    <style>
+    div[data-testid="stForm"] {
+        border: none;
+        padding: 0;
+        background: transparent;
+    }
 
-for i, service in enumerate(services):
+    div[data-testid="stForm"] > div {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
 
-    cols = cols1 if i < 3 else cols2
-    idx = i if i < 3 else i - 3
+    div[data-testid="stForm"] button {
+        height: 42px;
+        border-radius: 22px;
+        background: white;
+        color: black;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 0 4px;
+        line-height: 1.15;
+        white-space: normal;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-    with cols[idx]:
-        if st.button(service, key=f"service_{i}"):
-            send_message(service)
-            st.rerun()
+    b1 = st.form_submit_button("Network Test")
+    b2 = st.form_submit_button("Internet Usage")
+    b3 = st.form_submit_button("Renew Package")
+    b4 = st.form_submit_button("International Calls")
+    b5 = st.form_submit_button("Offers & Games")
+    b6 = st.form_submit_button("Contact Support")
 
-clear_cols = st.columns([1,1,1])
+if b1:
+    send_message("Network Test")
+    st.rerun()
+elif b2:
+    send_message("Internet Usage")
+    st.rerun()
+elif b3:
+    send_message("Renew Package")
+    st.rerun()
+elif b4:
+    send_message("International Calls")
+    st.rerun()
+elif b5:
+    send_message("Offers & Games")
+    st.rerun()
+elif b6:
+    send_message("Contact Support")
+    st.rerun()
 
-with clear_cols[1]:
-    if st.button("Clear Chat", key="clear_chat"):
-        st.session_state[CHAT_KEY] = [
-            ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-        ]
-        reset_context()
-        st.rerun()
+if st.button("Clear Chat", key="clear_chat_btn", use_container_width=True):
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+    reset_context()
+    st.rerun()
 
 chat_html = '<div class="chat-area">'
 
