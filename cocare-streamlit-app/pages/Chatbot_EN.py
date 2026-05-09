@@ -511,31 +511,29 @@ services = [
     "Contact Support"
 ]
 
-row1 = st.columns(3)
-row2 = st.columns(3)
-row3 = st.columns(3)
+rows = [
+    st.columns(3),
+    st.columns(3)
+]
 
 for i, service in enumerate(services):
+    row_index = i // 3
+    col_index = i % 3
 
-    if i < 3:
-        col = row1[i]
-
-    else:
-        col = row2[i - 3]
-
-    with col:
+    with rows[row_index][col_index]:
         if st.button(service, key=f"quick_btn_{i}", use_container_width=True):
             send_message(service)
             st.rerun()
 
-with row3[1]:
+clear_row = st.columns([1, 1, 1])
+
+with clear_row[1]:
     if st.button("Clear Chat", key="clear_chat_btn", use_container_width=True):
         st.session_state[CHAT_KEY] = [
             ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
         ]
         reset_context()
         st.rerun()
-    
 
 chat_html = '<div class="chat-area">'
 
