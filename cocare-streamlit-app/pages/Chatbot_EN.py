@@ -417,9 +417,9 @@ div[data-testid="stButton"] button{{
     margin-top:10px;
     margin-bottom:8px;
 }}
-div[data-testid="column"]{
+div[data-testid="column"]{{
     padding:0 2px !important;
-}
+}}
 .msg{{
     max-width:75%;
     padding:9px 12px;
