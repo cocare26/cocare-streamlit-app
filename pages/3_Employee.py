@@ -328,7 +328,12 @@ function updateRegion(){
 st.markdown("---")
 st.subheader("📊 Customer Messages Analysis")
 
-CHAT_LOG_PATH = os.path.join("data", "chat_logs.csv")
+CHAT_LOG_PATH = os.path.join(
+    os.path.dirname(__file__),
+    "..",
+    "data",
+    "chatbot_en_logs.csv"
+)
 
 if os.path.exists(CHAT_LOG_PATH):
     logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
