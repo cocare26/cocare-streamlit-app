@@ -791,11 +791,6 @@ for role, message in st.session_state[CHAT_KEY]:
     <div class="msg bot{typing_class}">{safe_msg}</div>
 </div>
 """
-        
-if message == "Typing...":
-    cls = "bot typing"
-    safe_msg = html_lib.escape(str(message))
-    chat_html += f'<div class="msg {cls}">{safe_msg}</div>'
 
 chat_html += """
 </div>
