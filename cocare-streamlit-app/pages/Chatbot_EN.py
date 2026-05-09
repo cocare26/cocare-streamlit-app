@@ -514,6 +514,46 @@ div[data-testid="stButton"] button:hover{{
 
     color:#0f2446;
 }}
+.quick-grid{{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    margin:12px 0 14px;
+}}
+
+.quick-btn{{
+    height:48px;
+    border-radius:22px;
+
+    background:white;
+    color:black !important;
+    text-decoration:none !important;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    font-size:11px;
+    font-weight:700;
+    line-height:1.15;
+
+    box-shadow:
+        0 6px 16px rgba(15,36,70,0.14),
+        inset 0 1px 1px rgba(255,255,255,0.9);
+
+    padding:0 6px;
+}}
+
+.quick-btn:hover{{
+    background:white;
+    color:black !important;
+    text-decoration:none !important;
+}}
+
+.clear-btn{{
+    grid-column:1 / 2;
+}}
 /* 💬 منطقة المحادثة */
 .chat-area{{
     height:430px;
@@ -631,89 +671,35 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
+st.markdown("""
+<div class="quick-title">Quick Services</div>
 
-with st.form("quick_services_form"):
-    st.markdown("""
-    <style>
-    div[data-testid="stForm"] {
-        border: none;
-        padding: 0;
-        background: transparent;
-    }
+<div class="quick-grid">
+    <a class="quick-btn" href="?quick=Network%20Test">Network Test</a>
+    <a class="quick-btn" href="?quick=Internet%20Usage">Internet Usage</a>
+    <a class="quick-btn" href="?quick=Renew%20Package">Renew Package</a>
+    <a class="quick-btn" href="?quick=International%20Calls">International Calls</a>
+    <a class="quick-btn" href="?quick=Offers%20%26%20Games">Offers & Games</a>
+    <a class="quick-btn" href="?quick=Contact%20Support">Contact Support</a>
+    <a class="quick-btn clear-btn" href="?quick=Clear%20Chat">Clear Chat</a>
+</div>
+""", unsafe_allow_html=True)
 
-   div[data-testid="stForm"] > div {{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:10px;
-    align-items:stretch;
-}}
+quick = st.query_params.get("quick", None)
 
-    div[data-testid="stForm"] button {{
-    width:100%;
-    min-height:58px;
+if quick:
+    if quick == "Clear Chat":
+        st.session_state[CHAT_KEY] = [
+            ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ]
+        reset_context()
+    else:
+        send_message(quick)
 
-    border-radius:22px;
-    background:white;
-    color:black;
-
-    font-size:10px;
-    font-weight:700;
-
-    padding:6px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-
-    white-space:normal;
-    line-height:1.15;
-
-    border:none;
-
-    box-shadow:
-        0 6px 18px rgba(15,36,70,0.12),
-        inset 0 1px 1px rgba(255,255,255,0.9);
-}}
-
-    </style>
-    """, unsafe_allow_html=True)
-
-    b1 = st.form_submit_button("Network Test")
-    b2 = st.form_submit_button("Internet Usage")
-    b3 = st.form_submit_button("Renew Package")
-    b4 = st.form_submit_button("International Calls")
-    b5 = st.form_submit_button("Offers & Games")
-    b6 = st.form_submit_button("Contact Support")
-    b7 = st.form_submit_button("Clear Chat")
-
-if b1:
-    send_message("Network Test")
-    st.rerun()
-elif b2:
-    send_message("Internet Usage")
-    st.rerun()
-elif b3:
-    send_message("Renew Package")
-    st.rerun()
-elif b4:
-    send_message("International Calls")
-    st.rerun()
-elif b5:
-    send_message("Offers & Games")
-    st.rerun()
-elif b6:
-    send_message("Contact Support")
+    st.query_params.clear()
     st.rerun()
 
-elif b7:
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
-    reset_context()
-    st.rerun()
-    
+
 chat_html = '<div class="chat-area">'
 for role, message in st.session_state[CHAT_KEY]:
 
