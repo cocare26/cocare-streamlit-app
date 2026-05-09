@@ -1,104 +1,177 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-st.set_page_config(page_title="Change Language", layout="centered")
+st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# ===== CSS Updated for English (LTR) =====
+# ===== CSS =====
 st.markdown("""
 <style>
-* { direction: ltr; }
-
-[data-testid="stAppViewContainer"] {
-    background-color: #dff2ff !important;
+:root{
+    --navy:#0f2446;
+    --bg1:#d6ecff;
+    --bg2:#bfe3ff;
+    --bg3:#eaf6ff;
 }
 
 [data-testid="stHeader"] {display: none !important;}
 
-.block-container {
-    max-width:430px;
-    margin:auto;
-    padding:20px;
-    background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
-    border-radius:40px;
-    box-shadow:0 14px 35px rgba(0,0,0,.15);
-    margin-top: 50px;
+.block-container{
+    max-width:350px !important;    
+    margin:auto !important;
+    padding:30px !important;       
+    background:linear-gradient(160deg, var(--bg1), var(--bg2), var(--bg3));
+    border-radius:42px;            
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    margin-top: 20px !important;
 }
 
-.back-container {
-    display: flex;
-    justify-content: flex-start; 
+[data-testid="stAppViewContainer"]{ background:#eef2f7; }
+footer {visibility: hidden;}
+
+/* ===== HEADER ===== */
+.header {
+    position: relative;
+    height: 110px;
     margin-bottom: 40px;
-    margin-top: 20px;
 }
 
-.back-style-btn .stButton > button {
-    background-color: #1a1c22 !important; 
-    color: white !important;
-    width: 45px !important;
-    height: 45px !important;
-    border-radius: 12px !important; 
+.back-style {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.back-style .stButton > button {
+    background:transparent !important;
+    box-shadow:none !important;
+    color:#0f2446 !important;
+    font-size:28px !important;
     border: none !important;
-    font-size: 20px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 !important;
 }
 
-div.stButton > button {
-    width: 100% !important;
-    background-color: white !important;
-    color: #102646 !important;
-    border: none !important;
-    border-radius: 50px !important; 
-    height: 65px !important;
-    margin-bottom: 20px !important;
-    font-weight: 700 !important;
-    font-size: 19px !important;
-    display: flex !important;
-    justify-content: space-between !important; 
-    padding: 0 25px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
-}
-
-.spacer {
-    height: 200px;
+.title-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -160%);
+    font-size:20px;
+    font-weight:900;
+    color:#0f2446;
+    white-space: nowrap;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ===== HEADER =====
-col1, col2, col3 = st.columns([1,6,1])
+st.markdown('<div class="header">', unsafe_allow_html=True)
 
-with col1:
-    st.markdown('<div class="back-style-btn">', unsafe_allow_html=True)
-    if st.button("‹", key="back_btn"):
-        st.switch_page("pages/Settings.py")
-    st.markdown('</div>', unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <div style="
-        text-align:center;
-        font-size:26px;
-        font-weight:800;
-        color:#102646;
-        margin-top:25px; /* 👈 نزلنا العنوان */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    ">
-    Change Language
-    </div>
-    """, unsafe_allow_html=True)
-
-# ===== Language Selection =====
-col_gap = "&nbsp;" * 55
-
-if st.button(f"🌐 Arabic {col_gap} ›", key="lang_ar"):
-    st.session_state.lang = "ar"
-    st.switch_page("pages/settingar.py")
-
-if st.button(f"🌐 English {col_gap} ✔", key="lang_en"):
-    st.session_state.lang = "en"
+st.markdown('<div class="back-style">', unsafe_allow_html=True)
+if st.button("‹"):
     st.switch_page("pages/Settings.py")
+st.markdown('</div>', unsafe_allow_html=True)
 
-# ===== Bottom Spacer =====
-st.markdown('<div class="spacer"></div>', unsafe_allow_html=True)
+st.markdown('<div class="title-text">Report a Problem</div>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# ===== UI =====
+components.html("""
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+body {
+    font-family: 'Segoe UI';
+    background: transparent;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.main-wrapper {
+    width: 100%;
+    max-width: 290px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+}
+
+.report-textarea {
+    width: 100%;
+    height: 220px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    padding: 18px;
+    background: white;
+    font-size: 16px;
+    color: #0f2446;
+    resize: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.report-textarea::placeholder {
+    color: #808080;
+}
+
+.send-btn {
+    background: white;
+    border-radius: 100px;
+    width: 100%;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.send-btn span {
+    color: #0f2446;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.main-icon {
+    color: #808080;
+    font-size: 18px;
+}
+
+/* hover */
+.send-btn:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+<textarea class="report-textarea" placeholder="I need help"></textarea>
+
+<!-- 👇 رفع الزر -->
+<div style="margin-top:auto; margin-bottom:40px;">
+    <button class="send-btn" onclick="showPopup()">
+        <i class="fas fa-paper-plane main-icon"></i>
+        <span>Send Report</span>
+    </button>
+</div>
+
+</div>
+
+<script>
+function showPopup(){
+    alert("Report sent successfully ✅");
+    window.parent.history.back();
+}
+</script>
+
+</body>
+</html>
+""", height=500)
