@@ -13,7 +13,8 @@ st.markdown("""
 }
 
 .block-container {
-    max-width: 390px; 
+  max-width: 430px !important;
+   height: 820px !important;
     margin: auto;
     padding: 35px 20px;
     background: linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
