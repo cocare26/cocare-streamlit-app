@@ -314,25 +314,25 @@ def send_message(text):
 
 st.markdown(f"""
 <style>
-:root{
+:root{{
     --navy:#0f2446;
     --accent:#2f80ed;
     --accent2:#1c6fa4;
     --bg1:#d6ecff;
     --bg2:#bfe3ff;
     --bg3:#eaf6ff;
-}
+}}
 
-html, body, [data-testid="stAppViewContainer"]{
+html, body, [data-testid="stAppViewContainer"]{{
     background:#eef2f7;
     direction:ltr;
-}
+}}
 
-header, footer, #MainMenu{
+header, footer, #MainMenu{{
     visibility:hidden;
-}
+}}
 
-.block-container{
+.block-container{{
     width:{PHONE_WIDTH}px;
     height:{PHONE_HEIGHT}px;
     max-width:calc(100vw - 24px);
@@ -344,9 +344,9 @@ header, footer, #MainMenu{
     border-radius:42px;
     box-shadow:0 10px 30px rgba(0,0,0,.15);
     overflow:hidden;
-}
+}}
 
-.topbar{
+.topbar{{
     height:58px;
     background:white;
     border-radius:18px;
@@ -356,112 +356,74 @@ header, footer, #MainMenu{
     padding:0 14px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
     margin-bottom:10px;
-}
+}}
 
-.back{
+.back{{
     font-size:28px;
     color:#436577;
     text-decoration:none;
     font-weight:700;
-}
+}}
 
-.avatar{
+.avatar{{
     width:42px;
     height:42px;
     border-radius:50%;
     object-fit:cover;
-}
+}}
 
-.dot{
+.dot{{
     width:8px;
     height:8px;
     background:#36c06a;
     border-radius:50%;
-}
+}}
 
-.status{
+.status{{
     font-size:15px;
     font-weight:700;
     color:#222;
-}
+}}
 
-.region-label{
+.region-label{{
     margin-left:auto;
     font-size:11px;
     color:#436577;
     font-weight:700;
-}
+}}
 
-.quick-title{
+.quick-title{{
     font-size:13px;
     font-weight:800;
     color:var(--navy);
-    margin:4px 0 8px;
-}
-
-/* Quick Services grid */
-div[data-testid="stForm"]{
-    border:none !important;
-    background:transparent !important;
-    padding:0 !important;
-    margin:0 !important;
-}
-
-div[data-testid="stForm"] form{
-    display:grid !important;
-    grid-template-columns:repeat(3, 1fr) !important;
+    margin:4px 0 6px;
+}}
+div[data-testid="stButton"]{{
+    margin:4px 1% !important;
+    vertical-align:top !important;
+}}
+div[data-testid="stHorizontalBlock"]{{
     gap:8px !important;
-}
+}}
 
-div[data-testid="stFormSubmitButton"]{
-    width:100% !important;
-}
-
-div[data-testid="stFormSubmitButton"] button{
-    width:100% !important;
+div[data-testid="stButton"] button{{
     height:42px !important;
-    min-height:42px !important;
     border-radius:22px !important;
-    background:white !important;
-    color:black !important;
-    border:none !important;
-    font-size:10px !important;
-    font-weight:700 !important;
-    padding:0 4px !important;
-    line-height:1.15 !important;
-    white-space:normal !important;
-    box-shadow:0 6px 16px rgba(15,36,70,0.14), inset 0 1px 1px rgba(255,255,255,0.9) !important;
-}
-
-.clear-wrap{
-    margin-top:10px;
-}
-
-.clear-wrap + div[data-testid="stButton"] button,
-div[data-testid="stButton"] button{
-    height:42px !important;
-    min-height:42px !important;
-    border-radius:22px !important;
-    background:white !important;
-    color:black !important;
-    border:none !important;
     font-size:11px !important;
     font-weight:700 !important;
-    padding:0 16px !important;
-    line-height:1.15 !important;
-    white-space:normal !important;
-    box-shadow:0 6px 16px rgba(15,36,70,0.14), inset 0 1px 1px rgba(255,255,255,0.9) !important;
-}
-
-.chat-area{
+    padding:0 4px !important;
+    background:white !important;
+    color:black !important;
+}}
+.chat-area{{
     height:430px;
     overflow-y:auto;
     padding:10px 4px;
     margin-top:10px;
     margin-bottom:8px;
-}
+}}
 
-.msg{
+.msg{{
     max-width:75%;
     padding:9px 12px;
     border-radius:16px;
@@ -470,24 +432,24 @@ div[data-testid="stButton"] button{
     line-height:1.5;
     white-space:pre-wrap;
     text-align:left;
-}
+}}
 
-.message-row{
+.message-row{{
     display:flex;
     align-items:flex-end;
     gap:6px;
     margin-bottom:8px;
-}
+}}
 
-.message-row.user-row{
+.message-row.user-row{{
     justify-content:flex-end;
-}
+}}
 
-.message-row.bot-row{
+.message-row.bot-row{{
     justify-content:flex-start;
-}
+}}
 
-.msg-avatar{
+.msg-avatar{{
     width:26px;
     height:26px;
     border-radius:50%;
@@ -498,34 +460,66 @@ div[data-testid="stButton"] button{
     overflow:hidden;
     font-size:13px;
     background:white;
-}
+}}
 
-.bot{
+.bot{{
     background:white;
     color:#222;
     margin-right:auto;
-}
+}}
 
-.user{
+.user{{
     background:var(--accent2);
     color:white;
     margin-left:auto;
-}
+}}
 
-div[data-testid="stChatInput"]{
+div[data-testid="stChatInput"]{{
     position:relative !important;
     bottom:auto !important;
     background:transparent !important;
     padding:0 !important;
-}
+}}
 
-div[data-testid="stChatInput"] textarea{
+div[data-testid="stChatInput"] textarea{{
     direction:ltr;
     border-radius:25px;
     border:none;
     background:white;
     font-size:13px;
-}
+}}
+
+
+div[data-testid="stForm"]{{
+    border:none !important;
+    background:transparent !important;
+    padding:0 !important;
+}}
+
+div[data-testid="stForm"] form{{
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr) !important;
+    gap:8px !important;
+}}
+
+div[data-testid="stFormSubmitButton"]{{
+    width:100% !important;
+}}
+
+div[data-testid="stFormSubmitButton"] button{{
+    width:100% !important;
+    height:42px !important;
+    border-radius:22px !important;
+    background:white !important;
+    color:black !important;
+    border:none !important;
+    font-size:10px !important;
+    font-weight:700 !important;
+    padding:0 4px !important;
+    line-height:1.15 !important;
+    white-space:normal !important;
+    box-shadow:0 6px 16px rgba(15,36,70,0.14) !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -570,8 +564,8 @@ elif b6:
     send_message("Contact Support")
     st.rerun()
 
-st.markdown('<div class="clear-wrap"></div>', unsafe_allow_html=True)
 clear_cols = st.columns([1, 1, 1])
+
 with clear_cols[1]:
     if st.button("Clear Chat", key="clear_chat_btn"):
         st.session_state[CHAT_KEY] = [
@@ -579,7 +573,6 @@ with clear_cols[1]:
         ]
         reset_context()
         st.rerun()
-
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
