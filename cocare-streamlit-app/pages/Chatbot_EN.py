@@ -496,10 +496,11 @@ div[data-testid="stForm"]{{
     padding:0 !important;
 }}
 
-div[data-testid="stForm"] form{{
+div[data-testid="stForm"] > div:first-child{{
     display:grid !important;
-    grid-template-columns:repeat(3,1fr) !important;
+    grid-template-columns:1fr 1fr 1fr !important;
     gap:8px !important;
+    align-items:center !important;
 }}
 
 div[data-testid="stFormSubmitButton"]{{
