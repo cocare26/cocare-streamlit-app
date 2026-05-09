@@ -410,7 +410,7 @@ div[data-testid="stButton"] button{{
     font-size:8px;
     font-weight:600;
     padding:0 2px;
-
+}}
 .chat-area{{
     height:430px;
     overflow-y:auto;
