@@ -876,33 +876,3 @@ if user_input:
     send_message(user_input)
     st.rerun()
     
-import pandas as pd
-import os
-import streamlit as st
-
-
-log_path = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "data",
-    "chatbot_en_logs.csv"
-)
-
-if os.path.exists(log_path):
-    logs = pd.read_csv(log_path)
-
-    st.metric("Total Messages", len(logs))
-
-    if "feedback" in logs.columns:
-        st.write("Feedback Summary")
-        st.dataframe(logs["feedback"].value_counts().reset_index())
-
-    st.write("Latest 20 Messages")
-    st.dataframe(
-        logs.tail(20),
-        use_container_width=True,
-        hide_index=True
-    )
-
-else:
-    st.info("No English chatbot logs available yet.")
