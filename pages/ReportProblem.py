@@ -22,11 +22,11 @@ st.markdown(f"""
     max-width:{PHONE_WIDTH}px !important;
     min-height:{PHONE_HEIGHT}px !important;
     margin:auto !important;
-    padding-top:0px !important;
+    padding:0px 30px 30px 30px !important;
     background:linear-gradient(160deg, var(--bg1), var(--bg2), var(--bg3));
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
-    margin-top: 20px !important;
+    margin-top: 0px !important;
 }}
 
 [data-testid="stAppViewContainer"]{{ background:#eef2f7; }}
