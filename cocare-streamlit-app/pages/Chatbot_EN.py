@@ -831,7 +831,6 @@ if st.button("Clear Chat"):
     save_chat_history()
     st.rerun()
 
-st.markdown("### Was this chat helpful?")
 
 chat_html = '<div class="chat-area">'
 
