@@ -29,7 +29,9 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
+if st.button("← Back"):
+    st.switch_page("pages/2_Customer_EN.py")
+    
 html = """
 <html>
 <head>
@@ -278,10 +280,7 @@ html, body{
 </head>
 
 <body>
-<div class="game">
-if st.button("← Back"):
-    st.switch_page("pages/2_Customer_EN.py")
-    
+
     <div class="header">
         <div class="title">Play & Win!</div>
         <div class="desc">Spin the wheel to win internet bundles, points or vouchers!</div>
