@@ -36,8 +36,11 @@ icon_spin = get_base64("spin.png")
 icon_home = get_base64("home.png")
 icon_game = get_base64("game.png")
 
+# تعريف المتغير page
+page = "2_Customer_EN"
+
 # =====================================
-# CSS المطور (تم تعديل الأبعاد وتنسيق النصوص)
+# CSS المطور (نفس الكود الأصلي الخاص بك تماماً)
 # =====================================
 st.markdown(f"""
 <style>
@@ -72,7 +75,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 
 .balance-card {{ 
     padding: 6px 14px !important; 
-    margin-bottom: 20px !important; /* زيادة المساحة بين الرصيد وأيقونات الوسط */
+    margin-bottom: 20px !important; 
 }}
 
 .rating-card {{ padding: 4px 14px 6px !important; margin-bottom: 4px !important; }}
@@ -84,10 +87,9 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     margin: 4px 0 4px 4px;
 }}
 
-.clickable {{ cursor: pointer; transition: all 0.3s ease; }}
+.clickable {{ cursor: pointer; transition: all 0.3s ease; position: relative; }}
 .clickable:active {{ transform: scale(0.95); }}
 
-/* --- تعديل أيقونات الوسط (حركة عند التأشير) --- */
 .service-item {{
     display: flex;
     flex-direction: column;
@@ -97,11 +99,11 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     background: transparent;
     padding: 8px 4px;
     height: 100px;
-    transition: transform 0.3s ease; /* سلاسة الحركة */
+    transition: transform 0.3s ease;
 }}
 
 .service-item:hover {{
-    transform: translateY(-10px); /* تحرك الأيقونة للأعلى عند التأشير */
+    transform: translateY(-10px);
 }}
 
 .service-icon-img {{
@@ -118,7 +120,6 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     line-height: 1.1;
 }}
 
-/* --- تعديل الشريط السفلي (حركة عند التأشير) --- */
 .nav {{
     margin-top:15px; 
     display:grid; 
@@ -135,10 +136,11 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     font-size: 11px;
     font-weight: 700;
     transition: transform 0.3s ease;
+    position: relative;
 }}
 
 .nav-item:hover {{
-    transform: scale(1.15); /* تكبير بسيط عند التأشير */
+    transform: scale(1.15);
 }}
 
 .nav-img-footer {{
@@ -154,15 +156,16 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 
-/* إخفاء أزرار سترمليت */
 div.stButton > button {{
     position: absolute;
     width: 100%;
-    height: 100px;
+    height: 100%;
     opacity: 0;
     z-index: 10;
     cursor: pointer;
     border: none;
+    top: 0;
+    left: 0;
 }}
 
 .star-rating {{ display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }}
@@ -190,9 +193,7 @@ div.stButton > button {{
 </style>
 """, unsafe_allow_html=True)
 
-# =====================================
 # 1. قسم الملف الشخصي
-# =====================================
 st.markdown(f"""
 <div class="welcome-card clickable">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
@@ -206,9 +207,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
 # 2. معلومات الرصيد
-# =====================================
 st.markdown(f"""
 <div class="title">Your Number Info</div>
 <div class="card balance-card clickable">
@@ -233,31 +232,34 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 3. أيقونات الخدمات
-# =====================================
+# 3. أيقونات الخدمات (الربط المطلوب)
 cols = st.columns(4)
-services = [
-    {"label": "Internet<br>Packages", "icon": icon_internet, "page": "pages/InternetPackages.py", "key": "s1"},
-    {"label": "Renewals +<br>Tariff Changes", "icon": icon_renewals, "page": "pages/RenewalsTariff.py", "key": "s2"},
-    {"label": "International<br>Calls", "icon": icon_calls, "page": "pages/InternationalCalls.py", "key": "s3"},
-    {"label": "Network<br>Notifications", "icon": icon_notifications, "page": "pages/NetworkNotifications.py", "key": "s4"}
-]
 
-for i, s in enumerate(services):
-    with cols[i]:
-        st.markdown(f"""
-        <div class="service-item clickable">
-            <img src="data:image/png;base64,{s['icon']}" class="service-icon-img">
-            <div class="service-label">{s['label']}</div>
-        </div>
-        """, unsafe_allow_html=True)
-        if st.button("", key=s['key']):
-            st.switch_page(s['page'])
+with cols[0]:
+    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_internet}" class="service-icon-img"><div class="service-label">Internet<br>Packages</div></div>', unsafe_allow_html=True)
+    if st.button("", key="s1"):
+        if page == "2_Customer_EN":
+            st.switch_page("pages/InternetPackages.py")
 
-# =====================================
-# 4. قسم التقييم
-# =====================================
+with cols[1]:
+    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_renewals}" class="service-icon-img"><div class="service-label">Renewals +<br>Tariff Changes</div></div>', unsafe_allow_html=True)
+    if st.button("", key="s2"):
+        if page == "2_Customer_EN":
+            st.switch_page("pages/RenewalsTariff.py")
+
+with cols[2]:
+    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_calls}" class="service-icon-img"><div class="service-label">International<br>Calls</div></div>', unsafe_allow_html=True)
+    if st.button("", key="s3"):
+        if page == "2_Customer_EN":
+            st.switch_page("pages/InternationalCalls.py")
+
+with cols[3]:
+    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_notifications}" class="service-icon-img"><div class="service-label">Network<br>Notifications</div></div>', unsafe_allow_html=True)
+    if st.button("", key="s4"):
+        if page == "2_Customer_EN":
+            st.switch_page("pages/NetworkNotifications.py")
+
+# 4. قسم التقييم (نفس الكود الخاص بك دون أي تعديل)
 st.markdown("""
 <div class="title">Service Ratings</div>
 <div class="card rating-card">
@@ -278,9 +280,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 5. قوة الشبكة
-# =====================================
+# 5. قوة الشبكة (نفس الكود الخاص بك دون أي تعديل)
 st.markdown("""
 <div class="title">Network Strength in your area</div>
 <div class="card clickable">
@@ -312,29 +312,38 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# 6. الشريط السفلي (تم تعديل لون Home للرمادي)
-# =====================================
-st.markdown(f""" 
-<div class="nav">
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
-        <span>Settings</span>
-    </div> 
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer"> 
-        <span>Spin</span>
-    </div> 
-    <div class="nav-item clickable"> 
-        <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:40px;"></div>
-        <span style="margin-top:-2px;">Chatbot</span>
-    </div> 
-    <div class="nav-item clickable" style="color:#6b6b6b;"> <img src="data:image/png;base64,{icon_home}" class="nav-img-footer"> 
-        <span>Home</span>
-    </div> 
-    <div class="nav-item clickable"> 
-        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer"> 
-        <span>Game On</span>
-    </div> 
-</div>
-""", unsafe_allow_html=True)
+# 6. الشريط السفلي (الربط المطلوب)
+st.markdown('<div class="nav">', unsafe_allow_html=True)
+n_cols = st.columns(5)
+
+with n_cols[0]:
+    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer"><span>Settings</span></div>', unsafe_allow_html=True)
+    if st.button("", key="nav_set"):
+        if page == "2_Customer_EN":
+            st.switch_page("pages/Settings.py")
+
+with n_cols[1]:
+    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_spin}" class="nav-img-footer"><span>Spin</span></div>', unsafe_allow_html=True)
+    if st.button("", key="nav_spin"):
+        if page == "2_Customer_EN":
+            st.switch_page("pages/Spin.py")
+
+with n_cols[2]:
+    st.markdown(f'<div class="nav-item clickable"><div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:40px;"></div><span style="margin-top:-2px;">Chatbot</span></div>', unsafe_allow_html=True)
+    if st.button("", key="nav_bot"):
+        if page == "2_Customer_EN":
+            st.switch_page("cocare-streamlit-app/pages/Chatbot_EN.py")
+
+with n_cols[3]:
+    st.markdown(f'<div class="nav-item clickable" style="color:#6b6b6b;"><img src="data:image/png;base64,{icon_home}" class="nav-img-footer"><span>Home</span></div>', unsafe_allow_html=True)
+    if st.button("", key="nav_home"):
+        if page == "2_Customer_EN":
+            st.switch_page("Home.py")
+
+with n_cols[4]:
+    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_game}" class="nav-img-footer"><span>Game On</span></div>', unsafe_allow_html=True)
+    if st.button("", key="nav_game"):
+        if page == "2_Customer_EN":
+            st.switch_page("pages/_Game_E.py")
+
+st.markdown('</div>', unsafe_allow_html=True)
