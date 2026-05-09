@@ -73,9 +73,7 @@ footer {
 /* العنوان في المنتصف */
 .title-text {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -150%);
+      transform: translate(-50%, -150%);
     font-size: 20px;
     font-weight: 900;
     color: #0f2446;
