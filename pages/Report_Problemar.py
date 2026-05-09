@@ -16,7 +16,8 @@ st.markdown("""
 * { direction: rtl; }
 
 .block-container{
-    max-width:350px !important;    
+  max-width: 430px !important;
+   height: 820px !important;
     margin:auto !important;
     padding:30px !important;            
     background:linear-gradient(160deg, var(--bg1), var(--bg2), var(--bg3));
