@@ -1,4 +1,4 @@
-import streamlit as st
+import reamlit as st
 import streamlit.components.v1 as components
 
 st.set_page_config(
@@ -64,7 +64,7 @@ body {
     background: rgba(255,255,255,0.18);
     display: flex;
     align-items: center;
-    justify-content: center;
+    juify-content: center;
     font-size: 30px;
     margin-bottom: 16px;
 }
@@ -113,7 +113,7 @@ h1 {
 
 .usage-meta {
     display: flex;
-    justify-content: space-between;
+    juify-content: space-between;
     font-size: 12px;
     margin-top: 10px;
 }
@@ -285,19 +285,20 @@ button:hover {
         font-size: 34px;
     }
 }
-</style>
+</yle>
 </head>
 
 <body>
 <div class="wrapper">
 
-    <div class="back-btn">← Back</div>
-
+    if st.button("← Back"):
+    st.switch_page("pages/Customer.py")
+    
     <div class="hero">
         <div>
             <div class="icon-box">📶</div>
             <h1>Internet Packages</h1>
-            <p>Choose the best plan based on your internet usage.</p>
+            <p>Choose the be plan based on your internet usage.</p>
         </div>
 
         <div class="usage-box">
@@ -319,7 +320,7 @@ button:hover {
 
     <div class="section-title">
         <h2>Available Packages</h2>
-        <p>Pick a plan. The 15 GB package is recommended for most users.</p>
+        <p>Pick a plan. The 15 GB package is recommended for mo users.</p>
     </div>
 
     <div class="cards">
@@ -339,13 +340,13 @@ button:hover {
 
         <div class="card recommended">
             <div class="ribbon">Recommended</div>
-            <div class="badge">Most Popular</div>
+            <div class="badge">Mo Popular</div>
             <div class="package-icon">🚀</div>
             <div class="package-title">15 GB</div>
-            <div class="subtitle">Best value for daily usage.</div>
+            <div class="subtitle">Be value for daily usage.</div>
             <div class="price">10 JD</div>
             <div class="feature">✓ 15 GB Data</div>
-            <div class="feature">✓ Fast Speed</div>
+            <div class="feature">✓ Fa Speed</div>
             <div class="feature">✓ Valid for 30 Days</div>
             <div class="spacer"></div>
             <button onclick="alert('15 GB Package selected')">Subscribe 15 GB</button>
@@ -355,7 +356,7 @@ button:hover {
             <div class="badge">Premium</div>
             <div class="package-icon">🔥</div>
             <div class="package-title">Unlimited</div>
-            <div class="subtitle">Streaming, gaming, and heavy use.</div>
+            <div class="subtitle">reaming, gaming, and heavy use.</div>
             <div class="price">25 JD</div>
             <div class="feature">✓ Unlimited Data</div>
             <div class="feature">✓ Priority Network</div>
