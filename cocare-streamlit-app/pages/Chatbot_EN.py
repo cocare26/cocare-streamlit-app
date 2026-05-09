@@ -434,7 +434,7 @@ def get_bot_reply(user_text):
         result = process_message(msg, user_id=user_id, region=region)
         analysis_result = result
 
-                message_has_problem = current_message_has_problem(msg)
+        message_has_problem = current_message_has_problem(msg)
         negative_language = has_negative_language(msg)
 
         network_problem = bool(result.get("network_problem", False)) and message_has_problem
