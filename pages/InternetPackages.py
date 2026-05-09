@@ -13,7 +13,7 @@ col1, col2 = st.columns([1, 8])
 
 with col1:
     if st.button("← Back"):
-        st.switch_page("Customer.py")
+        st.switch_page("Customer")
         # إذا داخل pages استخدم:
         # st.switch_page("pages/Customer.py")
 
