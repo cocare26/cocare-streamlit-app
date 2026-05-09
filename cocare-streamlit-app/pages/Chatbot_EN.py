@@ -378,6 +378,10 @@ header, footer, #MainMenu{{
     margin:auto;
     padding:25px 30px 14px;
     box-sizing:border-box;
+    backdrop-filter:blur(18px);
+   -webkit-backdrop-filter:blur(18px);
+   border:1px solid rgba(255,255,255,0.35);
+
 
     background:linear-gradient(
         160deg,
