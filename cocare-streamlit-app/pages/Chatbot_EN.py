@@ -484,6 +484,20 @@ def send_message(text):
     st.session_state[CHAT_KEY].append(("user", text))
     st.session_state[CHAT_KEY].append(("bot", "Typing..."))
 
+    user_id = st.session_state.get("user_id", "customer_1")
+    region = st.session_state.get("region", "Amman")
+
+    analysis_result = {}
+
+    try:
+        analysis_result = process_message(
+            text,
+            user_id=user_id,
+            region=region
+        )
+    except Exception:
+        analysis_result = {}
+
     bot_reply = get_bot_reply(text)
 
     st.session_state[CHAT_KEY][-1] = ("bot", bot_reply)
@@ -500,6 +514,48 @@ def send_message(text):
             "chatbot_en_logs.csv"
         )
 
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
+        row = {
+            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "user_id": user_id,
+            "region": region,
+            "message": text,
+            "bot_response": bot_reply,
+
+            "language": analysis_result.get("language", "en"),
+            "intent": analysis_result.get("intent", ""),
+            "sentiment": analysis_result.get("sentiment", ""),
+            "prediction": analysis_result.get("prediction", ""),
+            "issue_type": analysis_result.get("issue_type", ""),
+            "network_problem": analysis_result.get("network_problem", ""),
+            "repeat_count": analysis_result.get("repeat_count", ""),
+            "area_issue_count": analysis_result.get("area_issue_count", ""),
+            "notification_type": analysis_result.get("notification_type", ""),
+            "display_channel": analysis_result.get("display_channel", ""),
+            "escalation": analysis_result.get("escalation", ""),
+            "reason": analysis_result.get("reason", ""),
+            "priority": analysis_result.get("priority", ""),
+            "decision_rule": analysis_result.get("decision_rule", ""),
+            "internal_message_ar": analysis_result.get("internal_message_ar", ""),
+            "internal_message_en": analysis_result.get("internal_message_en", ""),
+            "external_message_ar": analysis_result.get("external_message_ar", ""),
+            "external_message_en": analysis_result.get("external_message_en", ""),
+
+            "feedback": st.session_state.get("chat_feedback", None)
+        }
+
+        if os.path.exists(log_path):
+            old = pd.read_csv(log_path)
+            logs = pd.concat([old, pd.DataFrame([row])], ignore_index=True)
+        else:
+            logs = pd.DataFrame([row])
+
+        logs.to_csv(log_path, index=False, encoding="utf-8-sig")
+
+    except Exception:
+        pass
+        
         os.makedirs(os.path.dirname(log_path), exist_ok=True)
 
         row = {
