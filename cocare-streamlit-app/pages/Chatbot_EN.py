@@ -3,7 +3,6 @@ import base64
 import os
 import sys
 import html as html_lib
-import json
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
@@ -15,12 +14,6 @@ PHONE_HEIGHT = 820
 
 CHAT_KEY = "chat_en_messages"
 CONTEXT_KEY = "chat_en_context"
-CHAT_HISTORY_FILE = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "data",
-    "chat_en_history.json"
-)
 
 if "region" not in st.session_state:
     st.session_state["region"] = "Amman"
@@ -41,47 +34,10 @@ def reset_context():
         "last_network_problem": False
     }
 
-def load_chat_history():
-
-    try:
-
-        if os.path.exists(CHAT_HISTORY_FILE):
-
-            with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
-
-                data = json.load(f)
-
-                if isinstance(data, dict):
-                    return data.get("messages", [])
-
-                return data
-
-    except Exception:
-        pass
-
-    return [
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = [
         ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
     ]
-    
-def save_chat_history():
-
-    try:
-
-        os.makedirs(os.path.dirname(CHAT_HISTORY_FILE), exist_ok=True)
-
-        history_data = {
-            "messages": st.session_state[CHAT_KEY],
-            "feedback": st.session_state.get("chat_feedback", None)
-        }
-
-        with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
-            json.dump(history_data, f, ensure_ascii=False, indent=2)
-
-    except Exception:
-        pass
-
-if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = load_chat_history()
 
 def img_to_base64(path):
     try:
@@ -387,116 +343,12 @@ def send_message(text):
         return
 
     st.session_state[CHAT_KEY].append(("user", text))
-    st.session_state[CHAT_KEY].append(("bot", "Typing..."))
+    bot_reply, _ = get_bot_reply(text)
+    st.session_state[CHAT_KEY].append(("bot", bot_reply))
 
-    user_id = st.session_state.get("user_id", "customer_1")
-    region = st.session_state.get("region", "Amman")
 
-   
-    bot_reply, analysis_result = get_bot_reply(text)
-
-    st.session_state[CHAT_KEY][-1] = ("bot", bot_reply)
-    save_chat_history()
-
-    try:
-        import pandas as pd
-        from datetime import datetime
-
-        log_path = os.path.join(
-            os.path.dirname(__file__),
-            "..",
-            "data",
-            "chatbot_en_logs.csv"
-        )
-
-        os.makedirs(os.path.dirname(log_path), exist_ok=True)
-
-        row = {
-            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "user_id": user_id,
-            "region": region,
-            "message": text,
-            "bot_response": bot_reply,
-
-            "language": analysis_result.get("language", "en"),
-            "intent": analysis_result.get("intent", ""),
-            "sentiment": analysis_result.get("sentiment", ""),
-            "prediction": analysis_result.get("prediction", ""),
-            "issue_type": analysis_result.get("issue_type", ""),
-            "network_problem": analysis_result.get("network_problem", ""),
-            "repeat_count": analysis_result.get("repeat_count", ""),
-            "area_issue_count": analysis_result.get("area_issue_count", ""),
-            "notification_type": analysis_result.get("notification_type", ""),
-            "display_channel": analysis_result.get("display_channel", ""),
-            "escalation": analysis_result.get("escalation", ""),
-            "reason": analysis_result.get("reason", ""),
-            "priority": analysis_result.get("priority", ""),
-            "decision_rule": analysis_result.get("decision_rule", ""),
-            "internal_message_ar": analysis_result.get("internal_message_ar", ""),
-            "internal_message_en": analysis_result.get("internal_message_en", ""),
-            "external_message_ar": analysis_result.get("external_message_ar", ""),
-            "external_message_en": analysis_result.get("external_message_en", ""),
-
-            "feedback": st.session_state.get("chat_feedback", None)
-        }
-
-        if os.path.exists(log_path):
-            old = pd.read_csv(log_path)
-            logs = pd.concat([old, pd.DataFrame([row])], ignore_index=True)
-        else:
-            logs = pd.DataFrame([row])
-
-        logs.to_csv(log_path, index=False, encoding="utf-8-sig")
-
-    except Exception:
-        pass
-        
-        os.makedirs(os.path.dirname(log_path), exist_ok=True)
-
-        row = {
-            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "user_id": st.session_state.get("user_id", "customer_1"),
-            "region": st.session_state.get("region", "Amman"),
-            "message": text,
-            "bot_response": bot_reply,
-            "language": "en",
-            "feedback": st.session_state.get("chat_feedback", None)
-        }
-
-        if os.path.exists(log_path):
-            old = pd.read_csv(log_path)
-            logs = pd.concat([old, pd.DataFrame([row])], ignore_index=True)
-        else:
-            logs = pd.DataFrame([row])
-
-        logs.to_csv(log_path, index=False, encoding="utf-8-sig")
-
-    except Exception:
-        pass
-
-        os.makedirs(os.path.dirname(log_path), exist_ok=True)
-
-        row = {
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "user_id": st.session_state.get("user_id", "customer_1"),
-            "region": st.session_state.get("region", "Amman"),
-            "user_message": text,
-            "bot_reply": bot_reply
-        }
-
-        if os.path.exists(log_path):
-            old = pd.read_csv(log_path)
-            logs = pd.concat([old, pd.DataFrame([row])], ignore_index=True)
-        else:
-            logs = pd.DataFrame([row])
-
-        logs.to_csv(log_path, index=False)
-
-    except Exception:
-        pass
 st.markdown(f"""
 <style>
-
 /* 🎯 ألوان أساسية */
 :root{{
     --navy:#0f2446;
@@ -800,7 +652,6 @@ if st.button("Clear Chat"):
         ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
     ]
     reset_context()
-    save_chat_history()
     st.rerun()
 
 
