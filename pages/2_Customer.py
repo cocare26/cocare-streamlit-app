@@ -25,16 +25,16 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # تحميل صور الأيقونات الأربعة الجديدة
-icon_internet = get_base64("pages/internet.png")
-icon_renewals = get_base64("pages/renewals.png")
-icon_calls = get_base64("pages/calls.png")
-icon_notifications = get_base64("pages/notifications.png")
+icon_internet = get_base64("internet.png")
+icon_renewals = get_base64("renewals.png")
+icon_calls = get_base64("calls.png")
+icon_notifications = get_base64("notifications.png")
 
 # --- تحميل صور الشريط السفلي ---
-icon_sitting = get_base64("pages/sitting.png")
-icon_spin = get_base64("pages/spin.png")
-icon_home = get_base64("pages/home.png")
-icon_game = get_base64("pages/game.png")
+icon_sitting = get_base64("sitting.png")
+icon_spin = get_base64("spin.png")
+icon_home = get_base64("home.png")
+icon_game = get_base64("game.png")
 
 # =====================================
 # CSS المطور
@@ -290,22 +290,22 @@ st.markdown(f"""
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.image("pages/internet.png", use_container_width=True)
+    st.image("internet.png", use_container_width=True)
     if st.button(" ", key="internet_btn"):
         st.switch_page("pages/InternetPackages.py")
 
 with col2:
-    st.image("pages/renewals.png", use_container_width=True)
+    st.image("renewals.png", use_container_width=True)
     if st.button(" ", key="renewals_btn"):
         st.switch_page("pages/RenewalsTariff.py")
 
 with col3:
-    st.image("pages/calls.png", use_container_width=True)
+    st.image("calls.png", use_container_width=True)
     if st.button(" ", key="calls_btn"):
         st.switch_page("pages/InternationalCalls.py")
 
 with col4:
-    st.image("pages/notifications.png", use_container_width=True)
+    st.image("notifications.png", use_container_width=True)
     if st.button(" ", key="notif_btn"):
         st.switch_page("pages/NetworkNotifications.py")
         
