@@ -155,7 +155,7 @@ body {
 <textarea class="report-textarea" placeholder="I need help"></textarea>
 
 <!-- 👇 رفع الزر -->
-<div style="margin-top:auto; margin-bottom:40px;">
+<div style="margin-top:20px; margin-bottom:40px;">
     <button class="send-btn" onclick="showPopup()">
         <i class="fas fa-paper-plane main-icon"></i>
         <span>Send Report</span>
