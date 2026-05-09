@@ -40,7 +40,7 @@ icon_game = get_base64("game.png")
 page = "2_Customer_EN"
 
 # =====================================
-# CSS المطور (نفس الكود الأصلي الخاص بك تماماً)
+# CSS المطور
 # =====================================
 st.markdown(f"""
 <style>
@@ -87,7 +87,6 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     margin: 4px 0 4px 4px;
 }}
 
-/* تعديل هنا لضمان تمركز الأزرار الحقيقية فوق العناصر */
 .clickable {{ 
     cursor: pointer; 
     transition: all 0.3s ease; 
@@ -239,13 +238,11 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (الربط المطلوب)
+# 3. أيقونات الخدمات (تعديل جزء الانتقال ليكون حقيقياً)
 cols = st.columns(4)
 
 with cols[0]:
-    # نضع الـ HTML داخل الحاوية أولاً
     st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_internet}" class="service-icon-img"><div class="service-label">Internet<br>Packages</div></div>', unsafe_allow_html=True)
-    # الزر الحقيقي الشفاف الذي سيقوم بالانتقال
     if st.button("", key="s1"):
         if page == "2_Customer_EN":
             st.switch_page("pages/InternetPackages.py")
@@ -321,7 +318,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 6. الشريط السفلي (الربط المطلوب)
+# 6. الشريط السفلي (تعديل جزء الانتقال ليكون حقيقياً)
 st.markdown('<div class="nav">', unsafe_allow_html=True)
 n_cols = st.columns(5)
 
