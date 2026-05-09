@@ -23,27 +23,24 @@ html, body, [class*="css"] {
 
 .block-container {
     max-width: 1180px;
-    padding-top: 2.2rem;
+    padding-top: 2rem;
     padding-bottom: 3rem;
 }
 
 .back-btn {
     display: inline-flex;
-    align-items: center;
-    gap: 8px;
     padding: 10px 18px;
     border-radius: 14px;
     border: 1px solid #BFDBFE;
     color: #2563EB;
-    background: rgba(255, 255, 255, 0.75);
+    background: white;
     font-weight: 700;
     margin-bottom: 22px;
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
 .hero {
-    background:
-        linear-gradient(135deg, rgba(37, 99, 235, 0.96), rgba(6, 182, 212, 0.92));
+    background: linear-gradient(135deg, #2563EB, #06B6D4);
     padding: 30px;
     border-radius: 30px;
     color: white;
@@ -51,11 +48,11 @@ html, body, [class*="css"] {
     box-shadow: 0 18px 45px rgba(37, 99, 235, 0.28);
 }
 
-.hero-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    align-items: flex-start;
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+    align-items: center;
 }
 
 .hero-icon {
@@ -74,7 +71,6 @@ html, body, [class*="css"] {
     margin: 0;
     font-size: 42px;
     font-weight: 900;
-    letter-spacing: -1.2px;
 }
 
 .hero p {
@@ -84,12 +80,10 @@ html, body, [class*="css"] {
 }
 
 .usage-box {
-    min-width: 280px;
     background: rgba(255,255,255,0.17);
     border: 1px solid rgba(255,255,255,0.28);
     border-radius: 22px;
     padding: 18px;
-    backdrop-filter: blur(14px);
 }
 
 .usage-label {
@@ -105,7 +99,6 @@ html, body, [class*="css"] {
 }
 
 .progress-track {
-    width: 100%;
     height: 10px;
     border-radius: 999px;
     background: rgba(255,255,255,0.25);
@@ -115,8 +108,8 @@ html, body, [class*="css"] {
 .progress-fill {
     width: 78%;
     height: 100%;
-    border-radius: 999px;
     background: white;
+    border-radius: 999px;
 }
 
 .usage-meta {
@@ -128,18 +121,13 @@ html, body, [class*="css"] {
 }
 
 .current-plan {
-    background: rgba(236, 253, 245, 0.86);
+    background: rgba(236, 253, 245, 0.9);
     color: #047857;
     padding: 16px 20px;
     border-radius: 20px;
     border: 1px solid #A7F3D0;
-    margin-bottom: 22px;
+    margin-bottom: 24px;
     font-weight: 800;
-    box-shadow: 0 8px 24px rgba(4, 120, 87, 0.08);
-}
-
-.section-header {
-    margin: 18px 0 16px 0;
 }
 
 .section-header h2 {
@@ -147,7 +135,6 @@ html, body, [class*="css"] {
     color: #0F172A;
     font-size: 28px;
     font-weight: 900;
-    letter-spacing: -0.6px;
 }
 
 .section-header p {
@@ -158,19 +145,18 @@ html, body, [class*="css"] {
 
 .package-card {
     position: relative;
-    background: rgba(255, 255, 255, 0.92);
+    background: white;
     padding: 24px;
     border-radius: 28px;
     border: 1px solid #E2E8F0;
-    min-height: 420px;
-    display: flex;
-    flex-direction: column;
+    min-height: 390px;
     box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07);
     transition: all 0.28s ease;
+    margin-top: 18px;
 }
 
 .package-card:hover {
-    transform: translateY(-8px) scale(1.015);
+    transform: translateY(-8px);
     box-shadow: 0 22px 50px rgba(37, 99, 235, 0.18);
     border-color: #60A5FA;
 }
@@ -178,7 +164,6 @@ html, body, [class*="css"] {
 .package-card.recommended {
     border: 2px solid #2563EB;
     box-shadow: 0 22px 55px rgba(37, 99, 235, 0.20);
-    transform: scale(1.025);
 }
 
 .recommend-ribbon {
@@ -191,12 +176,10 @@ html, body, [class*="css"] {
     border-radius: 999px;
     font-size: 12px;
     font-weight: 900;
-    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
 }
 
 .badge {
     display: inline-flex;
-    width: fit-content;
     background: #DBEAFE;
     color: #2563EB;
     padding: 7px 13px;
@@ -215,7 +198,6 @@ html, body, [class*="css"] {
     font-size: 36px;
     font-weight: 900;
     color: #0F172A;
-    letter-spacing: -0.8px;
     margin-bottom: 6px;
 }
 
@@ -232,12 +214,6 @@ html, body, [class*="css"] {
     font-weight: 900;
     color: #2563EB;
     margin-bottom: 18px;
-    letter-spacing: -0.8px;
-}
-
-.features {
-    margin-top: 2px;
-    margin-bottom: 18px;
 }
 
 .feature {
@@ -245,10 +221,6 @@ html, body, [class*="css"] {
     font-size: 15px;
     margin-bottom: 10px;
     font-weight: 600;
-}
-
-.card-spacer {
-    flex: 1;
 }
 
 div.stButton > button {
@@ -261,19 +233,24 @@ div.stButton > button {
     font-weight: 900;
     font-size: 15px;
     box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
-    transition: all 0.25s ease;
+    margin-top: -75px;
+    position: relative;
+    z-index: 5;
 }
 
 div.stButton > button:hover {
     background: linear-gradient(135deg, #1D4ED8, #0891B2);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 16px 34px rgba(37, 99, 235, 0.30);
+}
+
+.button-space {
+    height: 86px;
 }
 
 .recommend-box {
-    margin-top: 26px;
-    background: rgba(255, 255, 255, 0.88);
+    margin-top: 34px;
+    background: white;
     border: 1px solid #E2E8F0;
     border-radius: 26px;
     padding: 22px;
@@ -294,21 +271,12 @@ div.stButton > button:hover {
 }
 
 @media (max-width: 900px) {
-    .hero-top {
-        flex-direction: column;
-    }
-
-    .usage-box {
-        width: 100%;
-        min-width: unset;
+    .hero-grid {
+        grid-template-columns: 1fr;
     }
 
     .hero h1 {
         font-size: 34px;
-    }
-
-    .package-card.recommended {
-        transform: none;
     }
 }
 </style>
@@ -318,7 +286,7 @@ st.markdown('<div class="back-btn">← Back</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="hero">
-    <div class="hero-top">
+    <div class="hero-grid">
         <div>
             <div class="hero-icon">📶</div>
             <h1>Internet Packages</h1>
@@ -393,6 +361,10 @@ for col, package in zip(cols, packages):
         recommended_class = "recommended" if package["recommended"] else ""
         ribbon = '<div class="recommend-ribbon">Recommended</div>' if package["recommended"] else ""
 
+        features_html = "".join(
+            [f'<div class="feature">✓ {feature}</div>' for feature in package["features"]]
+        )
+
         st.markdown(f"""
         <div class="package-card {recommended_class}">
             {ribbon}
@@ -401,12 +373,10 @@ for col, package in zip(cols, packages):
             <div class="package-title">{package["title"]}</div>
             <div class="package-subtitle">{package["subtitle"]}</div>
             <div class="price">{package["price"]}</div>
-
             <div class="features">
-                {''.join([f'<div class="feature">✓ {feature}</div>' for feature in package["features"]])}
+                {features_html}
             </div>
-
-            <div class="card-spacer"></div>
+            <div class="button-space"></div>
         </div>
         """, unsafe_allow_html=True)
 
