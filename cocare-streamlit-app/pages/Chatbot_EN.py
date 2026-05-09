@@ -477,7 +477,7 @@ div[data-testid="stButton"] button{{
     height:46px;
     border-radius:25px;
 
-    background:white;
+    background:rgba(255,255,255,0.12);
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
 
