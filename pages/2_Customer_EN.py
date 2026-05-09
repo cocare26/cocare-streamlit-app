@@ -251,32 +251,71 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (تعديل جزء الانتقال ليكون حقيقياً)
+# 3. أيقونات الخدمات (الربط المطلوب)
 cols = st.columns(4)
 
 with cols[0]:
-    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_internet}" class="service-icon-img"><div class="service-label">Internet<br>Packages</div></div>', unsafe_allow_html=True)
-    if st.button("", key="s1"):
-        if page == "2_Customer_EN":
-            st.switch_page("pages/InternetPackages.py")
+
+    st.markdown(f"""
+    <style>
+    div[data-testid="column"]:nth-of-type(1) button {{
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        opacity:0;
+        z-index:999;
+    }}
+    </style>
+
+    <div class="service-item clickable">
+        <img src="data:image/png;base64,{icon_internet}" class="service-icon-img">
+        <div class="service-label">Internet<br>Packages</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("internet", key="s1"):
+        st.switch_page("pages/InternetPackages.py")
+
 
 with cols[1]:
-    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_renewals}" class="service-icon-img"><div class="service-label">Renewals +<br>Tariff Changes</div></div>', unsafe_allow_html=True)
-    if st.button("", key="s2"):
-        if page == "2_Customer_EN":
-            st.switch_page("pages/RenewalsTariff.py")
+
+    st.markdown(f"""
+    <div class="service-item clickable">
+        <img src="data:image/png;base64,{icon_renewals}" class="service-icon-img">
+        <div class="service-label">Renewals +<br>Tariff Changes</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("renewals", key="s2"):
+        st.switch_page("pages/RenewalsTariff.py")
+
 
 with cols[2]:
-    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_calls}" class="service-icon-img"><div class="service-label">International<br>Calls</div></div>', unsafe_allow_html=True)
-    if st.button("", key="s3"):
-        if page == "2_Customer_EN":
-            st.switch_page("pages/InternationalCalls.py")
+
+    st.markdown(f"""
+    <div class="service-item clickable">
+        <img src="data:image/png;base64,{icon_calls}" class="service-icon-img">
+        <div class="service-label">International<br>Calls</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("calls", key="s3"):
+        st.switch_page("pages/InternationalCalls.py")
+
 
 with cols[3]:
-    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_notifications}" class="service-icon-img"><div class="service-label">Network<br>Notifications</div></div>', unsafe_allow_html=True)
-    if st.button("", key="s4"):
-        if page == "2_Customer_EN":
-            st.switch_page("pages/NetworkNotifications.py")
+
+    st.markdown(f"""
+    <div class="service-item clickable">
+        <img src="data:image/png;base64,{icon_notifications}" class="service-icon-img">
+        <div class="service-label">Network<br>Notifications</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("notifications", key="s4"):
+        st.switch_page("pages/NetworkNotifications.py")
 
 # 4. قسم التقييم
 st.markdown("""
@@ -331,38 +370,67 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 6. الشريط السفلي (تعديل جزء الانتقال ليكون حقيقياً)
-st.markdown('<div class="nav nav-button">', unsafe_allow_html=True)
+# 6. الشريط السفلي (الانتقال الصحيح)
+
 n_cols = st.columns(5)
 
 with n_cols[0]:
-    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer"><span>Settings</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_set"):
-        if page == "2_Customer_EN":
-            st.switch_page("pages/Settings.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
+        <span>Settings</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("settings", key="nav_set"):
+        st.switch_page("pages/Settings.py")
+
 
 with n_cols[1]:
-    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_spin}" class="nav-img-footer"><span>Spin</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_spin"):
-        if page == "2_Customer_EN":
-            st.switch_page("pages/Spin.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
+        <span>Spin</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("spin", key="nav_spin"):
+        st.switch_page("pages/Spin.py")
+
 
 with n_cols[2]:
-    st.markdown(f'<div class="nav-item clickable"><div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:40px;"></div><span style="margin-top:-2px;">Chatbot</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_bot"):
-        if page == "2_Customer_EN":
-            st.switch_page("cocare-streamlit-app/pages/Chatbot_EN.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <div class="bot-bg">
+            <img src="data:image/png;base64,{robot_head}" style="width:40px;">
+        </div>
+        <span>Chatbot</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("chatbot", key="nav_bot"):
+        st.switch_page("pages/Chatbot_EN.py")
+
 
 with n_cols[3]:
-    st.markdown(f'<div class="nav-item clickable" style="color:#6b6b6b;"><img src="data:image/png;base64,{icon_home}" class="nav-img-footer"><span>Home</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_home"):
-        if page == "2_Customer_EN":
-            st.switch_page("pages/home.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
+        <span>Home</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("home", key="nav_home"):
+        st.switch_page("pages/home.py")
+
 
 with n_cols[4]:
-    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_game}" class="nav-img-footer"><span>Game On</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_game"):
-        if page == "2_Customer_EN":
-            st.switch_page("pages/_Game_E.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
+        <span>Game On</span>
+    </div>
+    """, unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+    if st.button("game", key="nav_game"):
+        st.switch_page("pages/_Game_E.py")
