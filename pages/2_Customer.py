@@ -24,27 +24,27 @@ def get_base64(path):
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
-# تحميل صور الأيقونات الأربعة الجديدة
+# تحميل صور الأيقونات
 icon_internet = get_base64("internet.png")
 icon_renewals = get_base64("renewals.png")
 icon_calls = get_base64("calls.png")
 icon_notifications = get_base64("notifications.png")
 
-# --- تحميل صور الشريط السفلي ---
+# تحميل صور الشريط السفلي
 icon_sitting = get_base64("sitting.png")
 icon_spin = get_base64("spin.png")
 icon_home = get_base64("home.png")
 icon_game = get_base64("game.png")
 
 # =====================================
-# CSS المطور
+# CSS المطور (تم تعديل الأبعاد وتنسيق النصوص)
 # =====================================
 st.markdown(f"""
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; }}
 html, body, [data-testid="stAppViewContainer"] {{
-background:#f0f7ff;
-font-family:'Segoe UI', sans-serif;
+    background:#f0f7ff;
+    font-family:'Segoe UI', sans-serif;
 }}
 section.main > div {{ padding-top:4px; }}
 div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
@@ -52,191 +52,124 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 #MainMenu, header, footer {{ visibility:hidden; }}
 
 .block-container {{
-max-width:430px;
-margin:auto;
-padding:12px 16px;
-background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
-border-radius:42px;
-box-shadow:0 14px 35px rgba(0,0,0,.15);
+    max-width:430px; /* الهاتف المطلوب */
+    min-height:820px; /* الهاتف المطلوب */
+    margin:auto;
+    padding:12px 16px;
+    background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
+    border-radius:42px;
+    box-shadow:0 14px 35px rgba(0,0,0,.15);
 }}
 
 .card {{
-background: white;
-border-radius: 20px;
-padding: 10px 14px;
-margin-bottom: 8px;
-box-shadow: 0 4px 15px rgba(0,0,0,.05);
-transition: all 0.3s ease;
-}}
-
-.balance-card {{
-    padding: 6px 14px !important;
-    margin-bottom: 4px !important;
-}}
-
-.rating-card {{
-    padding: 4px 14px 6px !important;
-    margin-bottom: 4px !important;
-}}
-
-.card:hover, .nav-item:hover, .bot-bg:hover {{
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}}
-
-.title {{
-font-size:15px;
-font-weight:900;
-color:#102646;
-margin: 4px 0 4px 4px;
-}}
-
-.clickable {{ 
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-}}
-.clickable:active {{ transform: scale(0.95); }}
-
-.star-rating {{
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-    gap: 4px;
-}}
-.star-rating input {{ display: none; }}
-.star-rating label {{
-    font-size: 24px;
-    color: #ddd;
-    cursor: pointer;
-    transition: color 0.2s, transform 0.2s;
-}}
-.star-rating label:hover {{ transform: scale(1.2); }}
-.star-rating input:checked ~ label,
-.star-rating label:hover,
-.star-rating label:hover ~ label {{
-    color: #ffcc00;
-}}
-
-.rating-bar-container {{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
-    height: 22px;
-    border-radius: 4px;
-    margin-top: 6px;
-    padding: 0 10px;
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
-}}
-
-.welcome-card {{
     background: white;
     border-radius: 20px;
-    padding: 8px 12px;
+    padding: 10px 14px;
     margin-bottom: 8px;
-    box-shadow: 0 6px 15px rgba(0,0,0,.06);
-    display: flex;
-    align-items: center;
-    position: relative;
-    height: 100px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.05);
     transition: all 0.3s ease;
 }}
 
-.robot-img-welcome {{
-    width: 95px; 
-    height: 95px;
-    background: transparent !important;
-    border-radius: 14px;
-    margin-right: 12px;
-    object-fit: contain;
-    padding: 4px;
-    transition: transform 0.4s ease;
+.balance-card {{ padding: 6px 14px !important; margin-bottom: 4px !important; }}
+.rating-card {{ padding: 4px 14px 6px !important; margin-bottom: 4px !important; }}
+
+.title {{
+    font-size:15px;
+    font-weight:900;
+    color:#102646;
+    margin: 4px 0 4px 4px;
 }}
 
-.welcome-text-container {{
+.clickable {{ cursor: pointer; transition: all 0.3s ease; }}
+.clickable:active {{ transform: scale(0.95); }}
+
+/* تنسيق أيقونات الوسط الجديد */
+.service-item {{
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
+    text-align: center;
+    background: white;
+    padding: 8px 4px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    height: 95px;
+}}
+.service-icon-img {{
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-bottom: 4px;
+}}
+.service-label {{
+    font-size: 8.5px;
+    font-weight: 800;
+    color: #102646;
+    line-height: 1.1;
 }}
 
-.needle {{
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    height: 30px;
-    background: #333;
-    transform-origin: bottom center;
-    z-index: 5;
-}}
-
-.signal-icon {{
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    justify-content: center;
-    margin-top: 5px;
-}}
-.signal-bar {{
-    width: 4px;
-    border-radius: 1px;
-}}
-
-.grid4 {{ 
+/* تنسيق الشريط السفلي الجديد */
+.nav {{
+    margin-top:15px; 
     display:grid; 
-    grid-template-columns:repeat(4,1fr); 
-    gap:6px; 
-    margin: 8px 0 6px; 
-    }}
+    grid-template-columns:repeat(5,1fr);
+    text-align:center; 
+    align-items: end;
+}}
+.nav-item {{ 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    color:#6b6b6b; 
+    font-size: 10px; 
+    font-weight: 700;
+}}
+.nav-img-footer {{
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    margin-bottom: 2px;
+}}
+.bot-bg {{
+    width:50px; height:50px; background:white; border-radius:12px;
+    margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}}
 
-    div.stButton > button {{
+/* إخفاء أزرار سترمليت وجعلها فوق التصميم */
+div.stButton > button {{
+    position: absolute;
     width: 100%;
-    height: 90px;
+    height: 95px;
     opacity: 0;
-    margin-top: -90px;
+    z-index: 10;
     cursor: pointer;
     border: none;
 }}
-/* تعديل الأيقونات بالوسط: إزالة الإطار والظل والنص */
-.mini-no-border {{
-    background: transparent; 
-    border-radius: 0; 
-    min-height: 85px;
-    padding: 0; 
-    text-align: center;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.star-rating {{ display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }}
+.star-rating input {{ display: none; }}
+.star-rating label {{ font-size: 24px; color: #ddd; cursor: pointer; }}
+.star-rating input:checked ~ label {{ color: #ffcc00; }}
+
+.rating-bar-container {{
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
+    height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px;
+    color: white; font-size: 11px; font-weight: bold;
 }}
 
-.mini-img-large {{
-    width: 85px; /* تكبير الصورة لتأخذ مساحة الإطار السابق */
-    height: 85px;
-    object-fit: contain;
+.welcome-card {{
+    background: white; border-radius: 20px; padding: 8px 12px; margin-bottom: 8px;
+    display: flex; align-items: center; height: 100px;
 }}
+.robot-img-welcome {{ width: 95px; height: 95px; object-fit: contain; margin-right: 12px; }}
 
-/* استايل صور الشريط السفلي */
-.nav-img-footer {{
-    width: 35px;
-    height: 35px;
-    object-fit: contain;
+.needle {{
+    position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
+    background: #333; transform-origin: bottom center; z-index: 5;
 }}
-
-.nav {{
-margin-top:8px; display:grid; grid-template-columns:repeat(5,1fr);
-text-align:center; color:#6b6b6b; align-items: center;
-}}
-.nav-item {{ transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; }}
-.bot-bg {{
-width:50px; height:50px; background:white; border-radius:12px;
-margin: 0 auto 4px; display:flex; align-items:center; justify-content:center;
-box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-transition: all 0.3s ease;
-}}
-.active {{ color:inherit; transform: scale(1.1); }} 
 </style>
 """, unsafe_allow_html=True)
 
@@ -284,31 +217,27 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات + التنقل بالصور
+# 3. أيقونات الخدمات (تم التعديل لإضافة نصوص)
 # =====================================
+cols = st.columns(4)
+services = [
+    {"label": "Internet<br>Packages", "icon": icon_internet, "page": "pages/InternetPackages.py", "key": "s1"},
+    {"label": "Renewals +<br>Tariff Changes", "icon": icon_renewals, "page": "pages/RenewalsTariff.py", "key": "s2"},
+    {"label": "International<br>Calls", "icon": icon_calls, "page": "pages/InternationalCalls.py", "key": "s3"},
+    {"label": "Network<br>Notifications", "icon": icon_notifications, "page": "pages/NetworkNotifications.py", "key": "s4"}
+]
 
-col1, col2, col3, col4 = st.columns(4)
+for i, s in enumerate(services):
+    with cols[i]:
+        st.markdown(f"""
+        <div class="service-item clickable">
+            <img src="data:image/png;base64,{s['icon']}" class="service-icon-img">
+            <div class="service-label">{s['label']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("", key=s['key']):
+            st.switch_page(s['page'])
 
-with col1:
-    st.image("internet.png", use_container_width=True)
-    if st.button(" ", key="internet_btn"):
-        st.switch_page("pages/InternetPackages.py")
-
-with col2:
-    st.image("renewals.png", use_container_width=True)
-    if st.button(" ", key="renewals_btn"):
-        st.switch_page("pages/RenewalsTariff.py")
-
-with col3:
-    st.image("calls.png", use_container_width=True)
-    if st.button(" ", key="calls_btn"):
-        st.switch_page("pages/InternationalCalls.py")
-
-with col4:
-    st.image("notifications.png", use_container_width=True)
-    if st.button(" ", key="notif_btn"):
-        st.switch_page("pages/NetworkNotifications.py")
-        
 # =====================================
 # 4. قسم التقييم
 # =====================================
@@ -360,15 +289,6 @@ st.markdown("""
         <div class="needle" style="height: 35px; transform: rotate(-60deg);"></div>
     </div>
 <div style="font-size: 9px; font-weight: 900; color: #102646; margin-top: 4px;">-68dBm (Excellent)</div>
-<div class="signal-icon">
-    <div class="signal-bar" style="height:4px; background:#1A4FA0;"></div>
-    <div class="signal-bar" style="height:7px; background:#1A4FA0;"></div>
-    <div class="signal-bar" style="height:10px; background:#1A4FA0;"></div>
-    <div style="width:1px; height:12px; background:#DDD; margin:0 2px;"></div>
-    <div class="signal-bar" style="height:4px; background:#4CAF50;"></div>
-    <div class="signal-bar" style="height:7px; background:#4CAF50;"></div>
-    <div class="signal-bar" style="height:10px; background:#4CAF50;"></div>
-</div>
 </div>
 </div>
 </div>
@@ -376,29 +296,29 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي (معدل: صور فقط)
+# 6. الشريط السفلي (تم التعديل لإضافة نصوص)
 # =====================================
 st.markdown(f""" 
 <div class="nav">
-<div class="nav-item clickable">
-<img src="data:image/png;base64,{icon_sitting}"
-class="nav-img-footer">
-</div> 
-<div class="nav-item clickable">
-<img src="data:image/png;base64,{icon_spin}" 
-class="nav-img-footer"> 
-</div> 
-<div class="nav-item clickable"> 
-<div class="bot-bg"><img src="data:image/png;base64,{robot_head}" 
-style="width:34px;"></div>
-</div> 
-<div class="nav-item active clickable">
-<img src="data:image/png;base64,{icon_home}"
-class="nav-img-footer"> 
-</div> 
-<div class="nav-item clickable"> 
-<img src="data:image/png;base64,{icon_game}" 
-class="nav-img-footer"> 
-</div> 
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
+        <span>Settings</span>
+    </div> 
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer"> 
+        <span>Spin</span>
+    </div> 
+    <div class="nav-item clickable"> 
+        <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:32px;"></div>
+        <span style="margin-top:-2px;">Chatbot</span>
+    </div> 
+    <div class="nav-item clickable" style="color:#1A4FA0;">
+        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer"> 
+        <span>Home</span>
+    </div> 
+    <div class="nav-item clickable"> 
+        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer"> 
+        <span>Game On</span>
+    </div> 
 </div>
 """, unsafe_allow_html=True)
