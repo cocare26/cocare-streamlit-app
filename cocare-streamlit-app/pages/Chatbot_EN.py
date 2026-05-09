@@ -470,7 +470,11 @@ div[data-testid="stTextInput"] input{{
 div[data-testid="stSelectbox"] div{{
     border-radius:25px;
 }}
-
+div[data-testid="column"]{{
+    width:33.33% !important;
+    flex:1 1 0 !important;
+    min-width:0 !important;
+}}
 /* 🔘 الأزرار */
 div[data-testid="stButton"] button{{
     width:100%;
@@ -625,9 +629,17 @@ services = [
     "Renew Package",
     "International Calls",
     "Offers & Games",
-    "Contact Support",
-    "Clear Chat"
+    "Contact Support"
 ]
+
+row1 = st.columns(3)
+row2 = st.columns(3)
+
+for col, service in zip(row1 + row2, services):
+    with col:
+        if st.button(service, key=f"btn_{service}"):
+            send_message(service)
+            st.rerun()
 
 st.markdown('<div class="quick-grid">', unsafe_allow_html=True)
 
@@ -644,12 +656,7 @@ for service in services:
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-if st.button("Clear Chat"):
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
-    reset_context()
-    st.rerun()
+
 
 
 chat_html = '<div class="chat-area">'
