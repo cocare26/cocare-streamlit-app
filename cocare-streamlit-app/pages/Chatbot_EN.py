@@ -468,25 +468,27 @@ div[data-testid="stSelectbox"] div{{
 }}
 
 /* 🔘 الأزرار */
-div[data-testid="stButton"] button{{
+div[data-testid="stButton"] button{
     width:100%;
     height:46px;
     border-radius:25px;
-    border:none;
 
-    background:linear-gradient(
-        90deg,
-        var(--accent),
-        var(--accent2)
-    );
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,0.25);
 
     color:white;
     font-weight:bold;
     font-size:12px;
 
-    box-shadow:0 6px 14px rgba(47,128,237,.25);
-    transition:.2s;
-}}
+    box-shadow:
+        0 4px 20px rgba(0,0,0,0.12),
+        inset 0 1px 1px rgba(255,255,255,0.35);
+
+    transition:0.25s ease;
+}
 
 /* ✨ hover */
 div[data-testid="stButton"] button:hover{{
