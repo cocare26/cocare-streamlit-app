@@ -333,7 +333,7 @@ header, footer, #MainMenu{{
     visibility:hidden;
 }}
 
-.block-container{
+.block-container{{
     width:340px;
     height:760px;
     max-width:calc(100vw - 24px);
@@ -344,24 +344,24 @@ header, footer, #MainMenu{{
     border-radius:0;
     box-shadow:none;
     overflow:hidden;
-}
-.topbar{
+}}
+.topbar{{
     height:54px;
     border-radius:16px;
     margin-bottom:20px;
-}
+}}
 
-.quick-title{
+.quick-title{{
     font-size:14px;
     margin:0 0 18px;
-}
+}}
 
-div[data-testid="stHorizontalBlock"]{
+div[data-testid="stHorizontalBlock"]{{
     gap:18px;
     margin-bottom:12px;
-}
+}}
 
-div[data-testid="stButton"] button{
+div[data-testid="stButton"] button{{
     height:54px;
     border-radius:22px;
     background:rgba(255,255,255,0.16);
@@ -375,27 +375,27 @@ div[data-testid="stButton"] button{
     box-shadow:
         0 6px 16px rgba(15,36,70,0.12),
         inset 0 1px 1px rgba(255,255,255,0.9);
-}
+}}
 
-.chat-area{
+.chat-area{{
     height:330px;
     overflow-y:auto;
     padding:22px 4px 10px;
     margin-top:18px;
-}
+}}
 
-.msg{
+.msg{{
     max-width:78%;
     padding:10px 13px;
     border-radius:16px;
     font-size:13px;
     line-height:1.45;
-}
+}}
 
-.msg-avatar{
+.msg-avatar{{
     width:24px;
     height:24px;
-}
+}}
 .bot{{
     background:white;
     color:#222;
