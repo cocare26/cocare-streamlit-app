@@ -309,139 +309,44 @@ def direct_service_reply(text):
 
 
 def get_bot_reply(user_text):
-
     msg = str(user_text).strip()
+    analysis_result = {}
 
-    # BASIC HUMAN RESPONSES
     if is_no_problem(msg):
         reset_context()
-        return "Alright. If you need any help later, I am here."
+        return "Alright. If you need any help later, I am here.", analysis_result
 
     if is_thanks_or_close(msg):
         reset_context()
-        return "You are welcome. I am here whenever you need help."
+        return "You are welcome. I am here whenever you need help.", analysis_result
 
     if is_goodbye(msg):
         reset_context()
-        return "Goodbye 👋 I am here whenever you need help."
+        return "Goodbye 👋 I am here whenever you need help.", analysis_result
 
     if is_social_positive(msg):
         reset_context()
-        return "Glad to help. I am here whenever you need support."
+        return "Glad to help. I am here whenever you need support.", analysis_result
 
-    # QUICK SERVICES
     service_reply = direct_service_reply(msg)
     if service_reply:
-        return service_reply
+        return service_reply, analysis_result
 
-    # TEXT NORMALIZATION
-    t = msg.lower()
-
-    # INTERNET / CONNECTION PROBLEMS
-    if (
-        ("internet" in t and "slow" in t)
-        or ("slow internet" in t)
-        or ("my internet is slow" in t)
-        or ("disconnect" in t)
-        or ("disconnection" in t)
-        or ("router" in t and "slow" in t)
-        or ("unstable" in t and "connection" in t)
-    ):
-
-        st.session_state[CONTEXT_KEY]["last_intent"] = "slow_internet"
-        st.session_state[CONTEXT_KEY]["last_network_problem"] = True
-        st.session_state[CONTEXT_KEY]["awaiting_details"] = True
-
-        # DISCONNECTION
-        if "disconnect" in t or "disconnection" in t:
-
-            return (
-                "It looks like your connection keeps disconnecting.\n\n"
-                "Please tell me your area and when the issue usually happens."
-            )
-
-        # ROUTER ISSUE
-        if "router" in t:
-
-            return (
-                "It may be a router or home connection issue.\n\n"
-                "Please tell me when the problem started and whether all devices are affected."
-            )
-
-        # DEFAULT SLOW INTERNET
-        return (
-            "It looks like your internet is slow.\n\n"
-            "Please tell me your area or when the issue started."
-        )
-
-    # SIGNAL PROBLEMS
-    if (
-        "no signal" in t
-        or "weak signal" in t
-        or "signal problem" in t
-    ):
-
-        st.session_state[CONTEXT_KEY]["last_intent"] = "no_signal"
-        st.session_state[CONTEXT_KEY]["last_network_problem"] = True
-        st.session_state[CONTEXT_KEY]["awaiting_details"] = True
-
-        return (
-            "There may be a signal problem.\n\n"
-            "Please tell me your area so I can follow up the issue."
-        )
-
-    # PACKAGE RENEWAL
-    if (
-        "renew" in t
-        or "package" in t
-        or "subscription" in t
-    ):
-
-        reset_context()
-
-        return (
-            "You can renew your package from the packages section in the app.\n\n"
-            "Would you like the renewal steps in detail?"
-        )
-
-        # RENEWAL STEPS
-    if (
-        "renewal steps" in t
-        or "renew steps" in t
-        or t == "yes"
-        or t == "sure"
-    ):
-
-        reset_context()
-
-        return (
-            "Package Renewal Steps:\n\n"
-            "1. Open the telecom app.\n"
-            "2. Go to Packages.\n"
-            "3. Select your current package.\n"
-            "4. Press Renew.\n"
-            "5. Confirm the payment.\n\n"
-            "Your package will be renewed immediately after payment."
-        )
-
-
-    
-    # CONTEXT FOLLOW-UP
     context_reply = handle_context_followup(msg)
     if context_reply:
-        return context_reply
+        return context_reply, analysis_result
 
-    # MODEL PROCESSING
     user_id = st.session_state.get("user_id", "customer_1")
     region = st.session_state.get("region", "Amman")
 
     try:
-
         result = process_message(
             msg,
             user_id=user_id,
             region=region
         )
+
+        analysis_result = result
 
         intent = result.get("intent", "")
         network_problem = result.get("network_problem", False)
@@ -450,32 +355,29 @@ def get_bot_reply(user_text):
         st.session_state[CONTEXT_KEY]["last_network_problem"] = network_problem
         st.session_state[CONTEXT_KEY]["awaiting_details"] = bool(network_problem)
 
-        # FALLBACK HANDLING
         if intent in ["clarification", "unknown", "other", "fallback"]:
-
             if len(msg.split()) > 4:
                 return (
                     "I understand. To help you better, please tell me whether this is about "
                     "network, package, app, or another service."
-                )
+                ), analysis_result
 
             reset_context()
-            return human_fallback_reply(msg)
+            return human_fallback_reply(msg), analysis_result
 
-        # NORMAL RESPONSE
         response = str(result.get("response", "")).strip()
         followup = str(result.get("followup_response", "")).strip()
 
         reply = f"{response}\n\n{followup}".strip()
 
         if not reply:
-            return human_fallback_reply(msg)
+            return human_fallback_reply(msg), analysis_result
 
-        return reply
+        return reply, analysis_result
 
     except Exception as e:
-
-        return f"Connection error: {e}"
+        return f"Connection error: {e}", analysis_result
+        
 
 def send_message(text):
     if not text:
@@ -487,18 +389,8 @@ def send_message(text):
     user_id = st.session_state.get("user_id", "customer_1")
     region = st.session_state.get("region", "Amman")
 
-    analysis_result = {}
-
-    try:
-        analysis_result = process_message(
-            text,
-            user_id=user_id,
-            region=region
-        )
-    except Exception:
-        analysis_result = {}
-
-    bot_reply = get_bot_reply(text)
+   
+    bot_reply, analysis_result = get_bot_reply(text)
 
     st.session_state[CHAT_KEY][-1] = ("bot", bot_reply)
     save_chat_history()
