@@ -10,6 +10,9 @@ from cocare import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
+PHONE_WIDTH = 430
+PHONE_HEIGHT = 820
+
 CHAT_KEY = "chat_en_messages"
 CONTEXT_KEY = "chat_en_context"
 CHAT_HISTORY_FILE = os.path.join(
@@ -491,26 +494,60 @@ def send_message(text):
 
     except Exception:
         pass
-st.markdown("""
+st.markdown(f"""
 <style>
-html, body, [data-testid="stAppViewContainer"] {
+
+/* 🎯 ألوان أساسية */
+:root{{
+    --navy:#0f2446;
+    --accent:#2f80ed;
+    --accent2:#1c6fa4;
+    --bg1:#d6ecff;
+    --bg2:#bfe3ff;
+    --bg3:#eaf6ff;
+}}
+
+/* 📱 خلفية الصفحة */
+html, body, [data-testid="stAppViewContainer"]{{
     background:#eef2f7;
     direction:ltr;
-}
-header, footer, #MainMenu {
+}}
+
+header, footer, #MainMenu{{
     visibility:hidden;
-}
-.block-container {
-    max-width:430px;
-    height:730px;
+}}
+
+/* 📦 الكارد الرئيسي */
+.block-container{{
+    width:{PHONE_WIDTH}px;
+    height:{PHONE_HEIGHT}px;
+    max-width:calc(100vw - 24px);
+    max-height:calc(100vh - 24px);
     margin:auto;
-    padding:14px 16px 8px;
+    padding:25px 30px 14px;
+    box-sizing:border-box;
+
+    background:linear-gradient(
+        160deg,
+        var(--bg1) 0%,
+        var(--bg2) 45%,
+        var(--bg3) 100%
+    );
+
     border-radius:42px;
-    background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
-    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
     overflow:hidden;
-}
-.topbar {
+}}
+
+/* 🧠 العناوين */
+h1,h2,h3{{
+    color:var(--navy);
+    text-align:center;
+    font-weight:900;
+}}
+
+/* 🔝 الشريط العلوي */
+.topbar{{
     height:58px;
     background:white;
     border-radius:18px;
@@ -520,64 +557,102 @@ header, footer, #MainMenu {
     padding:0 14px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
     margin-bottom:10px;
-}
-.back {
+}}
+
+.back{{
     font-size:28px;
     color:#436577;
     text-decoration:none;
     font-weight:700;
-}
-.avatar {
+}}
+
+.avatar{{
     width:42px;
     height:42px;
     border-radius:50%;
     object-fit:cover;
-}
-.dot {
+}}
+
+.dot{{
     width:8px;
     height:8px;
     background:#36c06a;
     border-radius:50%;
-}
-.status {
+}}
+
+.status{{
     font-size:15px;
     font-weight:700;
     color:#222;
-}
-.region-label {
+}}
+
+.region-label{{
     margin-left:auto;
     font-size:11px;
     color:#436577;
     font-weight:700;
-}
-.quick-title {
+}}
+
+.quick-title{{
     font-size:13px;
     font-weight:800;
-    color:#102646;
+    color:var(--navy);
     margin:4px 0 6px;
-}
-div[data-testid="stButton"] button {
-    border-radius:18px;
+}}
+
+/* 🧾 Inputs */
+div[data-testid="stTextInput"] input{{
+    border-radius:25px;
+    height:44px;
+    border:none !important;
+    outline:none !important;
+    padding-right:16px;
+    background:rgba(255,255,255,0.95);
+}}
+
+/* 📍 Select */
+div[data-testid="stSelectbox"] div{{
+    border-radius:25px;
+}}
+
+/* 🔘 الأزرار */
+div[data-testid="stButton"] button{{
+    width:100%;
+    height:46px;
+    border-radius:25px;
     border:none;
-    background:white;
-    color:#102646;
-    font-weight:800;
+
+    background:linear-gradient(
+        90deg,
+        var(--accent),
+        var(--accent2)
+    );
+
+    color:white;
+    font-weight:bold;
     font-size:12px;
-    box-shadow:0 3px 8px rgba(0,0,0,.10);
-    height:36px;
-}
-div[data-testid="stButton"] button:hover {
-    background:#eef6ff;
-    color:#1c6fa4;
-}
-.chat-area {
-    height:350px;
+
+    box-shadow:0 6px 14px rgba(47,128,237,.25);
+    transition:.2s;
+}}
+
+/* ✨ hover */
+div[data-testid="stButton"] button:hover{{
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,0,0,.2);
+    color:white;
+}}
+
+/* 💬 منطقة المحادثة */
+.chat-area{{
+    height:430px;
     overflow-y:auto;
     padding:10px 4px;
     margin-top:10px;
     margin-bottom:8px;
-}
-.msg {
+}}
+
+.msg{{
     max-width:75%;
     padding:9px 12px;
     border-radius:16px;
@@ -586,23 +661,24 @@ div[data-testid="stButton"] button:hover {
     line-height:1.5;
     white-space:pre-wrap;
     text-align:left;
-}
-.message-row {
+}}
+
+.message-row{{
     display:flex;
     align-items:flex-end;
     gap:6px;
     margin-bottom:8px;
-}
+}}
 
-.message-row.user-row {
+.message-row.user-row{{
     justify-content:flex-end;
-}
+}}
 
-.message-row.bot-row {
+.message-row.bot-row{{
     justify-content:flex-start;
-}
+}}
 
-.msg-avatar {
+.msg-avatar{{
     width:26px;
     height:26px;
     border-radius:50%;
@@ -612,57 +688,61 @@ div[data-testid="stButton"] button:hover {
     justify-content:center;
     overflow:hidden;
     font-size:18px;
-}
-.user-avatar {
+}}
+
+.user-avatar{{
     background:transparent;
-}
+}}
 
-.bot-avatar {
+.bot-avatar{{
     background:white;
-}
-.typing {
-    opacity:0.65;
-    font-style:italic;
-}
+}}
 
-.typing::after {
-    content:"";
-    animation:dots 1.4s infinite;
-}
-
-@keyframes dots {
-    0% { content:""; }
-    33% { content:"."; }
-    66% { content:".."; }
-    100% { content:"..."; }
-}
-.bot {
+.bot{{
     background:white;
     color:#222;
     margin-right:auto;
-}
-.typing {
-    opacity: 0.65;
-    font-style: italic;
-}
-.user {
-    background:#1c6fa4;
+}}
+
+.user{{
+    background:var(--accent2);
     color:white;
     margin-left:auto;
-}
-div[data-testid="stChatInput"] {
+}}
+
+.typing{{
+    opacity:0.65;
+    font-style:italic;
+}}
+
+.typing::after{{
+    content:"";
+    animation:dots 1.4s infinite;
+}}
+
+@keyframes dots{{
+    0% {{ content:""; }}
+    33% {{ content:"."; }}
+    66% {{ content:".."; }}
+    100% {{ content:"..."; }}
+}}
+
+/* 🧾 Chat input */
+div[data-testid="stChatInput"]{{
     position:relative !important;
     bottom:auto !important;
     background:transparent !important;
     padding:0 !important;
-}
-div[data-testid="stChatInput"] textarea {
+}}
+
+div[data-testid="stChatInput"] textarea{{
     direction:ltr;
-    border-radius:22px;
+    border-radius:25px;
     border:none;
     background:white;
     font-size:13px;
-}
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
