@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import streamlit as st
 import base64
 import os
@@ -516,7 +514,7 @@ with st.form("quick_services_form"):
         background: transparent;
     }
 
-    div[data-testid="stForm"] > div {
+  div[data-testid="stForm"] > div:first-child {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
@@ -566,13 +564,15 @@ elif b6:
     send_message("Contact Support")
     st.rerun()
 
-if st.button("Clear Chat", key="clear_chat_btn"):
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
-    reset_context()
-    st.rerun()
+clear_cols = st.columns([1, 1, 1])
 
+with clear_cols[1]:
+    if st.button("Clear Chat", key="clear_chat_btn"):
+        st.session_state[CHAT_KEY] = [
+            ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ]
+        reset_context()
+        st.rerun()
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
