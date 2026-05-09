@@ -400,7 +400,7 @@ st.markdown("""
 st.markdown(f"""
 <div class="nav">
 
-<a href="/setting" target="_self" style="text-decoration:none; color:inherit;">
+<a href="/settings" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
     </div>
