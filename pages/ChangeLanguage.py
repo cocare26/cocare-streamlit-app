@@ -18,6 +18,7 @@ st.markdown("""
 
 .block-container {
     max-width:{PHONE_WIDTH}px;
+    min-height:{PHONE_HEIGHT}px;
     margin:auto;
     padding:20px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
@@ -79,7 +80,7 @@ with col1:
     st.markdown('</div>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown("""
+    st.markdown(f"""
     <div style="
         text-align:center;
         font-size:26px;
