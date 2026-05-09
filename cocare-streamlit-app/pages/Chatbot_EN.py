@@ -349,7 +349,7 @@ header, footer, #MainMenu{{
 
 .topbar{{
     height:58px;
-    background:rgba(255,255,255,0.12);
+    background:white;
     border-radius:18px;
     display:flex;
     align-items:center;
@@ -403,7 +403,7 @@ header, footer, #MainMenu{{
 div[data-testid="stButton"] button{{
     height:42px;
     border-radius:22px;
-    background:white;
+    background:rgba(255,255,255,0.12);
     color:black;
     font-size:10px;
     font-weight:700;
