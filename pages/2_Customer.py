@@ -399,20 +399,38 @@ st.markdown("""
 # =====================================
 st.markdown(f"""
 <div class="nav">
-<div class="nav-item clickable">
-    <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
-</div>
-<div class="nav-item clickable">
-    <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
-</div>
-<div class="nav-item clickable">
-    <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:34px;"></div>
-</div>
-<div class="nav-item active clickable">
-    <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
-</div>
-<div class="nav-item clickable">
-    <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
-</div>
+
+<a href="/setting" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
+    </div>
+</a>
+
+<a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
+    </div>
+</a>
+
+<a href="/Chatbot_EN" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item clickable">
+        <div class="bot-bg">
+            <img src="data:image/png;base64,{robot_head}" style="width:34px;">
+        </div>
+    </div>
+</a>
+
+<a href="/Customer" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item active clickable">
+        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
+    </div>
+</a>
+
+<a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
+    </div>
+</a>
+
 </div>
 """, unsafe_allow_html=True)
