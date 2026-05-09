@@ -16,7 +16,7 @@ elif page == "customer":
     st.switch_page("pages/2_Customer.py")
 
 elif page == "employee":
-    st.switch_page("pages/3_Employee.py")
+    st.switch_page("cocare-streamlit-app/pages/employee_dashboard.py")
 
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
