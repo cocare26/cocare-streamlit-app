@@ -1,169 +1,177 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import base64
 
-st.set_page_config(page_title="تطبيق الاتصالات", layout="centered")
+st.set_page_config(page_title="Report a Problem", layout="centered")
 
-# 🔥 التنقل بين الصفحات
-page = st.query_params.get("page", "")
+# ===== CSS =====
+st.markdown("""
+<style>
+:root{
+    --navy:#0f2446;
+    --bg1:#d6ecff;
+    --bg2:#bfe3ff;
+    --bg3:#eaf6ff;
+}
 
-if page == "create":
-    st.switch_page("pages/1_Create_Account.py")
+[data-testid="stHeader"] {display: none !important;}
 
-elif page == "customer":
-    st.switch_page("pages/2_Customer.py")
+.block-container{
+    max-width:350px !important;    
+    margin:auto !important;
+    padding:30px !important;       
+    background:linear-gradient(160deg, var(--bg1), var(--bg2), var(--bg3));
+    border-radius:42px;            
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    margin-top: 20px !important;
+}
 
-elif page == "employee":
-    st.switch_page("pages/3_Employee.py")
+[data-testid="stAppViewContainer"]{ background:#eef2f7; }
+footer {visibility: hidden;}
 
-elif page == "forgot":
-    st.switch_page("pages/2_Forgot_Password.py")
+/* ===== HEADER ===== */
+.header {
+    position: relative;
+    height: 110px;
+    margin-bottom: 40px;
+}
 
-# 📷 تحميل صورة البوت
-with open("robot.png", "rb") as f:
-    img = base64.b64encode(f.read()).decode()
+.back-style {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
 
-# 🌐 واجهة HTML عربية
-html = f"""
+.back-style .stButton > button {
+    background:transparent !important;
+    box-shadow:none !important;
+    color:#0f2446 !important;
+    font-size:28px !important;
+    border: none !important;
+}
+
+.title-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -160%);
+    font-size:20px;
+    font-weight:900;
+    color:#0f2446;
+    white-space: nowrap;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ===== HEADER =====
+st.markdown('<div class="header">', unsafe_allow_html=True)
+
+st.markdown('<div class="back-style">', unsafe_allow_html=True)
+if st.button("‹"):
+    st.switch_page("pages/Settings.py")
+st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="title-text">Report a Problem</div>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# ===== UI =====
+components.html("""
+<!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-body {{
-    margin:0;
-    background:#eef3f6;
-    font-family:Arial;
-    direction:rtl;
-}}
+body {
+    font-family: 'Segoe UI';
+    background: transparent;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
 
-.phone{{
-    width:360px;
-    height:660px;
-    margin:auto;
-    border-radius:42px;
-    overflow:hidden;
-    position:relative;
-    background:linear-gradient(180deg,#c9e7f7,#dff4ff)
-}}
+.main-wrapper {
+    width: 100%;
+    max-width: 290px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+}
 
-.robot{{
-    position:absolute;
-    top:85px;
-    left:20px;
-    width:145px;
-    z-index:3;
-}}
+.report-textarea {
+    width: 100%;
+    height: 220px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    padding: 18px;
+    background: white;
+    font-size: 16px;
+    color: #0f2446;
+    resize: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 
-.form{{
-    position:absolute;
-    top:200px;
-    right:58px;
-    width:244px;
-}}
+.report-textarea::placeholder {
+    color: #808080;
+}
 
-.input{{
-    width:100%;
-    height:40px;
-    border-radius:25px;
-    margin-bottom:13px;
-    padding-right:18px;
-    border:none;
-    background:white;
-}}
+.send-btn {
+    background: white;
+    border-radius: 100px;
+    width: 100%;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-.forgot{{
-    text-align:center;
-    font-size:11px;
-    color:#555;
-    margin:8px 0 20px;
-}}
+.send-btn span {
+    color: #0f2446;
+    font-weight: 700;
+    font-size: 14px;
+}
 
-.login{{
-    width:100%;
-    height:46px;
-    border-radius:25px;
-    background:white;
-    text-align:center;
-    line-height:46px;
-    font-weight:bold;
-    border:none;
-    cursor:pointer;
-}}
+.main-icon {
+    color: #808080;
+    font-size: 18px;
+}
 
-.signup{{
-    display:block;
-    text-align:center;
-    font-size:13px;
-    margin-top:15px;
-    color:#222;
-}}
-
-.error{{
-    text-align:center;
-    color:#c62828;
-    font-size:11px;
-    margin-top:8px;
-}}
+/* hover */
+.send-btn:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
 </style>
 </head>
 
 <body>
 
-<div class="phone">
+<div class="main-wrapper">
 
-<img class="robot" src="data:image/png;base64,{img}">
+<textarea class="report-textarea" placeholder="I need help"></textarea>
 
-<div class="form">
-
-<input id="username" class="input" placeholder="رقم الهاتف / رقم الهوية"
-inputmode="numeric" maxlength="11"
-oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-
-<input id="password" class="input" placeholder="كلمة المرور" type="password">
-
-<div class="forgot">
-<a href="/?page=forgot" target="_top" style="color:#555; text-decoration:none;">
-هل نسيت كلمة المرور؟
-</a>
+<!-- 👇 رفع الزر -->
+<div style="margin-top:auto; margin-bottom:40px;">
+    <button class="send-btn" onclick="showPopup()">
+        <i class="fas fa-paper-plane main-icon"></i>
+        <span>Send Report</span>
+    </button>
 </div>
 
-<button class="login" onclick="login()">تسجيل الدخول ›</button>
-
-<div id="error" class="error"></div>
-
-<div class="signup">
-👤 مستخدم جديد؟
-<a href="/?page=create" target="_top" style="color:#222; text-decoration:underline;">
-إنشاء حساب
-</a>
-</div>
-
-</div>
 </div>
 
 <script>
-function goPage(p){{
-    window.parent.location.href = "?page=" + p;
-}}
-
-function login(){{
-    const v = document.getElementById("username").value;
-    const e = document.getElementById("error");
-
-    if(/^07[0-9]{{8}}$/.test(v)){{
-        goPage("customer");
-    }}
-    else if(/^[0-9]{{11}}$/.test(v)){{
-        goPage("employee");
-    }}
-    else{{
-        e.innerText = "رقم الهاتف أو الهوية غير صحيح";
-    }}
-}}
+function showPopup(){
+    alert("Report sent successfully ✅");
+    window.parent.history.back();
+}
 </script>
 
 </body>
 </html>
-"""
-
-# عرض الصفحة
-components.html(html, height=700)
+""", height=500)
