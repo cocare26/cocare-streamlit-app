@@ -84,7 +84,8 @@ div.stButton > button {
 
 /* الكونتينر النحيف */
 .block-container {
-    max-width: 390px; 
+   max-width: 430px !important;
+   height: 820px !important;
     margin: auto;
     padding-top: 80px !important;
     padding-left: 20px !important;
