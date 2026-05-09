@@ -470,11 +470,15 @@ div[data-testid="stTextInput"] input{{
 div[data-testid="stSelectbox"] div{{
     border-radius:25px;
 }}
-
+div[data-testid="column"]{{
+    min-width:0 !important;
+}}
 /* 🔘 الأزرار */
 div[data-testid="stButton"] button{{
-    width:100%;
-    height:46px;
+    width:92%;
+    margin:auto;
+    display:block;
+    height:40px;
     border-radius:25px;
 
     background:rgba(255,255,255,0.12);
@@ -485,7 +489,7 @@ div[data-testid="stButton"] button{{
 
     color:black;
     font-weight:bold;
-    font-size:12px;
+    font-size:10px;
 
     box-shadow:
         0 8px 24px rgba(15,36,70,0.16),
