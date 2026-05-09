@@ -36,8 +36,8 @@ footer {{visibility: hidden;}}
 /* ===== HEADER ===== */
 .header {{
     position: relative;
-    height: 110px;
-    margin-bottom: 40px;
+    height: 70px;
+    margin-bottom: 10px;
 }}
 
 .back-style {{
