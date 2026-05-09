@@ -10,7 +10,7 @@ if page == "customer":
     st.switch_page("pages/2_Customer.py")
 
 elif page == "employee":
-    st.switch_page("pages/3_Employee.py")
+    st.switch_page("pages/Employee.py")
 
 elif page == "create":
     st.switch_page("pages/1_Create_Account.py")
