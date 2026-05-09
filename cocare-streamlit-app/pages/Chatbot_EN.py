@@ -505,7 +505,7 @@ div[data-testid="stButton"] button:hover{{
         0 10px 28px rgba(15,36,70,0.22),
         inset 0 1px 1px rgba(255,255,255,0.7);
 
-    color:black;
+    color:white;
 }}
 /* 💬 منطقة المحادثة */
 .chat-area{{
