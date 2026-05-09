@@ -75,7 +75,29 @@ html, body{
     margin-top:6px;
     line-height:1.25;
 }
+.back-btn{
+    position:absolute;
+    top:20px;
+    left:20px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:900;
+    color:#0f2446;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    transition:.25s;
+    z-index:100;
+}
 
+.back-btn:hover{
+    transform:scale(1.08);
+}
 .prizes{
     display:flex;
     justify-content:center;
@@ -257,6 +279,7 @@ html, body{
 
 <body>
 <div class="game">
+<div class="back-btn" onclick="window.location.href='2_Customer_EN.py'">←</div>
 
     <div class="header">
         <div class="title">Play & Win!</div>
