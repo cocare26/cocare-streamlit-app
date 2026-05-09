@@ -43,7 +43,7 @@ footer {{visibility: hidden;}}
 .back-style {{
     position: absolute;
     left: 0;
-    top: 50%;
+    top: 30%;
     transform: translateY(-50%);
 }}
 
