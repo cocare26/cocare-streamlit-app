@@ -661,7 +661,7 @@ function sendQuick(value) {
 </script>
 """, unsafe_allow_html=True)
 
-
+quick = st.query_params.get("quick")
 if quick:
     if quick == "Clear Chat":
         st.session_state[CHAT_KEY] = [
