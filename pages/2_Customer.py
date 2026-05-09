@@ -25,16 +25,16 @@ robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 
 # تحميل صور الأيقونات الأربعة الجديدة
-icon_internet = get_base64("internet.png")
-icon_renewals = get_base64("renewals.png")
-icon_calls = get_base64("calls.png")
-icon_notifications = get_base64("notifications.png")
+icon_internet = get_base64("pages/internet.png")
+icon_renewals = get_base64("pages/renewals.png")
+icon_calls = get_base64("pages/calls.png")
+icon_notifications = get_base64("pages/notifications.png")
 
 # --- تحميل صور الشريط السفلي ---
-icon_sitting = get_base64("sitting.png")
-icon_spin = get_base64("spin.png")
-icon_home = get_base64("home.png")
-icon_game = get_base64("game.png")
+icon_sitting = get_base64("pages/sitting.png")
+icon_spin = get_base64("pages/spin.png")
+icon_home = get_base64("pages/home.png")
+icon_game = get_base64("pages/game.png")
 
 # =====================================
 # CSS المطور
