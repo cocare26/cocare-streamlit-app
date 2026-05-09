@@ -18,7 +18,7 @@ st.markdown("""
     display: none !important;
 }
 
-/* اتجاه عربي */
+
 * {
     direction: rtl;
 }
@@ -84,7 +84,7 @@ footer {
 
 # ===== HEADER =====
 
-st.markdown('<div class="back-style">', unsafe_allow_html=True)
+st.markdown('<div class="back-style"<', unsafe_allow_html=True)
 if st.button("›"):
     st.switch_page("pages/settingar.py")
 st.markdown('</div>', unsafe_allow_html=True)
