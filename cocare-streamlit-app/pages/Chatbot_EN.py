@@ -754,18 +754,6 @@ if st.button("Clear Chat"):
 
 st.markdown("### Was this chat helpful?")
 
-fb1, fb2 = st.columns(2)
-
-if fb1.button("👍 Helpful"):
-    st.session_state["chat_feedback"] = "helpful"
-    st.success("Feedback saved: helpful")
-
-if fb2.button("👎 Not Helpful"):
-    st.session_state["chat_feedback"] = "not_helpful"
-    st.warning("Feedback saved: not helpful")
-
-
-
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
