@@ -22,7 +22,7 @@ st.markdown(f"""
     max-width:{PHONE_WIDTH}px !important;
     min-height:{PHONE_HEIGHT}px !important;
     margin:auto !important;
-    padding:30px !important;
+    padding-top:0px !important;
     background:linear-gradient(160deg, var(--bg1), var(--bg2), var(--bg3));
     border-radius:42px;
     box-shadow:0 15px 35px rgba(0,0,0,0.15);
