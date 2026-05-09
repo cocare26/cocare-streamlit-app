@@ -11,8 +11,8 @@ from cocare import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
-PHONE_WIDTH = 390
-PHONE_HEIGHT = 820
+PHONE_WIDTH = 340
+PHONE_HEIGHT = 760
 
 CHAT_KEY = "chat_en_messages"
 CONTEXT_KEY = "chat_en_context"
@@ -333,134 +333,70 @@ header, footer, #MainMenu{{
     visibility:hidden;
 }}
 
-.block-container{{
-    width:{PHONE_WIDTH}px;
-    height:{PHONE_HEIGHT}px;
+.block-container{
+    width:340px;
+    height:760px;
     max-width:calc(100vw - 24px);
-    max-height:calc(100vh - 24px);
     margin:auto;
-    padding:25px 24px 14px;
+    padding:24px 22px 14px;
     box-sizing:border-box;
-    background:linear-gradient(160deg,var(--bg1) 0%,var(--bg2) 45%,var(--bg3) 100%);
-    border-radius:42px;
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2),var(--bg3));
+    border-radius:0;
+    box-shadow:none;
     overflow:hidden;
-}}
+}
 
-.topbar{{
-    height:58px;
-    background:white;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:0 14px;
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
-    margin-bottom:10px;
-}}
-
-.back{{
-    font-size:28px;
-    color:#436577;
-    text-decoration:none;
-    font-weight:700;
-}}
-
-.avatar{{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    object-fit:cover;
-}}
-
-.dot{{
-    width:8px;
-    height:8px;
-    background:#36c06a;
-    border-radius:50%;
-}}
-
-.status{{
-    font-size:15px;
-    font-weight:700;
-    color:#222;
-}}
-
-.region-label{{
-    margin-left:auto;
-    font-size:11px;
-    color:#436577;
-    font-weight:700;
-}}
-
-.quick-title{{
-    font-size:13px;
-    font-weight:800;
-    color:var(--navy);
-    margin:4px 0 6px;
-}}
-
-div[data-testid="stButton"] button{{
-    height:42px;
-    border-radius:22px;
-    background:rgba(255,255,255,0.12);
-    color:black;
-    font-size:10px;
-    font-weight:700;
-    padding:0 3px;
-    white-space:normal;
-    line-height:1.1;
-    border:none;
-    box-shadow:0 6px 16px rgba(15,36,70,0.14), inset 0 1px 1px rgba(255,255,255,0.9);
-}}
-
-.chat-area{{
-    height:430px;
-    overflow-y:auto;
-    padding:10px 4px;
-    margin-top:10px;
-    margin-bottom:8px;
-}}
-
-.msg{{
-    max-width:75%;
-    padding:9px 12px;
+.topbar{
+    height:54px;
     border-radius:16px;
-    margin-bottom:8px;
+    margin-bottom:20px;
+}
+
+.quick-title{
+    font-size:14px;
+    margin:0 0 18px;
+}
+
+div[data-testid="stHorizontalBlock"]{
+    gap:18px;
+    margin-bottom:12px;
+}
+
+div[data-testid="stButton"] button{
+    height:54px;
+    border-radius:22px;
+    background:rgba(255,255,255,0.16);
+    color:black;
+    font-size:16px;
+    font-weight:500;
+    padding:0 8px;
+    white-space:normal;
+    line-height:1.15;
+    border:none;
+    box-shadow:
+        0 6px 16px rgba(15,36,70,0.12),
+        inset 0 1px 1px rgba(255,255,255,0.9);
+}
+
+.chat-area{
+    height:330px;
+    overflow-y:auto;
+    padding:22px 4px 10px;
+    margin-top:18px;
+}
+
+.msg{
+    max-width:78%;
+    padding:10px 13px;
+    border-radius:16px;
     font-size:13px;
-    line-height:1.5;
-    white-space:pre-wrap;
-    text-align:left;
-}}
+    line-height:1.45;
+}
 
-.message-row{{
-    display:flex;
-    align-items:flex-end;
-    gap:6px;
-    margin-bottom:8px;
-}}
-
-.message-row.user-row{{
-    justify-content:flex-end;
-}}
-
-.message-row.bot-row{{
-    justify-content:flex-start;
-}}
-
-.msg-avatar{{
-    width:26px;
-    height:26px;
-    border-radius:50%;
-    object-fit:cover;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    font-size:13px;
-    background:white;
-}}
-
+.msg-avatar{
+    width:24px;
+    height:24px;
+}
 .bot{{
     background:white;
     color:#222;
