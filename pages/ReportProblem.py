@@ -91,15 +91,14 @@ body {
 
 .main-wrapper {
     width: 100%;
-    max-width: 290px;
+       max-width: 100%;
     height: 480px;
     display: flex;
     flex-direction: column;
 }
 
 .report-textarea {
-    width: 100%;
-    height: 220px;
+     height: 220px;
     border-radius: 25px;
     border: none;
     outline: none;
