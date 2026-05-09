@@ -600,7 +600,7 @@ if st.button("Clear Chat", key="clear_chat_btn"):
     ]
     reset_context()
     st.rerun()
-
+    
 st.markdown('</div>', unsafe_allow_html=True)
         st.rerun()
 chat_html = '<div class="chat-area">'
