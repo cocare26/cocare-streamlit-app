@@ -416,7 +416,7 @@ div[data-testid="stButton"] button{{
     padding:10px 4px;
     margin-top:10px;
     margin-bottom:8px;
-}}}
+}}
 div[data-testid="column"]{
     padding:0 2px !important;
 }
@@ -513,21 +513,29 @@ services = [
 
 row1 = st.columns(3)
 row2 = st.columns(3)
+row3 = st.columns(3)
 
 for i, service in enumerate(services):
-    col = row1[i] if i < 3 else row2[i - 3]
+
+    if i < 3:
+        col = row1[i]
+
+    else:
+        col = row2[i - 3]
 
     with col:
         if st.button(service, key=f"quick_btn_{i}", use_container_width=True):
             send_message(service)
             st.rerun()
 
-if st.button("Clear Chat", key="clear_chat_btn", use_container_width=True):
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
-    reset_context()
-    st.rerun()
+with row3[1]:
+    if st.button("Clear Chat", key="clear_chat_btn", use_container_width=True):
+        st.session_state[CHAT_KEY] = [
+            ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ]
+        reset_context()
+        st.rerun()
+    
 
 chat_html = '<div class="chat-area">'
 
