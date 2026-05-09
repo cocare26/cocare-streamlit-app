@@ -87,7 +87,12 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     margin: 4px 0 4px 4px;
 }}
 
-.clickable {{ cursor: pointer; transition: all 0.3s ease; position: relative; }}
+/* تعديل هنا لضمان تمركز الأزرار الحقيقية فوق العناصر */
+.clickable {{ 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    position: relative; 
+}}
 .clickable:active {{ transform: scale(0.95); }}
 
 .service-item {{
@@ -100,6 +105,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     padding: 8px 4px;
     height: 100px;
     transition: transform 0.3s ease;
+    position: relative;
 }}
 
 .service-item:hover {{
@@ -156,6 +162,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 
+/* الجزء المسؤول عن جعل زر Streamlit شفافاً ويغطي المساحة بالكامل */
 div.stButton > button {{
     position: absolute;
     width: 100%;
@@ -236,7 +243,9 @@ st.markdown(f"""
 cols = st.columns(4)
 
 with cols[0]:
+    # نضع الـ HTML داخل الحاوية أولاً
     st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_internet}" class="service-icon-img"><div class="service-label">Internet<br>Packages</div></div>', unsafe_allow_html=True)
+    # الزر الحقيقي الشفاف الذي سيقوم بالانتقال
     if st.button("", key="s1"):
         if page == "2_Customer_EN":
             st.switch_page("pages/InternetPackages.py")
@@ -259,7 +268,7 @@ with cols[3]:
         if page == "2_Customer_EN":
             st.switch_page("pages/NetworkNotifications.py")
 
-# 4. قسم التقييم (نفس الكود الخاص بك دون أي تعديل)
+# 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
 <div class="card rating-card">
@@ -280,7 +289,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 5. قوة الشبكة (نفس الكود الخاص بك دون أي تعديل)
+# 5. قوة الشبكة
 st.markdown("""
 <div class="title">Network Strength in your area</div>
 <div class="card clickable">
@@ -338,7 +347,7 @@ with n_cols[3]:
     st.markdown(f'<div class="nav-item clickable" style="color:#6b6b6b;"><img src="data:image/png;base64,{icon_home}" class="nav-img-footer"><span>Home</span></div>', unsafe_allow_html=True)
     if st.button("", key="nav_home"):
         if page == "2_Customer_EN":
-            st.switch_page("Home.py")
+            st.switch_page("pages/home.py")
 
 with n_cols[4]:
     st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_game}" class="nav-img-footer"><span>Game On</span></div>', unsafe_allow_html=True)
