@@ -9,7 +9,7 @@ page = st.query_params.get("page", "")
 if page == "customer":
     st.switch_page("pages/2_Customer.py")
 
-elif page == "employee":
+if page == "employee":
     st.switch_page("pages/Employee.py")
 
 elif page == "create":
