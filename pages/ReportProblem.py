@@ -98,7 +98,7 @@ body {
 }
 
 .report-textarea {
-     height: 220px;
+     height: 300px;
     border-radius: 25px;
     border: none;
     outline: none;
