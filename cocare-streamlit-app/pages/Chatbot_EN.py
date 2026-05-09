@@ -470,11 +470,6 @@ div[data-testid="stTextInput"] input{{
 div[data-testid="stSelectbox"] div{{
     border-radius:25px;
 }}
-div[data-testid="column"]{{
-    flex:1 1 0 !important;
-    min-width:0 !important;
-    padding:0 2px !important;
-}}
 
 /* 🔘 الأزرار */
 div[data-testid="stButton"] button{{
@@ -663,9 +658,70 @@ if st.button("Clear Chat", key="clear_chat_btn"):
     st.rerun()
 
 
+st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
+with st.form("quick_services_form"):
+    st.markdown("""
+    <style>
+    div[data-testid="stForm"] {
+        border: none;
+        padding: 0;
+        background: transparent;
+    }
 
-chat_html = '<div class="chat-area">'
+    div[data-testid="stForm"] > div {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    div[data-testid="stForm"] button {
+        height: 42px;
+        border-radius: 22px;
+        background: white;
+        color: black;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 0 4px;
+        line-height: 1.15;
+        white-space: normal;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    b1 = st.form_submit_button("Network Test")
+    b2 = st.form_submit_button("Internet Usage")
+    b3 = st.form_submit_button("Renew Package")
+    b4 = st.form_submit_button("International Calls")
+    b5 = st.form_submit_button("Offers & Games")
+    b6 = st.form_submit_button("Contact Support")
+
+if b1:
+    send_message("Network Test")
+    st.rerun()
+elif b2:
+    send_message("Internet Usage")
+    st.rerun()
+elif b3:
+    send_message("Renew Package")
+    st.rerun()
+elif b4:
+    send_message("International Calls")
+    st.rerun()
+elif b5:
+    send_message("Offers & Games")
+    st.rerun()
+elif b6:
+    send_message("Contact Support")
+    st.rerun()
+
+if st.button("Clear Chat", key="clear_chat_btn"):
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+    reset_context()
+    st.rerun()
+    
 
 for role, message in st.session_state[CHAT_KEY]:
 
