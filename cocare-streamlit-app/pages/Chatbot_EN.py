@@ -401,8 +401,6 @@ header, footer, #MainMenu{{
     margin:4px 0 6px;
 }}
 div[data-testid="stButton"]{{
-    display:inline-block !important;
-    width:31% !important;
     margin:4px 1% !important;
     vertical-align:top !important;
 }}
