@@ -4,6 +4,8 @@ import os
 import sys
 import html as html_lib
 import urllib.parse
+import pandas as pd
+from datetime import datetime, timedelta
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
@@ -15,6 +17,25 @@ PHONE_HEIGHT = 820
 
 CHAT_KEY = "chat_en_messages"
 CONTEXT_KEY = "chat_en_context"
+
+LOG_PATH = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "data", "chat_logs.csv")
+)
+
+JORDAN_REGIONS = [
+    "Amman", "Zarqa", "Irbid", "Balqa", "Madaba", "Karak",
+    "Tafilah", "Maan", "Aqaba", "Jerash", "Ajloun", "Mafraq"
+]
+
+PROBLEM_WORDS = [
+    "problem", "issue", "slow", "weak", "disconnect", "disconnection",
+    "cut", "outage", "fault", "network", "signal", "internet"
+]
+
+NEGATIVE_WORDS = [
+    "bad", "angry", "terrible", "worst", "stupid", "useless",
+    "hate", "annoying", "trash"
+]
 
 if "region" not in st.session_state:
     st.session_state["region"] = "Amman"
@@ -240,6 +261,138 @@ def direct_service_reply(text):
 
     return None
 
+def cleanup_old_logs():
+    if not os.path.exists(LOG_PATH):
+        return
+
+    try:
+        df = pd.read_csv(LOG_PATH)
+        if "time" not in df.columns:
+            return
+
+        df["time"] = pd.to_datetime(df["time"], errors="coerce")
+        cutoff = datetime.now() - timedelta(hours=48)
+        df = df[df["time"] >= cutoff]
+        df.to_csv(LOG_PATH, index=False)
+
+    except Exception:
+        pass
+
+
+def current_message_has_problem(text):
+    t = str(text).lower()
+    return any(word in t for word in PROBLEM_WORDS)
+
+
+def has_negative_language(text):
+    t = str(text).lower()
+    return any(word in t for word in NEGATIVE_WORDS)
+
+
+def detect_network_problem_type(text):
+    t = str(text).lower()
+
+    if any(w in t for w in ["slow", "ضعيف", "بطيء"]):
+        return "slow_connection"
+
+    if any(w in t for w in ["weak signal", "signal", "ضعف إشارة"]):
+        return "weak_signal"
+
+    if any(w in t for w in ["disconnect", "cut", "تقطيع"]):
+        return "disconnection"
+
+    if any(w in t for w in ["outage", "fault", "عطل"]):
+        return "outage"
+
+    if any(w in t for w in ["network", "internet"]):
+        return "general_network_issue"
+
+    return "none"
+
+
+def get_repeat_count(user_id):
+    if not os.path.exists(LOG_PATH):
+        return 0
+
+    try:
+        df = pd.read_csv(LOG_PATH)
+        if "user_id" not in df.columns:
+            return 0
+
+        return len(df[df["user_id"] == user_id])
+
+    except Exception:
+        return 0
+
+
+def get_area_issue_count(region):
+    if not os.path.exists(LOG_PATH):
+        return 0
+
+    try:
+        df = pd.read_csv(LOG_PATH)
+        if "region" not in df.columns or "network_problem" not in df.columns:
+            return 0
+
+        area_df = df[
+            (df["region"] == region) &
+            (df["network_problem"] == True)
+        ]
+
+        return len(area_df)
+
+    except Exception:
+        return 0
+
+
+def decide_escalation(user_id, region, network_problem):
+    repeat_count = get_repeat_count(user_id)
+    area_issue_count = get_area_issue_count(region)
+
+    notification_type = "none"
+    display_channel = "monitoring_log"
+    escalation = False
+    reason = "normal_monitoring"
+    priority = "low"
+    decision_rule = "monitoring_log"
+
+    if network_problem and repeat_count >= 2:
+        notification_type = "external_notification"
+        display_channel = "customer_app"
+        escalation = True
+        reason = "third_complaint_from_same_customer"
+        priority = "medium"
+        decision_rule = "customer_app"
+
+    if network_problem and area_issue_count >= 2:
+        notification_type = "internal_escalation"
+        display_channel = "employee_dashboard"
+        escalation = True
+        reason = "third_complaint_in_same_region"
+        priority = "high"
+        decision_rule = "employee_dashboard"
+
+    return {
+        "repeat_count": repeat_count + 1,
+        "area_issue_count": area_issue_count + 1,
+        "notification_type": notification_type,
+        "display_channel": display_channel,
+        "escalation": escalation,
+        "reason": reason,
+        "priority": priority,
+        "decision_rule": decision_rule
+    }
+
+
+def save_chat_log(row):
+    os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
+
+    df = pd.DataFrame([row])
+
+    if os.path.exists(LOG_PATH):
+        df.to_csv(LOG_PATH, mode="a", header=False, index=False)
+    else:
+        df.to_csv(LOG_PATH, index=False)
 
 def get_bot_reply(user_text):
     msg = str(user_text).strip()
@@ -272,10 +425,56 @@ def get_bot_reply(user_text):
     user_id = st.session_state.get("user_id", "customer_1")
     region = st.session_state.get("region", "Amman")
 
+    cleanup_old_logs()
+
+    if region not in JORDAN_REGIONS:
+       region = "Amman"
+    
     try:
         result = process_message(msg, user_id=user_id, region=region)
         analysis_result = result
 
+                message_has_problem = current_message_has_problem(msg)
+        negative_language = has_negative_language(msg)
+
+        network_problem = bool(result.get("network_problem", False)) and message_has_problem
+        network_problem_type = detect_network_problem_type(msg) if network_problem else "none"
+
+        decision = decide_escalation(user_id, region, network_problem)
+
+        if negative_language:
+            result["response"] = (
+                "I apologize for the inconvenience. I understand that this situation is frustrating. "
+                "I will check the issue and guide you to the right support step."
+            )
+
+        log_row = {
+            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "user_id": user_id,
+            "region": region,
+            "message": msg,
+            "bot_response": result.get("response", ""),
+            "intent": result.get("intent", ""),
+            "sentiment": result.get("sentiment", ""),
+            "prediction": result.get("prediction", ""),
+            "issue_type": result.get("issue_type", ""),
+            "network_problem": network_problem,
+            "repeat_count": decision["repeat_count"],
+            "area_issue_count": decision["area_issue_count"],
+            "notification_type": decision["notification_type"],
+            "display_channel": decision["display_channel"],
+            "escalation": decision["escalation"],
+            "reason": decision["reason"],
+            "priority": decision["priority"],
+            "decision_rule": decision["decision_rule"]
+        }
+
+        save_chat_log(log_row)
+
+        result["network_problem"] = network_problem
+        result["network_problem_type"] = network_problem_type
+        result.update(decision)
+        
         intent = result.get("intent", "")
         network_problem = result.get("network_problem", False)
 
