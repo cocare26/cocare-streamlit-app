@@ -83,33 +83,31 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 .clickable {{ cursor: pointer; transition: all 0.3s ease; }}
 .clickable:active {{ transform: scale(0.95); }}
 
-/* تنسيق أيقونات الوسط الجديد */
+/* --- تعديل أيقونات الوسط (بدون إطار وبحجم أكبر) --- */
 .service-item {{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: white;
+    background: transparent; /* إزالة الإطار الأبيض */
     padding: 8px 4px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    height: 95px;
+    height: 100px;
 }}
 .service-icon-img {{
-    width: 40px;
-    height: 40px;
+    width: 65px; /* تكبير الصورة */
+    height: 65px;
     object-fit: contain;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }}
 .service-label {{
-    font-size: 8.5px;
+    font-size: 9px;
     font-weight: 800;
     color: #102646;
     line-height: 1.1;
 }}
 
-/* تنسيق الشريط السفلي الجديد */
+/* --- تعديل الشريط السفلي (أيقونات أكبر) --- */
 .nav {{
     margin-top:15px; 
     display:grid; 
@@ -122,17 +120,17 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     flex-direction: column; 
     align-items: center; 
     color:#6b6b6b; 
-    font-size: 10px; 
+    font-size: 11px; /* تكبير الخط قليلاً */
     font-weight: 700;
 }}
 .nav-img-footer {{
-    width: 28px;
-    height: 28px;
+    width: 38px; /* تكبير أيقونات الشريط السفلي */
+    height: 38px;
     object-fit: contain;
     margin-bottom: 2px;
 }}
 .bot-bg {{
-    width:50px; height:50px; background:white; border-radius:12px;
+    width:60px; height:60px; background:white; border-radius:15px;
     margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
@@ -141,7 +139,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 div.stButton > button {{
     position: absolute;
     width: 100%;
-    height: 95px;
+    height: 100px;
     opacity: 0;
     z-index: 10;
     cursor: pointer;
@@ -309,7 +307,7 @@ st.markdown(f"""
         <span>Spin</span>
     </div> 
     <div class="nav-item clickable"> 
-        <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:32px;"></div>
+        <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:40px;"></div>
         <span style="margin-top:-2px;">Chatbot</span>
     </div> 
     <div class="nav-item clickable" style="color:#1A4FA0;">
