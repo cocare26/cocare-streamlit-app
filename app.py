@@ -7,7 +7,7 @@ st.set_page_config(page_title="Telecom App", layout="centered")
 page = st.query_params.get("page", "")
 
 if page == "customer":
-    st.switch_page("pages/2_Customer.py")
+    st.switch_page("pages/2_Customer_EN.py")
 
 if page == "employee":
     st.switch_page("pages/cocare-streamlit-app/pages/Employee.py")
