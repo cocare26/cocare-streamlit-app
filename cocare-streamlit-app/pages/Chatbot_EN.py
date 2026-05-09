@@ -404,13 +404,17 @@ div[data-testid="stButton"]{{
     margin:4px 1% !important;
     vertical-align:top !important;
 }}
+div[data-testid="stHorizontalBlock"]{{
+    gap:8px !important;
+}}
 
 div[data-testid="stButton"] button{{
-    width:100% !important;
-    height:38px !important;
+    height:40px !important;
     border-radius:18px !important;
     font-size:9px !important;
-    padding:0 3px !important;
+    padding:0 2px !important;
+    white-space:normal !important;
+    line-height:1.1 !important;
 }}
 .chat-area{{
     height:430px;
