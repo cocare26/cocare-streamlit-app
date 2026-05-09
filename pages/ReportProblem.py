@@ -53,14 +53,13 @@ footer {visibility: hidden;}
 
 .title-text {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -160%);
-    font-size:20px;
-    font-weight:900;
-    color:#0f2446;
+    left: 35%;
+     transform: translate(-50%, -150%);
+    font-size: 20px;
+    font-weight: 900;
+    color: #0f2446;
     white-space: nowrap;
-}
+}}
 </style>
 """, unsafe_allow_html=True)
 
