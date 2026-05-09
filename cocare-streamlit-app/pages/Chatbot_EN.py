@@ -471,58 +471,16 @@ div[data-testid="stSelectbox"] div{{
     border-radius:25px;
 }}
 
-/* 🔘 الأزرار */
-div[data-testid="stButton"] button{{
-    width:100%;
-    min-width:90px;
-    height:52px;
 
-    border-radius:20px;
-
-    background:white;
-    border:1px solid rgba(255,255,255,0.7);
-
-    color:black;
-    font-weight:700;
-    font-size:11px;
-
-    box-shadow:
-        0 6px 16px rgba(15,36,70,0.14),
-        inset 0 1px 1px rgba(255,255,255,0.8);
-
-    padding:4px;
-
-    line-height:1.2;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-
-    transition:0.2s ease;
-}}
-/* ✨ hover */
-div[data-testid="stButton"] button:hover{{
-    transform:translateY(-2px);
-
-    background:rgba(255,255,255,0.28);
-    border:1px solid rgba(255,255,255,0.5);
-
-    box-shadow:
-        0 10px 28px rgba(15,36,70,0.22),
-        inset 0 1px 1px rgba(255,255,255,0.7);
-
-    color:#0f2446;
-}}
 .quick-grid{{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
-    gap:10px;
+    gap:8px;
     margin:12px 0 14px;
 }}
 
 .quick-btn{{
-    height:48px;
+    min-height:54px;
     border-radius:22px;
 
     background:white;
@@ -534,7 +492,7 @@ div[data-testid="stButton"] button:hover{{
     justify-content:center;
     text-align:center;
 
-    font-size:11px;
+    font-size:10px;
     font-weight:700;
     line-height:1.15;
 
