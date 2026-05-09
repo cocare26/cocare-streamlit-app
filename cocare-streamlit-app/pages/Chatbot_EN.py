@@ -345,7 +345,6 @@ header, footer, #MainMenu{{
     box-shadow:none;
     overflow:hidden;
 }
-
 .topbar{
     height:54px;
     border-radius:16px;
