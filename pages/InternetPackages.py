@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="Internet Packages",
@@ -6,56 +7,57 @@ st.set_page_config(
     layout="wide"
 )
 
-st.markdown("""
+html_code = """
+<!DOCTYPE html>
+<html>
+<head>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
 
-html, body, [class*="css"] {
+* {
+    box-sizing: border-box;
     font-family: 'Inter', sans-serif;
 }
 
-.stApp {
+body {
+    margin: 0;
+    padding: 28px;
     background:
         radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.14), transparent 28%),
         radial-gradient(circle at 85% 10%, rgba(6, 182, 212, 0.18), transparent 26%),
         linear-gradient(180deg, #F5F9FF 0%, #FFFFFF 100%);
 }
 
-.block-container {
-    max-width: 1180px;
-    padding-top: 2rem;
-    padding-bottom: 3rem;
+.wrapper {
+    max-width: 1150px;
+    margin: auto;
 }
 
 .back-btn {
-    display: inline-flex;
+    display: inline-block;
     padding: 10px 18px;
     border-radius: 14px;
     border: 1px solid #BFDBFE;
     color: #2563EB;
     background: white;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 22px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
 .hero {
     background: linear-gradient(135deg, #2563EB, #06B6D4);
-    padding: 30px;
-    border-radius: 30px;
     color: white;
-    margin-bottom: 22px;
+    padding: 32px;
+    border-radius: 30px;
     box-shadow: 0 18px 45px rgba(37, 99, 235, 0.28);
-}
-
-.hero-grid {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 320px;
     gap: 24px;
     align-items: center;
+    margin-bottom: 22px;
 }
 
-.hero-icon {
+.icon-box {
     width: 58px;
     height: 58px;
     border-radius: 18px;
@@ -67,14 +69,13 @@ html, body, [class*="css"] {
     margin-bottom: 16px;
 }
 
-.hero h1 {
+h1 {
     margin: 0;
-    font-size: 42px;
+    font-size: 44px;
     font-weight: 900;
 }
 
 .hero p {
-    margin-top: 9px;
     font-size: 17px;
     opacity: 0.92;
 }
@@ -89,13 +90,12 @@ html, body, [class*="css"] {
 .usage-label {
     font-size: 13px;
     opacity: 0.86;
-    margin-bottom: 8px;
 }
 
 .usage-number {
     font-size: 28px;
     font-weight: 900;
-    margin-bottom: 12px;
+    margin: 8px 0 12px;
 }
 
 .progress-track {
@@ -109,15 +109,13 @@ html, body, [class*="css"] {
     width: 78%;
     height: 100%;
     background: white;
-    border-radius: 999px;
 }
 
 .usage-meta {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
     font-size: 12px;
-    opacity: 0.9;
+    margin-top: 10px;
 }
 
 .current-plan {
@@ -126,47 +124,56 @@ html, body, [class*="css"] {
     padding: 16px 20px;
     border-radius: 20px;
     border: 1px solid #A7F3D0;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     font-weight: 800;
 }
 
-.section-header h2 {
-    margin: 0;
-    color: #0F172A;
-    font-size: 28px;
-    font-weight: 900;
+.section-title {
+    margin-bottom: 18px;
 }
 
-.section-header p {
-    margin-top: 6px;
+.section-title h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 900;
+    color: #0F172A;
+}
+
+.section-title p {
     color: #64748B;
     font-size: 15px;
 }
 
-.package-card {
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.card {
     position: relative;
     background: white;
-    padding: 24px;
     border-radius: 28px;
+    padding: 26px;
+    min-height: 430px;
     border: 1px solid #E2E8F0;
-    min-height: 390px;
     box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07);
-    transition: all 0.28s ease;
-    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.25s ease;
 }
 
-.package-card:hover {
+.card:hover {
     transform: translateY(-8px);
     box-shadow: 0 22px 50px rgba(37, 99, 235, 0.18);
-    border-color: #60A5FA;
 }
 
-.package-card.recommended {
+.card.recommended {
     border: 2px solid #2563EB;
     box-shadow: 0 22px 55px rgba(37, 99, 235, 0.20);
 }
 
-.recommend-ribbon {
+.ribbon {
     position: absolute;
     top: -14px;
     right: 22px;
@@ -179,7 +186,7 @@ html, body, [class*="css"] {
 }
 
 .badge {
-    display: inline-flex;
+    width: fit-content;
     background: #DBEAFE;
     color: #2563EB;
     padding: 7px 13px;
@@ -190,22 +197,22 @@ html, body, [class*="css"] {
 }
 
 .package-icon {
-    font-size: 36px;
-    margin-bottom: 14px;
+    font-size: 38px;
+    margin-bottom: 12px;
 }
 
 .package-title {
-    font-size: 36px;
+    font-size: 38px;
     font-weight: 900;
     color: #0F172A;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
-.package-subtitle {
+.subtitle {
     color: #64748B;
     font-size: 15px;
     line-height: 1.5;
-    min-height: 44px;
+    min-height: 46px;
     margin-bottom: 16px;
 }
 
@@ -217,35 +224,31 @@ html, body, [class*="css"] {
 }
 
 .feature {
-    color: #334155;
     font-size: 15px;
+    font-weight: 700;
+    color: #334155;
     margin-bottom: 10px;
-    font-weight: 600;
 }
 
-div.stButton > button {
+.spacer {
+    flex: 1;
+}
+
+button {
     width: 100%;
-    background: linear-gradient(135deg, #2563EB, #06B6D4);
-    color: white;
     border: none;
     border-radius: 16px;
-    padding: 14px 18px;
-    font-weight: 900;
-    font-size: 15px;
-    box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
-    margin-top: -75px;
-    position: relative;
-    z-index: 5;
-}
-
-div.stButton > button:hover {
-    background: linear-gradient(135deg, #1D4ED8, #0891B2);
+    padding: 15px 18px;
+    background: linear-gradient(135deg, #2563EB, #06B6D4);
     color: white;
-    transform: translateY(-2px);
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
 }
 
-.button-space {
-    height: 86px;
+button:hover {
+    background: linear-gradient(135deg, #1D4ED8, #0891B2);
 }
 
 .recommend-box {
@@ -253,12 +256,12 @@ div.stButton > button:hover {
     background: white;
     border: 1px solid #E2E8F0;
     border-radius: 26px;
-    padding: 22px;
+    padding: 24px;
     box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
 }
 
 .recommend-box h3 {
-    margin: 0 0 8px 0;
+    margin: 0 0 8px;
     color: #0F172A;
     font-size: 22px;
     font-weight: 900;
@@ -267,28 +270,32 @@ div.stButton > button:hover {
 .recommend-box p {
     margin: 0;
     color: #64748B;
-    font-size: 15px;
 }
 
-@media (max-width: 900px) {
-    .hero-grid {
+@media(max-width: 900px) {
+    .hero {
         grid-template-columns: 1fr;
     }
 
-    .hero h1 {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
         font-size: 34px;
     }
 }
 </style>
-""", unsafe_allow_html=True)
+</head>
 
-st.markdown('<div class="back-btn">← Back</div>', unsafe_allow_html=True)
+<body>
+<div class="wrapper">
 
-st.markdown("""
-<div class="hero">
-    <div class="hero-grid">
+    <div class="back-btn">← Back</div>
+
+    <div class="hero">
         <div>
-            <div class="hero-icon">📶</div>
+            <div class="icon-box">📶</div>
             <h1>Internet Packages</h1>
             <p>Choose the best plan based on your internet usage.</p>
         </div>
@@ -305,87 +312,68 @@ st.markdown("""
             </div>
         </div>
     </div>
-</div>
-""", unsafe_allow_html=True)
 
-st.markdown("""
-<div class="current-plan">
-    ✅ Current Plan: 6 GB Package — Valid until May 25, 2024
-</div>
-""", unsafe_allow_html=True)
+    <div class="current-plan">
+        ✅ Current Plan: 6 GB Package — Valid until May 25, 2024
+    </div>
 
-st.markdown("""
-<div class="section-header">
-    <h2>Available Packages</h2>
-    <p>Pick a plan. The 15 GB package is recommended for most users.</p>
-</div>
-""", unsafe_allow_html=True)
+    <div class="section-title">
+        <h2>Available Packages</h2>
+        <p>Pick a plan. The 15 GB package is recommended for most users.</p>
+    </div>
 
-packages = [
-    {
-        "badge": "Basic",
-        "icon": "📱",
-        "title": "6 GB",
-        "subtitle": "Light browsing and social media.",
-        "price": "5 JD",
-        "features": ["6 GB Data", "5G Support", "Valid for 30 Days"],
-        "button": "Subscribe 6 GB",
-        "recommended": False
-    },
-    {
-        "badge": "Most Popular",
-        "icon": "🚀",
-        "title": "15 GB",
-        "subtitle": "Best value for daily usage.",
-        "price": "10 JD",
-        "features": ["15 GB Data", "Fast Speed", "Valid for 30 Days"],
-        "button": "Subscribe 15 GB",
-        "recommended": True
-    },
-    {
-        "badge": "Premium",
-        "icon": "🔥",
-        "title": "Unlimited",
-        "subtitle": "Streaming, gaming, and heavy use.",
-        "price": "25 JD",
-        "features": ["Unlimited Data", "Priority Network", "Valid for 30 Days"],
-        "button": "Subscribe Unlimited",
-        "recommended": False
-    }
-]
+    <div class="cards">
 
-cols = st.columns(3, gap="large")
-
-for col, package in zip(cols, packages):
-    with col:
-        recommended_class = "recommended" if package["recommended"] else ""
-        ribbon = '<div class="recommend-ribbon">Recommended</div>' if package["recommended"] else ""
-
-        features_html = "".join(
-            [f'<div class="feature">✓ {feature}</div>' for feature in package["features"]]
-        )
-
-        st.markdown(f"""
-        <div class="package-card {recommended_class}">
-            {ribbon}
-            <div class="badge">{package["badge"]}</div>
-            <div class="package-icon">{package["icon"]}</div>
-            <div class="package-title">{package["title"]}</div>
-            <div class="package-subtitle">{package["subtitle"]}</div>
-            <div class="price">{package["price"]}</div>
-            <div class="features">
-                {features_html}
-            </div>
-            <div class="button-space"></div>
+        <div class="card">
+            <div class="badge">Basic</div>
+            <div class="package-icon">📱</div>
+            <div class="package-title">6 GB</div>
+            <div class="subtitle">Light browsing and social media.</div>
+            <div class="price">5 JD</div>
+            <div class="feature">✓ 6 GB Data</div>
+            <div class="feature">✓ 5G Support</div>
+            <div class="feature">✓ Valid for 30 Days</div>
+            <div class="spacer"></div>
+            <button onclick="alert('6 GB Package selected')">Subscribe 6 GB</button>
         </div>
-        """, unsafe_allow_html=True)
 
-        if st.button(package["button"], key=package["button"]):
-            st.success(f"You selected the {package['title']} package.")
+        <div class="card recommended">
+            <div class="ribbon">Recommended</div>
+            <div class="badge">Most Popular</div>
+            <div class="package-icon">🚀</div>
+            <div class="package-title">15 GB</div>
+            <div class="subtitle">Best value for daily usage.</div>
+            <div class="price">10 JD</div>
+            <div class="feature">✓ 15 GB Data</div>
+            <div class="feature">✓ Fast Speed</div>
+            <div class="feature">✓ Valid for 30 Days</div>
+            <div class="spacer"></div>
+            <button onclick="alert('15 GB Package selected')">Subscribe 15 GB</button>
+        </div>
 
-st.markdown("""
-<div class="recommend-box">
-    <h3>Recommended For You: 15 GB Package</h3>
-    <p>Based on your current usage, the 15 GB plan gives better value than renewing the 6 GB plan repeatedly.</p>
+        <div class="card">
+            <div class="badge">Premium</div>
+            <div class="package-icon">🔥</div>
+            <div class="package-title">Unlimited</div>
+            <div class="subtitle">Streaming, gaming, and heavy use.</div>
+            <div class="price">25 JD</div>
+            <div class="feature">✓ Unlimited Data</div>
+            <div class="feature">✓ Priority Network</div>
+            <div class="feature">✓ Valid for 30 Days</div>
+            <div class="spacer"></div>
+            <button onclick="alert('Unlimited Package selected')">Subscribe Unlimited</button>
+        </div>
+
+    </div>
+
+    <div class="recommend-box">
+        <h3>Recommended For You: 15 GB Package</h3>
+        <p>Based on your current usage, the 15 GB plan gives better value than renewing the 6 GB plan repeatedly.</p>
+    </div>
+
 </div>
-""", unsafe_allow_html=True)
+</body>
+</html>
+"""
+
+components.html(html_code, height=1050, scrolling=True)
