@@ -17,8 +17,8 @@ st.markdown("""
 [data-testid="stHeader"] {display: none !important;}
 
 .block-container {
-    max-width:{PHONE_WIDTH}px;
-    min-height:{PHONE_HEIGHT}px;
+   max-width: 430px !important;
+        height: 820px !important;
     margin:auto;
     padding:20px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
