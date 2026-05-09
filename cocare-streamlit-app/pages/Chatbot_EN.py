@@ -602,7 +602,6 @@ if st.button("Clear Chat", key="clear_chat_btn"):
     st.rerun()
     
 st.markdown('</div>', unsafe_allow_html=True)
-        st.rerun()
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
