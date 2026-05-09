@@ -400,7 +400,7 @@ st.markdown("""
 st.markdown(f"""
 <div class="nav">
 
-<a href="/settings" target="_self" style="text-decoration:none; color:inherit;">
+<a href="/Settings" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
     </div>
@@ -412,7 +412,7 @@ st.markdown(f"""
     </div>
 </a>
 
-<a href="/Chatbot_EN" target="_self" style="text-decoration:none; color:inherit;">
+<a href="/Chatbot" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         <div class="bot-bg">
             <img src="data:image/png;base64,{robot_head}" style="width:34px;">
@@ -426,7 +426,7 @@ st.markdown(f"""
     </div>
 </a>
 
-<a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
+<a href="/Game" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
     </div>
