@@ -9,7 +9,7 @@ from cocare import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
-PHONE_WIDTH = 430
+PHONE_WIDTH = 390
 PHONE_HEIGHT = 820
 
 CHAT_KEY = "chat_en_messages"
@@ -471,33 +471,41 @@ div[data-testid="stSelectbox"] div{{
     border-radius:25px;
 }}
 div[data-testid="column"]{{
-    width:33.33% !important;
     flex:1 1 0 !important;
     min-width:0 !important;
+    padding:0 2px !important;
 }}
+
 /* 🔘 الأزرار */
 div[data-testid="stButton"] button{{
     width:100%;
-    height:46px;
-    border-radius:25px;
+    min-width:90px;
+    height:52px;
 
-    background:rgba(255,255,255,0.18);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
+    border-radius:20px;
 
-    border:1px solid rgba(255,255,255,0.35);
+    background:white;
+    border:1px solid rgba(255,255,255,0.7);
 
-    color:#0f2446;
-    font-weight:bold;
-    font-size:12px;
+    color:black;
+    font-weight:700;
+    font-size:11px;
 
     box-shadow:
-        0 8px 24px rgba(15,36,70,0.16),
-        inset 0 1px 1px rgba(255,255,255,0.55);
+        0 6px 16px rgba(15,36,70,0.14),
+        inset 0 1px 1px rgba(255,255,255,0.8);
 
-    transition:0.25s ease;
+    padding:4px;
+
+    line-height:1.2;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    transition:0.2s ease;
 }}
-
 /* ✨ hover */
 div[data-testid="stButton"] button:hover{{
     transform:translateY(-2px);
