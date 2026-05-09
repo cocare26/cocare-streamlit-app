@@ -603,6 +603,17 @@ div[data-testid="stChatInput"]{{
     background:transparent !important;
     padding:0 !important;
 }}
+div[data-testid="stButton"] button{{
+    height:42px;
+    border-radius:22px;
+    background:white;
+    color:black;
+    font-size:10px;
+    font-weight:700;
+    padding:0 3px;
+    white-space:normal;
+    line-height:1.1;
+}}
 
 div[data-testid="stChatInput"] textarea{{
     direction:ltr;
@@ -628,27 +639,34 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
-st.markdown("""
-<div class="quick-title">Quick Services</div>
+services = [
+    "Network Test",
+    "Internet Usage",
+    "Renew Package",
+    "International Calls",
+    "Offers & Games",
+    "Contact Support"
+]
 
-<div class="quick-grid">
+row1 = st.columns(3)
+row2 = st.columns(3)
 
-<button class="quick-btn" onclick="sendQuick('Network Test')">Network Test</button>
+for i, service in enumerate(services):
+    col = row1[i] if i < 3 else row2[i - 3]
 
-<button class="quick-btn" onclick="sendQuick('Internet Usage')">Internet Usage</button>
+    with col:
+        if st.button(service, key=f"quick_btn_{i}", use_container_width=True):
+            send_message(service)
+            st.rerun()
 
-<button class="quick-btn" onclick="sendQuick('Renew Package')">Renew Package</button>
-
-<button class="quick-btn" onclick="sendQuick('International Calls')">International Calls</button>
-
-<button class="quick-btn" onclick="sendQuick('Offers & Games')">Offers & Games</button>
-
-<button class="quick-btn" onclick="sendQuick('Contact Support')">Contact Support</button>
-
-<button class="quick-btn clear-btn" onclick="sendQuick('Clear Chat')">Clear Chat</button>
-
-</div>
+if st.button("Clear Chat", key="clear_chat_btn", use_container_width=True):
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+    reset_context()
+    st.rerun()
 
 <script>
 function sendQuick(value) {
