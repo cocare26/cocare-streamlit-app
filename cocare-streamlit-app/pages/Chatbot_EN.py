@@ -468,42 +468,41 @@ div[data-testid="stSelectbox"] div{{
 }}
 
 /* 🔘 الأزرار */
-div[data-testid="stButton"] button{
+div[data-testid="stButton"] button{{
     width:100%;
     height:46px;
     border-radius:25px;
 
-    background:rgba(255,255,255,0.15);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
 
-    border:1px solid rgba(255,255,255,0.25);
+    border:1px solid rgba(255,255,255,0.35);
 
-    color:white;
+    color:#0f2446;
     font-weight:bold;
     font-size:12px;
 
     box-shadow:
-        0 4px 20px rgba(0,0,0,0.12),
-        inset 0 1px 1px rgba(255,255,255,0.35);
+        0 8px 24px rgba(15,36,70,0.16),
+        inset 0 1px 1px rgba(255,255,255,0.55);
 
     transition:0.25s ease;
-}
+}}
 
 /* ✨ hover */
-div[data-testid="stButton"] button:hover{
+div[data-testid="stButton"] button:hover{{
     transform:translateY(-2px);
 
-    background:rgba(255,255,255,0.22);
-
-    border:1px solid rgba(255,255,255,0.35);
+    background:rgba(255,255,255,0.28);
+    border:1px solid rgba(255,255,255,0.5);
 
     box-shadow:
-        0 8px 24px rgba(0,0,0,0.18),
-        inset 0 1px 1px rgba(255,255,255,0.45);
+        0 10px 28px rgba(15,36,70,0.22),
+        inset 0 1px 1px rgba(255,255,255,0.7);
 
-    color:white;
-}
+    color:#0f2446;
+}}
 /* 💬 منطقة المحادثة */
 .chat-area{{
     height:430px;
