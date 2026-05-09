@@ -193,15 +193,12 @@ margin: 4px 0 4px 4px;
 
     div.stButton > button {{
     width: 100%;
-    height: 1px;
+    height: 90px;
     opacity: 0;
     margin-top: -90px;
-    position: relative;
-    z-index: 10;
     cursor: pointer;
-
+    border: none;
 }}
-
 /* تعديل الأيقونات بالوسط: إزالة الإطار والظل والنص */
 .mini-no-border {{
     background: transparent; 
@@ -287,46 +284,30 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (معدلة: صور فقط بدون إطار أو نص)
-# =====================================
-st.markdown(f"""
-<div class="grid4">
-<div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_internet}" class="mini-img-large">
-</div>
-<div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_renewals}" class="mini-img-large">
-</div>
-<div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_calls}" class="mini-img-large">
-</div>
-<div class="mini-no-border clickable">
-    <img src="data:image/png;base64,{icon_notifications}" class="mini-img-large">
-</div>
-</div>
-""", unsafe_allow_html=True) 
-
-# =====================================
-# أزرار التنقل (مربوطة بشكل صحيح)
+# 3. أيقونات الخدمات + التنقل بالصور
 # =====================================
 
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    if st.button("Internet", key="int", use_container_width=True):
+    st.image("internet.png", use_container_width=True)
+    if st.button(" ", key="internet_btn"):
         st.switch_page("InternetPackages.py")
 
 with col2:
-    if st.button("Renewals", key="ren", use_container_width=True):
+    st.image("renewals.png", use_container_width=True)
+    if st.button(" ", key="renewals_btn"):
         st.switch_page("RenewalsTariff.py")
 
 with col3:
-    if st.button("Calls", key="call", use_container_width=True):
+    st.image("calls.png", use_container_width=True)
+    if st.button(" ", key="calls_btn"):
         st.switch_page("InternationalCalls.py")
 
 with col4:
-    if st.button("Notifications", key="not", use_container_width=True):
-        st.switch_page("NetworkNotifications.py") 
+    st.image("notifications.png", use_container_width=True)
+    if st.button(" ", key="notif_btn"):
+        st.switch_page("NetworkNotifications.py")
         
 # =====================================
 # 4. قسم التقييم
@@ -397,43 +378,38 @@ st.markdown("""
 # =====================================
 # 6. الشريط السفلي (معدل: صور فقط)
 # =====================================
-st.markdown("""
+st.markdown(f"""
 <div class="nav">
 
 <a href="/Settings" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
-        ⚙️
-        <span class="nav-text">Settings</span>
+        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
     </div>
 </a>
 
 <a href="/Game_E" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
-        🎡
-        <span class="nav-text">Spin</span>
+        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
     </div>
 </a>
 
 <a href="/Chatbot" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
         <div class="bot-bg">
-            <img src="data:image/png;base64,{robot_head}" style="width:38px;">
+            <img src="data:image/png;base64,{robot_head}" style="width:34px;">
         </div>
-        <span class="nav-text">Chatbot</span>
     </div>
 </a>
 
 <a href="/Customer" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item active clickable">
-        🏠
-        <span class="nav-text">Home</span>
+        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
     </div>
 </a>
 
 <a href="/Game" target="_self" style="text-decoration:none; color:inherit;">
     <div class="nav-item clickable">
-        🎁
-        <span class="nav-text">Game</span>
+        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
     </div>
 </a>
 
