@@ -470,46 +470,35 @@ div[data-testid="stTextInput"] input{{
 div[data-testid="stSelectbox"] div{{
     border-radius:25px;
 }}
-div[data-testid="column"]{{
-    min-width:0 !important;
-}}
+
 /* 🔘 الأزرار */
 div[data-testid="stButton"] button{{
-    width:92%;
-    margin:auto;
-    display:block;
-    height:40px;
-    border-radius:25px;
+    width:100%;
+    height:38px;
+    border-radius:22px;
 
-    background:rgba(255,255,255,0.12);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
-
-    border:1px solid rgba(255,255,255,0.35);
+    background:white;
+    border:1px solid rgba(255,255,255,0.7);
 
     color:black;
-    font-weight:bold;
+    font-weight:700;
     font-size:10px;
 
     box-shadow:
-        0 8px 24px rgba(15,36,70,0.16),
-        inset 0 1px 1px rgba(255,255,255,0.55);
+        0 6px 16px rgba(15,36,70,0.14),
+        inset 0 1px 1px rgba(255,255,255,0.8);
 
-    transition:0.25s ease;
+    padding:0 4px;
+    line-height:1.15;
+    white-space:normal;
+
+    transition:0.2s ease;
 }}
 
-/* ✨ hover */
 div[data-testid="stButton"] button:hover{{
-    transform:translateY(-2px);
-
-    background:rgba(255,255,255,0.28);
-    border:1px solid rgba(255,255,255,0.5);
-
-    box-shadow:
-        0 10px 28px rgba(15,36,70,0.22),
-        inset 0 1px 1px rgba(255,255,255,0.7);
-
-    color:white;
+    background:white;
+    color:black;
+    transform:translateY(-1px);
 }}
 /* 💬 منطقة المحادثة */
 .chat-area{{
@@ -630,38 +619,30 @@ st.markdown(f"""
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
-c1, c2, c3 = st.columns(3)
-c4, c5, c6 = st.columns(3)
+services = [
+    "Network Test",
+    "Internet Usage",
+    "Renew Package",
+    "International Calls",
+    "Offers & Games",
+    "Contact Support",
+    "Clear Chat"
+]
 
-with c1:
-    if st.button("Network Test"):
-        send_message("Network Test")
+st.markdown('<div class="quick-grid">', unsafe_allow_html=True)
+
+for service in services:
+    if st.button(service, key=f"btn_{service}"):
+        if service == "Clear Chat":
+            st.session_state[CHAT_KEY] = [
+                ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+            ]
+            reset_context()
+        else:
+            send_message(service)
         st.rerun()
 
-with c2:
-    if st.button("Internet Usage"):
-        send_message("Internet Usage")
-        st.rerun()
-
-with c3:
-    if st.button("Renew Package"):
-        send_message("Renew Package")
-        st.rerun()
-
-with c4:
-    if st.button("International Calls"):
-        send_message("International Calls")
-        st.rerun()
-
-with c5:
-    if st.button("Offers & Games"):
-        send_message("Offers & Games")
-        st.rerun()
-
-with c6:
-    if st.button("Contact Support"):
-        send_message("Contact Support")
-        st.rerun()
+st.markdown('</div>', unsafe_allow_html=True)
 
 if st.button("Clear Chat"):
     st.session_state[CHAT_KEY] = [
