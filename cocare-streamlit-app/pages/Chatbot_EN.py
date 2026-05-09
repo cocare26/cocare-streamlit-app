@@ -642,23 +642,41 @@ with st.form("quick_services_form"):
         background: transparent;
     }
 
-    div[data-testid="stForm"] > div {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
+   div[data-testid="stForm"] > div {{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+    align-items:stretch;
+}}
 
-    div[data-testid="stForm"] button {
-        height: 42px;
-        border-radius: 22px;
-        background: white;
-        color: black;
-        font-size: 11px;
-        font-weight: 700;
-        padding: 0 4px;
-        line-height: 1.15;
-        white-space: normal;
-    }
+    div[data-testid="stForm"] button {{
+    width:100%;
+    min-height:58px;
+
+    border-radius:22px;
+    background:white;
+    color:black;
+
+    font-size:10px;
+    font-weight:700;
+
+    padding:6px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+
+    white-space:normal;
+    line-height:1.15;
+
+    border:none;
+
+    box-shadow:
+        0 6px 18px rgba(15,36,70,0.12),
+        inset 0 1px 1px rgba(255,255,255,0.9);
+}}
+
     </style>
     """, unsafe_allow_html=True)
 
@@ -668,6 +686,7 @@ with st.form("quick_services_form"):
     b4 = st.form_submit_button("International Calls")
     b5 = st.form_submit_button("Offers & Games")
     b6 = st.form_submit_button("Contact Support")
+    b7 = st.form_submit_button("Clear Chat")
 
 if b1:
     send_message("Network Test")
@@ -688,7 +707,7 @@ elif b6:
     send_message("Contact Support")
     st.rerun()
 
-if st.button("Clear Chat", key="clear_chat_btn"):
+elif b7:
     st.session_state[CHAT_KEY] = [
         ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
     ]
