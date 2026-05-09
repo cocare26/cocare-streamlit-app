@@ -65,7 +65,6 @@ footer {visibility: hidden;}
 """, unsafe_allow_html=True)
 
 # ===== HEADER =====
-st.markdown('<div class="header">', unsafe_allow_html=True)
 
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
 if st.button("‹"):
