@@ -505,38 +505,61 @@ st.markdown(f"""
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+
+div[data-testid="stForm"]{
+    border:none !important;
+    background:transparent !important;
+    padding:0 !important;
+}
+
+div[data-testid="stForm"] form{
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr) !important;
+    gap:10px !important;
+}
+
+div[data-testid="stFormSubmitButton"]{
+    width:100% !important;
+}
+
+div[data-testid="stFormSubmitButton"] button{
+    width:100% !important;
+    height:42px !important;
+    border-radius:22px !important;
+    background:white !important;
+    color:black !important;
+    border:none !important;
+    font-size:10px !important;
+    font-weight:700 !important;
+    padding:0 4px !important;
+    line-height:1.15 !important;
+    white-space:normal !important;
+    box-shadow:0 4px 12px rgba(0,0,0,.08) !important;
+}
+
+.clear-chat-wrap{
+    display:flex;
+    justify-content:center;
+    margin-top:14px;
+}
+
+div[data-testid="stButton"] button{
+    height:42px !important;
+    border-radius:22px !important;
+    background:white !important;
+    color:black !important;
+    border:none !important;
+    font-size:11px !important;
+    font-weight:700 !important;
+    padding:0 20px !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 with st.form("quick_services_form"):
-    st.markdown("""
-    <style>
-    div[data-testid="stForm"] {
-        border: none;
-        padding: 0;
-        background: transparent;
-    }
-
-  div[data-testid="stForm"] > div:first-child {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    align-items: center;
-}
-
-div[data-testid="stForm"] [data-testid="stFormSubmitButton"] {
-    width: 100%;
-}
-    div[data-testid="stForm"] button {
-        height: 42px;
-        border-radius: 22px;
-        background: white;
-        color: black;
-        font-size: 10px;
-        font-weight: 700;
-        padding: 0 4px;
-        line-height: 1.15;
-        white-space: normal;
-    }
-    </style>
-    """, unsafe_allow_html=True)
 
     b1 = st.form_submit_button("Network Test")
     b2 = st.form_submit_button("Internet Usage")
@@ -548,30 +571,37 @@ div[data-testid="stForm"] [data-testid="stFormSubmitButton"] {
 if b1:
     send_message("Network Test")
     st.rerun()
+
 elif b2:
     send_message("Internet Usage")
     st.rerun()
+
 elif b3:
     send_message("Renew Package")
     st.rerun()
+
 elif b4:
     send_message("International Calls")
     st.rerun()
+
 elif b5:
     send_message("Offers & Games")
     st.rerun()
+
 elif b6:
     send_message("Contact Support")
     st.rerun()
 
-clear_cols = st.columns([1, 1, 1])
+st.markdown('<div class="clear-chat-wrap">', unsafe_allow_html=True)
 
-with clear_cols[1]:
-    if st.button("Clear Chat", key="clear_chat_btn"):
-        st.session_state[CHAT_KEY] = [
-            ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-        ]
-        reset_context()
+if st.button("Clear Chat", key="clear_chat_btn"):
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+    reset_context()
+    st.rerun()
+
+st.markdown('</div>', unsafe_allow_html=True)
         st.rerun()
 chat_html = '<div class="chat-area">'
 
