@@ -10,7 +10,7 @@ if page == "customer":
     st.switch_page("pages/2_Customer_EN.py")
     
 if page == "employee":
-    st.switch_page("pages/Employee.py")
+    st.switch_page("cocare-streamlit-app/pages/Employee.py")
 
 elif page == "create":
     st.switch_page("pages/1_Create_Account.py")
