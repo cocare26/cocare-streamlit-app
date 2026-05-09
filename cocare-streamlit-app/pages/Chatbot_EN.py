@@ -880,7 +880,6 @@ import pandas as pd
 import os
 import streamlit as st
 
-st.subheader("Customer Chat Logs - English")
 
 log_path = os.path.join(
     os.path.dirname(__file__),
