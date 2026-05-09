@@ -37,17 +37,17 @@ icon_home = get_base64("home.png")
 icon_game = get_base64("game.png")
 
 # تعريف المتغير page
-page = "2_Customer_EN"
+page = "2_Customer_AR"
 
 # =====================================
-# CSS المطور (نفس الكود الأصلي مع إضافة اتجاه النص العربي)
+# CSS المطور (دعم RTL)
 # =====================================
 st.markdown(f"""
 <style>
 * {{ margin:0; padding:0; box-sizing:border-box; direction: rtl; }}
 html, body, [data-testid="stAppViewContainer"] {{
     background:#f0f7ff;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Segoe UI', sans-serif;
 }}
 section.main > div {{ padding-top:4px; }}
 div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
@@ -55,8 +55,8 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 #MainMenu, header, footer {{ visibility:hidden; }}
 
 .block-container {{
-    max-width:430px; 
-    min-height:820px; 
+    max-width:430px; /* PHONE_WIDTH */
+    min-height:820px; /* PHONE_HEIGHT */
     margin:auto;
     padding:12px 16px;
     background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
@@ -71,7 +71,6 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     margin-bottom: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,.05);
     transition: all 0.3s ease;
-    text-align: right;
 }}
 
 .balance-card {{ 
@@ -89,7 +88,11 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     text-align: right;
 }}
 
-.clickable {{ cursor: pointer; transition: all 0.3s ease; position: relative; }}
+.clickable {{ 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    position: relative; 
+}}
 .clickable:active {{ transform: scale(0.95); }}
 
 .service-item {{
@@ -102,6 +105,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     padding: 8px 4px;
     height: 100px;
     transition: transform 0.3s ease;
+    position: relative;
 }}
 
 .service-item:hover {{
@@ -128,7 +132,6 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     grid-template-columns:repeat(5,1fr);
     text-align:center; 
     align-items: end;
-    direction: ltr; /* للحفاظ على ترتيب الأيقونات السفلي */
 }}
 
 .nav-item {{ 
@@ -159,19 +162,33 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 
+/* إصلاح الأزرار */
+
+div.stButton {{
+    position: relative;
+    width: 100%;
+    height: 100px;
+    margin-top: -100px;
+    z-index: 999;
+}}
+
 div.stButton > button {{
-    position: absolute;
     width: 100%;
     height: 100%;
     opacity: 0;
-    z-index: 10;
     cursor: pointer;
     border: none;
-    top: 0;
-    left: 0;
+    background: transparent;
 }}
 
-.star-rating {{ display: flex; flex-direction: row; justify-content: center; gap: 4px; }}
+/* أزرار الشريط السفلي */
+
+.nav-button div.stButton {{
+    height: 70px !important;
+    margin-top: -70px !important;
+}}
+
+.star-rating {{ display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }}
 .star-rating input {{ display: none; }}
 .star-rating label {{ font-size: 24px; color: #ddd; cursor: pointer; }}
 .star-rating input:checked ~ label {{ color: #ffcc00; }}
@@ -187,7 +204,7 @@ div.stButton > button {{
 .welcome-card {{
     background: white; border-radius: 20px; padding: 8px 12px; margin-bottom: 8px;
     display: flex; align-items: center; height: 100px;
-    direction: rtl;
+    text-align: right;
 }}
 .robot-img-welcome {{ width: 95px; height: 95px; object-fit: contain; margin-left: 12px; }}
 
@@ -204,9 +221,9 @@ st.markdown(f"""
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
         <div style="font-size:18px; font-weight:900; color:#102646; line-height:1.1;">أهلاً بك: اسم المستخدم</div>
-        <div style="font-size:12px; color:#555; margin-top:2px; direction: ltr; text-align: right;">+962 79 123 4567</div>
-        <div style="font-size:10px; color:#777;">صالح لغاية: 25 مايو 2024</div>
-        <div style="font-size:11px; background:#F0F7FF; border-radius:20px; padding:2px 10px; color:#102646; font-weight:700; margin-top:5px; border:1px solid #D0E0F0;">
+        <div style="font-size:12px; color:#555; margin-top:2px; direction: ltr;">+962 79 123 4567</div>
+        <div style="font-size:10px; color:#777;">صالح لغاية: 25 مايو، 2024</div>
+        <div style="font-size:11px; background:#F0F7FF; border-radius:20px; padding:2px 10px; color:#102646; font-weight:700; margin-top:5px; border:1px solid #D0E0F0; display: inline-block;">
         📍 الموقع: عمان</div>
     </div>
 </div>
@@ -216,59 +233,75 @@ st.markdown(f"""
 st.markdown(f"""
 <div class="title">معلومات رقمك</div>
 <div class="card balance-card clickable">
-<div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
-<div style="flex: 2; text-align: right;">
+<div style="display: flex; justify-content: space-between; align-items: center; direction: ltr;">
+<div style="flex: 2; text-align: left;">
 <div style="font-size:10px; font-weight:700; color:#666;">الإنترنت المتبقي</div>
 <div style="font-size:32px; font-weight:900; color:#102646; line-height:0.9;">4.7 <span style="font-size:14px;">جيجابايت</span></div>
 </div>
-<div style="flex: 1; text-align: left;">
-<div style="position: relative; width: 60px; height: 30px; margin-right: auto;">
+<div style="flex: 1; text-align: right;">
+<div style="position: relative; width: 60px; height: 30px; margin-left: auto;">
     <div style="width: 50px; height: 25px; border-radius: 50px 50px 0 0; background: linear-gradient(90deg, #1A4FA0 60%, #E0E0E0 60%); position: relative; overflow: hidden;">
         <div style="position: absolute; bottom: 0; left: 5px; width: 40px; height: 20px; background: white; border-radius: 40px 40px 0 0;"></div>
         <div class="needle" style="height:20px; transform: rotate(45deg);"></div>
     </div>
 </div>
-<div style="font-size:10px; font-weight:900; color:#102646; text-align: center;">6 جيجابايت</div>
+<div style="font-size:10px; font-weight:900; color:#102646;">6 جيجابايت</div>
 </div>
 </div>
-<div style="margin-top:4px; height:6px; border-radius:10px; background:#E0E0E0; overflow:hidden; direction: ltr;">
+<div style="margin-top:4px; height:6px; border-radius:10px; background:#E0E0E0; overflow:hidden;">
 <div style="width:78%; height:100%; background:#1A4FA0;"></div>
 </div>
 </div>
 """, unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (الربط المطلوب)
+# 3. أيقونات الخدمات
 cols = st.columns(4)
 
 with cols[0]:
-    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_internet}" class="service-icon-img"><div class="service-label">حزم<br>الإنترنت</div></div>', unsafe_allow_html=True)
-    if st.button("", key="s1"):
-        if page == "Customer_ar":
-            st.switch_page("pages/InternetPackages_ar.py")
+    st.markdown(f"""
+    <div class="service-item clickable">
+        <img src="data:image/png;base64,{icon_internet}" class="service-icon-img">
+        <div class="service-label">حزم<br>الإنترنت</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("internet", key="s1"):
+        st.switch_page("pages/InternetPackages_ar.py")
 
 with cols[1]:
-    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_renewals}" class="service-icon-img"><div class="service-label">تجديد +<br>تغيير التعرفة</div></div>', unsafe_allow_html=True)
-    if st.button("", key="s2"):
-        if page == "Customer_ar":
-            st.switch_page("pages/RenewalsTariff_ar.py")
+    st.markdown(f"""
+    <div class="service-item clickable">
+        <img src="data:image/png;base64,{icon_renewals}" class="service-icon-img">
+        <div class="service-label">التجديد وتغيير<br>التعرفة</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("renewals", key="s2"):
+        st.switch_page("pages/RenewalsTariff_ar.py")
 
 with cols[2]:
-    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_calls}" class="service-icon-img"><div class="service-label">مكالمات<br>دولية</div></div>', unsafe_allow_html=True)
-    if st.button("", key="s3"):
-        if page == "Customer_ar":
-            st.switch_page("pages/InternationalCalls_ar")
+    st.markdown(f"""
+    <div class="service-item clickable">
+        <img src="data:image/png;base64,{icon_calls}" class="service-icon-img">
+        <div class="service-label">المكالمات<br>الدولية</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("calls", key="s3"):
+        st.switch_page("pages/InternationalCalls_ar")
 
 with cols[3]:
-    st.markdown(f'<div class="service-item clickable"><img src="data:image/png;base64,{icon_notifications}" class="service-icon-img"><div class="service-label">تنبيهات<br>الشبكة</div></div>', unsafe_allow_html=True)
-    if st.button("", key="s4"):
-        if page == "Customer_ar":
-            st.switch_page("pages/NetworkNotifications_ar.py")
+    st.markdown(f"""
+    <div class="service-item clickable">
+        <img src="data:image/png;base64,{icon_notifications}" class="service-icon-img">
+        <div class="service-label">تنبيهات<br>الشبكة</div>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("notifications", key="s4"):
+        st.switch_page("pages/NetworkNotifications_ar.py")
 
 # 4. قسم التقييم
 st.markdown("""
-<div class="title">تقييم الخدمة</div>
+<div class="title">تقييم الخدمات</div>
 <div class="card rating-card">
-<div style="font-weight:900; font-size:12px; color:#102646; text-align: right;">⭐ معدل أمان الخدمة</div>
+<div style="font-weight:900; font-size:12px; color:#102646;">⭐ معدل أمان الخدمة</div>
 <div class="rating-bar-container">
     <span>★ 4.5</span>
     <span>4.5%</span>
@@ -276,11 +309,11 @@ st.markdown("""
 </div>
 <div style="text-align:center; margin-top:8px; font-weight:700; font-size:11px; color:#666; margin-bottom:2px;">قيم خدمتنا</div>
 <div class="star-rating">
-    <input type="radio" id="1" name="rate"><label for="1">★</label>
-    <input type="radio" id="2" name="rate"><label for="2">★</label>
-    <input type="radio" id="3" name="rate"><label for="3">★</label>
-    <input type="radio" id="4" name="rate"><label for="4">★</label>
     <input type="radio" id="5" name="rate"><label for="5">★</label>
+    <input type="radio" id="4" name="rate"><label for="4">★</label>
+    <input type="radio" id="3" name="rate"><label for="3">★</label>
+    <input type="radio" id="2" name="rate"><label for="2">★</label>
+    <input type="radio" id="1" name="rate"><label for="1">★</label>
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -289,17 +322,17 @@ st.markdown("""
 st.markdown("""
 <div class="title">قوة الشبكة في منطقتك</div>
 <div class="card clickable">
-<div style="display: flex; justify-content: space-between; align-items: center; direction: rtl;">
+<div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 1.2; text-align: right;">
 <div style="font-size:14px; font-weight:900; color:#102646;">📍 عمان</div>
 <div style="font-size:12px; font-weight:700; color:#1A4FA0; margin-bottom:6px;">إشارة قوية جداً</div>
 <div style="display: flex; gap: 4px; direction: ltr;">
 <div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
-<div style="font-size: 7px; color: #666; font-weight:bold;">فقدان البيانات (%)</div>
+<div style="font-size: 7px; color: #666; font-weight:bold;">Loss (%)</div>
 <div style="font-size: 16px; font-weight: 900; color: #000;">0</div>
 </div>
 <div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
-<div style="font-size: 7px; color: #666; font-weight:bold;">التذبذب (ms)</div>
+<div style="font-size: 7px; color: #666; font-weight:bold;">Jitter (ms)</div>
 <div style="font-size: 16px; font-weight: 900; color: #000;">19</div>
 </div>
 </div>
@@ -310,45 +343,64 @@ st.markdown("""
         <div style="position: absolute; bottom: 0; left: 8px; width: 64px; height: 32px; background: white; border-radius: 64px 64px 0 0;"></div>
         <div class="needle" style="height: 35px; transform: rotate(-60deg);"></div>
     </div>
-<div style="font-size: 9px; font-weight: 900; color: #102646; margin-top: 4px; direction: ltr;">-68dBm (ممتاز)</div>
+<div style="font-size: 9px; font-weight: 900; color: #102646; margin-top: 4px;">-68dBm (ممتاز)</div>
 </div>
 </div>
 </div>
 </div>
 """, unsafe_allow_html=True)
 
-# 6. الشريط السفلي (الربط المطلوب)
-st.markdown('<div class="nav">', unsafe_allow_html=True)
+# 6. الشريط السفلي
 n_cols = st.columns(5)
 
 with n_cols[0]:
-    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer"><span>الإعدادات</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_set"):
-        if page == "Customer_ar":
-            st.switch_page("pages/settingar.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
+        <span>الإعدادات</span>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("settings", key="nav_set"):
+        st.switch_page("pages/Settings.py")
 
 with n_cols[1]:
-    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_spin}" class="nav-img-footer"><span>اربح</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_spin"):
-        if page == "Customer_ar":
-            st.switch_page("pages/Spin.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
+        <span>العب واربح</span>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("spin", key="nav_spin"):
+        st.switch_page("pages/15_Game.py")
 
 with n_cols[2]:
-    st.markdown(f'<div class="nav-item clickable"><div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:40px;"></div><span style="margin-top:-2px;">المساعد</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_bot"):
-        if page == "Customer_ar":
-            st.switch_page("cocare-streamlit-app/pages/Chatbot_AR.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <div class="bot-bg">
+            <img src="data:image/png;base64,{robot_head}" style="width:40px;">
+        </div>
+        <span>المساعد</span>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("chatbot", key="nav_bot"):
+        st.switch_page("cocare-streamlit-app/pages/Chatbot_AR.py")
 
 with n_cols[3]:
-    st.markdown(f'<div class="nav-item clickable" style="color:#6b6b6b;"><img src="data:image/png;base64,{icon_home}" class="nav-img-footer"><span>الرئيسية</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_home"):
-        if page == "Customer_ar":
-            st.switch_page("Home.py")
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
+        <span>الرئيسية</span>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("home", key="nav_home"):
+        st.switch_page("pages/Customer_ar.py")
 
 with n_cols[4]:
-    st.markdown(f'<div class="nav-item clickable"><img src="data:image/png;base64,{icon_game}" class="nav-img-footer"><span>الألعاب</span></div>', unsafe_allow_html=True)
-    if st.button("", key="nav_game"):
-        if page == "Customer_ar":
-            st.switch_page("pages/_Game.py")
-
-st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
+        <span>الألعاب</span>
+    </div>
+    """, unsafe_allow_html=True)
+    if st.button("game", key="nav_game"):
+        st.switch_page("pages/15_Game.py")
