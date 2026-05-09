@@ -1,44 +1,64 @@
-import streamlit as stimport base64import osimport sysimport html as html_lib
+import streamlit as st
+import base64
+import osimport sys
+import html as html_lib
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(file), "..")))from cocare import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
-PHONE_WIDTH = 390PHONE_HEIGHT = 820
+PHONE_WIDTH = 390
+PHONE_HEIGHT = 82
 
-CHAT_KEY = "chat_en_messages"CONTEXT_KEY = "chat_en_context"
+CHAT_KEY = "chat_en_messages"
+CONTEXT_KEY = "chat_en_context"
 
-if "region" not in st.session_state:st.session_state["region"] = "Amman"
+if "region" not in st.session_state:
+    st.session_state["region"] = "Amman"
 
-if CONTEXT_KEY not in st.session_state:st.session_state[CONTEXT_KEY] = {"last_intent": None,"awaiting_details": False,"last_network_problem": False}
+if CONTEXT_KEY not in st.session_state:
+    st.session_state[CONTEXT_KEY] = {"last_intent": None,"awaiting_details": False,"last_network_problem": False}
 
-def reset_context():st.session_state[CONTEXT_KEY] = {"last_intent": None,"awaiting_details": False,"last_network_problem": False}
+def reset_context():
+    st.session_state[CONTEXT_KEY] = {"last_intent": None,"awaiting_details": False,"last_network_problem": False}
 
-if CHAT_KEY not in st.session_state:st.session_state[CHAT_KEY] = [("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")]
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = [("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")]
 
-def img_to_base64(path):try:full_path = os.path.join(os.path.dirname(file), "..", path)if os.path.exists(full_path):with open(full_path, "rb") as f:return base64.b64encode(f.read()).decode()except Exception:passreturn ""
+def img_to_base64(path):
+    try:full_path = os.path.join(os.path.dirname(file), "..", path)if os.path.exists(full_path):with open(full_path, "rb") as f:return base64.b64encode(f.read()).decode()except Exception:passreturn ""
 
 robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
 
-def is_thanks_or_close(text):t = str(text).strip().lower()return any(p in t for p in ["thanks", "thank you", "ok", "okay", "fine", "great", "done","شكرا", "شكراً", "تمام"])
+def is_thanks_or_close(text):
+    t = str(text).strip().lower()return any(p in t for p in ["thanks", "thank you", "ok", "okay", "fine", "great", "done","شكرا", "شكراً", "تمام"])
 
-def is_goodbye(text):t = str(text).strip().lower()return any(p in t for p in ["bye", "goodbye", "see you", "مع السلامة", "باي"])
+def is_goodbye(text):
+    t = str(text).strip().lower()return any(p in t for p in ["bye", "goodbye", "see you", "مع السلامة", "باي"])
 
-def is_no_problem(text):t = str(text).strip().lower()return any(p in t for p in ["no problem", "i have no problem", "nothing", "no issue","not now", "never mind"])
+def is_no_problem(text):
+    t = str(text).strip().lower()return any(p in t for p in ["no problem", "i have no problem", "nothing", "no issue","not now", "never mind"])
 
-def is_social_positive(text):t = str(text).strip().lower()return any(p in t for p in ["nice", "good", "great", "perfect", "excellent", "awesome"])
+def is_social_positive(text):
+    t = str(text).strip().lower()return any(p in t for p in ["nice", "good", "great", "perfect", "excellent", "awesome"])
 
-def is_short_followup(text):return len(str(text).strip().split()) <= 8
+def is_short_followup(text):
+    return len(str(text).strip().split()) <= 8
 
-def looks_like_time_answer(text):t = str(text).lower()return any(w in t for w in ["hour", "hours", "minute", "minutes", "today", "yesterday","morning", "evening", "week", "since", "ago"])
+def looks_like_time_answer(text):
+    t = str(text).lower()return any(w in t for w in ["hour", "hours", "minute", "minutes", "today", "yesterday","morning", "evening", "week", "since", "ago"])
 
-def looks_like_yes(text):return str(text).strip().lower() in ["yes", "yeah", "yep", "ok", "okay", "sure"]
+def looks_like_yes(text):
+    return str(text).strip().lower() in ["yes", "yeah", "yep", "ok", "okay", "sure"]
 
-def looks_like_no(text):return str(text).strip().lower() in ["no", "nope", "not"]
+def looks_like_no(text):
+    return str(text).strip().lower() in ["no", "nope", "not"]
 
-def looks_like_location(text):t = str(text).strip().lower()locations = ["amman", "zarqa", "irbid", "balqa", "madaba", "karak","tafilah", "maan", "aqaba", "jerash", "ajloun", "mafraq"]return any(loc in t for loc in locations)
+def looks_like_location(text):
+    t = str(text).strip().lower()locations = ["amman", "zarqa", "irbid", "balqa", "madaba", "karak","tafilah", "maan", "aqaba", "jerash", "ajloun", "mafraq"]return any(loc in t for loc in locations)
 
-def human_fallback_reply(text):t = str(text).strip().lower()
+def human_fallback_reply(text):
+    = str(text).strip().lower()
 
 if is_no_problem(t):
     reset_context()
