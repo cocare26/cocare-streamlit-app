@@ -279,13 +279,9 @@ html, body{
 
 <body>
 <div class="game">
-<div class="back-btn" onclick="goBack()">←</div>
-
-<script>
-function goBack() {
-    window.parent.location.href = "/";
-}
-</script>
+if st.button("← Back"):
+    st.switch_page("pages/2_Customer_EN.py")
+    
     <div class="header">
         <div class="title">Play & Win!</div>
         <div class="desc">Spin the wheel to win internet bundles, points or vouchers!</div>
