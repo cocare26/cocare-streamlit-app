@@ -1,5 +1,8 @@
 import streamlit as st
 
+PHONE_WIDTH = 430
+PHONE_HEIGHT = 820
+
 st.set_page_config(page_title="Change Language", layout="centered")
 
 # ===== CSS Updated for English (LTR) =====
@@ -14,7 +17,7 @@ st.markdown("""
 [data-testid="stHeader"] {display: none !important;}
 
 .block-container {
-    max-width:430px;
+    max-width:{PHONE_WIDTH}px;
     margin:auto;
     padding:20px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
