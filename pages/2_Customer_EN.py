@@ -52,8 +52,8 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 #MainMenu, header, footer {{ visibility:hidden; }}
 
 .block-container {{
-    max-width:430px; /* الهاتف المطلوب */
-    min-height:820px; /* الهاتف المطلوب */
+    max-width:430px; /* PHONE_WIDTH */
+    min-height:820px; /* PHONE_HEIGHT */
     margin:auto;
     padding:12px 16px;
     background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
@@ -70,7 +70,11 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     transition: all 0.3s ease;
 }}
 
-.balance-card {{ padding: 6px 14px !important; margin-bottom: 4px !important; }}
+.balance-card {{ 
+    padding: 6px 14px !important; 
+    margin-bottom: 20px !important; /* زيادة المساحة بين الرصيد وأيقونات الوسط */
+}}
+
 .rating-card {{ padding: 4px 14px 6px !important; margin-bottom: 4px !important; }}
 
 .title {{
@@ -83,23 +87,30 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 .clickable {{ cursor: pointer; transition: all 0.3s ease; }}
 .clickable:active {{ transform: scale(0.95); }}
 
-/* --- تعديل أيقونات الوسط (بدون إطار وبحجم أكبر) --- */
+/* --- تعديل أيقونات الوسط (حركة عند التأشير) --- */
 .service-item {{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: transparent; /* إزالة الإطار الأبيض */
+    background: transparent;
     padding: 8px 4px;
     height: 100px;
+    transition: transform 0.3s ease; /* سلاسة الحركة */
 }}
+
+.service-item:hover {{
+    transform: translateY(-10px); /* تحرك الأيقونة للأعلى عند التأشير */
+}}
+
 .service-icon-img {{
-    width: 65px; /* تكبير الصورة */
+    width: 65px;
     height: 65px;
     object-fit: contain;
     margin-bottom: 2px;
 }}
+
 .service-label {{
     font-size: 9px;
     font-weight: 800;
@@ -107,7 +118,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     line-height: 1.1;
 }}
 
-/* --- تعديل الشريط السفلي (أيقونات أكبر) --- */
+/* --- تعديل الشريط السفلي (حركة عند التأشير) --- */
 .nav {{
     margin-top:15px; 
     display:grid; 
@@ -115,27 +126,35 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     text-align:center; 
     align-items: end;
 }}
+
 .nav-item {{ 
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     color:#6b6b6b; 
-    font-size: 11px; /* تكبير الخط قليلاً */
+    font-size: 11px;
     font-weight: 700;
+    transition: transform 0.3s ease;
 }}
+
+.nav-item:hover {{
+    transform: scale(1.15); /* تكبير بسيط عند التأشير */
+}}
+
 .nav-img-footer {{
-    width: 38px; /* تكبير أيقونات الشريط السفلي */
+    width: 38px;
     height: 38px;
     object-fit: contain;
     margin-bottom: 2px;
 }}
+
 .bot-bg {{
     width:60px; height:60px; background:white; border-radius:15px;
     margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 
-/* إخفاء أزرار سترمليت وجعلها فوق التصميم */
+/* إخفاء أزرار سترمليت */
 div.stButton > button {{
     position: absolute;
     width: 100%;
@@ -215,7 +234,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 3. أيقونات الخدمات (تم التعديل لإضافة نصوص)
+# 3. أيقونات الخدمات
 # =====================================
 cols = st.columns(4)
 services = [
@@ -294,7 +313,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# 6. الشريط السفلي (تم التعديل لإضافة نصوص)
+# 6. الشريط السفلي (تم تعديل لون Home للرمادي)
 # =====================================
 st.markdown(f""" 
 <div class="nav">
@@ -310,8 +329,7 @@ st.markdown(f"""
         <div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:40px;"></div>
         <span style="margin-top:-2px;">Chatbot</span>
     </div> 
-    <div class="nav-item clickable" style="color:#1A4FA0;">
-        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer"> 
+    <div class="nav-item clickable" style="color:#6b6b6b;"> <img src="data:image/png;base64,{icon_home}" class="nav-img-footer"> 
         <span>Home</span>
     </div> 
     <div class="nav-item clickable"> 
