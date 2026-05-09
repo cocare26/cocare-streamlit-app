@@ -503,6 +503,29 @@ def send_message(text):
         os.makedirs(os.path.dirname(log_path), exist_ok=True)
 
         row = {
+            "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "user_id": st.session_state.get("user_id", "customer_1"),
+            "region": st.session_state.get("region", "Amman"),
+            "message": text,
+            "bot_response": bot_reply,
+            "language": "en",
+            "feedback": st.session_state.get("chat_feedback", None)
+        }
+
+        if os.path.exists(log_path):
+            old = pd.read_csv(log_path)
+            logs = pd.concat([old, pd.DataFrame([row])], ignore_index=True)
+        else:
+            logs = pd.DataFrame([row])
+
+        logs.to_csv(log_path, index=False, encoding="utf-8-sig")
+
+    except Exception:
+        pass
+
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+
+        row = {
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "user_id": st.session_state.get("user_id", "customer_1"),
             "region": st.session_state.get("region", "Amman"),
