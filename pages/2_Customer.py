@@ -290,24 +290,24 @@ st.markdown(f"""
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.image("internet.png", use_container_width=True)
+    st.image("pages/internet.png", use_container_width=True)
     if st.button(" ", key="internet_btn"):
-        st.switch_page("InternetPackages.py")
+        st.switch_page("pages/InternetPackages.py")
 
 with col2:
-    st.image("renewals.png", use_container_width=True)
+    st.image("pages/renewals.png", use_container_width=True)
     if st.button(" ", key="renewals_btn"):
-        st.switch_page("RenewalsTariff.py")
+        st.switch_page("pages/RenewalsTariff.py")
 
 with col3:
-    st.image("calls.png", use_container_width=True)
+    st.image("pages/calls.png", use_container_width=True)
     if st.button(" ", key="calls_btn"):
-        st.switch_page("InternationalCalls.py")
+        st.switch_page("pages/InternationalCalls.py")
 
 with col4:
-    st.image("notifications.png", use_container_width=True)
+    st.image("pages/notifications.png", use_container_width=True)
     if st.button(" ", key="notif_btn"):
-        st.switch_page("NetworkNotifications.py")
+        st.switch_page("pages/NetworkNotifications.py")
         
 # =====================================
 # 4. قسم التقييم
