@@ -31,7 +31,7 @@ div.stButton > button:hover {
 
 # زر الرجوع
 if st.button("⬅ Back"):
-    st.switch_page("2_Customer.py")
+    st.switch_page("pages/2_Customer.py")
 
 st.markdown("## 🔄 Renewals & Tariff")
 
