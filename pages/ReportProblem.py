@@ -34,19 +34,19 @@ st.markdown(f"""
 footer {{visibility: hidden;}}
 
 /* ===== HEADER ===== */
-.header {{
+.header {
     position: relative;
-    height: 70px;
-    margin-bottom: 10px;
-}}
+    height: 20px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+}
 
-.back-style {{
-    position: absolute;
-    left: 0;
-    top: 30%;
-    transform: translateY(-50%);
-    margin-top:-50px;
-}}
+.back-style {
+    position: fixed;
+    top: 8px;
+    left: 20px;
+    z-index: 9999;
+}
 
 .back-style .stButton > button {{
     background:transparent !important;
