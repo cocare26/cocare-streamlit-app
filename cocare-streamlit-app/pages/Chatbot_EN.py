@@ -5,6 +5,7 @@ import base64
 import os
 import sys
 import html as html_lib
+import urllib.parse
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from cocare import process_message
@@ -470,7 +471,37 @@ div[data-testid="column"]{{
     color:white;
     margin-left:auto;
 }}
+.quick-grid{{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:10px;
+}}
 
+.quick-btn{{
+    height:42px;
+    border-radius:20px;
+    background:white;
+    color:black !important;
+    text-decoration:none !important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:10px;
+    font-weight:700;
+    line-height:1.1;
+    padding:0 4px;
+    box-shadow:0 6px 16px rgba(15,36,70,0.14);
+}}
+
+.clear-row{{
+    margin-top:12px;
+}}
+
+.clear-btn{{
+    width:100%;
+}}
 div[data-testid="stChatInput"]{{
     position:relative !important;
     bottom:auto !important;
@@ -501,7 +532,21 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
+quick_action = st.query_params.get("quick")
 
+if quick_action:
+
+    if quick_action == "__clear__":
+        st.session_state[CHAT_KEY] = [
+            ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ]
+        reset_context()
+
+    else:
+        send_message(quick_action)
+
+    st.query_params.clear()
+    st.rerun()
 services = [
     "Network Test",
     "Internet Usage",
@@ -511,29 +556,28 @@ services = [
     "Contact Support"
 ]
 
-rows = [
-    st.columns(3),
-    st.columns(3)
-]
+quick_html = '<div class="quick-grid">'
 
-for i, service in enumerate(services):
-    row_index = i // 3
-    col_index = i % 3
+for service in services:
+    encoded = urllib.parse.quote(service)
 
-    with rows[row_index][col_index]:
-        if st.button(service, key=f"quick_btn_{i}", use_container_width=True):
-            send_message(service)
-            st.rerun()
+    quick_html += f'''
+    <a class="quick-btn" href="?quick={encoded}">
+        {service}
+    </a>
+    '''
 
-clear_row = st.columns([1, 1, 1])
+quick_html += '</div>'
 
-with clear_row[1]:
-    if st.button("Clear Chat", key="clear_chat_btn", use_container_width=True):
-        st.session_state[CHAT_KEY] = [
-            ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-        ]
-        reset_context()
-        st.rerun()
+quick_html += '''
+<div class="clear-row">
+    <a class="quick-btn clear-btn" href="?quick=__clear__">
+        Clear Chat
+    </a>
+</div>
+'''
+
+st.markdown(quick_html, unsafe_allow_html=True)
 
 chat_html = '<div class="chat-area">'
 
