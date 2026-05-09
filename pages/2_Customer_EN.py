@@ -409,7 +409,7 @@ with n_cols[2]:
     """, unsafe_allow_html=True)
 
     if st.button("chatbot", key="nav_bot"):
-        st.switch_page("pages/Chatbot_EN.py")
+        st.switch_page("cocare-streamlit-app/pages/Chatbot_EN.py")
 
 
 with n_cols[3]:
