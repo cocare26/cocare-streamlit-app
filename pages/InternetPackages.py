@@ -1,103 +1,254 @@
 import streamlit as st
 
-st.set_page_config(page_title="Internet Packages", layout="wide")
+st.set_page_config(
+    page_title="Internet Packages",
+    page_icon="📶",
+    layout="wide"
+)
 
 st.markdown("""
 <style>
-body {
-    background-color: #F5F9FF;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
 }
 
-.main {
-    background: linear-gradient(180deg, #EEF6FF 0%, #FFFFFF 100%);
+.stApp {
+    background:
+        radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.14), transparent 28%),
+        radial-gradient(circle at 85% 10%, rgba(6, 182, 212, 0.18), transparent 26%),
+        linear-gradient(180deg, #F5F9FF 0%, #FFFFFF 100%);
+}
+
+.block-container {
+    max-width: 1180px;
+    padding-top: 2.2rem;
+    padding-bottom: 3rem;
 }
 
 .back-btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     padding: 10px 18px;
     border-radius: 14px;
-    border: 1px solid #2563EB;
+    border: 1px solid #BFDBFE;
     color: #2563EB;
-    font-weight: 600;
-    margin-bottom: 25px;
+    background: rgba(255, 255, 255, 0.75);
+    font-weight: 700;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
 .hero {
-    background: linear-gradient(135deg, #2563EB, #06B6D4);
-    padding: 28px;
-    border-radius: 28px;
+    background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.96), rgba(6, 182, 212, 0.92));
+    padding: 30px;
+    border-radius: 30px;
     color: white;
-    margin-bottom: 30px;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+    margin-bottom: 22px;
+    box-shadow: 0 18px 45px rgba(37, 99, 235, 0.28);
+}
+
+.hero-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.hero-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin-bottom: 16px;
 }
 
 .hero h1 {
     margin: 0;
-    font-size: 38px;
-    font-weight: 800;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -1.2px;
 }
 
 .hero p {
-    margin-top: 8px;
+    margin-top: 9px;
     font-size: 17px;
+    opacity: 0.92;
+}
+
+.usage-box {
+    min-width: 280px;
+    background: rgba(255,255,255,0.17);
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 22px;
+    padding: 18px;
+    backdrop-filter: blur(14px);
+}
+
+.usage-label {
+    font-size: 13px;
+    opacity: 0.86;
+    margin-bottom: 8px;
+}
+
+.usage-number {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
+
+.progress-track {
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.25);
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 78%;
+    height: 100%;
+    border-radius: 999px;
+    background: white;
+}
+
+.usage-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 12px;
     opacity: 0.9;
 }
 
+.current-plan {
+    background: rgba(236, 253, 245, 0.86);
+    color: #047857;
+    padding: 16px 20px;
+    border-radius: 20px;
+    border: 1px solid #A7F3D0;
+    margin-bottom: 22px;
+    font-weight: 800;
+    box-shadow: 0 8px 24px rgba(4, 120, 87, 0.08);
+}
+
+.section-header {
+    margin: 18px 0 16px 0;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: #0F172A;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.6px;
+}
+
+.section-header p {
+    margin-top: 6px;
+    color: #64748B;
+    font-size: 15px;
+}
+
 .package-card {
-    background: white;
-    padding: 26px;
-    border-radius: 26px;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
-    border: 1px solid #E5E7EB;
-    min-height: 310px;
-    transition: 0.25s ease;
+    position: relative;
+    background: rgba(255, 255, 255, 0.92);
+    padding: 24px;
+    border-radius: 28px;
+    border: 1px solid #E2E8F0;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07);
+    transition: all 0.28s ease;
 }
 
 .package-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 35px rgba(37, 99, 235, 0.18);
-    border-color: #2563EB;
+    transform: translateY(-8px) scale(1.015);
+    box-shadow: 0 22px 50px rgba(37, 99, 235, 0.18);
+    border-color: #60A5FA;
+}
+
+.package-card.recommended {
+    border: 2px solid #2563EB;
+    box-shadow: 0 22px 55px rgba(37, 99, 235, 0.20);
+    transform: scale(1.025);
+}
+
+.recommend-ribbon {
+    position: absolute;
+    top: -14px;
+    right: 22px;
+    background: linear-gradient(135deg, #2563EB, #06B6D4);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
 }
 
 .badge {
-    display: inline-block;
+    display: inline-flex;
+    width: fit-content;
     background: #DBEAFE;
     color: #2563EB;
     padding: 7px 13px;
     border-radius: 999px;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 18px;
 }
 
+.package-icon {
+    font-size: 36px;
+    margin-bottom: 14px;
+}
+
 .package-title {
-    font-size: 30px;
-    font-weight: 800;
+    font-size: 36px;
+    font-weight: 900;
     color: #0F172A;
+    letter-spacing: -0.8px;
     margin-bottom: 6px;
 }
 
 .package-subtitle {
     color: #64748B;
     font-size: 15px;
-    margin-bottom: 18px;
+    line-height: 1.5;
+    min-height: 44px;
+    margin-bottom: 16px;
 }
 
 .price {
-    font-size: 34px;
+    font-size: 38px;
     font-weight: 900;
     color: #2563EB;
+    margin-bottom: 18px;
+    letter-spacing: -0.8px;
+}
+
+.features {
+    margin-top: 2px;
     margin-bottom: 18px;
 }
 
 .feature {
     color: #334155;
     font-size: 15px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
-.subscribe-btn {
-    margin-top: 22px;
+.card-spacer {
+    flex: 1;
 }
 
 div.stButton > button {
@@ -106,24 +257,59 @@ div.stButton > button {
     color: white;
     border: none;
     border-radius: 16px;
-    padding: 13px 18px;
-    font-weight: 800;
+    padding: 14px 18px;
+    font-weight: 900;
     font-size: 15px;
+    box-shadow: 0 12px 26px rgba(37, 99, 235, 0.22);
+    transition: all 0.25s ease;
 }
 
 div.stButton > button:hover {
     background: linear-gradient(135deg, #1D4ED8, #0891B2);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(37, 99, 235, 0.30);
 }
 
-.current-plan {
-    background: #ECFDF5;
-    color: #047857;
-    padding: 18px 22px;
-    border-radius: 22px;
-    border: 1px solid #A7F3D0;
-    margin-bottom: 26px;
-    font-weight: 700;
+.recommend-box {
+    margin-top: 26px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid #E2E8F0;
+    border-radius: 26px;
+    padding: 22px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
+}
+
+.recommend-box h3 {
+    margin: 0 0 8px 0;
+    color: #0F172A;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.recommend-box p {
+    margin: 0;
+    color: #64748B;
+    font-size: 15px;
+}
+
+@media (max-width: 900px) {
+    .hero-top {
+        flex-direction: column;
+    }
+
+    .usage-box {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .package-card.recommended {
+        transform: none;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -132,8 +318,25 @@ st.markdown('<div class="back-btn">← Back</div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="hero">
-    <h1>📶 Internet Packages</h1>
-    <p>Choose the best internet plan for your daily usage.</p>
+    <div class="hero-top">
+        <div>
+            <div class="hero-icon">📶</div>
+            <h1>Internet Packages</h1>
+            <p>Choose the best plan based on your internet usage.</p>
+        </div>
+
+        <div class="usage-box">
+            <div class="usage-label">Remaining Data</div>
+            <div class="usage-number">4.7 GB / 6 GB</div>
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="usage-meta">
+                <span>78% remaining</span>
+                <span>Renews in 12 days</span>
+            </div>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -143,48 +346,76 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<div class="section-header">
+    <h2>Available Packages</h2>
+    <p>Pick a plan. The 15 GB package is recommended for most users.</p>
+</div>
+""", unsafe_allow_html=True)
+
 packages = [
     {
         "badge": "Basic",
+        "icon": "📱",
         "title": "6 GB",
-        "subtitle": "Good for light browsing and social media.",
+        "subtitle": "Light browsing and social media.",
         "price": "5 JD",
-        "features": ["✔ 6 GB Data", "✔ 5G Support", "✔ Valid for 30 Days"],
-        "button": "Subscribe 6 GB"
+        "features": ["6 GB Data", "5G Support", "Valid for 30 Days"],
+        "button": "Subscribe 6 GB",
+        "recommended": False
     },
     {
         "badge": "Most Popular",
+        "icon": "🚀",
         "title": "15 GB",
-        "subtitle": "Best choice for daily internet users.",
+        "subtitle": "Best value for daily usage.",
         "price": "10 JD",
-        "features": ["✔ 15 GB Data", "✔ Fast Speed", "✔ Valid for 30 Days"],
-        "button": "Subscribe 15 GB"
+        "features": ["15 GB Data", "Fast Speed", "Valid for 30 Days"],
+        "button": "Subscribe 15 GB",
+        "recommended": True
     },
     {
         "badge": "Premium",
+        "icon": "🔥",
         "title": "Unlimited",
-        "subtitle": "For heavy usage, streaming, and gaming.",
+        "subtitle": "Streaming, gaming, and heavy use.",
         "price": "25 JD",
-        "features": ["✔ Unlimited Data", "✔ Priority Network", "✔ Valid for 30 Days"],
-        "button": "Subscribe Unlimited"
+        "features": ["Unlimited Data", "Priority Network", "Valid for 30 Days"],
+        "button": "Subscribe Unlimited",
+        "recommended": False
     }
 ]
 
-cols = st.columns(3)
+cols = st.columns(3, gap="large")
 
 for col, package in zip(cols, packages):
     with col:
+        recommended_class = "recommended" if package["recommended"] else ""
+        ribbon = '<div class="recommend-ribbon">Recommended</div>' if package["recommended"] else ""
+
         st.markdown(f"""
-        <div class="package-card">
+        <div class="package-card {recommended_class}">
+            {ribbon}
             <div class="badge">{package["badge"]}</div>
+            <div class="package-icon">{package["icon"]}</div>
             <div class="package-title">{package["title"]}</div>
             <div class="package-subtitle">{package["subtitle"]}</div>
             <div class="price">{package["price"]}</div>
-            <div>
-                {''.join([f'<div class="feature">{feature}</div>' for feature in package["features"]])}
+
+            <div class="features">
+                {''.join([f'<div class="feature">✓ {feature}</div>' for feature in package["features"]])}
             </div>
+
+            <div class="card-spacer"></div>
         </div>
         """, unsafe_allow_html=True)
 
-        if st.button(package["button"]):
-            st.success(f"You selected {package['title']} package.")
+        if st.button(package["button"], key=package["button"]):
+            st.success(f"You selected the {package['title']} package.")
+
+st.markdown("""
+<div class="recommend-box">
+    <h3>Recommended For You: 15 GB Package</h3>
+    <p>Based on your current usage, the 15 GB plan gives better value than renewing the 6 GB plan repeatedly.</p>
+</div>
+""", unsafe_allow_html=True)
