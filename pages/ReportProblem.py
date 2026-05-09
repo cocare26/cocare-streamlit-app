@@ -45,6 +45,7 @@ footer {{visibility: hidden;}}
     left: 0;
     top: 30%;
     transform: translateY(-50%);
+    margin-top:-50px;
 }}
 
 .back-style .stButton > button {{
