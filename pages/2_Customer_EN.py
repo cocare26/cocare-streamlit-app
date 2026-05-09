@@ -409,9 +409,9 @@ with n_cols[2]:
     """, unsafe_allow_html=True)
 
     if st.button("chatbot", key="nav_bot"):
-    st.markdown("""
-        <meta http-equiv="refresh" content="0; url=https://YOUR-CHATBOT.streamlit.app">
-    """, unsafe_allow_html=True)
+        st.markdown("""
+        <meta http-equiv="refresh" content="0; url=http://localhost:8502">
+        """, unsafe_allow_html=True)
     
 with n_cols[3]:
     st.markdown(f"""
