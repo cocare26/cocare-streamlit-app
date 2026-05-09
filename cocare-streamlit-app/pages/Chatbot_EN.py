@@ -400,16 +400,19 @@ header, footer, #MainMenu{{
     color:var(--navy);
     margin:4px 0 6px;
 }}
+div[data-testid="stButton"]{{
+    display:inline-block !important;
+    width:31% !important;
+    margin:4px 1% !important;
+    vertical-align:top !important;
+}}
 
 div[data-testid="stButton"] button{{
-    height:32px;
-    min-height:32px;
-    border-radius:14px;
-    background:white;
-    color:black;
-    font-size:8px;
-    font-weight:600;
-    padding:0 2px;
+    width:100% !important;
+    height:38px !important;
+    border-radius:18px !important;
+    font-size:9px !important;
+    padding:0 3px !important;
 }}
 .chat-area{{
     height:430px;
@@ -418,9 +421,7 @@ div[data-testid="stButton"] button{{
     margin-top:10px;
     margin-bottom:8px;
 }}
-div[data-testid="column"]{{
-    padding:0 2px !important;
-}}
+
 .msg{{
     max-width:75%;
     padding:9px 12px;
