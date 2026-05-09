@@ -10,6 +10,11 @@ st.set_page_config(page_title="Settings", layout="centered")
 st.markdown("""
 <style>
 
+
+.st-emotion-cache-zh2fnc{
+    width: initial !important;
+
+}
 .title {
     text-align: center;
     font-weight: 900;
