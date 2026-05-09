@@ -161,17 +161,30 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 
-/* الجزء المسؤول عن جعل زر Streamlit شفافاً ويغطي المساحة بالكامل */
+/* إصلاح الأزرار */
+
+div.stButton {{
+    position: relative;
+    width: 100%;
+    height: 100px;
+    margin-top: -100px;
+    z-index: 999;
+}}
+
 div.stButton > button {{
-    position: absolute;
     width: 100%;
     height: 100%;
     opacity: 0;
-    z-index: 10;
     cursor: pointer;
     border: none;
-    top: 0;
-    left: 0;
+    background: transparent;
+}}
+
+/* أزرار الشريط السفلي */
+
+.nav-button div.stButton {{
+    height: 70px !important;
+    margin-top: -70px !important;
 }}
 
 .star-rating {{ display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }}
@@ -319,7 +332,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 6. الشريط السفلي (تعديل جزء الانتقال ليكون حقيقياً)
-st.markdown('<div class="nav">', unsafe_allow_html=True)
+st.markdown('<div class="nav nav-button">', unsafe_allow_html=True)
 n_cols = st.columns(5)
 
 with n_cols[0]:
