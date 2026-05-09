@@ -633,17 +633,34 @@ st.markdown("""
 <div class="quick-title">Quick Services</div>
 
 <div class="quick-grid">
-    <a class="quick-btn" href="?quick=Network%20Test">Network Test</a>
-    <a class="quick-btn" href="?quick=Internet%20Usage">Internet Usage</a>
-    <a class="quick-btn" href="?quick=Renew%20Package">Renew Package</a>
-    <a class="quick-btn" href="?quick=International%20Calls">International Calls</a>
-    <a class="quick-btn" href="?quick=Offers%20%26%20Games">Offers & Games</a>
-    <a class="quick-btn" href="?quick=Contact%20Support">Contact Support</a>
-    <a class="quick-btn clear-btn" href="?quick=Clear%20Chat">Clear Chat</a>
+
+<button class="quick-btn" onclick="sendQuick('Network Test')">Network Test</button>
+
+<button class="quick-btn" onclick="sendQuick('Internet Usage')">Internet Usage</button>
+
+<button class="quick-btn" onclick="sendQuick('Renew Package')">Renew Package</button>
+
+<button class="quick-btn" onclick="sendQuick('International Calls')">International Calls</button>
+
+<button class="quick-btn" onclick="sendQuick('Offers & Games')">Offers & Games</button>
+
+<button class="quick-btn" onclick="sendQuick('Contact Support')">Contact Support</button>
+
+<button class="quick-btn clear-btn" onclick="sendQuick('Clear Chat')">Clear Chat</button>
+
 </div>
+
+<script>
+function sendQuick(value) {
+    const url = new URL(window.location);
+
+    url.searchParams.set("quick", value);
+
+    window.location.href = url.toString();
+}
+</script>
 """, unsafe_allow_html=True)
 
-quick = st.query_params.get("quick", None)
 
 if quick:
     if quick == "Clear Chat":
