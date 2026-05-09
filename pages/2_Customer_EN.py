@@ -395,7 +395,7 @@ with n_cols[1]:
     """, unsafe_allow_html=True)
 
     if st.button("spin", key="nav_spin"):
-        st.switch_page("pages/Spin.py")
+        st.switch_page("pages/_Game_E.py")
 
 
 with n_cols[2]:
@@ -421,7 +421,7 @@ with n_cols[3]:
     """, unsafe_allow_html=True)
 
     if st.button("home", key="nav_home"):
-        st.switch_page("pages/home.py")
+        st.switch_page("pages/2_Customer_EN.py")
 
 
 with n_cols[4]:
