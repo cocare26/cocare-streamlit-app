@@ -18,7 +18,7 @@ st.markdown("""
     display: none !important;
 }
 
-
+/* اتجاه عربي */
 * {
     direction: rtl;
 }
@@ -73,6 +73,8 @@ footer {
 /* العنوان في المنتصف */
 .title-text {
     position: absolute;
+    left: 50%;
+    top: 50%;
     transform: translate(-50%, -150%);
     font-size: 20px;
     font-weight: 900;
@@ -83,6 +85,7 @@ footer {
 """, unsafe_allow_html=True)
 
 # ===== HEADER =====
+st.markdown('<div class="header">', unsafe_allow_html=True)
 
 st.markdown('<div class="back-style">', unsafe_allow_html=True)
 if st.button("›"):
