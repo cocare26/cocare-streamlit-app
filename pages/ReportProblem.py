@@ -8,7 +8,7 @@ PHONE_HEIGHT = 820
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
 # ===== CSS =====
-st.markdown("""
+st.markdown(f"""
 <style>
 :root{
     --navy:#0f2446;
