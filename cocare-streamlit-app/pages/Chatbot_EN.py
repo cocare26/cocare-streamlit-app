@@ -478,31 +478,38 @@ div[data-testid="column"]{{
 /* 🔘 الأزرار */
 div[data-testid="stButton"] button{{
     width:100%;
-    height:38px;
-    border-radius:22px;
+    height:46px;
+    border-radius:25px;
 
-    background:white;
-    border:1px solid rgba(255,255,255,0.7);
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
 
-    color:black;
-    font-weight:700;
-    font-size:10px;
+    border:1px solid rgba(255,255,255,0.35);
+
+    color:#0f2446;
+    font-weight:bold;
+    font-size:12px;
 
     box-shadow:
-        0 6px 16px rgba(15,36,70,0.14),
-        inset 0 1px 1px rgba(255,255,255,0.8);
+        0 8px 24px rgba(15,36,70,0.16),
+        inset 0 1px 1px rgba(255,255,255,0.55);
 
-    padding:0 4px;
-    line-height:1.15;
-    white-space:normal;
-
-    transition:0.2s ease;
+    transition:0.25s ease;
 }}
 
+/* ✨ hover */
 div[data-testid="stButton"] button:hover{{
-    background:white;
-    color:black;
-    transform:translateY(-1px);
+    transform:translateY(-2px);
+
+    background:rgba(255,255,255,0.28);
+    border:1px solid rgba(255,255,255,0.5);
+
+    box-shadow:
+        0 10px 28px rgba(15,36,70,0.22),
+        inset 0 1px 1px rgba(255,255,255,0.7);
+
+    color:#0f2446;
 }}
 /* 💬 منطقة المحادثة */
 .chat-area{{
