@@ -627,9 +627,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-
-st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
-
 services = [
     "Network Test",
     "Internet Usage",
@@ -642,26 +639,20 @@ services = [
 row1 = st.columns(3)
 row2 = st.columns(3)
 
-for col, service in zip(row1 + row2, services):
+for i, service in enumerate(services):
+    col = row1[i] if i < 3 else row2[i - 3]
+
     with col:
-        if st.button(service, key=f"btn_{service}"):
+        if st.button(service, key=f"quick_btn_{i}"):
             send_message(service)
             st.rerun()
 
-st.markdown('<div class="quick-grid">', unsafe_allow_html=True)
-
-for service in services:
-    if st.button(service, key=f"btn_{service}"):
-        if service == "Clear Chat":
-            st.session_state[CHAT_KEY] = [
-                ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-            ]
-            reset_context()
-        else:
-            send_message(service)
-        st.rerun()
-
-st.markdown('</div>', unsafe_allow_html=True)
+if st.button("Clear Chat", key="clear_chat_btn"):
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+    reset_context()
+    st.rerun()
 
 
 
