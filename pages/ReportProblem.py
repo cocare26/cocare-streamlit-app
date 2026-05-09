@@ -1,6 +1,10 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
+
+PHONE_WIDTH = 430
+PHONE_HEIGHT = 820
+
 st.set_page_config(page_title="Report a Problem", layout="centered")
 
 # ===== CSS =====
@@ -16,7 +20,8 @@ st.markdown("""
 [data-testid="stHeader"] {display: none !important;}
 
 .block-container{
-    max-width:350px !important;    
+    max-width:{PHONE_WIDTH}px !important;
+    min-height:{PHONE_HEIGHT}px !important;
     margin:auto !important;
     padding:30px !important;       
     background:linear-gradient(160deg, var(--bg1), var(--bg2), var(--bg3));
