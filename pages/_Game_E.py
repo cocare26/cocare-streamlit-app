@@ -279,8 +279,13 @@ html, body{
 
 <body>
 <div class="game">
-<div class="back-btn" onclick="window.location.href='2_Customer_EN.py'">←</div>
+<div class="back-btn" onclick="goBack()">←</div>
 
+<script>
+function goBack() {
+    window.parent.location.href = "/";
+}
+</script>
     <div class="header">
         <div class="title">Play & Win!</div>
         <div class="desc">Spin the wheel to win internet bundles, points or vouchers!</div>
