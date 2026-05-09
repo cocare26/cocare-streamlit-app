@@ -630,33 +630,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-services = [
-    "Network Test",
-    "Internet Usage",
-    "Renew Package",
-    "International Calls",
-    "Offers & Games",
-    "Contact Support"
-]
-
-row1 = st.columns(3)
-row2 = st.columns(3)
-
-for i, service in enumerate(services):
-    col = row1[i] if i < 3 else row2[i - 3]
-
-    with col:
-        if st.button(service, key=f"quick_btn_{i}"):
-            send_message(service)
-            st.rerun()
-
-if st.button("Clear Chat", key="clear_chat_btn"):
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
-    reset_context()
-    st.rerun()
-
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
@@ -722,7 +695,7 @@ if st.button("Clear Chat", key="clear_chat_btn"):
     reset_context()
     st.rerun()
     
-
+chat_html = '<div class="chat-area">'
 for role, message in st.session_state[CHAT_KEY]:
 
     safe_msg = html_lib.escape(str(message))
