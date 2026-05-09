@@ -10,18 +10,17 @@ st.markdown("""
 [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
 }
-
-/* الخلفية */
 [data-testid="stAppViewContainer"] {
     background-color: #dff2ff !important;
 }
 
-/* إخفاء الهيدر */
+
 [data-testid="stHeader"] {display: none !important;}
 
-/* الكبسولة */
+
 .block-container {
-    max-width:430px;
+  max-width: 430px !important;
+   height: 820px !important;
     margin:auto;
     padding:20px;
     background:linear-gradient(180deg,#dff2ff,#c7e7ff,#f4fbff);
