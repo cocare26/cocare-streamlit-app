@@ -407,16 +407,30 @@ body{
 </div>
 
 <div class="nav">
+
+    <form action="/" method="get" target="_top">
+        <input type="hidden" name="page" value="home">
+        <button type="submit">
+            <span>⌂</span>
+            Home
+        </button>
+    </form>
+
     <form action="/" method="get" target="_top">
         <input type="hidden" name="page" value="logout">
-        <button type="submit"><span>⇥</span>خروج</button>
+        <button type="submit">
+            <span>⇥</span>
+            Logout
+        </button>
     </form>
 
     <form action="/" method="get" target="_top">
         <input type="hidden" name="page" value="todo">
-        <button type="submit"><span>☑</span>المهام</button>
+        <button type="submit">
+            <span>☑</span>
+            Tasks
+        </button>
     </form>
-</div>
 
 </div>
 </body>
