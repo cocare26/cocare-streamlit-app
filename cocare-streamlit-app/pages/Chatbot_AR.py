@@ -500,7 +500,7 @@ div[data-testid="stChatInput"] textarea {{
 """, unsafe_allow_html=True)
 
 
-region = st.session_state.get("region", "Amman")
+region = st.session_state.get("region", "عمان")
 
 st.markdown(f"""
 <div class="topbar">
@@ -511,8 +511,8 @@ st.markdown(f"""
     </div>
 
     <div class="status-box">
-        <div class="status-main">Ready to Assist</div>
-        <div class="status-sub">CoCare AI Assistant</div>
+        <div class="status-main">جاهز للمساعدة</div>
+        <div class="status-sub">مساعد CoCare الذكي</div>
     </div>
 
     <div class="region-label">
