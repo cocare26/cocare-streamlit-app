@@ -59,12 +59,19 @@ def send_message(text):
     st.session_state[CHAT_KEY].append(("bot", bot_reply))
     save_chat_history()
 
+def img_to_base64(filename):
+    paths = [
+        os.path.join(os.path.dirname(__file__), filename),
+        os.path.join(os.path.dirname(__file__), "..", filename),
+        filename,
+    ]
 
-def img_to_base64(path):
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
+    for path in paths:
+        if os.path.exists(path):
+            with open(path, "rb") as f:
+                return base64.b64encode(f.read()).decode()
 
-
+    return ""
 robot = img_to_base64("robot_black.png")
 
 
