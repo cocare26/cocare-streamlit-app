@@ -173,7 +173,7 @@ if st.button(f"⭐{extreme_gap1}Rate App"):
 extreme_gap2 = "&nbsp;" * 64
 if st.button(f"🚪{extreme_gap2}Log Out"):
      st.session_state.clear()
-     st.switch_page("arabic-app.py")
+     st.switch_page("app.py")
 
 col_gap = "&nbsp;" * 5
 
