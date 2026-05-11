@@ -568,18 +568,20 @@ for role, message in st.session_state[CHAT_KEY]:
     safe_msg = html_lib.escape(str(message))
 
     if role == "user":
+
         chat_html += f"""
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
-    <div class="msg-avatar user-avatar">👤</div>
+    <div class="msg-avatar user-avatar">U</div>
 </div>
 """
+
     else:
-        typing_class = " typing" if str(message) == "Typing..." else ""
+
         chat_html += f"""
 <div class="message-row bot-row">
     <img class="msg-avatar" src="data:image/png;base64,{robot}">
-    <div class="msg bot{typing_class}">{safe_msg}</div>
+    <div class="msg bot">{safe_msg}</div>
 </div>
 """
 
