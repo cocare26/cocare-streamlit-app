@@ -361,7 +361,7 @@ with n_cols[0]:
     </div>
     """, unsafe_allow_html=True)
     if st.button("settings", key="nav_set"):
-        st.switch_page("pages/Settings.py")
+        st.switch_page("pages/settingar.py")
 
 with n_cols[1]:
     st.markdown(f"""
