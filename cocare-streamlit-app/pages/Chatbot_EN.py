@@ -7,7 +7,7 @@ import time
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
 PHONE_WIDTH = 430
-CHAT_KEY = "chat_en_messages_v3"
+CHAT_KEY = "chat_en_messages_v4"
 
 if CHAT_KEY not in st.session_state:
     st.session_state[CHAT_KEY] = [
