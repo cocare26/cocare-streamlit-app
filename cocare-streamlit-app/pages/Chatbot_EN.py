@@ -6,8 +6,7 @@ import time
 
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
-PHONE_WIDTH = 430
-CHAT_KEY = "chat_en_messages_v3"
+CHAT_KEY = "chat_en_messages_v4"
 
 if CHAT_KEY not in st.session_state:
     st.session_state[CHAT_KEY] = [
@@ -55,12 +54,10 @@ def send_message(text):
     st.session_state[CHAT_KEY].append(("user", text.strip()))
     st.session_state[CHAT_KEY].append(("bot", "Typing..."))
 
-    time.sleep(0.25)
+    time.sleep(0.2)
 
     st.session_state[CHAT_KEY].pop()
-
     reply = get_bot_response(text)
-
     st.session_state[CHAT_KEY].append(("bot", reply))
 
     save_chat_history()
@@ -104,7 +101,7 @@ st.markdown("""
 
 html, body, [data-testid="stAppViewContainer"] {
     background:#eef2f7 !important;
-    direction:ltr;
+    direction:ltr !important;
 }
 
 header, footer, #MainMenu, [data-testid="stToolbar"] {
@@ -355,6 +352,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+
 st.markdown(
     '<div class="quick-title">Quick Services</div>',
     unsafe_allow_html=True
@@ -395,44 +393,6 @@ with c6:
         st.rerun()
 
 
-chat_html = '<div class="chat-area">'
-
-for role, message in st.session_state[CHAT_KEY]:
-
-    safe_msg = html_lib.escape(str(message))
-
-    if role == "user":
-
-        chat_html += f"""
-        <div class="message-row user-row">
-            <div class="msg user">{safe_msg}</div>
-            <div class="user-avatar">You</div>
-        </div>
-        """
-
-    else:
-
-# =========================
-# CHAT AREA
-# =========================
-
-chat_html = '<div class="chat-area" id="chatArea">'
-
-for role, message in st.session_state[CHAT_KEY]:
-
-    safe_msg = html_lib.escape(str(message))
-
-    if role == "user":
-
-        chat_html += f"""
-        <div class="message-row user-row">
-            <div class="msg user">{safe_msg}</div>
-            <div class="user-avatar">You</div>
-        </div>
-        """
-
-    else:
-
 # =========================
 # CHAT AREA
 # =========================
@@ -463,22 +423,10 @@ for role, message in st.session_state[CHAT_KEY]:
 
 chat_html += """
 </div>
-
-<script>
-const chatArea = window.parent.document.querySelector('#chatArea');
-
-if (chatArea) {
-    chatArea.scrollTop = chatArea.scrollHeight;
-}
-</script>
 """
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
-
-# =========================
-# CLEAR CHAT
-# =========================
 
 if st.button("Clear Chat"):
 
@@ -488,13 +436,8 @@ if st.button("Clear Chat"):
 
     reset_context()
     save_chat_history()
-
     st.rerun()
 
-
-# =========================
-# INPUT AREA
-# =========================
 
 with st.form("chat_form", clear_on_submit=True):
 
@@ -510,5 +453,4 @@ with st.form("chat_form", clear_on_submit=True):
 
         send_message(user_input)
 
-        st.rerun()
         st.rerun()
