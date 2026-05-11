@@ -15,10 +15,10 @@ elif page == "employee":
     st.switch_page("pages/employee_dashboard_ara.py")
 
 elif page == "create":
-    st.switch_page("pages/1_Create_Account.py")
+    st.switch_page("pages/1_Create_Account_Arabic.py")
 
 elif page == "forgot":
-    st.switch_page("pages/2_Forgot_Password.py")
+    st.switch_page("pages/2_Forgot_Password_Arabic.py")
     
 # 📷 تحميل صورة البوت
 with open("robot.png", "rb") as f:
