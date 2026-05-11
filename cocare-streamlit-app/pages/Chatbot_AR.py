@@ -2,6 +2,7 @@ import streamlit as st
 import base64
 import html as html_lib
 import time
+import os
 
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
@@ -30,8 +31,10 @@ if CHAT_KEY not in st.session_state:
 def save_chat_history():
     pass
 
+
 def reset_context():
     pass
+
 
 def get_bot_response(message):
 
@@ -79,11 +82,59 @@ def send_message(text):
 # IMAGE
 # =========================
 
-def img_to_base64(path):
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
+def img_to_base64(filename):
 
-robot = img_to_base64("robot_black.png")
+    possible_paths = [
+        os.path.join(os.path.dirname(__file__), filename),
+        os.path.join(os.path.dirname(__file__), "..", filename),
+        filename
+    ]
+
+    for path in possible_paths:
+
+        try:
+
+            if os.path.exists(path):
+
+                with open(path, "rb") as f:
+                    return base64.b64encode(f.read()).decode()
+
+        except Exception:
+            pass
+
+    return ""
+
+
+robot = (
+    img_to_base64("robot_black.png")
+    or img_to_base64("robot.png")
+    or img_to_base64("robot_head.png")
+)
+
+# fallback avatar
+if robot:
+
+    robot_avatar = f'''
+    <img class="msg-avatar"
+    src="data:image/png;base64,{robot}"
+    style="width:70px;height:70px;">
+    '''
+
+else:
+
+    robot_avatar = '''
+    <div class="msg-avatar user-avatar"
+    style="
+    width:70px;
+    height:70px;
+    background:#111827;
+    color:white;
+    font-size:28px;
+    font-weight:900;
+    ">
+    AI
+    </div>
+    '''
 
 # =========================
 # STYLE
@@ -259,9 +310,7 @@ st.markdown(f"""
         <div class="sub">مساعد الاتصالات الذكي</div>
     </div>
 
-    <img class="msg-avatar"
-    src="data:image/png;base64,{robot}"
-    style="width:70px;height:70px;">
+    {robot_avatar}
 
 </div>
 """, unsafe_allow_html=True)
