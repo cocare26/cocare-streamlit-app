@@ -3,7 +3,6 @@ import base64
 import os
 import sys
 import html as html_lib
-import urllib.parse
 import pandas as pd
 from datetime import datetime, timedelta
 
@@ -12,7 +11,7 @@ from cocare import process_message
 
 st.set_page_config(page_title="AI Agent", layout="centered")
 
-PHONE_WIDTH = 390
+PHONE_WIDTH = 430
 PHONE_HEIGHT = 820
 
 CHAT_KEY = "chat_en_messages"
@@ -47,6 +46,11 @@ if CONTEXT_KEY not in st.session_state:
         "last_network_problem": False
     }
 
+if CHAT_KEY not in st.session_state:
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+
 
 def reset_context():
     st.session_state[CONTEXT_KEY] = {
@@ -56,24 +60,28 @@ def reset_context():
     }
 
 
-if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
-
-
 def img_to_base64(path):
     try:
-        full_path = os.path.join(os.path.dirname(__file__), "..", path)
-        if os.path.exists(full_path):
-            with open(full_path, "rb") as f:
-                return base64.b64encode(f.read()).decode()
+        paths = [
+            os.path.join(os.path.dirname(__file__), path),
+            os.path.join(os.path.dirname(__file__), "..", path),
+        ]
+
+        for full_path in paths:
+            if os.path.exists(full_path):
+                with open(full_path, "rb") as f:
+                    return base64.b64encode(f.read()).decode()
     except Exception:
         pass
+
     return ""
 
 
-robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
+robot = (
+    img_to_base64("robot_black.png")
+    or img_to_base64("robot_head.png")
+    or img_to_base64("robot.png")
+)
 
 
 def is_thanks_or_close(text):
@@ -164,24 +172,6 @@ def human_fallback_reply(text):
     if "offer" in t or "offers" in t:
         return "Current offers are available in the offers section. Do you want internet offers or call offers?"
 
-    if any(w in t for w in ["who are you", "what are you", "what do you do"]):
-        return (
-            "I am CoCare AI Assistant 🤖\n\n"
-            "I can help with network issues, packages, internet usage, offers, international calls, and technical support."
-        )
-
-    if any(w in t for w in ["help", "help me", "i need help"]):
-        return (
-            "Sure. Tell me your question or the problem you are facing, "
-            "and I will guide you to the right service."
-        )
-
-    if any(w in t for w in ["how", "steps", "method"]):
-        return "Tell me which service you want to use, and I will explain the steps clearly."
-
-    if any(w in t for w in ["where", "location", "place"]):
-        return "Please clarify what location you mean. If you mean a service inside the app, tell me its name."
-
     return (
         "I understand. To help you better, please clarify whether your request is about "
         "network, packages, app services, or another service."
@@ -261,6 +251,7 @@ def direct_service_reply(text):
 
     return None
 
+
 def cleanup_old_logs():
     if not os.path.exists(LOG_PATH):
         return
@@ -292,16 +283,16 @@ def has_negative_language(text):
 def detect_network_problem_type(text):
     t = str(text).lower()
 
-    if any(w in t for w in ["slow", "ضعيف", "بطيء"]):
+    if any(w in t for w in ["slow"]):
         return "slow_connection"
 
-    if any(w in t for w in ["weak signal", "signal", "ضعف إشارة"]):
+    if any(w in t for w in ["weak signal", "signal"]):
         return "weak_signal"
 
-    if any(w in t for w in ["disconnect", "cut", "تقطيع"]):
+    if any(w in t for w in ["disconnect", "cut"]):
         return "disconnection"
 
-    if any(w in t for w in ["outage", "fault", "عطل"]):
+    if any(w in t for w in ["outage", "fault"]):
         return "outage"
 
     if any(w in t for w in ["network", "internet"]):
@@ -394,6 +385,7 @@ def save_chat_log(row):
     else:
         df.to_csv(LOG_PATH, index=False)
 
+
 def get_bot_reply(user_text):
     msg = str(user_text).strip()
     analysis_result = {}
@@ -428,8 +420,8 @@ def get_bot_reply(user_text):
     cleanup_old_logs()
 
     if region not in JORDAN_REGIONS:
-       region = "Amman"
-    
+        region = "Amman"
+
     try:
         result = process_message(msg, user_id=user_id, region=region)
         analysis_result = result
@@ -474,7 +466,7 @@ def get_bot_reply(user_text):
         result["network_problem"] = network_problem
         result["network_problem_type"] = network_problem_type
         result.update(decision)
-        
+
         intent = result.get("intent", "")
         network_problem = result.get("network_problem", False)
 
@@ -513,266 +505,280 @@ def send_message(text):
 
 st.markdown(f"""
 <style>
-:root{{
-    --navy:#0f2446;
-    --accent:#2f80ed;
-    --accent2:#1c6fa4;
-    --bg1:#d6ecff;
-    --bg2:#bfe3ff;
-    --bg3:#eaf6ff;
-}}
-
-html, body, [data-testid="stAppViewContainer"]{{
-    background:#eef2f7;
+html, body, [data-testid="stAppViewContainer"] {{
+    background:#d8ecff;
     direction:ltr;
 }}
 
-header, footer, #MainMenu{{
+header, footer, #MainMenu {{
     visibility:hidden;
 }}
 
-.block-container{{
-    width:{PHONE_WIDTH}px;
-    height:{PHONE_HEIGHT}px;
-    max-width:calc(100vw - 24px);
-    max-height:calc(100vh - 24px);
+.block-container {{
+    width:{PHONE_WIDTH}px !important;
+    height:{PHONE_HEIGHT}px !important;
+    max-width:{PHONE_WIDTH}px !important;
+    min-height:{PHONE_HEIGHT}px !important;
     margin:auto;
-    padding:25px 24px 14px;
-    box-sizing:border-box;
-    background:linear-gradient(160deg,var(--bg1) 0%,var(--bg2) 45%,var(--bg3) 100%);
-    border-radius:42px;
-    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    padding:14px 14px 8px;
+    border-radius:34px;
+    background:#f8fcff;
+    box-shadow:0 12px 35px rgba(0,0,0,.14);
     overflow:hidden;
+    border:1px solid #cfe8ff;
 }}
 
-.topbar{{
-    height:58px;
-    background:white;
-    border-radius:18px;
-    display:flex;
+.topbar {{
+    height:130px;
+    background:#f9fcff;
+    border-radius:26px 26px 0 0;
+    display:grid;
+    grid-template-columns:92px 1fr 90px;
     align-items:center;
-    gap:10px;
-    padding:0 14px;
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
-    margin-bottom:10px;
+    gap:12px;
+    padding:14px;
+    border-bottom:1px solid #cfe4f7;
 }}
 
-.back{{
-    font-size:28px;
-    color:#436577;
-    text-decoration:none;
-    font-weight:700;
+.avatar-wrap {{
+    position:relative;
+    width:84px;
+    height:84px;
 }}
 
-.avatar{{
-    width:42px;
-    height:42px;
+.avatar {{
+    width:84px;
+    height:84px;
     border-radius:50%;
     object-fit:cover;
+    background:white;
+    box-shadow:0 5px 14px rgba(0,0,0,.16);
 }}
 
-.dot{{
-    width:8px;
-    height:8px;
-    background:#36c06a;
+.dot {{
+    position:absolute;
+    right:-2px;
+    bottom:12px;
+    width:14px;
+    height:14px;
+    background:#43d43b;
     border-radius:50%;
+    border:3px solid white;
 }}
 
-.status{{
+.status-main {{
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
+}}
+
+.status-sub {{
+    font-size:14px;
+    color:#6b7280;
+    margin-top:5px;
+}}
+
+.region-label {{
+    background:white;
+    color:#111827;
     font-size:15px;
-    font-weight:700;
-    color:#222;
-}}
-
-.region-label{{
-    margin-left:auto;
-    font-size:11px;
-    color:#436577;
-    font-weight:700;
-}}
-
-.quick-title{{
-    font-size:13px;
     font-weight:800;
-    color:var(--navy);
-    margin:4px 0 6px;
-}}
-div[data-testid="stButton"]{{
-    margin:4px 1% !important;
-    vertical-align:top !important;
-}}
-div[data-testid="stHorizontalBlock"]{{
-    gap:8px !important;
-}}
-
-div[data-testid="stButton"] button{{
-    height:42px !important;
-    border-radius:22px !important;
-    font-size:11px !important;
-    font-weight:700 !important;
-    padding:0 4px !important;
-    background:white !important;
-    color:black !important;
-}}
-.chat-area{{
-    height:430px;
-    overflow-y:auto;
-    padding:10px 4px;
-    margin-top:10px;
-    margin-bottom:8px;
-}}
-
-.msg{{
-    max-width:75%;
-    padding:9px 12px;
     border-radius:16px;
-    margin-bottom:8px;
-    font-size:13px;
-    line-height:1.5;
+    padding:12px 10px;
+    text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.13);
+}}
+
+.quick-title {{
+    font-size:18px;
+    font-weight:900;
+    color:#102646;
+    margin:14px 4px 12px;
+    text-align:left;
+}}
+
+div[data-testid="stHorizontalBlock"] {{
+    gap:10px;
+}}
+
+div[data-testid="stButton"] button {{
+    height:70px;
+    border-radius:16px;
+    border:1px solid #edf2f7;
+    background:white;
+    color:#155aa0;
+    font-weight:900;
+    font-size:14px;
+    box-shadow:0 4px 12px rgba(0,0,0,.10);
+    transition:.2s;
+}}
+
+div[data-testid="stButton"] button:hover {{
+    background:#f4f9ff;
+    color:#0f4f91;
+    transform:translateY(-2px);
+}}
+
+.chat-area {{
+    height:360px;
+    overflow-y:auto;
+    padding:18px 8px;
+    margin-top:14px;
+    margin-bottom:10px;
+    background:linear-gradient(180deg,#f2f8ff,#eef7ff);
+    border-top:1px solid #dbeafe;
+    border-bottom:1px solid #dbeafe;
+}}
+
+.chat-area::-webkit-scrollbar {{
+    width:5px;
+}}
+
+.chat-area::-webkit-scrollbar-thumb {{
+    background:#c4cdd8;
+    border-radius:10px;
+}}
+
+.message-row {{
+    display:flex;
+    align-items:flex-end;
+    margin-bottom:18px;
+    gap:8px;
+}}
+
+.user-row {{
+    justify-content:flex-end;
+}}
+
+.bot-row {{
+    justify-content:flex-start;
+}}
+
+.msg {{
+    max-width:74%;
+    padding:12px 16px;
+    border-radius:18px;
+    font-size:15px;
+    line-height:1.7;
     white-space:pre-wrap;
     text-align:left;
 }}
 
-.message-row{{
-    display:flex;
-    align-items:flex-end;
-    gap:6px;
-    margin-bottom:8px;
+.bot {{
+    background:white;
+    color:#111;
+    border-bottom-left-radius:5px;
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
 }}
 
-.message-row.user-row{{
-    justify-content:flex-end;
+.user {{
+    background:linear-gradient(135deg,#4aa3ff,#1677e8);
+    color:white;
+    border-bottom-right-radius:5px;
+    box-shadow:0 3px 10px rgba(22,119,232,.25);
 }}
 
-.message-row.bot-row{{
-    justify-content:flex-start;
-}}
-
-.msg-avatar{{
-    width:26px;
-    height:26px;
+.msg-avatar {{
+    width:38px;
+    height:38px;
     border-radius:50%;
     object-fit:cover;
+    background:white;
+    box-shadow:0 3px 8px rgba(0,0,0,.14);
+}}
+
+.user-avatar {{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:white;
+    color:#1762ad;
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden;
-    font-size:13px;
-    background:white;
+    font-size:20px;
+    box-shadow:0 3px 8px rgba(0,0,0,.14);
 }}
 
-.bot{{
-    background:white;
-    color:#222;
-    margin-right:auto;
-}}
-
-.user{{
-    background:var(--accent2);
-    color:white;
-    margin-left:auto;
-}}
-
-div[data-testid="stChatInput"]{{
+div[data-testid="stChatInput"] {{
     position:relative !important;
     bottom:auto !important;
     background:transparent !important;
     padding:0 !important;
 }}
 
-div[data-testid="stChatInput"] textarea{{
+div[data-testid="stChatInput"] textarea {{
     direction:ltr;
-    border-radius:25px;
+    border-radius:24px;
     border:none;
     background:white;
-    font-size:13px;
-}}
-
-
-div[data-testid="stForm"]{{
-    border:none !important;
-    background:transparent !important;
-    padding:0 !important;
-}}
-
-div[data-testid="stForm"] > div:first-child{{
-    display:grid !important;
-    grid-template-columns:1fr 1fr 1fr !important;
-    gap:8px !important;
-    align-items:center !important;
-}}
-
-div[data-testid="stFormSubmitButton"]{{
-    width:100% !important;
-}}
-
-div[data-testid="stFormSubmitButton"] button{{
-    width:100% !important;
-    height:42px !important;
-    border-radius:22px !important;
-    background:white !important;
-    color:black !important;
-    border:none !important;
-    font-size:10px !important;
-    font-weight:700 !important;
-    padding:0 4px !important;
-    line-height:1.15 !important;
-    white-space:normal !important;
-    box-shadow:0 6px 16px rgba(15,36,70,0.14) !important;
+    font-size:14px;
+    min-height:45px;
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
 }}
 </style>
 """, unsafe_allow_html=True)
+
 
 region = st.session_state.get("region", "Amman")
 
 st.markdown(f"""
 <div class="topbar">
-    <a class="back" href="/?page=customer">‹</a>
-    <img class="avatar" src="data:image/png;base64,{robot}">
-    <div class="dot"></div>
-    <div class="status">Ready to assist</div>
-    <div class="region-label">📍 {html_lib.escape(region)}</div>
+
+    <div class="avatar-wrap">
+        <img class="avatar" src="data:image/png;base64,{robot}">
+        <div class="dot"></div>
+    </div>
+
+    <div class="status-box">
+        <div class="status-main">Ready to Assist</div>
+        <div class="status-sub">CoCare AI Assistant</div>
+    </div>
+
+    <div class="region-label">
+        📍 {html_lib.escape(region)}
+    </div>
+
 </div>
 """, unsafe_allow_html=True)
 
+
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
-with st.form("quick_services_form"):
-    b1 = st.form_submit_button("Network Test")
-    b2 = st.form_submit_button("Internet Usage")
-    b3 = st.form_submit_button("Renew Package")
-    b4 = st.form_submit_button("International Calls")
-    b5 = st.form_submit_button("Offers & Games")
-    b6 = st.form_submit_button("Contact Support")
+c1, c2, c3 = st.columns(3)
+c4, c5, c6 = st.columns(3)
 
-if b1:
-    send_message("Network Test")
-    st.rerun()
-elif b2:
-    send_message("Internet Usage")
-    st.rerun()
-elif b3:
-    send_message("Renew Package")
-    st.rerun()
-elif b4:
-    send_message("International Calls")
-    st.rerun()
-elif b5:
-    send_message("Offers & Games")
-    st.rerun()
-elif b6:
-    send_message("Contact Support")
-    st.rerun()
-
-clear_cols = st.columns([1, 1, 1])
-
-with clear_cols[1]:
-    if st.button("Clear Chat", key="clear_chat_btn"):
-        st.session_state[CHAT_KEY] = [
-            ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
-        ]
-        reset_context()
+with c1:
+    if st.button("📡\nNetwork Test"):
+        send_message("Network Test")
         st.rerun()
+
+with c2:
+    if st.button("📊\nInternet Usage"):
+        send_message("Internet Usage")
+        st.rerun()
+
+with c3:
+    if st.button("🧾\nRenew Package"):
+        send_message("Renew Package")
+        st.rerun()
+
+with c4:
+    if st.button("☎️\nInternational Calls"):
+        send_message("International Calls")
+        st.rerun()
+
+with c5:
+    if st.button("🎁\nOffers & Games"):
+        send_message("Offers & Games")
+        st.rerun()
+
+with c6:
+    if st.button("🎧\nContact Support"):
+        send_message("Contact Support")
+        st.rerun()
+
+
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
@@ -782,7 +788,7 @@ for role, message in st.session_state[CHAT_KEY]:
         chat_html += f"""
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
-    <div class="msg-avatar user-avatar">U</div>
+    <div class="msg-avatar user-avatar">👤</div>
 </div>
 """
     else:
@@ -795,6 +801,7 @@ for role, message in st.session_state[CHAT_KEY]:
 
 chat_html += """
 </div>
+
 <script>
 const chatArea = window.parent.document.querySelector('.chat-area');
 if (chatArea) {
@@ -805,7 +812,16 @@ if (chatArea) {
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
-user_input = st.chat_input("Type your question here...")
+
+if st.button("🗑️ Clear Chat"):
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+    reset_context()
+    st.rerun()
+
+
+user_input = st.chat_input("Type your message here...")
 
 if user_input:
     send_message(user_input)
