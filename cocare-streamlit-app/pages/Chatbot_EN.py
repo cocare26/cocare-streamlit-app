@@ -728,10 +728,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-}}
-</style>
-""", unsafe_allow_html=True)
-
 
 region = st.session_state.get("region", "Amman")
 
