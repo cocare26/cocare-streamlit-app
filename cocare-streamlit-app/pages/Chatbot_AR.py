@@ -9,6 +9,9 @@ from cocare import process_message
 
 st.set_page_config(page_title="المساعد الذكي", layout="centered")
 
+PHONE_WIDTH = 430
+PHONE_HEIGHT = 820
+
 CHAT_KEY = "chat_ar_messages"
 CONTEXT_KEY = "chat_context"
 
@@ -17,7 +20,7 @@ if "region" not in st.session_state:
 
 if CHAT_KEY not in st.session_state:
     st.session_state[CHAT_KEY] = [
-        ("bot", "مرحبًا 👋 أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
+        ("bot", "مرحبًا، أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
     ]
 
 if CONTEXT_KEY not in st.session_state:
@@ -40,9 +43,6 @@ def save_chat_history():
     pass
 
 
-PHONE_WIDTH = 430
-PHONE_HEIGHT = 820
-
 def img_to_base64(path):
     try:
         paths = [
@@ -60,7 +60,11 @@ def img_to_base64(path):
     return ""
 
 
-robot = img_to_base64("robot_black.png")
+robot = (
+    img_to_base64("robot_black.png")
+    or img_to_base64("robot_head.png")
+    or img_to_base64("robot.png")
+)
 
 
 def is_thanks_or_close(text):
@@ -133,19 +137,19 @@ def human_fallback_reply(text):
 
     if is_no_problem(t):
         reset_context()
-        return "تمام، ولا يهمك 🌷 إذا احتجت أي مساعدة أنا موجود."
+        return "تمام، ولا يهمك. إذا احتجت أي مساعدة أنا موجود."
 
     if is_thanks_or_close(t):
         reset_context()
-        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
+        return "على الرحب والسعة. أي وقت تحتاجني أنا موجود."
 
     if is_goodbye(t):
         reset_context()
-        return "مع السلامة 👋 أي وقت تحتاجني أنا موجود."
+        return "مع السلامة. أي وقت تحتاجني أنا موجود."
 
     if is_social_positive(t):
         reset_context()
-        return "الله يسعدك 🌷 أنا موجود بأي وقت تحتاج مساعدة."
+        return "الله يسعدك. أنا موجود بأي وقت تحتاج مساعدة."
 
     if "المكالمات الدولية" in t or "دولي" in t or "مكالمات" in t:
         return "خدمة المكالمات الدولية متاحة حسب نوع خطك. بدك تعرف الأسعار ولا طريقة التفعيل؟"
@@ -157,9 +161,9 @@ def human_fallback_reply(text):
         return "أكيد، بتقدر تجدد الباقة من قسم الباقات داخل التطبيق."
 
     if "عرض" in t or "عروض" in t:
-        return "العروض الحالية متاحة من قسم العروض 🎁 بدك عروض إنترنت ولا مكالمات؟"
+        return "العروض الحالية متاحة من قسم العروض. بدك عروض إنترنت ولا مكالمات؟"
 
-    return "فهمت عليك 👍 وضّحلي أكثر شوي شو المشكلة أو شو بدك بالضبط؟"
+    return "فهمت عليك. وضّحلي أكثر شوي شو المشكلة أو شو بدك بالضبط؟"
 
 
 def handle_context_followup(text):
@@ -171,11 +175,11 @@ def handle_context_followup(text):
 
     if is_no_problem(msg):
         reset_context()
-        return "تمام، ولا يهمك 🌷 ما رح أسجل مشكلة. إذا احتجت أي مساعدة أنا موجود."
+        return "تمام، ولا يهمك. ما رح أسجل مشكلة. إذا احتجت أي مساعدة أنا موجود."
 
     if is_thanks_or_close(msg):
         reset_context()
-        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
+        return "على الرحب والسعة. أي وقت تحتاجني أنا موجود."
 
     if not is_short_followup(msg):
         return None
@@ -183,10 +187,10 @@ def handle_context_followup(text):
     reset_context()
 
     if looks_like_time_answer(msg):
-        return "تمام، هيك وضحت الصورة ✅\n\nسجلت مدة/وقت بداية المشكلة، ورح نتابع حالة الشبكة مع الفريق المختص."
+        return "تمام، هيك وضحت الصورة.\n\nسجلت مدة/وقت بداية المشكلة، ورح نتابع حالة الشبكة مع الفريق المختص."
 
     if looks_like_location(msg):
-        return "تمام، وصلتني المنطقة ✅\n\nرح أضيفها على تفاصيل المشكلة وأتابعها مع الفريق المختص."
+        return "تمام، وصلتني المنطقة.\n\nرح أضيفها على تفاصيل المشكلة وأتابعها مع الفريق المختص."
 
     if looks_like_yes(msg):
         return "تمام، خلينا نكمل خطوة خطوة.\n\nجرّب/ي إعادة تشغيل الراوتر أو تفعيل وضع الطيران لمدة 10 ثواني، وبعدها احكيلي إذا تحسّن الوضع."
@@ -194,7 +198,7 @@ def handle_context_followup(text):
     if looks_like_no(msg):
         return "تمام ولا يهمك.\n\nرح أسجل المشكلة بدون خطوات إضافية، وإذا استمرت رح يتم متابعتها من الفريق المختص."
 
-    return "تمام، وصلتني التفاصيل ✅\n\nرح أضيفها على المشكلة المسجلة وأتابعها مع الفريق المختص."
+    return "تمام، وصلتني التفاصيل.\n\nرح أضيفها على المشكلة المسجلة وأتابعها مع الفريق المختص."
 
 
 def direct_service_reply(text):
@@ -219,7 +223,7 @@ def direct_service_reply(text):
 
     if t in ["العروض والألعاب", "العروض", "offers & games"]:
         reset_context()
-        return "العروض الحالية متاحة من قسم العروض 🎁 بدك عروض إنترنت ولا مكالمات؟"
+        return "العروض الحالية متاحة من قسم العروض. بدك عروض إنترنت ولا مكالمات؟"
 
     if t in ["التواصل مع الدعم", "الدعم", "contact support"]:
         reset_context()
@@ -233,19 +237,19 @@ def get_bot_reply(user_text):
 
     if is_no_problem(msg):
         reset_context()
-        return "تمام، ولا يهمك 🌷 إذا احتجت أي مساعدة أنا موجود."
+        return "تمام، ولا يهمك. إذا احتجت أي مساعدة أنا موجود."
 
     if is_thanks_or_close(msg):
         reset_context()
-        return "على الرحب والسعة 🌷 أي وقت تحتاجني أنا موجود."
+        return "على الرحب والسعة. أي وقت تحتاجني أنا موجود."
 
     if is_goodbye(msg):
         reset_context()
-        return "مع السلامة 👋 أي وقت تحتاجني أنا موجود."
+        return "مع السلامة. أي وقت تحتاجني أنا موجود."
 
     if is_social_positive(msg):
         reset_context()
-        return "الله يسعدك 🌷 أنا موجود بأي وقت تحتاج مساعدة."
+        return "الله يسعدك. أنا موجود بأي وقت تحتاج مساعدة."
 
     service_reply = direct_service_reply(msg)
     if service_reply:
@@ -274,7 +278,7 @@ def get_bot_reply(user_text):
 
         if intent in ["clarification", "unknown", "other", "fallback"]:
             if len(msg.split()) > 4:
-                return "فهمت عليك 👍 خليني أساعدك بأفضل طريقة.\n\nاحكيلي أكثر: هل الموضوع متعلق بالشبكة، الباقة، التطبيق، أو خدمة ثانية؟"
+                return "فهمت عليك. خليني أساعدك بأفضل طريقة.\n\nاحكيلي أكثر: هل الموضوع متعلق بالشبكة، الباقة، التطبيق، أو خدمة ثانية؟"
 
             reset_context()
             return human_fallback_reply(msg)
@@ -365,6 +369,12 @@ header, footer, #MainMenu {{
     border:3px solid white;
 }}
 
+.status-box {{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}}
+
 .status-main {{
     font-size:20px;
     font-weight:900;
@@ -396,6 +406,10 @@ header, footer, #MainMenu {{
     text-align:right;
 }}
 
+div[data-testid="stHorizontalBlock"] {{
+    gap:10px;
+}}
+
 div[data-testid="stButton"] button {{
     height:70px;
     border-radius:16px;
@@ -405,6 +419,13 @@ div[data-testid="stButton"] button {{
     font-weight:900;
     font-size:14px;
     box-shadow:0 4px 12px rgba(0,0,0,.10);
+    transition:.2s;
+}}
+
+div[data-testid="stButton"] button:hover {{
+    background:#f4f9ff;
+    color:#0f4f91;
+    transform:translateY(-2px);
 }}
 
 .chat-area {{
@@ -472,7 +493,7 @@ div[data-testid="stButton"] button {{
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:20px;
+    font-size:18px;
 }}
 
 div[data-testid="stChatInput"] {{
@@ -490,23 +511,15 @@ div[data-testid="stChatInput"] textarea {{
     font-size:14px;
     min-height:45px;
     box-shadow:0 4px 12px rgba(0,0,0,.12);
-st.markdown("""
-<style>
-.status-box{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
+}}
 </style>
 """, unsafe_allow_html=True)
 
 
-
 region = st.session_state.get("region", "عمان")
 
-topbar_html = f"""
+topbar_html = f'''
 <div class="topbar">
-
     <div class="avatar-wrap">
         <img class="avatar" src="data:image/png;base64,{robot}">
         <div class="dot"></div>
@@ -520,9 +533,8 @@ topbar_html = f"""
     <div class="region-label">
         {html_lib.escape(region)}
     </div>
-
 </div>
-"""
+'''
 
 st.markdown(topbar_html, unsafe_allow_html=True)
 
@@ -532,35 +544,36 @@ c1, c2, c3 = st.columns(3)
 c4, c5, c6 = st.columns(3)
 
 with c1:
-    if st.button("📡\nفحص الشبكة"):
+    if st.button("فحص الشبكة"):
         send_message("فحص الشبكة")
         st.rerun()
 
 with c2:
-    if st.button("📊\nاستهلاك الإنترنت"):
+    if st.button("استهلاك الإنترنت"):
         send_message("استهلاك الإنترنت")
         st.rerun()
 
 with c3:
-    if st.button("🧾\nتجديد الباقة"):
+    if st.button("تجديد الباقة"):
         send_message("تجديد الباقة")
         st.rerun()
 
 with c4:
-    if st.button("☎️\nالمكالمات الدولية"):
+    if st.button("المكالمات الدولية"):
         send_message("المكالمات الدولية")
         st.rerun()
 
 with c5:
-    if st.button("🎁\nالعروض والألعاب"):
+    if st.button("العروض والألعاب"):
         send_message("العروض والألعاب")
         st.rerun()
 
 with c6:
-    if st.button("🎧\nالتواصل مع الدعم"):
+    if st.button("التواصل مع الدعم"):
         send_message("التواصل مع الدعم")
         st.rerun()
-        
+
+
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
@@ -568,41 +581,42 @@ for role, message in st.session_state[CHAT_KEY]:
     safe_msg = html_lib.escape(str(message))
 
     if role == "user":
-
-        chat_html += f"""
+        user_block = f'''
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
     <div class="msg-avatar user-avatar">U</div>
 </div>
-"""
+'''
+        chat_html += user_block
 
     else:
-
-        chat_html += f"""
+        bot_block = f'''
 <div class="message-row bot-row">
     <img class="msg-avatar" src="data:image/png;base64,{robot}">
     <div class="msg bot">{safe_msg}</div>
 </div>
-"""
+'''
+        chat_html += bot_block
 
-chat_html += """
+
+chat_html += '''
 </div>
 
 <script>
-const chatArea = window.parent.document.querySelector('.chat-area');
+const chatArea = window.parent.document.querySelector(".chat-area");
 
 if (chatArea) {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
 </script>
-"""
+'''
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
 
-if st.button("🗑️ مسح المحادثة"):
+if st.button("مسح المحادثة"):
     st.session_state[CHAT_KEY] = [
-        ("bot", "مرحبًا 👋 أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
+        ("bot", "مرحبًا، أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
     ]
     reset_context()
     save_chat_history()
