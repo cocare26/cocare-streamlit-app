@@ -490,14 +490,16 @@ div[data-testid="stChatInput"] textarea {{
     font-size:14px;
     min-height:45px;
     box-shadow:0 4px 12px rgba(0,0,0,.12);
+st.markdown("""
+<style>
 .status-box{
     display:flex;
     flex-direction:column;
     justify-content:center;
 }
-}}
 </style>
 """, unsafe_allow_html=True)
+
 
 
 region = st.session_state.get("region", "عمان")
