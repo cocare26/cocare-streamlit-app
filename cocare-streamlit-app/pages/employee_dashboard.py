@@ -1,6 +1,4 @@
-نص واحد ملصق (78).txt
-مستند
-ضيفلي هدول على كودي chat_html = '<div class="chat-area">'
+chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
 
@@ -994,4 +992,3 @@ else:
 else:
 st.info("لا يوجد ملف سجلات بعد. أرسلي رسالة من شات العميل أولاً.")
 
-إغلاق
