@@ -7,8 +7,6 @@ import os
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
 PHONE_WIDTH = 430
-PHONE_HEIGHT = 820
-
 CHAT_KEY = "chat_en_messages"
 
 if CHAT_KEY not in st.session_state:
@@ -50,13 +48,10 @@ def send_message(text):
 
     st.session_state[CHAT_KEY].append(("user", text))
     st.session_state[CHAT_KEY].append(("bot", "Typing..."))
-
-    time.sleep(0.3)
-
+    time.sleep(0.25)
     st.session_state[CHAT_KEY].pop()
-    bot_reply = get_bot_response(text)
-    st.session_state[CHAT_KEY].append(("bot", bot_reply))
 
+    st.session_state[CHAT_KEY].append(("bot", get_bot_response(text)))
     save_chat_history()
 
 
@@ -86,20 +81,16 @@ robot = (
 )
 
 if robot:
-    robot_avatar_top = f'''
-    <img class="top-avatar" src="data:image/png;base64,{robot}">
-    '''
+    robot_avatar_top = f'<img class="top-avatar" src="data:image/png;base64,{robot}">'
 else:
-    robot_avatar_top = '''
-    <div class="top-avatar fallback-avatar">AI</div>
-    '''
+    robot_avatar_top = '<div class="top-avatar fallback-avatar">AI</div>'
 
 
 st.markdown(f"""
 <style>
 
 html, body, [data-testid="stAppViewContainer"] {{
-    background:#d8e9f8;
+    background:#d8e9f8 !important;
     direction:ltr;
 }}
 
@@ -107,22 +98,21 @@ header, footer, #MainMenu {{
     visibility:hidden;
 }}
 
+[data-testid="stToolbar"] {{
+    display:none;
+}}
+
 .block-container {{
     width:{PHONE_WIDTH}px !important;
     max-width:{PHONE_WIDTH}px !important;
-    min-height:{PHONE_HEIGHT}px !important;
-    margin:auto;
-    padding:18px 12px 10px !important;
-}}
-
-.phone {{
-    background:#f7fbff;
-    border-radius:38px;
-    padding:18px;
-    box-shadow:0 12px 35px rgba(0,0,0,.15);
-    min-height:{PHONE_HEIGHT}px;
-    border:1px solid #d9e8f7;
-    overflow:hidden;
+    min-height:820px !important;
+    margin:20px auto !important;
+    padding:18px !important;
+    background:#f7fbff !important;
+    border-radius:38px !important;
+    box-shadow:0 12px 35px rgba(0,0,0,.15) !important;
+    border:1px solid #d9e8f7 !important;
+    overflow:hidden !important;
 }}
 
 .top-bar {{
@@ -172,6 +162,10 @@ header, footer, #MainMenu {{
     text-align:left;
 }}
 
+div[data-testid="column"] {{
+    padding:4px !important;
+}}
+
 div[data-testid="stButton"] button {{
     width:100%;
     min-height:64px;
@@ -190,7 +184,7 @@ div[data-testid="stButton"] button:hover {{
 }}
 
 .chat-area {{
-    height:360px;
+    height:340px;
     overflow-y:auto;
     padding:12px;
     background:#eef5fc;
@@ -255,6 +249,13 @@ div[data-testid="stButton"] button:hover {{
     background:#dbeafe;
     color:#0f4f91;
     font-weight:900;
+    flex-shrink:0;
+}}
+
+div[data-testid="stForm"] {{
+    border:none !important;
+    padding:0 !important;
+    background:transparent !important;
 }}
 
 div[data-testid="stTextInput"] input {{
@@ -279,8 +280,6 @@ div[data-testid="stFormSubmitButton"] button {{
 """, unsafe_allow_html=True)
 
 
-st.markdown('<div class="phone">', unsafe_allow_html=True)
-
 st.markdown(f"""
 <div class="top-bar">
     <div>
@@ -295,7 +294,6 @@ st.markdown(f"""
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
 c1, c2, c3 = st.columns(3)
-c4, c5, c6 = st.columns(3)
 
 with c1:
     if st.button("Network Test"):
@@ -311,6 +309,8 @@ with c3:
     if st.button("Renew Package"):
         send_message("Renew Package")
         st.rerun()
+
+c4, c5, c6 = st.columns(3)
 
 with c4:
     if st.button("International Calls"):
@@ -342,13 +342,9 @@ for role, message in st.session_state[CHAT_KEY]:
         """
     else:
         if robot:
-            avatar_html = f'''
-            <img class="msg-avatar" src="data:image/png;base64,{robot}">
-            '''
+            avatar_html = f'<img class="msg-avatar" src="data:image/png;base64,{robot}">'
         else:
-            avatar_html = '''
-            <div class="msg-avatar user-avatar">AI</div>
-            '''
+            avatar_html = '<div class="msg-avatar user-avatar">AI</div>'
 
         chat_html += f"""
         <div class="message-row bot-row">
@@ -383,6 +379,3 @@ with st.form("chat_form", clear_on_submit=True):
     if send_btn and user_input.strip():
         send_message(user_input)
         st.rerun()
-
-
-st.markdown("</div>", unsafe_allow_html=True)
