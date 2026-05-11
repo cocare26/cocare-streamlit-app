@@ -518,7 +518,7 @@ topbar_html = f"""
     </div>
 
     <div class="region-label">
-        📍 {html_lib.escape(region)}
+        {html_lib.escape(region)}
     </div>
 
 </div>
