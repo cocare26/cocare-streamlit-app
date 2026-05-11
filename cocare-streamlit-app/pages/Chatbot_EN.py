@@ -115,9 +115,10 @@ header, footer, #MainMenu, [data-testid="stToolbar"] {
 .block-container {
     width:430px !important;
     max-width:430px !important;
-    min-height:700px !important;
-    margin:24px auto !important;
-    padding:24px 16px 18px !important;
+    height:820px !important;
+    max-height:820px !important;
+    margin:20px auto !important;
+    padding:20px 16px 14px !important;
     background:linear-gradient(180deg,#c7e6fb,#dff1ff) !important;
     border-radius:38px !important;
     box-shadow:0 12px 35px rgba(0,0,0,.12) !important;
@@ -204,11 +205,12 @@ div[data-testid="stButton"] button:hover {
 }
 
 .chat-area {
-    height:315px;
-    overflow-y:auto;
-    padding:12px 8px;
-    margin-top:12px;
-    margin-bottom:10px;
+    height:330px !important;
+    max-height:330px !important;
+    overflow-y:auto !important;
+    padding:12px 8px !important;
+    margin-top:18px !important;
+    margin-bottom:8px !important;
 }
 
 .message-row {
@@ -410,18 +412,11 @@ for role, message in st.session_state[CHAT_KEY]:
 
     else:
 
-        chat_html += f"""
-        <div class="message-row bot-row">
-            {avatar_msg}
-            <div class="msg bot">{safe_msg}</div>
-        </div>
-        """
-
 # =========================
 # CHAT AREA
 # =========================
 
-st.markdown('<div class="chat-area">', unsafe_allow_html=True)
+chat_html = '<div class="chat-area" id="chatArea">'
 
 for role, message in st.session_state[CHAT_KEY]:
 
@@ -429,23 +424,33 @@ for role, message in st.session_state[CHAT_KEY]:
 
     if role == "user":
 
-        st.markdown(f"""
+        chat_html += f"""
         <div class="message-row user-row">
             <div class="msg user">{safe_msg}</div>
             <div class="user-avatar">You</div>
         </div>
-        """, unsafe_allow_html=True)
+        """
 
     else:
 
-        st.markdown(f"""
+        chat_html += f"""
         <div class="message-row bot-row">
             {avatar_msg}
             <div class="msg bot">{safe_msg}</div>
         </div>
-        """, unsafe_allow_html=True)
+        """
 
-st.markdown('</div>', unsafe_allow_html=True)
+chat_html += """
+</div>
+<script>
+const chatArea = window.parent.document.querySelector('#chatArea');
+if (chatArea) {
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+</script>
+"""
+
+st.markdown(chat_html, unsafe_allow_html=True)
 
 
 # =========================
@@ -459,9 +464,7 @@ if st.button("Clear Chat"):
     ]
 
     reset_context()
-
     save_chat_history()
-
     st.rerun()
 
 
@@ -480,7 +483,5 @@ with st.form("chat_form", clear_on_submit=True):
     send_btn = st.form_submit_button("Send")
 
     if send_btn and user_input.strip():
-
         send_message(user_input)
-
         st.rerun()
