@@ -6,8 +6,16 @@ import os
 
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
+# =========================
+# PHONE SIZE
+# =========================
+
 PHONE_WIDTH = 430
 PHONE_HEIGHT = 820
+
+# =========================
+# SESSION
+# =========================
 
 CHAT_KEY = "chat_en_messages"
 
@@ -16,6 +24,9 @@ if CHAT_KEY not in st.session_state:
         ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
     ]
 
+# =========================
+# FUNCTIONS
+# =========================
 
 def save_chat_history():
     pass
@@ -27,22 +38,22 @@ def reset_context():
 
 def get_bot_response(message):
 
-    message = message.lower()
+    message = str(message).lower()
 
     if "network" in message:
         return "Running network diagnostics now..."
 
     elif "usage" in message:
-        return "Your current internet usage is 82 GB."
+        return "You can check your internet usage from the account or usage section."
 
-    elif "renew" in message:
-        return "You can renew your package from the payments section."
+    elif "renew" in message or "package" in message:
+        return "You can renew your package from the packages or payments section."
 
-    elif "international" in message:
-        return "International call packages are available now."
+    elif "international" in message or "calls" in message:
+        return "International call services are available depending on your line type."
 
     elif "offers" in message or "games" in message:
-        return "Latest offers and gaming packages are available."
+        return "Current offers are available in the offers section."
 
     elif "support" in message:
         return "Your request has been sent to the support team."
@@ -53,11 +64,14 @@ def get_bot_response(message):
 
 def send_message(text):
 
+    if not text:
+        return
+
     st.session_state[CHAT_KEY].append(("user", text))
 
     st.session_state[CHAT_KEY].append(("bot", "Typing..."))
 
-    time.sleep(0.5)
+    time.sleep(0.3)
 
     st.session_state[CHAT_KEY].pop()
 
@@ -67,26 +81,25 @@ def send_message(text):
 
     save_chat_history()
 
-
 # =========================
 # IMAGE
 # =========================
 
-def img_to_base64(filename):
+def img_to_base64(path):
 
-    possible_paths = [
-        os.path.join(os.path.dirname(__file__), filename),
-        os.path.join(os.path.dirname(__file__), "..", filename),
-        filename
+    paths = [
+        os.path.join(os.path.dirname(__file__), path),
+        os.path.join(os.path.dirname(__file__), "..", path),
+        path
     ]
 
-    for path in possible_paths:
+    for full_path in paths:
 
         try:
 
-            if os.path.exists(path):
+            if os.path.exists(full_path):
 
-                with open(path, "rb") as f:
+                with open(full_path, "rb") as f:
                     return base64.b64encode(f.read()).decode()
 
         except Exception:
@@ -97,32 +110,27 @@ def img_to_base64(filename):
 
 robot = (
     img_to_base64("robot_black.png")
-    or img_to_base64("robot.png")
+    or img_to_base64("robot_black(2).png")
     or img_to_base64("robot_head.png")
+    or img_to_base64("robot.png")
 )
 
-# fallback avatar
+# =========================
+# ROBOT AVATAR
+# =========================
+
 if robot:
 
-    robot_avatar = f'''
-    <img class="msg-avatar"
-    src="data:image/png;base64,{robot}"
-    style="width:70px;height:70px;">
+    robot_avatar_top = f'''
+    <img class="top-avatar"
+    src="data:image/png;base64,{robot}">
     '''
 
 else:
 
-    robot_avatar = '''
-    <div class="msg-avatar user-avatar"
-    style="
-    width:70px;
-    height:70px;
-    background:#111827;
-    color:white;
-    font-size:28px;
-    font-weight:900;
-    ">
-    AI
+    robot_avatar_top = '''
+    <div class="top-avatar fallback-avatar">
+        AI
     </div>
     '''
 
@@ -133,24 +141,24 @@ else:
 st.markdown(f"""
 <style>
 
-html, body, [data-testid="stAppViewContainer"]{{
+html, body, [data-testid="stAppViewContainer"] {{
     background:#d8e9f8;
     direction:ltr;
 }}
 
-.block-container{{
+header, footer, #MainMenu {{
+    visibility:hidden;
+}}
+
+.block-container {{
     width:{PHONE_WIDTH}px !important;
     max-width:{PHONE_WIDTH}px !important;
     min-height:{PHONE_HEIGHT}px !important;
     margin:auto;
-    padding-top:18px;
+    padding:18px 12px 10px !important;
 }}
 
-header, footer, #MainMenu{{
-    visibility:hidden;
-}}
-
-.phone{{
+.phone {{
     background:#f7fbff;
     border-radius:38px;
     padding:18px;
@@ -160,119 +168,146 @@ header, footer, #MainMenu{{
     overflow:hidden;
 }}
 
-.top-bar{{
+.top-bar {{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:18px;
+    margin-bottom:16px;
 }}
 
-.title{{
+.title {{
     font-size:28px;
     font-weight:900;
     color:#0f2446;
 }}
 
-.sub{{
+.sub {{
     color:#5b6472;
     font-size:14px;
+    margin-top:4px;
 }}
 
-.chat-area{{
-    height:420px;
+.top-avatar {{
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    object-fit:cover;
+    background:white;
+    box-shadow:0 4px 14px rgba(0,0,0,.12);
+}}
+
+.fallback-avatar {{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#111827;
+    color:white;
+    font-size:28px;
+    font-weight:900;
+}}
+
+.quick-title {{
+    margin-top:8px;
+    margin-bottom:12px;
+    font-size:17px;
+    font-weight:900;
+    color:#0f2446;
+    text-align:left;
+}}
+
+div[data-testid="stButton"] button {{
+    width:100%;
+    min-height:64px;
+    border:none;
+    border-radius:18px;
+    padding:8px;
+    background:white;
+    color:#0f4f91;
+    font-weight:800;
+    font-size:13px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+}}
+
+div[data-testid="stButton"] button:hover {{
+    background:#eef6ff;
+}}
+
+.chat-area {{
+    height:410px;
     overflow-y:auto;
     padding:12px;
     background:#eef5fc;
     border-radius:24px;
-    margin-bottom:18px;
+    margin-top:14px;
+    margin-bottom:12px;
     border:1px solid #d8e7f6;
 }}
 
-.message-row{{
+.message-row {{
     display:flex;
     align-items:flex-end;
     margin-bottom:14px;
+    gap:8px;
 }}
 
-.user-row{{
+.user-row {{
     justify-content:flex-end;
 }}
 
-.bot-row{{
+.bot-row {{
     justify-content:flex-start;
 }}
 
-.msg{{
-    padding:13px 18px;
+.msg {{
+    padding:12px 16px;
     border-radius:18px;
     max-width:75%;
     font-size:15px;
     line-height:1.7;
     word-wrap:break-word;
+    white-space:pre-wrap;
+    text-align:left;
 }}
 
-.user{{
+.user {{
     background:linear-gradient(135deg,#4da3ff,#1677e8);
     color:white;
     border-bottom-right-radius:6px;
 }}
 
-.bot{{
+.bot {{
     background:white;
     color:#111827;
     border-bottom-left-radius:6px;
     box-shadow:0 2px 10px rgba(0,0,0,.08);
 }}
 
-.msg-avatar{{
+.msg-avatar {{
     width:42px;
     height:42px;
     border-radius:50%;
-    margin:0 8px;
     object-fit:cover;
     background:white;
+    box-shadow:0 3px 8px rgba(0,0,0,.10);
 }}
 
-.user-avatar{{
-    background:#dbeafe;
+.user-avatar {{
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:18px;
-}}
-
-.quick-title{{
-    margin-top:5px;
-    margin-bottom:12px;
-    font-size:16px;
-    font-weight:900;
-    color:#0f2446;
-}}
-
-.stButton button{{
-    width:100%;
-    min-height:72px;
-    border:none;
-    border-radius:18px;
-    padding:12px;
-    background:white;
+    background:#dbeafe;
     color:#0f4f91;
-    font-weight:800;
-    box-shadow:0 4px 14px rgba(0,0,0,.08);
-    transition:0.2s;
+    font-weight:900;
 }}
 
-.stButton button:hover{{
-    background:#eef6ff;
-    color:#2f80ed;
-    transform:translateY(-2px);
+section[data-testid="stChatInput"] {{
+    width:{PHONE_WIDTH - 24}px !important;
+    max-width:{PHONE_WIDTH - 24}px !important;
+    margin:auto !important;
 }}
 
-[data-testid="stChatInput"]{{
-    width:100% !important;
-}}
-
-[data-testid="stChatInput"] textarea{{
+div[data-testid="stChatInput"] textarea {{
+    direction:ltr;
     border-radius:24px !important;
     border:none !important;
     background:white !important;
@@ -300,7 +335,7 @@ st.markdown(f"""
         <div class="sub">Smart Telecom Assistant</div>
     </div>
 
-    {robot_avatar}
+    {robot_avatar_top}
 
 </div>
 """, unsafe_allow_html=True)
@@ -369,9 +404,16 @@ for role, message in st.session_state[CHAT_KEY]:
     else:
 
         if robot:
-            avatar_html = f'<img class="msg-avatar" src="data:image/png;base64,{robot}">'
+            avatar_html = f'''
+            <img class="msg-avatar"
+            src="data:image/png;base64,{robot}">
+            '''
         else:
-            avatar_html = '<div class="msg-avatar user-avatar">AI</div>'
+            avatar_html = '''
+            <div class="msg-avatar user-avatar">
+                AI
+            </div>
+            '''
 
         chat_html += f"""
 <div class="message-row bot-row">
@@ -384,11 +426,14 @@ chat_html += """
 </div>
 
 <script>
-const chatArea = window.parent.document.querySelector('.chat-area');
+
+const chatArea =
+window.parent.document.querySelector(".chat-area");
 
 if (chatArea) {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
+
 </script>
 """
 
