@@ -41,17 +41,29 @@ def save_chat_history():
 
 
 def img_to_base64(path):
-    try:
-        full_path = os.path.join(os.path.dirname(__file__), "..", path)
-        if os.path.exists(full_path):
-            with open(full_path, "rb") as f:
-                return base64.b64encode(f.read()).decode()
-    except Exception:
-        pass
+    paths = [
+        os.path.join(os.path.dirname(__file__), path),
+        os.path.join(os.path.dirname(__file__), "..", path),
+        path
+    ]
+
+    for full_path in paths:
+        try:
+            if os.path.exists(full_path):
+                with open(full_path, "rb") as f:
+                    return base64.b64encode(f.read()).decode()
+        except Exception:
+            pass
+
     return ""
 
 
-robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
+robot = (
+    img_to_base64("robot_black.png")
+    or img_to_base64("robot_black(2).png")
+    or img_to_base64("robot_head.png")
+    or img_to_base64("robot.png")
+)
 
 
 def is_thanks_or_close(text):
@@ -459,35 +471,34 @@ c1, c2, c3 = st.columns(3)
 c4, c5, c6 = st.columns(3)
 
 with c1:
-    if st.button("Network Test"):
-        send_message("Network Test")
+    if st.button("فحص الشبكة"):
+        send_message("فحص الشبكة")
         st.rerun()
 
 with c2:
-    if st.button("Internet Usage"):
-        send_message("Internet Usage")
+    if st.button("استهلاك الإنترنت"):
+        send_message("استهلاك الإنترنت")
         st.rerun()
 
 with c3:
-    if st.button("Renew Package"):
-        send_message("Renew Package")
+    if st.button("تجديد الباقة"):
+        send_message("تجديد الباقة")
         st.rerun()
 
 with c4:
-    if st.button("International Calls"):
-        send_message("International Calls")
+    if st.button("المكالمات الدولية"):
+        send_message("المكالمات الدولية")
         st.rerun()
 
 with c5:
-    if st.button("Offers & Games"):
-        send_message("Offers & Games")
+    if st.button("العروض والألعاب"):
+        send_message("العروض والألعاب")
         st.rerun()
 
 with c6:
-    if st.button("Contact Support"):
-        send_message("Contact Support")
+    if st.button("التواصل مع الدعم"):
+        send_message("التواصل مع الدعم")
         st.rerun()
-
 
 chat_html = '<div class="chat-area">'
 
