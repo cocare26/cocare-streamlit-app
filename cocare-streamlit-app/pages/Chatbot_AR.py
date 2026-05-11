@@ -1,32 +1,19 @@
 import streamlit as st
 import base64
 import html as html_lib
-import time
 import os
+import time
 
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
-# =========================
-# PHONE SIZE
-# =========================
-
 PHONE_WIDTH = 430
-PHONE_HEIGHT = 820
-
-# =========================
-# SESSION
-# =========================
-
-CHAT_KEY = "chat_en_messages"
+CHAT_KEY = "chat_ar_messages_v3"
 
 if CHAT_KEY not in st.session_state:
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
+        ("bot", "مرحباً 👋 أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
     ]
 
-# =========================
-# FUNCTIONS
-# =========================
 
 def save_chat_history():
     pass
@@ -37,56 +24,49 @@ def reset_context():
 
 
 def get_bot_response(message):
-
     message = str(message).lower()
 
-    if "network" in message:
-        return "Running network diagnostics now..."
+    if "شبكة" in message or "فحص" in message:
+        return "جاري فحص الشبكة الآن..."
 
-    elif "usage" in message:
-        return "You can check your internet usage from the account or usage section."
+    elif "استهلاك" in message or "الانترنت" in message:
+        return "يمكنك معرفة استهلاك الإنترنت من قسم الاستخدام."
 
-    elif "renew" in message or "package" in message:
-        return "You can renew your package from the packages or payments section."
+    elif "تجديد" in message or "الباقة" in message:
+        return "يمكنك تجديد الباقة من قسم الباقات."
 
-    elif "international" in message or "calls" in message:
-        return "International call services are available depending on your line type."
+    elif "دولي" in message or "مكالمات" in message:
+        return "خدمة المكالمات الدولية متوفرة حسب نوع خطك."
 
-    elif "offers" in message or "games" in message:
-        return "Current offers are available in the offers section."
+    elif "عروض" in message or "ألعاب" in message:
+        return "يمكنك الاطلاع على العروض وباقات الألعاب من قسم العروض."
 
-    elif "support" in message:
-        return "Your request has been sent to the support team."
+    elif "دعم" in message or "التواصل" in message:
+        return "تم إرسال طلبك إلى فريق الدعم."
 
     else:
-        return "CoCare Assistant is processing your request."
+        return "يقوم مساعد CoCare بمعالجة طلبك."
 
 
 def send_message(text):
-
-    if not text:
+    if not text or not text.strip():
         return
 
-    st.session_state[CHAT_KEY].append(("user", text))
+    st.session_state[CHAT_KEY].append(("user", text.strip()))
+    st.session_state[CHAT_KEY].append(("bot", "جاري الكتابة..."))
 
-    st.session_state[CHAT_KEY].append(("bot", "Typing..."))
-
-    time.sleep(0.3)
+    time.sleep(0.25)
 
     st.session_state[CHAT_KEY].pop()
 
-    bot_reply = get_bot_response(text)
+    reply = get_bot_response(text)
 
-    st.session_state[CHAT_KEY].append(("bot", bot_reply))
+    st.session_state[CHAT_KEY].append(("bot", reply))
 
     save_chat_history()
 
-# =========================
-# IMAGE
-# =========================
 
 def img_to_base64(path):
-
     paths = [
         os.path.join(os.path.dirname(__file__), path),
         os.path.join(os.path.dirname(__file__), "..", path),
@@ -94,14 +74,10 @@ def img_to_base64(path):
     ]
 
     for full_path in paths:
-
         try:
-
             if os.path.exists(full_path):
-
                 with open(full_path, "rb") as f:
                     return base64.b64encode(f.read()).decode()
-
         except Exception:
             pass
 
@@ -115,276 +91,279 @@ robot = (
     or img_to_base64("robot.png")
 )
 
-# =========================
-# ROBOT AVATAR
-# =========================
-
 if robot:
-
-    robot_avatar_top = f'''
-    <img class="top-avatar"
-    src="data:image/png;base64,{robot}">
-    '''
-
+    avatar_top = f'<img class="avatar-top" src="data:image/png;base64,{robot}">'
+    avatar_msg = f'<img class="msg-avatar" src="data:image/png;base64,{robot}">'
 else:
+    avatar_top = '<div class="avatar-top fallback-avatar">AI</div>'
+    avatar_msg = '<div class="msg-avatar fallback-small">AI</div>'
 
-    robot_avatar_top = '''
-    <div class="top-avatar fallback-avatar">
-        AI
-    </div>
-    '''
-
-# =========================
-# STYLE
-# =========================
 
 st.markdown(f"""
 <style>
 
 html, body, [data-testid="stAppViewContainer"] {{
-    background:#d8e9f8;
-    direction:ltr;
+    background:#eef2f7 !important;
+    direction:rtl;
 }}
 
-header, footer, #MainMenu {{
-    visibility:hidden;
+header, footer, #MainMenu, [data-testid="stToolbar"] {{
+    display:none !important;
+    visibility:hidden !important;
 }}
 
 .block-container {{
     width:{PHONE_WIDTH}px !important;
     max-width:{PHONE_WIDTH}px !important;
-    min-height:{PHONE_HEIGHT}px !important;
-    margin:auto;
-    padding:18px 12px 10px !important;
+    min-height:700px !important;
+    margin:24px auto !important;
+    padding:24px 16px 18px !important;
+    background:linear-gradient(180deg,#c7e6fb,#dff1ff) !important;
+    border-radius:38px !important;
+    box-shadow:0 12px 35px rgba(0,0,0,.12) !important;
+    overflow:hidden !important;
 }}
 
-.phone {{
-    background:#f7fbff;
-    border-radius:38px;
-    padding:18px;
-    box-shadow:0 12px 35px rgba(0,0,0,.15);
-    min-height:{PHONE_HEIGHT}px;
-    border:1px solid #d9e8f7;
-    overflow:hidden;
-}}
-
-.top-bar {{
+.top-card {{
+    background:white;
+    border-radius:18px;
+    padding:9px 12px;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
+    box-shadow:0 5px 15px rgba(0,0,0,.10);
     margin-bottom:16px;
 }}
 
-.title {{
-    font-size:28px;
-    font-weight:900;
+.location {{
+    font-size:11px;
+    font-weight:800;
     color:#0f2446;
 }}
 
-.sub {{
-    color:#5b6472;
-    font-size:14px;
-    margin-top:4px;
+.ready {{
+    font-size:13px;
+    font-weight:900;
+    color:#111827;
+    display:flex;
+    align-items:center;
+    gap:6px;
 }}
 
-.top-avatar {{
-    width:72px;
-    height:72px;
+.dot {{
+    width:7px;
+    height:7px;
+    background:#22c55e;
+    border-radius:50%;
+    display:inline-block;
+}}
+
+.avatar-top {{
+    width:42px;
+    height:42px;
     border-radius:50%;
     object-fit:cover;
-    background:white;
-    box-shadow:0 4px 14px rgba(0,0,0,.12);
+    background:#111827;
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
 }}
 
 .fallback-avatar {{
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#111827;
     color:white;
-    font-size:28px;
     font-weight:900;
 }}
 
 .quick-title {{
-    margin-top:8px;
-    margin-bottom:12px;
-    font-size:17px;
-    font-weight:900;
     color:#0f2446;
-    text-align:left;
+    font-size:12px;
+    font-weight:900;
+    margin:8px 0 10px;
+    text-align:right;
+}}
+
+div[data-testid="column"] {{
+    padding:4px !important;
 }}
 
 div[data-testid="stButton"] button {{
     width:100%;
-    min-height:64px;
-    border:none;
-    border-radius:18px;
-    padding:8px;
-    background:white;
-    color:#0f4f91;
-    font-weight:800;
-    font-size:13px;
-    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    min-height:40px;
+    border:none !important;
+    border-radius:18px !important;
+    background:white !important;
+    color:#003f88 !important;
+    font-weight:700 !important;
+    font-size:13px !important;
+    box-shadow:0 5px 14px rgba(0,0,0,.10) !important;
 }}
 
 div[data-testid="stButton"] button:hover {{
-    background:#eef6ff;
+    background:#eef7ff !important;
 }}
 
 .chat-area {{
-    height:410px;
+    height:315px;
     overflow-y:auto;
-    padding:12px;
-    background:#eef5fc;
-    border-radius:24px;
-    margin-top:14px;
-    margin-bottom:12px;
-    border:1px solid #d8e7f6;
+    padding:12px 8px;
+    margin-top:12px;
+    margin-bottom:10px;
 }}
 
 .message-row {{
     display:flex;
     align-items:flex-end;
-    margin-bottom:14px;
     gap:8px;
-}}
-
-.user-row {{
-    justify-content:flex-end;
+    margin-bottom:12px;
 }}
 
 .bot-row {{
     justify-content:flex-start;
 }}
 
-.msg {{
-    padding:12px 16px;
-    border-radius:18px;
-    max-width:75%;
-    font-size:15px;
-    line-height:1.7;
-    word-wrap:break-word;
-    white-space:pre-wrap;
-    text-align:left;
+.user-row {{
+    justify-content:flex-end;
 }}
 
-.user {{
-    background:linear-gradient(135deg,#4da3ff,#1677e8);
-    color:white;
-    border-bottom-right-radius:6px;
+.msg {{
+    max-width:72%;
+    padding:9px 13px;
+    border-radius:15px;
+    font-size:13px;
+    line-height:1.9;
+    word-wrap:break-word;
+    white-space:pre-wrap;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
 }}
 
 .bot {{
     background:white;
     color:#111827;
-    border-bottom-left-radius:6px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    border-bottom-right-radius:5px;
+    text-align:right;
+}}
+
+.user {{
+    background:#1677e8;
+    color:white;
+    border-bottom-left-radius:5px;
+    text-align:right;
 }}
 
 .msg-avatar {{
-    width:42px;
-    height:42px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     object-fit:cover;
     background:white;
-    box-shadow:0 3px 8px rgba(0,0,0,.10);
+    flex-shrink:0;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
 }}
 
 .user-avatar {{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#dbeafe;
+    color:#0f4f91;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#dbeafe;
-    color:#0f4f91;
+    font-weight:900;
+    flex-shrink:0;
+}}
+
+.fallback-small {{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#111827;
+    color:white;
+    font-size:12px;
     font-weight:900;
 }}
 
-section[data-testid="stChatInput"] {{
-    width:{PHONE_WIDTH - 24}px !important;
-    max-width:{PHONE_WIDTH - 24}px !important;
-    margin:auto !important;
+div[data-testid="stForm"] {{
+    border:none !important;
+    padding:0 !important;
+    background:transparent !important;
 }}
 
-div[data-testid="stChatInput"] textarea {{
-    direction:ltr;
-    border-radius:24px !important;
+div[data-testid="stTextInput"] input {{
     border:none !important;
+    border-radius:22px !important;
     background:white !important;
-    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    box-shadow:0 3px 12px rgba(0,0,0,.08) !important;
+    padding:12px 14px !important;
+    color:#111827 !important;
+    direction:rtl;
+    text-align:right;
+}}
+
+div[data-testid="stFormSubmitButton"] button {{
+    min-height:42px !important;
+    border-radius:22px !important;
+    background:#1677e8 !important;
+    color:white !important;
+    font-weight:900 !important;
+    width:90px !important;
 }}
 
 </style>
 """, unsafe_allow_html=True)
 
-# =========================
-# PHONE CONTAINER
-# =========================
-
-st.markdown('<div class="phone">', unsafe_allow_html=True)
-
-# =========================
-# TOP BAR
-# =========================
 
 st.markdown(f"""
-<div class="top-bar">
-
-    <div>
-        <div class="title">CoCare AI</div>
-        <div class="sub">Smart Telecom Assistant</div>
+<div class="top-card">
+    {avatar_top}
+    <div class="ready">
+        <span class="dot"></span>
+        جاهز للمساعدة
     </div>
-
-    {robot_avatar_top}
-
+    <div class="location">📍 عمان</div>
 </div>
 """, unsafe_allow_html=True)
 
-# =========================
-# QUICK SERVICES
-# =========================
-
 st.markdown(
-    '<div class="quick-title">Quick Services</div>',
+    '<div class="quick-title">الخدمات السريعة</div>',
     unsafe_allow_html=True
 )
 
 c1, c2, c3 = st.columns(3)
-c4, c5, c6 = st.columns(3)
 
 with c1:
-    if st.button("Network Test"):
-        send_message("Network Test")
+    if st.button("فحص الشبكة"):
+        send_message("فحص الشبكة")
         st.rerun()
 
 with c2:
-    if st.button("Internet Usage"):
-        send_message("Internet Usage")
+    if st.button("استهلاك الإنترنت"):
+        send_message("استهلاك الإنترنت")
         st.rerun()
 
 with c3:
-    if st.button("Renew Package"):
-        send_message("Renew Package")
+    if st.button("تجديد الباقة"):
+        send_message("تجديد الباقة")
         st.rerun()
 
+c4, c5, c6 = st.columns(3)
+
 with c4:
-    if st.button("International Calls"):
-        send_message("International Calls")
+    if st.button("المكالمات الدولية"):
+        send_message("المكالمات الدولية")
         st.rerun()
 
 with c5:
-    if st.button("Offers & Games"):
-        send_message("Offers & Games")
+    if st.button("العروض والألعاب"):
+        send_message("العروض والألعاب")
         st.rerun()
 
 with c6:
-    if st.button("Contact Support"):
-        send_message("Contact Support")
+    if st.button("التواصل مع الدعم"):
+        send_message("التواصل مع الدعم")
         st.rerun()
 
-# =========================
-# CHAT AREA
-# =========================
 
 chat_html = '<div class="chat-area">'
 
@@ -395,58 +374,30 @@ for role, message in st.session_state[CHAT_KEY]:
     if role == "user":
 
         chat_html += f"""
-<div class="message-row user-row">
-    <div class="msg user">{safe_msg}</div>
-    <div class="msg-avatar user-avatar">U</div>
-</div>
-"""
+        <div class="message-row user-row">
+            <div class="user-avatar">أنت</div>
+            <div class="msg user">{safe_msg}</div>
+        </div>
+        """
 
     else:
 
-        if robot:
-            avatar_html = f'''
-            <img class="msg-avatar"
-            src="data:image/png;base64,{robot}">
-            '''
-        else:
-            avatar_html = '''
-            <div class="msg-avatar user-avatar">
-                AI
-            </div>
-            '''
-
         chat_html += f"""
-<div class="message-row bot-row">
-    {avatar_html}
-    <div class="msg bot">{safe_msg}</div>
-</div>
-"""
+        <div class="message-row bot-row">
+            {avatar_msg}
+            <div class="msg bot">{safe_msg}</div>
+        </div>
+        """
 
-chat_html += """
-</div>
-
-<script>
-
-const chatArea =
-window.parent.document.querySelector(".chat-area");
-
-if (chatArea) {{
-    chatArea.scrollTop = chatArea.scrollHeight;
-}}
-
-</script>
-"""
+chat_html += "</div>"
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# =========================
-# CLEAR CHAT
-# =========================
 
 if st.button("Clear Chat"):
 
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
+        ("bot", "مرحباً 👋 أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
     ]
 
     reset_context()
@@ -455,16 +406,19 @@ if st.button("Clear Chat"):
 
     st.rerun()
 
-# =========================
-# CHAT INPUT
-# =========================
 
-user_input = st.chat_input("Type your message here...")
+with st.form("chat_form", clear_on_submit=True):
 
-if user_input:
+    user_input = st.text_input(
+        "",
+        placeholder="اكتب رسالتك هنا...",
+        label_visibility="collapsed"
+    )
 
-    send_message(user_input)
+    send_btn = st.form_submit_button("إرسال")
 
-    st.rerun()
+    if send_btn and user_input.strip():
 
-st.markdown("</div>", unsafe_allow_html=True)
+        send_message(user_input)
+
+        st.rerun()
