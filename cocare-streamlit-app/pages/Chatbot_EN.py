@@ -793,16 +793,20 @@ with c6:
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
+
     safe_msg = html_lib.escape(str(message))
 
     if role == "user":
+
         chat_html += f"""
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
     <div class="msg-avatar user-avatar">U</div>
 </div>
 """
+
     else:
+
         chat_html += f"""
 <div class="message-row bot-row">
     <img class="msg-avatar" src="data:image/png;base64,{robot}">
@@ -815,6 +819,7 @@ chat_html += """
 
 <script>
 const chatArea = window.parent.document.querySelector('.chat-area');
+
 if (chatArea) {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
