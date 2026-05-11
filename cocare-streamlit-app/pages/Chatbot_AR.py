@@ -590,6 +590,7 @@ chat_html += """
 
 <script>
 const chatArea = window.parent.document.querySelector('.chat-area');
+
 if (chatArea) {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
