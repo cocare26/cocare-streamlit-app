@@ -265,64 +265,46 @@ st.markdown(f"""
 # 3. أيقونات الخدمات (الربط المطلوب)
 cols = st.columns(4)
 
-with cols[0]:
-
-    st.markdown(f"""
-    <style>
-    div[data-testid="column"]:nth-of-type(1) button {{
-        position:absolute;
-        top:0;
-        left:0;
-        width:100%;
-        height:100%;
-        opacity:0;
-        z-index:999;
-    }}
-    </style>
-
-    <div class="service-item clickable">
-        <img src="data:image/png;base64,{icon_internet}" class="service-icon-img">
-        <div class="service-label">Internet<br>Packages</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("internet", key="s1"):
-        st.switch_page("pages/InternetPackages.py")
-
-
-with cols[1]:
-
-    st.markdown(f"""
-    <div class="service-item clickable">
-        <img src="data:image/png;base64,{icon_renewals}" class="service-icon-img">
-        <div class="service-label">Renewals +<br>Tariff Changes</div>
-    </div>
-    """, unsafe_allow_html=True)
-
- cols = st.columns(4)
-
 services = [
-    ("internet", icon_internet, "Internet\nPackages", "pages/InternetPackages.py"),
-    ("renewals", icon_renewals, "Renewals +\nTariff Changes", "pages/RenewalsTariff.py"),
-    ("calls", icon_calls, "International\nCalls", "pages/InternationalCalls.py"),
-    ("notifications", icon_notifications, "Network\nNotifications", "pages/NetworkNotifications.py"),
+    {
+        "key": "internet",
+        "icon": icon_internet,
+        "label": "Internet<br>Packages",
+        "page": "pages/InternetPackages.py"
+    },
+    {
+        "key": "renewals",
+        "icon": icon_renewals,
+        "label": "Renewals +<br>Tariff Changes",
+        "page": "pages/RenewalsTariff.py"
+    },
+    {
+        "key": "calls",
+        "icon": icon_calls,
+        "label": "International<br>Calls",
+        "page": "pages/InternationalCalls.py"
+    },
+    {
+        "key": "notifications",
+        "icon": icon_notifications,
+        "label": "Network<br>Notifications",
+        "page": "pages/NetworkNotifications.py"
+    }
 ]
 
-for col, (key, icon, label, page_path) in zip(cols, services):
+for col, service in zip(cols, services):
 
     with col:
 
         st.markdown(f"""
         <div class="service-card">
-            <img src="data:image/png;base64,{icon}" class="service-icon-img">
-            <div class="service-label">{label}</div>
+            <img src="data:image/png;base64,{service['icon']}" class="service-icon-img">
+            <div class="service-label">{service['label']}</div>
         </div>
         """, unsafe_allow_html=True)
 
-        if st.button(label, key=key):
-            st.switch_page(page_path)  
-
-
+        if st.button(service["key"], key=service["key"]):
+            st.switch_page(service["page"])
 # 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
