@@ -5,19 +5,18 @@ import os
 
 st.set_page_config(page_title="لوحة الموظف", layout="centered")
 
-# =========================
-# الواجهة الأصلية
-# =========================
-
 components.html("""
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
+
 <style>
+
 body{
     margin:0;
     background:#eef2f7;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
 }
 
 .phone{
@@ -264,175 +263,223 @@ body{
     gap:10px;
 }
 
-.nav form{
+.nav-btn{
     width:33%;
-    margin:0;
-}
-
-.nav button{
-    width:100%;
     height:58px;
     border-radius:18px;
-    border:none;
     background:white;
     font-weight:900;
     font-size:13px;
     cursor:pointer;
     box-shadow:0 4px 10px rgba(0,0,0,.1);
+    text-decoration:none;
+    color:#111;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 }
 
-.nav span{
+.nav-btn span{
     display:block;
     font-size:22px;
     margin-bottom:3px;
     color:#376f91;
 }
+
 </style>
 </head>
 
 <body>
+
 <div class="phone">
+
 <div class="page">
 
 <div class="top">
-    <div class="rate-card">
-        <div class="circle">
-            <span>معدل الرضا</span>
-            <b>92%</b>
-        </div>
-    </div>
 
-    <div>
-        <div class="head">
-            <div class="title">مشاكل<br>الشبكة</div>
+<div class="rate-card">
+<div class="circle">
+<span>معدل الرضا</span>
+<b>92%</b>
+</div>
+</div>
 
-            <select class="location">
-                <option>📍 عمّان</option>
-                <option>📍 الزرقاء</option>
-                <option>📍 إربد</option>
-                <option>📍 البلقاء</option>
-                <option>📍 المفرق</option>
-                <option>📍 جرش</option>
-                <option>📍 عجلون</option>
-                <option>📍 مادبا</option>
-                <option>📍 الكرك</option>
-                <option>📍 الطفيلة</option>
-                <option>📍 معان</option>
-                <option>📍 العقبة</option>
-            </select>
-        </div>
+<div>
 
-        <div class="map">
-            <div class="road" style="top:8px;left:-65px;"></div>
-            <div class="road" style="top:32px;left:-40px;"></div>
-            <div class="road" style="top:60px;left:-65px;"></div>
-            <div class="road" style="top:86px;left:-25px;"></div>
-            <div class="road2" style="top:18px;left:48px;"></div>
-            <div class="road2" style="top:55px;left:70px;"></div>
-            <div class="road2" style="top:90px;left:90px;"></div>
-            <div class="dot" style="top:22px;left:78px;">●</div>
-            <div class="dot" style="top:44px;left:138px;">●</div>
-            <div class="dot" style="top:67px;left:148px;">●</div>
-            <div class="dot" style="top:13px;left:182px;font-size:13px;">●</div>
-        </div>
-    </div>
+<div class="head">
+
+<div class="title">
+مشاكل<br>
+الشبكة
+</div>
+
+<select class="location">
+<option>📍 عمّان</option>
+<option>📍 الزرقاء</option>
+<option>📍 إربد</option>
+<option>📍 البلقاء</option>
+<option>📍 المفرق</option>
+<option>📍 جرش</option>
+<option>📍 عجلون</option>
+<option>📍 مادبا</option>
+<option>📍 الكرك</option>
+<option>📍 الطفيلة</option>
+<option>📍 معان</option>
+<option>📍 العقبة</option>
+</select>
+
+</div>
+
+<div class="map">
+
+<div class="road" style="top:8px;left:-65px;"></div>
+<div class="road" style="top:32px;left:-40px;"></div>
+<div class="road" style="top:60px;left:-65px;"></div>
+<div class="road" style="top:86px;left:-25px;"></div>
+
+<div class="road2" style="top:18px;left:48px;"></div>
+<div class="road2" style="top:55px;left:70px;"></div>
+<div class="road2" style="top:90px;left:90px;"></div>
+
+<div class="dot" style="top:22px;left:78px;">●</div>
+<div class="dot" style="top:44px;left:138px;">●</div>
+<div class="dot" style="top:67px;left:148px;">●</div>
+<div class="dot" style="top:13px;left:182px;font-size:13px;">●</div>
+
+</div>
+
+</div>
+
 </div>
 
 <div class="section">سجل التنبيهات والمشاكل</div>
 
 <div class="alerts">
-    <div class="alert">
-        <div class="alert-head red">❗ مشكلة</div>
-        <div class="alert-body">
-            <b>المنطقة:</b> عمّان<br>
-            يتم عرض مشاكل العملاء من سجل الشات بالأسفل.
-        </div>
-    </div>
 
-    <div class="alert">
-        <div class="alert-head yellow">⚠️ داخلي</div>
-        <div class="alert-body">
-            تنبيهات الموظف تظهر حسب تحليل رسالة العميل.
-        </div>
-    </div>
+<div class="alert">
+<div class="alert-head red">❗ مشكلة</div>
 
-    <div class="alert">
-        <div class="alert-head blue">↗ خارجي</div>
-        <div class="alert-body">
-            إشعارات العميل تظهر عند الحاجة حسب التصعيد.
-        </div>
-    </div>
+<div class="alert-body">
+<b>المنطقة:</b> عمّان<br>
+يتم عرض مشاكل العملاء من سجل الشات بالأسفل.
+</div>
+</div>
+
+<div class="alert">
+<div class="alert-head yellow">⚠️ داخلي</div>
+
+<div class="alert-body">
+تنبيهات الموظف تظهر حسب تحليل رسالة العميل.
+</div>
+</div>
+
+<div class="alert">
+<div class="alert-head blue">↗ خارجي</div>
+
+<div class="alert-body">
+إشعارات العميل تظهر عند الحاجة حسب التصعيد.
+</div>
+</div>
+
 </div>
 
 <div class="section">مؤشرات أداء الشبكة</div>
 
 <div class="metrics">
-    <div class="chart">
-        <svg class="line" viewBox="0 0 140 70">
-            <polygon points="0,65 0,55 45,40 95,25 135,5 135,65" fill="#dbeafe"/>
-            <polyline points="0,55 45,40 95,25 135,5" fill="none" stroke="#2f80ed" stroke-width="4"/>
-        </svg>
-        <div style="position:absolute;left:15px;top:25px;font-size:12px;">20</div>
-        <div style="position:absolute;left:15px;top:63px;font-size:12px;">10</div>
-        <div style="position:absolute;left:15px;top:101px;font-size:12px;">0</div>
-        <div class="chart-title">متوسط زمن الاستجابة (ms)</div>
-    </div>
 
-    <div class="chart">
-        <div class="bar" style="left:45px;height:43px;"></div>
-        <div class="bar" style="left:76px;height:28px;"></div>
-        <div class="bar" style="left:107px;height:70px;"></div>
-        <div class="bar" style="left:138px;height:31px;"></div>
-        <div style="position:absolute;left:18px;top:25px;font-size:12px;">10</div>
-        <div style="position:absolute;left:18px;top:66px;font-size:12px;">5</div>
-        <div style="position:absolute;left:18px;top:101px;font-size:12px;">0</div>
-        <div class="chart-title">فقدان الحزم (%)</div>
-        <div class="chart-stars">★ ★ ★</div>
-    </div>
+<div class="chart">
+
+<svg class="line" viewBox="0 0 140 70">
+<polygon points="0,65 0,55 45,40 95,25 135,5 135,65" fill="#dbeafe"/>
+<polyline points="0,55 45,40 95,25 135,5"
+fill="none"
+stroke="#2f80ed"
+stroke-width="4"/>
+</svg>
+
+<div style="position:absolute;left:15px;top:25px;font-size:12px;">20</div>
+<div style="position:absolute;left:15px;top:63px;font-size:12px;">10</div>
+<div style="position:absolute;left:15px;top:101px;font-size:12px;">0</div>
+
+<div class="chart-title">
+متوسط زمن الاستجابة (ms)
 </div>
 
-<div class="section">إعلان موظف الشهر</div>
+</div>
+
+<div class="chart">
+
+<div class="bar" style="left:45px;height:43px;"></div>
+<div class="bar" style="left:76px;height:28px;"></div>
+<div class="bar" style="left:107px;height:70px;"></div>
+<div class="bar" style="left:138px;height:31px;"></div>
+
+<div style="position:absolute;left:18px;top:25px;font-size:12px;">10</div>
+<div style="position:absolute;left:18px;top:66px;font-size:12px;">5</div>
+<div style="position:absolute;left:18px;top:101px;font-size:12px;">0</div>
+
+<div class="chart-title">
+فقدان الحزم (%)
+</div>
+
+<div class="chart-stars">
+★ ★ ★
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+إعلان موظف الشهر
+</div>
 
 <div class="employee">
-    <div class="avatar">👨‍💼</div>
-    <div>
-        <div class="emp-name">أحمد علي</div>
-        <div class="emp-text">
-            تقديرًا لجهودك المميزة وأدائك الاستثنائي في تحسين استقرار الشبكة وخدمة العملاء هذا الشهر.
-            تهانينا على هذا التكريم المستحق.
-        </div>
-    </div>
+
+<div class="avatar">
+👨‍💼
+</div>
+
+<div>
+
+<div class="emp-name">
+أحمد علي
+</div>
+
+<div class="emp-text">
+تقديرًا لجهودك المميزة وأدائك الاستثنائي
+في تحسين استقرار الشبكة وخدمة العملاء هذا الشهر.
+تهانينا على هذا التكريم المستحق.
+</div>
+
+</div>
+
 </div>
 
 </div>
 
 <div class="nav">
 
-    <form action="/" method="get" target="_top">
-        <input type="hidden" name="page" value="home">
-        <button type="submit">
-            <span>⌂</span>
-            Home
-        </button>
-    </form>
+<a class="nav-btn" href="/" target="_top">
+<span>⌂</span>
+Home
+</a>
 
-    <form action="/" method="get" target="_top">
-        <input type="hidden" name="page" value="logout">
-        <button type="submit">
-            <span>⇥</span>
-            Logout
-        </button>
-    </form>
+<a class="nav-btn" href="/?page=logout" target="_top">
+<span>⇥</span>
+Logout
+</a>
 
-    <form action="/" method="get" target="_top">
-        <input type="hidden" name="page" value="todo">
-        <button type="submit">
-            <span>☑</span>
-            Tasks
-        </button>
-    </form>
+<a class="nav-btn" href="/?page=todo" target="_top">
+<span>☑</span>
+Tasks
+</a>
 
 </div>
+
+</div>
+
 </body>
 </html>
 """, height=830)
@@ -446,11 +493,20 @@ st.markdown("---")
 st.subheader("📊 تحليل رسائل العملاء")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CHAT_LOG_PATH = os.path.join(BASE_DIR, "..", "data", "chat_logs.csv")
+
+CHAT_LOG_PATH = os.path.join(
+    BASE_DIR,
+    "..",
+    "data",
+    "chat_logs.csv"
+)
 
 if os.path.exists(CHAT_LOG_PATH):
 
-    logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
+    logs = pd.read_csv(
+        CHAT_LOG_PATH,
+        encoding="utf-8-sig"
+    )
 
     if logs.empty:
 
@@ -460,81 +516,18 @@ if os.path.exists(CHAT_LOG_PATH):
 
         latest = logs.tail(1).iloc[0]
 
-        channel = str(latest.get("display_channel", "none"))
-        notification_type = str(latest.get("notification_type", "none"))
-
-        network_problem = str(
-            latest.get("network_problem", "False")
-        ).lower() in ["true", "1", "yes"]
-
-        col1, col2, col3 = st.columns(3)
-
-        with col1:
-            st.metric("Intent", latest.get("intent", ""))
-            st.metric("Sentiment", latest.get("sentiment", ""))
-
-        with col2:
-            st.metric("Problem", latest.get("issue_type", ""))
-            st.metric("Network", str(latest.get("network_problem", "")))
-
-        with col3:
-            st.metric("Notification", notification_type)
-            st.metric("Channel", channel)
-
-        st.markdown("### 🚦 حالة التصعيد")
-
-        if not network_problem:
-            st.success("✅ لا توجد مشكلة شبكة في آخر رسالة.")
-
-        elif channel == "monitoring_log":
-            st.info("🟢 متابعة عادية: تم تسجيل المشكلة بدون إرسال إشعار داخلي أو خارجي.")
-
-        elif channel == "customer_app":
-            st.warning("🟡 External Notification: تم إرسال إشعار للعميل بسبب تكرار المشكلة.")
-
-        elif channel == "employee_dashboard":
-            st.error("🔴 Internal Escalation: المشكلة تكررت في نفس المنطقة وتحتاج متابعة من الموظف.")
-
-        else:
-            st.info("لا توجد مرحلة تصعيد محددة حاليًا.")
-
-        st.markdown("### 🚨 Problem / Alert")
-
-        if network_problem:
-            st.error(f"نوع المشكلة: {latest.get('issue_type', '')}")
-            st.write("السبب:", latest.get("reason", ""))
-            st.write("الإجراء المقترح:", latest.get("suggested_action", ""))
-            st.write("عدد تكرار المشكلة للعميل:", latest.get("repeat_count", ""))
-            st.write("عدد مشاكل المنطقة:", latest.get("area_issue_count", ""))
-        else:
-            st.success("لا توجد مشكلة شبكة حالية.")
-
-        st.markdown("### 🏢 Internal Notification")
-
-        if channel == "employee_dashboard":
-            st.warning("تنبيه داخلي للموظف: يرجى متابعة الحالة من لوحة الموظف.")
-        else:
-            st.info("لا يوجد تنبيه داخلي حاليًا.")
-
-        st.markdown("### 📱 External Notification")
-
-        if channel == "customer_app":
-            st.warning("تنبيه خارجي للعميل: سيتم إشعار العميل بمتابعة المشكلة.")
-        elif channel == "employee_dashboard" and str(latest.get("show_to_customer", "0")) in ["1", "True", "true"]:
-            st.warning("تنبيه خارجي للعميل + تصعيد داخلي للموظف.")
-        else:
-            st.info("لا يوجد تنبيه خارجي حاليًا.")
-
-        st.markdown("### 👤 آخر رسالة")
-        st.write("رسالة العميل:", latest.get("message", ""))
-        st.write("رد البوت:", latest.get("bot_response", ""))
+        st.write("آخر عميل:", latest.get("user_id", ""))
         st.write("المنطقة:", latest.get("region", ""))
-        st.write("العميل:", latest.get("user_id", ""))
-        st.write("Decision Rule:", latest.get("decision_rule", ""))
+        st.write("الرسالة:", latest.get("message", ""))
+        st.write("رد البوت:", latest.get("bot_response", ""))
 
-        st.markdown("### 📋 آخر 20 سجل")
-        st.dataframe(logs.tail(20), use_container_width=True)
+        st.dataframe(
+            logs.tail(20),
+            use_container_width=True
+        )
 
 else:
 
-    st.info("لا يوجد ملف سجلات بعد. أرسلي رسالة من شات العميل أولاً.")
+    st.info(
+        "لا يوجد ملف سجلات بعد. أرسلي رسالة من شات العميل أولاً."
+    )
