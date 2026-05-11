@@ -195,12 +195,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
 }}
 
 
-/* أزرار الشريط السفلي */
 
-.nav-button div.stButton {{
-    height: 70px !important;
-    margin-top: -70px !important;
-}}
 
 .star-rating {{ display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }}
 .star-rating input {{ display: none; }}
