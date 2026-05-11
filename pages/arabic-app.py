@@ -8,18 +8,18 @@ st.set_page_config(page_title="تطبيق الاتصالات", layout="centered"
 page = st.query_params.get("page", "")
 
 
-if page == "create":
-    st.switch_page("pages/1_Create_Account.py")
-
-elif page == "customer":
+if page == "customer":
     st.switch_page("pages/Customer_ar.py")
 
 elif page == "employee":
     st.switch_page("pages/employee_dashboard_ara.py")
 
+elif page == "create":
+    st.switch_page("pages/1_Create_Account.py")
+
 elif page == "forgot":
     st.switch_page("pages/2_Forgot_Password.py")
-
+    
 # 📷 تحميل صورة البوت
 with open("robot.png", "rb") as f:
     img = base64.b64encode(f.read()).decode()
@@ -143,8 +143,7 @@ oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
 <script>
 function goPage(p){{
-    const base = window.parent.location.origin + window.parent.location.pathname;
-    window.parent.location.href = base + "?page=" + p;
+    window.open('/?page=' + p, '_top');
 }}
 
 function login(){{
@@ -168,4 +167,4 @@ function login(){{
 """
 
 # عرض الصفحة
-components.html(html, height=700)
+components.html(html, height=700, scrolling=False)
