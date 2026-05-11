@@ -184,12 +184,16 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     color: #102646;
     line-height: 1.2;
 }}
-
 .stButton > button {{
     width: 100%;
-    border-radius: 15px;
-    height: 40px;
+    height: 120px;
+    opacity: 0;
+    margin-top: -120px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
 }}
+
 
 /* أزرار الشريط السفلي */
 
@@ -302,9 +306,8 @@ for col, service in zip(cols, services):
             <div class="service-label">{service['label']}</div>
         </div>
         """, unsafe_allow_html=True)
-
-        if st.button(service["key"], key=service["key"]):
-            st.switch_page(service["page"])
+if st.button("", key=service["key"]):
+       
 # 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
