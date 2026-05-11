@@ -161,24 +161,35 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 
-/* إصلاح الأزرار */
+.service-card {
+    background: white;
+    border-radius: 18px;
+    padding: 10px 6px;
+    text-align: center;
+    height: 120px;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
 
-div.stButton {{
-    position: relative;
-    width: 100%;
-    height: 100px;
-    margin-top: -100px;
-    z-index: 999;
-}}
+.service-icon-img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
 
-div.stButton > button {{
+.service-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #102646;
+    line-height: 1.2;
+}
+
+.stButton > button {
     width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-}}
+    border-radius: 15px;
+    height: 40px;
+}
 
 /* أزرار الشريط السفلي */
 
@@ -288,34 +299,29 @@ with cols[1]:
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("renewals", key="s2"):
-        st.switch_page("pages/RenewalsTariff.py")
+ cols = st.columns(4)
 
+services = [
+    ("internet", icon_internet, "Internet\nPackages", "pages/InternetPackages.py"),
+    ("renewals", icon_renewals, "Renewals +\nTariff Changes", "pages/RenewalsTariff.py"),
+    ("calls", icon_calls, "International\nCalls", "pages/InternationalCalls.py"),
+    ("notifications", icon_notifications, "Network\nNotifications", "pages/NetworkNotifications.py"),
+]
 
-with cols[2]:
+for col, (key, icon, label, page_path) in zip(cols, services):
 
-    st.markdown(f"""
-    <div class="service-item clickable">
-        <img src="data:image/png;base64,{icon_calls}" class="service-icon-img">
-        <div class="service-label">International<br>Calls</div>
-    </div>
-    """, unsafe_allow_html=True)
+    with col:
 
-    if st.button("calls", key="s3"):
-        st.switch_page("pages/InternationalCalls.py")
+        st.markdown(f"""
+        <div class="service-card">
+            <img src="data:image/png;base64,{icon}" class="service-icon-img">
+            <div class="service-label">{label}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
+        if st.button(label, key=key):
+            st.switch_page(page_path)  
 
-with cols[3]:
-
-    st.markdown(f"""
-    <div class="service-item clickable">
-        <img src="data:image/png;base64,{icon_notifications}" class="service-icon-img">
-        <div class="service-label">Network<br>Notifications</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("notifications", key="s4"):
-        st.switch_page("pages/NetworkNotifications.py")
 
 # 4. قسم التقييم
 st.markdown("""
