@@ -46,12 +46,21 @@ def img_to_base64(path):
         if os.path.exists(full_path):
             with open(full_path, "rb") as f:
                 return base64.b64encode(f.read()).decode()
+
+        full_path2 = os.path.join(os.path.dirname(__file__), path)
+        if os.path.exists(full_path2):
+            with open(full_path2, "rb") as f:
+                return base64.b64encode(f.read()).decode()
     except Exception:
         pass
     return ""
 
 
-robot = img_to_base64("robot_head.png") or img_to_base64("robot.png")
+robot = (
+    img_to_base64("robot_black.png")
+    or img_to_base64("robot_head.png")
+    or img_to_base64("robot.png")
+)
 
 
 def is_thanks_or_close(text):
@@ -208,11 +217,11 @@ def direct_service_reply(text):
         reset_context()
         return "خدمة المكالمات الدولية متاحة حسب نوع خطك. بدك تعرف الأسعار ولا طريقة التفعيل؟"
 
-    if t in ["العروض", "offers & games"]:
+    if t in ["العروض والألعاب", "العروض", "offers & games"]:
         reset_context()
         return "العروض الحالية متاحة من قسم العروض 🎁 بدك عروض إنترنت ولا مكالمات؟"
 
-    if t in ["الدعم", "contact support"]:
+    if t in ["التواصل مع الدعم", "الدعم", "contact support"]:
         reset_context()
         return "أكيد، احكيلي تفاصيل المشكلة الفنية وسأساعدك خطوة بخطوة."
 
@@ -296,87 +305,126 @@ def send_message(text):
 st.markdown("""
 <style>
 html, body, [data-testid="stAppViewContainer"] {
-    background:#eef2f7;
+    background:#dceeff;
     direction:rtl;
 }
 header, footer, #MainMenu {
     visibility:hidden;
 }
 .block-container {
-    max-width:430px;
-    height:730px;
+    max-width:500px;
+    min-height:760px;
     margin:auto;
-    padding:14px 16px 8px;
-    border-radius:42px;
-    background:linear-gradient(160deg,#d6ecff,#bfe3ff,#eaf6ff);
-    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    padding:10px 12px 8px;
+    border-radius:28px;
+    background:#f8fcff;
+    box-shadow:0 12px 30px rgba(0,0,0,.13);
     overflow:hidden;
+    border:1px solid #cfe8ff;
 }
 .topbar {
-    height:58px;
-    background:white;
-    border-radius:18px;
-    display:flex;
+    height:112px;
+    background:#f9fcff;
+    border-radius:22px 22px 0 0;
+    display:grid;
+    grid-template-columns:86px 1fr 86px;
     align-items:center;
-    gap:10px;
-    padding:0 14px;
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
-    margin-bottom:10px;
+    gap:12px;
+    padding:12px 14px;
+    border-bottom:1px solid #cfe4f7;
+}
+.avatar-wrap {
+    position:relative;
+    width:78px;
+    height:78px;
 }
 .avatar {
-    width:42px;
-    height:42px;
+    width:78px;
+    height:78px;
     border-radius:50%;
     object-fit:cover;
+    background:white;
+    box-shadow:0 4px 12px rgba(0,0,0,.16);
 }
 .dot {
-    width:8px;
-    height:8px;
-    background:#36c06a;
+    position:absolute;
+    left:-2px;
+    bottom:10px;
+    width:13px;
+    height:13px;
+    background:#43d43b;
     border-radius:50%;
+    border:3px solid white;
 }
-.status {
-    font-size:15px;
-    font-weight:700;
-    color:#222;
+.status-main {
+    font-size:20px;
+    font-weight:900;
+    color:#102646;
+    margin-bottom:6px;
+}
+.status-sub {
+    font-size:14px;
+    font-weight:500;
+    color:#6b7280;
 }
 .region-label {
-    margin-right:auto;
-    font-size:11px;
-    color:#436577;
-    font-weight:700;
+    background:white;
+    color:#111;
+    font-size:15px;
+    font-weight:800;
+    border-radius:16px;
+    padding:12px 10px;
+    text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.13);
 }
 .quick-title {
-    font-size:13px;
-    font-weight:800;
+    font-size:18px;
+    font-weight:900;
     color:#102646;
-    margin:4px 0 6px;
+    margin:12px 4px 12px;
+    text-align:right;
+}
+div[data-testid="stHorizontalBlock"] {
+    gap:10px;
 }
 div[data-testid="stButton"] button {
-    border-radius:18px;
-    border:none;
+    border-radius:16px;
+    border:1px solid #edf2f7;
     background:white;
-    color:#102646;
-    font-weight:800;
-    font-size:12px;
-    box-shadow:0 3px 8px rgba(0,0,0,.10);
-    height:36px;
+    color:#155aa0;
+    font-weight:900;
+    font-size:14px;
+    box-shadow:0 4px 12px rgba(0,0,0,.10);
+    height:66px;
+    transition:.2s;
 }
 div[data-testid="stButton"] button:hover {
-    background:#eef6ff;
-    color:#1c6fa4;
+    background:#f4f9ff;
+    color:#0f4f91;
+    transform:translateY(-2px);
 }
 .chat-area {
-    height:350px;
+    height:390px;
     overflow-y:auto;
-    padding:10px 4px;
-    margin-top:10px;
-    margin-bottom:8px;
+    padding:18px 8px;
+    margin-top:14px;
+    margin-bottom:10px;
+    background:linear-gradient(180deg,#f2f8ff,#eef7ff);
+    border-top:1px solid #dbeafe;
+    border-bottom:1px solid #dbeafe;
+}
+.chat-area::-webkit-scrollbar {
+    width:5px;
+}
+.chat-area::-webkit-scrollbar-thumb {
+    background:#c4cdd8;
+    border-radius:10px;
 }
 .message-row {
     display:flex;
     align-items:flex-end;
-    margin-bottom:10px;
+    margin-bottom:18px;
+    gap:8px;
 }
 .user-row {
     justify-content:flex-start;
@@ -385,44 +433,51 @@ div[data-testid="stButton"] button:hover {
     justify-content:flex-end;
 }
 .msg {
-    max-width:75%;
-    padding:9px 12px;
-    border-radius:16px;
-    font-size:13px;
-    line-height:1.5;
+    max-width:74%;
+    padding:12px 16px;
+    border-radius:18px;
+    font-size:15px;
+    line-height:1.7;
     white-space:pre-wrap;
     text-align:right;
 }
 .bot {
     background:white;
-    color:#222;
-    border-bottom-right-radius:4px;
+    color:#111;
+    border-bottom-right-radius:5px;
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
 }
 .user {
-    background:#1c6fa4;
+    background:linear-gradient(135deg,#4aa3ff,#1677e8);
     color:white;
-    border-bottom-left-radius:4px;
+    border-bottom-left-radius:5px;
+    box-shadow:0 3px 10px rgba(22,119,232,.25);
 }
 .msg-avatar {
-    width:34px;
-    height:34px;
+    width:38px;
+    height:38px;
     border-radius:50%;
     object-fit:cover;
-    margin:0 6px;
+    background:white;
+    box-shadow:0 3px 8px rgba(0,0,0,.14);
 }
 .user-avatar {
-    width:34px;
-    height:34px;
+    width:38px;
+    height:38px;
     border-radius:50%;
-    background:#dbeafe;
+    background:white;
+    color:#1762ad;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:17px;
-    margin:0 6px;
+    font-size:20px;
+    box-shadow:0 3px 8px rgba(0,0,0,.14);
 }
 .typing {
     opacity:.75;
+}
+.clear-box button {
+    height:44px !important;
 }
 div[data-testid="stChatInput"] {
     position:relative !important;
@@ -432,10 +487,12 @@ div[data-testid="stChatInput"] {
 }
 div[data-testid="stChatInput"] textarea {
     direction:rtl;
-    border-radius:22px;
+    border-radius:24px;
     border:none;
     background:white;
-    font-size:13px;
+    font-size:14px;
+    min-height:45px;
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -445,9 +502,16 @@ region = st.session_state.get("region", "عمان")
 
 st.markdown(f"""
 <div class="topbar">
-    <img class="avatar" src="data:image/png;base64,{robot}">
-    <div class="dot"></div>
-    <div class="status">جاهز للمساعدة</div>
+    <div class="avatar-wrap">
+        <img class="avatar" src="data:image/png;base64,{robot}">
+        <div class="dot"></div>
+    </div>
+
+    <div>
+        <div class="status-main">جاهز للمساعدة</div>
+        <div class="status-sub">مساعد CoCare الذكي</div>
+    </div>
+
     <div class="region-label">📍 {html_lib.escape(region)}</div>
 </div>
 """, unsafe_allow_html=True)
@@ -459,33 +523,33 @@ c1, c2, c3 = st.columns(3)
 c4, c5, c6 = st.columns(3)
 
 with c1:
-    if st.button("Network Test"):
-        send_message("Network Test")
+    if st.button("📡\nفحص الشبكة"):
+        send_message("فحص الشبكة")
         st.rerun()
 
 with c2:
-    if st.button("Internet Usage"):
-        send_message("Internet Usage")
+    if st.button("📊\nاستهلاك الإنترنت"):
+        send_message("استهلاك الإنترنت")
         st.rerun()
 
 with c3:
-    if st.button("Renew Package"):
-        send_message("Renew Package")
+    if st.button("🧾\nتجديد الباقة"):
+        send_message("تجديد الباقة")
         st.rerun()
 
 with c4:
-    if st.button("International Calls"):
-        send_message("International Calls")
+    if st.button("☎️\nالمكالمات الدولية"):
+        send_message("المكالمات الدولية")
         st.rerun()
 
 with c5:
-    if st.button("Offers & Games"):
-        send_message("Offers & Games")
+    if st.button("🎁\nالعروض والألعاب"):
+        send_message("العروض والألعاب")
         st.rerun()
 
 with c6:
-    if st.button("Contact Support"):
-        send_message("Contact Support")
+    if st.button("🎧\nالتواصل مع الدعم"):
+        send_message("التواصل مع الدعم")
         st.rerun()
 
 
@@ -496,18 +560,14 @@ for role, message in st.session_state[CHAT_KEY]:
     safe_msg = html_lib.escape(str(message))
 
     if role == "user":
-
         chat_html += f"""
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
     <div class="msg-avatar user-avatar">👤</div>
 </div>
 """
-
     else:
-
         typing_class = " typing" if str(message) == "Typing..." else ""
-
         chat_html += f"""
 <div class="message-row bot-row">
     <img class="msg-avatar" src="data:image/png;base64,{robot}">
@@ -529,16 +589,16 @@ if (chatArea) {
 st.markdown(chat_html, unsafe_allow_html=True)
 
 
-if st.button("Clear Chat"):
+if st.button("🗑️ مسح المحادثة"):
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ("bot", "مرحبًا 👋 أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
     ]
     reset_context()
     save_chat_history()
     st.rerun()
 
 
-user_input = st.chat_input("Type your question here...")
+user_input = st.chat_input("اكتب رسالتك هنا...")
 
 if user_input:
     send_message(user_input)
