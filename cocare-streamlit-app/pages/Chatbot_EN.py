@@ -789,6 +789,9 @@ with c6:
         send_message("Contact Support")
         st.rerun()
 
+# =========================
+# CHAT AREA
+# =========================
 
 chat_html = '<div class="chat-area">'
 
@@ -798,33 +801,38 @@ for role, message in st.session_state[CHAT_KEY]:
 
     if role == "user":
 
-        chat_html += f"""
+        user_block = f'''
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
     <div class="msg-avatar user-avatar">U</div>
 </div>
-"""
+'''
+
+        chat_html += user_block
 
     else:
 
-        chat_html += f"""
+        bot_block = f'''
 <div class="message-row bot-row">
     <img class="msg-avatar" src="data:image/png;base64,{robot}">
     <div class="msg bot">{safe_msg}</div>
 </div>
-"""
+'''
 
-chat_html += """
+        chat_html += bot_block
+
+
+chat_html += '''
 </div>
 
 <script>
-const chatArea = window.parent.document.querySelector('.chat-area');
+const chatArea = window.parent.document.querySelector(".chat-area");
 
 if (chatArea) {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
 </script>
-"""
+'''
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
