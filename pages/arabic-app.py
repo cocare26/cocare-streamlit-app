@@ -8,7 +8,6 @@ st.set_page_config(page_title="تطبيق الاتصالات", layout="centered"
 page = st.query_params.get("page", "")
 
 
-
 if page == "create":
     st.switch_page("pages/1_Create_Account.py")
 
@@ -143,24 +142,25 @@ oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 </div>
 
 <script>
-function goPage(p){{
-    window.parent.location.href = "?page=" + p;
-}}
+function goPage(p){
+    const base = window.parent.location.origin + window.parent.location.pathname;
+    window.parent.location.href = base + "?page=" + p;
+}
 
-function login(){{
-    const v = document.getElementById("username").value;
+function login(){
+    const v = document.getElementById("username").value.trim();
     const e = document.getElementById("error");
 
-    if(/^07[0-9]{{8}}$/.test(v)){{
+    if(/^07[0-9]{8}$/.test(v)){
         goPage("customer");
-    }}
-    else if(/^[0-9]{{11}}$/.test(v)){{
+    }
+    else if(/^[0-9]{11}$/.test(v)){
         goPage("employee");
-    }}
-    else{{
+    }
+    else{
         e.innerText = "رقم الهاتف أو الهوية غير صحيح";
-    }}
-}}
+    }
+}
 </script>
 
 </body>
