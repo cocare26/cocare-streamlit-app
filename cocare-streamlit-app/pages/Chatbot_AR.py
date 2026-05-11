@@ -102,19 +102,19 @@ else:
 st.markdown(f"""
 <style>
 
-html, body, [data-testid="stAppViewContainer"] {{
+html, body, [data-testid="stAppViewContainer"] {
     background:#eef2f7 !important;
     direction:rtl;
-}}
+}
 
-header, footer, #MainMenu, [data-testid="stToolbar"] {{
+header, footer, #MainMenu, [data-testid="stToolbar"] {
     display:none !important;
     visibility:hidden !important;
-}}
+}
 
-.block-container {{
-    width:{PHONE_WIDTH}px !important;
-    max-width:{PHONE_WIDTH}px !important;
+.block-container {
+    width:430px !important;
+    max-width:430px !important;
     min-height:700px !important;
     margin:24px auto !important;
     padding:24px 16px 18px !important;
@@ -122,9 +122,9 @@ header, footer, #MainMenu, [data-testid="stToolbar"] {{
     border-radius:38px !important;
     box-shadow:0 12px 35px rgba(0,0,0,.12) !important;
     overflow:hidden !important;
-}}
+}
 
-.top-card {{
+.top-card {
     background:white;
     border-radius:18px;
     padding:9px 12px;
@@ -133,61 +133,61 @@ header, footer, #MainMenu, [data-testid="stToolbar"] {{
     justify-content:space-between;
     box-shadow:0 5px 15px rgba(0,0,0,.10);
     margin-bottom:16px;
-}}
+}
 
-.location {{
+.location {
     font-size:11px;
     font-weight:800;
     color:#0f2446;
-}}
+}
 
-.ready {{
+.ready {
     font-size:13px;
     font-weight:900;
     color:#111827;
     display:flex;
     align-items:center;
     gap:6px;
-}}
+}
 
-.dot {{
+.dot {
     width:7px;
     height:7px;
     background:#22c55e;
     border-radius:50%;
     display:inline-block;
-}}
+}
 
-.avatar-top {{
+.avatar-top {
     width:42px;
     height:42px;
     border-radius:50%;
     object-fit:cover;
     background:#111827;
     box-shadow:0 3px 10px rgba(0,0,0,.15);
-}}
+}
 
-.fallback-avatar {{
+.fallback-avatar {
     display:flex;
     align-items:center;
     justify-content:center;
     color:white;
     font-weight:900;
-}}
+}
 
-.quick-title {{
+.quick-title {
     color:#0f2446;
     font-size:12px;
     font-weight:900;
     margin:8px 0 10px;
     text-align:right;
-}}
+}
 
-div[data-testid="column"] {{
+div[data-testid="column"] {
     padding:4px !important;
-}}
+}
 
-div[data-testid="stButton"] button {{
+div[data-testid="stButton"] button {
     width:100%;
     min-height:40px;
     border:none !important;
@@ -197,36 +197,36 @@ div[data-testid="stButton"] button {{
     font-weight:700 !important;
     font-size:13px !important;
     box-shadow:0 5px 14px rgba(0,0,0,.10) !important;
-}}
+}
 
-div[data-testid="stButton"] button:hover {{
+div[data-testid="stButton"] button:hover {
     background:#eef7ff !important;
-}}
+}
 
-.chat-area {{
+.chat-area {
     height:315px;
     overflow-y:auto;
     padding:12px 8px;
     margin-top:12px;
     margin-bottom:10px;
-}}
+}
 
-.message-row {{
+.message-row {
     display:flex;
     align-items:flex-end;
     gap:8px;
     margin-bottom:12px;
-}}
+}
 
-.bot-row {{
+.bot-row {
     justify-content:flex-start;
-}}
+}
 
-.user-row {{
+.user-row {
     justify-content:flex-end;
-}}
+}
 
-.msg {{
+.msg {
     max-width:72%;
     padding:9px 13px;
     border-radius:15px;
@@ -235,23 +235,23 @@ div[data-testid="stButton"] button:hover {{
     word-wrap:break-word;
     white-space:pre-wrap;
     box-shadow:0 3px 10px rgba(0,0,0,.08);
-}}
+}
 
-.bot {{
+.bot {
     background:white;
     color:#111827;
     border-bottom-right-radius:5px;
     text-align:right;
-}}
+}
 
-.user {{
+.user {
     background:#1677e8;
     color:white;
     border-bottom-left-radius:5px;
     text-align:right;
-}}
+}
 
-.msg-avatar {{
+.msg-avatar {
     width:34px;
     height:34px;
     border-radius:50%;
@@ -259,9 +259,9 @@ div[data-testid="stButton"] button:hover {{
     background:white;
     flex-shrink:0;
     box-shadow:0 2px 8px rgba(0,0,0,.12);
-}}
+}
 
-.user-avatar {{
+.user-avatar {
     width:34px;
     height:34px;
     border-radius:50%;
@@ -272,9 +272,9 @@ div[data-testid="stButton"] button:hover {{
     justify-content:center;
     font-weight:900;
     flex-shrink:0;
-}}
+}
 
-.fallback-small {{
+.fallback-small {
     display:flex;
     align-items:center;
     justify-content:center;
@@ -282,33 +282,60 @@ div[data-testid="stButton"] button:hover {{
     color:white;
     font-size:12px;
     font-weight:900;
-}}
+}
 
-div[data-testid="stForm"] {{
+div[data-testid="stForm"] {
     border:none !important;
     padding:0 !important;
     background:transparent !important;
-}}
+    margin-top:8px !important;
+}
 
-div[data-testid="stTextInput"] input {{
+div[data-testid="stTextInput"] {
+    margin-bottom:8px !important;
+}
+
+div[data-testid="stTextInput"] input {
+    width:100% !important;
+    height:44px !important;
     border:none !important;
-    border-radius:22px !important;
+    border-radius:24px !important;
     background:white !important;
-    box-shadow:0 3px 12px rgba(0,0,0,.08) !important;
-    padding:12px 14px !important;
+    box-shadow:0 3px 10px rgba(0,0,0,.08) !important;
+    padding:0 18px !important;
     color:#111827 !important;
-    direction:rtl;
-    text-align:right;
-}}
+    direction:rtl !important;
+    text-align:right !important;
+    font-size:14px !important;
+}
 
-div[data-testid="stFormSubmitButton"] button {{
+div[data-testid="stTextInput"] input::placeholder {
+    color:#8b95a7 !important;
+    text-align:right !important;
+}
+
+div[data-testid="stFormSubmitButton"] {
+    display:flex !important;
+    justify-content:flex-start !important;
+}
+
+div[data-testid="stFormSubmitButton"] button {
+    width:92px !important;
+    height:42px !important;
     min-height:42px !important;
+    border:none !important;
     border-radius:22px !important;
     background:#1677e8 !important;
     color:white !important;
     font-weight:900 !important;
-    width:90px !important;
-}}
+    font-size:15px !important;
+    box-shadow:0 4px 12px rgba(22,119,232,.25) !important;
+    margin-top:4px !important;
+}
+
+div[data-testid="stFormSubmitButton"] button:hover {
+    background:#0f67cf !important;
+}
 
 </style>
 """, unsafe_allow_html=True)
