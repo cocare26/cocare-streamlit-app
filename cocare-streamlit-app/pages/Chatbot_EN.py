@@ -417,25 +417,28 @@ for role, message in st.session_state[CHAT_KEY]:
         </div>
         """
 
-chat_html += "</div>"
+st.markdown('<div class="chat-area">', unsafe_allow_html=True)
 
-st.markdown(chat_html, unsafe_allow_html=True)
+for role, message in st.session_state[CHAT_KEY]:
+    safe_msg = html_lib.escape(str(message))
 
+    if role == "user":
+        st.markdown(f"""
+        <div class="message-row user-row">
+            <div class="msg user">{safe_msg}</div>
+            <div class="user-avatar">You</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-if st.button("Clear Chat"):
+    else:
+        st.markdown(f"""
+        <div class="message-row bot-row">
+            {avatar_msg}
+            <div class="msg bot">{safe_msg}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hello 👋 I’m CoCare AI Assistant. How can I help you?")
-    ]
-
-    reset_context()
-
-    save_chat_history()
-
-    st.rerun()
-
-
-with st.form("chat_form", clear_on_submit=True):
+st.markdown('</div>', unsafe_allow_html=True)
 
     user_input = st.text_input(
         "",
