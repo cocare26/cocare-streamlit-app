@@ -1,17 +1,17 @@
 import streamlit as st
 import base64
 import html as html_lib
-import time
 import os
+import time
 
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
 PHONE_WIDTH = 430
-CHAT_KEY = "chat_en_messages"
+CHAT_KEY = "chat_en_messages_v3"
 
 if CHAT_KEY not in st.session_state:
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
+        ("bot", "Hello 👋 I am CoCare AI Assistant. How can I help you?")
     ]
 
 
@@ -26,17 +26,17 @@ def reset_context():
 def get_bot_response(message):
     message = str(message).lower()
 
-    if "network" in message:
+    if "network" in message or "test" in message:
         return "Running network diagnostics now..."
-    elif "usage" in message:
-        return "You can check your internet usage from the account or usage section."
+    elif "usage" in message or "internet" in message:
+        return "You can check your internet usage from the usage section."
     elif "renew" in message or "package" in message:
-        return "You can renew your package from the packages or payments section."
+        return "You can renew your package from the packages section."
     elif "international" in message or "calls" in message:
         return "International call services are available depending on your line type."
     elif "offers" in message or "games" in message:
-        return "Current offers are available in the offers section."
-    elif "support" in message:
+        return "You can check current offers and games packages from the offers section."
+    elif "support" in message or "contact" in message:
         return "Your request has been sent to the support team."
     else:
         return "CoCare Assistant is processing your request."
@@ -46,12 +46,13 @@ def send_message(text):
     if not text or not text.strip():
         return
 
-    st.session_state[CHAT_KEY].append(("user", text))
+    st.session_state[CHAT_KEY].append(("user", text.strip()))
     st.session_state[CHAT_KEY].append(("bot", "Typing..."))
     time.sleep(0.25)
     st.session_state[CHAT_KEY].pop()
 
-    st.session_state[CHAT_KEY].append(("bot", get_bot_response(text)))
+    reply = get_bot_response(text)
+    st.session_state[CHAT_KEY].append(("bot", reply))
     save_chat_history()
 
 
@@ -81,85 +82,94 @@ robot = (
 )
 
 if robot:
-    robot_avatar_top = f'<img class="top-avatar" src="data:image/png;base64,{robot}">'
+    avatar_top = f'<img class="avatar-top" src="data:image/png;base64,{robot}">'
+    avatar_msg = f'<img class="msg-avatar" src="data:image/png;base64,{robot}">'
 else:
-    robot_avatar_top = '<div class="top-avatar fallback-avatar">AI</div>'
+    avatar_top = '<div class="avatar-top fallback-avatar">AI</div>'
+    avatar_msg = '<div class="msg-avatar fallback-small">AI</div>'
 
 
 st.markdown(f"""
 <style>
 
 html, body, [data-testid="stAppViewContainer"] {{
-    background:#d8e9f8 !important;
+    background:#eef2f7 !important;
     direction:ltr;
 }}
 
-header, footer, #MainMenu {{
-    visibility:hidden;
-}}
-
-[data-testid="stToolbar"] {{
-    display:none;
+header, footer, #MainMenu, [data-testid="stToolbar"] {{
+    display:none !important;
+    visibility:hidden !important;
 }}
 
 .block-container {{
     width:{PHONE_WIDTH}px !important;
     max-width:{PHONE_WIDTH}px !important;
-    min-height:820px !important;
-    margin:20px auto !important;
-    padding:18px !important;
-    background:#f7fbff !important;
+    min-height:700px !important;
+    margin:24px auto !important;
+    padding:24px 16px 18px !important;
+    background:linear-gradient(180deg,#c7e6fb,#dff1ff) !important;
     border-radius:38px !important;
-    box-shadow:0 12px 35px rgba(0,0,0,.15) !important;
-    border:1px solid #d9e8f7 !important;
+    box-shadow:0 12px 35px rgba(0,0,0,.12) !important;
     overflow:hidden !important;
 }}
 
-.top-bar {{
+.top-card {{
+    background:white;
+    border-radius:18px;
+    padding:9px 12px;
     display:flex;
-    justify-content:space-between;
     align-items:center;
+    justify-content:space-between;
+    box-shadow:0 5px 15px rgba(0,0,0,.10);
     margin-bottom:16px;
 }}
 
-.title {{
-    font-size:28px;
-    font-weight:900;
+.location {{
+    font-size:11px;
+    font-weight:800;
     color:#0f2446;
 }}
 
-.sub {{
-    color:#5b6472;
-    font-size:14px;
-    margin-top:4px;
+.ready {{
+    font-size:13px;
+    font-weight:900;
+    color:#111827;
+    display:flex;
+    align-items:center;
+    gap:6px;
 }}
 
-.top-avatar {{
-    width:72px;
-    height:72px;
+.dot {{
+    width:7px;
+    height:7px;
+    background:#22c55e;
+    border-radius:50%;
+    display:inline-block;
+}}
+
+.avatar-top {{
+    width:42px;
+    height:42px;
     border-radius:50%;
     object-fit:cover;
-    background:white;
-    box-shadow:0 4px 14px rgba(0,0,0,.12);
+    background:#111827;
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
 }}
 
 .fallback-avatar {{
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#111827;
     color:white;
-    font-size:28px;
     font-weight:900;
 }}
 
 .quick-title {{
-    margin-top:8px;
-    margin-bottom:12px;
-    font-size:17px;
-    font-weight:900;
     color:#0f2446;
-    text-align:left;
+    font-size:12px;
+    font-weight:900;
+    margin:8px 0 10px;
 }}
 
 div[data-testid="column"] {{
@@ -168,88 +178,103 @@ div[data-testid="column"] {{
 
 div[data-testid="stButton"] button {{
     width:100%;
-    min-height:64px;
-    border:none;
-    border-radius:18px;
-    padding:8px;
-    background:white;
-    color:#0f4f91;
-    font-weight:800;
-    font-size:13px;
-    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    min-height:40px;
+    border:none !important;
+    border-radius:18px !important;
+    background:white !important;
+    color:#003f88 !important;
+    font-weight:700 !important;
+    font-size:13px !important;
+    box-shadow:0 5px 14px rgba(0,0,0,.10) !important;
 }}
 
 div[data-testid="stButton"] button:hover {{
-    background:#eef6ff;
+    background:#eef7ff !important;
 }}
 
 .chat-area {{
-    height:340px;
+    height:315px;
     overflow-y:auto;
-    padding:12px;
-    background:#eef5fc;
-    border-radius:24px;
-    margin-top:14px;
-    margin-bottom:12px;
-    border:1px solid #d8e7f6;
+    padding:12px 8px;
+    margin-top:12px;
+    margin-bottom:10px;
 }}
 
 .message-row {{
     display:flex;
     align-items:flex-end;
-    margin-bottom:14px;
     gap:8px;
-}}
-
-.user-row {{
-    justify-content:flex-end;
+    margin-bottom:12px;
 }}
 
 .bot-row {{
     justify-content:flex-start;
 }}
 
+.user-row {{
+    justify-content:flex-end;
+}}
+
 .msg {{
-    padding:12px 16px;
-    border-radius:18px;
-    max-width:75%;
-    font-size:15px;
+    max-width:72%;
+    padding:9px 13px;
+    border-radius:15px;
+    font-size:13px;
     line-height:1.7;
     word-wrap:break-word;
     white-space:pre-wrap;
-    text-align:left;
-}}
-
-.user {{
-    background:linear-gradient(135deg,#4da3ff,#1677e8);
-    color:white;
-    border-bottom-right-radius:6px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
 }}
 
 .bot {{
     background:white;
     color:#111827;
-    border-bottom-left-radius:6px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    border-bottom-left-radius:5px;
+}}
+
+.user {{
+    background:#1677e8;
+    color:white;
+    border-bottom-right-radius:5px;
 }}
 
 .msg-avatar {{
-    width:42px;
-    height:42px;
+    width:34px;
+    height:34px;
     border-radius:50%;
     object-fit:cover;
     background:white;
-    box-shadow:0 3px 8px rgba(0,0,0,.10);
+    flex-shrink:0;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);
 }}
 
 .user-avatar {{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#dbeafe;
+    color:#0f4f91;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#dbeafe;
-    color:#0f4f91;
     font-weight:900;
     flex-shrink:0;
+}}
+
+.fallback-small {{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#111827;
+    color:white;
+    font-size:12px;
+    font-weight:900;
+}}
+
+.clear-wrap {{
+    display:flex;
+    justify-content:flex-end;
+    margin:4px 0 10px;
 }}
 
 div[data-testid="stForm"] {{
@@ -260,20 +285,21 @@ div[data-testid="stForm"] {{
 
 div[data-testid="stTextInput"] input {{
     border:none !important;
-    border-radius:24px !important;
+    border-radius:22px !important;
     background:white !important;
-    box-shadow:0 3px 12px rgba(0,0,0,.08);
-    padding:14px !important;
+    box-shadow:0 3px 12px rgba(0,0,0,.08) !important;
+    padding:12px 14px !important;
+    color:#111827 !important;
     direction:ltr;
-    color:#111827;
 }}
 
 div[data-testid="stFormSubmitButton"] button {{
-    min-height:45px !important;
+    min-height:42px !important;
     border-radius:22px !important;
     background:#1677e8 !important;
     color:white !important;
     font-weight:900 !important;
+    width:90px !important;
 }}
 
 </style>
@@ -281,15 +307,12 @@ div[data-testid="stFormSubmitButton"] button {{
 
 
 st.markdown(f"""
-<div class="top-bar">
-    <div>
-        <div class="title">CoCare AI</div>
-        <div class="sub">Smart Telecom Assistant</div>
-    </div>
-    {robot_avatar_top}
+<div class="top-card">
+    <div class="location">📍 Amman</div>
+    <div class="ready"><span class="dot"></span> Ready to help</div>
+    {avatar_top}
 </div>
 """, unsafe_allow_html=True)
-
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
@@ -337,18 +360,13 @@ for role, message in st.session_state[CHAT_KEY]:
         chat_html += f"""
         <div class="message-row user-row">
             <div class="msg user">{safe_msg}</div>
-            <div class="msg-avatar user-avatar">U</div>
+            <div class="user-avatar">U</div>
         </div>
         """
     else:
-        if robot:
-            avatar_html = f'<img class="msg-avatar" src="data:image/png;base64,{robot}">'
-        else:
-            avatar_html = '<div class="msg-avatar user-avatar">AI</div>'
-
         chat_html += f"""
         <div class="message-row bot-row">
-            {avatar_html}
+            {avatar_msg}
             <div class="msg bot">{safe_msg}</div>
         </div>
         """
@@ -360,7 +378,7 @@ st.markdown(chat_html, unsafe_allow_html=True)
 
 if st.button("Clear Chat"):
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
+        ("bot", "Hello 👋 I am CoCare AI Assistant. How can I help you?")
     ]
     reset_context()
     save_chat_history()
