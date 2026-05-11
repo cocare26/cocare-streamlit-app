@@ -123,7 +123,7 @@ if st.button(f"⭐{extreme_gap}تقييم التطبيق"):
 if st.button(f"🚪{extreme_gap1}تسجيل الخروج"):
     st.session_state.clear()
     st.switch_page("arabic-app.py")
-
+    
 # ===== الصف الأخير =====
 col_gap = "&nbsp;" * 2
 
