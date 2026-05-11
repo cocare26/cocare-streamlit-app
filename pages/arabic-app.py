@@ -151,10 +151,10 @@ function login(){{
     const v = document.getElementById("username").value.trim();
     const e = document.getElementById("error");
 
-    if(/^07[0-9]{8}$/.test(v)){{
+    if(/^07[0-9]{{8}}$/.test(v)){{
         goPage("customer");
     }}
-    else if(/^[0-9]{11}$/.test(v)){{
+    else if(/^[0-9]{{11}}$/.test(v)){{
         goPage("employee");
     }}
     else{{
