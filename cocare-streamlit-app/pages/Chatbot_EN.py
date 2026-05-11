@@ -6,16 +6,8 @@ import os
 
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
-# =========================
-# PHONE SIZE
-# =========================
-
 PHONE_WIDTH = 430
 PHONE_HEIGHT = 820
-
-# =========================
-# SESSION
-# =========================
 
 CHAT_KEY = "chat_en_messages"
 
@@ -24,9 +16,6 @@ if CHAT_KEY not in st.session_state:
         ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
     ]
 
-# =========================
-# FUNCTIONS
-# =========================
 
 def save_chat_history():
     pass
@@ -37,56 +26,41 @@ def reset_context():
 
 
 def get_bot_response(message):
-
     message = str(message).lower()
 
     if "network" in message:
         return "Running network diagnostics now..."
-
     elif "usage" in message:
         return "You can check your internet usage from the account or usage section."
-
     elif "renew" in message or "package" in message:
         return "You can renew your package from the packages or payments section."
-
     elif "international" in message or "calls" in message:
         return "International call services are available depending on your line type."
-
     elif "offers" in message or "games" in message:
         return "Current offers are available in the offers section."
-
     elif "support" in message:
         return "Your request has been sent to the support team."
-
     else:
         return "CoCare Assistant is processing your request."
 
 
 def send_message(text):
-
-    if not text:
+    if not text or not text.strip():
         return
 
     st.session_state[CHAT_KEY].append(("user", text))
-
     st.session_state[CHAT_KEY].append(("bot", "Typing..."))
 
     time.sleep(0.3)
 
     st.session_state[CHAT_KEY].pop()
-
     bot_reply = get_bot_response(text)
-
     st.session_state[CHAT_KEY].append(("bot", bot_reply))
 
     save_chat_history()
 
-# =========================
-# IMAGE
-# =========================
 
 def img_to_base64(path):
-
     paths = [
         os.path.join(os.path.dirname(__file__), path),
         os.path.join(os.path.dirname(__file__), "..", path),
@@ -94,14 +68,10 @@ def img_to_base64(path):
     ]
 
     for full_path in paths:
-
         try:
-
             if os.path.exists(full_path):
-
                 with open(full_path, "rb") as f:
                     return base64.b64encode(f.read()).decode()
-
         except Exception:
             pass
 
@@ -115,28 +85,15 @@ robot = (
     or img_to_base64("robot.png")
 )
 
-# =========================
-# ROBOT AVATAR
-# =========================
-
 if robot:
-
     robot_avatar_top = f'''
-    <img class="top-avatar"
-    src="data:image/png;base64,{robot}">
+    <img class="top-avatar" src="data:image/png;base64,{robot}">
     '''
-
 else:
-
     robot_avatar_top = '''
-    <div class="top-avatar fallback-avatar">
-        AI
-    </div>
+    <div class="top-avatar fallback-avatar">AI</div>
     '''
 
-# =========================
-# STYLE
-# =========================
 
 st.markdown(f"""
 <style>
@@ -233,7 +190,7 @@ div[data-testid="stButton"] button:hover {{
 }}
 
 .chat-area {{
-    height:410px;
+    height:360px;
     overflow-y:auto;
     padding:12px;
     background:#eef5fc;
@@ -300,54 +257,42 @@ div[data-testid="stButton"] button:hover {{
     font-weight:900;
 }}
 
-section[data-testid="stChatInput"] {{
-    width:{PHONE_WIDTH - 24}px !important;
-    max-width:{PHONE_WIDTH - 24}px !important;
-    margin:auto !important;
-}}
-
-div[data-testid="stChatInput"] textarea {{
-    direction:ltr;
-    border-radius:24px !important;
+div[data-testid="stTextInput"] input {{
     border:none !important;
+    border-radius:24px !important;
     background:white !important;
     box-shadow:0 3px 12px rgba(0,0,0,.08);
+    padding:14px !important;
+    direction:ltr;
+    color:#111827;
+}}
+
+div[data-testid="stFormSubmitButton"] button {{
+    min-height:45px !important;
+    border-radius:22px !important;
+    background:#1677e8 !important;
+    color:white !important;
+    font-weight:900 !important;
 }}
 
 </style>
 """, unsafe_allow_html=True)
 
-# =========================
-# PHONE CONTAINER
-# =========================
 
 st.markdown('<div class="phone">', unsafe_allow_html=True)
 
-# =========================
-# TOP BAR
-# =========================
-
 st.markdown(f"""
 <div class="top-bar">
-
     <div>
         <div class="title">CoCare AI</div>
         <div class="sub">Smart Telecom Assistant</div>
     </div>
-
     {robot_avatar_top}
-
 </div>
 """, unsafe_allow_html=True)
 
-# =========================
-# QUICK SERVICES
-# =========================
 
-st.markdown(
-    '<div class="quick-title">Quick Services</div>',
-    unsafe_allow_html=True
-)
+st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
 c1, c2, c3 = st.columns(3)
 c4, c5, c6 = st.columns(3)
@@ -382,78 +327,62 @@ with c6:
         send_message("Contact Support")
         st.rerun()
 
-# =========================
-# CHAT AREA
-# =========================
 
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
-
     safe_msg = html_lib.escape(str(message))
 
     if role == "user":
-
         chat_html += f"""
-<div class="message-row user-row">
-    <div class="msg user">{safe_msg}</div>
-    <div class="msg-avatar user-avatar">U</div>
-</div>
-"""
-
+        <div class="message-row user-row">
+            <div class="msg user">{safe_msg}</div>
+            <div class="msg-avatar user-avatar">U</div>
+        </div>
+        """
     else:
-
         if robot:
             avatar_html = f'''
-            <img class="msg-avatar"
-            src="data:image/png;base64,{robot}">
+            <img class="msg-avatar" src="data:image/png;base64,{robot}">
             '''
         else:
             avatar_html = '''
-            <div class="msg-avatar user-avatar">
-                AI
-            </div>
+            <div class="msg-avatar user-avatar">AI</div>
             '''
 
         chat_html += f"""
-<div class="message-row bot-row">
-    {avatar_html}
-    <div class="msg bot">{safe_msg}</div>
-</div>
-"""
+        <div class="message-row bot-row">
+            {avatar_html}
+            <div class="msg bot">{safe_msg}</div>
+        </div>
+        """
 
-chat_html += """
-</div>
-"""
+chat_html += "</div>"
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# =========================
-# CLEAR CHAT
-# =========================
 
 if st.button("Clear Chat"):
-
     st.session_state[CHAT_KEY] = [
         ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
     ]
-
     reset_context()
-
     save_chat_history()
-
     st.rerun()
 
-# =========================
-# CHAT INPUT
-# =========================
 
-user_input = st.chat_input("Type your message here...")
+with st.form("chat_form", clear_on_submit=True):
+    user_input = st.text_input(
+        "",
+        placeholder="Type your message here...",
+        label_visibility="collapsed"
+    )
 
-if user_input:
+    send_btn = st.form_submit_button("Send")
 
-    send_message(user_input)
+    if send_btn and user_input.strip():
+        send_message(user_input)
+        st.rerun()
 
-    st.rerun()
 
 st.markdown("</div>", unsafe_allow_html=True)
