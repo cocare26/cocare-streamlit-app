@@ -9,8 +9,8 @@ page = st.query_params.get("page", "")
 if page == "customer":
     st.switch_page("pages/2_Customer_EN.py")
     
-if page == "employee":
-    st.switch_page("pages/Employee.py")
+if page == "employee_en":
+    st.switch_page("pages/Employee_eng.py")
 
 elif page == "create":
     st.switch_page("pages/1_Create_Account.py")
