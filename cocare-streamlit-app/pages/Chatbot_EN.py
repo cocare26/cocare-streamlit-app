@@ -7,12 +7,19 @@ import time
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
 PHONE_WIDTH = 430
-CHAT_KEY = "chat_en_messages_v6"
+CHAT_KEY = "chat_en_messages_final"
 
 WELCOME_MSG = "Hello 👋 I am CoCare AI Assistant. How can I help you?"
 
+# تنظيف أي شات قديم خربان
+for key in list(st.session_state.keys()):
+    if key.startswith("chat_en_messages"):
+        del st.session_state[key]
+
 if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = [("bot", WELCOME_MSG)]
+    st.session_state[CHAT_KEY] = [
+        ("bot", WELCOME_MSG)
+    ]
 
 
 def save_chat_history():
@@ -24,9 +31,10 @@ def reset_context():
 
 
 def clean_message(text):
-    text = str(text)
 
-    bad_parts = [
+    text = str(text).strip()
+
+    blocked = [
         "<div",
         "</div>",
         "<img",
@@ -34,31 +42,38 @@ def clean_message(text):
         "base64",
         "message-row",
         "msg-avatar",
-        "iVBORw0KGgo",
+        "iVBORw0KGgo"
     ]
 
-    for bad in bad_parts:
-        if bad in text:
-            return "Sorry, something went wrong while displaying this message."
+    for item in blocked:
+        if item in text:
+            return ""
 
-    return text.strip()
+    return text
 
 
 def get_bot_response(message):
+
     message = str(message).lower()
 
     if "network" in message or "test" in message:
         reply = "Running network diagnostics now..."
+
     elif "usage" in message or "internet" in message:
         reply = "You can check your internet usage from the usage section."
+
     elif "renew" in message or "package" in message:
         reply = "You can renew your package from the packages section."
+
     elif "international" in message or "calls" in message:
         reply = "International call services are available depending on your line type."
+
     elif "offers" in message or "games" in message:
         reply = "You can check current offers and games packages from the offers section."
+
     elif "support" in message or "contact" in message:
         reply = "Your request has been sent to the support team."
+
     else:
         reply = "CoCare Assistant is processing your request."
 
@@ -66,25 +81,38 @@ def get_bot_response(message):
 
 
 def send_message(text):
+
     if not text or not str(text).strip():
         return
 
     user_text = clean_message(text)
 
-    st.session_state[CHAT_KEY].append(("user", user_text))
-    st.session_state[CHAT_KEY].append(("bot", "Typing..."))
+    if not user_text:
+        return
+
+    st.session_state[CHAT_KEY].append(
+        ("user", user_text)
+    )
+
+    st.session_state[CHAT_KEY].append(
+        ("bot", "Typing...")
+    )
 
     time.sleep(0.25)
 
     st.session_state[CHAT_KEY].pop()
 
-    bot_reply = get_bot_response(user_text)
-    st.session_state[CHAT_KEY].append(("bot", bot_reply))
+    reply = get_bot_response(user_text)
+
+    st.session_state[CHAT_KEY].append(
+        ("bot", reply)
+    )
 
     save_chat_history()
 
 
 def img_to_base64(path):
+
     paths = [
         os.path.join(os.path.dirname(__file__), path),
         os.path.join(os.path.dirname(__file__), "..", path),
@@ -92,10 +120,12 @@ def img_to_base64(path):
     ]
 
     for full_path in paths:
+
         try:
             if os.path.exists(full_path):
                 with open(full_path, "rb") as f:
                     return base64.b64encode(f.read()).decode()
+
         except Exception:
             pass
 
@@ -131,8 +161,8 @@ header, footer, #MainMenu, [data-testid="stToolbar"] {{
 }}
 
 .block-container {{
-    width:{PHONE_WIDTH}px !important;
-    max-width:{PHONE_WIDTH}px !important;
+    width:430px !important;
+    max-width:430px !important;
     min-height:700px !important;
     margin:24px auto !important;
     padding:24px 16px 18px !important;
@@ -185,14 +215,6 @@ header, footer, #MainMenu, [data-testid="stToolbar"] {{
     box-shadow:0 3px 10px rgba(0,0,0,.15);
 }}
 
-.fallback-avatar {{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:white;
-    font-weight:900;
-}}
-
 .quick-title {{
     color:#0f2446;
     font-size:12px;
@@ -214,10 +236,6 @@ div[data-testid="stButton"] button {{
     font-weight:700 !important;
     font-size:13px !important;
     box-shadow:0 5px 14px rgba(0,0,0,.10) !important;
-}}
-
-div[data-testid="stButton"] button:hover {{
-    background:#eef7ff !important;
 }}
 
 .chat-area {{
@@ -289,16 +307,6 @@ div[data-testid="stButton"] button:hover {{
     flex-shrink:0;
 }}
 
-.fallback-small {{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#111827;
-    color:white;
-    font-size:12px;
-    font-weight:900;
-}}
-
 div[data-testid="stForm"] {{
     border:none !important;
     padding:0 !important;
@@ -326,7 +334,7 @@ div[data-testid="stTextInput"] input {{
 
 div[data-testid="stFormSubmitButton"] {{
     display:flex !important;
-    justify-content:flex-end !important;
+    justify-content:flex-start !important;
 }}
 
 div[data-testid="stFormSubmitButton"] button {{
@@ -350,13 +358,20 @@ div[data-testid="stFormSubmitButton"] button {{
 st.markdown(f"""
 <div class="top-card">
     <div class="location">📍 Amman</div>
-    <div class="ready"><span class="dot"></span> Ready to help</div>
+
+    <div class="ready">
+        <span class="dot"></span>
+        Ready to help
+    </div>
+
     {avatar_top}
 </div>
 """, unsafe_allow_html=True)
 
-
-st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="quick-title">Quick Services</div>',
+    unsafe_allow_html=True
+)
 
 c1, c2, c3 = st.columns(3)
 
@@ -396,17 +411,25 @@ with c6:
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
+
     message = clean_message(message)
+
+    if not message:
+        continue
+
     safe_msg = html_lib.escape(message)
 
     if role == "user":
+
         chat_html += f"""
         <div class="message-row user-row">
             <div class="msg user">{safe_msg}</div>
             <div class="user-avatar">U</div>
         </div>
         """
+
     else:
+
         chat_html += f"""
         <div class="message-row bot-row">
             {avatar_msg}
@@ -420,13 +443,20 @@ st.markdown(chat_html, unsafe_allow_html=True)
 
 
 if st.button("Clear Chat"):
-    st.session_state[CHAT_KEY] = [("bot", WELCOME_MSG)]
+
+    st.session_state[CHAT_KEY] = [
+        ("bot", WELCOME_MSG)
+    ]
+
     reset_context()
+
     save_chat_history()
+
     st.rerun()
 
 
 with st.form("chat_form", clear_on_submit=True):
+
     user_input = st.text_input(
         "",
         placeholder="Type your message here...",
@@ -436,5 +466,7 @@ with st.form("chat_form", clear_on_submit=True):
     send_btn = st.form_submit_button("Send")
 
     if send_btn and user_input.strip():
+
         send_message(user_input)
+
         st.rerun()
