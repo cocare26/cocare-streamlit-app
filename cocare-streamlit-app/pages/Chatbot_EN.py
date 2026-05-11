@@ -2,6 +2,7 @@ import streamlit as st
 import base64
 import html as html_lib
 import time
+import os
 
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
@@ -25,6 +26,7 @@ def reset_context():
 
 
 def get_bot_response(message):
+
     message = message.lower()
 
     if "network" in message:
@@ -50,30 +52,83 @@ def get_bot_response(message):
 
 
 def send_message(text):
+
     st.session_state[CHAT_KEY].append(("user", text))
+
     st.session_state[CHAT_KEY].append(("bot", "Typing..."))
+
     time.sleep(0.5)
+
     st.session_state[CHAT_KEY].pop()
 
     bot_reply = get_bot_response(text)
+
     st.session_state[CHAT_KEY].append(("bot", bot_reply))
+
     save_chat_history()
 
+
+# =========================
+# IMAGE
+# =========================
+
 def img_to_base64(filename):
-    paths = [
+
+    possible_paths = [
         os.path.join(os.path.dirname(__file__), filename),
         os.path.join(os.path.dirname(__file__), "..", filename),
-        filename,
+        filename
     ]
 
-    for path in paths:
-        if os.path.exists(path):
-            with open(path, "rb") as f:
-                return base64.b64encode(f.read()).decode()
+    for path in possible_paths:
+
+        try:
+
+            if os.path.exists(path):
+
+                with open(path, "rb") as f:
+                    return base64.b64encode(f.read()).decode()
+
+        except Exception:
+            pass
 
     return ""
-robot = img_to_base64("robot_black.png")
 
+
+robot = (
+    img_to_base64("robot_black.png")
+    or img_to_base64("robot.png")
+    or img_to_base64("robot_head.png")
+)
+
+# fallback avatar
+if robot:
+
+    robot_avatar = f'''
+    <img class="msg-avatar"
+    src="data:image/png;base64,{robot}"
+    style="width:70px;height:70px;">
+    '''
+
+else:
+
+    robot_avatar = '''
+    <div class="msg-avatar user-avatar"
+    style="
+    width:70px;
+    height:70px;
+    background:#111827;
+    color:white;
+    font-size:28px;
+    font-weight:900;
+    ">
+    AI
+    </div>
+    '''
+
+# =========================
+# STYLE
+# =========================
 
 st.markdown(f"""
 <style>
@@ -227,8 +282,15 @@ header, footer, #MainMenu{{
 </style>
 """, unsafe_allow_html=True)
 
+# =========================
+# PHONE CONTAINER
+# =========================
 
 st.markdown('<div class="phone">', unsafe_allow_html=True)
+
+# =========================
+# TOP BAR
+# =========================
 
 st.markdown(f"""
 <div class="top-bar">
@@ -238,13 +300,14 @@ st.markdown(f"""
         <div class="sub">Smart Telecom Assistant</div>
     </div>
 
-    <img class="msg-avatar"
-    src="data:image/png;base64,{robot}"
-    style="width:70px;height:70px;">
+    {robot_avatar}
 
 </div>
 """, unsafe_allow_html=True)
 
+# =========================
+# QUICK SERVICES
+# =========================
 
 st.markdown(
     '<div class="quick-title">Quick Services</div>',
@@ -284,6 +347,9 @@ with c6:
         send_message("Contact Support")
         st.rerun()
 
+# =========================
+# CHAT AREA
+# =========================
 
 chat_html = '<div class="chat-area">'
 
@@ -302,7 +368,10 @@ for role, message in st.session_state[CHAT_KEY]:
 
     else:
 
-        avatar_html = f'<img class="msg-avatar" src="data:image/png;base64,{robot}">'
+        if robot:
+            avatar_html = f'<img class="msg-avatar" src="data:image/png;base64,{robot}">'
+        else:
+            avatar_html = '<div class="msg-avatar user-avatar">AI</div>'
 
         chat_html += f"""
 <div class="message-row bot-row">
@@ -325,6 +394,9 @@ if (chatArea) {
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
+# =========================
+# CLEAR CHAT
+# =========================
 
 if st.button("Clear Chat"):
 
@@ -333,14 +405,21 @@ if st.button("Clear Chat"):
     ]
 
     reset_context()
+
     save_chat_history()
+
     st.rerun()
 
+# =========================
+# CHAT INPUT
+# =========================
 
 user_input = st.chat_input("Type your message here...")
 
 if user_input:
+
     send_message(user_input)
+
     st.rerun()
 
 st.markdown("</div>", unsafe_allow_html=True)
