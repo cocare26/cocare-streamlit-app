@@ -715,6 +715,19 @@ div[data-testid="stChatInput"] textarea {{
     font-size:14px;
     min-height:45px;
     box-shadow:0 4px 12px rgba(0,0,0,.12);
+
+st.markdown("""
+<style>
+
+.status-box{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 }}
 </style>
 """, unsafe_allow_html=True)
@@ -722,7 +735,7 @@ div[data-testid="stChatInput"] textarea {{
 
 region = st.session_state.get("region", "Amman")
 
-st.markdown(f"""
+topbar_html = f"""
 <div class="topbar">
 
     <div class="avatar-wrap">
@@ -740,7 +753,9 @@ st.markdown(f"""
     </div>
 
 </div>
-""", unsafe_allow_html=True)
+"""
+
+st.markdown(topbar_html, unsafe_allow_html=True)
 
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
