@@ -161,7 +161,7 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }}
 
-.service-card {
+.service-card {{
     background: white;
     border-radius: 18px;
     padding: 10px 6px;
@@ -169,27 +169,27 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     height: 120px;
     margin-bottom: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
+}}
 
-.service-icon-img {
+.service-icon-img {{
     width: 55px;
     height: 55px;
     object-fit: contain;
     margin-bottom: 6px;
-}
+}}
 
-.service-label {
+.service-label {{
     font-size: 10px;
     font-weight: 800;
     color: #102646;
     line-height: 1.2;
-}
+}}
 
-.stButton > button {
+.stButton > button {{
     width: 100%;
     border-radius: 15px;
     height: 40px;
-}
+}}
 
 /* أزرار الشريط السفلي */
 
