@@ -433,6 +433,27 @@ for role, message in st.session_state[CHAT_KEY]:
 
     else:
 
+# =========================
+# CHAT AREA
+# =========================
+
+chat_html = '<div class="chat-area" id="chatArea">'
+
+for role, message in st.session_state[CHAT_KEY]:
+
+    safe_msg = html_lib.escape(str(message))
+
+    if role == "user":
+
+        chat_html += f"""
+        <div class="message-row user-row">
+            <div class="msg user">{safe_msg}</div>
+            <div class="user-avatar">You</div>
+        </div>
+        """
+
+    else:
+
         chat_html += f"""
         <div class="message-row bot-row">
             {avatar_msg}
@@ -442,8 +463,10 @@ for role, message in st.session_state[CHAT_KEY]:
 
 chat_html += """
 </div>
+
 <script>
 const chatArea = window.parent.document.querySelector('#chatArea');
+
 if (chatArea) {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
@@ -465,6 +488,7 @@ if st.button("Clear Chat"):
 
     reset_context()
     save_chat_history()
+
     st.rerun()
 
 
@@ -483,5 +507,8 @@ with st.form("chat_form", clear_on_submit=True):
     send_btn = st.form_submit_button("Send")
 
     if send_btn and user_input.strip():
+
         send_message(user_input)
+
+        st.rerun()
         st.rerun()
