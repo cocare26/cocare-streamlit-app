@@ -1,10 +1,16 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import base64
 import html as html_lib
 import time
 
 st.set_page_config(page_title="CoCare AI", layout="centered")
+
+# =========================
+# PHONE SIZE
+# =========================
+
+PHONE_WIDTH = 430
+PHONE_HEIGHT = 820
 
 # =========================
 # SESSION
@@ -14,7 +20,7 @@ CHAT_KEY = "chat_messages"
 
 if CHAT_KEY not in st.session_state:
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ("bot", "مرحبًا 👋 أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
     ]
 
 # =========================
@@ -28,28 +34,30 @@ def reset_context():
     pass
 
 def get_bot_response(message):
+
     message = message.lower()
 
-    if "network" in message:
-        return "📡 Running network diagnostics..."
+    if "شبكة" in message or "network" in message:
+        return "📡 جاري فحص الشبكة الآن..."
 
-    elif "usage" in message:
-        return "📊 Your current internet usage is 82 GB."
+    elif "استهلاك" in message or "usage" in message:
+        return "📊 استهلاكك الحالي للإنترنت هو 82 GB."
 
-    elif "renew" in message:
-        return "🔄 Your package can be renewed from the payments section."
+    elif "تجديد" in message or "renew" in message:
+        return "🔄 يمكنك تجديد الباقة من قسم المدفوعات."
 
-    elif "international" in message:
-        return "🌍 International call packages are available now."
+    elif "دولي" in message or "international" in message:
+        return "🌍 باقات المكالمات الدولية متوفرة الآن."
 
-    elif "offers" in message:
-        return "🎮 Latest offers and gaming packages are available."
+    elif "العروض" in message or "offers" in message:
+        return "🎮 أحدث العروض والباقات متوفرة حالياً."
 
-    elif "support" in message:
-        return "☎️ Support team has been notified."
+    elif "الدعم" in message or "support" in message:
+        return "☎️ تم إرسال طلبك إلى فريق الدعم."
 
     else:
-        return "🤖 CoCare AI is processing your request."
+        return "🤖 مساعد CoCare يقوم بمعالجة طلبك."
+
 
 def send_message(text):
 
@@ -68,159 +76,170 @@ def send_message(text):
     save_chat_history()
 
 # =========================
-# PAGE STYLE
+# IMAGE
 # =========================
 
-st.markdown("""
+def img_to_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+robot = img_to_base64("robot_black.png")
+
+# =========================
+# STYLE
+# =========================
+
+st.markdown(f"""
 <style>
 
-[data-testid="stAppViewContainer"]{
-    background:#eef2f7;
-}
+html, body, [data-testid="stAppViewContainer"]{{
+    background:#d8e9f8;
+    direction:rtl;
+}}
 
-.block-container{
-    max-width:480px;
-    padding-top:20px;
-}
+.block-container{{
+    width:{PHONE_WIDTH}px !important;
+    max-width:{PHONE_WIDTH}px !important;
+    min-height:{PHONE_HEIGHT}px !important;
+    margin:auto;
+    padding-top:18px;
+}}
 
-header, footer{
+header, footer, #MainMenu{{
     visibility:hidden;
-}
+}}
 
-/* PHONE */
-
-.phone{
-    background:white;
-    border-radius:35px;
+.phone{{
+    background:#f7fbff;
+    border-radius:38px;
     padding:18px;
-    box-shadow:0 8px 30px rgba(0,0,0,.15);
-}
+    box-shadow:0 12px 35px rgba(0,0,0,.15);
+    min-height:{PHONE_HEIGHT}px;
+    border:1px solid #d9e8f7;
+    overflow:hidden;
+}}
 
-/* TOP */
-
-.top-bar{
+.top-bar{{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:15px;
-}
+    margin-bottom:18px;
+}}
 
-.title{
-    font-size:26px;
+.title{{
+    font-size:28px;
     font-weight:900;
     color:#0f2446;
-}
+}}
 
-.sub{
+.sub{{
     color:#5b6472;
-    font-size:13px;
-}
+    font-size:14px;
+}}
 
-/* CHAT */
-
-.chat-area{
+.chat-area{{
     height:420px;
     overflow-y:auto;
-    padding:10px;
-    background:#f8fbff;
-    border-radius:22px;
-    margin-bottom:15px;
-}
+    padding:12px;
+    background:#eef5fc;
+    border-radius:24px;
+    margin-bottom:18px;
+    border:1px solid #d8e7f6;
+}}
 
-.message-row{
+.message-row{{
     display:flex;
     align-items:flex-end;
-    margin-bottom:12px;
-}
+    margin-bottom:14px;
+}}
 
-.user-row{
-    justify-content:flex-end;
-}
-
-.bot-row{
+.user-row{{
     justify-content:flex-start;
-}
+}}
 
-.msg{
-    padding:12px 16px;
+.bot-row{{
+    justify-content:flex-end;
+}}
+
+.msg{{
+    padding:13px 18px;
     border-radius:18px;
     max-width:75%;
-    font-size:14px;
-    line-height:1.5;
+    font-size:15px;
+    line-height:1.7;
     word-wrap:break-word;
-}
+}}
 
-.user{
-    background:#2f80ed;
+.user{{
+    background:linear-gradient(135deg,#4da3ff,#1677e8);
     color:white;
-    border-bottom-right-radius:5px;
-}
+    border-bottom-left-radius:6px;
+}}
 
-.bot{
+.bot{{
     background:white;
     color:#111827;
-    border-bottom-left-radius:5px;
+    border-bottom-right-radius:6px;
     box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
+}}
 
-.msg-avatar{
-    width:38px;
-    height:38px;
+.msg-avatar{{
+    width:42px;
+    height:42px;
     border-radius:50%;
     margin:0 8px;
-}
+    object-fit:cover;
+    background:white;
+}}
 
-.user-avatar{
+.user-avatar{{
     background:#dbeafe;
     display:flex;
     align-items:center;
     justify-content:center;
     font-size:18px;
-}
+}}
 
-/* QUICK SERVICES */
-
-.quick-title{
+.quick-title{{
     margin-top:5px;
-    margin-bottom:10px;
-    font-size:15px;
-    font-weight:800;
+    margin-bottom:12px;
+    font-size:16px;
+    font-weight:900;
     color:#0f2446;
-}
+}}
 
-/* BUTTONS */
-
-.stButton button{
+.stButton button{{
     width:100%;
+    min-height:72px;
     border:none;
-    border-radius:15px;
-    padding:10px;
-    background:#eef6ff;
-    color:#0f2446;
-    font-weight:700;
+    border-radius:18px;
+    padding:12px;
+    background:white;
+    color:#0f4f91;
+    font-weight:800;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
     transition:0.2s;
-}
+}}
 
-.stButton button:hover{
-    background:#dbe9ff;
+.stButton button:hover{{
+    background:#eef6ff;
     color:#2f80ed;
     transform:translateY(-2px);
-}
+}}
 
-/* CHAT INPUT */
+[data-testid="stChatInput"]{{
+    width:100% !important;
+}}
 
-[data-testid="stChatInput"]{
-    border-radius:20px;
-}
+[data-testid="stChatInput"] textarea{{
+    border-radius:24px !important;
+    border:none !important;
+    background:white !important;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+}}
 
 </style>
 """, unsafe_allow_html=True)
-
-# =========================
-# ROBOT IMAGE
-# =========================
-
-robot = ""
 
 # =========================
 # PHONE CONTAINER
@@ -228,14 +247,66 @@ robot = ""
 
 st.markdown('<div class="phone">', unsafe_allow_html=True)
 
-st.markdown("""
+# =========================
+# TOP BAR
+# =========================
+
+st.markdown(f"""
 <div class="top-bar">
+
     <div>
         <div class="title">CoCare AI</div>
-        <div class="sub">Telecom Assistant</div>
+        <div class="sub">مساعد الاتصالات الذكي</div>
     </div>
+
+    <img class="msg-avatar"
+    src="data:image/png;base64,{robot}"
+    style="width:70px;height:70px;">
+
 </div>
 """, unsafe_allow_html=True)
+
+# =========================
+# QUICK SERVICES
+# =========================
+
+st.markdown(
+    '<div class="quick-title">⚡ الخدمات السريعة</div>',
+    unsafe_allow_html=True
+)
+
+c1, c2, c3 = st.columns(3)
+c4, c5, c6 = st.columns(3)
+
+with c1:
+    if st.button("📡\nفحص الشبكة"):
+        send_message("فحص الشبكة")
+        st.rerun()
+
+with c2:
+    if st.button("📊\nاستهلاك الإنترنت"):
+        send_message("استهلاك الإنترنت")
+        st.rerun()
+
+with c3:
+    if st.button("🔄\nتجديد الباقة"):
+        send_message("تجديد الباقة")
+        st.rerun()
+
+with c4:
+    if st.button("🌍\nالمكالمات الدولية"):
+        send_message("المكالمات الدولية")
+        st.rerun()
+
+with c5:
+    if st.button("🎮\nالعروض والألعاب"):
+        send_message("العروض والألعاب")
+        st.rerun()
+
+with c6:
+    if st.button("☎️\nالتواصل مع الدعم"):
+        send_message("التواصل مع الدعم")
+        st.rerun()
 
 # =========================
 # CHAT AREA
@@ -258,8 +329,6 @@ for role, message in st.session_state[CHAT_KEY]:
 
     else:
 
-        typing_class = " typing" if str(message) == "Typing..." else ""
-
         if robot:
             avatar_html = f'<img class="msg-avatar" src="data:image/png;base64,{robot}">'
         else:
@@ -268,7 +337,7 @@ for role, message in st.session_state[CHAT_KEY]:
         chat_html += f"""
 <div class="message-row bot-row">
     {avatar_html}
-    <div class="msg bot{typing_class}">{safe_msg}</div>
+    <div class="msg bot">{safe_msg}</div>
 </div>
 """
 
@@ -277,6 +346,7 @@ chat_html += """
 
 <script>
 const chatArea = window.parent.document.querySelector('.chat-area');
+
 if (chatArea) {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
@@ -286,58 +356,17 @@ if (chatArea) {
 st.markdown(chat_html, unsafe_allow_html=True)
 
 # =========================
-# QUICK SERVICES
-# =========================
-
-st.markdown(
-    '<div class="quick-title">⚡ Quick Services</div>',
-    unsafe_allow_html=True
-)
-
-c1, c2, c3 = st.columns(3)
-c4, c5, c6 = st.columns(3)
-
-with c1:
-    if st.button("Network Test"):
-        send_message("Network Test")
-        st.rerun()
-
-with c2:
-    if st.button("Internet Usage"):
-        send_message("Internet Usage")
-        st.rerun()
-
-with c3:
-    if st.button("Renew Package"):
-        send_message("Renew Package")
-        st.rerun()
-
-with c4:
-    if st.button("International Calls"):
-        send_message("International Calls")
-        st.rerun()
-
-with c5:
-    if st.button("Offers & Games"):
-        send_message("Offers & Games")
-        st.rerun()
-
-with c6:
-    if st.button("Contact Support"):
-        send_message("Contact Support")
-        st.rerun()
-
-# =========================
 # CLEAR CHAT
 # =========================
 
-if st.button("🗑 Clear Chat"):
+if st.button("🗑 مسح المحادثة"):
 
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ("bot", "مرحبًا 👋 أنا مساعد CoCare الذكي، كيف أقدر أساعدك؟")
     ]
 
     reset_context()
+
     save_chat_history()
 
     st.rerun()
@@ -346,7 +375,7 @@ if st.button("🗑 Clear Chat"):
 # CHAT INPUT
 # =========================
 
-user_input = st.chat_input("Type your question here...")
+user_input = st.chat_input("اكتب رسالتك هنا...")
 
 if user_input:
 
