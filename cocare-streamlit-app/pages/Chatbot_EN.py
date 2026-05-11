@@ -43,16 +43,30 @@ def get_bot_response(message):
 
 
 def send_message(text):
-    if not text or not text.strip():
+
+    if not text or not str(text).strip():
         return
 
-    st.session_state[CHAT_KEY].append(("user", text.strip()))
-    st.session_state[CHAT_KEY].append(("bot", "Typing..."))
+    clean_text = html_lib.escape(str(text).strip())
+
+    st.session_state[CHAT_KEY].append(
+        ("user", clean_text)
+    )
+
+    st.session_state[CHAT_KEY].append(
+        ("bot", "Typing...")
+    )
+
     time.sleep(0.25)
+
     st.session_state[CHAT_KEY].pop()
 
     reply = get_bot_response(text)
-    st.session_state[CHAT_KEY].append(("bot", reply))
+
+    st.session_state[CHAT_KEY].append(
+        ("bot", html_lib.escape(str(reply)))
+    )
+
     save_chat_history()
 
 
