@@ -745,7 +745,7 @@ topbar_html = f"""
     </div>
 
     <div class="region-label">
-        📍 {html_lib.escape(region)}
+        {html_lib.escape(region)}
     </div>
 
 </div>
@@ -799,7 +799,7 @@ for role, message in st.session_state[CHAT_KEY]:
         chat_html += f"""
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
-    <div class="msg-avatar user-avatar">👤</div>
+    <div class="msg-avatar user-avatar">U</div>
 </div>
 """
     else:
