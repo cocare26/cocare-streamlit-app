@@ -7,12 +7,12 @@ import time
 st.set_page_config(page_title="CoCare AI", layout="centered")
 
 PHONE_WIDTH = 430
-CHAT_KEY = "chat_en_messages_v4"
+CHAT_KEY = "chat_en_messages_v6"
+
+WELCOME_MSG = "Hello 👋 I am CoCare AI Assistant. How can I help you?"
 
 if CHAT_KEY not in st.session_state:
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hello 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
+    st.session_state[CHAT_KEY] = [("bot", WELCOME_MSG)]
 
 
 def save_chat_history():
@@ -23,49 +23,63 @@ def reset_context():
     pass
 
 
+def clean_message(text):
+    text = str(text)
+
+    bad_parts = [
+        "<div",
+        "</div>",
+        "<img",
+        "data:image",
+        "base64",
+        "message-row",
+        "msg-avatar",
+        "iVBORw0KGgo",
+    ]
+
+    for bad in bad_parts:
+        if bad in text:
+            return "Sorry, something went wrong while displaying this message."
+
+    return text.strip()
+
+
 def get_bot_response(message):
     message = str(message).lower()
 
     if "network" in message or "test" in message:
-        return "Running network diagnostics now..."
+        reply = "Running network diagnostics now..."
     elif "usage" in message or "internet" in message:
-        return "You can check your internet usage from the usage section."
+        reply = "You can check your internet usage from the usage section."
     elif "renew" in message or "package" in message:
-        return "You can renew your package from the packages section."
+        reply = "You can renew your package from the packages section."
     elif "international" in message or "calls" in message:
-        return "International call services are available depending on your line type."
+        reply = "International call services are available depending on your line type."
     elif "offers" in message or "games" in message:
-        return "You can check current offers and games packages from the offers section."
+        reply = "You can check current offers and games packages from the offers section."
     elif "support" in message or "contact" in message:
-        return "Your request has been sent to the support team."
+        reply = "Your request has been sent to the support team."
     else:
-        return "CoCare Assistant is processing your request."
+        reply = "CoCare Assistant is processing your request."
+
+    return clean_message(reply)
 
 
 def send_message(text):
-
     if not text or not str(text).strip():
         return
 
-    clean_text = html_lib.escape(str(text).strip())
+    user_text = clean_message(text)
 
-    st.session_state[CHAT_KEY].append(
-        ("user", clean_text)
-    )
-
-    st.session_state[CHAT_KEY].append(
-        ("bot", "Typing...")
-    )
+    st.session_state[CHAT_KEY].append(("user", user_text))
+    st.session_state[CHAT_KEY].append(("bot", "Typing..."))
 
     time.sleep(0.25)
 
     st.session_state[CHAT_KEY].pop()
 
-    reply = get_bot_response(text)
-
-    st.session_state[CHAT_KEY].append(
-        ("bot", html_lib.escape(str(reply)))
-    )
+    bot_reply = get_bot_response(user_text)
+    st.session_state[CHAT_KEY].append(("bot", bot_reply))
 
     save_chat_history()
 
@@ -285,35 +299,48 @@ div[data-testid="stButton"] button:hover {{
     font-weight:900;
 }}
 
-.clear-wrap {{
-    display:flex;
-    justify-content:flex-end;
-    margin:4px 0 10px;
-}}
-
 div[data-testid="stForm"] {{
     border:none !important;
     padding:0 !important;
     background:transparent !important;
+    margin-top:8px !important;
+}}
+
+div[data-testid="stTextInput"] {{
+    margin-bottom:8px !important;
 }}
 
 div[data-testid="stTextInput"] input {{
+    width:100% !important;
+    height:44px !important;
     border:none !important;
-    border-radius:22px !important;
+    border-radius:24px !important;
     background:white !important;
-    box-shadow:0 3px 12px rgba(0,0,0,.08) !important;
-    padding:12px 14px !important;
+    box-shadow:0 3px 10px rgba(0,0,0,.08) !important;
+    padding:0 18px !important;
     color:#111827 !important;
-    direction:ltr;
+    direction:ltr !important;
+    text-align:left !important;
+    font-size:14px !important;
+}}
+
+div[data-testid="stFormSubmitButton"] {{
+    display:flex !important;
+    justify-content:flex-end !important;
 }}
 
 div[data-testid="stFormSubmitButton"] button {{
+    width:92px !important;
+    height:42px !important;
     min-height:42px !important;
+    border:none !important;
     border-radius:22px !important;
     background:#1677e8 !important;
     color:white !important;
     font-weight:900 !important;
-    width:90px !important;
+    font-size:15px !important;
+    box-shadow:0 4px 12px rgba(22,119,232,.25) !important;
+    margin-top:4px !important;
 }}
 
 </style>
@@ -327,6 +354,7 @@ st.markdown(f"""
     {avatar_top}
 </div>
 """, unsafe_allow_html=True)
+
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
@@ -368,7 +396,8 @@ with c6:
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
-    safe_msg = html_lib.escape(str(message))
+    message = clean_message(message)
+    safe_msg = html_lib.escape(message)
 
     if role == "user":
         chat_html += f"""
@@ -391,9 +420,7 @@ st.markdown(chat_html, unsafe_allow_html=True)
 
 
 if st.button("Clear Chat"):
-    st.session_state[CHAT_KEY] = [
-        ("bot", "Hello 👋 I am CoCare AI Assistant. How can I help you?")
-    ]
+    st.session_state[CHAT_KEY] = [("bot", WELCOME_MSG)]
     reset_context()
     save_chat_history()
     st.rerun()
