@@ -36,6 +36,10 @@ def reset_context():
     }
 
 
+def save_chat_history():
+    pass
+
+
 def img_to_base64(path):
     try:
         full_path = os.path.join(os.path.dirname(__file__), "..", path)
@@ -146,34 +150,7 @@ def human_fallback_reply(text):
     if "عرض" in t or "عروض" in t:
         return "العروض الحالية متاحة من قسم العروض 🎁 بدك عروض إنترنت ولا مكالمات؟"
 
-    if any(w in t for w in ["مين انت", "انت مين", "شو بتعمل", "what are you", "who are you"]):
-        return (
-            "أنا مساعد CoCare الذكي 🤖\n\n"
-            "بقدر أساعدك بالشبكة، الباقات، استهلاك الإنترنت، العروض، المكالمات الدولية، والدعم الفني."
-        )
-
-    if any(w in t for w in ["مساعدة", "ساعدني", "help", "بدي مساعدة"]):
-        return (
-            "أكيد، أنا معك خطوة بخطوة.\n\n"
-            "احكيلي سؤالك أو المشكلة اللي عندك، وأنا بوجهك للخدمة المناسبة."
-        )
-
-    if any(w in t for w in ["كيف", "طريقة", "كيف اعمل", "كيف أعمل"]):
-        return (
-            "أكيد بساعدك.\n\n"
-            "احكيلي شو الخدمة اللي بدك تعرف طريقتها، وأنا بعطيك الخطوات بشكل واضح."
-        )
-
-    if any(w in t for w in ["وين", "أين", "مكان"]):
-        return (
-            "ممكن توضحيلي أكثر عن المكان اللي بتسألي عنه؟\n\n"
-            "إذا قصدك خدمة داخل التطبيق، احكيلي اسمها وبساعدك."
-        )
-
-    return (
-        "فهمت عليك 👍\n\n"
-        "خليني أساعدك بشكل أدق، بس وضّحلي أكثر شوي شو المشكلة أو شو بدك بالضبط؟"
-    )
+    return "فهمت عليك 👍 وضّحلي أكثر شوي شو المشكلة أو شو بدك بالضبط؟"
 
 
 def handle_context_followup(text):
@@ -197,63 +174,45 @@ def handle_context_followup(text):
     reset_context()
 
     if looks_like_time_answer(msg):
-        return (
-            "تمام، هيك وضحت الصورة ✅\n\n"
-            "سجلت مدة/وقت بداية المشكلة، ورح نتابع حالة الشبكة مع الفريق المختص."
-        )
+        return "تمام، هيك وضحت الصورة ✅\n\nسجلت مدة/وقت بداية المشكلة، ورح نتابع حالة الشبكة مع الفريق المختص."
 
     if looks_like_location(msg):
-        return (
-            "تمام، وصلتني المنطقة ✅\n\n"
-            "رح أضيفها على تفاصيل المشكلة وأتابعها مع الفريق المختص."
-        )
+        return "تمام، وصلتني المنطقة ✅\n\nرح أضيفها على تفاصيل المشكلة وأتابعها مع الفريق المختص."
 
     if looks_like_yes(msg):
-        return (
-            "تمام، خلينا نكمل خطوة خطوة.\n\n"
-            "جرّب/ي إعادة تشغيل الراوتر أو تفعيل وضع الطيران لمدة 10 ثواني، وبعدها احكيلي إذا تحسّن الوضع."
-        )
+        return "تمام، خلينا نكمل خطوة خطوة.\n\nجرّب/ي إعادة تشغيل الراوتر أو تفعيل وضع الطيران لمدة 10 ثواني، وبعدها احكيلي إذا تحسّن الوضع."
 
     if looks_like_no(msg):
-        return (
-            "تمام ولا يهمك.\n\n"
-            "رح أسجل المشكلة بدون خطوات إضافية، وإذا استمرت رح يتم متابعتها من الفريق المختص."
-        )
+        return "تمام ولا يهمك.\n\nرح أسجل المشكلة بدون خطوات إضافية، وإذا استمرت رح يتم متابعتها من الفريق المختص."
 
-    return (
-        "تمام، وصلتني التفاصيل ✅\n\n"
-        "رح أضيفها على المشكلة المسجلة وأتابعها مع الفريق المختص."
-    )
+    return "تمام، وصلتني التفاصيل ✅\n\nرح أضيفها على المشكلة المسجلة وأتابعها مع الفريق المختص."
 
 
 def direct_service_reply(text):
     t = str(text).strip().lower()
     region = st.session_state.get("region", "عمان")
 
-    if t == "فحص الشبكة":
+    if t in ["فحص الشبكة", "network test"]:
         reset_context()
-        return (
-            f"أكيد، أقدر أساعدك بفحص حالة الشبكة في منطقة {region}.\n\n"
-            "هل عندك مشكلة فعلية مثل بطء، تقطيع، أو ضعف إشارة؟"
-        )
+        return f"أكيد، أقدر أساعدك بفحص حالة الشبكة في منطقة {region}.\n\nهل عندك مشكلة فعلية مثل بطء، تقطيع، أو ضعف إشارة؟"
 
-    if t == "استهلاك الإنترنت":
+    if t in ["استهلاك الإنترنت", "internet usage"]:
         reset_context()
         return "بتقدر تعرف استهلاك الإنترنت من التطبيق من قسم الحساب أو الاستهلاك."
 
-    if t == "تجديد الباقة":
+    if t in ["تجديد الباقة", "renew package"]:
         reset_context()
         return "أكيد، بتقدر تجدد الباقة من قسم الباقات داخل التطبيق. بدك خطوات التجديد؟"
 
-    if t == "المكالمات الدولية":
+    if t in ["المكالمات الدولية", "international calls"]:
         reset_context()
         return "خدمة المكالمات الدولية متاحة حسب نوع خطك. بدك تعرف الأسعار ولا طريقة التفعيل؟"
 
-    if t == "العروض":
+    if t in ["العروض", "offers & games"]:
         reset_context()
         return "العروض الحالية متاحة من قسم العروض 🎁 بدك عروض إنترنت ولا مكالمات؟"
 
-    if t == "الدعم":
+    if t in ["الدعم", "contact support"]:
         reset_context()
         return "أكيد، احكيلي تفاصيل المشكلة الفنية وسأساعدك خطوة بخطوة."
 
@@ -306,10 +265,7 @@ def get_bot_reply(user_text):
 
         if intent in ["clarification", "unknown", "other", "fallback"]:
             if len(msg.split()) > 4:
-                return (
-                    "فهمت عليك 👍 خليني أساعدك بأفضل طريقة.\n\n"
-                    "احكيلي أكثر: هل الموضوع متعلق بالشبكة، الباقة، التطبيق، أو خدمة ثانية؟"
-                )
+                return "فهمت عليك 👍 خليني أساعدك بأفضل طريقة.\n\nاحكيلي أكثر: هل الموضوع متعلق بالشبكة، الباقة، التطبيق، أو خدمة ثانية؟"
 
             reset_context()
             return human_fallback_reply(msg)
@@ -334,6 +290,7 @@ def send_message(text):
     st.session_state[CHAT_KEY].append(("user", text))
     bot_reply = get_bot_reply(text)
     st.session_state[CHAT_KEY].append(("bot", bot_reply))
+    save_chat_history()
 
 
 st.markdown("""
@@ -416,11 +373,21 @@ div[data-testid="stButton"] button:hover {
     margin-top:10px;
     margin-bottom:8px;
 }
+.message-row {
+    display:flex;
+    align-items:flex-end;
+    margin-bottom:10px;
+}
+.user-row {
+    justify-content:flex-start;
+}
+.bot-row {
+    justify-content:flex-end;
+}
 .msg {
     max-width:75%;
     padding:9px 12px;
     border-radius:16px;
-    margin-bottom:8px;
     font-size:13px;
     line-height:1.5;
     white-space:pre-wrap;
@@ -429,12 +396,33 @@ div[data-testid="stButton"] button:hover {
 .bot {
     background:white;
     color:#222;
-    margin-left:auto;
+    border-bottom-right-radius:4px;
 }
 .user {
     background:#1c6fa4;
     color:white;
-    margin-right:auto;
+    border-bottom-left-radius:4px;
+}
+.msg-avatar {
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    object-fit:cover;
+    margin:0 6px;
+}
+.user-avatar {
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#dbeafe;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+    margin:0 6px;
+}
+.typing {
+    opacity:.75;
 }
 div[data-testid="stChatInput"] {
     position:relative !important;
@@ -471,48 +459,86 @@ c1, c2, c3 = st.columns(3)
 c4, c5, c6 = st.columns(3)
 
 with c1:
-    if st.button("فحص الشبكة"):
-        send_message("فحص الشبكة")
+    if st.button("Network Test"):
+        send_message("Network Test")
         st.rerun()
 
 with c2:
-    if st.button("استهلاك الإنترنت"):
-        send_message("استهلاك الإنترنت")
+    if st.button("Internet Usage"):
+        send_message("Internet Usage")
         st.rerun()
 
 with c3:
-    if st.button("تجديد الباقة"):
-        send_message("تجديد الباقة")
+    if st.button("Renew Package"):
+        send_message("Renew Package")
         st.rerun()
 
 with c4:
-    if st.button("المكالمات الدولية"):
-        send_message("المكالمات الدولية")
+    if st.button("International Calls"):
+        send_message("International Calls")
         st.rerun()
 
 with c5:
-    if st.button("العروض"):
-        send_message("العروض")
+    if st.button("Offers & Games"):
+        send_message("Offers & Games")
         st.rerun()
 
 with c6:
-    if st.button("الدعم"):
-        send_message("الدعم")
+    if st.button("Contact Support"):
+        send_message("Contact Support")
         st.rerun()
 
 
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
-    cls = "user" if role == "user" else "bot"
-    safe_msg = html_lib.escape(str(message))
-    chat_html += f'<div class="msg {cls}">{safe_msg}</div>'
 
-chat_html += '</div>'
+    safe_msg = html_lib.escape(str(message))
+
+    if role == "user":
+
+        chat_html += f"""
+<div class="message-row user-row">
+    <div class="msg user">{safe_msg}</div>
+    <div class="msg-avatar user-avatar">👤</div>
+</div>
+"""
+
+    else:
+
+        typing_class = " typing" if str(message) == "Typing..." else ""
+
+        chat_html += f"""
+<div class="message-row bot-row">
+    <img class="msg-avatar" src="data:image/png;base64,{robot}">
+    <div class="msg bot{typing_class}">{safe_msg}</div>
+</div>
+"""
+
+chat_html += """
+</div>
+
+<script>
+const chatArea = window.parent.document.querySelector('.chat-area');
+if (chatArea) {
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+</script>
+"""
 
 st.markdown(chat_html, unsafe_allow_html=True)
 
-user_input = st.chat_input("اكتب سؤالك...")
+
+if st.button("Clear Chat"):
+    st.session_state[CHAT_KEY] = [
+        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+    ]
+    reset_context()
+    save_chat_history()
+    st.rerun()
+
+
+user_input = st.chat_input("Type your question here...")
 
 if user_input:
     send_message(user_input)
