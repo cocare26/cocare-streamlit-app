@@ -490,26 +490,35 @@ div[data-testid="stChatInput"] textarea {{
     font-size:14px;
     min-height:45px;
     box-shadow:0 4px 12px rgba(0,0,0,.12);
+.status-box{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
 }}
 </style>
 """, unsafe_allow_html=True)
 
 
-region = st.session_state.get("region", "عمان")
+region = st.session_state.get("region", "Amman")
 
 st.markdown(f"""
 <div class="topbar">
+
     <div class="avatar-wrap">
         <img class="avatar" src="data:image/png;base64,{robot}">
         <div class="dot"></div>
     </div>
 
-    <div>
-        <div class="status-main">جاهز للمساعدة</div>
-        <div class="status-sub">مساعد CoCare الذكي</div>
+    <div class="status-box">
+        <div class="status-main">Ready to Assist</div>
+        <div class="status-sub">CoCare AI Assistant</div>
     </div>
 
-    <div class="region-label">📍 {html_lib.escape(region)}</div>
+    <div class="region-label">
+        📍 {html_lib.escape(region)}
+    </div>
+
 </div>
 """, unsafe_allow_html=True)
 
