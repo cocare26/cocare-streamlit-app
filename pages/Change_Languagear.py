@@ -77,7 +77,7 @@ with col1:
     if st.button("‹", key="back_btn"):
          st.session_state.page = "settings_ar"
 
-         st.switch_page("pages/arabic-app.py")
+         st.switch_page("pages/settingar.py")
 
     st.markdown('</div>', unsafe_allow_html=True)
 
