@@ -40,27 +40,27 @@ def save_chat_history():
     pass
 
 
+PHONE_WIDTH = 430
+PHONE_HEIGHT = 820
+
 def img_to_base64(path):
     try:
-        full_path = os.path.join(os.path.dirname(__file__), "..", path)
-        if os.path.exists(full_path):
-            with open(full_path, "rb") as f:
-                return base64.b64encode(f.read()).decode()
+        paths = [
+            os.path.join(os.path.dirname(__file__), path),
+            os.path.join(os.path.dirname(__file__), "..", path),
+        ]
 
-        full_path2 = os.path.join(os.path.dirname(__file__), path)
-        if os.path.exists(full_path2):
-            with open(full_path2, "rb") as f:
-                return base64.b64encode(f.read()).decode()
+        for full_path in paths:
+            if os.path.exists(full_path):
+                with open(full_path, "rb") as f:
+                    return base64.b64encode(f.read()).decode()
     except Exception:
         pass
+
     return ""
 
 
-robot = (
-    img_to_base64("robot_black.png")
-    or img_to_base64("robot_head.png")
-    or img_to_base64("robot.png")
-)
+robot = img_to_base64("robot_black.png")
 
 
 def is_thanks_or_close(text):
@@ -302,92 +302,102 @@ def send_message(text):
     save_chat_history()
 
 
-st.markdown("""
+st.markdown(f"""
 <style>
-html, body, [data-testid="stAppViewContainer"] {
-    background:#dceeff;
+html, body, [data-testid="stAppViewContainer"] {{
+    background:#d8ecff;
     direction:rtl;
-}
-header, footer, #MainMenu {
+}}
+
+header, footer, #MainMenu {{
     visibility:hidden;
-}
-.block-container {
-    max-width:500px;
-    min-height:760px;
+}}
+
+.block-container {{
+    width:{PHONE_WIDTH}px !important;
+    height:{PHONE_HEIGHT}px !important;
+    max-width:{PHONE_WIDTH}px !important;
+    min-height:{PHONE_HEIGHT}px !important;
     margin:auto;
-    padding:10px 12px 8px;
-    border-radius:28px;
+    padding:14px 14px 8px;
+    border-radius:34px;
     background:#f8fcff;
-    box-shadow:0 12px 30px rgba(0,0,0,.13);
+    box-shadow:0 12px 35px rgba(0,0,0,.14);
     overflow:hidden;
     border:1px solid #cfe8ff;
-}
-.topbar {
-    height:112px;
+}}
+
+.topbar {{
+    height:130px;
     background:#f9fcff;
-    border-radius:22px 22px 0 0;
+    border-radius:26px 26px 0 0;
     display:grid;
-    grid-template-columns:86px 1fr 86px;
+    grid-template-columns:92px 1fr 90px;
     align-items:center;
     gap:12px;
-    padding:12px 14px;
+    padding:14px;
     border-bottom:1px solid #cfe4f7;
-}
-.avatar-wrap {
+}}
+
+.avatar-wrap {{
     position:relative;
-    width:78px;
-    height:78px;
-}
-.avatar {
-    width:78px;
-    height:78px;
+    width:84px;
+    height:84px;
+}}
+
+.avatar {{
+    width:84px;
+    height:84px;
     border-radius:50%;
     object-fit:cover;
     background:white;
-    box-shadow:0 4px 12px rgba(0,0,0,.16);
-}
-.dot {
+    box-shadow:0 5px 14px rgba(0,0,0,.16);
+}}
+
+.dot {{
     position:absolute;
     left:-2px;
-    bottom:10px;
-    width:13px;
-    height:13px;
+    bottom:12px;
+    width:14px;
+    height:14px;
     background:#43d43b;
     border-radius:50%;
     border:3px solid white;
-}
-.status-main {
+}}
+
+.status-main {{
     font-size:20px;
     font-weight:900;
     color:#102646;
-    margin-bottom:6px;
-}
-.status-sub {
+}}
+
+.status-sub {{
     font-size:14px;
-    font-weight:500;
     color:#6b7280;
-}
-.region-label {
+    margin-top:5px;
+}}
+
+.region-label {{
     background:white;
-    color:#111;
+    color:#111827;
     font-size:15px;
     font-weight:800;
     border-radius:16px;
     padding:12px 10px;
     text-align:center;
     box-shadow:0 3px 10px rgba(0,0,0,.13);
-}
-.quick-title {
+}}
+
+.quick-title {{
     font-size:18px;
     font-weight:900;
     color:#102646;
-    margin:12px 4px 12px;
+    margin:14px 4px 12px;
     text-align:right;
-}
-div[data-testid="stHorizontalBlock"] {
-    gap:10px;
-}
-div[data-testid="stButton"] button {
+}}
+
+div[data-testid="stButton"] button {{
+    height:70px;
     border-radius:16px;
     border:1px solid #edf2f7;
     background:white;
@@ -395,16 +405,10 @@ div[data-testid="stButton"] button {
     font-weight:900;
     font-size:14px;
     box-shadow:0 4px 12px rgba(0,0,0,.10);
-    height:66px;
-    transition:.2s;
-}
-div[data-testid="stButton"] button:hover {
-    background:#f4f9ff;
-    color:#0f4f91;
-    transform:translateY(-2px);
-}
-.chat-area {
-    height:390px;
+}}
+
+.chat-area {{
+    height:360px;
     overflow-y:auto;
     padding:18px 8px;
     margin-top:14px;
@@ -412,27 +416,24 @@ div[data-testid="stButton"] button:hover {
     background:linear-gradient(180deg,#f2f8ff,#eef7ff);
     border-top:1px solid #dbeafe;
     border-bottom:1px solid #dbeafe;
-}
-.chat-area::-webkit-scrollbar {
-    width:5px;
-}
-.chat-area::-webkit-scrollbar-thumb {
-    background:#c4cdd8;
-    border-radius:10px;
-}
-.message-row {
+}}
+
+.message-row {{
     display:flex;
     align-items:flex-end;
     margin-bottom:18px;
     gap:8px;
-}
-.user-row {
+}}
+
+.user-row {{
     justify-content:flex-start;
-}
-.bot-row {
+}}
+
+.bot-row {{
     justify-content:flex-end;
-}
-.msg {
+}}
+
+.msg {{
     max-width:74%;
     padding:12px 16px;
     border-radius:18px;
@@ -440,52 +441,48 @@ div[data-testid="stButton"] button:hover {
     line-height:1.7;
     white-space:pre-wrap;
     text-align:right;
-}
-.bot {
+}}
+
+.bot {{
     background:white;
     color:#111;
     border-bottom-right-radius:5px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
-}
-.user {
+}}
+
+.user {{
     background:linear-gradient(135deg,#4aa3ff,#1677e8);
     color:white;
     border-bottom-left-radius:5px;
     box-shadow:0 3px 10px rgba(22,119,232,.25);
-}
-.msg-avatar {
+}}
+
+.msg-avatar,
+.user-avatar {{
     width:38px;
     height:38px;
     border-radius:50%;
+    background:white;
     object-fit:cover;
-    background:white;
     box-shadow:0 3px 8px rgba(0,0,0,.14);
-}
-.user-avatar {
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    background:white;
+}}
+
+.user-avatar {{
     color:#1762ad;
     display:flex;
     align-items:center;
     justify-content:center;
     font-size:20px;
-    box-shadow:0 3px 8px rgba(0,0,0,.14);
-}
-.typing {
-    opacity:.75;
-}
-.clear-box button {
-    height:44px !important;
-}
-div[data-testid="stChatInput"] {
+}}
+
+div[data-testid="stChatInput"] {{
     position:relative !important;
     bottom:auto !important;
     background:transparent !important;
     padding:0 !important;
-}
-div[data-testid="stChatInput"] textarea {
+}}
+
+div[data-testid="stChatInput"] textarea {{
     direction:rtl;
     border-radius:24px;
     border:none;
@@ -493,7 +490,7 @@ div[data-testid="stChatInput"] textarea {
     font-size:14px;
     min-height:45px;
     box-shadow:0 4px 12px rgba(0,0,0,.12);
-}
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -515,7 +512,6 @@ st.markdown(f"""
     <div class="region-label">📍 {html_lib.escape(region)}</div>
 </div>
 """, unsafe_allow_html=True)
-
 
 st.markdown('<div class="quick-title">الخدمات السريعة</div>', unsafe_allow_html=True)
 
@@ -551,8 +547,7 @@ with c6:
     if st.button("🎧\nالتواصل مع الدعم"):
         send_message("التواصل مع الدعم")
         st.rerun()
-
-
+        
 chat_html = '<div class="chat-area">'
 
 for role, message in st.session_state[CHAT_KEY]:
