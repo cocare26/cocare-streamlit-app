@@ -48,7 +48,7 @@ if CONTEXT_KEY not in st.session_state:
 
 if CHAT_KEY not in st.session_state:
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
     ]
 
 
@@ -87,14 +87,13 @@ robot = (
 def is_thanks_or_close(text):
     t = str(text).strip().lower()
     return any(p in t for p in [
-        "thanks", "thank you", "ok", "okay", "fine", "great", "done",
-        "شكرا", "شكراً", "تمام"
+        "thanks", "thank you", "ok", "okay", "fine", "great", "done"
     ])
 
 
 def is_goodbye(text):
     t = str(text).strip().lower()
-    return any(p in t for p in ["bye", "goodbye", "see you", "مع السلامة", "باي"])
+    return any(p in t for p in ["bye", "goodbye", "see you"])
 
 
 def is_no_problem(text):
@@ -154,7 +153,7 @@ def human_fallback_reply(text):
 
     if is_goodbye(t):
         reset_context()
-        return "Goodbye 👋 I am here whenever you need help."
+        return "Goodbye. I am here whenever you need help."
 
     if is_social_positive(t):
         reset_context()
@@ -283,19 +282,19 @@ def has_negative_language(text):
 def detect_network_problem_type(text):
     t = str(text).lower()
 
-    if any(w in t for w in ["slow"]):
+    if "slow" in t:
         return "slow_connection"
 
-    if any(w in t for w in ["weak signal", "signal"]):
+    if "weak signal" in t or "signal" in t:
         return "weak_signal"
 
-    if any(w in t for w in ["disconnect", "cut"]):
+    if "disconnect" in t or "cut" in t:
         return "disconnection"
 
-    if any(w in t for w in ["outage", "fault"]):
+    if "outage" in t or "fault" in t:
         return "outage"
 
-    if any(w in t for w in ["network", "internet"]):
+    if "network" in t or "internet" in t:
         return "general_network_issue"
 
     return "none"
@@ -400,7 +399,7 @@ def get_bot_reply(user_text):
 
     if is_goodbye(msg):
         reset_context()
-        return "Goodbye 👋 I am here whenever you need help.", analysis_result
+        return "Goodbye. I am here whenever you need help.", analysis_result
 
     if is_social_positive(msg):
         reset_context()
@@ -566,6 +565,12 @@ header, footer, #MainMenu {{
     border:3px solid white;
 }}
 
+.status-box {{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}}
+
 .status-main {{
     font-size:20px;
     font-weight:900;
@@ -630,15 +635,6 @@ div[data-testid="stButton"] button:hover {{
     border-bottom:1px solid #dbeafe;
 }}
 
-.chat-area::-webkit-scrollbar {{
-    width:5px;
-}}
-
-.chat-area::-webkit-scrollbar-thumb {{
-    background:#c4cdd8;
-    border-radius:10px;
-}}
-
 .message-row {{
     display:flex;
     align-items:flex-end;
@@ -678,26 +674,22 @@ div[data-testid="stButton"] button:hover {{
     box-shadow:0 3px 10px rgba(22,119,232,.25);
 }}
 
-.msg-avatar {{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    object-fit:cover;
-    background:white;
-    box-shadow:0 3px 8px rgba(0,0,0,.14);
-}}
-
+.msg-avatar,
 .user-avatar {{
     width:38px;
     height:38px;
     border-radius:50%;
     background:white;
+    object-fit:cover;
+    box-shadow:0 3px 8px rgba(0,0,0,.14);
+}}
+
+.user-avatar {{
     color:#1762ad;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:20px;
-    box-shadow:0 3px 8px rgba(0,0,0,.14);
+    font-size:18px;
 }}
 
 div[data-testid="stChatInput"] {{
@@ -715,25 +707,15 @@ div[data-testid="stChatInput"] textarea {{
     font-size:14px;
     min-height:45px;
     box-shadow:0 4px 12px rgba(0,0,0,.12);
-
-st.markdown("""
-<style>
-
-.status-box{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
+}}
 </style>
 """, unsafe_allow_html=True)
 
 
 region = st.session_state.get("region", "Amman")
 
-topbar_html = f"""
+topbar_html = f'''
 <div class="topbar">
-
     <div class="avatar-wrap">
         <img class="avatar" src="data:image/png;base64,{robot}">
         <div class="dot"></div>
@@ -747,12 +729,10 @@ topbar_html = f"""
     <div class="region-label">
         {html_lib.escape(region)}
     </div>
-
 </div>
-"""
+'''
 
 st.markdown(topbar_html, unsafe_allow_html=True)
-
 
 st.markdown('<div class="quick-title">Quick Services</div>', unsafe_allow_html=True)
 
@@ -760,38 +740,35 @@ c1, c2, c3 = st.columns(3)
 c4, c5, c6 = st.columns(3)
 
 with c1:
-    if st.button("📡\nNetwork Test"):
+    if st.button("Network Test"):
         send_message("Network Test")
         st.rerun()
 
 with c2:
-    if st.button("📊\nInternet Usage"):
+    if st.button("Internet Usage"):
         send_message("Internet Usage")
         st.rerun()
 
 with c3:
-    if st.button("🧾\nRenew Package"):
+    if st.button("Renew Package"):
         send_message("Renew Package")
         st.rerun()
 
 with c4:
-    if st.button("☎️\nInternational Calls"):
+    if st.button("International Calls"):
         send_message("International Calls")
         st.rerun()
 
 with c5:
-    if st.button("🎁\nOffers & Games"):
+    if st.button("Offers & Games"):
         send_message("Offers & Games")
         st.rerun()
 
 with c6:
-    if st.button("🎧\nContact Support"):
+    if st.button("Contact Support"):
         send_message("Contact Support")
         st.rerun()
 
-# =========================
-# CHAT AREA
-# =========================
 
 chat_html = '<div class="chat-area">'
 
@@ -800,25 +777,21 @@ for role, message in st.session_state[CHAT_KEY]:
     safe_msg = html_lib.escape(str(message))
 
     if role == "user":
-
         user_block = f'''
 <div class="message-row user-row">
     <div class="msg user">{safe_msg}</div>
     <div class="msg-avatar user-avatar">U</div>
 </div>
 '''
-
         chat_html += user_block
 
     else:
-
         bot_block = f'''
 <div class="message-row bot-row">
     <img class="msg-avatar" src="data:image/png;base64,{robot}">
     <div class="msg bot">{safe_msg}</div>
 </div>
 '''
-
         chat_html += bot_block
 
 
@@ -837,9 +810,9 @@ if (chatArea) {
 st.markdown(chat_html, unsafe_allow_html=True)
 
 
-if st.button("🗑️ Clear Chat"):
+if st.button("Clear Chat"):
     st.session_state[CHAT_KEY] = [
-        ("bot", "Hi 👋 I am CoCare AI Assistant. How can I help you?")
+        ("bot", "Hi, I am CoCare AI Assistant. How can I help you?")
     ]
     reset_context()
     st.rerun()
