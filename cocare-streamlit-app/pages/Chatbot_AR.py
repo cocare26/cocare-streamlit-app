@@ -504,7 +504,7 @@ st.markdown("""
 
 region = st.session_state.get("region", "عمان")
 
-st.markdown(f"""
+topbar_html = f"""
 <div class="topbar">
 
     <div class="avatar-wrap">
@@ -522,7 +522,9 @@ st.markdown(f"""
     </div>
 
 </div>
-""", unsafe_allow_html=True)
+"""
+
+st.markdown(topbar_html, unsafe_allow_html=True)
 
 st.markdown('<div class="quick-title">الخدمات السريعة</div>', unsafe_allow_html=True)
 
