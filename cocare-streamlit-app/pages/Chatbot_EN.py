@@ -424,17 +424,6 @@ for role, message in st.session_state[CHAT_KEY]:
 
 chat_html += """
 </div>
-
-<script>
-
-const chatArea =
-window.parent.document.querySelector(".chat-area");
-
-if (chatArea) {{
-    chatArea.scrollTop = chatArea.scrollHeight;
-}}
-
-</script>
 """
 
 st.markdown(chat_html, unsafe_allow_html=True)
