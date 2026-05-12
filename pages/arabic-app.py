@@ -137,7 +137,7 @@ placeholder="كلمة المرور"
 type="password">
 
 <div class="forgot">
-   <a href="?page=forgot" target="_top" style="color:#555; text-decoration:none;">
+   <a href="#" onclick="goPage('forgot')" style="color:#555; text-decoration:none;">
     هل نسيت كلمة المرور؟
 </a>
 </div>
@@ -150,7 +150,7 @@ type="password">
 
 <div class="signup">
 👤 مستخدم جديد؟
-<a href="?page=create" target="_top" style="color:#222; text-decoration:underline;">
+<a href="#" onclick="goPage('create')" style="color:#222; text-decoration:underline;">
     إنشاء حساب
 </a>
 </div>
@@ -158,29 +158,27 @@ type="password">
 </form>
 
 <script>
+function goPage(p){
+    window.parent.location.search = "?page=" + p;
+}
 
 function setPage(){
-
     const v = document.getElementById("username").value;
     const e = document.getElementById("error");
-    const pageValue = document.getElementById("pageValue");
 
-    // موظف = 11 رقم
     if(/^[0-9]{11}$/.test(v)){
-        pageValue.value = "employee";
-        return true;
+        goPage("employee");
+        return false;
     }
 
-    // عميل = رقم يبدأ بـ 07 وطوله 10
     if(/^07[0-9]{8}$/.test(v)){
-        pageValue.value = "customer";
-        return true;
+        goPage("customer");
+        return false;
     }
 
     e.innerText = "رقم الهاتف أو الهوية غير صحيح";
     return false;
 }
-
 </script>
 
 </body>
