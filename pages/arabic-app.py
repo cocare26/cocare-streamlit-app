@@ -122,7 +122,7 @@ body{
 
 <img class="robot" src="data:image/png;base64,IMG_HERE">
 
-<form class="form" method="get" action="/" target="_self" onsubmit="return setPage()">
+<form class="form" method="get" action="" target="_top" onsubmit="return setPage()">
 
 <input type="hidden" name="page" id="pageValue">
 
@@ -137,7 +137,7 @@ placeholder="كلمة المرور"
 type="password">
 
 <div class="forgot">
-    <a href="/?page=forgot"
+    <a href="?page=forgot" target="_top">
     target="_self"
     style="color:#555; text-decoration:none;">
         هل نسيت كلمة المرور؟
@@ -152,7 +152,7 @@ type="password">
 
 <div class="signup">
 👤 مستخدم جديد؟
-<a href="/?page=create"
+<a href="?page=create" target="_top">
 target="_self"
 style="color:#222; text-decoration:underline;">
 إنشاء حساب
