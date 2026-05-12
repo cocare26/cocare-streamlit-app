@@ -137,11 +137,9 @@ placeholder="كلمة المرور"
 type="password">
 
 <div class="forgot">
-    <a href="?page=forgot" target="_top">
-    target="_self"
-    style="color:#555; text-decoration:none;">
-        هل نسيت كلمة المرور؟
-    </a>
+   <a href="?page=forgot" target="_top" style="color:#555; text-decoration:none;">
+    هل نسيت كلمة المرور؟
+</a>
 </div>
 
 <button class="login" type="submit">
@@ -152,10 +150,8 @@ type="password">
 
 <div class="signup">
 👤 مستخدم جديد؟
-<a href="?page=create" target="_top">
-target="_self"
-style="color:#222; text-decoration:underline;">
-إنشاء حساب
+<a href="?page=create" target="_top" style="color:#222; text-decoration:underline;">
+    إنشاء حساب
 </a>
 </div>
 
