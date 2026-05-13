@@ -182,6 +182,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     color: #102646;
     line-height: 1.2;
 }
+
 div[data-testid="column"] .stButton > button {
     width: 100%;
     height: 95px;
@@ -264,6 +265,7 @@ st.markdown("""
 </div>
 </div>
 """, unsafe_allow_html=True)
+
 # 3. أيقونات الخدمات (الربط المطلوب)
 
 cols = st.columns(4)
@@ -306,14 +308,14 @@ for col, service in zip(cols, services):
         </div>
         """, unsafe_allow_html=True)
 
-       clicked = st.button(
-    label="",
-    key=service["key"],
-    use_container_width=True
-)
+        clicked = st.button(
+            "",
+            key=service["key"],
+            use_container_width=True
+        )
 
-if clicked:
-    st.switch_page(service["page"])
+        if clicked:
+            st.switch_page(service["page"])
        
 # 4. قسم التقييم
 st.markdown("""
