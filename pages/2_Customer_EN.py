@@ -200,6 +200,19 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     transition: transform 0.3s ease;
 }
 
+.service-card {
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px) scale(1.05);
+}
+
+.service-card:hover img {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
 
 
 
