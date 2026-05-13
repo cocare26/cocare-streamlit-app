@@ -40,7 +40,7 @@ icon_game = get_base64("game.png")
 page = "2_Customer_EN"
 
 # =====================================
-# CSS المطور
+# CSS المطور (تم تحديثه لضمان استقامة الأيقونات)
 # =====================================
 st.markdown("""
 <style>
@@ -72,12 +72,32 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     box-shadow: 0 4px 15px rgba(0,0,0,.05);
     transition: all 0.3s ease;
 }
-.rating-card {
-    padding: 4px 14px 6px !important;
-    margin-bottom: 4px !important;
+
+/* --- تعديلات الجوال الجديدة لضمان صف واحد --- */
+[data-testid="stHorizontalBlock"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 0.2rem !important;
 }
 
+[data-testid="column"] {
+    flex: 1 1 0% !important;
+    min-width: 0px !important;
+}
 
+@media (max-width: 600px) {
+    .service-label-custom {
+        font-size: 8px !important;
+    }
+    .service-img-custom {
+        width: 55px !important;
+        height: 55px !important;
+    }
+}
+/* ----------------------------------------- */
 
 .title {
     font-size:15px;
@@ -91,97 +111,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     transition: all 0.3s ease; 
     position: relative; 
 }
-.clickable:active { transform: scale(0.95); }
 
-.service-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: transparent;
-    padding: 8px 4px;
-    height: 100px;
-    transition: transform 0.3s ease;
-    position: relative;
-}
-
-.service-item:hover {
-    transform: translateY(-10px);
-}
-
-.service-icon-img {
-    width: 65px;
-    height: 65px;
-    object-fit: contain;
-    margin-bottom: 2px;
-}
-
-.service-label {
-    font-size: 9px;
-    font-weight: 800;
-    color: #102646;
-    line-height: 1.1;
-}
-
-.nav {
-    margin-top:15px; 
-    display:grid; 
-    grid-template-columns:repeat(5,1fr);
-    text-align:center; 
-    align-items: end;
-}
-
-.nav-item {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    color:#6b6b6b; 
-    font-size: 11px;
-    font-weight: 700;
-    transition: transform 0.3s ease;
-    position: relative;
-}
-
-.nav-item:hover {
-    transform: scale(1.15);
-}
-
-.nav-img-footer {
-    width: 38px;
-    height: 38px;
-    object-fit: contain;
-    margin-bottom: 2px;
-}
-
-.bot-bg {
-    width:60px; height:60px; background:white; border-radius:15px;
-    margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.service-card {
-    background: transparent;
-    border-radius: 0;
-    padding: 0;
-    text-align: center;
-    height: 95px;
-    margin-bottom: 0;
-    box-shadow: none;
-}
-
-.service-icon-img {
-    width: 72px;
-    height: 72px;
-    object-fit: contain;
-    margin-bottom: 2px;
-}
-.service-label {
-    font-size: 10px;
-    font-weight: 800;
-    color: #102646;
-    line-height: 1.2;
-}
 .stButton > button {
     position: relative;
     width: 100%;
@@ -193,47 +123,6 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     cursor: pointer;
     z-index: 10;
 }
-
-}
-.service-card:hover {
-    transform: translateY(-8px);
-    transition: transform 0.3s ease;
-}
-
-.service-card {
-    transition: transform 0.3s ease;
-}
-
-.service-card:hover {
-    transform: translateY(-10px) scale(1.05);
-}
-
-.service-card:hover img {
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
-}
-/* إجبار أعمدة الخدمات على البقاء أفقية */
-[data-testid="column"] {
-    flex: 1 1 0% !important;
-    min-width: 0px !important;
-}
-
-div[data-testid="stHorizontalBlock"] {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-}
-
-/* لضمان عدم تداخل النصوص الصغيرة */
-.service-label-mobile {
-    font-size: 8px !important;
-    font-weight: 800;
-    color: #102646;
-    line-height: 1.1;
-    text-align: center;
-}
-
-
 
 .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
 .star-rating input { display: none; }
@@ -257,6 +146,27 @@ div[data-testid="stHorizontalBlock"] {
     position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
     background: #333; transform-origin: bottom center; z-index: 5;
 }
+
+.nav-item {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    color:#6b6b6b; 
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.nav-img-footer {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.bot-bg {
+    width:50px; height:50px; background:white; border-radius:15px;
+    margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -265,7 +175,7 @@ st.markdown(f"""
 <div class="welcome-card clickable">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
-        <div style="font-size:20px; font-weight:900; color:#102646; line-height:1.1;">Welcome: User Name</div>
+        <div style="font-size:20px; font-weight:900; color:#102646; line-height:1.1;">Welcome: Farah</div>
         <div style="font-size:12px; color:#555; margin-top:2px;">+962 79 123 4567</div>
         <div style="font-size:10px; color:#777;">Valid until: May 25, 2024</div>
         <div style="font-size:11px; background:#F0F7FF; border-radius:20px; padding:2px 10px; color:#102646; font-weight:700; margin-top:5px; border:1px solid #D0E0F0;">
@@ -301,62 +211,30 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (الربط المطلوب)
-
+# 3. أيقونات الخدمات
 cols = st.columns(4)
 
 services = [
-    {
-        "key": "internet",
-        "icon": icon_internet,
-        "label": "Internet<br>Packages",
-        "page": "pages/InternetPackages.py"
-    },
-    {
-        "key": "renewals",
-        "icon": icon_renewals,
-        "label": "Renewals +<br>Tariff Changes",
-        "page": "pages/RenewalsTariff.py"
-    },
-    {
-        "key": "calls",
-        "icon": icon_calls,
-        "label": "International<br>Calls",
-        "page": "pages/InternationalCalls.py"
-    },
-    {
-        "key": "notifications",
-        "icon": icon_notifications,
-        "label": "Network<br>Notifications",
-        "page": "pages/NetworkNotifications.py"
-    }
+    {"key": "internet", "icon": icon_internet, "label": "Internet<br>Packages", "page": "pages/InternetPackages.py"},
+    {"key": "renewals", "icon": icon_renewals, "label": "Renewals +<br>Tariff Changes", "page": "pages/RenewalsTariff.py"},
+    {"key": "calls", "icon": icon_calls, "label": "International<br>Calls", "page": "pages/InternationalCalls.py"},
+    {"key": "notifications", "icon": icon_notifications, "label": "Network<br>Notifications", "page": "pages/NetworkNotifications.py"}
 ]
+
 for col, service in zip(cols, services):
-
     with col:
-
-        clicked = st.button(
-            label="",
-            key=service["key"],
-            use_container_width=True
-        )
-
+        clicked = st.button(label="", key=service["key"], use_container_width=True)
         st.markdown(f"""
-        <div style="
-            margin-top:-90px;
-            text-align:center;
-            pointer-events:none;
-        ">
-            <img src="data:image/png;base64,{service['icon']}" 
-                 style="width:72px;height:72px;">
-            <div style="font-size:10px;font-weight:800;color:#102646;">
+        <div style="margin-top:-90px; text-align:center; pointer-events:none;">
+            <img src="data:image/png;base64,{service['icon']}" class="service-img-custom" style="width:65px;height:65px;object-fit:contain;">
+            <div class="service-label-custom" style="font-size:10px;font-weight:800;color:#102646;line-height:1.1;">
                 {service['label']}
             </div>
         </div>
         """, unsafe_allow_html=True)
-
         if clicked:
             st.switch_page(service["page"])
+
 # 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -412,66 +290,25 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-# 6. الشريط السفلي (الانتقال الصحيح)
-
+# 6. الشريط السفلي
 n_cols = st.columns(5)
 
 with n_cols[0]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
-        <span>Settings</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("settings", key="nav_set"):
-        st.switch_page("pages/Settings.py")
-
+    st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer"><span>Settings</span></div>', unsafe_allow_html=True)
+    if st.button("settings", key="nav_set"): st.switch_page("pages/Settings.py")
 
 with n_cols[1]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
-        <span>Spin</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("spin", key="nav_spin"):
-        st.switch_page("pages/_Game_E.py")
+    st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{icon_spin}" class="nav-img-footer"><span>Spin</span></div>', unsafe_allow_html=True)
+    if st.button("spin", key="nav_spin"): st.switch_page("pages/_Game_E.py")
 
 with n_cols[2]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <div class="bot-bg">
-            <img src="data:image/png;base64,{robot_head}" 
-                 style="width:45px; height:45px; object-fit:contain;">
-        </div>
-        <span>Chatbot</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("bot", key="nav_bot"):
-        st.switch_page("cocare-streamlit-app/pages/Chatbot_EN.py")
+    st.markdown(f'<div class="nav-item"><div class="bot-bg"><img src="data:image/png;base64,{robot_head}" style="width:35px;height:35px;"></div><span>Chatbot</span></div>', unsafe_allow_html=True)
+    if st.button("bot", key="nav_bot"): st.switch_page("cocare-streamlit-app/pages/Chatbot_EN.py")
 
 with n_cols[3]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
-        <span>Home</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("home", key="nav_home"):
-        st.switch_page("pages/2_Customer_EN.py")
-
+    st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{icon_home}" class="nav-img-footer"><span>Home</span></div>', unsafe_allow_html=True)
+    if st.button("home", key="nav_home"): st.switch_page("pages/2_Customer_EN.py")
 
 with n_cols[4]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
-        <span>Game On</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("game", key="nav_game"):
-        st.switch_page("pages/_Game_E.py")
+    st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{icon_game}" class="nav-img-footer"><span>Game On</span></div>', unsafe_allow_html=True)
+    if st.button("game", key="nav_game"): st.switch_page("pages/_Game_E.py")
