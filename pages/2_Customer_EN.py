@@ -40,7 +40,7 @@ icon_game = get_base64("game.png")
 page = "2_Customer_EN"
 
 # =====================================
-# CSS المطور (تم إضافة تعديلات الاستجابة هنا)
+# CSS المطور (معدل للاستجابة)
 # =====================================
 st.markdown("""
 <style>
@@ -55,8 +55,8 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 #MainMenu, header, footer { visibility:hidden; }
 
 .block-container {
-    max-width:430px; /* PHONE_WIDTH */
-    min-height:820px; /* PHONE_HEIGHT */
+    max-width:430px; 
+    min-height:820px; 
     margin:auto;
     padding:12px 16px;
     background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
@@ -64,7 +64,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
 
-/* --- تعديلات إجبار الأعمدة على البقاء بجانب بعضها في الموبايل --- */
+/* إصلاح مشكلة الموبايل: إجبار الأعمدة على البقاء بجانب بعضها */
 [data-testid="column"] {
     width: calc(25% - 0.5rem) !important;
     flex: 1 1 calc(25% - 0.5rem) !important;
@@ -76,7 +76,6 @@ div[data-testid="stHorizontalBlock"]:last-of-type [data-testid="column"] {
     width: calc(20% - 0.2rem) !important;
     flex: 1 1 calc(20% - 0.2rem) !important;
 }
-/* --------------------------------------------------------- */
 
 .card {
     background: white;
@@ -84,11 +83,6 @@ div[data-testid="stHorizontalBlock"]:last-of-type [data-testid="column"] {
     padding: 10px 14px;
     margin-bottom: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,.05);
-    transition: all 0.3s ease;
-}
-.rating-card {
-    padding: 4px 14px 6px !important;
-    margin-bottom: 4px !important;
 }
 
 .title {
@@ -98,49 +92,13 @@ div[data-testid="stHorizontalBlock"]:last-of-type [data-testid="column"] {
     margin: 4px 0 4px 4px;
 }
 
-.clickable {
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-    position: relative; 
-}
-.clickable:active { transform: scale(0.95); }
-
-.service-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: transparent;
-    padding: 8px 4px;
-    height: 100px;
-    transition: transform 0.3s ease;
-    position: relative;
-}
-
-.service-icon-img {
-    width: 65px;
-    height: 65px;
-    object-fit: contain;
-    margin-bottom: 2px;
-}
-
-.service-label {
-    font-size: 9px;
-    font-weight: 800;
-    color: #102646;
-    line-height: 1.1;
-}
-
 .nav-item {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     color:#6b6b6b; 
-    font-size: 10px; /* تصغير طفيف للموبايل */
+    font-size: 10px;
     font-weight: 700;
-    transition: transform 0.3s ease;
-    position: relative;
 }
 
 .nav-img-footer {
@@ -168,38 +126,29 @@ div[data-testid="stHorizontalBlock"]:last-of-type [data-testid="column"] {
     z-index: 10;
 }
 
-.star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
-.star-rating input { display: none; }
-.star-rating label { font-size: 24px; color: #ddd; cursor: pointer; }
-.star-rating input:checked ~ label { color: #ffcc00; }
-
-.rating-bar-container {
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
-    height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px;
-    color: white; font-size: 11px; font-weight: bold;
+.needle {
+    position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
+    background: #333; transform-origin: bottom center; z-index: 5;
 }
+
+.star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
+.star-rating label { font-size: 24px; color: #ddd; }
 
 .welcome-card {
     background: white; border-radius: 20px; padding: 8px 12px; margin-bottom: 8px;
     display: flex; align-items: center; height: 100px;
 }
 .robot-img-welcome { width: 95px; height: 95px; object-fit: contain; margin-right: 12px; }
-
-.needle {
-    position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
-    background: #333; transform-origin: bottom center; z-index: 5;
-}
 </style>
 """, unsafe_allow_html=True)
 
 # 1. قسم الملف الشخصي
 st.markdown(f"""
-<div class="welcome-card clickable">
+<div class="welcome-card">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
-        <div style="font-size:20px; font-weight:900; color:#102646; line-height:1.1;">Welcome: User Name</div>
-        <div style="font-size:12px; color:#555; margin-top:2px;">+962 79 123 4567</div>
+        <div style="font-size:20px; font-weight:900; color:#102646;">Welcome: User Name</div>
+        <div style="font-size:12px; color:#555;">+962 79 123 4567</div>
         <div style="font-size:10px; color:#777;">Valid until: May 25, 2024</div>
         <div style="font-size:11px; background:#F0F7FF; border-radius:20px; padding:2px 10px; color:#102646; font-weight:700; margin-top:5px; border:1px solid #D0E0F0;">
         📍 Location: Amman</div>
@@ -210,11 +159,11 @@ st.markdown(f"""
 # 2. معلومات الرصيد
 st.markdown("""
 <div class="title">Your Number Info</div>
-<div class="card balance-card clickable">
+<div class="card">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 2;">
 <div style="font-size:10px; font-weight:700; color:#666;">Remaining GB</div>
-<div style="font-size:32px; font-weight:900; color:#102646; line-height:0.9;">4.7 <span style="font-size:14px;">GB</span></div>
+<div style="font-size:32px; font-weight:900; color:#102646;">4.7 <span style="font-size:14px;">GB</span></div>
 </div>
 <div style="flex: 1; text-align: right;">
 <div style="position: relative; width: 60px; height: 30px; margin-left: auto;">
@@ -234,8 +183,8 @@ st.markdown("""
 
 st.markdown("<div style='height:15px'></div>", unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (تعديل gap)
-cols = st.columns(4, gap="extra_small")
+# 3. أيقونات الخدمات (تم تصحيح قيمة gap إلى "small")
+cols = st.columns(4, gap="small")
 
 services = [
     {"key": "internet", "icon": icon_internet, "label": "Internet<br>Packages", "page": "pages/InternetPackages.py"},
@@ -259,20 +208,16 @@ for col, service in zip(cols, services):
 # 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
-<div class="card rating-card">
+<div class="card">
 <div style="font-weight:900; font-size:12px; color:#102646;">⭐ Service Security Rate</div>
-<div class="rating-bar-container">
+<div style="display: flex; align-items: center; justify-content: space-between; background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A); height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px; color: white; font-size: 11px; font-weight: bold;">
     <span>★ 4.5</span>
     <span>4.5%</span>
     <span style="background:rgba(255,255,255,0.3); padding:0 5px; border-radius:2px;">24%</span>
 </div>
-<div style="text-align:center; margin-top:8px; font-weight:700; font-size:11px; color:#666; margin-bottom:2px;">Rate our service</div>
+<div style="text-align:center; margin-top:8px; font-weight:700; font-size:11px; color:#666;">Rate our service</div>
 <div class="star-rating">
-    <input type="radio" id="5" name="rate"><label for="5">★</label>
-    <input type="radio" id="4" name="rate"><label for="4">★</label>
-    <input type="radio" id="3" name="rate"><label for="3">★</label>
-    <input type="radio" id="2" name="rate"><label for="2">★</label>
-    <input type="radio" id="1" name="rate"><label for="1">★</label>
+    <label>★</label><label>★</label><label>★</label><label>★</label><label>★</label>
 </div>
 </div>
 """, unsafe_allow_html=True)
@@ -280,7 +225,7 @@ st.markdown("""
 # 5. قوة الشبكة
 st.markdown("""
 <div class="title">Network Strength in your area</div>
-<div class="card clickable">
+<div class="card">
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 1.2;">
 <div style="font-size:14px; font-weight:900; color:#102646;">📍 Amman</div>
@@ -288,11 +233,11 @@ st.markdown("""
 <div style="display: flex; gap: 4px;">
 <div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
 <div style="font-size: 7px; color: #666; font-weight:bold;">Packet Loss</div>
-<div style="font-size: 16px; font-weight: 900; color: #000;">0</div>
+<div style="font-size: 16px; font-weight: 900;">0</div>
 </div>
 <div style="background: #F1F7FF; border-radius: 10px; padding: 6px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
 <div style="font-size: 7px; color: #666; font-weight:bold;">Avg Jitter</div>
-<div style="font-size: 16px; font-weight: 900; color: #000;">19</div>
+<div style="font-size: 16px; font-weight: 900;">19</div>
 </div>
 </div>
 </div>
@@ -311,8 +256,8 @@ st.markdown("""
 
 st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
 
-# 6. الشريط السفلي (تعديل gap)
-n_cols = st.columns(5, gap="extra_small")
+# 6. الشريط السفلي (تم تصحيح قيمة gap إلى "small")
+n_cols = st.columns(5, gap="small")
 
 with n_cols[0]:
     st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer"><span>Settings</span></div>', unsafe_allow_html=True)
