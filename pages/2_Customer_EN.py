@@ -40,15 +40,20 @@ icon_game = get_base64("game.png")
 page = "2_Customer_EN"
 
 # =====================================
-# CSS المطور (تم التحديث لضمان التناسق التام)
+# CSS المطور (حل مشكلة الإزاحة الجانبية نهائياً)
 # =====================================
 st.markdown("""
 <style>
 *{ margin:0; padding:0; box-sizing:border-box; }
+
+/* منع التمرير الأفقي في كامل التطبيق */
 html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
     font-family:'Segoe UI', sans-serif;
+    overflow-x: hidden !important;
+    width: 100%;
 }
+
 section.main > div { padding-top:4px; }
 div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 
@@ -57,7 +62,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 .block-container {
     max-width:430px; 
     margin:auto;
-    padding:12px 16px;
+    padding:12px 10px; /* تقليل الحواف الجانبية لزيادة المساحة */
     background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
@@ -71,31 +76,41 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     box-shadow: 0 4px 15px rgba(0,0,0,.05);
 }
 
-/* --- إصلاح توزيع الأيقونات على الجوال --- */
+/* --- إصلاح توزيع الأيقونات لمنع الصفحة الجانبية --- */
 [data-testid="stHorizontalBlock"] {
     display: flex !important;
     flex-direction: row !important;
-    flex-wrap: nowrap !important; /* يمنع نزول الأيقونات لسطر جديد */
+    flex-wrap: nowrap !important; /* إجبار العناصر على البقاء في صف واحد */
     align-items: flex-start !important;
     justify-content: space-between !important;
-    gap: 0.1rem !important;
+    gap: 2px !important; /* تقليل المسافة بين الأعمدة */
+    width: 100% !important;
 }
 
 [data-testid="column"] {
     flex: 1 1 0% !important;
-    min-width: 0px !important; /* يسمح بتصغير العمود لأقصى درجة */
+    min-width: 0px !important; /* السماح للعمود بالانكماش لأقصى درجة */
+    max-width: 25% !important; /* لضمان عدم خروج الأيقونات الأربعة عن العرض */
     text-align: center;
 }
 
-/* تصغير العناصر في شاشات الجوال الصغيرة جداً */
-@media (max-width: 380px) {
-    .service-label-custom {
-        font-size: 7px !important;
-    }
-    .service-img-custom {
-        width: 45px !important;
-        height: 45px !important;
-    }
+/* تعديل خاص للشريط السفلي (5 أعمدة) */
+div[data-testid="stHorizontalBlock"]:last-child [data-testid="column"] {
+    max-width: 20% !important;
+}
+
+.service-label-custom {
+    font-size: 8px !important; /* تصغير طفيف للنص ليتناسب مع العرض */
+    font-weight: 800;
+    color: #102646;
+    line-height: 1.1;
+    margin-top: 4px;
+}
+
+.service-img-custom {
+    width: 48px !important; /* حجم مثالي لمنع دحرجة العناصر */
+    height: 48px !important;
+    object-fit: contain;
 }
 
 .title {
@@ -111,7 +126,6 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     position: relative; 
 }
 
-/* تعديل موقع زر Streamlit المخفي ليتطابق مع الأيقونة */
 .stButton > button {
     position: relative;
     width: 100%;
@@ -128,31 +142,30 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     background: white; border-radius: 20px; padding: 8px 12px; margin-bottom: 8px;
     display: flex; align-items: center; height: 100px;
 }
-.robot-img-welcome { width: 95px; height: 95px; object-fit: contain; margin-right: 12px; }
+.robot-img-welcome { width: 90px; height: 90px; object-fit: contain; margin-right: 12px; }
 
 .needle {
     position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
     background: #333; transform-origin: bottom center; z-index: 5;
 }
 
-/* الشريط السفلي */
 .nav-item {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     color:#6b6b6b; 
-    font-size: 9px;
+    font-size: 8px; /* تصغير نص الشريط السفلي */
     font-weight: 700;
 }
 
 .nav-img-footer {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
 }
 
 .bot-bg {
-    width:45px; height:45px; background:white; border-radius:12px;
+    width:40px; height:40px; background:white; border-radius:12px;
     margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
@@ -209,9 +222,9 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:15px'></div>", unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (الأربعة في صف واحد)
+# 3. أيقونات الخدمات (الأربعة في صف واحد ثابت)
 cols = st.columns(4)
 
 services = [
@@ -223,20 +236,18 @@ services = [
 
 for col, service in zip(cols, services):
     with col:
-        # تصميم الأيقونة والنص
         st.markdown(f"""
         <div style="text-align:center; width:100%;">
-            <img src="data:image/png;base64,{service['icon']}" class="service-img-custom" style="width:55px;height:55px;object-fit:contain;">
-            <div class="service-label-custom" style="font-size:9px;font-weight:800;color:#102646;line-height:1.1;margin-top:4px;">
+            <img src="data:image/png;base64,{service['icon']}" class="service-img-custom">
+            <div class="service-label-custom">
                 {service['label']}
             </div>
         </div>
         """, unsafe_allow_html=True)
-        # الزر الشفاف الذي يغطي المساحة
         if st.button(label="", key=service["key"], use_container_width=True):
             st.switch_page(service["page"])
 
-st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:15px'></div>", unsafe_allow_html=True)
 
 # 4. قسم التقييم
 st.markdown("""
@@ -291,9 +302,9 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("<div style='height:30px'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
 
-# 6. الشريط السفلي (الخمسة في صف واحد)
+# 6. الشريط السفلي (الخمسة في صف واحد ثابت)
 n_cols = st.columns(5)
 
 nav_items = [
@@ -308,7 +319,7 @@ for i, col in enumerate(n_cols):
     with col:
         item = nav_items[i]
         if item.get("is_bot"):
-            st.markdown(f'<div class="nav-item"><div class="bot-bg"><img src="data:image/png;base64,{item["icon"]}" style="width:30px;height:30px;"></div><span>{item["label"]}</span></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="nav-item"><div class="bot-bg"><img src="data:image/png;base64,{item["icon"]}" style="width:28px;height:28px;"></div><span>{item["label"]}</span></div>', unsafe_allow_html=True)
         else:
             st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{item["icon"]}" class="nav-img-footer"><span>{item["label"]}</span></div>', unsafe_allow_html=True)
         
