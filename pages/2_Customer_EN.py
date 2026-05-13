@@ -161,22 +161,21 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 }
 
 .service-card {
-    background: white;
-    border-radius: 18px;
-    padding: 10px 6px;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
     text-align: center;
-    height: 120px;
-    margin-bottom: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    height: 95px;
+    margin-bottom: 0;
+    box-shadow: none;
 }
 
 .service-icon-img {
-    width: 55px;
-    height: 55px;
+    width: 72px;
+    height: 72px;
     object-fit: contain;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
 }
-
 .service-label {
     font-size: 10px;
     font-weight: 800;
@@ -185,12 +184,13 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 }
 .stButton > button {
     width: 100%;
-    height: 120px;
+    height: 95px;
     opacity: 0;
-    margin-top: -120px;
+    margin-top: -95px;
     border: none;
     background: transparent;
     cursor: pointer;
+    padding: 0;
 }
 
 
@@ -222,7 +222,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 """, unsafe_allow_html=True)
 
 # 1. قسم الملف الشخصي
-st.markdown("""
+st.markdown(f"""
 <div class="welcome-card clickable">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
@@ -402,7 +402,7 @@ with n_cols[2]:
         """, unsafe_allow_html=True)
     
 with n_cols[3]:
-    st.markdown("""
+    st.markdown(f"""
     <div class="nav-item clickable">
         <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
         <span>Home</span>
@@ -414,7 +414,7 @@ with n_cols[3]:
 
 
 with n_cols[4]:
-    st.markdown("""
+    st.markdown(f"""
     <div class="nav-item clickable">
         <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
         <span>Game On</span>
