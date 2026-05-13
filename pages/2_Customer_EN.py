@@ -38,6 +38,8 @@ icon_game = get_base64("game.png")
 
 # تعريف المتغير page
 page = "2_Customer_EN"
+
+
 st.markdown("""
 <style>
 *{
@@ -70,12 +72,7 @@ div[data-testid="stVerticalBlock"] {
     max-width:430px;
     margin:auto;
     padding:12px 10px;
-    background:linear-gradient(
-        180deg,
-        #FFFFFF 0%,
-        #E3F2FD 30%,
-        #BBDEFB 100%
-    );
+    background:linear-gradient(180deg,#FFFFFF 0%,#E3F2FD 30%,#BBDEFB 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
@@ -89,48 +86,42 @@ div[data-testid="stVerticalBlock"] {
     box-shadow:0 4px 15px rgba(0,0,0,.05);
 }
 
+/* ===================== */
+/* SERVICES GRID (الوسط) */
+/* ===================== */
 
 .services-grid {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
 }
 
 .service-item {
-    flex: 1;
-    text-align: center;
+    flex:1;
+    text-align:center;
 }
 
 .service-img-custom {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    display: block;
-    margin: auto;
+    width:40px;
+    height:40px;
+    object-fit:contain;
+    display:block;
+    margin:auto;
 }
 
 .service-label-custom {
-    font-size: 8px;
-    font-weight: 800;
-    color: #102646;
-    line-height: 1.1;
-    margin-top: 4px;
+    font-size:8px;
+    font-weight:800;
+    color:#102646;
+    line-height:1.1;
+    margin-top:4px;
 }
 
-@media (max-width: 480px) {
-    .service-img-custom {
-        width: 30px;
-        height: 30px;
-    }
+/* ===================== */
+/* GENERAL UI */
+/* ===================== */
 
-    .service-label-custom {
-        font-size: 6px;
-    }
-}
-
-
-/* العناوين */
 .title {
     font-size:15px;
     font-weight:900;
@@ -138,7 +129,6 @@ div[data-testid="stVerticalBlock"] {
     margin:4px 0 4px 4px;
 }
 
-/* العناصر القابلة للنقر */
 .clickable {
     cursor:pointer;
     transition:all 0.3s ease;
@@ -157,7 +147,10 @@ div[data-testid="stVerticalBlock"] {
     z-index:10;
 }
 
-/* بطاقة الترحيب */
+/* ===================== */
+/* WELCOME CARD */
+/* ===================== */
+
 .welcome-card {
     background:white;
     border-radius:20px;
@@ -175,39 +168,65 @@ div[data-testid="stVerticalBlock"] {
     margin-right:12px;
 }
 
-/* مؤشر العدادات */
-.needle {
-    position:absolute;
-    bottom:0;
-    left:50%;
-    width:2px;
-    height:30px;
-    background:#333;
-    transform-origin:bottom center;
-    z-index:5;
+/* ===================== */
+/* NAV ITEMS (TEXT ONLY) */
+/* ===================== */
+
+.nav-item {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-size:8px;
+    font-weight:700;
+    color:#6b6b6b;
+    text-align:center;
 }
 
-
-
-/* نص الأسفل */
 .nav-item span {
     font-size:7px !important;
     line-height:1 !important;
 }
 
+/* ===================== */
+/* BOTTOM NAV (IMPORTANT) */
+/* ===================== */
 
-/* تقييم */
+.bottom-nav {
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    max-width:430px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    padding:8px 10px;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+    z-index:999;
+}
+
+.bottom-nav .nav-item {
+    flex:1;
+    text-align:center;
+}
+
+.bottom-nav img {
+    width:22px;
+    height:22px;
+    object-fit:contain;
+}
+
+/* ===================== */
+/* RATING */
+/* ===================== */
+
 .rating-bar-container {
     display:flex;
     align-items:center;
     justify-content:space-between;
-    background:linear-gradient(
-        90deg,
-        #1A4FA0,
-        #46A1E2,
-        #D47E2E,
-        #C63F2A
-    );
+    background:linear-gradient(90deg,#1A4FA0,#46A1E2,#D47E2E,#C63F2A);
     height:22px;
     border-radius:4px;
     margin-top:6px;
@@ -224,9 +243,7 @@ div[data-testid="stVerticalBlock"] {
     gap:4px;
 }
 
-.star-rating input {
-    display:none;
-}
+.star-rating input { display:none; }
 
 .star-rating label {
     font-size:24px;
@@ -238,65 +255,37 @@ div[data-testid="stVerticalBlock"] {
     color:#ffcc00;
 }
 
-/* تحسين الهاتف */
-@media (max-width: 480px) {
+/* ===================== */
+/* MOBILE ONLY (JUST SIZE) */
+/* ===================== */
+
+@media (max-width:480px) {
 
     .service-img-custom {
-        width:30px !important;
-        height:30px !important;
+        width:30px;
+        height:30px;
     }
 
     .service-label-custom {
-        font-size:6px !important;
-    }
-
-    .nav-img-footer {
-        width:18px !important;
-        height:18px !important;
+        font-size:6px;
     }
 
     .nav-item span {
         font-size:5.5px !important;
     }
 
-    .bot-bg {
-        width:28px !important;
-        height:28px !important;
+    .bottom-nav img {
+        width:18px;
+        height:18px;
     }
 
     .block-container {
         padding:10px 6px;
     }
-    .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    max-width: 430px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: white;
-    padding: 8px 10px;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    z-index: 999;
-}
-
-.bottom-nav .nav-item {
-    flex: 1;
-    text-align: center;
-}
-
-.bottom-nav img {
-    width: 22px;
-    height: 22px;
-}
 }
 
 </style>
 """, unsafe_allow_html=True)
-
 # 1. قسم الملف الشخصي
 st.markdown(f"""
 <div class="welcome-card clickable">
