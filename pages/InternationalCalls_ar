@@ -10,7 +10,7 @@ st.set_page_config(
 col1, col2 = st.columns([1, 8])
 with col1:
     if st.button("← رجوع"):
-        st.switch_page("pages/2_Customer_AR.py")
+        st.switch_page("pages/Customer_ar.py")
 
 html_code = """
 <!DOCTYPE html>
