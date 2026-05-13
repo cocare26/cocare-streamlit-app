@@ -410,9 +410,11 @@ st.markdown("""
 
 st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
 
-# 6. الشريط السفلي (تم تصحيح المسافات هنا أيضاً)
+# 6. الشريط السفلي
 with st.container():
-  n_cols = st.columns([1,1,1,1,1], gap="small")
+
+    n_cols = st.columns([1,1,1,1,1], gap="small")
+
     nav_items = [
         {"label": "Settings", "icon": icon_sitting, "page": "pages/Settings.py", "key": "nav_set"},
         {"label": "Spin", "icon": icon_spin, "page": "pages/_Game_E.py", "key": "nav_spin"},
@@ -424,10 +426,17 @@ with st.container():
     for i, col in enumerate(n_cols):
         with col:
             item = nav_items[i]
+
             if item.get("is_bot"):
-                st.markdown(f'<div class="nav-item"><div class="bot-bg"><img src="data:image/png;base64,{item["icon"]}" style="width:26px;height:26px;"></div><span>{item["label"]}</span></div>', unsafe_allow_html=True)
+                st.markdown(
+                    f'<div class="nav-item"><div class="bot-bg"><img src="data:image/png;base64,{item["icon"]}" style="width:26px;height:26px;"></div><span>{item["label"]}</span></div>',
+                    unsafe_allow_html=True
+                )
             else:
-                st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{item["icon"]}" class="nav-img-footer"><span>{item["label"]}</span></div>', unsafe_allow_html=True)
-            
+                st.markdown(
+                    f'<div class="nav-item"><img src="data:image/png;base64,{item["icon"]}" class="nav-img-footer"><span>{item["label"]}</span></div>',
+                    unsafe_allow_html=True
+                )
+
             if st.button("", key=item["key"], use_container_width=True):
                 st.switch_page(item["page"])
