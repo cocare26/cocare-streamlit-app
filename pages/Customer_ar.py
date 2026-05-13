@@ -285,7 +285,7 @@ with cols[2]:
     </div>
     """, unsafe_allow_html=True)
     if st.button("calls", key="s3"):
-        st.switch_page("pages/InternationalCalls_ar")
+        st.switch_page("pages/InternationalCalls_ar.py")
 
 with cols[3]:
     st.markdown(f"""
