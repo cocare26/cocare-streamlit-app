@@ -7,16 +7,16 @@ st.set_page_config(
     layout="wide"
 )
 
-
 col1, col2 = st.columns([1, 8])
 with col1:
     if st.button("← رجوع"):
-        st.switch_page("pages/Customer_ar.py")
+        st.switch_page("pages/2_Customer_AR.py")
 
 html_code = """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+<meta charset="UTF-8">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
 
@@ -28,8 +28,6 @@ html_code = """
 body {
     margin: 0;
     padding: 28px;
-    direction: rtl;
-    text-align: right;
     background:
         radial-gradient(circle at 12% 18%, rgba(37, 99, 235, 0.14), transparent 28%),
         radial-gradient(circle at 88% 12%, rgba(6, 182, 212, 0.18), transparent 26%),
@@ -125,7 +123,6 @@ body {
     font-size: 15px;
     color: #334155;
     background: #F8FAFC;
-    direction: rtl;
     text-align: right;
 }
 
@@ -201,7 +198,7 @@ body {
 .route-desc {
     color: #64748B;
     font-size: 15px;
-    line-height: 1.7;
+    line-height: 1.5;
     margin-bottom: 18px;
 }
 
@@ -284,11 +281,15 @@ body {
 .header-row {
     color: #64748B;
     font-size: 13px;
-    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 @media(max-width: 900px) {
-    .hero,
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
     .routes {
         grid-template-columns: 1fr;
     }
@@ -312,33 +313,33 @@ body {
         <div>
             <div class="icon-box">🌍</div>
             <h1>المكالمات الدولية</h1>
-            <p>اتصل بالخارج بتعرفة واضحة وباقات سريعة حسب الدولة.</p>
+            <p>اتصل بالخارج بتعرفات واضحة وباقات سريعة لكل دولة.</p>
         </div>
 
         <div class="balance-box">
             <div class="balance-label">رصيد المكالمات الدولية</div>
             <div class="balance-number">3.50 د.أ</div>
-            <div class="balance-meta">يكفي لحوالي 29 دقيقة إلى السعودية</div>
+            <div class="balance-meta">يكفي لحوالي 29 دقيقة للمملكة العربية السعودية</div>
         </div>
     </div>
 
     <div class="search-card">
-        <div class="search-label">ابحث عن الوجهة</div>
-        <input class="search-box" placeholder="ابحث عن دولة، مثل: السعودية، الإمارات، مصر..." />
+        <div class="search-label">البحث عن وجهة</div>
+        <input class="search-box" placeholder="ابحث عن دولة، مثل السعودية، الإمارات، مصر..." />
     </div>
 
     <div class="section-title">
-        <h2>الوجهات الأكثر استخدامًا</h2>
-        <p>وصول سريع إلى أكثر مسارات المكالمات الدولية استخدامًا.</p>
+        <h2>الوجهات الشائعة</h2>
+        <p>وصول سريع لأكثر مسارات المكالمات الدولية استخداماً.</p>
     </div>
 
     <div class="routes">
 
         <div class="route-card popular">
-            <div class="badge">الأكثر استخدامًا</div>
-            <div class="flags">🇸🇦 ← 🇯🇴</div>
+            <div class="badge">الأكثر استخداماً</div>
+            <div class="flags">🇯🇴 → 🇸🇦</div>
             <div class="route-title">السعودية</div>
-            <div class="route-desc">مناسبة للمكالمات العائلية ومكالمات العمل المتكررة.</div>
+            <div class="route-desc">الأفضل للمكالمات العائلية ومكالمات العمل المتكررة.</div>
             <div class="rate">0.12 د.أ/دقيقة</div>
             <div class="feature">✓ تعرفة واضحة لكل دقيقة</div>
             <div class="feature">✓ باقة متوفرة</div>
@@ -351,11 +352,11 @@ body {
 
         <div class="route-card">
             <div class="badge">أعمال</div>
-            <div class="flags">🇦🇪 ← 🇯🇴</div>
+            <div class="flags">🇯🇴 → 🇦🇪</div>
             <div class="route-title">الإمارات</div>
             <div class="route-desc">مناسبة لمكالمات العمل والتواصل اليومي.</div>
             <div class="rate">0.15 د.أ/دقيقة</div>
-            <div class="feature">✓ جودة اتصال مستقرة</div>
+            <div class="feature">✓ جودة اتصال ثابتة</div>
             <div class="feature">✓ باقة متوفرة</div>
             <div class="spacer"></div>
             <div class="actions">
@@ -366,9 +367,9 @@ body {
 
         <div class="route-card">
             <div class="badge">رائج</div>
-            <div class="flags">🇪🇬 ← 🇯🇴</div>
+            <div class="flags">🇯🇴 → 🇪🇬</div>
             <div class="route-title">مصر</div>
-            <div class="route-desc">تعرفة مناسبة للمكالمات المنتظمة.</div>
+            <div class="route-desc">تعرفات اقتصادية للمكالمات المنتظمة.</div>
             <div class="rate">0.10 د.أ/دقيقة</div>
             <div class="feature">✓ أقل تعرفة معروضة</div>
             <div class="feature">✓ باقة متوفرة</div>
@@ -382,7 +383,7 @@ body {
     </div>
 
     <div class="table-card">
-        <h3>تعرفة المكالمات الدولية</h3>
+        <h3>تعرفات المكالمات الدولية</h3>
 
         <div class="rate-row header-row">
             <div>الوجهة</div>
