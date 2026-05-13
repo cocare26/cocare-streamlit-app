@@ -42,19 +42,19 @@ page = "2_Customer_EN"
 # =====================================
 # CSS المطور
 # =====================================
-st.markdown(f"""
+st.markdown("""
 <style>
-* {{ margin:0; padding:0; box-sizing:border-box; }}
-html, body, [data-testid="stAppViewContainer"] {{
+*{ margin:0; padding:0; box-sizing:border-box; }
+html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
     font-family:'Segoe UI', sans-serif;
-}}
-section.main > div {{ padding-top:4px; }}
-div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
+}
+section.main > div { padding-top:4px; }
+div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 
-#MainMenu, header, footer {{ visibility:hidden; }}
+#MainMenu, header, footer { visibility:hidden; }
 
-.block-container {{
+.block-container {
     max-width:430px; /* PHONE_WIDTH */
     min-height:820px; /* PHONE_HEIGHT */
     margin:auto;
@@ -62,39 +62,35 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
-}}
+}
 
-.card {{
+.card {
     background: white;
     border-radius: 20px;
     padding: 10px 14px;
     margin-bottom: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,.05);
     transition: all 0.3s ease;
-}}
+}
 
-.balance-card {{ 
-    padding: 6px 14px !important; 
-    margin-bottom: 20px !important; 
-}}
 
-.rating-card {{ padding: 4px 14px 6px !important; margin-bottom: 4px !important; }}
+.rating-card {{ padding: 4px 14px 6px !important; margin-bottom: 4px !important; }
 
-.title {{
+.title {
     font-size:15px;
     font-weight:900;
     color:#102646;
     margin: 4px 0 4px 4px;
-}}
+}
 
-.clickable {{ 
+.clickable {
     cursor: pointer; 
     transition: all 0.3s ease; 
     position: relative; 
-}}
-.clickable:active {{ transform: scale(0.95); }}
+}
+.clickable:active { transform: scale(0.95); }
 
-.service-item {{
+.service-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -105,35 +101,35 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     height: 100px;
     transition: transform 0.3s ease;
     position: relative;
-}}
+}
 
-.service-item:hover {{
+.service-item:hover {
     transform: translateY(-10px);
-}}
+}
 
-.service-icon-img {{
+.service-icon-img {
     width: 65px;
     height: 65px;
     object-fit: contain;
     margin-bottom: 2px;
-}}
+}
 
-.service-label {{
+.service-label {
     font-size: 9px;
     font-weight: 800;
     color: #102646;
     line-height: 1.1;
-}}
+}
 
-.nav {{
+.nav {
     margin-top:15px; 
     display:grid; 
     grid-template-columns:repeat(5,1fr);
     text-align:center; 
     align-items: end;
-}}
+}
 
-.nav-item {{ 
+.nav-item {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
@@ -142,26 +138,26 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     font-weight: 700;
     transition: transform 0.3s ease;
     position: relative;
-}}
+}
 
-.nav-item:hover {{
+.nav-item:hover {
     transform: scale(1.15);
-}}
+}
 
-.nav-img-footer {{
+.nav-img-footer {
     width: 38px;
     height: 38px;
     object-fit: contain;
     margin-bottom: 2px;
-}}
+}
 
-.bot-bg {{
+.bot-bg {
     width:60px; height:60px; background:white; border-radius:15px;
     margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}}
+}
 
-.service-card {{
+.service-card {
     background: white;
     border-radius: 18px;
     padding: 10px 6px;
@@ -169,22 +165,22 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     height: 120px;
     margin-bottom: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}}
+}
 
-.service-icon-img {{
+.service-icon-img {
     width: 55px;
     height: 55px;
     object-fit: contain;
     margin-bottom: 6px;
-}}
+}
 
-.service-label {{
+.service-label {
     font-size: 10px;
     font-weight: 800;
     color: #102646;
     line-height: 1.2;
-}}
-.stButton > button {{
+}
+.stButton > button {
     width: 100%;
     height: 120px;
     opacity: 0;
@@ -192,38 +188,38 @@ div[data-testid="stVerticalBlock"] {{ gap:0.4rem; }}
     border: none;
     background: transparent;
     cursor: pointer;
-}}
+}
 
 
 
 
-.star-rating {{ display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }}
-.star-rating input {{ display: none; }}
-.star-rating label {{ font-size: 24px; color: #ddd; cursor: pointer; }}
-.star-rating input:checked ~ label {{ color: #ffcc00; }}
+.star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
+.star-rating input { display: none; }
+.star-rating label { font-size: 24px; color: #ddd; cursor: pointer; }
+.star-rating input:checked ~ label { color: #ffcc00; }
 
-.rating-bar-container {{
+.rating-bar-container {
     display: flex; align-items: center; justify-content: space-between;
     background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
     height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px;
     color: white; font-size: 11px; font-weight: bold;
-}}
+}
 
-.welcome-card {{
+.welcome-card {
     background: white; border-radius: 20px; padding: 8px 12px; margin-bottom: 8px;
     display: flex; align-items: center; height: 100px;
-}}
-.robot-img-welcome {{ width: 95px; height: 95px; object-fit: contain; margin-right: 12px; }}
+}
+.robot-img-welcome { width: 95px; height: 95px; object-fit: contain; margin-right: 12px; }
 
-.needle {{
+.needle {
     position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
     background: #333; transform-origin: bottom center; z-index: 5;
-}}
+}
 </style>
 """, unsafe_allow_html=True)
 
 # 1. قسم الملف الشخصي
-st.markdown(f"""
+st.markdown("""
 <div class="welcome-card clickable">
     <img src="data:image/png;base64,{robot_full}" class="robot-img-welcome">
     <div class="welcome-text-container">
@@ -237,7 +233,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # 2. معلومات الرصيد
-st.markdown(f"""
+st.markdown("""
 <div class="title">Your Number Info</div>
 <div class="card balance-card clickable">
 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -400,7 +396,7 @@ with n_cols[2]:
         """, unsafe_allow_html=True)
     
 with n_cols[3]:
-    st.markdown(f"""
+    st.markdown("""
     <div class="nav-item clickable">
         <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
         <span>Home</span>
@@ -412,7 +408,7 @@ with n_cols[3]:
 
 
 with n_cols[4]:
-    st.markdown(f"""
+    st.markdown("""
     <div class="nav-item clickable">
         <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
         <span>Game On</span>
