@@ -192,6 +192,10 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     cursor: pointer;
     padding: 0;
 }
+.service-card:hover {
+    transform: translateY(-8px);
+    transition: transform 0.3s ease;
+}
 
 
 
