@@ -182,16 +182,18 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     color: #102646;
     line-height: 1.2;
 }
-
-.icon-btn button {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 80px;
-    height: 80px;
+.stButton > button {
+    position: relative;
+    width: 100%;
+    height: 95px;
+    opacity: 0;
+    margin-top: -95px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 10;
 }
+
 }
 .service-card:hover {
     transform: translateY(-8px);
