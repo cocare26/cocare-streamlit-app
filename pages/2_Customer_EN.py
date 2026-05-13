@@ -183,16 +183,15 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     line-height: 1.2;
 }
 
-div[data-testid="column"] .stButton > button {
-    width: 100%;
-    height: 95px;
-    margin-top: -95px;
-    opacity: 0;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    position: relative;
-    z-index: 50;
+.icon-btn button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 80px;
+    height: 80px;
+}
 }
 .service-card:hover {
     transform: translateY(-8px);
