@@ -72,9 +72,12 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     box-shadow: 0 4px 15px rgba(0,0,0,.05);
     transition: all 0.3s ease;
 }
+.rating-card {
+    padding: 4px 14px 6px !important;
+    margin-bottom: 4px !important;
+}
 
 
-.rating-card {{ padding: 4px 14px 6px !important; margin-bottom: 4px !important; }
 
 .title {
     font-size:15px;
@@ -256,8 +259,8 @@ st.markdown("""
 </div>
 </div>
 """, unsafe_allow_html=True)
-
 # 3. أيقونات الخدمات (الربط المطلوب)
+
 cols = st.columns(4)
 
 services = [
@@ -297,7 +300,10 @@ for col, service in zip(cols, services):
             <div class="service-label">{service['label']}</div>
         </div>
         """, unsafe_allow_html=True)
-if st.button("", key=service["key"]):
+
+        if st.button("", key=service["key"]):
+            st.switch_page(service["page"])
+
        
 # 4. قسم التقييم
 st.markdown("""
