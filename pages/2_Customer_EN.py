@@ -295,27 +295,32 @@ services = [
         "page": "pages/NetworkNotifications.py"
     }
 ]
-
 for col, service in zip(cols, services):
 
     with col:
 
-        st.markdown(f"""
-        <div class="service-card">
-            <img src="data:image/png;base64,{service['icon']}" class="service-icon-img">
-            <div class="service-label">{service['label']}</div>
-        </div>
-        """, unsafe_allow_html=True)
-
         clicked = st.button(
-            "",
+            label="",
             key=service["key"],
             use_container_width=True
         )
 
+        st.markdown(f"""
+        <div style="
+            margin-top:-90px;
+            text-align:center;
+            pointer-events:none;
+        ">
+            <img src="data:image/png;base64,{service['icon']}" 
+                 style="width:72px;height:72px;">
+            <div style="font-size:10px;font-weight:800;color:#102646;">
+                {service['label']}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
         if clicked:
             st.switch_page(service["page"])
-       
 # 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
