@@ -378,6 +378,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
+
 # 6. الشريط السفلي (الانتقال الصحيح)
 
 n_cols = st.columns(5)
