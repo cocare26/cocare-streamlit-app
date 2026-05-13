@@ -212,7 +212,26 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     transform: scale(1.1);
     transition: transform 0.3s ease;
 }
+/* إجبار أعمدة الخدمات على البقاء أفقية */
+[data-testid="column"] {
+    flex: 1 1 0% !important;
+    min-width: 0px !important;
+}
 
+div[data-testid="stHorizontalBlock"] {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+}
+
+/* لضمان عدم تداخل النصوص الصغيرة */
+.service-label-mobile {
+    font-size: 8px !important;
+    font-weight: 800;
+    color: #102646;
+    line-height: 1.1;
+    text-align: center;
+}
 
 
 
