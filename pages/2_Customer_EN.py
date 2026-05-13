@@ -75,17 +75,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     box-shadow: 0 4px 15px rgba(0,0,0,.05);
 }
 
-/* --- تعديل المسافات بين الأعمدة لمنع التباعد الكبير --- */
-[data-testid="column"] {
-    width: unset !important;
-    flex: 1 1 0% !important;
-    padding: 0 2px !important; /* تقليل الفراغ الجانبي للأعمدة */
-}
 
-[data-testid="stHorizontalBlock"] {
-    gap: 0.2rem !important; /* تقليل المسافة بين الأيقونات */
-    justify-content: center !important;
-}
 
 .service-label-custom {
     font-size: 8.5px !important;
@@ -123,7 +113,6 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     width: 100%;
     height: 70px;
     opacity: 0;
-    margin-top: -70px;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -151,17 +140,68 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     text-align: center;
 }
 
+/* الشريط السفلي والخدمات */
+[data-testid="stHorizontalBlock"] {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    gap: 2px !important;
+}
+
+/* الأعمدة */
+[data-testid="column"] {
+    min-width: 0 !important;
+    flex: 1 1 0% !important;
+    padding: 0 1px !important;
+}
+
+/* أيقونات الأسفل */
 .nav-img-footer {
-    width: 26px;
-    height: 26px;
+    width: 22px !important;
+    height: 22px !important;
     object-fit: contain;
 }
 
-.bot-bg {
-    width:38px; height:38px; background:white; border-radius:12px;
-    margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+/* نصوص الأسفل */
+.nav-item span {
+    font-size: 7px !important;
+    line-height: 1 !important;
 }
+
+/* روبوت المنتصف */
+.bot-bg {
+    width: 34px !important;
+    height: 34px !important;
+}
+
+/* الموبايل */
+@media (max-width: 480px) {
+
+    .nav-img-footer {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .nav-item span {
+        font-size: 5.5px !important;
+    }
+
+    .bot-bg {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    .service-img-custom {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .service-label-custom {
+        font-size: 6px !important;
+    }
+}
+
+
 
 .rating-bar-container {
     display: flex; align-items: center; justify-content: space-between;
@@ -219,7 +259,7 @@ st.markdown("<div style='height:5px'></div>", unsafe_allow_html=True)
 
 # 3. أيقونات الخدمات (تم تصحيح المسافات هنا)
 with st.container():
-    cols = st.columns(4)
+    cols = st.columns([1,1,1,1], gap="small")
     services = [
         {"key": "internet", "icon": icon_internet, "label": "Internet<br>Packages", "page": "pages/InternetPackages.py"},
         {"key": "renewals", "icon": icon_renewals, "label": "Renewals +<br>Changes", "page": "pages/RenewalsTariff.py"},
@@ -297,7 +337,7 @@ st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
 
 # 6. الشريط السفلي (تم تصحيح المسافات هنا أيضاً)
 with st.container():
-    n_cols = st.columns(5)
+  n_cols = st.columns([1,1,1,1,1], gap="small")
     nav_items = [
         {"label": "Settings", "icon": icon_sitting, "page": "pages/Settings.py", "key": "nav_set"},
         {"label": "Spin", "icon": icon_spin, "page": "pages/_Game_E.py", "key": "nav_spin"},
