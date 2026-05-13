@@ -89,37 +89,46 @@ div[data-testid="stVerticalBlock"] {
     box-shadow:0 4px 15px rgba(0,0,0,.05);
 }
 
-/* منع نزول الأعمدة لسطر ثاني */
-[data-testid="stHorizontalBlock"] > div {
-    flex-wrap: nowrap !important;
+
+.services-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
 }
 
-/* الأعمدة */
-[data-testid="column"] {
-    min-width:0 !important;
-    flex:1 1 0% !important;
-    padding:0 2px !important;
+.service-item {
+    flex: 1;
+    text-align: center;
 }
 
-/* أيقونات الخدمات */
 .service-img-custom {
-    width:45px !important;
-    height:45px !important;
-    object-fit:contain;
-    display:block;
-    margin:0 auto;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+    margin: auto;
 }
 
-/* نص الخدمات */
 .service-label-custom {
-    font-size:8px !important;
-    font-weight:800;
-    color:#102646;
-    line-height:1.1;
-    margin-top:4px;
-    text-align:center;
-    word-break:break-word;
+    font-size: 8px;
+    font-weight: 800;
+    color: #102646;
+    line-height: 1.1;
+    margin-top: 4px;
 }
+
+@media (max-width: 480px) {
+    .service-img-custom {
+        width: 30px;
+        height: 30px;
+    }
+
+    .service-label-custom {
+        font-size: 6px;
+    }
+}
+
 
 /* العناوين */
 .title {
@@ -178,23 +187,7 @@ div[data-testid="stVerticalBlock"] {
     z-index:5;
 }
 
-/* عناصر الناف */
-.nav-item {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    color:#6b6b6b;
-    font-size:8px;
-    font-weight:700;
-    text-align:center;
-}
 
-/* أيقونات الأسفل */
-.nav-img-footer {
-    width:22px !important;
-    height:22px !important;
-    object-fit:contain;
-}
 
 /* نص الأسفل */
 .nav-item span {
@@ -202,18 +195,6 @@ div[data-testid="stVerticalBlock"] {
     line-height:1 !important;
 }
 
-/* روبوت المنتصف */
-.bot-bg {
-    width:34px;
-    height:34px;
-    background:white;
-    border-radius:12px;
-    margin:0 auto 2px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
 
 /* تقييم */
 .rating-bar-container {
@@ -286,6 +267,31 @@ div[data-testid="stVerticalBlock"] {
     .block-container {
         padding:10px 6px;
     }
+    .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 430px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 8px 10px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 999;
+}
+
+.bottom-nav .nav-item {
+    flex: 1;
+    text-align: center;
+}
+
+.bottom-nav img {
+    width: 22px;
+    height: 22px;
+}
 }
 
 </style>
@@ -333,27 +339,31 @@ st.markdown("""
 st.markdown("<div style='height:5px'></div>", unsafe_allow_html=True)
 
 # 3. أيقونات الخدمات (تم تصحيح المسافات هنا)
-with st.container():
-    cols = st.columns([1,1,1,1], gap="small")
-    services = [
-        {"key": "internet", "icon": icon_internet, "label": "Internet<br>Packages", "page": "pages/InternetPackages.py"},
-        {"key": "renewals", "icon": icon_renewals, "label": "Renewals +<br>Changes", "page": "pages/RenewalsTariff.py"},
-        {"key": "calls", "icon": icon_calls, "label": "Int.<br>Calls", "page": "pages/InternationalCalls.py"},
-        {"key": "notifications", "icon": icon_notifications, "label": "Network<br>Notif.", "page": "pages/NetworkNotifications.py"}
-    ]
+st.markdown(f"""
+<div class="services-grid">
 
-    for col, service in zip(cols, services):
-        with col:
-            st.markdown(f"""
-            <div style="text-align:center;">
-                <img src="data:image/png;base64,{service['icon']}" class="service-img-custom">
-                <div class="service-label-custom">{service['label']}</div>
-            </div>
-            """, unsafe_allow_html=True)
-            if st.button(label="", key=service["key"], use_container_width=True):
-                st.switch_page(service["page"])
+    <div class="service-item">
+        <img src="data:image/png;base64,{icon_internet}" class="service-img-custom">
+        <div class="service-label-custom">Internet<br>Packages</div>
+    </div>
 
-st.markdown("<div style='height:5px'></div>", unsafe_allow_html=True)
+    <div class="service-item">
+        <img src="data:image/png;base64,{icon_renewals}" class="service-img-custom">
+        <div class="service-label-custom">Renewals +<br>Changes</div>
+    </div>
+
+    <div class="service-item">
+        <img src="data:image/png;base64,{icon_calls}" class="service-img-custom">
+        <div class="service-label-custom">Int.<br>Calls</div>
+    </div>
+
+    <div class="service-item">
+        <img src="data:image/png;base64,{icon_notifications}" class="service-img-custom">
+        <div class="service-label-custom">Network<br>Notif.</div>
+    </div>
+
+</div>
+""", unsafe_allow_html=True)
 
 # 4. قسم التقييم
 st.markdown("""
@@ -411,32 +421,35 @@ st.markdown("""
 st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
 
 # 6. الشريط السفلي
-with st.container():
+st.markdown(f"""
+<div class="bottom-nav">
 
-    n_cols = st.columns([1,1,1,1,1], gap="small")
+    <div class="nav-item" onclick="window.location.href='pages/Settings.py'">
+        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
+        <span>Settings</span>
+    </div>
 
-    nav_items = [
-        {"label": "Settings", "icon": icon_sitting, "page": "pages/Settings.py", "key": "nav_set"},
-        {"label": "Spin", "icon": icon_spin, "page": "pages/_Game_E.py", "key": "nav_spin"},
-        {"label": "Chatbot", "icon": robot_head, "page": "cocare-streamlit-app/pages/Chatbot_EN.py", "key": "nav_bot", "is_bot": True},
-        {"label": "Home", "icon": icon_home, "page": "pages/2_Customer_EN.py", "key": "nav_home"},
-        {"label": "Game On", "icon": icon_game, "page": "pages/_Game_E.py", "key": "nav_game"}
-    ]
+    <div class="nav-item" onclick="window.location.href='pages/_Game_E.py'">
+        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
+        <span>Spin</span>
+    </div>
 
-    for i, col in enumerate(n_cols):
-        with col:
-            item = nav_items[i]
+    <div class="nav-item">
+        <div class="bot-bg">
+            <img src="data:image/png;base64,{robot_head}" style="width:26px;height:26px;">
+        </div>
+        <span>Chatbot</span>
+    </div>
 
-            if item.get("is_bot"):
-                st.markdown(
-                    f'<div class="nav-item"><div class="bot-bg"><img src="data:image/png;base64,{item["icon"]}" style="width:26px;height:26px;"></div><span>{item["label"]}</span></div>',
-                    unsafe_allow_html=True
-                )
-            else:
-                st.markdown(
-                    f'<div class="nav-item"><img src="data:image/png;base64,{item["icon"]}" class="nav-img-footer"><span>{item["label"]}</span></div>',
-                    unsafe_allow_html=True
-                )
+    <div class="nav-item" onclick="window.location.href='pages/2_Customer_EN.py'">
+        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
+        <span>Home</span>
+    </div>
 
-            if st.button("", key=item["key"], use_container_width=True):
-                st.switch_page(item["page"])
+    <div class="nav-item" onclick="window.location.href='pages/_Game_E.py'">
+        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
+        <span>Game</span>
+    </div>
+
+</div>
+""", unsafe_allow_html=True)
