@@ -391,22 +391,20 @@ with n_cols[1]:
     if st.button("spin", key="nav_spin"):
         st.switch_page("pages/_Game_E.py")
 
-
 with n_cols[2]:
     st.markdown(f"""
     <div class="nav-item clickable">
         <div class="bot-bg">
-            <img src="data:image/png;base64,{robot_head}" style="width:40px;">
+            <img src="data:image/png;base64,{robot_head}" 
+                 style="width:45px; height:45px; object-fit:contain;">
         </div>
         <span>Chatbot</span>
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("chatbot", key="nav_bot"):
-        st.markdown("""
-        <meta http-equiv="refresh" content="0; url=http://localhost:8502">
-        """, unsafe_allow_html=True)
-    
+    if st.button("bot", key="nav_bot"):
+        st.switch_page("cocare-streamlit-app/pages/Chatbot_EN.py")
+
 with n_cols[3]:
     st.markdown(f"""
     <div class="nav-item clickable">
