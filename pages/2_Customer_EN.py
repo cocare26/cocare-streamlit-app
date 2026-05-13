@@ -38,181 +38,256 @@ icon_game = get_base64("game.png")
 
 # تعريف المتغير page
 page = "2_Customer_EN"
-
-# =====================================
-# CSS المطور (حل مشكلة الإزاحة والتباعد)
-# =====================================
 st.markdown("""
 <style>
-*{ margin:0; padding:0; box-sizing:border-box; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
 html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
     font-family:'Segoe UI', sans-serif;
-    overflow-x: hidden !important;
-    width: 100%;
+    overflow-x:hidden !important;
+    width:100%;
 }
 
-section.main > div { padding-top:4px; }
-div[data-testid="stVerticalBlock"] { gap:0.4rem; }
+section.main > div {
+    padding-top:4px;
+}
 
-#MainMenu, header, footer { visibility:hidden; }
+div[data-testid="stVerticalBlock"] {
+    gap:0.4rem;
+}
 
+#MainMenu, header, footer {
+    visibility:hidden;
+}
+
+/* الحاوية الرئيسية */
 .block-container {
-    max-width:430px; 
+    max-width:430px;
     margin:auto;
     padding:12px 10px;
-    background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
+    background:linear-gradient(
+        180deg,
+        #FFFFFF 0%,
+        #E3F2FD 30%,
+        #BBDEFB 100%
+    );
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
 
+/* الكروت */
 .card {
-    background: white;
-    border-radius: 20px;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.05);
+    background:white;
+    border-radius:20px;
+    padding:10px 14px;
+    margin-bottom:8px;
+    box-shadow:0 4px 15px rgba(0,0,0,.05);
 }
 
-
-
-.service-label-custom {
-    font-size: 8.5px !important;
-    font-weight: 800;
-    color: #102646;
-    line-height: 1.1;
-    margin-top: 4px;
-    text-align: center;
-}
-
-.service-img-custom {
-    width: 45px !important;
-    height: 45px !important;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto;
-}
-
-.title {
-    font-size:15px;
-    font-weight:900;
-    color:#102646;
-    margin: 4px 0 4px 4px;
-}
-
-.clickable {
-    cursor: pointer; 
-    transition: all 0.3s ease; 
-    position: relative; 
-}
-
-/* جعل الزر غير مرئي ويغطي الأيقونة بالضبط */
-.stButton > button {
-    position: relative;
-    width: 100%;
-    height: 70px;
-    opacity: 0;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    z-index: 10;
-}
-
-.welcome-card {
-    background: white; border-radius: 20px; padding: 8px 12px; margin-bottom: 8px;
-    display: flex; align-items: center; height: 100px;
-}
-.robot-img-welcome { width: 90px; height: 90px; object-fit: contain; margin-right: 12px; }
-
-.needle {
-    position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
-    background: #333; transform-origin: bottom center; z-index: 5;
-}
-
-.nav-item {
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    color:#6b6b6b; 
-    font-size: 8px;
-    font-weight: 700;
-    text-align: center;
-}
-
-/* الشريط السفلي والخدمات */
-[data-testid="stHorizontalBlock"] {
-    display: flex !important;
+/* منع نزول الأعمدة لسطر ثاني */
+[data-testid="stHorizontalBlock"] > div {
     flex-wrap: nowrap !important;
-    justify-content: space-between !important;
-    gap: 2px !important;
 }
 
 /* الأعمدة */
 [data-testid="column"] {
-    min-width: 0 !important;
-    flex: 1 1 0% !important;
-    padding: 0 1px !important;
+    min-width:0 !important;
+    flex:1 1 0% !important;
+    padding:0 2px !important;
+}
+
+/* أيقونات الخدمات */
+.service-img-custom {
+    width:45px !important;
+    height:45px !important;
+    object-fit:contain;
+    display:block;
+    margin:0 auto;
+}
+
+/* نص الخدمات */
+.service-label-custom {
+    font-size:8px !important;
+    font-weight:800;
+    color:#102646;
+    line-height:1.1;
+    margin-top:4px;
+    text-align:center;
+    word-break:break-word;
+}
+
+/* العناوين */
+.title {
+    font-size:15px;
+    font-weight:900;
+    color:#102646;
+    margin:4px 0 4px 4px;
+}
+
+/* العناصر القابلة للنقر */
+.clickable {
+    cursor:pointer;
+    transition:all 0.3s ease;
+    position:relative;
+}
+
+/* زر شفاف */
+.stButton > button {
+    width:100%;
+    height:70px;
+    opacity:0;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    position:relative;
+    z-index:10;
+}
+
+/* بطاقة الترحيب */
+.welcome-card {
+    background:white;
+    border-radius:20px;
+    padding:8px 12px;
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    height:100px;
+}
+
+.robot-img-welcome {
+    width:90px;
+    height:90px;
+    object-fit:contain;
+    margin-right:12px;
+}
+
+/* مؤشر العدادات */
+.needle {
+    position:absolute;
+    bottom:0;
+    left:50%;
+    width:2px;
+    height:30px;
+    background:#333;
+    transform-origin:bottom center;
+    z-index:5;
+}
+
+/* عناصر الناف */
+.nav-item {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#6b6b6b;
+    font-size:8px;
+    font-weight:700;
+    text-align:center;
 }
 
 /* أيقونات الأسفل */
 .nav-img-footer {
-    width: 22px !important;
-    height: 22px !important;
-    object-fit: contain;
+    width:22px !important;
+    height:22px !important;
+    object-fit:contain;
 }
 
-/* نصوص الأسفل */
+/* نص الأسفل */
 .nav-item span {
-    font-size: 7px !important;
-    line-height: 1 !important;
+    font-size:7px !important;
+    line-height:1 !important;
 }
 
 /* روبوت المنتصف */
 .bot-bg {
-    width: 34px !important;
-    height: 34px !important;
+    width:34px;
+    height:34px;
+    background:white;
+    border-radius:12px;
+    margin:0 auto 2px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* الموبايل */
+/* تقييم */
+.rating-bar-container {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:linear-gradient(
+        90deg,
+        #1A4FA0,
+        #46A1E2,
+        #D47E2E,
+        #C63F2A
+    );
+    height:22px;
+    border-radius:4px;
+    margin-top:6px;
+    padding:0 10px;
+    color:white;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.star-rating {
+    display:flex;
+    flex-direction:row-reverse;
+    justify-content:center;
+    gap:4px;
+}
+
+.star-rating input {
+    display:none;
+}
+
+.star-rating label {
+    font-size:24px;
+    color:#ddd;
+    cursor:pointer;
+}
+
+.star-rating input:checked ~ label {
+    color:#ffcc00;
+}
+
+/* تحسين الهاتف */
 @media (max-width: 480px) {
 
-    .nav-img-footer {
-        width: 18px !important;
-        height: 18px !important;
-    }
-
-    .nav-item span {
-        font-size: 5.5px !important;
-    }
-
-    .bot-bg {
-        width: 28px !important;
-        height: 28px !important;
-    }
-
     .service-img-custom {
-        width: 30px !important;
-        height: 30px !important;
+        width:30px !important;
+        height:30px !important;
     }
 
     .service-label-custom {
-        font-size: 6px !important;
+        font-size:6px !important;
+    }
+
+    .nav-img-footer {
+        width:18px !important;
+        height:18px !important;
+    }
+
+    .nav-item span {
+        font-size:5.5px !important;
+    }
+
+    .bot-bg {
+        width:28px !important;
+        height:28px !important;
+    }
+
+    .block-container {
+        padding:10px 6px;
     }
 }
 
-
-
-.rating-bar-container {
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
-    height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px;
-    color: white; font-size: 11px; font-weight: bold;
-}
-.star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
-.star-rating input { display: none; }
-.star-rating label { font-size: 24px; color: #ddd; cursor: pointer; }
-.star-rating input:checked ~ label { color: #ffcc00; }
 </style>
 """, unsafe_allow_html=True)
 
