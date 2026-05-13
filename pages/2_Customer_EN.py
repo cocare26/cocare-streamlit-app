@@ -20,7 +20,7 @@ def get_base64(path):
             return base64.b64encode(f.read()).decode()
     return ""
 
-# تحميل الصور الأساسية
+# تحميل الصور (تأكد من وجود الملفات)
 robot_full = get_base64("robot_full.png.jpeg")
 robot_head = get_base64("robot_head.png")
 icon_internet = get_base64("internet.png")
@@ -35,7 +35,7 @@ icon_game = get_base64("game.png")
 page = "2_Customer_EN"
 
 # =====================================
-# CSS المطور والمعدل (إصلاح التباعد)
+# CSS المعدل لإجبار العناصر على البقاء بجانب بعضها
 # =====================================
 st.markdown("""
 <style>
@@ -44,7 +44,6 @@ html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
     font-family:'Segoe UI', sans-serif;
 }
-section.main > div { padding-top:4px; }
 
 #MainMenu, header, footer { visibility:hidden; }
 
@@ -56,19 +55,19 @@ section.main > div { padding-top:4px; }
     border-radius:42px;
 }
 
-/* --- تعديل جذري لمنع تباعد الأيقونات --- */
+/* القوة القاهرة: منع الأعمدة من النزول تحت بعضها */
 [data-testid="stHorizontalBlock"] {
-    gap: 0px !important; /* إلغاء الفراغ التلقائي بين الأعمدة */
     display: flex !important;
-    flex-direction: row !important;
+    flex-direction: row !important; /* إجبار السطر */
+    flex-wrap: nowrap !important; /* منع الالتفاف لسطر جديد */
     align-items: flex-start !important;
     justify-content: space-between !important;
+    gap: 2px !important;
 }
 
 [data-testid="column"] {
-    flex: 1 1 0% !important;
-    min-width: 0px !important;
-    padding: 0 2px !important; /* مسافة بسيطة جداً يميناً ويساراً */
+    flex: 1 1 0% !important; /* توزيع متساوي */
+    min-width: 0px !important; /* السماح بتصغير العمود لأي درجة */
 }
 
 .card {
@@ -78,27 +77,26 @@ section.main > div { padding-top:4px; }
 
 .title { font-size:15px; font-weight:900; color:#102646; margin: 4px 0 4px 4px; }
 
-/* تنسيق أيقونات الخدمات */
+/* تنسيق الأيقونات */
 .service-wrapper {
     display: flex; flex-direction: column; align-items: center;
     text-align: center; pointer-events: none;
 }
-.service-icon-img { width: 72px; height: 72px; object-fit: contain; }
-.service-label { font-size: 10px; font-weight: 800; color: #102646; line-height: 1.2; margin-top: 2px; }
+.service-icon-img { width: 68px; height: 68px; object-fit: contain; }
+.service-label { font-size: 9px; font-weight: 800; color: #102646; line-height: 1.1; margin-top: 2px; }
 
-/* تنسيق الشريط السفلي */
 .nav-item {
     display: flex; flex-direction: column; align-items: center;
-    color:#6b6b6b; font-size: 10px; font-weight: 700; pointer-events: none;
+    color:#6b6b6b; font-size: 9px; font-weight: 700; pointer-events: none;
 }
-.nav-img-footer { width: 34px; height: 34px; object-fit: contain; }
+.nav-img-footer { width: 32px; height: 32px; object-fit: contain; }
 .bot-bg {
-    width:50px; height:50px; background:white; border-radius:12px;
+    width:48px; height:48px; background:white; border-radius:12px;
     display:flex; align-items:center; justify-content:center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 2px;
 }
 
-/* أزرار شفافة فوق التصميم */
+/* الأزرار الشفافة */
 .stButton > button {
     position: relative; width: 100% !important; height: 95px !important;
     opacity: 0 !important; margin-top: -95px !important;
@@ -106,18 +104,10 @@ section.main > div { padding-top:4px; }
     z-index: 10; cursor: pointer;
 }
 
-/* النجوم وقوة الشبكة */
 .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
 .star-rating input { display: none; }
 .star-rating label { font-size: 24px; color: #ddd; cursor: pointer; }
 .star-rating input:checked ~ label { color: #ffcc00; }
-
-.rating-bar-container {
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
-    height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px;
-    color: white; font-size: 11px; font-weight: bold;
-}
 
 .needle {
     position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
@@ -129,11 +119,11 @@ section.main > div { padding-top:4px; }
 # 1. قسم الملف الشخصي
 st.markdown(f"""
 <div class="card" style="display: flex; align-items: center; height: 100px;">
-    <img src="data:image/png;base64,{robot_full}" style="width: 90px; height: 90px; object-fit: contain; margin-right: 12px;">
+    <img src="data:image/png;base64,{robot_full}" style="width: 85px; height: 85px; object-fit: contain; margin-right: 12px;">
     <div>
         <div style="font-size:18px; font-weight:900; color:#102646;">Welcome: User Name</div>
-        <div style="font-size:12px; color:#555;">+962 79 123 4567</div>
-        <div style="font-size:10px; background:#F0F7FF; border-radius:10px; padding:2px 8px; display:inline-block; margin-top:4px; border:1px solid #D0E0F0;">📍 Amman</div>
+        <div style="font-size:11px; color:#555;">+962 79 123 4567</div>
+        <div style="font-size:9px; background:#F0F7FF; border-radius:10px; padding:2px 8px; display:inline-block; margin-top:5px;">📍 Amman</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -165,7 +155,7 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (إصلاح مشكلة التباعد)
+# 3. أيقونات الخدمات (إصلاح النزول تحت بعض)
 cols = st.columns(4)
 services = [
     {"key": "internet", "icon": icon_internet, "label": "Internet<br>Packages", "page": "pages/InternetPackages.py"},
@@ -190,11 +180,7 @@ st.markdown("""
 <div class="title">Service Ratings</div>
 <div class="card">
 <div style="font-weight:900; font-size:12px; color:#102646;">⭐ Service Security Rate</div>
-<div class="rating-bar-container">
-    <span>★ 4.5</span><span>4.5%</span><span style="background:rgba(255,255,255,0.3); padding:0 5px; border-radius:2px;">24%</span>
-</div>
-<div style="text-align:center; margin-top:8px; font-size:11px; color:#666;">Rate our service</div>
-<div class="star-rating">
+<div class="star-rating" style="margin: 8px 0;">
     <input type="radio" id="5" name="r"><label for="5">★</label>
     <input type="radio" id="4" name="r"><label for="4">★</label>
     <input type="radio" id="3" name="r"><label for="3">★</label>
@@ -211,14 +197,14 @@ st.markdown("""
 <div style="display: flex; justify-content: space-between; align-items: center;">
 <div style="flex: 1.3;">
     <div style="font-size:14px; font-weight:900; color:#102646;">📍 Amman</div>
-    <div style="font-size:11px; font-weight:700; color:#1A4FA0; margin-bottom:6px;">Very Strong Signal</div>
-    <div style="display: flex; gap: 4px;">
+    <div style="font-size:11px; font-weight:700; color:#1A4FA0;">Very Strong Signal</div>
+    <div style="display: flex; gap: 4px; margin-top: 5px;">
         <div style="background: #F1F7FF; border-radius: 8px; padding: 4px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
-            <div style="font-size: 7px; color: #666;">Packet Loss</div>
+            <div style="font-size: 7px;">Packet Loss</div>
             <div style="font-size: 14px; font-weight: 900;">0</div>
         </div>
         <div style="background: #F1F7FF; border-radius: 8px; padding: 4px; text-align: center; flex: 1; border: 1px solid #E0E0E0;">
-            <div style="font-size: 7px; color: #666;">Avg Jitter</div>
+            <div style="font-size: 7px;">Avg Jitter</div>
             <div style="font-size: 14px; font-weight: 900;">19</div>
         </div>
     </div>
@@ -229,7 +215,7 @@ st.markdown("""
             <div style="position: absolute; bottom: 0; left: 7px; width: 56px; height: 28px; background: white; border-radius: 56px 56px 0 0;"></div>
             <div class="needle" style="height: 30px; transform: rotate(-60deg);"></div>
         </div>
-        <div style="font-size: 8px; font-weight: 900; color: #102646; margin-top: 4px;">Excellent</div>
+        <div style="font-size: 8px; font-weight: 900; color: green; margin-top: 4px;">Excellent</div>
     </div>
 </div>
 </div>
@@ -238,7 +224,7 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-# 6. الشريط السفلي (إصلاح مشكلة التباعد)
+# 6. الشريط السفلي (إصلاح النزول تحت بعض)
 n_cols = st.columns(5)
 navs = [
     {"k": "set", "i": icon_sitting, "l": "Settings", "p": "pages/Settings.py"},
@@ -255,5 +241,5 @@ for col, n in zip(n_cols, navs):
         else:
             st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{n["i"]}" class="nav-img-footer"><span>{n["l"]}</span></div>', unsafe_allow_html=True)
         
-        if st.button("", key=f"btn_{n['k']}"):
+        if st.button("", key=f"fbtn_{n['k']}"):
             st.switch_page(n["p"])
