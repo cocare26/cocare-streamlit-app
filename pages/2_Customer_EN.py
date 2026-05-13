@@ -183,6 +183,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     line-height: 1.2;
 }
 .stButton > button {
+    position:relative
     width: 100%;
     height: 95px;
     opacity: 0;
@@ -190,7 +191,8 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     border: none;
     background: transparent;
     cursor: pointer;
-    padding: 0;
+    z-index: 10;
+   
 }
 .service-card:hover {
     transform: translateY(-8px);
@@ -305,7 +307,7 @@ for col, service in zip(cols, services):
         </div>
         """, unsafe_allow_html=True)
 
-        if st.button("", key=service["key"]):
+        if st.button(" ", key=service["key"]):
             st.switch_page(service["page"])
 
        
