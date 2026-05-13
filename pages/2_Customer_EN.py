@@ -39,7 +39,6 @@ icon_game = get_base64("game.png")
 # تعريف المتغير page
 page = "2_Customer_EN"
 
-
 st.markdown("""
 <style>
 *{
@@ -52,32 +51,24 @@ html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
     font-family:'Segoe UI', sans-serif;
     overflow-x:hidden !important;
-    width:100%;
 }
 
-section.main > div {
-    padding-top:4px;
-}
-
-div[data-testid="stVerticalBlock"] {
-    gap:0.4rem;
-}
-
+/* إخفاء الهيدر */
 #MainMenu, header, footer {
     visibility:hidden;
 }
 
-/* الحاوية الرئيسية */
+/* الحاوية */
 .block-container {
     max-width:430px;
     margin:auto;
     padding:12px 10px;
-    background:linear-gradient(180deg,#FFFFFF 0%,#E3F2FD 30%,#BBDEFB 100%);
-    border-radius:42px;
+    background:linear-gradient(180deg,#fff,#E3F2FD,#BBDEFB);
+    border-radius:40px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
 
-/* الكروت */
+/* كروت */
 .card {
     background:white;
     border-radius:20px;
@@ -86,25 +77,21 @@ div[data-testid="stVerticalBlock"] {
     box-shadow:0 4px 15px rgba(0,0,0,.05);
 }
 
-/* ===================== */
-/* SERVICES GRID (الوسط) */
-/* ===================== */
-
-.services-grid {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:8px;
+/* العناوين */
+.title {
+    font-size:15px;
+    font-weight:900;
+    color:#102646;
+    margin:6px 0;
 }
 
-.service-item {
-    flex:1;
-    text-align:center;
-}
+/* ========================= */
+/* SERVICES (يبقى Streamlit) */
+/* ========================= */
 
 .service-img-custom {
-    width:40px;
-    height:40px;
+    width:45px;
+    height:45px;
     object-fit:contain;
     display:block;
     margin:auto;
@@ -114,25 +101,14 @@ div[data-testid="stVerticalBlock"] {
     font-size:8px;
     font-weight:800;
     color:#102646;
-    line-height:1.1;
+    text-align:center;
     margin-top:4px;
+    line-height:1.1;
 }
 
-/* ===================== */
-/* GENERAL UI */
-/* ===================== */
-
-.title {
-    font-size:15px;
-    font-weight:900;
-    color:#102646;
-    margin:4px 0 4px 4px;
-}
-
-.clickable {
-    cursor:pointer;
-    transition:all 0.3s ease;
-    position:relative;
+/* الأعمدة */
+[data-testid="column"] {
+    text-align:center;
 }
 
 /* زر شفاف */
@@ -142,150 +118,68 @@ div[data-testid="stVerticalBlock"] {
     opacity:0;
     border:none;
     background:transparent;
-    cursor:pointer;
-    position:relative;
-    z-index:10;
 }
 
-/* ===================== */
-/* WELCOME CARD */
-/* ===================== */
+/* ========================= */
+/* BOTTOM NAV (Streamlit safe) */
+/* ========================= */
 
-.welcome-card {
-    background:white;
-    border-radius:20px;
-    padding:8px 12px;
-    margin-bottom:8px;
-    display:flex;
-    align-items:center;
-    height:100px;
-}
-
-.robot-img-welcome {
-    width:90px;
-    height:90px;
-    object-fit:contain;
-    margin-right:12px;
-}
-
-/* ===================== */
-/* NAV ITEMS (TEXT ONLY) */
-/* ===================== */
-
-.nav-item {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    font-size:8px;
-    font-weight:700;
-    color:#6b6b6b;
-    text-align:center;
-}
-
-.nav-item span {
-    font-size:7px !important;
-    line-height:1 !important;
-}
-
-/* ===================== */
-/* BOTTOM NAV (IMPORTANT) */
-/* ===================== */
-
-.bottom-nav {
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    max-width:430px;
-    margin:auto;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:white;
-    padding:8px 10px;
-    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-    z-index:999;
-}
-
-.bottom-nav .nav-item {
-    flex:1;
-    text-align:center;
-}
-
-.bottom-nav img {
+.nav-img-footer {
     width:22px;
     height:22px;
     object-fit:contain;
 }
 
-/* ===================== */
-/* RATING */
-/* ===================== */
+.nav-item {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-size:7px;
+    font-weight:700;
+    color:#6b6b6b;
+}
 
-.rating-bar-container {
+/* الروبوت */
+.bot-bg {
+    width:34px;
+    height:34px;
+    background:white;
+    border-radius:12px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    background:linear-gradient(90deg,#1A4FA0,#46A1E2,#D47E2E,#C63F2A);
-    height:22px;
-    border-radius:4px;
-    margin-top:6px;
-    padding:0 10px;
-    color:white;
-    font-size:11px;
-    font-weight:bold;
-}
-
-.star-rating {
-    display:flex;
-    flex-direction:row-reverse;
     justify-content:center;
-    gap:4px;
 }
 
-.star-rating input { display:none; }
-
-.star-rating label {
-    font-size:24px;
-    color:#ddd;
-    cursor:pointer;
-}
-
-.star-rating input:checked ~ label {
-    color:#ffcc00;
-}
-
-/* ===================== */
-/* MOBILE ONLY (JUST SIZE) */
-/* ===================== */
-
+/* ========================= */
+/* MOBILE فقط تصغير */
 @media (max-width:480px) {
 
     .service-img-custom {
-        width:30px;
-        height:30px;
+        width:32px;
+        height:32px;
     }
 
     .service-label-custom {
         font-size:6px;
     }
 
-    .nav-item span {
-        font-size:5.5px !important;
-    }
-
-    .bottom-nav img {
+    .nav-img-footer {
         width:18px;
         height:18px;
     }
 
+    .bot-bg {
+        width:28px;
+        height:28px;
+    }
+
     .block-container {
-        padding:10px 6px;
+        padding:10px;
     }
 }
-
 </style>
 """, unsafe_allow_html=True)
+
 # 1. قسم الملف الشخصي
 st.markdown(f"""
 <div class="welcome-card clickable">
