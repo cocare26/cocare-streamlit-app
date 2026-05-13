@@ -40,13 +40,12 @@ icon_game = get_base64("game.png")
 page = "2_Customer_EN"
 
 # =====================================
-# CSS المطور (حل مشكلة الإزاحة الجانبية نهائياً)
+# CSS المطور (حل مشكلة الإزاحة والتباعد)
 # =====================================
 st.markdown("""
 <style>
 *{ margin:0; padding:0; box-sizing:border-box; }
 
-/* منع التمرير الأفقي في كامل التطبيق */
 html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
     font-family:'Segoe UI', sans-serif;
@@ -62,7 +61,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 .block-container {
     max-width:430px; 
     margin:auto;
-    padding:12px 10px; /* تقليل الحواف الجانبية لزيادة المساحة */
+    padding:12px 10px;
     background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
@@ -76,41 +75,33 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     box-shadow: 0 4px 15px rgba(0,0,0,.05);
 }
 
-/* --- إصلاح توزيع الأيقونات لمنع الصفحة الجانبية --- */
-[data-testid="stHorizontalBlock"] {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important; /* إجبار العناصر على البقاء في صف واحد */
-    align-items: flex-start !important;
-    justify-content: space-between !important;
-    gap: 2px !important; /* تقليل المسافة بين الأعمدة */
-    width: 100% !important;
-}
-
+/* --- تعديل المسافات بين الأعمدة لمنع التباعد الكبير --- */
 [data-testid="column"] {
+    width: unset !important;
     flex: 1 1 0% !important;
-    min-width: 0px !important; /* السماح للعمود بالانكماش لأقصى درجة */
-    max-width: 25% !important; /* لضمان عدم خروج الأيقونات الأربعة عن العرض */
-    text-align: center;
+    padding: 0 2px !important; /* تقليل الفراغ الجانبي للأعمدة */
 }
 
-/* تعديل خاص للشريط السفلي (5 أعمدة) */
-div[data-testid="stHorizontalBlock"]:last-child [data-testid="column"] {
-    max-width: 20% !important;
+[data-testid="stHorizontalBlock"] {
+    gap: 0.2rem !important; /* تقليل المسافة بين الأيقونات */
+    justify-content: center !important;
 }
 
 .service-label-custom {
-    font-size: 8px !important; /* تصغير طفيف للنص ليتناسب مع العرض */
+    font-size: 8.5px !important;
     font-weight: 800;
     color: #102646;
     line-height: 1.1;
     margin-top: 4px;
+    text-align: center;
 }
 
 .service-img-custom {
-    width: 48px !important; /* حجم مثالي لمنع دحرجة العناصر */
-    height: 48px !important;
+    width: 45px !important;
+    height: 45px !important;
     object-fit: contain;
+    display: block;
+    margin: 0 auto;
 }
 
 .title {
@@ -126,12 +117,13 @@ div[data-testid="stHorizontalBlock"]:last-child [data-testid="column"] {
     position: relative; 
 }
 
+/* جعل الزر غير مرئي ويغطي الأيقونة بالضبط */
 .stButton > button {
     position: relative;
     width: 100%;
-    height: 80px;
+    height: 70px;
     opacity: 0;
-    margin-top: -80px;
+    margin-top: -70px;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -154,18 +146,19 @@ div[data-testid="stHorizontalBlock"]:last-child [data-testid="column"] {
     flex-direction: column; 
     align-items: center; 
     color:#6b6b6b; 
-    font-size: 8px; /* تصغير نص الشريط السفلي */
+    font-size: 8px;
     font-weight: 700;
+    text-align: center;
 }
 
 .nav-img-footer {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     object-fit: contain;
 }
 
 .bot-bg {
-    width:40px; height:40px; background:white; border-radius:12px;
+    width:38px; height:38px; background:white; border-radius:12px;
     margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
@@ -222,32 +215,30 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("<div style='height:15px'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:5px'></div>", unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (الأربعة في صف واحد ثابت)
-cols = st.columns(4)
+# 3. أيقونات الخدمات (تم تصحيح المسافات هنا)
+with st.container():
+    cols = st.columns(4)
+    services = [
+        {"key": "internet", "icon": icon_internet, "label": "Internet<br>Packages", "page": "pages/InternetPackages.py"},
+        {"key": "renewals", "icon": icon_renewals, "label": "Renewals +<br>Changes", "page": "pages/RenewalsTariff.py"},
+        {"key": "calls", "icon": icon_calls, "label": "Int.<br>Calls", "page": "pages/InternationalCalls.py"},
+        {"key": "notifications", "icon": icon_notifications, "label": "Network<br>Notif.", "page": "pages/NetworkNotifications.py"}
+    ]
 
-services = [
-    {"key": "internet", "icon": icon_internet, "label": "Internet<br>Packages", "page": "pages/InternetPackages.py"},
-    {"key": "renewals", "icon": icon_renewals, "label": "Renewals +<br>Changes", "page": "pages/RenewalsTariff.py"},
-    {"key": "calls", "icon": icon_calls, "label": "Int.<br>Calls", "page": "pages/InternationalCalls.py"},
-    {"key": "notifications", "icon": icon_notifications, "label": "Network<br>Notif.", "page": "pages/NetworkNotifications.py"}
-]
-
-for col, service in zip(cols, services):
-    with col:
-        st.markdown(f"""
-        <div style="text-align:center; width:100%;">
-            <img src="data:image/png;base64,{service['icon']}" class="service-img-custom">
-            <div class="service-label-custom">
-                {service['label']}
+    for col, service in zip(cols, services):
+        with col:
+            st.markdown(f"""
+            <div style="text-align:center;">
+                <img src="data:image/png;base64,{service['icon']}" class="service-img-custom">
+                <div class="service-label-custom">{service['label']}</div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
-        if st.button(label="", key=service["key"], use_container_width=True):
-            st.switch_page(service["page"])
+            """, unsafe_allow_html=True)
+            if st.button(label="", key=service["key"], use_container_width=True):
+                st.switch_page(service["page"])
 
-st.markdown("<div style='height:15px'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:5px'></div>", unsafe_allow_html=True)
 
 # 4. قسم التقييم
 st.markdown("""
@@ -304,24 +295,24 @@ st.markdown("""
 
 st.markdown("<div style='height:20px'></div>", unsafe_allow_html=True)
 
-# 6. الشريط السفلي (الخمسة في صف واحد ثابت)
-n_cols = st.columns(5)
+# 6. الشريط السفلي (تم تصحيح المسافات هنا أيضاً)
+with st.container():
+    n_cols = st.columns(5)
+    nav_items = [
+        {"label": "Settings", "icon": icon_sitting, "page": "pages/Settings.py", "key": "nav_set"},
+        {"label": "Spin", "icon": icon_spin, "page": "pages/_Game_E.py", "key": "nav_spin"},
+        {"label": "Chatbot", "icon": robot_head, "page": "cocare-streamlit-app/pages/Chatbot_EN.py", "key": "nav_bot", "is_bot": True},
+        {"label": "Home", "icon": icon_home, "page": "pages/2_Customer_EN.py", "key": "nav_home"},
+        {"label": "Game On", "icon": icon_game, "page": "pages/_Game_E.py", "key": "nav_game"}
+    ]
 
-nav_items = [
-    {"label": "Settings", "icon": icon_sitting, "page": "pages/Settings.py", "key": "nav_set"},
-    {"label": "Spin", "icon": icon_spin, "page": "pages/_Game_E.py", "key": "nav_spin"},
-    {"label": "Chatbot", "icon": robot_head, "page": "cocare-streamlit-app/pages/Chatbot_EN.py", "key": "nav_bot", "is_bot": True},
-    {"label": "Home", "icon": icon_home, "page": "pages/2_Customer_EN.py", "key": "nav_home"},
-    {"label": "Game On", "icon": icon_game, "page": "pages/_Game_E.py", "key": "nav_game"}
-]
-
-for i, col in enumerate(n_cols):
-    with col:
-        item = nav_items[i]
-        if item.get("is_bot"):
-            st.markdown(f'<div class="nav-item"><div class="bot-bg"><img src="data:image/png;base64,{item["icon"]}" style="width:28px;height:28px;"></div><span>{item["label"]}</span></div>', unsafe_allow_html=True)
-        else:
-            st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{item["icon"]}" class="nav-img-footer"><span>{item["label"]}</span></div>', unsafe_allow_html=True)
-        
-        if st.button("", key=item["key"]):
-            st.switch_page(item["page"])
+    for i, col in enumerate(n_cols):
+        with col:
+            item = nav_items[i]
+            if item.get("is_bot"):
+                st.markdown(f'<div class="nav-item"><div class="bot-bg"><img src="data:image/png;base64,{item["icon"]}" style="width:26px;height:26px;"></div><span>{item["label"]}</span></div>', unsafe_allow_html=True)
+            else:
+                st.markdown(f'<div class="nav-item"><img src="data:image/png;base64,{item["icon"]}" class="nav-img-footer"><span>{item["label"]}</span></div>', unsafe_allow_html=True)
+            
+            if st.button("", key=item["key"], use_container_width=True):
+                st.switch_page(item["page"])
