@@ -5,7 +5,8 @@ from typing import Optional, Any, Dict
 import pandas as pd
 import os
 
-from cocare import process_message, CHAT_LOG_PATH
+from cocare import process_message
+from database.db_helper import fetch_all
 
 
 app = FastAPI(
