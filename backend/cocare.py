@@ -27,7 +27,7 @@ from utils.language_utils import detect_language
 from utils.intent_utils import predict_intent
 from utils.sentiment_utils import predict_sentiment
 
-from db_helper import save_chat_log, fetch_all
+from database.db_helper import save_chat_log, fetch_all
 
 
 # =========================
