@@ -351,6 +351,15 @@ footer {
     .nav-item span{
         font-size:8px !important;
     }
+    [data-testid="stPageLink"]{
+    margin-top:-90px;
+    opacity:0;
+    height:90px;
+}
+[data-testid="stPageLink"] a{
+    padding:0 !important;
+    min-height:0 !important;
+}
 
 }
 
@@ -397,7 +406,6 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-
 # 3. أيقونات الخدمات
 
 cols = st.columns(4)
@@ -405,22 +413,22 @@ cols = st.columns(4)
 services = [
     {
         "icon": icon_internet,
-        "label": "Internet<br>Packages",
+        "label": "Internet Packages",
         "page": "pages/InternetPackages.py"
     },
     {
         "icon": icon_renewals,
-        "label": "Renewals +<br>Tariff Changes",
+        "label": "Renewals + Tariff",
         "page": "pages/RenewalsTariff.py"
     },
     {
         "icon": icon_calls,
-        "label": "International<br>Calls",
+        "label": "International Calls",
         "page": "pages/InternationalCalls.py"
     },
     {
         "icon": icon_notifications,
-        "label": "Network<br>Notifications",
+        "label": "Network Notifications",
         "page": "pages/NetworkNotifications.py"
     }
 ]
@@ -430,21 +438,21 @@ for col, service in zip(cols, services):
     with col:
 
         st.markdown(f"""
-        <a href="{service['page']}" target="_self" style="text-decoration:none;">
+        <div class="service-card">
+            <img src="data:image/png;base64,{service['icon']}" 
+                 class="service-icon-img">
 
-            <div class="service-card">
-
-                <img src="data:image/png;base64,{service['icon']}" 
-                     class="service-icon-img">
-
-                <"div class="service-label>
-                    {service['label']}
-                </div>
-
+            <div class="service-label">
+                {service['label']}
             </div>
-
-        </a>
+        </div>
         """, unsafe_allow_html=True)
+
+        st.page_link(
+            service["page"],
+            label="",
+            icon=""
+        )
 
 # 4. قسم التقييم
 st.markdown("""
@@ -520,22 +528,24 @@ for col, item in zip(n_cols, footer_data):
     with col:
 
         st.markdown(f"""
-        <a href="{page_link}" target="_self" style="text-decoration:none;">
+        <div class="nav-item">
 
-            <"div class="nav-item>
+            <img src="data:image/png;base64,{icon}" 
+                 class="nav-img-footer">
 
-                <img src="data:image/png;base64,{icon}" 
-                     class="nav-img-footer">
+            <span style="
+                font-size:10px;
+                font-weight:700;
+                color:#6b6b6b;
+            ">
+                {label}
+            </span>
 
-                <span style="
-                    font-size:10px;
-                    font-weight:700;
-                    color:#6b6b6b;
-                ">
-                    {label}
-                </span>
-
-            </div>
-
-        </a>
+        </div>
         """, unsafe_allow_html=True)
+
+        st.page_link(
+            page_link,
+            label="",
+            icon=""
+        )
