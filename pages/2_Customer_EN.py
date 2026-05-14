@@ -414,31 +414,28 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات (الربط المطلوب)
+
+# 3. أيقونات الخدمات
 
 cols = st.columns(4)
 
 services = [
     {
-        "key": "internet",
         "icon": icon_internet,
         "label": "Internet<br>Packages",
         "page": "pages/InternetPackages.py"
     },
     {
-        "key": "renewals",
         "icon": icon_renewals,
         "label": "Renewals +<br>Tariff Changes",
         "page": "pages/RenewalsTariff.py"
     },
     {
-        "key": "calls",
         "icon": icon_calls,
         "label": "International<br>Calls",
         "page": "pages/InternationalCalls.py"
     },
     {
-        "key": "notifications",
         "icon": icon_notifications,
         "label": "Network<br>Notifications",
         "page": "pages/NetworkNotifications.py"
@@ -450,21 +447,22 @@ for col, service in zip(cols, services):
     with col:
 
         st.markdown(f"""
-        <div class="service-card">
-            <img src="data:image/png;base64,{service['icon']}" 
-                 class="service-icon-img">
-            <div class="service-label">
-                {service['label']}
+        <a href="{service['page']}" target="_self" style="text-decoration:none;">
+
+            <div class="service-card">
+
+                <img src="data:image/png;base64,{service['icon']}" 
+                     class="service-icon-img">
+
+                <div class="service-label">
+                    {service['label']}
+                </div>
+
             </div>
-        </div>
+
+        </a>
         """, unsafe_allow_html=True)
 
-        st.markdown('<div class="service-btn">', unsafe_allow_html=True)
-
-        if st.button("", key=service["key"]):
-            st.switch_page(service["page"])
-
-        st.markdown('</div>', unsafe_allow_html=True)
 # 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -522,38 +520,39 @@ st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
 # 6. الشريط السفلي
 
-st.markdown('<div class="footer-nav">', unsafe_allow_html=True)
-
 n_cols = st.columns(5)
 
 footer_data = [
-    ("Settings", icon_sitting, "nav_set", "pages/Settings.py"),
-    ("Spin", icon_spin, "nav_spin", "pages/_Game_E.py"),
-    ("Chatbot", robot_head, "nav_bot", "pages/Chatbot_EN.py"),
-    ("Home", icon_home, "nav_home", "pages/2_Customer_EN.py"),
-    ("Game On", icon_game, "nav_game", "pages/_Game_E.py"),
+    ("Settings", icon_sitting, "pages/Settings.py"),
+    ("Spin", icon_spin, "pages/_Game_E.py"),
+    ("Chatbot", robot_head, "pages/Chatbot_EN.py"),
+    ("Home", icon_home, "pages/2_Customer_EN.py"),
+    ("Game On", icon_game, "pages/_Game_E.py"),
 ]
 
 for col, item in zip(n_cols, footer_data):
 
-    label, icon, key, page_link = item
+    label, icon, page_link = item
 
     with col:
 
         st.markdown(f"""
-        <div class="nav-item">
-            <img src="data:image/png;base64,{icon}" class="nav-img-footer">
-            <span style="font-size:10px;font-weight:700;">
-                {label}
-            </span>
-        </div>
+        <a href="{page_link}" target="_self" style="text-decoration:none;">
+
+            <div class="nav-item">
+
+                <img src="data:image/png;base64,{icon}" 
+                     class="nav-img-footer">
+
+                <span style="
+                    font-size:10px;
+                    font-weight:700;
+                    color:#6b6b6b;
+                ">
+                    {label}
+                </span>
+
+            </div>
+
+        </a>
         """, unsafe_allow_html=True)
-
-        st.markdown('<div class="footer-btn">', unsafe_allow_html=True)
-
-        if st.button("", key=key):
-            st.switch_page(page_link)
-
-        st.markdown('</div>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
