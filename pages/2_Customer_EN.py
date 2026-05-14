@@ -188,15 +188,7 @@ footer {
 
 /* HIDDEN SERVICE BUTTON */
 
-.service-btn button{
-    width:100%;
-    height:1px;
-    opacity:0;
-    padding:0;
-    margin:0;
-    border:none;
-    background:transparent;
-}
+
 
 /* NAVIGATION */
 
@@ -234,15 +226,6 @@ footer {
     gap:2px;
 }
 
-.footer-btn button{
-    width:100%;
-    height:1px;
-    opacity:0;
-    padding:0;
-    margin:0;
-    border:none;
-    background:transparent;
-}
 
 .nav-img-footer{
     width:34px;
