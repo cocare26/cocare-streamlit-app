@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import sys
 import types
@@ -6,7 +6,7 @@ import importlib
 import pandas as pd
 
 # =========================
-# GitHub / Streamlit Paths
+# Project Paths
 # =========================
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 UTILS_PATH = os.path.join(PROJECT_PATH, "utils")
@@ -19,12 +19,33 @@ utils_pkg.__path__ = [UTILS_PATH]
 sys.modules["utils"] = utils_pkg
 importlib.invalidate_caches()
 
-from utils.language_utils import detect_language
-from utils.intent_utils import predict_intent
-from utils.sentiment_utils import predict_sentiment
+# =========================
+# Safe Imports
+# =========================
+try:
+    from utils.language_utils import detect_language
+except:
+    def detect_language(text):
+        text = str(text)
+        arabic_chars = any("\u0600" <= ch <= "\u06FF" for ch in text)
+        return "ar" if arabic_chars else "en"
 
+try:
+    from utils.intent_utils import predict_intent
+except:
+    predict_intent = None
+
+try:
+    from utils.sentiment_utils import predict_sentiment
+except:
+    predict_sentiment = None
+
+# =========================
+# Files Paths
+# =========================
 CHAT_LOG_PATH = os.path.join(PROJECT_PATH, "data", "chat_logs.csv")
-NOTI_PATH = os.path.join(PROJECT_PATH, "utils", "Notifications ")
+NOTI_PATH = os.path.join(PROJECT_PATH, "utils", "Notifications")
+
 
 # =========================
 # Helpers
@@ -48,7 +69,9 @@ def normalize_model_output(result, default="neutral"):
         if isinstance(result, list):
             if len(result) > 0 and isinstance(result[0], dict):
                 return result[0].get("label", default), result[0].get("score", 1.0)
-            return result[0], 1.0
+            if len(result) > 0:
+                return result[0], 1.0
+            return default, 1.0
 
         if isinstance(result, dict):
             return result.get("label", default), result.get("score", 1.0)
@@ -80,6 +103,10 @@ def normalize_intent(intent):
         "network complaint": "network_complaint",
         "network status": "network_status",
         "network-status": "network_status",
+        "payment issue": "payment_issue",
+        "check data usage": "check_data_usage",
+        "renew package": "renew_package",
+        "offer inquiry": "offer_inquiry",
     }
 
     return mapping.get(intent, intent)
@@ -87,7 +114,6 @@ def normalize_intent(intent):
 
 def is_network_intent(intent):
     intent = normalize_intent(intent)
-
     return intent in [
         "slow_internet",
         "no_signal",
@@ -118,13 +144,16 @@ def map_intent_to_issue_type(intent, sentiment=None):
 def load_notifications():
     def read_csv_safe(path):
         try:
-            return pd.read_csv(path, encoding="utf-8-sig")
+            if os.path.exists(path):
+                return pd.read_csv(path, encoding="utf-8-sig")
+            print(f"CSV not found: {path}")
+            return pd.DataFrame()
         except Exception as e:
             print(f"CSV load error: {path}")
             print(e)
             return pd.DataFrame()
 
-    internal_ar = read_csv_safe(os.path.join(NOTI_PATH, " internal_notifications.csv"))
+    internal_ar = read_csv_safe(os.path.join(NOTI_PATH, "internal_notifications.csv"))
     internal_en = read_csv_safe(os.path.join(NOTI_PATH, "internal_notifications_en.csv"))
     external_ar = read_csv_safe(os.path.join(NOTI_PATH, "external_notifications.csv"))
     external_en = read_csv_safe(os.path.join(NOTI_PATH, "external_notifications_en.csv"))
@@ -138,41 +167,74 @@ INTERNAL_AR, INTERNAL_EN, EXTERNAL_AR, EXTERNAL_EN = load_notifications()
 # =========================
 # Safe Models
 # =========================
-def predict_intent_safe(user_message, lang):
+def predict_intent_safe(user_message, lang="en"):
     try:
-        raw = predict_intent(user_message, lang)
-        intent, confidence = normalize_model_output(raw, default="unknown")
-        return normalize_intent(intent), confidence
-    except:
-        text = str(user_message).lower()
+        if predict_intent is not None:
+            raw = predict_intent(user_message, lang)
+            intent, confidence = normalize_model_output(raw, default="unknown")
+            return normalize_intent(intent), confidence
+    except Exception as e:
+        print("Intent model error:", e)
 
-        if any(w in text for w in ["هاي", "هلا", "مرحبا", "hello", "hi", "كيفك", "كيفو"]):
-            return "greeting", 0.8
+    text = str(user_message).lower()
 
-        if any(w in text for w in ["بطيء", "ضعيف", "ضعيفة", "slow", "زفت", "خرا", "تقطيع", "سرعة"]):
-            return "slow_internet", 0.8
+    if any(w in text for w in ["هاي", "هلا", "مرحبا", "hello", "hi", "كيفك"]):
+        return "greeting", 0.8
 
-        if any(w in text for w in ["اشارة", "إشارة", "signal", "فاصل"]):
-            return "no_signal", 0.8
+    if any(w in text for w in ["بطيء", "ضعيف", "ضعيفة", "slow", "زفت", "خرا", "تقطيع", "سرعة"]):
+        return "slow_internet", 0.8
 
-        return "unknown", 0.5
+    if any(w in text for w in ["اشارة", "إشارة", "signal", "فاصل", "no signal"]):
+        return "no_signal", 0.8
+
+    if any(w in text for w in ["network", "complaint", "مشكلة", "شكوى"]):
+        return "network_complaint", 0.7
+
+    return "unknown", 0.5
 
 
-def predict_sentiment_safe(user_message, lang):
+def predict_sentiment_safe(user_message, lang="en"):
     try:
-        raw = predict_sentiment(user_message, lang)
-        label, score = normalize_model_output(raw)
-        return normalize_sentiment(label), score
-    except:
-        text = str(user_message).lower()
+        if predict_sentiment is not None:
+            raw = predict_sentiment(user_message, lang)
+            label, score = normalize_model_output(raw)
+            return normalize_sentiment(label), score
+    except Exception as e:
+        print("Sentiment model error:", e)
 
-        if any(w in text for w in ["خرا", "زفت", "سيء", "بطيء", "ضعيف", "ضعيفة", "تخزي", "مشكلة"]):
-            return "negative", 0.9
+    text = str(user_message).lower()
 
-        if any(w in text for w in ["ممتاز", "تمام", "شكرا", "يسلمو", "good", "great"]):
-            return "positive", 0.8
+    if any(w in text for w in ["خرا", "زفت", "سيء", "بطيء", "ضعيف", "ضعيفة", "تخزي", "مشكلة", "bad", "slow", "angry"]):
+        return "negative", 0.9
 
-        return "neutral", 0.5
+    if any(w in text for w in ["ممتاز", "تمام", "شكرا", "يسلمو", "good", "great", "thanks"]):
+        return "positive", 0.8
+
+    return "neutral", 0.5
+
+
+# =========================
+# Chat Log Cleanup 48 Hours
+# =========================
+def cleanup_old_logs():
+    try:
+        if not os.path.exists(CHAT_LOG_PATH):
+            return
+
+        logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
+
+        if logs.empty or "timestamp" not in logs.columns:
+            return
+
+        logs["timestamp_dt"] = pd.to_datetime(logs["timestamp"], errors="coerce")
+        cutoff = datetime.now() - timedelta(hours=48)
+
+        logs = logs[logs["timestamp_dt"] >= cutoff]
+        logs = logs.drop(columns=["timestamp_dt"], errors="ignore")
+
+        logs.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
+    except Exception as e:
+        print("Cleanup logs error:", e)
 
 
 # =========================
@@ -185,12 +247,16 @@ def update_dynamic_metrics(user_id, region, intent, issue_type="normal", metrics
     current_is_network = is_network_intent(intent) and issue_type != "normal"
 
     if not current_is_network:
-        metrics["user_id"] = user_id
-        metrics["region"] = region
-        metrics["repeat_count"] = 0
-        metrics["area_issue_count"] = 0
-        metrics["current_is_network"] = False
+        metrics.update({
+            "user_id": user_id,
+            "region": region,
+            "repeat_count": 0,
+            "area_issue_count": 0,
+            "current_is_network": False
+        })
         return metrics
+
+    cleanup_old_logs()
 
     try:
         logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
@@ -218,11 +284,13 @@ def update_dynamic_metrics(user_id, region, intent, issue_type="normal", metrics
         repeat = len(network_logs[network_logs["user_id"].astype(str) == str(user_id)]) + 1
         area = len(network_logs[network_logs["region"].astype(str) == str(region)]) + 1
 
-    metrics["user_id"] = user_id
-    metrics["region"] = region
-    metrics["repeat_count"] = repeat
-    metrics["area_issue_count"] = area
-    metrics["current_is_network"] = True
+    metrics.update({
+        "user_id": user_id,
+        "region": region,
+        "repeat_count": repeat,
+        "area_issue_count": area,
+        "current_is_network": True
+    })
 
     return metrics
 
@@ -276,12 +344,12 @@ def get_notification_message(issue_type, severity="medium"):
         "internal_message_en": safe_get(internal_en, ["employee_notification_en", "internal_message_en"]),
         "external_message_ar": safe_get(external_ar, ["customer_notification_ar", "external_message_ar"]),
         "external_message_en": safe_get(external_en, ["customer_notification_en", "external_message_en"]),
-        "customer_message_ar": safe_get(internal_ar, ["customer_notification_ar"]),
-        "customer_message_en": safe_get(internal_ar, ["customer_notification_en"]),
+        "customer_message_ar": safe_get(external_ar, ["customer_notification_ar"]),
+        "customer_message_en": safe_get(external_en, ["customer_notification_en"]),
         "suggested_action": safe_get(internal_ar, ["suggested_action"]),
         "priority": safe_get(internal_ar, ["priority"]),
         "escalate_after_attempts": safe_int(safe_get(internal_ar, ["escalate_after_attempts"]), default=3),
-        "show_to_customer": safe_int(safe_get(internal_ar, ["show_to_customer"]), default=0),
+        "show_to_customer": safe_int(safe_get(external_ar, ["show_to_customer"]), default=0),
     }
 
 
@@ -322,34 +390,21 @@ def notification_engine(prediction, sentiment, metrics=None, intent=None):
     show_to_customer = safe_int(noti.get("show_to_customer"), default=0)
 
     escalation = False
-    notification_type = "internal_noti"
-    display_channel = "employee_dashboard"
-    reason = None
+    notification_type = "external_noti"
+    display_channel = "customer_app"
+    reason = "Network problem detected"
+
+    if repeat >= escalate_after:
+        escalation = True
+        notification_type = "internal_noti"
+        display_channel = "employee_dashboard"
+        reason = "Repeated user issue"
 
     if area >= 5 and show_to_customer == 1:
         escalation = True
         notification_type = "external_noti"
         display_channel = "customer_app"
         reason = "Area-wide issue"
-
-    elif repeat >= escalate_after:
-        escalation = True
-        notification_type = "internal_noti"
-        display_channel = "employee_dashboard"
-        reason = "Repeated user issue"
-
-    internal_ar = noti.get("internal_message_ar")
-    internal_en = noti.get("internal_message_en")
-
-    if internal_en is None and internal_ar is not None:
-        try:
-            from deep_translator import GoogleTranslator
-            internal_en = GoogleTranslator(source="ar", target="en").translate(internal_ar)
-        except:
-            internal_en = internal_ar
-
-    external_ar = noti.get("external_message_ar") or noti.get("customer_message_ar")
-    external_en = noti.get("external_message_en") or noti.get("customer_message_en")
 
     return {
         "issue_type": issue_type,
@@ -360,10 +415,10 @@ def notification_engine(prediction, sentiment, metrics=None, intent=None):
         "reason": reason,
         "repeat_count": repeat,
         "area_issue_count": area,
-        "external_message_ar": external_ar,
-        "external_message_en": external_en,
-        "internal_message_ar": internal_ar,
-        "internal_message_en": internal_en,
+        "external_message_ar": noti.get("external_message_ar") or noti.get("customer_message_ar"),
+        "external_message_en": noti.get("external_message_en") or noti.get("customer_message_en"),
+        "internal_message_ar": noti.get("internal_message_ar"),
+        "internal_message_en": noti.get("internal_message_en"),
         "priority": noti.get("priority"),
         "suggested_action": noti.get("suggested_action"),
         "show_to_customer": show_to_customer
@@ -373,31 +428,57 @@ def notification_engine(prediction, sentiment, metrics=None, intent=None):
 # =========================
 # Responses
 # =========================
-def get_intent_response(lang, intent):
+def get_intent_response(lang, intent, sentiment="neutral"):
     intent = normalize_intent(intent)
 
-    if intent == "greeting":
-        return "هلا وغلا 👋 كيف فيني أساعدك؟", "شو حاب تعرف؟"
+    if lang == "ar":
+        if sentiment == "negative":
+            prefix = "آسفين جداً على الإزعاج، "
+        else:
+            prefix = ""
 
-    if intent == "slow_internet":
-        return "واضح النت عندك بطيء 😅", "بدك نحلها مع بعض؟"
+        responses = {
+            "greeting": ("هلا وغلا، كيف فيني أساعدك؟", "شو حاب تعرف؟"),
+            "slow_internet": (prefix + "واضح إن النت عندك بطيء.", "خلينا نتابعها مع بعض، هل المشكلة مستمرة الآن؟"),
+            "no_signal": (prefix + "فهمت عليك، واضح في مشكلة بالإشارة.", "هل الإشارة ضعيفة بكل الأماكن ولا بمكان معين؟"),
+            "network_status": ("خليني أشيك حالة الشبكة عندك.", "أي منطقة موجود فيها؟"),
+            "network_complaint": (prefix + "تم تسجيل ملاحظتك وسنتابع المشكلة.", "صار معك هالشي أكثر من مرة؟"),
+            "complaint": (prefix + "تم تسجيل ملاحظتك وسنتابع المشكلة.", "صار معك هالشي أكثر من مرة؟"),
+            "payment_issue": ("واضح عندك مشكلة بالدفع.", "تأكد من بيانات الدفع وجرب مرة ثانية."),
+            "check_data_usage": ("بتقدر تشيك استهلاك الإنترنت من لوحة التحكم.", "حاب أساعدك بخطوة ثانية؟"),
+            "renew_package": ("بتقدر تجدد الباقة من قسم الباقات.", "حاب أشرحلك الخطوات؟"),
+            "offer_inquiry": ("أكيد، بتقدر تشوف العروض المتاحة من قسم العروض.", "بدك عروض إنترنت ولا مكالمات؟"),
+        }
 
-    if intent == "no_signal":
-        return "فهمت عليك، واضح في مشكلة بالإشارة.", "وين موقعك تقريباً؟"
+        return responses.get(intent, ("ممكن توضح أكثر؟", "احكيلي تفاصيل أكثر"))
 
-    if intent == "network_status":
-        return "خليني أشيك حالة الشبكة عندك.", "أي منطقة موجود فيها؟"
+    else:
+        if sentiment == "negative":
+            prefix = "Sorry for the inconvenience. "
+        else:
+            prefix = ""
 
-    if intent in ["network_complaint", "complaint"]:
-        return "آسفين على الإزعاج، رح نتابع المشكلة فوراً.", "صار معك هالشي أكثر من مرة؟"
+        responses = {
+            "greeting": ("Hello, how can I help you?", "What would you like to know?"),
+            "slow_internet": (prefix + "It looks like your internet is slow.", "Is the issue still happening now?"),
+            "no_signal": (prefix + "It seems there may be a signal issue.", "Is the signal weak everywhere or only in one place?"),
+            "network_status": ("I’ll check the current network status for you.", "Which area are you in?"),
+            "network_complaint": (prefix + "Your network complaint has been noted.", "Has this happened more than once?"),
+            "complaint": (prefix + "Your complaint has been noted.", "Has this happened more than once?"),
+            "payment_issue": ("It looks like there is a payment issue.", "Please check your payment details and try again."),
+            "check_data_usage": ("You can check your data usage from your dashboard.", "Would you like help with anything else?"),
+            "renew_package": ("You can renew your package from the packages section.", "Would you like the steps?"),
+            "offer_inquiry": ("Sure, you can check available offers from the offers section.", "Are you looking for internet or call offers?"),
+        }
 
-    return "ممكن توضح أكثر؟", "احكيلي تفاصيل أكثر"
+        return responses.get(intent, ("Could you please explain more?", "Tell me more details."))
 
 
 # =========================
 # Logging
 # =========================
 def log_chat(user_message, result):
+    cleanup_old_logs()
     os.makedirs(os.path.dirname(CHAT_LOG_PATH), exist_ok=True)
 
     row = {
@@ -419,6 +500,9 @@ def log_chat(user_message, result):
         "reason": result.get("reason"),
         "repeat_count": result.get("repeat_count"),
         "area_issue_count": result.get("area_issue_count"),
+        "priority": result.get("priority"),
+        "suggested_action": result.get("suggested_action"),
+        "show_to_customer": result.get("show_to_customer"),
     }
 
     try:
@@ -434,7 +518,10 @@ def log_chat(user_message, result):
 # Main Function
 # =========================
 def process_message(user_message, metrics=None, user_id="customer_1", region="Amman"):
-    lang = detect_language(user_message)
+    try:
+        lang = detect_language(user_message)
+    except:
+        lang = "ar"
 
     intent, intent_confidence = predict_intent_safe(user_message, lang)
     sentiment, sentiment_score = predict_sentiment_safe(user_message, lang)
@@ -450,7 +537,12 @@ def process_message(user_message, metrics=None, user_id="customer_1", region="Am
     )
 
     prediction = safe_prediction(metrics, intent, sentiment)
-    response, followup = get_intent_response(lang, intent)
+
+    response, followup = get_intent_response(
+        lang=lang,
+        intent=intent,
+        sentiment=sentiment
+    )
 
     notification = notification_engine(
         prediction=prediction,
@@ -462,10 +554,10 @@ def process_message(user_message, metrics=None, user_id="customer_1", region="Am
     result = {
         "language": lang,
         "intent": intent,
-        "intent_confidence": intent_confidence,
+        "intent_confidence": float(intent_confidence),
         "sentiment": sentiment,
-        "sentiment_score": sentiment_score,
-        "prediction": prediction,
+        "sentiment_score": float(sentiment_score),
+        "prediction": int(prediction),
         "response": response,
         "followup_response": followup,
         **notification,
