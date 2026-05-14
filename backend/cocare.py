@@ -6,13 +6,10 @@ import importlib
 import pandas as pd
 
 # =========================
-# Project Paths
+# GitHub / Streamlit Paths
 # =========================
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
-
 UTILS_PATH = os.path.join(PROJECT_PATH, "utils")
-DATA_PATH = os.path.join(PROJECT_PATH, "data")
-NOTI_PATH = os.path.join(UTILS_PATH, "Notifications")
 
 sys.path.insert(0, PROJECT_PATH)
 sys.path.insert(0, UTILS_PATH)
@@ -20,15 +17,14 @@ sys.path.insert(0, UTILS_PATH)
 utils_pkg = types.ModuleType("utils")
 utils_pkg.__path__ = [UTILS_PATH]
 sys.modules["utils"] = utils_pkg
-
 importlib.invalidate_caches()
 
 from utils.language_utils import detect_language
 from utils.intent_utils import predict_intent
 from utils.sentiment_utils import predict_sentiment
 
-from db_helper import save_chat_log, fetch_all
-
+CHAT_LOG_PATH = os.path.join(PROJECT_PATH, "data", "chat_logs.csv")
+NOTI_PATH = os.path.join(PROJECT_PATH, "utils", "Notifications ")
 
 # =========================
 # Helpers
@@ -128,7 +124,7 @@ def load_notifications():
             print(e)
             return pd.DataFrame()
 
-    internal_ar = read_csv_safe(os.path.join(NOTI_PATH, "internal_notifications.csv"))
+    internal_ar = read_csv_safe(os.path.join(NOTI_PATH, " internal_notifications.csv"))
     internal_en = read_csv_safe(os.path.join(NOTI_PATH, "internal_notifications_en.csv"))
     external_ar = read_csv_safe(os.path.join(NOTI_PATH, "external_notifications.csv"))
     external_en = read_csv_safe(os.path.join(NOTI_PATH, "external_notifications_en.csv"))
@@ -147,7 +143,7 @@ def predict_intent_safe(user_message, lang):
         raw = predict_intent(user_message, lang)
         intent, confidence = normalize_model_output(raw, default="unknown")
         return normalize_intent(intent), confidence
-    except Exception:
+    except:
         text = str(user_message).lower()
 
         if any(w in text for w in ["هاي", "هلا", "مرحبا", "hello", "hi", "كيفك", "كيفو"]):
@@ -167,7 +163,7 @@ def predict_sentiment_safe(user_message, lang):
         raw = predict_sentiment(user_message, lang)
         label, score = normalize_model_output(raw)
         return normalize_sentiment(label), score
-    except Exception:
+    except:
         text = str(user_message).lower()
 
         if any(w in text for w in ["خرا", "زفت", "سيء", "بطيء", "ضعيف", "ضعيفة", "تخزي", "مشكلة"]):
@@ -180,7 +176,7 @@ def predict_sentiment_safe(user_message, lang):
 
 
 # =========================
-# Dynamic Metrics - SQLite
+# Dynamic Metrics
 # =========================
 def update_dynamic_metrics(user_id, region, intent, issue_type="normal", metrics=None):
     metrics = metrics or {}
@@ -197,31 +193,30 @@ def update_dynamic_metrics(user_id, region, intent, issue_type="normal", metrics
         return metrics
 
     try:
-        rows = fetch_all("""
-            SELECT user_id, region, intent, issue_type, network_problem
-            FROM chat_logs
-            WHERE network_problem = 1
-        """)
+        logs = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
+    except:
+        logs = pd.DataFrame()
 
+    if logs.empty:
         repeat = 1
         area = 1
+    else:
+        for col in ["user_id", "region", "intent", "issue_type", "network_problem"]:
+            if col not in logs.columns:
+                logs[col] = None
 
-        for row in rows:
-            row_user_id = str(row["user_id"])
-            row_region = str(row["region"])
-            row_intent = normalize_intent(row["intent"])
-            row_issue_type = str(row["issue_type"])
+        logs["intent"] = logs["intent"].astype(str).apply(normalize_intent)
+        logs["issue_type"] = logs["issue_type"].astype(str)
+        logs["network_problem"] = logs["network_problem"].astype(str).str.lower()
 
-            if is_network_intent(row_intent) and row_issue_type != "normal":
-                if row_user_id == str(user_id):
-                    repeat += 1
+        network_logs = logs[
+            (logs["intent"].apply(is_network_intent)) &
+            (logs["issue_type"] != "normal") &
+            (logs["network_problem"].isin(["true", "1", "yes"]))
+        ]
 
-                if row_region == str(region):
-                    area += 1
-
-    except Exception:
-        repeat = 1
-        area = 1
+        repeat = len(network_logs[network_logs["user_id"].astype(str) == str(user_id)]) + 1
+        area = len(network_logs[network_logs["region"].astype(str) == str(region)]) + 1
 
     metrics["user_id"] = user_id
     metrics["region"] = region
@@ -350,7 +345,7 @@ def notification_engine(prediction, sentiment, metrics=None, intent=None):
         try:
             from deep_translator import GoogleTranslator
             internal_en = GoogleTranslator(source="ar", target="en").translate(internal_ar)
-        except Exception:
+        except:
             internal_en = internal_ar
 
     external_ar = noti.get("external_message_ar") or noti.get("customer_message_ar")
@@ -381,41 +376,30 @@ def notification_engine(prediction, sentiment, metrics=None, intent=None):
 def get_intent_response(lang, intent):
     intent = normalize_intent(intent)
 
-    if lang == "en":
-        if intent == "greeting":
-            return "Hello! How can I help you today?", "What would you like to know?"
-        if intent == "slow_internet":
-            return "I understand, your internet seems slow.", "Would you like us to troubleshoot it together?"
-        if intent == "no_signal":
-            return "I understand, it looks like there may be a signal issue.", "Can you confirm your selected area?"
-        if intent == "network_status":
-            return "Let me check the network status for your area.", "Which service are you having trouble with?"
-        if intent in ["network_complaint", "complaint"]:
-            return "Sorry for the inconvenience. We will follow up on this issue.", "Has this happened more than once?"
-        return "Can you explain a little more?", "Tell me more details."
-
     if intent == "greeting":
-        return "هلا وغلا، كيف فيني أساعدك؟", "شو حاب تعرف؟"
+        return "هلا وغلا 👋 كيف فيني أساعدك؟", "شو حاب تعرف؟"
 
     if intent == "slow_internet":
-        return "واضح إن النت عندك بطيء.", "بدك نحلها مع بعض؟"
+        return "واضح النت عندك بطيء 😅", "بدك نحلها مع بعض؟"
 
     if intent == "no_signal":
-        return "فهمت عليك، واضح في مشكلة بالإشارة.", "تأكد إن المنطقة المختارة صحيحة."
+        return "فهمت عليك، واضح في مشكلة بالإشارة.", "وين موقعك تقريباً؟"
 
     if intent == "network_status":
-        return "خليني أشيك حالة الشبكة عندك.", "أي خدمة عندك فيها مشكلة؟"
+        return "خليني أشيك حالة الشبكة عندك.", "أي منطقة موجود فيها؟"
 
     if intent in ["network_complaint", "complaint"]:
         return "آسفين على الإزعاج، رح نتابع المشكلة فوراً.", "صار معك هالشي أكثر من مرة؟"
 
-    return "ممكن توضح أكثر؟", "احكيلي تفاصيل أكثر."
+    return "ممكن توضح أكثر؟", "احكيلي تفاصيل أكثر"
 
 
 # =========================
-# Logging - SQLite
+# Logging
 # =========================
 def log_chat(user_message, result):
+    os.makedirs(os.path.dirname(CHAT_LOG_PATH), exist_ok=True)
+
     row = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "user_id": result.get("user_id"),
@@ -438,9 +422,12 @@ def log_chat(user_message, result):
     }
 
     try:
-        save_chat_log(row)
-    except Exception as e:
-        print("SQLite save error:", e)
+        old = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
+        logs = pd.concat([old, pd.DataFrame([row])], ignore_index=True)
+    except:
+        logs = pd.DataFrame([row])
+
+    logs.to_csv(CHAT_LOG_PATH, index=False, encoding="utf-8-sig")
 
 
 # =========================
