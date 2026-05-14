@@ -1,19 +1,31 @@
-from database import get_connection
+from database.database import get_connection
 
 
+# =========================
+# Fetch Data
+# =========================
 def fetch_all(query, params=()):
     conn = get_connection()
     cur = conn.cursor()
+
     cur.execute(query, params)
+
     rows = cur.fetchall()
+
     conn.close()
+
     return rows
 
 
+# =========================
+# Execute Query
+# =========================
 def execute(query, params=()):
     conn = get_connection()
     cur = conn.cursor()
+
     cur.execute(query, params)
+
     conn.commit()
     conn.close()
 
