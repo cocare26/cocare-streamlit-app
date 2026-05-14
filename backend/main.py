@@ -1,9 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import Optional, Any, Dict
-import pandas as pd
-import os
+from typing import Optional
 
 from cocare import process_message
 from database.db_helper import fetch_all
@@ -11,24 +9,24 @@ from database.db_helper import fetch_all
 
 app = FastAPI(
     title="CoCare Backend API",
-    description="AI Telecom Support Backend for Chatbot, Analysis, Notifications, and Employee Dashboard",
+    description="AI Telecom Support Backend",
     version="1.0.0"
 )
 
-# يسمح لتطبيق Flutter / Streamlit / Web يتصلوا بالباكند
+# =========================
+# CORS
+# =========================
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # لاحقاً ممكن تحددي رابط التطبيق فقط
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
 # =========================
 # Request Models
 # =========================
-
 class ChatRequest(BaseModel):
     user_id: str = Field(..., example="customer_1")
     message: str = Field(..., example="My internet is very slow")
@@ -66,38 +64,32 @@ class ChatResponse(BaseModel):
 # =========================
 # Basic Routes
 # =========================
-
 @app.get("/")
 def home():
     return {
         "app": "CoCare Backend",
-        "status": "running",
-        "message": "Welcome to CoCare AI Telecom Support API"
+        "status": "running"
     }
 
 
 @app.get("/health")
-def health_check():
+def health():
     return {
-        "status": "healthy",
-        "service": "CoCare Backend API"
+        "status": "healthy"
     }
 
 
 # =========================
-# Chatbot API
+# Chat API
 # =========================
-
 @app.post("/chat", response_model=ChatResponse)
 def chat(req: ChatRequest):
-    """
-    يستقبل رسالة العميل من Flutter أو أي واجهة،
-    يرسلها إلى process_message،
-    ويرجع الرد + التحليل + الإشعارات.
-    """
 
     if not req.message.strip():
-        raise HTTPException(status_code=400, detail="Message cannot be empty")
+        raise HTTPException(
+            status_code=400,
+            detail="Message cannot be empty"
+        )
 
     try:
         result = process_message(
@@ -111,156 +103,101 @@ def chat(req: ChatRequest):
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Error while processing message: {str(e)}"
+            detail=str(e)
         )
 
 
 # =========================
 # Employee Dashboard APIs
 # =========================
-
 @app.get("/chat-logs")
 def get_chat_logs(limit: int = 100):
-    """
-    يرجع آخر المحادثات والتحليلات للـ Employee Dashboard.
-    """
 
-    if not os.path.exists(CHAT_LOG_PATH):
-        return {
-            "count": 0,
-            "logs": []
-        }
+    rows = fetch_all(f"""
+        SELECT *
+        FROM chat_logs
+        ORDER BY id DESC
+        LIMIT {limit}
+    """)
 
-    try:
-        df = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
-        df = df.tail(limit)
-        df = df.fillna("")
+    logs = [dict(row) for row in rows]
 
-        return {
-            "count": len(df),
-            "logs": df.to_dict(orient="records")
-        }
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error reading chat logs: {str(e)}"
-        )
+    return {
+        "count": len(logs),
+        "logs": logs
+    }
 
 
 @app.get("/alerts")
 def get_alerts():
-    """
-    يرجع فقط المشاكل والتنبيهات المهمة للموظف.
-    """
 
-    if not os.path.exists(CHAT_LOG_PATH):
-        return {
-            "count": 0,
-            "alerts": []
-        }
+    rows = fetch_all("""
+        SELECT *
+        FROM chat_logs
+        WHERE network_problem = 1
+        OR escalation = 1
+        OR notification_type != 'none'
+        ORDER BY id DESC
+        LIMIT 100
+    """)
 
-    try:
-        df = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
-        df = df.fillna("")
+    alerts = [dict(row) for row in rows]
 
-        if "network_problem" not in df.columns:
-            return {
-                "count": 0,
-                "alerts": []
-            }
-
-        alerts = df[
-            (df["network_problem"].astype(str).str.lower().isin(["true", "1", "yes"])) |
-            (df["notification_type"].astype(str) != "none") |
-            (df["escalation"].astype(str).str.lower().isin(["true", "1", "yes"]))
-        ]
-
-        return {
-            "count": len(alerts),
-            "alerts": alerts.tail(100).to_dict(orient="records")
-        }
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error reading alerts: {str(e)}"
-        )
+    return {
+        "count": len(alerts),
+        "alerts": alerts
+    }
 
 
 @app.get("/stats")
 def get_stats():
-    """
-    إحصائيات عامة للداشبورد.
-    """
 
-    if not os.path.exists(CHAT_LOG_PATH):
-        return {
-            "total_messages": 0,
-            "network_issues": 0,
-            "escalations": 0,
-            "internal_notifications": 0,
-            "external_notifications": 0
-        }
+    total_messages = fetch_all("""
+        SELECT COUNT(*) as total
+        FROM chat_logs
+    """)[0]["total"]
 
-    try:
-        df = pd.read_csv(CHAT_LOG_PATH, encoding="utf-8-sig")
-        df = df.fillna("")
+    network_issues = fetch_all("""
+        SELECT COUNT(*) as total
+        FROM chat_logs
+        WHERE network_problem = 1
+    """)[0]["total"]
 
-        total_messages = len(df)
+    escalations = fetch_all("""
+        SELECT COUNT(*) as total
+        FROM chat_logs
+        WHERE escalation = 1
+    """)[0]["total"]
 
-        network_issues = len(
-            df[df.get("network_problem", "").astype(str).str.lower().isin(["true", "1", "yes"])]
-        ) if "network_problem" in df.columns else 0
+    internal_notifications = fetch_all("""
+        SELECT COUNT(*) as total
+        FROM chat_logs
+        WHERE notification_type = 'internal_noti'
+    """)[0]["total"]
 
-        escalations = len(
-            df[df.get("escalation", "").astype(str).str.lower().isin(["true", "1", "yes"])]
-        ) if "escalation" in df.columns else 0
+    external_notifications = fetch_all("""
+        SELECT COUNT(*) as total
+        FROM chat_logs
+        WHERE notification_type = 'external_noti'
+    """)[0]["total"]
 
-        internal_notifications = len(
-            df[df.get("notification_type", "").astype(str) == "internal_noti"]
-        ) if "notification_type" in df.columns else 0
-
-        external_notifications = len(
-            df[df.get("notification_type", "").astype(str) == "external_noti"]
-        ) if "notification_type" in df.columns else 0
-
-        return {
-            "total_messages": total_messages,
-            "network_issues": network_issues,
-            "escalations": escalations,
-            "internal_notifications": internal_notifications,
-            "external_notifications": external_notifications
-        }
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error calculating stats: {str(e)}"
-        )
+    return {
+        "total_messages": total_messages,
+        "network_issues": network_issues,
+        "escalations": escalations,
+        "internal_notifications": internal_notifications,
+        "external_notifications": external_notifications
+    }
 
 
 # =========================
 # Test Route
 # =========================
-
 @app.get("/test-chat")
 def test_chat():
-    """
-    اختبار سريع بدون Flutter.
-    """
 
-    try:
-        result = process_message(
-            user_message="My internet is very slow",
-            user_id="test_user",
-            region="Amman"
-        )
-
-        return result
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Test failed: {str(e)}"
-        )
+    return process_message(
+        user_message="My internet is very slow",
+        user_id="test_user",
+        region="Amman"
+    )
