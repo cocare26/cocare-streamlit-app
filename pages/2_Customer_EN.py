@@ -44,326 +44,203 @@ page = "2_Customer_EN"
 # =====================================
 st.markdown("""
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
+*{ margin:0; padding:0; box-sizing:border-box; }
 html, body, [data-testid="stAppViewContainer"] {
     background:#f0f7ff;
     font-family:'Segoe UI', sans-serif;
 }
+section.main > div { padding-top:4px; }
+div[data-testid="stVerticalBlock"] { gap:0.4rem; }
 
-section.main > div {
-    padding-top:4px;
-}
-
-div[data-testid="stVerticalBlock"] {
-    gap:0.4rem;
-}
-
-#MainMenu,
-header,
-footer {
-    visibility:hidden;
-}
-
-/* PHONE CONTAINER */
+#MainMenu, header, footer { visibility:hidden; }
 
 .block-container {
-    width:100%;
-    max-width:430px;
-    min-height:820px;
+    max-width:430px; /* PHONE_WIDTH */
+    min-height:820px; /* PHONE_HEIGHT */
     margin:auto;
     padding:12px 16px;
-    background:linear-gradient(
-        180deg,
-        #FFFFFF 0%,
-        #E3F2FD 30%,
-        #BBDEFB 100%
-    );
+    background: linear-gradient(180deg, #FFFFFF 0%, #E3F2FD 30%, #BBDEFB 100%);
     border-radius:42px;
     box-shadow:0 14px 35px rgba(0,0,0,.15);
 }
 
-/* MOBILE COLUMN FIX */
-
-[data-testid="column"]{
-    min-width:0 !important;
-    flex:1 1 0 !important;
-    text-align:center;
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.05);
+    transition: all 0.3s ease;
+}
+.rating-card {
+    padding: 4px 14px 6px !important;
+    margin-bottom: 4px !important;
 }
 
-/* CARDS */
 
-.card{
-    background:white;
-    border-radius:20px;
-    padding:10px 14px;
-    margin-bottom:8px;
-    box-shadow:0 4px 15px rgba(0,0,0,.05);
-    transition:all 0.3s ease;
-}
 
-.rating-card{
-    padding:4px 14px 6px !important;
-    margin-bottom:4px !important;
-}
-
-/* TITLES */
-
-.title{
+.title {
     font-size:15px;
     font-weight:900;
     color:#102646;
-    margin:4px 0 4px 4px;
+    margin: 4px 0 4px 4px;
 }
 
-/* CLICK EFFECT */
+.clickable {
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    position: relative; 
+}
+.clickable:active { transform: scale(0.95); }
 
-.clickable{
-    cursor:pointer;
-    transition:all 0.3s ease;
-    position:relative;
+.service-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: transparent;
+    padding: 8px 4px;
+    height: 100px;
+    transition: transform 0.3s ease;
+    position: relative;
 }
 
-.clickable:active{
-    transform:scale(0.95);
+.service-item:hover {
+    transform: translateY(-10px);
 }
 
-/* SERVICES */
-
-.service-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    background:transparent;
-    padding:8px 4px;
-    height:100px;
-    transition:transform 0.3s ease;
-    position:relative;
+.service-icon-img {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
+    margin-bottom: 2px;
 }
 
-.service-item:hover{
-    transform:translateY(-10px);
+.service-label {
+    font-size: 9px;
+    font-weight: 800;
+    color: #102646;
+    line-height: 1.1;
 }
 
-.service-card{
-    background:transparent;
-    border-radius:0;
-    padding:0;
-    text-align:center;
-    height:95px;
-    margin-bottom:0;
-    box-shadow:none;
-    transition:transform 0.3s ease;
-}
-
-.service-card:hover{
-    transform:translateY(-10px) scale(1.05);
-}
-
-.service-card:hover img{
-    transform:scale(1.1);
-    transition:transform 0.3s ease;
-}
-
-.service-icon-img{
-    width:72px;
-    height:72px;
-    object-fit:contain;
-    margin-bottom:2px;
-}
-
-.service-label{
-    font-size:10px;
-    font-weight:800;
-    color:#102646;
-    line-height:1.2;
-}
-
-/* HIDDEN SERVICE BUTTON */
-
-
-
-/* NAVIGATION */
-
-.nav{
-    margin-top:15px;
-    display:grid;
+.nav {
+    margin-top:15px; 
+    display:grid; 
     grid-template-columns:repeat(5,1fr);
-    text-align:center;
-    align-items:end;
+    text-align:center; 
+    align-items: end;
 }
 
-.nav-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:#6b6b6b;
-    font-size:11px;
-    font-weight:700;
-    transition:transform 0.3s ease;
-    position:relative;
+.nav-item {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    color:#6b6b6b; 
+    font-size: 11px;
+    font-weight: 700;
+    transition: transform 0.3s ease;
+    position: relative;
 }
 
-.nav-item:hover{
-    transform:scale(1.15);
+.nav-item:hover {
+    transform: scale(1.15);
 }
 
-/* FOOTER */
-
-.footer-nav{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    width:100%;
-    gap:2px;
+.nav-img-footer {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    margin-bottom: 2px;
 }
 
-
-.nav-img-footer{
-    width:34px;
-    height:34px;
-    object-fit:contain;
-    margin-bottom:2px;
+.bot-bg {
+    width:60px; height:60px; background:white; border-radius:15px;
+    margin: 0 auto 2px; display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* BOT ICON */
-
-.bot-bg{
-    width:60px;
-    height:60px;
-    background:white;
-    border-radius:15px;
-    margin:0 auto 2px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+.service-card {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    text-align: center;
+    height: 95px;
+    margin-bottom: 0;
+    box-shadow: none;
 }
 
-/* STAR RATING */
-
-.star-rating{
-    display:flex;
-    flex-direction:row-reverse;
-    justify-content:center;
-    gap:4px;
+.service-icon-img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    margin-bottom: 2px;
 }
-
-.star-rating input{
-    display:none;
+.service-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #102646;
+    line-height: 1.2;
 }
-
-.star-rating label{
-    font-size:24px;
-    color:#ddd;
-    cursor:pointer;
-}
-
-.star-rating input:checked ~ label{
-    color:#ffcc00;
-}
-
-/* RATING BAR */
-
-.rating-bar-container{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:linear-gradient(
-        90deg,
-        #1A4FA0,
-        #46A1E2,
-        #D47E2E,
-        #C63F2A
-    );
-    height:22px;
-    border-radius:4px;
-    margin-top:6px;
-    padding:0 10px;
-    color:white;
-    font-size:11px;
-    font-weight:bold;
-}
-
-/* WELCOME CARD */
-
-.welcome-card{
-    background:white;
-    border-radius:20px;
-    padding:8px 12px;
-    margin-bottom:8px;
-    display:flex;
-    align-items:center;
-    height:100px;
-}
-
-.robot-img-welcome{
-    width:95px;
-    height:95px;
-    object-fit:contain;
-    margin-right:12px;
-}
-
-/* NEEDLE */
-
-.needle{
-    position:absolute;
-    bottom:0;
-    left:50%;
-    width:2px;
-    height:30px;
-    background:#333;
-    transform-origin:bottom center;
-    z-index:5;
-}
-
-/* MOBILE RESPONSIVE */
-
-@media (max-width:480px){
-
-    .block-container{
-        padding:10px 10px;
-        border-radius:30px;
-    }
-
-    .service-icon-img{
-        width:60px;
-        height:60px;
-    }
-
-    .service-label{
-        font-size:8px;
-    }
-
-    .nav-img-footer{
-        width:28px;
-        height:28px;
-    }
-
-    .nav-item span{
-        font-size:8px !important;
-    }
-    [data-testid="stPageLink"]{
-    margin-top:-90px;
-    height:90px;
-}
-[data-testid="stPageLink"] a{
-    padding:0 !important;
-    min-height:0 !important;
+.stButton > button {
+    position: relative;
+    width: 100%;
+    height: 95px;
+    opacity: 0;
+    margin-top: -95px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 10;
 }
 
 }
+.service-card:hover {
+    transform: translateY(-8px);
+    transition: transform 0.3s ease;
+}
 
+.service-card {
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px) scale(1.05);
+}
+
+.service-card:hover img {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+
+
+
+.star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
+.star-rating input { display: none; }
+.star-rating label { font-size: 24px; color: #ddd; cursor: pointer; }
+.star-rating input:checked ~ label { color: #ffcc00; }
+
+.rating-bar-container {
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(90deg, #1A4FA0, #46A1E2, #D47E2E, #C63F2A);
+    height: 22px; border-radius: 4px; margin-top: 6px; padding: 0 10px;
+    color: white; font-size: 11px; font-weight: bold;
+}
+
+.welcome-card {
+    background: white; border-radius: 20px; padding: 8px 12px; margin-bottom: 8px;
+    display: flex; align-items: center; height: 100px;
+}
+.robot-img-welcome { width: 95px; height: 95px; object-fit: contain; margin-right: 12px; }
+
+.needle {
+    position: absolute; bottom: 0; left: 50%; width: 2px; height: 30px;
+    background: #333; transform-origin: bottom center; z-index: 5;
+}
 </style>
 """, unsafe_allow_html=True)
+
 # 1. قسم الملف الشخصي
 st.markdown(f"""
 <div class="welcome-card clickable">
@@ -405,64 +282,62 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-st.markdown("## Services")
+# 3. أيقونات الخدمات (الربط المطلوب)
+
+cols = st.columns(4)
 
 services = [
     {
+        "key": "internet",
         "icon": icon_internet,
-        "label": "Internet Packages",
+        "label": "Internet<br>Packages",
         "page": "pages/InternetPackages.py"
     },
     {
+        "key": "renewals",
         "icon": icon_renewals,
-        "label": "Renewals + Tariff",
+        "label": "Renewals +<br>Tariff Changes",
         "page": "pages/RenewalsTariff.py"
     },
     {
+        "key": "calls",
         "icon": icon_calls,
-        "label": "International Calls",
+        "label": "International<br>Calls",
         "page": "pages/InternationalCalls.py"
     },
     {
+        "key": "notifications",
         "icon": icon_notifications,
-        "label": "Network Notifications",
+        "label": "Network<br>Notifications",
         "page": "pages/NetworkNotifications.py"
     }
 ]
+for col, service in zip(cols, services):
 
-cols = st.columns(2)
+    with col:
 
-for i, service in enumerate(services):
-    with cols[i % 2]:
-
-        st.markdown(
-            f"""
-            <div style="
-                background:white;
-                border-radius:18px;
-                padding:12px;
-                text-align:center;
-                box-shadow:0 4px 12px rgba(0,0,0,0.08);
-                margin-bottom:12px;
-            ">
-                <img src="data:image/png;base64,{service['icon']}"
-                     style="width:60px;height:60px;">
-                <div style="
-                    font-size:12px;
-                    font-weight:800;
-                    margin-top:8px;
-                    color:#102646;
-                ">
-                    {service['label']}
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
+        clicked = st.button(
+            label="",
+            key=service["key"],
+            use_container_width=True
         )
 
-        if st.button("Open", key=service["label"]):
-            st.switch_page(service["page"])
+        st.markdown(f"""
+        <div style="
+            margin-top:-90px;
+            text-align:center;
+            pointer-events:none;
+        ">
+            <img src="data:image/png;base64,{service['icon']}" 
+                 style="width:72px;height:72px;">
+            <div style="font-size:10px;font-weight:800;color:#102646;">
+                {service['label']}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
+        if clicked:
+            st.switch_page(service["page"])
 # 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -518,70 +393,66 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-st.markdown("###")
+# 6. الشريط السفلي (الانتقال الصحيح)
 
-footer_data = [
-    ("Settings", icon_sitting, "pages/Settings.py"),
-    ("Spin", icon_spin, "pages/_Game_E.py"),
-    ("Chatbot", robot_head, "pages/Chatbot_EN.py"),
-    ("Home", icon_home, "pages/2_Customer_EN.py"),
-    ("Game", icon_game, "pages/_Game_E.py"),
-]
+n_cols = st.columns(5)
 
-st.markdown("""
-<style>
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 420px;
-    background: white;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 8px 0;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    border-radius: 20px 20px 0 0;
-    z-index: 999;
-}
+with n_cols[0]:
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
+        <span>Settings</span>
+    </div>
+    """, unsafe_allow_html=True)
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 10px;
-    font-weight: 700;
-    color: #666;
-}
+    if st.button("settings", key="nav_set"):
+        st.switch_page("pages/Settings.py")
 
-.nav-item img {
-    width: 28px;
-    height: 28px;
-    margin-bottom: 2px;
-}
 
-.nav-item:hover {
-    transform: scale(1.1);
-    transition: 0.2s;
-}
-</style>
-""", unsafe_allow_html=True)
+with n_cols[1]:
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
+        <span>Spin</span>
+    </div>
+    """, unsafe_allow_html=True)
 
-cols = st.columns(len(footer_data))
+    if st.button("spin", key="nav_spin"):
+        st.switch_page("pages/_Game_E.py")
 
-for i, (label, icon, page) in enumerate(footer_data):
-    with cols[i]:
-        st.markdown(
-            f"""
-            <div class="nav-item">
-                <img src="data:image/png;base64,{icon}">
-                <div>{label}</div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+with n_cols[2]:
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <div class="bot-bg">
+            <img src="data:image/png;base64,{robot_head}" 
+                 style="width:45px; height:45px; object-fit:contain;">
+        </div>
+        <span>Chatbot</span>
+    </div>
+    """, unsafe_allow_html=True)
 
-        if st.button(label, key=f"nav_{label}"):
-            st.switch_page(page)
+    if st.button("bot", key="nav_bot"):
+        st.switch_page("cocare-streamlit-app/pages/Chatbot_EN.py")
+
+with n_cols[3]:
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
+        <span>Home</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("home", key="nav_home"):
+        st.switch_page("pages/2_Customer_EN.py")
+
+
+with n_cols[4]:
+    st.markdown(f"""
+    <div class="nav-item clickable">
+        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
+        <span>Game On</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if st.button("game", key="nav_game"):
+        st.switch_page("pages/_Game_E.py")
