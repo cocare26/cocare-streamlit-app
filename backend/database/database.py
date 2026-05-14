@@ -1,60 +1,67 @@
-import sqlite3
-
-DB_NAME = "app.db"
+from database.database import get_connection
 
 
-def get_connection():
-    conn = sqlite3.connect(DB_NAME, check_same_thread=False)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-def init_db():
+def fetch_all(query, params=()):
     conn = get_connection()
-    cursor = conn.cursor()
+    cur = conn.cursor()
+    cur.execute(query, params)
+    rows = cur.fetchall()
+    conn.close()
+    return rows
 
-    # =========================
-    # Users Table
-    # =========================
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        email TEXT UNIQUE
-    )
-    """)
 
-    # =========================
-    # Chat Logs Table
-    # =========================
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS chat_logs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        timestamp TEXT,
-        user_id TEXT,
-        region TEXT,
-        message TEXT,
-        language TEXT,
-        intent TEXT,
-        intent_confidence REAL,
-        sentiment TEXT,
-        sentiment_score REAL,
-        prediction INTEGER,
-        issue_type TEXT,
-        network_problem INTEGER,
-        notification_type TEXT,
-        display_channel TEXT,
-        escalation INTEGER,
-        reason TEXT,
-        repeat_count INTEGER,
-        area_issue_count INTEGER
-    )
-    """)
-
+def execute(query, params=()):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute(query, params)
     conn.commit()
     conn.close()
 
 
-# Initialize Database
-init_db()
+def save_chat_log(row):
+    query = """
+    INSERT INTO chat_logs (
+        timestamp,
+        user_id,
+        region,
+        message,
+        language,
+        intent,
+        intent_confidence,
+        sentiment,
+        sentiment_score,
+        prediction,
+        issue_type,
+        network_problem,
+        notification_type,
+        display_channel,
+        escalation,
+        reason,
+        repeat_count,
+        area_issue_count
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """
 
+    params = (
+        row.get("timestamp"),
+        row.get("user_id"),
+        row.get("region"),
+        row.get("message"),
+        row.get("language"),
+        row.get("intent"),
+        row.get("intent_confidence"),
+        row.get("sentiment"),
+        row.get("sentiment_score"),
+        row.get("prediction"),
+        row.get("issue_type"),
+        int(bool(row.get("network_problem"))),
+        row.get("notification_type"),
+        row.get("display_channel"),
+        int(bool(row.get("escalation"))),
+        row.get("reason"),
+        row.get("repeat_count"),
+        row.get("area_issue_count"),
+    )
+
+    execute(query, params)
