@@ -182,17 +182,7 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     color: #102646;
     line-height: 1.2;
 }
-.stButton > button {
-    position: relative;
-    width: 100%;
-    height: 95px;
-    opacity: 0;
-    margin-top: -95px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    z-index: 10;
-}
+
 
 }
 .service-card:hover {
@@ -213,7 +203,74 @@ div[data-testid="stVerticalBlock"] { gap:0.4rem; }
     transition: transform 0.3s ease;
 }
 
+st.markdown("""
+<style>
 
+ /* FIX MOBILE COLUMNS */
+
+[data-testid="column"] {
+    min-width: 0 !important;
+    flex: 1 1 0 !important;
+    text-align:center;
+}
+
+/* SERVICE BUTTON FIX */
+
+.service-btn button {
+    width:100%;
+    height:1px;
+    opacity:0;
+    padding:0;
+    margin:0;
+    border:none;
+}
+
+/* FOOTER FIX */
+
+.footer-btn button {
+    width:100%;
+    height:1px;
+    opacity:0;
+    padding:0;
+    margin:0;
+    border:none;
+}
+
+/* RESPONSIVE FOOTER */
+
+.footer-nav {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:2px;
+    width:100%;
+}
+
+.nav-item {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.nav-img-footer {
+    width:34px;
+    height:34px;
+    object-fit:contain;
+}
+
+@media (max-width:480px){
+
+    .nav-img-footer{
+        width:28px;
+        height:28px;
+    }
+
+    .nav-item span{
+        font-size:8px !important;
+    }
+
+}           
 
 
 .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 4px; }
@@ -312,32 +369,27 @@ services = [
         "page": "pages/NetworkNotifications.py"
     }
 ]
+
 for col, service in zip(cols, services):
 
     with col:
 
-        clicked = st.button(
-            label="",
-            key=service["key"],
-            use_container_width=True
-        )
-
         st.markdown(f"""
-        <div style="
-            margin-top:-90px;
-            text-align:center;
-            pointer-events:none;
-        ">
+        <div class="service-card">
             <img src="data:image/png;base64,{service['icon']}" 
-                 style="width:72px;height:72px;">
-            <div style="font-size:10px;font-weight:800;color:#102646;">
+                 class="service-icon-img">
+            <div class="service-label">
                 {service['label']}
             </div>
         </div>
         """, unsafe_allow_html=True)
 
-        if clicked:
+        st.markdown('<div class="service-btn">', unsafe_allow_html=True)
+
+        if st.button("", key=service["key"]):
             st.switch_page(service["page"])
+
+        st.markdown('</div>', unsafe_allow_html=True)
 # 4. قسم التقييم
 st.markdown("""
 <div class="title">Service Ratings</div>
@@ -393,66 +445,40 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-# 6. الشريط السفلي (الانتقال الصحيح)
+# 6. الشريط السفلي
+
+st.markdown('<div class="footer-nav">', unsafe_allow_html=True)
 
 n_cols = st.columns(5)
 
-with n_cols[0]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_sitting}" class="nav-img-footer">
-        <span>Settings</span>
-    </div>
-    """, unsafe_allow_html=True)
+footer_data = [
+    ("Settings", icon_sitting, "nav_set", "pages/Settings.py"),
+    ("Spin", icon_spin, "nav_spin", "pages/_Game_E.py"),
+    ("Chatbot", robot_head, "nav_bot", "pages/Chatbot_EN.py"),
+    ("Home", icon_home, "nav_home", "pages/2_Customer_EN.py"),
+    ("Game On", icon_game, "nav_game", "pages/_Game_E.py"),
+]
 
-    if st.button("settings", key="nav_set"):
-        st.switch_page("pages/Settings.py")
+for col, item in zip(n_cols, footer_data):
 
+    label, icon, key, page_link = item
 
-with n_cols[1]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_spin}" class="nav-img-footer">
-        <span>Spin</span>
-    </div>
-    """, unsafe_allow_html=True)
+    with col:
 
-    if st.button("spin", key="nav_spin"):
-        st.switch_page("pages/_Game_E.py")
-
-with n_cols[2]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <div class="bot-bg">
-            <img src="data:image/png;base64,{robot_head}" 
-                 style="width:45px; height:45px; object-fit:contain;">
+        st.markdown(f"""
+        <div class="nav-item">
+            <img src="data:image/png;base64,{icon}" class="nav-img-footer">
+            <span style="font-size:10px;font-weight:700;">
+                {label}
+            </span>
         </div>
-        <span>Chatbot</span>
-    </div>
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
-    if st.button("bot", key="nav_bot"):
-        st.switch_page("cocare-streamlit-app/pages/Chatbot_EN.py")
+        st.markdown('<div class="footer-btn">', unsafe_allow_html=True)
 
-with n_cols[3]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_home}" class="nav-img-footer">
-        <span>Home</span>
-    </div>
-    """, unsafe_allow_html=True)
+        if st.button("", key=key):
+            st.switch_page(page_link)
 
-    if st.button("home", key="nav_home"):
-        st.switch_page("pages/2_Customer_EN.py")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-
-with n_cols[4]:
-    st.markdown(f"""
-    <div class="nav-item clickable">
-        <img src="data:image/png;base64,{icon_game}" class="nav-img-footer">
-        <span>Game On</span>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("game", key="nav_game"):
-        st.switch_page("pages/_Game_E.py")
+st.markdown('</div>', unsafe_allow_html=True)
