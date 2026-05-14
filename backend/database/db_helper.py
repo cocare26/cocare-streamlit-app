@@ -1,4 +1,3 @@
-```python
 from database import get_connection
 
 
@@ -70,4 +69,3 @@ def save_chat_log(row):
     )
 
     execute(query, params)
-```
