@@ -103,10 +103,9 @@ def normalize_intent(intent):
         "network complaint": "network_complaint",
         "network status": "network_status",
         "network-status": "network_status",
-        "payment issue": "payment_issue",
-        "check data usage": "check_data_usage",
-        "renew package": "renew_package",
-        "offer inquiry": "offer_inquiry",
+        "other": "unknown",
+        "others": "unknown",
+        "general": "unknown",
     }
 
     return mapping.get(intent, intent)
@@ -471,7 +470,7 @@ def get_intent_response(lang, intent, sentiment="neutral"):
             "offer_inquiry": ("Sure, you can check available offers from the offers section.", "Are you looking for internet or call offers?"),
         }
 
-        return responses.get(intent, ("Could you please explain more?", "Tell me more details."))
+        return "Could you please explain more?", "Tell me more details."
 
 
 # =========================
