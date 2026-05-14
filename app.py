@@ -1,6 +1,9 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import base64
+from database import init_db
+
+init_db()
 
 st.set_page_config(page_title="Telecom App", layout="centered")
 
