@@ -143,42 +143,59 @@ INTERNAL_AR, INTERNAL_EN, EXTERNAL_AR, EXTERNAL_EN = load_notifications()
 # Safe Models
 # =========================
 def predict_intent_safe(user_message, lang):
+    """
+    Uses the trained intent model first.
+    If the model fails or returns unclear intent like other/unknown,
+    fallback rules are used only as backup.
+    """
+
+    text = str(user_message).lower().strip()
+
     try:
         raw = predict_intent(user_message, lang)
         intent, confidence = normalize_model_output(raw, default="unknown")
-        return normalize_intent(intent), confidence
-    except Exception:
-        text = str(user_message).lower()
 
-        if any(w in text for w in ["هاي", "هلا", "مرحبا", "hello", "hi", "كيفك", "كيفو"]):
-            return "greeting", 0.8
+        intent = normalize_intent(intent)
+        confidence = float(confidence)
 
-        if any(w in text for w in ["بطيء", "ضعيف", "ضعيفة", "slow", "زفت", "خرا", "تقطيع", "سرعة"]):
-            return "slow_internet", 0.8
+        print("INTENT MODEL RAW:", raw)
+        print("INTENT MODEL OUTPUT:", intent, confidence)
 
-        if any(w in text for w in ["اشارة", "إشارة", "signal", "فاصل"]):
-            return "no_signal", 0.8
+        # إذا المودل رجع intent واضح نستخدمه
+        if intent not in ["other", "unknown", "none", "neutral", ""]:
+            return intent, confidence
 
-        return "unknown", 0.5
+    except Exception as e:
+        print("Intent model error:", e)
 
+    # Backup فقط إذا المودل فشل أو رجع other
+    if any(w in text for w in ["هاي", "هلا", "مرحبا", "hello", "hi", "hey", "كيفك", "كيفو"]):
+        return "greeting", 0.8
 
-def predict_sentiment_safe(user_message, lang):
-    try:
-        raw = predict_sentiment(user_message, lang)
-        label, score = normalize_model_output(raw)
-        return normalize_sentiment(label), score
-    except Exception:
-        text = str(user_message).lower()
+    if any(w in text for w in [
+        "slow", "slow internet", "internet is slow", "my internet is slow",
+        "بطيء", "بطئ", "النت بطيء", "نت بطيء",
+        "ضعيف", "ضعيفة", "تقطيع", "سرعة", "السرعة"
+    ]):
+        return "slow_internet", 0.9
 
-        if any(w in text for w in ["خرا", "زفت", "سيء", "بطيء", "ضعيف", "ضعيفة", "تخزي", "مشكلة"]):
-            return "negative", 0.9
+    if any(w in text for w in [
+        "signal", "no signal", "ضعف اشارة", "اشارة", "إشارة",
+        "ما في اشارة", "مافي اشارة", "فاصل"
+    ]):
+        return "no_signal", 0.9
 
-        if any(w in text for w in ["ممتاز", "تمام", "شكرا", "يسلمو", "good", "great"]):
-            return "positive", 0.8
+    if any(w in text for w in [
+        "network status", "status", "حالة الشبكة", "الشبكة"
+    ]):
+        return "network_status", 0.8
 
-        return "neutral", 0.5
+    if any(w in text for w in [
+        "complaint", "مشكلة", "شكوى", "سيء", "زفت", "خرا"
+    ]):
+        return "network_complaint", 0.8
 
-
+    return "unknown", 0.5
 # =========================
 # Dynamic Metrics - SQLite
 # =========================
