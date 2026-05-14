@@ -437,7 +437,7 @@ for col, service in zip(cols, services):
                 <img src="data:image/png;base64,{service['icon']}" 
                      class="service-icon-img">
 
-                <div class="service-label">
+                <"div class="service-label>
                     {service['label']}
                 </div>
 
@@ -522,7 +522,7 @@ for col, item in zip(n_cols, footer_data):
         st.markdown(f"""
         <a href="{page_link}" target="_self" style="text-decoration:none;">
 
-            <div class="nav-item">
+            <"div class="nav-item>
 
                 <img src="data:image/png;base64,{icon}" 
                      class="nav-img-footer">
