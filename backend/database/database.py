@@ -1,4 +1,3 @@
-```python
 import sqlite3
 
 DB_NAME = "app.db"
@@ -58,4 +57,4 @@ def init_db():
 
 # Initialize Database
 init_db()
-```
+
