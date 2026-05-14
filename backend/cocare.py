@@ -6,10 +6,15 @@ import importlib
 import pandas as pd
 
 # =========================
-# GitHub / Streamlit Paths
+# Project Paths
 # =========================
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+
 UTILS_PATH = os.path.join(PROJECT_PATH, "utils")
+DATA_PATH = os.path.join(PROJECT_PATH, "data")
+NOTI_PATH = os.path.join(UTILS_PATH, "Notifications")
+
+CHAT_LOG_PATH = os.path.join(DATA_PATH, "chat_logs.csv")
 
 sys.path.insert(0, PROJECT_PATH)
 sys.path.insert(0, UTILS_PATH)
@@ -17,14 +22,13 @@ sys.path.insert(0, UTILS_PATH)
 utils_pkg = types.ModuleType("utils")
 utils_pkg.__path__ = [UTILS_PATH]
 sys.modules["utils"] = utils_pkg
+
 importlib.invalidate_caches()
 
 from utils.language_utils import detect_language
 from utils.intent_utils import predict_intent
 from utils.sentiment_utils import predict_sentiment
 
-CHAT_LOG_PATH = os.path.join(PROJECT_PATH, "data", "chat_logs.csv")
-NOTI_PATH = os.path.join(PROJECT_PATH, "utils", "Notifications ")
 
 # =========================
 # Helpers
@@ -124,7 +128,7 @@ def load_notifications():
             print(e)
             return pd.DataFrame()
 
-    internal_ar = read_csv_safe(os.path.join(NOTI_PATH, " internal_notifications.csv"))
+    internal_ar = read_csv_safe(os.path.join(NOTI_PATH, "internal_notifications.csv"))
     internal_en = read_csv_safe(os.path.join(NOTI_PATH, "internal_notifications_en.csv"))
     external_ar = read_csv_safe(os.path.join(NOTI_PATH, "external_notifications.csv"))
     external_en = read_csv_safe(os.path.join(NOTI_PATH, "external_notifications_en.csv"))
@@ -376,22 +380,35 @@ def notification_engine(prediction, sentiment, metrics=None, intent=None):
 def get_intent_response(lang, intent):
     intent = normalize_intent(intent)
 
+    if lang == "en":
+        if intent == "greeting":
+            return "Hello! How can I help you today?", "What would you like to know?"
+        if intent == "slow_internet":
+            return "I understand, your internet seems slow.", "Would you like us to troubleshoot it together?"
+        if intent == "no_signal":
+            return "I understand, it looks like there may be a signal issue.", "Can you confirm your selected area?"
+        if intent == "network_status":
+            return "Let me check the network status for your area.", "Which service are you having trouble with?"
+        if intent in ["network_complaint", "complaint"]:
+            return "Sorry for the inconvenience. We will follow up on this issue.", "Has this happened more than once?"
+        return "Can you explain a little more?", "Tell me more details."
+
     if intent == "greeting":
-        return "هلا وغلا 👋 كيف فيني أساعدك؟", "شو حاب تعرف؟"
+        return "هلا وغلا، كيف فيني أساعدك؟", "شو حاب تعرف؟"
 
     if intent == "slow_internet":
-        return "واضح النت عندك بطيء 😅", "بدك نحلها مع بعض؟"
+        return "واضح إن النت عندك بطيء.", "بدك نحلها مع بعض؟"
 
     if intent == "no_signal":
-        return "فهمت عليك، واضح في مشكلة بالإشارة.", "وين موقعك تقريباً؟"
+        return "فهمت عليك، واضح في مشكلة بالإشارة.", "تأكد إن المنطقة المختارة صحيحة."
 
     if intent == "network_status":
-        return "خليني أشيك حالة الشبكة عندك.", "أي منطقة موجود فيها؟"
+        return "خليني أشيك حالة الشبكة عندك.", "أي خدمة عندك فيها مشكلة؟"
 
     if intent in ["network_complaint", "complaint"]:
         return "آسفين على الإزعاج، رح نتابع المشكلة فوراً.", "صار معك هالشي أكثر من مرة؟"
 
-    return "ممكن توضح أكثر؟", "احكيلي تفاصيل أكثر"
+    return "ممكن توضح أكثر؟", "احكيلي تفاصيل أكثر."
 
 
 # =========================
