@@ -353,7 +353,6 @@ footer {
     }
     [data-testid="stPageLink"]{
     margin-top:-90px;
-    opacity:0;
     height:90px;
 }
 [data-testid="stPageLink"] a{
@@ -406,9 +405,7 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-# 3. أيقونات الخدمات
-
-cols = st.columns(4)
+st.markdown("## Services")
 
 services = [
     {
@@ -433,26 +430,38 @@ services = [
     }
 ]
 
-for col, service in zip(cols, services):
+cols = st.columns(2)
 
-    with col:
+for i, service in enumerate(services):
+    with cols[i % 2]:
 
-        st.markdown(f"""
-        <div class="service-card">
-            <img src="data:image/png;base64,{service['icon']}" 
-                 class="service-icon-img">
-
-            <div class="service-label">
-                {service['label']}
+        st.markdown(
+            f"""
+            <div style="
+                background:white;
+                border-radius:18px;
+                padding:12px;
+                text-align:center;
+                box-shadow:0 4px 12px rgba(0,0,0,0.08);
+                margin-bottom:12px;
+            ">
+                <img src="data:image/png;base64,{service['icon']}"
+                     style="width:60px;height:60px;">
+                <div style="
+                    font-size:12px;
+                    font-weight:800;
+                    margin-top:8px;
+                    color:#102646;
+                ">
+                    {service['label']}
+                </div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.page_link(
-            service["page"],
-            label="",
-            icon=""
+            """,
+            unsafe_allow_html=True
         )
+
+        if st.button("Open", key=service["label"]):
+            st.switch_page(service["page"])
 
 # 4. قسم التقييم
 st.markdown("""
@@ -509,43 +518,70 @@ st.markdown("""
 
 st.markdown("<div style='height:35px'></div>", unsafe_allow_html=True)
 
-# 6. الشريط السفلي
-
-n_cols = st.columns(5)
+st.markdown("###")
 
 footer_data = [
     ("Settings", icon_sitting, "pages/Settings.py"),
     ("Spin", icon_spin, "pages/_Game_E.py"),
     ("Chatbot", robot_head, "pages/Chatbot_EN.py"),
     ("Home", icon_home, "pages/2_Customer_EN.py"),
-    ("Game On", icon_game, "pages/_Game_E.py"),
+    ("Game", icon_game, "pages/_Game_E.py"),
 ]
 
-for col, item in zip(n_cols, footer_data):
+st.markdown("""
+<style>
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    border-radius: 20px 20px 0 0;
+    z-index: 999;
+}
 
-    label, icon, page_link = item
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #666;
+}
 
-    with col:
+.nav-item img {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 2px;
+}
 
-        st.markdown(f"""
-        <div class="nav-item">
+.nav-item:hover {
+    transform: scale(1.1);
+    transition: 0.2s;
+}
+</style>
+""", unsafe_allow_html=True)
 
-            <img src="data:image/png;base64,{icon}" 
-                 class="nav-img-footer">
+cols = st.columns(len(footer_data))
 
-            <span style="
-                font-size:10px;
-                font-weight:700;
-                color:#6b6b6b;
-            ">
-                {label}
-            </span>
-
-        </div>
-        """, unsafe_allow_html=True)
-
-        st.page_link(
-            page_link,
-            label="",
-            icon=""
+for i, (label, icon, page) in enumerate(footer_data):
+    with cols[i]:
+        st.markdown(
+            f"""
+            <div class="nav-item">
+                <img src="data:image/png;base64,{icon}">
+                <div>{label}</div>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
+
+        if st.button(label, key=f"nav_{label}"):
+            st.switch_page(page)
