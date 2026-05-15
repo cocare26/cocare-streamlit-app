@@ -467,7 +467,7 @@ def process_message(user_message, metrics=None, user_id="customer_1", region="Am
     lang = detect_language(user_message)
 
     intent, intent_confidence = predict_intent_safe(user_message, lang)
-    sentiment, sentiment_score = predict_sentiment_safe(user_message, lang)
+    sentiment, sentiment_score = predict_sentiment(user_message, lang)
 
     preliminary_issue_type = map_intent_to_issue_type(intent, sentiment) if is_network_intent(intent) else "normal"
 
