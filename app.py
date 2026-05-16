@@ -1,120 +1,192 @@
-import streamlit as st
-import streamlit.components.v1 as components
-import base64
-from database import init_db
+import 'package:flutter/material.dart';
 
-init_db()
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
-st.set_page_config(page_title="Telecom App", layout="centered")
-
-page = st.query_params.get("page", "")
-
-if page == "customer":
-    st.switch_page("pages/2_Customer_EN.py")
-    
-if page == "employee":
-    st.switch_page("pages/Employee_eng.py")
-
-elif page == "create":
-    st.switch_page("pages/1_Create_Account.py")
-
-elif page == "forgot":
-    st.switch_page("pages/2_Forgot_Password.py")
-
-elif page == "todo":
-    st.switch_page("pages/4_To_Do.py")
-
-with open("robot.png", "rb") as f:
-    img = base64.b64encode(f.read()).decode()
-
-html = """
-<html>
-<head>
-<style>
-body{margin:0;background:#eef3f6;font-family:Arial}
-.phone{
-width:360px;height:660px;margin:auto;border-radius:42px;overflow:hidden;
-position:relative;background:linear-gradient(180deg,#c9e7f7,#dff4ff)
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
 }
-.robot{position:absolute;top:85px;left:168px;width:145px;z-index:3}
-.form{position:absolute;top:200px;left:58px;width:244px;z-index:2}
-.input{
-width:100%;height:40px;border-radius:25px;margin-bottom:13px;
-padding-left:18px;border:none;background:white;box-sizing:border-box
-}
-.forgot{text-align:center;font-size:11px;color:#555;margin:8px 0 20px;cursor:pointer}
-.login{
-width:100%;height:46px;border-radius:25px;background:white;
-text-align:center;line-height:46px;font-weight:bold;border:none;cursor:pointer
-}
-.signup{
-display:block;
-text-align:center;
-font-size:13px;
-margin-top:15px;
-cursor:pointer;
-color:#222;
-text-decoration:none;
-}
-.error{text-align:center;color:#c62828;font-size:11px;margin-top:8px}
-</style>
-</head>
 
-<body>
-<div class="phone">
-<img class="robot" src="data:image/png;base64,IMG_HERE">
+class _LoginScreenState extends State<LoginScreen> {
 
-<form class="form" method="get" action="/" target="_self" onsubmit="return setPage()">
-<input type="hidden" name="page" id="pageValue">
+  final TextEditingController idController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-    <input id="username" class="input" placeholder="phone / ID Number"
-    inputmode="numeric" maxlength="11"
-    oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+  String? errorMessage;
 
-    <input class="input" placeholder="Password" type="password">
+  void login() {
 
-    <div class="forgot">
-        <a href="/?page=forgot" target="_self" style="color:#555; text-decoration:none;">
-            Forgot Password?
-        </a>
-    </div>
+    final value = idController.text.trim();
 
-    <button class="login" type="submit">Log In ›</button>
+    if (value.length == 10) {
 
-    <div id="error" class="error"></div>
+      // customer login
 
-    <div class="signup">
-        👤 New User?
-        <a href="/?page=create" target="_self" style="color:#222; text-decoration:underline;">
-            Create Account
-        </a>
-    </div>
-</form>
+      print("Customer");
 
-<script>
-function setPage(){
-    const v = document.getElementById("username").value;
-    const e = document.getElementById("error");
-    const pageValue = document.getElementById("pageValue");
+    } else if (value.length == 11) {
 
-    if(/^[0-9]{11}$/.test(v)){
-        pageValue.value = "employee";
-        return true;
+      // employee login
+
+      print("Employee");
+
+    } else {
+
+      setState(() {
+        errorMessage =
+            "10 digits for Customer, 11 digits for Employee";
+      });
     }
+  }
 
-    if(/^[0-9]{10}$/.test(v)){
-        pageValue.value = "customer";
-        return true;
-    }
+  @override
+  Widget build(BuildContext context) {
 
-    e.innerText = "10 digits for Customer, 11 digits for Employee";
-    return false;
+    return Scaffold(
+
+      backgroundColor: const Color(0xffeef3f6),
+
+      body: Center(
+
+        child: Container(
+
+          width: 360,
+          height: 660,
+
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(42),
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xffc9e7f7),
+                Color(0xffdff4ff),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+
+          child: Padding(
+
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+
+            child: Column(
+
+              children: [
+
+                const SizedBox(height: 90),
+
+                Image.asset(
+                  "assets/images/robot.png",
+                  width: 145,
+                ),
+
+                const SizedBox(height: 40),
+
+                TextField(
+                  controller: idController,
+                  keyboardType: TextInputType.number,
+                  maxLength: 11,
+
+                  decoration: InputDecoration(
+                    hintText: "phone / ID Number",
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                TextField(
+                  controller: passwordController,
+                  obscureText: true,
+
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                Align(
+                  alignment: Alignment.center,
+                  child: TextButton(
+                    onPressed: () {
+
+                      // forgot password route
+
+                    },
+                    child: const Text("Forgot Password?"),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                SizedBox(
+
+                  width: double.infinity,
+                  height: 46,
+
+                  child: ElevatedButton(
+
+                    onPressed: login,
+
+                    child: const Text("Log In"),
+                  ),
+                ),
+
+                if (errorMessage != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      errorMessage!,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+
+                const SizedBox(height: 20),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    const Text("New User? "),
+
+                    GestureDetector(
+
+                      onTap: () {
+
+                        // create account route
+
+                      },
+
+                      child: const Text(
+                        "Create Account",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
-</script>
-
-</body>
-</html>
-"""
-
-html = html.replace("IMG_HERE", img)
-components.html(html, height=700)
