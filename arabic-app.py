@@ -1,171 +1,268 @@
-import streamlit as st
-import streamlit.components.v1 as components
-import base64
+import 'package:flutter/material.dart';
 
-st.set_page_config(page_title="تطبيق الاتصالات", layout="centered")
+void main() {
+  runApp(const TelecomApp());
+}
 
-# 🔥 التنقل بين الصفحات
-page = st.query_params.get("page", "")
+class TelecomApp extends StatelessWidget {
+  const TelecomApp({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const LoginScreen(),
+    );
+  }
+}
 
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
-if page == "create":
-    st.switch_page("pages/1_Create_Account.py")
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
-elif page == "customer":
-    st.switch_page("pages/2_Customer.py")
+class _LoginScreenState extends State<LoginScreen> {
 
-elif page == "employee":
-    st.switch_page("pages/employee_dashboard_ara.py")
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
-elif page == "forgot":
-    st.switch_page("pages/2_Forgot_Password.py")
+  String error = '';
 
-# 📷 تحميل صورة البوت
-with open("robot.png", "rb") as f:
-    img = base64.b64encode(f.read()).decode()
+  void login() {
 
-# 🌐 واجهة HTML عربية
-html = f"""
-<html>
-<head>
-<style>
-body {{
-    margin:0;
-    background:#eef3f6;
-    font-family:Arial;
-    direction:rtl;
-}}
+    final value = usernameController.text;
 
-.phone{{
-    width:360px;
-    height:660px;
-    margin:auto;
-    border-radius:42px;
-    overflow:hidden;
-    position:relative;
-    background:linear-gradient(180deg,#c9e7f7,#dff4ff)
-}}
+    if (RegExp(r'^07[0-9]{8}$').hasMatch(value)) {
 
-.robot{{
-    position:absolute;
-    top:85px;
-    left:20px;
-    width:145px;
-    z-index:3;
-}}
+      setState(() {
+        error = '';
+      });
 
-.form{{
-    position:absolute;
-    top:200px;
-    right:58px;
-    width:244px;
-}}
+      print('Customer Login');
 
-.input{{
-    width:100%;
-    height:40px;
-    border-radius:25px;
-    margin-bottom:13px;
-    padding-right:18px;
-    border:none;
-    background:white;
-}}
+      // Navigator.push(...)
 
-.forgot{{
-    text-align:center;
-    font-size:11px;
-    color:#555;
-    margin:8px 0 20px;
-}}
+    } else if (RegExp(r'^[0-9]{11}$').hasMatch(value)) {
 
-.login{{
-    width:100%;
-    height:46px;
-    border-radius:25px;
-    background:white;
-    text-align:center;
-    line-height:46px;
-    font-weight:bold;
-    border:none;
-    cursor:pointer;
-}}
+      setState(() {
+        error = '';
+      });
 
-.signup{{
-    display:block;
-    text-align:center;
-    font-size:13px;
-    margin-top:15px;
-    color:#222;
-}}
+      print('Employee Login');
 
-.error{{
-    text-align:center;
-    color:#c62828;
-    font-size:11px;
-    margin-top:8px;
-}}
-</style>
-</head>
+      // Navigator.push(...)
 
-<body>
+    } else {
 
-<div class="phone">
+      setState(() {
+        error = 'رقم الهاتف أو الهوية غير صحيح';
+      });
 
-<img class="robot" src="data:image/png;base64,{img}">
+    }
+  }
 
-<div class="form">
+  @override
+  Widget build(BuildContext context) {
 
-<input id="username" class="input" placeholder="رقم الهاتف / رقم الهوية"
-inputmode="numeric" maxlength="11"
-oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+    return Directionality(
+      textDirection: TextDirection.rtl,
 
-<input id="password" class="input" placeholder="كلمة المرور" type="password">
+      child: Scaffold(
 
-<div class="forgot">
-<a href="/?page=forgot" target="_top" style="color:#555; text-decoration:none;">
-هل نسيت كلمة المرور؟
-</a>
-</div>
+        backgroundColor: const Color(0xffeef3f6),
 
-<button class="login" onclick="login()">تسجيل الدخول ›</button>
+        body: Center(
 
-<div id="error" class="error"></div>
+          child: Container(
 
-<div class="signup">
-👤 مستخدم جديد؟
-<a href="/?page=create" target="_top" style="color:#222; text-decoration:underline;">
-إنشاء حساب
-</a>
-</div>
+            width: 360,
+            height: 660,
 
-</div>
-</div>
+            decoration: BoxDecoration(
 
-<script>
-function goPage(p){{
-    window.parent.location.href = "?page=" + p;
-}}
+              borderRadius: BorderRadius.circular(42),
 
-function login(){{
-    const v = document.getElementById("username").value;
-    const e = document.getElementById("error");
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
 
-    if(/^07[0-9]{{8}}$/.test(v)){{
-        goPage("customer");
-    }}
-    else if(/^[0-9]{{11}}$/.test(v)){{
-        goPage("employee");
-    }}
-    else{{
-        e.innerText = "رقم الهاتف أو الهوية غير صحيح";
-    }}
-}}
-</script>
+                colors: [
+                  Color(0xffc9e7f7),
+                  Color(0xffdff4ff),
+                ],
+              ),
+            ),
 
-</body>
-</html>
-"""
+            child: Stack(
 
-# عرض الصفحة
-components.html(html, height=700)
+              children: [
+
+                Positioned(
+                  top: 85,
+                  left: 20,
+
+                  child: Image.asset(
+                    'assets/robot.png',
+                    width: 145,
+                  ),
+                ),
+
+                Positioned(
+                  top: 200,
+                  right: 58,
+
+                  child: SizedBox(
+
+                    width: 244,
+
+                    child: Column(
+
+                      children: [
+
+                        TextField(
+
+                          controller: usernameController,
+                          keyboardType: TextInputType.number,
+
+                          decoration: InputDecoration(
+
+                            hintText: 'رقم الهاتف / رقم الهوية',
+
+                            filled: true,
+                            fillColor: Colors.white,
+
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                            ),
+
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 13),
+
+                        TextField(
+
+                          controller: passwordController,
+                          obscureText: true,
+
+                          decoration: InputDecoration(
+
+                            hintText: 'كلمة المرور',
+
+                            filled: true,
+                            fillColor: Colors.white,
+
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                            ),
+
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        TextButton(
+                          onPressed: () {},
+
+                          child: const Text(
+                            'هل نسيت كلمة المرور؟',
+
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        SizedBox(
+
+                          width: double.infinity,
+                          height: 46,
+
+                          child: ElevatedButton(
+
+                            onPressed: login,
+
+                            style: ElevatedButton.styleFrom(
+
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
+
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+
+                            child: const Text(
+
+                              'تسجيل الدخول ›',
+
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        Text(
+
+                          error,
+
+                          style: const TextStyle(
+                            color: Color(0xffc62828),
+                            fontSize: 11,
+                          ),
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        Row(
+
+                          mainAxisAlignment: MainAxisAlignment.center,
+
+                          children: [
+
+                            const Text('👤 مستخدم جديد؟'),
+
+                            GestureDetector(
+
+                              onTap: () {},
+
+                              child: const Text(
+
+                                ' إنشاء حساب',
+
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
